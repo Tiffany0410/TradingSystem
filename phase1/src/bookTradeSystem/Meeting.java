@@ -185,6 +185,16 @@ public class Meeting implements java.io.Serializable{
         }
     }
 
+    /**
+     * @param meeting the meeting for a trade
+     * @return true iff this tradeId, userId1, userId2 and meetingNum equals to the meeting's tradeId,
+     * userId1, userId2 and meetingNum.
+     */
+    public Boolean equals(Meeting meeting){
+        return this.getTradeId() == meeting.getTradeId() && this.getMeetingNum() == meeting.getMeetingNum()
+                && this.getUserId1() == meeting.getUserId1() && this.getUserId2() == meeting.getUserId2();
+    }
+
 
 }
 
