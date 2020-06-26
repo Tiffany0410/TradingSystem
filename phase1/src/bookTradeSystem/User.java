@@ -1,4 +1,4 @@
 package bookTradeSystem;
 
-public class Users {
+public class User {
 }
