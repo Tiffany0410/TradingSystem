@@ -1,8 +1,6 @@
 package bookTradeSystem;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Calendar;
+import java.util.*;
+
 /**
  * An instance of this class represents the meeting that holds for a trade.
  */
@@ -15,7 +13,7 @@ public class Meeting implements java.io.Serializable{
     private int meetingNum;
     private Boolean timePlaceConfirm;
     private Map<Integer, Boolean> meetingConfirm;
-    private Map<Integer, Integer> numEdit;
+    private List<Integer> timePlaceEdit;
 
     /**
      * @param tradeId the trade id that related to this meeting
@@ -34,9 +32,7 @@ public class Meeting implements java.io.Serializable{
         meetingConfirm = new HashMap<>();
         meetingConfirm.put(userId1, false);
         meetingConfirm.put(userId2, false);
-        numEdit = new HashMap<>();
-        numEdit.put(userId1, 0);
-        numEdit.put(userId2, 0);
+        List<Integer> timePlaceEdit = new ArrayList<>();
     }
 
     /**
@@ -138,10 +134,14 @@ public class Meeting implements java.io.Serializable{
     }
 
     /**
-     * @param timePlaceConfirm whether or not the time and place is confirmed by user
+     * @param  userId the id of a user
+     * @return true iff the meeting time and place is confirmed successfully.
      */
-    public void setTimePlaceConfirm(Boolean timePlaceConfirm){
-        this.timePlaceConfirm = timePlaceConfirm;
+    public Boolean setTimePlaceConfirm(int userId){
+        if (!timePlaceConfirm && timePlaceEdit.size() < 6 && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId){
+            timePlaceConfirm = true;
+            return true;
+        }return false;
     }
 
     /**
@@ -153,23 +153,29 @@ public class Meeting implements java.io.Serializable{
     }
 
     /**
-     * @return the num of edit for users
+     * @return the list for users edit the meeting time and place
      */
-    public Map<Integer, Integer> getNumEdit(){
-        return numEdit;
+    public List<Integer> getTimePlaceEdit(){
+        return timePlaceEdit;
     }
 
     /**
      * @param userId the id for whom to edit the meeting time and place
      * @return true iff the change to the numEdit happen
      */
-    public Boolean setNumEdit(int userId){
-        if (numEdit.containsKey(userId)){
-            numEdit.replace(userId, numEdit.get(userId) + 1);
-            return true;
-        }else{
-            return false;
-        }}
+    public Boolean setTimePlaceEdit(int userId, Date time, String place){
+    if (!timePlaceConfirm && timePlaceEdit.isEmpty()){
+        this.time = time;
+        this.place = place;
+        timePlaceEdit.add(userId);
+        return true;
+    }else if(!timePlaceConfirm && timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<6) {
+        this.time = time;
+        this.place = place;
+        timePlaceEdit.add(userId);
+        return true;
+    }else{return false;}
+    }
 
     /**
      * @return a string to describe the meeting.

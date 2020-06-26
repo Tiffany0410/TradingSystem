@@ -147,6 +147,19 @@ public class MeetingManager implements java.io.Serializable{
     }
 
     /**
+     * @param tradeManager a list of trade
+     * @return a list of meeting  that have not finished in 1 month and 1 day.
+     */
+    public List<Meeting> getListOverTime(TradeManager tradeManager){
+        List<Meeting> listOverTime = new ArrayList<>();
+        for (Meeting meeting: listMeeting){
+            if (this.getOverTime(tradeManager, meeting)){
+                listOverTime.add(meeting);
+            }
+        }return listOverTime;
+    }
+
+    /**
      * @param tradeId the id for a trade
      * @param userId1 the id for the user1
      * @param userId2 the id for the user2
