@@ -2,8 +2,8 @@ package bookTradeSystem;
 
 
 public class DisplaySystem {
-    FileReader menuOption;
-    FileReader notification;
+    private FileReader menuOption;
+    private FileReader notification;
 
     /**
      * Show the menu on the screen by taking the file name and show the options in the file
