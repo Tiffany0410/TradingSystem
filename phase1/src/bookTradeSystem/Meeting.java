@@ -33,7 +33,8 @@ public class Meeting implements java.io.Serializable{
         meetingConfirm = new HashMap<>();
         meetingConfirm.put(userId1, false);
         meetingConfirm.put(userId2, false);
-        List<Integer> timePlaceEdit = new ArrayList<>();
+        timePlaceEdit = new ArrayList<Integer>();
+
     }
 
     /** get the time for the meeting
@@ -140,7 +141,8 @@ public class Meeting implements java.io.Serializable{
      * @return true iff the meeting time and place is confirmed successfully.
      */
     public Boolean setTimePlaceConfirm(int userId){
-        if (!timePlaceConfirm && timePlaceEdit.size() < 6 && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId){
+        if (!timePlaceConfirm && timePlaceEdit.size() < 6 && ! timePlaceEdit.isEmpty() &&
+                timePlaceEdit.get(timePlaceEdit.size()-1)!=userId){
             timePlaceConfirm = true;
             return true;
         }return false;
@@ -165,14 +167,15 @@ public class Meeting implements java.io.Serializable{
      * @param userId the id for whom to edit the meeting time and place
      * @return true iff the change to the numEdit happen
      */
-    public Boolean setTimePlaceEdit(int userId, Date time, String place){
+    public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
+                                    String place){
     if (!timePlaceConfirm && timePlaceEdit.isEmpty()){
-        this.time = time;
+        this.setTime(year, month, day, hour, min,sec);
         this.place = place;
         timePlaceEdit.add(userId);
         return true;
     }else if(!timePlaceConfirm && timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<6) {
-        this.time = time;
+        this.setTime(year, month, day, hour, min,sec);
         this.place = place;
         timePlaceEdit.add(userId);
         return true;
@@ -184,12 +187,12 @@ public class Meeting implements java.io.Serializable{
      */
     public String toString(){
         if (meetingConfirm.get(userId1) && meetingConfirm.get(userId2)){
-            return "The meeting with trade id" + tradeId + "between Users" + userId1 +"and" + userId2 + "was on" +
-                    place + time + ", and the meeting is complete.";
+            return "The meeting with trade id " + tradeId + " between Users " + userId1 +" and " + userId2 + " was " +
+                    "on " + place +" "+ time + ", and the meeting is complete.";
         }else{
-            return "The meeting with trade id" + tradeId + "between Users" + userId1 +"and" + userId2 + "was/is on" +
-                    place + time + ". The confirm status for the place and time is" + timePlaceConfirm + "," +
-                    "and the meeting is not complete.";
+            return "The meeting with trade id " + tradeId + " between Users " + userId1 +" and " + userId2 +
+                    " was/is on " + place +" "+ time + ". The confirm status for the place and time is " +
+                    timePlaceConfirm + ", " + "and the meeting is not complete.";
         }
     }
 

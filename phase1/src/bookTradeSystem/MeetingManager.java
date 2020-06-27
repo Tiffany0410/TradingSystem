@@ -110,31 +110,23 @@ public class MeetingManager implements java.io.Serializable{
      * confirmed yet)
      */
     public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId){
-        if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
-                getUserId2())){
-            return false;
-        }else if(!meeting.getMeetingConfirm().get(meeting.getUserId1())&&!meeting.getMeetingConfirm().
-                get(meeting.getUserId2())&& meeting.getTime().before(new Date())){
+        if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
+                get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
-            return true;
-        }else{
-            if (meeting.getMeetingConfirm().get(userId) || meeting.getTime().after(new Date())){
-                return false;
-            }else{
-                meeting.getMeetingConfirm().replace(userId, true);
-                if(tradeManager.checkInManager(meeting.getTradeId()) &&(tradeManager.getTradeById(meeting.getTradeId())
-                        .tradeType.equals("Permanent") || meeting.getMeetingNum() == 2 )){
-                    tradeManager.getTradeById(meeting.getTradeId()).closedTrade();
-                    return true;
-                }else if (tradeManager.checkInManager(meeting.getTradeId())&&tradeManager.getTradeById
-                        (meeting.getTradeId()).tradeType.equals("Temporary") && meeting.getMeetingNum()
-                        == 1){
-                    this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2,
-                            tradeManager);
-                    return true;
-                }
+            if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
+                    getUserId2())&&(tradeManager.getTradeById(meeting.getTradeId())
+                    .tradeType.equals("Permanent") || meeting.getMeetingNum() == 2 )){
+                tradeManager.getTradeById(meeting.getTradeId()).closedTrade();
+            }else if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
+                    getUserId2())&&(tradeManager.getTradeById(meeting.getTradeId())
+                    .tradeType.equals("Temporary")&&meeting.getMeetingNum() == 1)){
+                this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2,
+                        tradeManager);
             }
-        }return false;}
+        }else {
+            return false;
+        }return true;
+        }
 
     /** get whether or not a trade is go over one month and one day.
      * @return true iff the trade is not complete in one month and a day.
