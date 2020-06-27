@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class AdminUserController implements Serializable, Controllable {
 
-    /**UserManager um;
-    DisplaySystem ds;
-    FileWriter fw;**/
+    UserManager um;
     int adminUserId;
 
-    public AdminUserController(int adminUserId) {
+//    TODO: consider refactoring - maybe can pass in as param instead of in the constructor?
+    public AdminUserController(UserManager um, int adminUserId) {
+        this.um = um;
         this.adminUserId = adminUserId;
     }
 
