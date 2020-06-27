@@ -122,10 +122,10 @@ public class MeetingManager implements java.io.Serializable{
                 return false;
             }else{
                 meeting.getMeetingConfirm().replace(userId, true);
-                if(tradeManager.getTradeType(meeting.getTradeId()) ==  "permanent" || meeting.getMeetingNum() == 2 ){
+                if(tradeManager.getTradeType(meeting.getTradeId()).equals("Permanent") || meeting.getMeetingNum() == 2 ){
                     tradeManager.confirmComplete(meeting.getTradeId());
                     return true;
-                }else if (tradeManager.getTradeType(meeting.getTradeId()) ==  "temporary" && meeting.getMeetingNum()
+                }else if (tradeManager.getTradeType(meeting.getTradeId()).equals("Temporary") && meeting.getMeetingNum()
                         == 1){
                     this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2);
                     return true;
@@ -142,7 +142,7 @@ public class MeetingManager implements java.io.Serializable{
         time1.add(Calendar.MONTH,1);
         time1.add(Calendar.DATE,1);
         Date time2 = time1.getTime();
-        return tradeManager.getTradeStatus(meeting.getTradeId()) == "open" && meeting.getMeetingConfirm().
+        return tradeManager.getTradeStatus(meeting.getTradeId()).equals("Open") && meeting.getMeetingConfirm().
                 get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2())  &&
                 time2.before(new Date());
     }
