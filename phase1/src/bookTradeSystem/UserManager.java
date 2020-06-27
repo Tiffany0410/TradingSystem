@@ -59,7 +59,13 @@ public class UserManager implements Serializable {
      */
     public List<Item> searchItem(String item){
         List<Item> out = new ArrayList<>();
-        //TODO
+        for (User person: listUser){
+            for (Item thing: person.inventory){
+                if (thing.getName().contains(item)){
+                    out.add(thing);
+                }
+            }
+        }
         return out;
     }
 
@@ -70,7 +76,13 @@ public class UserManager implements Serializable {
      */
     public boolean freezeUser(String username){
         boolean out = false;
-        //TODO
+        User person = findUser(username);
+        if (person != null){
+            if (person.isFrozen){
+                person.isFrozen = false;
+                out = true;
+            }
+        }
         return out;
     }
 
@@ -81,7 +93,13 @@ public class UserManager implements Serializable {
      */
     public boolean unfreezeUser(String username){
         boolean out = false;
-        //TODO
+        User person = findUser(username);
+        if (person != null){
+            if (!person.isFrozen){
+                person.isFrozen = true;
+                out = true;
+            }
+        }
         return out;
     }
 
@@ -91,8 +109,11 @@ public class UserManager implements Serializable {
      * @return true if the user exists, false otherwise
      */
     public boolean checkUser(String username){
-        boolean out = false;
-        //TODO
+        for (User person: listUser){
+            if (person.getUsername().equals(username)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -103,7 +124,8 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addAdmin(String username, String password, String email){
-        //TODO
+        AdminUser toAdd = new AdminUser(username, password, email);
+        this.listAdmin.add(toAdd);
     }
 
     /**
@@ -112,43 +134,71 @@ public class UserManager implements Serializable {
      */
     public List<String> underLending(){
         List<String> out = new ArrayList<>();
-        //TODO
+        for (User person: listUser){
+            if (person.getNumBorrowed() - person.getNumLent < person.threshold){
+                out.add(person.getUsername());
+            }
+        }
         return out;
     }
 
     /**
      * Removes an Item from a User's wishlist
-     * @param item The item to be removed
+     * @param itemID The ID of the Item to be removed
      * @param username The username of the User to remove the item from their wishlist
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemWishlist(Item item, String username){
+    public boolean removeItemWishlist(int itemID, String username){
         boolean out = false;
-        //TODO
+        User person = findUser(username);
+        if (person != null){
+            if (person.wishlist.contains(itemID)){
+                person.wishlist.remove(itemID);
+                out = true;
+            }
+        }
         return out;
     }
 
     /**
      * Removes an Item from a User's inventory
-     * @param item The item to be removed
+     * @param itemID The ID of the Item to be removed
      * @param username The username of the User to remove the item from their inventory
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemInventory(Item item, String username){
+    public boolean removeItemInventory(int itemID, String username){
         boolean out = false;
-        //TODO
+        Item toRemove = null;
+        User person = findUser(username);
+        if (person != null){
+            for (Item thing: person.inventory){
+                if (thing.getItemId().equals(itemID)){
+                    toRemove = thing;
+                    out = true;
+                }
+            }
+            if (out){
+                person.inventory.remove(toRemove);
+            }
+        }
         return out;
     }
 
     /**
      * Adds an Item to a User's wishlist
-     * @param item The item that is being added
+     * @param itemID The ID of the Item that is being added
      * @param username The username of the User to add the item into their wishlist
      * @return true if the item was added successfully, false otherwise
      */
-    public boolean addItemWishlist(Item item, String username){
+    public boolean addItemWishlist(int itemID, String username){
         boolean out = false;
-        //TODO
+        User person = findUser(username);
+        if (person != null){
+            if (!person.wishlist.contains(itemID)){
+                person.wishlist.add(itemID);
+                out = true;
+            }
+        }
         return out;
     }
 
@@ -160,7 +210,13 @@ public class UserManager implements Serializable {
      */
     public boolean addItemInventory(Item item, String username){
         boolean out = false;
-        //TODO
+        User person = findUser(username);
+        if (person != null){
+            if (!person.inventory.contains(item)) {
+                person.inventory.add(item);
+                out = true;
+            }
+        }
         return out;
     }
 
@@ -170,7 +226,11 @@ public class UserManager implements Serializable {
      */
     public Map<String, String> userPasswords(){
         Map<String, String> out = new HashMap<>();
-        //TODO
+            for (User person: listUser){
+                String name = person.getUsername();
+                String pass = person.getPassword();
+                out.put(name, pass);
+            }
         return out;
     }
 
@@ -180,7 +240,11 @@ public class UserManager implements Serializable {
      */
     public Map<String, String> adminPasswords(){
         Map<String, String> out = new HashMap<>();
-        //TODO
+            for (AdminUser person: listAdmin){
+                String name = person.getUsername();
+                String pass = person.getPassword();
+                out.put(name, pass);
+            }
         return out;
     }
 
@@ -190,8 +254,12 @@ public class UserManager implements Serializable {
      * @return The User that is being searched for
      */
     public User findUser(String username){
-        User out = new User();
-        //TODO
+        User out = null;
+        for (User person : listUser) {
+            if (person.getUsername().equals(username)) {
+                out = person;
+            }
+        }
         return out;
     }
 
@@ -200,7 +268,7 @@ public class UserManager implements Serializable {
      * @param change The new threshold
      */
     public void changeThreshold(int change){
-        //TODO
+        User.threshold = change;
     }
 
 
