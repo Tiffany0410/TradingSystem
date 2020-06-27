@@ -6,14 +6,21 @@ import java.io.Serializable;
 import java.util.List;
 
 public class RegularUserController implements Serializable, Controllable {
-    TradeManager tm;
-    MeetingManager mm;
-    UserManager um;
-// TODO: just leave one -- username / id
-    String username;
-    int userId;
+    private TradeManager tm;
+    private MeetingManager mm;
+    private UserManager um;
+    private String username;
+    private int userId;
 
-//    TODO: consider refactoring - maybe can pass in as param instead of in the constructor?
+    /**
+     * Constructs a RegularUserController with a TradeManager, a MeetingManager, a UserManager,
+     * user's username and userId.
+     * @param tm The current state of the TradeManager.
+     * @param mm The current state of the MeetingManager.
+     * @param um The current state of the UserManager.
+     * @param username The username of the user.
+     * @param userId The user ID of the user.
+     */
     public RegularUserController(TradeManager tm, MeetingManager mm, UserManager um, String username, int userId) {
         this.tm = tm;
         this.mm = mm;
@@ -22,6 +29,11 @@ public class RegularUserController implements Serializable, Controllable {
         this.userId = userId;
     }
 
+    /**
+     * This method gathers all the necessary notifications
+     * for the user and then calls on the
+     * relevant presenter class method.
+     */
     @Override
     public void alerts() {
        /*
@@ -30,7 +42,14 @@ public class RegularUserController implements Serializable, Controllable {
         */
 //      TODO: TO BE DECIDED
     }
-    // this method'll take the option other than the logout option
+
+    /**
+     * This method calls appropriate methods based on user input
+     * of the menu option (other than the logout or exit option)
+     * and calls on the relevant presenter class method.
+     * @param mainMenuOption The main menu option chosen by the user.
+     * @param subMenuOption The sub menu option for a particular sub menu chosen by the user.
+     */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
        /*
@@ -52,35 +71,34 @@ public class RegularUserController implements Serializable, Controllable {
         }
 
     }
-//   TODO: considering refactoring
+
     // takes all menuOption other than ExitMenu
     private void userAccountMenuResponse(int subMenuOption) {
         /*
-         1.Browse all the books in other users inventories
-         2.Add to own Wish List
-
-//   FIXME: 3.Add to own Inventory (create a new item in the system with a name and description)
-      --> don't need this bc of 7
-
-         4.Remove from own Wish List
-         5.Remove from own Inventory
-         6.Request to unfreeze account
-         7.Request that an item be added to your inventory
-         8.See most recent three items traded
+        1.Browse all the books in other users inventories
+        2.Add to own Wish List
+        3.Search item
+        4.Remove from own Wish List
+        5.Remove from own Inventory
+        6.Request to unfreeze account
+        7.Request that an item be added to your inventory
+        8.See most recent three items traded
+        0.Exit menu
          */
         switch(subMenuOption){
             case 1:
                 List<User> allUsers = um.getListUser();
-//              TODO: instead of search book...return a list of books of other users instead?
+//              TODO: return a list of books of all other users
                 break;
             case 2:
                 um.addItemWishlist(getItem("ADD"), username);
 //              TODO: call presenter class to pass the boolean to and print msg
                 break;
             case 3:
-                um.addItemInventory(getItem("ADD"), username);
-//              TODO: call presenter class to pass the boolean to and print msg
-//              break;
+//              TODO: get the itemName from user
+//              um.searchItem(*item name*)
+//              TODO: call presenter to print the result of the method call
+
             case 4:
                 um.removeItemWishlist(getItem("REMOVE"), username);
 //              TODO: call presenter class to pass the boolean to and print msg

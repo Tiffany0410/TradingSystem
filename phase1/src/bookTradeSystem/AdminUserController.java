@@ -4,20 +4,38 @@ import java.io.Serializable;
 
 public class AdminUserController implements Serializable, Controllable {
 
-    UserManager um;
-    int adminUserId;
+    private UserManager um;
+    private int adminUserId;
 
-//    TODO: consider refactoring - maybe can pass in as param instead of in the constructor?
+    /**
+     * Constructs the AdminUserController with a UserManager
+     * and an adminUserId.
+     * @param um The current state of the UserManager.
+     * @param adminUserId The user ID of the admin user.
+     */
     public AdminUserController(UserManager um, int adminUserId) {
         this.um = um;
         this.adminUserId = adminUserId;
     }
 
+
+    /**
+     * This method gathers all the necessary notifications
+     * for the admin user and then calls on the
+     * relevant presenter class method.
+     */
     @Override
     public void alerts() {
 //      TODO: TO BE DECIDED
     }
 
+    /**
+     * This method calls appropriate methods based on user input of
+     * the menu option (other than the logout or exit option)
+     * and calls on the relevant presenter class method.
+     * @param mainMenuOption The main menu option chosen by the admin user.
+     * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
+     */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
          /*
