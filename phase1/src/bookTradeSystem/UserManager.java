@@ -8,9 +8,9 @@ import java.util.List;
 
 public class UserManager implements Serializable {
 
-    private List<User> listUser;
-    private List<AdminUser> listAdmin;
-    private List<String> listUnfreezeRequest;
+    private ArrayList<User> listUser;
+    private ArrayList<AdminUser> listAdmin;
+    private ArrayList<String> listUnfreezeRequest;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -32,11 +32,11 @@ public class UserManager implements Serializable {
         this.listUnfreezeRequest = new ArrayList<>();
     }
 
-    public List<AdminUser> getListAdmin() {
+    public ArrayList<AdminUser> getListAdmin() {
         return listAdmin;
     }
 
-    public List<User> getListUser() {
+    public ArrayList<User> getListUser() {
         return listUser;
     }
 
@@ -48,8 +48,12 @@ public class UserManager implements Serializable {
         this.listUser = listUser;
     }
 
-    public List<String> getListUnfreezeRequest() {
+    public ArrayList<String> getListUnfreezeRequest() {
         return listUnfreezeRequest;
+    }
+
+    public void setListUnfreezeRequest(ArrayList<String> listUnfreezeRequest) {
+        this.listUnfreezeRequest = listUnfreezeRequest;
     }
 
     /**
@@ -57,8 +61,8 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
-    public List<Item> searchItem(String item){
-        List<Item> out = new ArrayList<>();
+    public ArrayList<Item> searchItem(String item){
+        ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
             for (Item thing: person.inventory){
                 if (thing.getName().contains(item)){
@@ -132,8 +136,8 @@ public class UserManager implements Serializable {
      * Gives the Users who are not lending enough
      * @return A list of usernames of the Users who are not lending enough
      */
-    public List<String> underLending(){
-        List<String> out = new ArrayList<>();
+    public ArrayList<String> underLending(){
+        ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
             if (person.getNumBorrowed() - person.getNumLent < person.threshold){
                 out.add(person.getUsername());
@@ -224,8 +228,8 @@ public class UserManager implements Serializable {
      * Gives all the usernames and passwords of all AdminUser
      * @return A map of usernames to passwords for all User
      */
-    public Map<String, String> userPasswords(){
-        Map<String, String> out = new HashMap<>();
+    public HashMap<String, String> userPasswords(){
+        HashMap<String, String> out = new HashMap<>();
             for (User person: listUser){
                 String name = person.getUsername();
                 String pass = person.getPassword();
@@ -238,8 +242,8 @@ public class UserManager implements Serializable {
      * Gives all the usernames and passwords of all AdminUser
      * @return A map of usernames to passwords for all AdminUser
      */
-    public Map<String, String> adminPasswords(){
-        Map<String, String> out = new HashMap<>();
+    public HashMap<String, String> adminPasswords(){
+        HashMap<String, String> out = new HashMap<>();
             for (AdminUser person: listAdmin){
                 String name = person.getUsername();
                 String pass = person.getPassword();
