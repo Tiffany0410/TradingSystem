@@ -120,5 +120,7 @@ public class DisplaySystem {
         this.printOut("Wrong username or password, please check again.");
     }
 
-
+    public String getNotification(String userName) {
+        // TODO: discuss with others about how we store notifications
+    }
 }

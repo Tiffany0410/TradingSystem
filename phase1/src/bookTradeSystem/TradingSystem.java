@@ -74,10 +74,8 @@ public class TradingSystem {
     * @return message
     */
    public String sendNotification(String userName){
-      String message;
       // TODO: get the notification for the user passed in
-
-      return message;
+      return displaySystem.getNotification(userName);
    }
 
    /**
