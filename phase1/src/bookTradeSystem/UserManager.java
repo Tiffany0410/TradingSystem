@@ -32,26 +32,50 @@ public class UserManager implements Serializable {
         this.listUnfreezeRequest = new ArrayList<>();
     }
 
+    /**
+     * Gets the list of AdminUser
+     * @return List of AdminUser
+     */
     public ArrayList<AdminUser> getListAdmin() {
         return listAdmin;
     }
 
+    /**
+     * Gets the list of User
+     * @return List of User
+     */
     public ArrayList<User> getListUser() {
         return listUser;
     }
 
+    /**
+     * Sets the list of AdminUser
+     * @param listAdmin List of AdminUser
+     */
     public void setListAdmin(ArrayList<AdminUser> listAdmin) {
         this.listAdmin = listAdmin;
     }
 
+    /**
+     * Sets the list of User
+     * @param listUser List of User
+     */
     public void setListUser(ArrayList<User> listUser) {
         this.listUser = listUser;
     }
 
+    /**
+     * Get the list of usernames of User that request to be unfrozen
+     * @return The list of usernames
+     */
     public ArrayList<String> getListUnfreezeRequest() {
         return listUnfreezeRequest;
     }
 
+    /**
+     * Set the list of usernames of User that request to be unfrozen
+     * @param listUnfreezeRequest The list of Usernames
+     */
     public void setListUnfreezeRequest(ArrayList<String> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
     }
