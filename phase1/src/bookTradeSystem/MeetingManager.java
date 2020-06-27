@@ -122,12 +122,15 @@ public class MeetingManager implements java.io.Serializable{
                 return false;
             }else{
                 meeting.getMeetingConfirm().replace(userId, true);
-                if(tradeManager.getTradeType(meeting.getTradeId()).equals("Permanent") || meeting.getMeetingNum() == 2 ){
-                    tradeManager.confirmComplete(meeting.getTradeId());
+                if(tradeManager.checkInManager(meeting.getTradeId()) &&(tradeManager.getTradeById(meeting.getTradeId())
+                        .tradeType.equals("Permanent") || meeting.getMeetingNum() == 2 )){
+                    tradeManager.getTradeById(meeting.getTradeId()).closedTrade();
                     return true;
-                }else if (tradeManager.getTradeType(meeting.getTradeId()).equals("Temporary") && meeting.getMeetingNum()
+                }else if (tradeManager.checkInManager(meeting.getTradeId())&&tradeManager.getTradeById
+                        (meeting.getTradeId()).tradeType.equals("Temporary") && meeting.getMeetingNum()
                         == 1){
-                    this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2);
+                    this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2,
+                            tradeManager);
                     return true;
                 }
             }
@@ -142,9 +145,9 @@ public class MeetingManager implements java.io.Serializable{
         time1.add(Calendar.MONTH,1);
         time1.add(Calendar.DATE,1);
         Date time2 = time1.getTime();
-        return tradeManager.getTradeStatus(meeting.getTradeId()).equals("Open") && meeting.getMeetingConfirm().
-                get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2())  &&
-                time2.before(new Date());
+        return tradeManager.checkInManager(meeting.getTradeId())&& tradeManager.getTradeById(meeting.getTradeId()).
+                tradeStatus.equals("Open") && meeting.getMeetingConfirm().get(meeting.getUserId1()) &&
+                meeting.getMeetingConfirm().get(meeting.getUserId2())  && time2.before(new Date());
     }
 
     /** get a list of trades that go over one month and one day.
@@ -167,13 +170,15 @@ public class MeetingManager implements java.io.Serializable{
      * @param meetingNum the order of the meeting for the trade
      * @return true iff the meeting is added to the system
      */
-    public Boolean addMeeting(int tradeId, int userId1, int userId2, int meetingNum){
+    public Boolean addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager){
         for (Meeting meeting: listMeeting){
             if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == meetingNum){
                 return false;
             }
-        }Meeting meeting = new Meeting(tradeId, userId1, userId2, meetingNum);
+        }
+        Meeting meeting = new Meeting(tradeId, userId1, userId2, meetingNum);
         listMeeting.add(meeting);
+        tradeManager.getTradeById(tradeId).openTrade();
         return true;
     }
 
