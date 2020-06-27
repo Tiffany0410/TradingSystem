@@ -85,6 +85,29 @@ public class TradeManager implements Serializable {
         return list1;
     }
 
+    /** check if the trade with id in the TradeManager or not
+     * @param tradeId the ide of the trade
+     * @return true if the trade with tradeId in the TradeManager
+     */
+    public Boolean checkInManager(int tradeId){
+        for(Trade trade:listTrade){
+            if(trade.getIds().get(0) == tradeId){
+                return true;
+    }}return false;}
+
+    /** get the trade by the given trade id
+     * @param tradeId the id of the trade
+     * @return a trade with the given id if the trade is in the TradeManager, otherwise, return a trade with borrowerId
+     * and lenderId and itemId with 0, and tradeType with "".
+     */
+    public Trade getTradeById(int tradeId){
+        Trade trade1 = listTrade.get(0);
+        for(Trade trade:listTrade){
+            if(trade.getIds().get(0) == tradeId){
+                return trade;
+    }}return new Trade(0,0,0,"");}
+
+
     /** Create a trade
      * @param borrowerId borrower id
      * @param lenderId lender id
