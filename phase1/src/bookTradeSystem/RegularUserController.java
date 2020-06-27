@@ -58,12 +58,15 @@ public class RegularUserController implements Serializable, Controllable {
         /*
          1.Browse all the books in other users inventories
          2.Add to own Wish List
-         3.Add to own Inventory (create a new item in the system with a name and description)
+
+//   FIXME: 3.Add to own Inventory (create a new item in the system with a name and description)
+      --> don't need this bc of 7
+
          4.Remove from own Wish List
          5.Remove from own Inventory
          6.Request to unfreeze account
          7.Request that an item be added to your inventory
-         8. See most recent three items traded
+         8.See most recent three items traded
          */
         switch(subMenuOption){
             case 1:
@@ -115,7 +118,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     private void userTradingMenuResponse(int subMenuOption) {
         /*
-          1.Request a trade (lend / borrow / two-way)
+          1.Request a trade (lend / borrow / two-way) !!!!- NEED to remove item from wishlist &/ inventory (maybe in constructor???)
           2.Respond to trade requests (agree / disagree)
           3.View open trades
           4.View closed trades
