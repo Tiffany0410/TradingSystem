@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class AdminUserController implements Serializable, Controllable {
 
-    /**UserManager um;
-    DisplaySystem ds;
-    FileWriter fw;**/
+    UserManager um;
     int adminUserId;
 
-    public AdminUserController(int adminUserId) {
+//    TODO: consider refactoring - maybe can pass in as param instead of in the constructor?
+    public AdminUserController(UserManager um, int adminUserId) {
+        this.um = um;
         this.adminUserId = adminUserId;
     }
 
@@ -42,21 +42,29 @@ public class AdminUserController implements Serializable, Controllable {
     }
 
     private void adminManageUsersMenuResponse(int subMenuOption) {
-        /*1.Freeze/ unfreeze users (system auto-freeze and admin can freeze and unfreeze)
-        2.Confirm and add item to user’s inventory
-        3.Remove item from user’s wishlist
+        /*1.Freeze a user
+          2. Unfreeze users
+          3. Confirm and add item to user’s inventory
+//        FIXME: 3.Remove item from user’s wishlist --> don't need this --> should happen for trade
          */
 
         switch (subMenuOption) {
             case 1:
-//                TODO
+//              TODO: asks the admin for the username of the user TO FREEZE
+//              um.freezeUser('*user's username here*')
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
-//                TODO
-                break;
+//              TODO: asks the admin for the username of the user to UNFREEZE
+//              um.unfreezeUser('*user's username here*')
+//              TODO: let presenter print the msg of successful or not
             case 3:
-//                TODO
+//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print
+//              TODO: adminUser 1) input id of item to confirm(initial status of item = not confirmed)
+//              TODO: Add item to user's inventory
+//              TODO: let presenter print the msg of successful or not
                 break;
+
 
         }
     }
@@ -70,16 +78,20 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 3:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 4:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
         }
     }
@@ -89,7 +101,8 @@ public class AdminUserController implements Serializable, Controllable {
         Add subsequent admin users
          */
         if (subMenuOption == 1){
-//            TODO: add other adminUser
+//            TODO: ask for newAdmin username, password, and email
+//            um.addAdmin();
         }
 
     }
