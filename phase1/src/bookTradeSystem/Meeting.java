@@ -142,7 +142,7 @@ public class Meeting implements java.io.Serializable{
      */
     public Boolean setTimePlaceConfirm(int userId){
         if (!timePlaceConfirm && timePlaceEdit.size() < 6 && ! timePlaceEdit.isEmpty() &&
-                timePlaceEdit.get(timePlaceEdit.size()-1)!=userId){
+                timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
             timePlaceConfirm = true;
             return true;
         }return false;
@@ -169,12 +169,8 @@ public class Meeting implements java.io.Serializable{
      */
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
                                     String place){
-    if (!timePlaceConfirm && timePlaceEdit.isEmpty()){
-        this.setTime(year, month, day, hour, min,sec);
-        this.place = place;
-        timePlaceEdit.add(userId);
-        return true;
-    }else if(!timePlaceConfirm && timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<6) {
+    if ((!timePlaceConfirm && timePlaceEdit.isEmpty())||(!timePlaceConfirm && timePlaceEdit.get(timePlaceEdit.
+            size()-1) != userId && timePlaceEdit.size()<6)){
         this.setTime(year, month, day, hour, min,sec);
         this.place = place;
         timePlaceEdit.add(userId);
@@ -187,12 +183,12 @@ public class Meeting implements java.io.Serializable{
      */
     public String toString(){
         if (meetingConfirm.get(userId1) && meetingConfirm.get(userId2)){
-            return "The meeting with trade id " + tradeId + " between Users " + userId1 +" and " + userId2 + " was " +
-                    "on " + place +" "+ time + ", and the meeting is complete.";
+            return "The number "+ meetingNum +" meeting with trade id " + tradeId + " between Users " + userId1 +" " +
+                    "and " + userId2 + " was " + "on " + place +" "+ time + ", and the meeting is complete.";
         }else{
-            return "The meeting with trade id " + tradeId + " between Users " + userId1 +" and " + userId2 +
-                    " was/is on " + place +" "+ time + ". The confirm status for the place and time is " +
-                    timePlaceConfirm + ", " + "and the meeting is not complete.";
+            return "The number "+ meetingNum +" meeting with trade id " + tradeId + " between Users " + userId1 +
+                    " and " + userId2 + " was/is on " + place +" "+ time + ". The confirm status for the " +
+                    "place and time is " + timePlaceConfirm + ", " + "and the meeting is not complete.";
         }
     }
 
@@ -205,8 +201,6 @@ public class Meeting implements java.io.Serializable{
         return this.getTradeId() == meeting.getTradeId() && this.getMeetingNum() == meeting.getMeetingNum()
                 && this.getUserId1() == meeting.getUserId1() && this.getUserId2() == meeting.getUserId2();
     }
-
-
 }
 
 

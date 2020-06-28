@@ -1,4 +1,6 @@
 package bookTradeSystem;
+import com.sun.deploy.util.StringUtils;
+
 import java.util.*;
 
 /**
@@ -138,8 +140,7 @@ public class MeetingManager implements java.io.Serializable{
         time1.add(Calendar.DATE,1);
         Date time2 = time1.getTime();
         return tradeManager.checkInManager(meeting.getTradeId())&& tradeManager.getTradeById(meeting.getTradeId()).
-                tradeStatus.equals("Open") && meeting.getMeetingConfirm().get(meeting.getUserId1()) &&
-                meeting.getMeetingConfirm().get(meeting.getUserId2())  && time2.before(new Date());
+                tradeStatus.equals("Open") && meeting.getTimePlaceConfirm() && time2.before(new Date());
     }
 
     /** get a list of trades that go over one month and one day.
@@ -155,23 +156,18 @@ public class MeetingManager implements java.io.Serializable{
         }return listOverTime;
     }
 
-    /** add a meeting to the MeetingManager
+    /** create and add a meeting to the MeetingManager, once a meeting is created, the trade is open.
      * @param tradeId the id for a trade
      * @param userId1 the id for the user1
      * @param userId2 the id for the user2
      * @param meetingNum the order of the meeting for the trade
-     * @return true iff the meeting is added to the system
+     * @return the new created meeting
      */
-    public Boolean addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager){
-        for (Meeting meeting: listMeeting){
-            if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == meetingNum){
-                return false;
-            }
-        }
-        Meeting meeting = new Meeting(tradeId, userId1, userId2, meetingNum);
-        listMeeting.add(meeting);
+    public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager){
+        Meeting meeting1 =new Meeting(tradeId, userId1, userId2, meetingNum);
+        listMeeting.add(meeting1);
         tradeManager.getTradeById(tradeId).openTrade();
-        return true;
+        return meeting1;
     }
 
     /** If a meeting is edited more than 3 times by both users without confirmation, and if it's a first meeting,
@@ -186,10 +182,10 @@ public class MeetingManager implements java.io.Serializable{
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 && meeting.getMeetingNum() ==1){
             this.removeMeeting(meeting);
             tradeManager.removeTrade(meeting.getTradeId());
-            return "Your transaction with id" + meeting.getTradeId() + "has been cancelled.";
+            return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
             }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 &&
                 meeting.getMeetingNum() ==2){
-            return "";
+            return "You have edited too many times";
         }return "";
         }
     /** remove a meeting from the MeetingManager
@@ -211,7 +207,6 @@ public class MeetingManager implements java.io.Serializable{
         StringBuilder string1 = new StringBuilder(new String(""));
         for(Meeting meeting: listMeeting){
             string1.append(meeting.toString());
-            string1.append(System.lineSeparator());
         }return string1.toString();
     }
 }
