@@ -105,7 +105,7 @@ public class UserManager implements Serializable {
     public ArrayList<Item> searchItem(String item){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
-            for (Item thing: person.inventory){
+            for (Item thing: person.getInventory()){
                 if (thing.getName().contains(item)){
                     out.add(thing);
                 }
@@ -200,8 +200,10 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (person.wishlist.contains(itemID)){
-                person.wishlist.remove(itemID);
+            ArrayList<Integer> temp = person.getWishList();
+            if (temp.contains(itemID)){
+                temp.remove(itemID);
+                person.setWishList(temp);
                 out = true;
             }
         }
@@ -219,14 +221,16 @@ public class UserManager implements Serializable {
         Item toRemove = null;
         User person = findUser(username);
         if (person != null){
-            for (Item thing: person.inventory){
-                if (thing.getItemId().equals(itemID)){
+            ArrayList<Item> temp = person.getInventory();
+            for (Item thing: temp){
+                if (thing.getItemId()== itemID){
                     toRemove = thing;
                     out = true;
                 }
             }
             if (out){
-                person.inventory.remove(toRemove);
+                temp.remove(toRemove);
+                person.setInventory(temp);
             }
         }
         return out;
@@ -242,9 +246,11 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.wishlist.contains(itemID)){
-                person.wishlist.add(itemID);
+            ArrayList<Integer> temp = person.getWishList();
+            if (!temp.contains(itemID)){
+                temp.add(itemID);
                 out = true;
+                person.setWishList(temp);
             }
         }
         return out;
@@ -260,9 +266,11 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.inventory.contains(item)) {
-                person.inventory.add(item);
+            ArrayList<Item> temp = person.getInventory();
+            if (!temp.contains(item)) {
+                temp.add(item);
                 out = true;
+                person.setInventory(temp);
             }
         }
         return out;
@@ -302,10 +310,6 @@ public class UserManager implements Serializable {
      * @return The User that is being searched for
      */
     public User findUser(String username){
-//      TODO: can you make this a usernameToID
-//        method? so instead of returning the object,
-//       can you return the id of the user?
-//       Thanks! :)
         User out = null;
         for (User person : listUser) {
             if (person.getUsername().equals(username)) {
@@ -323,7 +327,7 @@ public class UserManager implements Serializable {
     public User findUser(int ID){
         User out = null;
         for (User person : listUser) {
-            if (person.getID().equals(ID)) {
+            if (person.getId() == ID) {
                 out = person;
             }
         }
@@ -344,37 +348,85 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Gives the username for the User with the given ID
+     * @param ID The ID of the User
+     * @return The username of the User
+     */
+    public String idToUsername(int ID){
+        String out = null;
+        for (User person: listUser){
+            if (person.getId() == ID){
+                out = person.getUsername();
+            }
+        }
+        for (AdminUser person: listAdmin){
+            if (person.getId() == ID){
+                out = person.getUsername();
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Gives the ID for the User with the given username
+     * @param username The username of the User
+     * @return The ID of the User
+     */
+    public int usernameToID(String username){
+        int out = 0;
+        for (User person: listUser){
+            if (person.getUsername().equals(username)){
+                out = person.getId();
+            }
+        }
+        for (AdminUser person: listAdmin){
+            if (person.getUsername().equals(username)){
+                out = person.getId();
+            }
+        }
+        return out;
+    }
+
+
+    /**
      * Gives the usernames and the corresponding IDs of all User
      * @return A map of usernames to IDs for all User
      */
     public HashMap<String, Integer> userIDs(){
-//       TODO: maybe we don't need this but I
-//        guess you can leave it for now
         HashMap<String, Integer> out = new HashMap<>();
         for (User person: listUser){
             String name = person.getUsername();
-            Integer ID = person.getID();
+            Integer ID = person.getId();
             out.put(name, ID);
         }
         return out;
     }
 
     /**
-     * Gives all the Items in all the Users' inventories
-     * @return A list of all the Items of all the Users' inventories
+     * Gives all the Items in all the Users' inventories except the one with the given username
+     * @param username The username of the User
+     * @return A list of all the Items of all the Users' inventories except the one with the given username
      */
-    public ArrayList<Item> allItems(){
-//      TODO: can you make it so that we can
-//        pass in the user id or username (maybe
-//        username since many of your methods param
-//        is username) and then this can return
-//        a list of all the items in all of the
-//        OTHER users inventory - for the browse
-//        inventory from other users menu option
+    public ArrayList<Item> allItems(String username){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
-            for (Item thing: person.inventory){
-                out.add(thing);
+            if (!person.getUsername().equals(username)){
+                out.addAll(person.getInventory());
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Gives all the Items in all the Users' inventories except the one with the given ID
+     * @param ID ID of the User
+     * @return A list of all the Items in all the Users' inventories except the one with the given ID
+     */
+    public ArrayList<Item> allItems(int ID){
+        ArrayList<Item> out = new ArrayList<>();
+        for (User person: listUser){
+            if (person.getId() != (ID)){
+                out.addAll(person.getInventory());
             }
         }
         return out;
