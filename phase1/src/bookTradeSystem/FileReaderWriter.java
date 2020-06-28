@@ -24,6 +24,9 @@ import java.util.logging.Logger;
 
 import bookTradeSystem.*;
 
+/**
+ * Manages the saving and loading of objects.
+ */
 public class FileReaderWriter implements Serializable {
 
     /** A mapping of Object ids to Objects. */
@@ -35,7 +38,7 @@ public class FileReaderWriter implements Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public FileReaderWriter(Mapping<String, Object> ObjectMap, String filePath) throws ClassNotFoundException, IOException {
+    public FileReaderWriter(String filePath) throws ClassNotFoundException, IOException {
 
         // Reads serializable objects from file.
         // Populates the record list using stored data, if it exists.
@@ -46,6 +49,7 @@ public class FileReaderWriter implements Serializable {
           file.createNewFile();
         }
     }
+
 
     /**
      * Return the all menu in string from the file at path filePath.
@@ -69,13 +73,36 @@ public class FileReaderWriter implements Serializable {
 
 
     /**
+     * Return the all object in the map of object ids to Objects from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
+    public HashMap<String, Object> readFromFile(String path) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, Object> ObjectMap = new HashMap<String, Object>();
+
+            try {
+              InputStream file = new FileInputStream(path);
+              InputStream buffer = new BufferedInputStream(file);
+              ObjectInput input = new ObjectInputStream(buffer);
+
+              // deserialize the Map
+              ObjectMap = (Map<String, Student>) input.readObject();
+              input.close();
+            } catch (IOException ex) {
+              TODO;
+            }
+          }
+
+
+    /**
      * Writes the objects to file at filePath.
      *
      * @param filePath the file to write the records to
-     * @param ObjectMap the mapping of onject ids to Objects
+     * @param ObjectMap the mapping of object ids to Objects
      * @throws IOException
      */
-    public void saveToFile(String filePath, Mapping<String, Object> ObjectMap) throws IOException {
+    public void saveToFile(Map<String, Object> ObjectMap, String filePath) throws IOException {
 
         OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
@@ -109,5 +136,20 @@ public class FileReaderWriter implements Serializable {
         scanner.close();
 
         return MenuNumber;
+    }
+
+    /**
+     * Serialize the object into the file at filePath.
+     *
+     * @param filePath the file to write the records to
+     * @param new_object the object need to be saved to the file at filePath
+     */
+    public void SerializeObject(String filePath, Object new_object){
+        try {
+            Map<String, Object> new_object_map = new HashMap<String, Object>{"new_object.getID": new_object};
+            saveToFile(new_object_map, filePath)
+        } catch (IOException ex){
+          TODO:}
+
     }
 }
