@@ -31,7 +31,7 @@ public class TradingSystem {
    /**
     * Initial trading system menu
     */
-   public void tradingSystemInital() throws FileNotFoundException {
+   private void tradingSystemInital() throws FileNotFoundException {
       int option;
       option = displaySystem.getMenuAnswer("TradingSystemInitMenu.csv");
 
@@ -56,7 +56,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   public void Login() throws FileNotFoundException {
+   private void Login() throws FileNotFoundException {
       String type;
       String userName;
       String userPassword;
@@ -84,7 +84,7 @@ public class TradingSystem {
     * For log out this account
     */
 
-   public void logOut() throws FileNotFoundException {
+   private void logOut() throws FileNotFoundException {
       // TODO: serialize what?
 
       this.tradingSystemInital();
@@ -95,7 +95,7 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   public void regularUserMain(String userName) throws FileNotFoundException {
+   private void regularUserMain(String userName) throws FileNotFoundException {
       this.regularUserController = new RegularUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(this.regularUserController.alerts());
