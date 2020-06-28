@@ -89,14 +89,6 @@ public class TradingSystem {
       this.tradingSystemInital();
    }
 
-   /**
-    * Return the notification message for the user passed in
-    * @param userName
-    * @return message
-    */
-   public String sendNotification(String userName){
-      return displaySystem.getNotification(userName);
-   }
 
    /**
     * For regular user menu
@@ -105,7 +97,7 @@ public class TradingSystem {
    public void regularUserMain(String userName){
       this.regularUserController = new RegularUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.sendNotification(userName));
+      displaySystem.printOut(this.regularUserController.alerts());
 
       int option;
       option = displaySystem.getMenuAnswer("RegularUserMainMenu");
@@ -149,7 +141,7 @@ public class TradingSystem {
    private void adminUserMain(String userName) {
       this.adminUserController = new AdminUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.sendNotification(userName));
+      displaySystem.printOut(this.adminUserController.alerts());
 
       int option;
       option = displaySystem.getMenuAnswer("AdminUserMainMenu");
