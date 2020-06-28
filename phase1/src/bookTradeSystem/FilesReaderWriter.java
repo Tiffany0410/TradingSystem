@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import bookTradeSystem.*;
+
+
 /**
  * Manages the saving and loading of objects.
  */
@@ -137,7 +140,7 @@ public class FilesReaderWriter implements Serializable {
     public void SerializeObject(String filePath, Object new_object){
         try {
             Map<String, Object> new_object_map = new HashMap<String, Object>();
-            new_object_map.put("new_object.getID", new_object);
+            new_object_map.put(Integer.toString(new_object.getId()), new_object);
             saveToFile(new_object_map, filePath);
         } catch (IOException ex){
             //TODO:}
