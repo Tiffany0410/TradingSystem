@@ -24,6 +24,9 @@ import java.util.logging.Logger;
 
 import bookTradeSystem.*;
 
+/**
+ * Manages the saving and loading of objects.
+ */
 public class FileReaderWriter implements Serializable {
 
     /** A mapping of Object ids to Objects. */
@@ -70,10 +73,10 @@ public class FileReaderWriter implements Serializable {
 
 
     /**
-         * Return the all object in the map of object ids to Objects from the file at path filePath.
-         *
-         * @param filePath the path of the data file
-         */
+     * Return the all object in the map of object ids to Objects from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
     public HashMap<String, Object> readFromFile(String path) {
             //Create a new empty hashmap which key is the id and value is the object
             Map<String, Object> ObjectMap = new HashMap<String, Object>();
