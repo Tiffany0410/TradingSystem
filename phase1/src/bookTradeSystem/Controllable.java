@@ -13,9 +13,9 @@ public interface Controllable {
     void actionResponse(int mainMenuOption, int subMenuOption);
 
     /**
-     * This method gathers all the necessary notifications
-     * and then calls on the relevant presenter class method.
+     * This method gathers all the necessary notifications for the user.
+     * @return Notifications as properly formatted strings.
      */
-    void alerts();
+    String alerts();
 
 }

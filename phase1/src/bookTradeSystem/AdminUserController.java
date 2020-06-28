@@ -3,8 +3,8 @@ package bookTradeSystem;
 import java.io.Serializable;
 
 /**
- * An instance of this class represents the communication system between the admin user and
- * the use cases and entities
+ * An instance of this class represents the communication system between the admin user,
+ * the use cases, and the presenter.
  */
 public class AdminUserController implements Serializable, Controllable {
 
@@ -25,11 +25,11 @@ public class AdminUserController implements Serializable, Controllable {
 
     /**
      * This method gathers all the necessary notifications
-     * for the admin user and then calls on the
-     * relevant presenter class method.
+     * for the admin user.
+     * @return Notifications as properly formatted strings.
      */
     @Override
-    public void alerts() {
+    public String alerts() {
 //      TODO: TO BE DECIDED
     }
 

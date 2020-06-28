@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * An instance of this class represents the communication system between the user and
- * the use cases and entities
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter.
  */
 public class RegularUserController implements Serializable, Controllable {
     private TradeManager tm;
@@ -18,12 +18,12 @@ public class RegularUserController implements Serializable, Controllable {
 
     /**
      * Constructs a RegularUserController with a TradeManager, a MeetingManager, a UserManager,
-     * user's username and userId.
+     * regular user's username and userId.
      * @param tm The current state of the TradeManager.
      * @param mm The current state of the MeetingManager.
      * @param um The current state of the UserManager.
-     * @param username The username of the user.
-     * @param userId The user ID of the user.
+     * @param username The username of the regular user.
+     * @param userId The user ID of the regular user.
      */
     public RegularUserController(TradeManager tm, MeetingManager mm, UserManager um, String username, int userId) {
         this.tm = tm;
@@ -35,24 +35,25 @@ public class RegularUserController implements Serializable, Controllable {
 
     /**
      * This method gathers all the necessary notifications
-     * for the user and then calls on the
-     * relevant presenter class method.
+     * for the regular user.
+     * @return Notifications as properly formatted strings.
      */
     @Override
-    public void alerts() {
+    public String alerts() {
        /*
         1. get the list of things to be printed
         2. call the presenter class to let it format it and then print
         */
 //      TODO: TO BE DECIDED
+        return "";
     }
 
     /**
      * This method calls appropriate methods based on user input
      * of the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
-     * @param mainMenuOption The main menu option chosen by the user.
-     * @param subMenuOption The sub menu option for a particular sub menu chosen by the user.
+     * @param mainMenuOption The main menu option chosen by the regular user.
+     * @param subMenuOption The sub menu option for a particular sub menu chosen by the regular user.
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
