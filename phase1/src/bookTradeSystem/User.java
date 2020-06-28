@@ -12,18 +12,18 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
-    private Arraylist<Integer> wishList;
-    private Arraylist<Item> inventory;
+    private ArrayList<Integer> wishList;
+    private ArrayList<Item> inventory;
     private int id;
     protected int numLent;
     protected int numBorrowed;
     int maxThreshold;
-    protected Boolean isForzen;
+    protected Boolean isFrozen;
     protected Boolean isAdmin;
-    private Arraylist<User> topThreePartners;
-    private Arraylist<Trade> mostRecentThreeTrade;
+    private ArrayList<Integer> topThreePartners;
+    private ArrayList<Integer> mostRecentThreeTrade;
     private int numTransaction;
-    private int numUncompleteTransaction;
+    private int numUncompletedTransaction;
 
     /**
      * Construct an User.
@@ -32,7 +32,7 @@ public class User implements Serializable {
      * @param password user's password.
      * @param email    user's email
      */
-    User(String username, String password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -58,7 +58,7 @@ public class User implements Serializable {
     /**
      * Set the user's username.
      * 
-     * @param username the user's username.
+     * @param name the user's username.
      */
     public void setUsername(String name) {
         this.username = name;
@@ -69,7 +69,7 @@ public class User implements Serializable {
      *
      * @param wishList the user's wishList.
      */
-    public void setWishList(Arraylist<Integer> wishList) {
+    public void setWishList(ArrayList<Integer> wishList) {
         this.wishList = wishList;
     }
 
@@ -78,7 +78,7 @@ public class User implements Serializable {
      *
      * @param inventory the user's inventory.
      */
-    public void setInventory(Arraylist<Item> inventory) {
+    public void setInventory(ArrayList<Item> inventory) {
         this.inventory = inventory;
     }
 
@@ -114,7 +114,7 @@ public class User implements Serializable {
      * 
      * @return wishList.
      */
-    public Arraylist<Integer> getWishList() {
+    public ArrayList<Integer> getWishList() {
         return wishList;
     }
 
@@ -123,7 +123,7 @@ public class User implements Serializable {
      * 
      * @return inventory.
      */
-    public Arraylist<Item> getInventory() {
+    public ArrayList<Item> getInventory() {
         return inventory;
     }
 
@@ -132,7 +132,7 @@ public class User implements Serializable {
      * 
      * @return topThreePartners.
      */
-    public Arraylist<User> getTopThreePartners() {
+    public ArrayList<Integer> getTopThreePartners() {
         return topThreePartners;
     }
 
@@ -141,7 +141,7 @@ public class User implements Serializable {
      * 
      * @return mostRecentThreeTrade.
      */
-    public Arraylist<Trade> getMostRecentThreeTrade() {
+    public ArrayList<Integer> getMostRecentThreeTrade() {
         return mostRecentThreeTrade;
     }
 
@@ -155,11 +155,11 @@ public class User implements Serializable {
     }
 
     /**
-     * Get the user's numUncompleteTransaction.
+     * Get the user's numUncompletedTransaction.
      * 
-     * @return numUncompleteTransaction.
+     * @return numUncompletedTransaction.
      */
-    public int getNumUncompleteTransaction() {
-        return numUncompleteTransaction;
+    public int getNumUncompletedTransaction() {
+        return numUncompletedTransaction;
     }
 }
