@@ -2,6 +2,10 @@ package bookTradeSystem;
 
 import java.io.Serializable;
 
+/**
+ * An instance of this class represents the communication system between the admin user and
+ * the use cases and entities
+ */
 public class AdminUserController implements Serializable, Controllable {
 
     private UserManager um;
@@ -63,22 +67,21 @@ public class AdminUserController implements Serializable, Controllable {
         /*1.Freeze a user
           2. Unfreeze users
           3. Confirm and add item to user’s inventory
-//        FIXME: 3.Remove item from user’s wishlist --> don't need this --> should happen for trade
          */
 
         switch (subMenuOption) {
             case 1:
 //              TODO: asks the admin for the username of the user TO FREEZE
 //              um.freezeUser('*user's username here*')
-//              TODO: let presenter print the msg of successful or not
+//              TODO: let presenter print the msg of successful or not [Jiaqi]
                 break;
             case 2:
 //              TODO: asks the admin for the username of the user to UNFREEZE
 //              um.unfreezeUser('*user's username here*')
-//              TODO: let presenter print the msg of successful or not
+//              TODO: let presenter print the msg of successful or not [Jiaqi]
             case 3:
-//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print
-//              TODO: adminUser 1) input id of item to confirm(initial status of item = not confirmed)
+//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print - getter [Gabriel]
+//              TODO: adminUser chooses the number and then we do the item adding
 //              TODO: Add item to user's inventory
 //              TODO: let presenter print the msg of successful or not
                 break;
@@ -96,19 +99,19 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-//              TODO: where is it stored?
+//              TODO: where is it stored? [User]
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
-//              TODO: where is it stored?
+//              TODO: where is it stored? [User]
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 3:
-//              TODO: where is it stored?
+//              TODO: where is it stored? [User]
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 4:
-//              TODO: where is it stored?
+//              TODO: where is it stored? [User]
 //              TODO: let presenter print the msg of successful or not
                 break;
         }
@@ -121,6 +124,7 @@ public class AdminUserController implements Serializable, Controllable {
         if (subMenuOption == 1){
 //            TODO: ask for newAdmin username, password, and email
 //            um.addAdmin();
+//            TODO: let presenter print the msg of successful or not
         }
 
     }

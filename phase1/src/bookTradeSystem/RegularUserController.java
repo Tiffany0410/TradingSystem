@@ -5,6 +5,10 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * An instance of this class represents the communication system between the user and
+ * the use cases and entities
+ */
 public class RegularUserController implements Serializable, Controllable {
     private TradeManager tm;
     private MeetingManager mm;
@@ -26,7 +30,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = userId;
+        this.userId = userId; // A method of username to userID for now? [Gabriel]
     }
 
     /**
@@ -54,8 +58,9 @@ public class RegularUserController implements Serializable, Controllable {
     public void actionResponse(int mainMenuOption, int subMenuOption) {
        /*
         1. decide the menu options
-        2. decide what use case method to call for each menu option (discuss with Gabriel)
-        3. decide what presenter method to call to print the results for each menu option (discuss with Jiaqi)
+        1.5 decide how to read in user's input
+        2. decide what use case method to call for each menu option
+        3. decide what presenter method to call to print the results for each menu option
 
         */
         switch(mainMenuOption){
@@ -72,7 +77,6 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
-    // takes all menuOption other than ExitMenu
     private void userAccountMenuResponse(int subMenuOption) {
         /*
         1.Browse all the books in other users inventories
@@ -88,35 +92,38 @@ public class RegularUserController implements Serializable, Controllable {
         switch(subMenuOption){
             case 1:
                 List<User> allUsers = um.getListUser();
-//              TODO: return a list of books of all other users
+//              TODO: return a list of books of all other users [Gabriel]
                 break;
             case 2:
                 um.addItemWishlist(getItem("ADD"), username);
-//              TODO: call presenter class to pass the boolean to and print msg
+//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
                 break;
             case 3:
-//              TODO: get the itemName from user
+//              TODO: get the itemName from user  [Jiaqi / me?]
 //              um.searchItem(*item name*)
-//              TODO: call presenter to print the result of the method call
+//              TODO: call presenter to print the result of the method call [Jiaqi]
 
             case 4:
                 um.removeItemWishlist(getItem("REMOVE"), username);
-//              TODO: call presenter class to pass the boolean to and print msg
+//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
                 break;
             case 5:
                 um.removeItemInventory(getItem("REMOVE"), username);
-//              TODO: call presenter class to pass the boolean to and print msg
+//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
                 break;
             case 6:
-//              TODO: maybe have a setter for the listUnfreezeRequest in userManager?
+//              TODO: maybe have a setter for the listUnfreezeRequest in userManager? [Gabriel]
 //              TODO: add the user's request to the list in proper format*
+//               (a message with user id so admin can use it to unfreeze)
                 break;
             case 7:
+//              TODO: receive user input of all the details needed to create an item
 //              TODO: maybe there can be a listAddItemRequest in userManager?
-//              TODO: don't need case 3 bc admin need to review it anyway :p
+//               (like each element are strings with all the information needed for the admin to create
+//               the item instance (when the admin wants to confirm it) [Gabriel]
                 break;
             case 8:
-//              TODO: top three items traded --> id plz!!!
+//              TODO: top three items traded --> id plz!!! [Daniel]
                 break;
         }
     }
@@ -150,39 +157,39 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: let user enter lender id
 //              TODO: let user enter item id
 //              TODO: let user enter tradeType ('PERMANENT' OR 'TEMPORARY')
-//              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN
-//              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE
-//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT
+//              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN  [Rain]
+//              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE [Rain]
+//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
             case 2:
- //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?)
+ //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?) [Rain]
  //             TODO: ASKS THE USER WHETHER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-//              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE
-//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT
+//              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE [Rain]
+//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
             case 3:
                 tm.getOpenTrade(userId);
-//              TODO: call presenter class
+//              TODO: call presenter class [Jiaqi]
                 break;
             case 4:
                 tm.getClosedTrade(userId);
-//              TODO: call presenter class
+//              TODO: call presenter class [Jiaqi]
                 break;
             case 5:
-//              TODO: print all the open trades
+//              TODO: print all the open trades [Jiaqi]
                 tm.getOpenTrade(userId);
 //              TODO: let user enter trade id and we use it to confirm complete
 //              tm.confirmComplete();
-//              TODO: call presenter class
+//              TODO: call presenter class [Jiaqi]
                 break;
             case 6:
-//              TODO: we need id for the top three partners :) - storage in User class
-//              TODO: with that, userManager can have a searchUser function (id - user instance) and then
+//              TODO: we need id for the top three partners :) - storage in User class [Daniel]
+//              TODO: with that, userManager can have a searchUser function (id - user instance) and then [Gabriel]
 //              TODO: I'll pass in the ids, get the user instance and then pass it to the presenter class
                 break;
             case 7:
-//              TODO: get a boolean variable for whether the trade is cancelled or not
-//              TODO: get list of trades with cancelled status with a given user id
+//              TODO: get a boolean variable for whether the trade is cancelled or not [Rain]
+//              TODO: get list of trades with cancelled status with a given user id [Rain]
                 break;
 
         }
@@ -202,49 +209,50 @@ public class RegularUserController implements Serializable, Controllable {
         switch(subMenuOption) {
             case 1:
                 List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId);
-//              TODO: call presenter to print it
+//              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id and the time and place
-//              TODO: have a method in meetingManager -- given id - return meeting
+//              TODO: have a method in meetingManager -- given id - return meeting [Jianhong]
 //              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass in date object for time)
-//              TODO: increment user's num edited by 1 --> WHAT IS TIMEPLACEEDIT IN MEETING CLASS???
+//              TODO: increment user's num edited by 1 --> WHAT IS TIMEPLACEEDIT IN MEETING CLASS??? [Jianhong]
 //               --> IDEALLY WE HAVE MAYBE A MAP OF USERID TO nunEdits FOR A MEETING??
-//              TODO: call presenter to print msg of successful or not
+//              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 2:
                 //List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId); (dupli. code)
-//              TODO: call presenter to print it
+//              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id
-//              TODO: do get meeting by trade id / should have another one for meeting id?
+//              TODO: do get meeting by trade id / should have another one for meeting id? [Jianhong]
 //              TODO: setTimePlaceConfirm(userId) -- for the meeting to be confirmed
-//               (also - both users need to confirm on the time and place I think...
-//              TODO: call presenter to print msg of successful or not
+//               (both users need to confirm on the time and place I think... [Jianhong]
+//              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 3:
                 List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId);
-//              TODO: call presenter to print it (all the meetings)
+//              TODO: call presenter to print it (all the meetings) [Jiaqi]
 //              TODO: ask the user to enter the meeting id of the meeting to be confirmed
-//              TODO: a setMeetingConfirmed method? -- so we can let the user to confirm the meeting took place
-//              TODO: call presenter to print msg of successful or not
+//              TODO: a setMeetingConfirmed method?
+//               -- so we can let the user to confirm the meeting took place because for now there is only get[Jianhong]
+//              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 4:
                 // List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId); (dupli. code)
-//              TODO: call the presenter to print it
+//              TODO: call the presenter to print it [Jiaqi]
                 break;
             case 5:
                 List<Meeting> meetingsConfirmed = mm.getCompleteMeeting(userId);
-//              TODO: call the presenter to print it
+//              TODO: call the presenter to print it [Jiaqi]
                 break;
             case 6:
-//              TODO: get and print all temporary trades for the user (assume it'll be 'TEMPORARY' for the tradeType?)
-//              TODO: let the presenter print it
+//              TODO: get and print all temporary trades for the user (assume it'll be 'TEMPORARY' for the tradeType?) [Rain]
+//              TODO: let the presenter print it [Jiaqi]
                 break;
             case 7:
-//              TODO: get to-be-opened trades for the userId
-//              TODO: let presenter prints it
+//              TODO: get to-be-opened trades for the userId [getWaitTrade]
+//              TODO: let presenter prints it [Jiaqi]
 //              TODO: user can enter the trade id for the one that he/she wants to set up the first meeting for
 //              TODO: user can enter the other user's id or username and we'll set it up
 //              TODO: add it to the meetingManager
-//              TODO: let presenter print msg of successful or not
+//              TODO: let presenter print msg of successful or not [Jiaqi]
                 break;
         }
 
