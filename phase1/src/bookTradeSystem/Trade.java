@@ -6,6 +6,7 @@ public class Trade implements Serializable {
     private int borrowerId;
     private int lenderId;
     private int itemId;
+    protected Map<Integer, String> userStatus = new HashMap<>();
     /**
      * tradeType the type of the trade
      */
@@ -27,8 +28,26 @@ public class Trade implements Serializable {
         this.lenderId = lenderId;
         this.itemId = itemId;
         this.tradeType = tradeType;
+        userStatus.put(borrowerId, "Agree");
+        userStatus.put(lenderId, "Disagree");
     }
 
+    /** set borrower status
+     * @param userId borrower id
+     * @param status Agree or Disagree
+     */
+    public void setBorrowerStatus(int userId, String status){
+        userStatus.replace(userId, status);
+    }
+
+
+    /** set lender status
+     * @param userId lender id
+     * @param status Agree or Disagree
+     */
+    public void setLenderStatus(int userId, String status){
+        userStatus.replace(userId, status);
+    }
     /**
      * @return a list of ids(tradeId, borrowerId, lenderId, itemId)
      */
@@ -65,6 +84,7 @@ public class Trade implements Serializable {
      */
     public String toString(){
         return "trade id:" + tradeId + "" + "borrower id:" + borrowerId + "" + "lender id:" + lenderId  + ""
-                + "item id:" + itemId + "" + "trade type: " + tradeType + "" + "trade status" + tradeStatus;
+                + "item id:" + itemId + "\n" + "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
+                + "borrower status:" + userStatus.get(borrowerId) + "" + "lender status" + userStatus.get(lenderId);
     }
 }

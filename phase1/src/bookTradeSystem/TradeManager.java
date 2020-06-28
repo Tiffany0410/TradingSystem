@@ -100,13 +100,6 @@ public class TradeManager implements Serializable {
         return list1;
     }
 
-    /** Print the list of "wait to be opened" trade status for user
-     * @param userId user we want to print for
-     */
-    public void printWaitTrade(int userId){
-        System.out.println(this.getWaitTrade(userId));
-    }
-
     /** check if the trade with id in the TradeManager or not
      * @param tradeId the ide of the trade
      * @return true if the trade with tradeId in the TradeManager
