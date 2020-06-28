@@ -144,6 +144,7 @@ public class Meeting implements java.io.Serializable{
         if (!timePlaceConfirm && timePlaceEdit.size() < 6 && ! timePlaceEdit.isEmpty() &&
                 timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
             timePlaceConfirm = true;
+            timePlaceEdit.add(userId);
             return true;
         }return false;
     }
@@ -176,6 +177,20 @@ public class Meeting implements java.io.Serializable{
         timePlaceEdit.add(userId);
         return true;
     }else{return false;}
+    }
+
+    /** count the number of time the user with userId who edited the time and place
+     * @param userId id of the user
+     * @return the number that the user edited the time and place
+     */
+    public int countEdit(int userId){
+        int num = 0;
+        for(int userId1: timePlaceEdit){
+            if (userId1 == userId){
+                num++;
+            }
+        }
+        return num;
     }
 
     /** override the to string to describe the meeting
