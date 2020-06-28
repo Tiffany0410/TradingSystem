@@ -138,7 +138,12 @@ public class FileReaderWriter implements Serializable {
         return MenuNumber;
     }
 
-
+    /**
+     * Serialize the object into the file at filePath.
+     *
+     * @param filePath the file to write the records to
+     * @param new_object the object need to be saved to the file at filePath
+     */
     public void SerializeObject(String filePath, Object new_object){
         try {
             Map<String, Object> new_object_map = new HashMap<String, Object>{"new_object.getID": new_object};
