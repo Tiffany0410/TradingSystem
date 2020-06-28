@@ -2,7 +2,7 @@ package bookTradeSystem;
 import java.util.*;
 import java.io.Serializable;
 public class Trade implements Serializable {
-    private int tradeId;
+    private static int tradeId;
     private int borrowerId;
     private int lenderId;
     private int itemId;
@@ -22,7 +22,7 @@ public class Trade implements Serializable {
      * @param tradeType trade type
      */
     public Trade(int borrowerId, int lenderId, int itemId, String tradeType){
-        this.tradeId++;
+        tradeId++;
         this.borrowerId = borrowerId;
         this.lenderId = lenderId;
         this.itemId = itemId;
