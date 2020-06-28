@@ -2,14 +2,15 @@ package bookTradeSystem;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DisplaySystem {
-    private FileReaderWriter fileReader;
+    private FilesReaderWriter fileReader;
     private int option;
 
-    public DisplaySystem(){
-        fileReader = new FileReaderWriter();
+    public DisplaySystem() throws IOException, ClassNotFoundException {
+        fileReader = new FilesReaderWriter();
     }
 
     /**
