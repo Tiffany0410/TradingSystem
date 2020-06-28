@@ -201,6 +201,7 @@ public class Meeting implements java.io.Serializable{
         return this.getTradeId() == meeting.getTradeId() && this.getMeetingNum() == meeting.getMeetingNum()
                 && this.getUserId1() == meeting.getUserId1() && this.getUserId2() == meeting.getUserId2();
     }
+
 }
 
 

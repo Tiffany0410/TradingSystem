@@ -5,17 +5,32 @@ import com.sun.xml.internal.bind.v2.TODO;
 
 public class TradingSystem {
    private UserManager userManager;
-   private TradingSystem tradingSystem;
    private DisplaySystem displaySystem;
+   private TradeManager tradeManager;
    private MeetingManager meetingManager;
-   private FileWriter fileWriter;
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
+   private RegularUserController regularUserController;
+   private AdminUserController adminUserController;
 
    /**
-    * Initial trading system
+    * constructor of trading system
     */
-   public TradingSystem(){
+   public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator, TradeManager tradeManager){
+      this.userManager = userManager;
+      this.displaySystem = new DisplaySystem();
+      this.meetingManager = meetingManager;
+      this.loginValidator = loginValidator;
+      this.tradeManager = tradeManager;
+      this.accountCreator = new AccountCreator(this.userManager, this.displaySystem);
+      this.tradingSystemInital();
+   }
+
+
+   /**
+    * Initial trading system menu
+    */
+   public void tradingSystemInital(){
       int option;
       option = displaySystem.getMenuAnswer("TradingSystemInitMenu");
 
@@ -25,12 +40,15 @@ public class TradingSystem {
       }
 
       // Option 2 is create new account
-      // call controller to do actions
-      if (option == 2){ }
+      if (option == 2){
+         boolean condition = false;
 
-      // Option 0 is exit
-      // call controller to do actions
-      if(option == 0) { }
+         while(!condition){
+            condition = accountCreator.createAccount(displaySystem.getUsername(), displaySystem.getPassword(),
+                    displaySystem.getEmail());
+         }
+      }
+
    }
 
    /**
@@ -45,17 +63,18 @@ public class TradingSystem {
       // get the type of account
       userName = displaySystem.getUsername();
       userPassword = displaySystem.getPassword();
-      type = loginValidator(userName, userPassword );
+      type = loginValidator.verifyLogin(userName, userPassword );
 
-      if (type.equals("fail")){
-         displaySystem.failLogin();
-      }
-      else if (type.equals("user")){
-         // pass in username or user id?
-         this.regularUserMain(userName);
-      }
-      else if (type.equals("admin")){
-         this.adminUserMain(userName);
+      switch (type) {
+         case "fail":
+            displaySystem.failLogin();
+            break;
+         case "user":
+            this.regularUserMain(userName);
+            break;
+         case "admin":
+            this.adminUserMain(userName);
+            break;
       }
 
    }
@@ -65,7 +84,9 @@ public class TradingSystem {
     */
 
    public void logOut(){
-      // TODO: implement this method
+      // TODO: serialize what?
+
+      this.tradingSystemInital();
    }
 
    /**
@@ -74,15 +95,15 @@ public class TradingSystem {
     * @return message
     */
    public String sendNotification(String userName){
-      // TODO: get the notification for the user passed in
       return displaySystem.getNotification(userName);
    }
 
    /**
-    * For regular user main menu
+    * For regular user menu
     */
 
    public void regularUserMain(String userName){
+      this.regularUserController = new RegularUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(this.sendNotification(userName));
 
@@ -90,179 +111,75 @@ public class TradingSystem {
       option = displaySystem.getMenuAnswer("RegularUserMainMenu");
 
 
+      // Option 0 is log out
+      if (option == 0){
+         this.logOut();
+      }
 
+      int suboption = 0;
       // Option 1 is Account Info
       if (option == 1){
-         this.regularUserAccountInfo(userName);
+         suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu");
       }
 
       // Option 2 is Trading Info
       else if (option == 2){
-         this.regularUserTradingInfo(userName);
+         suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu");
       }
 
       // Option 3 is Meeting Info
       else if (option == 3){
-         this.regularUserMeetingInfo(userName);
+         suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu");
       }
 
-      // Option 0 is log out
-      else if (option == 0){
-         this.logOut();
-      }
-   }
-
-   /**
-    * For regular user account info menu
-    */
-   private void regularUserAccountInfo(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("RegularUserAccountMenu");
-
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 2){}
-      else if (option == 3){}
-      else if (option == 4){}
-      else if (option == 5){}
-      else if (option == 6){}
-      else if (option == 7){}
-      else if (option == 8){}
-      else if (option == 0){
+      if (suboption == 0){
          this.regularUserMain(userName);
+      }else{
+         regularUserController.actionResponse(option, suboption);
       }
+
 
    }
 
-   /**
-    * For regular user trading Info menu
-    */
-
-   private void regularUserTradingInfo(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("RegularUserTradingMenu");
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 2){}
-      else if (option == 3){}
-      else if (option == 4){}
-      else if (option == 5){}
-      else if (option == 6){}
-      else if (option == 7){}
-      else if (option == 0){
-         this.regularUserMain(userName);
-      }
-   }
 
    /**
-    * For regular user meeting Info menu
-    */
-
-   private void regularUserMeetingInfo(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("RegularUserMeetingMenu");
-
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 2){}
-      else if (option == 3){}
-      else if (option == 4){}
-      else if (option == 5){}
-      else if (option == 6){}
-      else if (option == 7){}
-      else if (option == 0){
-         this.regularUserMain(userName);
-      }
-
-   }
-
-   /**
-    * For admin user main menu
+    * For admin user menu
     */
 
    private void adminUserMain(String userName) {
+      this.adminUserController = new AdminUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(this.sendNotification(userName));
 
       int option;
       option = displaySystem.getMenuAnswer("AdminUserMainMenu");
 
+      // Option 0 is log out
+      if (option == 0){
+         this.logOut();
+      }
+
+      int suboption = 0;
       // Option 1 is manage users
       if (option == 1){
-         this.adminManageUsers(userName);
+         suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu");
       }
 
       // Option 2 is Edit Thresholds
       else if (option == 2){
-         this.adminEditThresholds(userName);
+         suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu");
       }
 
       // Option 3 is other
       else if (option == 3){
-         this.adminOther(userName);
+         suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu");
       }
 
-      // Option 0 is log out
-      else if (option == 0){
-         this.logOut();
-      }
-
-   }
-
-   /**
-    * For admin user manage users menu
-    */
-
-   private void adminManageUsers(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu");
-
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 2){}
-      else if (option == 3){}
-      else if (option == 0){
+      if (suboption == 0){
          this.adminUserMain(userName);
+      }else{
+         adminUserController.actionResponse(option, suboption);
       }
    }
-
-   /**
-    * For admin user edit thresholds
-    */
-   private void adminEditThresholds(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu");
-
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 2){}
-      else if (option == 3){}
-      else if (option == 4){}
-      else if (option == 0){
-         this.adminUserMain(userName);
-      }
-   }
-
-   /**
-    * For admin user other options
-    */
-   private void adminOther(String userName) {
-      int option;
-      option = displaySystem.getMenuAnswer("AdminUserOtherSubMenu");
-
-      // TODO: Implement relevant method
-
-      if (option == 1){}
-      else if (option == 0){
-         this.adminUserMain(userName);
-      }
-   }
-
-
 
 }

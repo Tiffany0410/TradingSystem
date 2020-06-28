@@ -11,6 +11,7 @@ public class UserManager implements Serializable {
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String> listUnfreezeRequest;
+    private ArrayList<Item> listItemToAdd;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -74,10 +75,26 @@ public class UserManager implements Serializable {
 
     /**
      * Set the list of usernames of User that request to be unfrozen
-     * @param listUnfreezeRequest The list of Usernames
+     * @param listUnfreezeRequest The list of usernames
      */
     public void setListUnfreezeRequest(ArrayList<String> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
+    }
+
+    /**
+     * Get the list of Items to be added
+     * @return The list of Items
+     */
+    public ArrayList<Item> getListItemToAdd() {
+        return listItemToAdd;
+    }
+
+    /**
+     * Set the list of Items to be added
+     * @param listItemToAdd The list of Items
+     */
+    public void setListItemToAdd(ArrayList<Item> listItemToAdd) {
+        this.listItemToAdd = listItemToAdd;
     }
 
     /**
@@ -254,11 +271,11 @@ public class UserManager implements Serializable {
      */
     public HashMap<String, String> userPasswords(){
         HashMap<String, String> out = new HashMap<>();
-            for (User person: listUser){
-                String name = person.getUsername();
-                String pass = person.getPassword();
-                out.put(name, pass);
-            }
+        for (User person: listUser){
+            String name = person.getUsername();
+            String pass = person.getPassword();
+            out.put(name, pass);
+        }
         return out;
     }
 
@@ -268,11 +285,11 @@ public class UserManager implements Serializable {
      */
     public HashMap<String, String> adminPasswords(){
         HashMap<String, String> out = new HashMap<>();
-            for (AdminUser person: listAdmin){
-                String name = person.getUsername();
-                String pass = person.getPassword();
-                out.put(name, pass);
-            }
+        for (AdminUser person: listAdmin){
+            String name = person.getUsername();
+            String pass = person.getPassword();
+            out.put(name, pass);
+        }
         return out;
     }
 
@@ -292,6 +309,21 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Searches for a User
+     * @param ID The ID of the User being searched for
+     * @return The User that is being searched for
+     */
+    public User findUser(int ID){
+        User out = null;
+        for (User person : listUser) {
+            if (person.getID().equals(ID)) {
+                out = person;
+            }
+        }
+        return out;
+    }
+
+    /**
      * Changes the threshold of how many more times a user has to lend before they can borrow
      * @param change The new threshold
      */
@@ -299,5 +331,57 @@ public class UserManager implements Serializable {
         User.threshold = change;
     }
 
+    /**
+     * Gives the usernames and the corresponding IDs of all User
+     * @return A map of usernames to IDs for all User
+     */
+    public HashMap<String, Integer> userIDs(){
+        HashMap<String, Integer> out = new HashMap<>();
+        for (User person: listUser){
+            String name = person.getUsername();
+            Integer ID = person.getID();
+            out.put(name, ID);
+        }
+        return out;
+    }
+
+    /**
+     * Gives all the Items in all the Users' inventories
+     * @return A list of all the Items of all the Users' inventories
+     */
+    public ArrayList<Item> allItems(){
+        ArrayList<Item> out = new ArrayList<>();
+        for (User person: listUser){
+            for (Item thing: person.inventory){
+                out.add(thing);
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Sends a request to unfreeze a User
+     * @param username The username of the User
+     * @return true if the request was successful, false otherwise
+     */
+    public boolean requestUnfreeze(String username){
+        boolean out = false;
+        if (!listUnfreezeRequest.contains(username)){
+            listUnfreezeRequest.add(username);
+            out = true;
+        }
+        return out;
+    }
+
+    /**
+     * Sends a request for an Item to be added
+     * @param name The name of the Item
+     * @param description The description of the Item
+     * @param ownerID The ID of the User who owns the Item
+     */
+    public void requestAddItem(String name, String description, int ownerID){
+        Item out = new Item(name, description, ownerID);
+        listItemToAdd.add(out);
+    }
 
 }
