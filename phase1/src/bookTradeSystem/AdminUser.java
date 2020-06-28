@@ -8,8 +8,8 @@ public class AdminUser {
     private String username;
     private String password;
     private String email;
-
     private int id;
+    private static int idNumber = 1;
 
     /**
      * Construct an User.
@@ -18,10 +18,12 @@ public class AdminUser {
      * @param password user's password.
      * @param email    user's email
      */
-    User(String username, String password, String email) {
+    public AdminUser(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        id = idNumber;
+        idNumber ++;
     }
 
     /**
@@ -50,4 +52,10 @@ public class AdminUser {
     public int getId() {
         return this.id;
     }
+
+    /**
+     * Getter for admin user's password
+     * @return this admin user's password
+     */
+    public String getPassword() {return password;}
 }

@@ -1,20 +1,22 @@
 package bookTradeSystem;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DisplaySystem {
-    private FileReader fileReader;
+    private FilesReaderWriter fileReader;
     private int option;
 
-    public DisplaySystem(){
-        fileReader = new FileReader();
+    public DisplaySystem() throws IOException, ClassNotFoundException {
+        fileReader = new FilesReaderWriter();
     }
 
     /**
      * print the put in sentence to the screen
      * convinces to change from txt to window
-     * @param str
+     * @param str the string need to be print out
      */
     public void printOut(String str){
         System.out.println(str);
@@ -23,11 +25,11 @@ public class DisplaySystem {
 
     /**
      * Print menu and get the option user put in
-     * @param fileName
+     * @param filePath the path of file need to be read
      * @return option
      */
 
-    public int getMenuAnswer(String fileName) {
+    public int getMenuAnswer(String filePath) throws FileNotFoundException {
         boolean condition = true;
 
         // get valid option user typed in
@@ -36,13 +38,13 @@ public class DisplaySystem {
             Scanner sc = new Scanner(System.in);
 
             this.printOut("Please enter the number of your option.");
-            printMenu(fileName);  // print all options
+            printMenu(filePath);  // print all options
 
             try {
                 option = sc.nextInt();  // get number user typed in
 
                 // check the number user typed in
-                if (0 <=option && option < getMenuLength(fileName)){
+                if (0 <=option && option < getMenuLength(filePath)){
                     condition = false;
                 }
                 else{
@@ -60,12 +62,12 @@ public class DisplaySystem {
 
     /**
      * Get the number of options
-     * @param fileName
-     * @return
+     * @param filePath the path of file need to be read
+     * @return int the length of menu
      */
 
-    private int getMenuLength(String fileName){
-        return fileReader.getlength(fileName);
+    private int getMenuLength(String filePath) throws FileNotFoundException {
+        return fileReader.MenuLength(filePath);
     }
 
 
@@ -73,24 +75,13 @@ public class DisplaySystem {
      * Show the menu on the screen by taking the file name and show the options in the file
      * to the screen
      * In the future, this will change to another UI not just text
-     * @param fileName
+     * @param filePath the path of file need to be read
      */
 
-    private void printMenu(String fileName){
-        this.printOut(fileReader.getContent(fileName));
+    private void printMenu(String filePath) throws FileNotFoundException {
+        this.printOut(fileReader.readFromMenu(filePath));
     }
 
-    /**
-     * Show the notification for this user
-     * Get the username and looking the notification for this user in the file
-     * In the future, this will change to another UI not just text
-     * @param userName
-     */
-
-    // TODO: Need future discussion
-    public void printNotification(String userName){
-        this.printOut(fileReader.getContent(userName));
-    }
 
     /**
      * Get the username user put in
@@ -139,19 +130,10 @@ public class DisplaySystem {
         this.printOut("Wrong username or password, please check again.");
     }
 
-    /**
-     * print the notifications for the user
-     * @param userName
-     * @return String
-     */
-
-    public String getNotification(String userName) {
-        // TODO: discuss with others about how we store notifications
-    }
 
     /**
      * Print out the result of action with boolean type
-     * @param result
+     * @param result the result of user's operation
      */
     public void printResult(boolean result){
         if (result){
@@ -163,7 +145,7 @@ public class DisplaySystem {
 
     /**
      * print out the result of action with object type
-     * @param obj
+     * @param obj the object need to be print
      */
     public void printResult(Object obj){
         this.printOut(obj.toString());

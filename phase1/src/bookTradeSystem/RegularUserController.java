@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * An instance of this class represents the communication system between the user and
- * the use cases and entities
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter.
  */
 public class RegularUserController implements Serializable, Controllable {
     private TradeManager tm;
@@ -18,12 +18,12 @@ public class RegularUserController implements Serializable, Controllable {
 
     /**
      * Constructs a RegularUserController with a TradeManager, a MeetingManager, a UserManager,
-     * user's username and userId.
+     * regular user's username and userId.
      * @param tm The current state of the TradeManager.
      * @param mm The current state of the MeetingManager.
      * @param um The current state of the UserManager.
-     * @param username The username of the user.
-     * @param userId The user ID of the user.
+     * @param username The username of the regular user.
+     * @param userId The user ID of the regular user.
      */
     public RegularUserController(TradeManager tm, MeetingManager mm, UserManager um, String username, int userId) {
         this.tm = tm;
@@ -35,24 +35,33 @@ public class RegularUserController implements Serializable, Controllable {
 
     /**
      * This method gathers all the necessary notifications
-     * for the user and then calls on the
-     * relevant presenter class method.
+     * for the regular user.
+     * @return Notifications as properly formatted strings.
      */
     @Override
-    public void alerts() {
-       /*
-        1. get the list of things to be printed
-        2. call the presenter class to let it format it and then print
-        */
-//      TODO: TO BE DECIDED
+    public String alerts() {
+        //Read this in from file
+        /*"1. Please check your unconfirmed meetings in the MeetingMenu.
+           2. Please check your open trades in the TradingMenu.
+           3. Please respond to outstanding trade requests in the TradingMenu.
+           4. Please set up a meeting for the to-be-opened trades"*/
+        // Your current status:   (frozen / unfrozen) + corresponding messages.
+        // Your have borrowed:
+        // You have lent:
+        // KEEP IN MIND OF THE THRESHOLD VALUES
+        // Max number of transactions a week =
+        // Max number of transactions that can be incomplete before the account is frozen =
+        // Max umber of books you must lend before you can borrow =
+        // Max edits per user for meeting’s date + time =
+        return "";
     }
 
     /**
      * This method calls appropriate methods based on user input
      * of the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
-     * @param mainMenuOption The main menu option chosen by the user.
-     * @param subMenuOption The sub menu option for a particular sub menu chosen by the user.
+     * @param mainMenuOption The main menu option chosen by the regular user.
+     * @param subMenuOption The sub menu option for a particular sub menu chosen by the regular user.
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
@@ -91,7 +100,6 @@ public class RegularUserController implements Serializable, Controllable {
          */
         switch(subMenuOption){
             case 1:
-                List<User> allUsers = um.getListUser();
 //              TODO: return a list of books of all other users [Gabriel]
                 break;
             case 2:
@@ -112,7 +120,7 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
                 break;
             case 6:
-//              TODO: maybe have a setter for the listUnfreezeRequest in userManager? [Gabriel]
+//              TODO: maybe have a setter for the listUnfreezeRequest in userManager?
 //              TODO: add the user's request to the list in proper format*
 //               (a message with user id so admin can use it to unfreeze)
                 break;
@@ -120,7 +128,7 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: receive user input of all the details needed to create an item
 //              TODO: maybe there can be a listAddItemRequest in userManager?
 //               (like each element are strings with all the information needed for the admin to create
-//               the item instance (when the admin wants to confirm it) [Gabriel]
+//               the item instance (when the admin wants to confirm it)
                 break;
             case 8:
 //              TODO: top three items traded --> id plz!!! [Daniel]
@@ -156,15 +164,15 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: let user enter borrower id
 //              TODO: let user enter lender id
 //              TODO: let user enter item id
-//              TODO: let user enter tradeType ('PERMANENT' OR 'TEMPORARY')
-//              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN  [Rain]
-//              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE [Rain]
+//              TODO: let user enter tradeType ('Permanent' OR 'Temporary')
+//              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN
+//              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE
 //              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
             case 2:
- //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?) [Rain]
+ //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?)
  //             TODO: ASKS THE USER WHETHER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-//              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE [Rain]
+//              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE [
 //              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
             case 3:
@@ -184,12 +192,12 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 6:
 //              TODO: we need id for the top three partners :) - storage in User class [Daniel]
-//              TODO: with that, userManager can have a searchUser function (id - user instance) and then [Gabriel]
+//              TODO: with that, userManager can have a searchUser function (id - user instance) and then
 //              TODO: I'll pass in the ids, get the user instance and then pass it to the presenter class
                 break;
             case 7:
-//              TODO: get a boolean variable for whether the trade is cancelled or not [Rain]
-//              TODO: get list of trades with cancelled status with a given user id [Rain]
+//              TODO: get a boolean variable for whether the trade is cancelled or not
+//              TODO: get list of trades with cancelled status with a given user id
                 break;
 
         }
@@ -197,13 +205,12 @@ public class RegularUserController implements Serializable, Controllable {
 
     private void userMeetingMenuResponse(int subMenuOption) {
        /*
-        1.Suggest/edit time and place for meetings
-        2.Confirm time and place for meetings
-        3.Confirm the meeting took place
-        4.See the list of meetings need to be confirmed
-        5.See the list of meetings that have been confirmed (assume --> took place??)
-        6.Set up second meeting for temporary trades
-        7.View to-be-opened trades and set up first meeting
+    1.Suggest/edit time and place for meetings
+    2.Confirm time and place for meetings
+    3.Confirm the meeting took place
+    4.See the list of meetings need to be confirmed
+    5.See the list of meetings that have been confirmed
+    6.View to-be-opened trades and set up first meeting
         */
 
         switch(subMenuOption) {
@@ -211,28 +218,26 @@ public class RegularUserController implements Serializable, Controllable {
                 List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId);
 //              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id and the time and place
-//              TODO: have a method in meetingManager -- given id - return meeting [Jianhong]
+//              TODO: have a method in meetingManager -- given id - return meeting
                 public Meeting getMeetingByIdNum(int tradeId, int numMeeting)
 //              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-//              TODO: increment user's num edited by 1 --> WHAT IS TIMEPLACEEDIT IN MEETING CLASS??? [Jianhong]
-//               --> IDEALLY WE HAVE MAYBE A MAP OF USERID TO nunEdits FOR A MEETING??(a list of user id who edit the time and place)
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 2:
                 //List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId); (dupli. code)
 //              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id
-//              TODO: do get meeting by trade id / should have another one for meeting id? [Jianhong]
+//              TODO: do get meeting by trade id / should have another one for meeting id?
 //              TODO: setTimePlaceConfirm(userId) -- for the meeting to be confirmed
-//               (both users need to confirm on the time and place I think... (one suggest and one confirmed)[Jianhong]
+//               (both users need to confirm on the time and place I think... (one suggest and one confirmed)
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 3:
                 List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId);
 //              TODO: call presenter to print it (all the meetings) [Jiaqi]
 //              TODO: ask the user to enter the meeting id of the meeting to be confirmed
-//              TODO: a setMeetingConfirmed method?(I put it in the MeetingManager since it need the access to TradeManager, so I can closed the trade when both of them confirmed)
-//               -- so we can let the user to confirm the meeting took place because for now there is only get[Jianhong]
+//              TODO: public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId)
+//               a setMeetingConfirmed method?(I put it in the MeetingManager
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 4:
@@ -244,10 +249,6 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: call the presenter to print it [Jiaqi]
                 break;
             case 6:
-//              TODO: get and print all temporary trades for the user (assume it'll be 'TEMPORARY' for the tradeType?) [Rain]
-//              TODO: let the presenter print it [Jiaqi]
-                break;
-            case 7:
 //              TODO: get to-be-opened trades for the userId [getWaitTrade]
 //              TODO: let presenter prints it [Jiaqi]
 //              TODO: user can enter the trade id for the one that he/she wants to set up the first meeting for

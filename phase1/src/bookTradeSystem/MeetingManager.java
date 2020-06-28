@@ -64,24 +64,27 @@ public class MeetingManager implements java.io.Serializable{
      * @param userId the id for a user
      * @return a list of meeting that is not completed for a given id
      */
-    public List<Meeting> getUnCompleteMeeting(int userId){
+    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager){
         List<Meeting> listUnCompleteMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !(meeting.getMeetingConfirm().
-                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))){
+                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))&& !tradeManager
+                    .getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnCompleteMeeting.add(meeting);
             }
         }listUnCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
         return listUnCompleteMeeting;
     }
     /** get a list of meetings that has not been confirmed for the time and place
-     * @param userId the id for the user
+     * @param userId the
+     *              id for the user
      * @return the list of meeting that is not confirmed time and place by a given user
      */
-    public List<Meeting> getUnConfirmTimePlace(int userId){
+    public List<Meeting> getUnConfirmTimePlace(int userId, TradeManager tradeManager){
         List<Meeting> listUnConfirmMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
-            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !meeting.getTimePlaceConfirm()){
+            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !meeting.getTimePlaceConfirm()
+            &&!tradeManager.getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnConfirmMeeting.add(meeting);
             }
         }listUnConfirmMeeting.sort(Comparator.comparing(Meeting::getTime));
@@ -118,6 +121,19 @@ public class MeetingManager implements java.io.Serializable{
         return listMeetingById;
     }
 
+    /**check if the meeting is in the MeetingManager or not.
+     * @param tradeId  the id of the trade.
+     * @param numMeeting the number of the meeting
+     * @return true if the meeting is in the MeetingManage
+     */
+    public Boolean checkInManager(int tradeId, int numMeeting){
+        for (Meeting meeting:listMeeting){
+            if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == numMeeting){
+                return true;
+            }
+        }return false;
+    }
+
     /** search a meeting in the MeetingManager by a given tradeId and numMeeting
      * @param tradeId the id of the trade
      * @param numMeeting the number of the meeting for a given trade
@@ -130,7 +146,10 @@ public class MeetingManager implements java.io.Serializable{
             }}return new Meeting(0,0,0,0);
     }
 
-    /** set to confirm the completeness of a meeting
+    /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
+     * Permanent or is the second meeting, then close the trade. If the meeting is confirmed by both user, but the
+     * trade is temporary and the meeting is th first meeting, then remains the trade open and create the second
+     * meeting for the trade.
      * @param tradeManager the list of trade
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
@@ -198,8 +217,9 @@ public class MeetingManager implements java.io.Serializable{
     }
 
     /** If a meeting is edited more than 3 times by both users without confirmation, and if it's a first meeting,
-     * delete the meeting and the trade with printing the transaction is cancelled. If it's second meeting, only
-     * print an empty string
+     * change the trade status to cancelled with returning string that the transaction is cancelled.
+     * If it's second meeting, return a string "You have edited too many times". If it is not go over threshold,
+     * return an empty string.
      * @param tradeManager a list of trade
      * @param meeting the meeting for the trade
      * @return a string shows that the transaction is cancelled if the meeting is edited over threshold, otherwise,
@@ -207,8 +227,7 @@ public class MeetingManager implements java.io.Serializable{
      */
     public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting){
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 && meeting.getMeetingNum() ==1){
-            this.removeMeeting(meeting);
-            tradeManager.removeTrade(meeting.getTradeId());
+            tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
             return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
             }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 &&
                 meeting.getMeetingNum() ==2){
@@ -233,7 +252,7 @@ public class MeetingManager implements java.io.Serializable{
     public String toString(){
         StringBuilder string1 = new StringBuilder(new String(""));
         for(Meeting meeting: listMeeting){
-            string1.append(meeting.toString());
+            string1.append(meeting.toString()).append(System.lineSeparator());
         }return string1.toString();
     }
 }

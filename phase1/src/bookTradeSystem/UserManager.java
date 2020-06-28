@@ -10,7 +10,7 @@ public class UserManager implements Serializable {
 
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
-    private ArrayList<String> listUnfreezeRequest;
+    private ArrayList<String[]> listUnfreezeRequest;
     private ArrayList<Item> listItemToAdd;
 
     /**
@@ -66,18 +66,18 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Get the list of usernames of User that request to be unfrozen
-     * @return The list of usernames
+     * Get the list of usernames and messages of User that request to be unfrozen
+     * @return The list of usernames and messages
      */
-    public ArrayList<String> getListUnfreezeRequest() {
+    public ArrayList<String[]> getListUnfreezeRequest() {
         return listUnfreezeRequest;
     }
 
     /**
-     * Set the list of usernames of User that request to be unfrozen
-     * @param listUnfreezeRequest The list of usernames
+     * Set the list of usernames and messages of User that request to be unfrozen
+     * @param listUnfreezeRequest The list of usernames and messages
      */
-    public void setListUnfreezeRequest(ArrayList<String> listUnfreezeRequest) {
+    public void setListUnfreezeRequest(ArrayList<String[]> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
     }
 
@@ -105,7 +105,7 @@ public class UserManager implements Serializable {
     public ArrayList<Item> searchItem(String item){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
-            for (Item thing: person.inventory){
+            for (Item thing: person.getInventory()){
                 if (thing.getName().contains(item)){
                     out.add(thing);
                 }
@@ -180,6 +180,9 @@ public class UserManager implements Serializable {
     public ArrayList<String> underLending(){
         ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
+//           TODO: maybe this threshold should be the numLendBeforeBorrow?
+//            because there are multiple thresholds -- will add them to user class
+//            as static attributes later but yeah one of them will be numLendBeforeBorrow
             if (person.getNumBorrowed() - person.getNumLent < person.threshold){
                 out.add(person.getUsername());
             }
@@ -197,8 +200,10 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (person.wishlist.contains(itemID)){
-                person.wishlist.remove(itemID);
+            ArrayList<Integer> temp = person.getWishList();
+            if (temp.contains(itemID)){
+                temp.remove(itemID);
+                person.setWishList(temp);
                 out = true;
             }
         }
@@ -216,14 +221,16 @@ public class UserManager implements Serializable {
         Item toRemove = null;
         User person = findUser(username);
         if (person != null){
-            for (Item thing: person.inventory){
-                if (thing.getItemId().equals(itemID)){
+            ArrayList<Item> temp = person.getInventory();
+            for (Item thing: temp){
+                if (thing.getItemId()== itemID){
                     toRemove = thing;
                     out = true;
                 }
             }
             if (out){
-                person.inventory.remove(toRemove);
+                temp.remove(toRemove);
+                person.setInventory(temp);
             }
         }
         return out;
@@ -239,9 +246,11 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.wishlist.contains(itemID)){
-                person.wishlist.add(itemID);
+            ArrayList<Integer> temp = person.getWishList();
+            if (!temp.contains(itemID)){
+                temp.add(itemID);
                 out = true;
+                person.setWishList(temp);
             }
         }
         return out;
@@ -257,9 +266,11 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.inventory.contains(item)) {
-                person.inventory.add(item);
+            ArrayList<Item> temp = person.getInventory();
+            if (!temp.contains(item)) {
+                temp.add(item);
                 out = true;
+                person.setInventory(temp);
             }
         }
         return out;
@@ -316,7 +327,7 @@ public class UserManager implements Serializable {
     public User findUser(int ID){
         User out = null;
         for (User person : listUser) {
-            if (person.getID().equals(ID)) {
+            if (person.getId() == ID) {
                 out = person;
             }
         }
@@ -328,8 +339,54 @@ public class UserManager implements Serializable {
      * @param change The new threshold
      */
     public void changeThreshold(int change){
+//      TODO: I guess this is for numLendBeforeBorrow
+//       too. Hmm, I was thinking maybe we can make the
+//        thresholds private and then have getters and setters
+//        in the user class - what do you think? So, in other
+//        words, maybe we don't need this changeThreshold method
         User.threshold = change;
     }
+
+    /**
+     * Gives the username for the User with the given ID
+     * @param ID The ID of the User
+     * @return The username of the User
+     */
+    public String idToUsername(int ID){
+        String out = null;
+        for (User person: listUser){
+            if (person.getId() == ID){
+                out = person.getUsername();
+            }
+        }
+        for (AdminUser person: listAdmin){
+            if (person.getId() == ID){
+                out = person.getUsername();
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Gives the ID for the User with the given username
+     * @param username The username of the User
+     * @return The ID of the User
+     */
+    public int usernameToID(String username){
+        int out = 0;
+        for (User person: listUser){
+            if (person.getUsername().equals(username)){
+                out = person.getId();
+            }
+        }
+        for (AdminUser person: listAdmin){
+            if (person.getUsername().equals(username)){
+                out = person.getId();
+            }
+        }
+        return out;
+    }
+
 
     /**
      * Gives the usernames and the corresponding IDs of all User
@@ -339,21 +396,37 @@ public class UserManager implements Serializable {
         HashMap<String, Integer> out = new HashMap<>();
         for (User person: listUser){
             String name = person.getUsername();
-            Integer ID = person.getID();
+            Integer ID = person.getId();
             out.put(name, ID);
         }
         return out;
     }
 
     /**
-     * Gives all the Items in all the Users' inventories
-     * @return A list of all the Items of all the Users' inventories
+     * Gives all the Items in all the Users' inventories except the one with the given username
+     * @param username The username of the User
+     * @return A list of all the Items of all the Users' inventories except the one with the given username
      */
-    public ArrayList<Item> allItems(){
+    public ArrayList<Item> allItems(String username){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
-            for (Item thing: person.inventory){
-                out.add(thing);
+            if (!person.getUsername().equals(username)){
+                out.addAll(person.getInventory());
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Gives all the Items in all the Users' inventories except the one with the given ID
+     * @param ID ID of the User
+     * @return A list of all the Items in all the Users' inventories except the one with the given ID
+     */
+    public ArrayList<Item> allItems(int ID){
+        ArrayList<Item> out = new ArrayList<>();
+        for (User person: listUser){
+            if (person.getId() != (ID)){
+                out.addAll(person.getInventory());
             }
         }
         return out;
@@ -362,13 +435,17 @@ public class UserManager implements Serializable {
     /**
      * Sends a request to unfreeze a User
      * @param username The username of the User
+     * @param message The message of the User to unfreeze
      * @return true if the request was successful, false otherwise
      */
-    public boolean requestUnfreeze(String username){
+    public boolean requestUnfreeze(String username, String message){
         boolean out = false;
-        if (!listUnfreezeRequest.contains(username)){
-            listUnfreezeRequest.add(username);
-            out = true;
+        for (String[] request: listUnfreezeRequest) {
+            if (!request[0].contains(username)) {
+                String[] toAdd = {username, message};
+                listUnfreezeRequest.add(toAdd);
+                out = true;
+            }
         }
         return out;
     }

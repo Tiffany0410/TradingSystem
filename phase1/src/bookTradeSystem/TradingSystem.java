@@ -1,7 +1,7 @@
 package bookTradeSystem;
 
-
-import com.sun.xml.internal.bind.v2.TODO;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class TradingSystem {
    private UserManager userManager;
@@ -15,8 +15,9 @@ public class TradingSystem {
 
    /**
     * constructor of trading system
+    * need demo pass in several things
     */
-   public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator, TradeManager tradeManager){
+   public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator, TradeManager tradeManager) throws IOException, ClassNotFoundException {
       this.userManager = userManager;
       this.displaySystem = new DisplaySystem();
       this.meetingManager = meetingManager;
@@ -30,9 +31,9 @@ public class TradingSystem {
    /**
     * Initial trading system menu
     */
-   public void tradingSystemInital(){
+   private void tradingSystemInital() throws FileNotFoundException {
       int option;
-      option = displaySystem.getMenuAnswer("TradingSystemInitMenu");
+      option = displaySystem.getMenuAnswer("TradingSystemInitMenu.csv");
 
       // Option 1 is login
       if (option == 1){
@@ -55,7 +56,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   public void Login() {
+   private void Login() throws FileNotFoundException {
       String type;
       String userName;
       String userPassword;
@@ -83,32 +84,24 @@ public class TradingSystem {
     * For log out this account
     */
 
-   public void logOut(){
+   private void logOut() throws FileNotFoundException {
       // TODO: serialize what?
 
       this.tradingSystemInital();
    }
 
-   /**
-    * Return the notification message for the user passed in
-    * @param userName
-    * @return message
-    */
-   public String sendNotification(String userName){
-      return displaySystem.getNotification(userName);
-   }
 
    /**
     * For regular user menu
     */
 
-   public void regularUserMain(String userName){
+   private void regularUserMain(String userName) throws FileNotFoundException {
       this.regularUserController = new RegularUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.sendNotification(userName));
+      displaySystem.printOut(this.regularUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("RegularUserMainMenu");
+      option = displaySystem.getMenuAnswer("RegularUserMainMenu.csv");
 
 
       // Option 0 is log out
@@ -119,17 +112,17 @@ public class TradingSystem {
       int suboption = 0;
       // Option 1 is Account Info
       if (option == 1){
-         suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu");
+         suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu.csv");
       }
 
       // Option 2 is Trading Info
       else if (option == 2){
-         suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu");
+         suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu.csv");
       }
 
       // Option 3 is Meeting Info
       else if (option == 3){
-         suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu");
+         suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu.csv");
       }
 
       if (suboption == 0){
@@ -141,18 +134,17 @@ public class TradingSystem {
 
    }
 
-
    /**
     * For admin user menu
     */
 
-   private void adminUserMain(String userName) {
+   private void adminUserMain(String userName) throws FileNotFoundException {
       this.adminUserController = new AdminUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.sendNotification(userName));
+      displaySystem.printOut(this.adminUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("AdminUserMainMenu");
+      option = displaySystem.getMenuAnswer("AdminUserMainMenu.csv");
 
       // Option 0 is log out
       if (option == 0){
@@ -162,17 +154,17 @@ public class TradingSystem {
       int suboption = 0;
       // Option 1 is manage users
       if (option == 1){
-         suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu");
+         suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu,csv");
       }
 
       // Option 2 is Edit Thresholds
       else if (option == 2){
-         suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu");
+         suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu.csv");
       }
 
       // Option 3 is other
       else if (option == 3){
-         suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu");
+         suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu.csv");
       }
 
       if (suboption == 0){
