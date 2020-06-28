@@ -30,6 +30,21 @@ public class MeetingManager implements java.io.Serializable{
         this.listMeeting = listMeeting;
     }
 
+    /** search the list of meetings by a given userId
+     * @param userId the id of the user
+     * @return a list f meeting for a given user id
+     */
+    public List<Meeting> getMeetingsById(int userId){
+        List<Meeting> listMeeting1 = new ArrayList<>();
+        for (Meeting meeting: listMeeting){
+            if (meeting.getUserId1() == userId || meeting.getUserId2() == userId){
+                listMeeting1.add(meeting);
+            }
+        }listMeeting1.sort(Comparator.comparing(Meeting::getTime));
+        return listMeeting1;
+    }
+
+
     /** get a list of complete meetings for a given id
      * @param userId the id for a user
      * @return a list of meeting that is completed for a given id
@@ -101,6 +116,18 @@ public class MeetingManager implements java.io.Serializable{
             }
         }listMeetingById.sort(Comparator.comparing(Meeting::getMeetingNum));
         return listMeetingById;
+    }
+
+    /** search a meeting in the MeetingManager by a given tradeId and numMeeting
+     * @param tradeId the id of the trade
+     * @param numMeeting the number of the meeting for a given trade
+     * @return a meeting with the given tradeId and numMeeting
+     */
+    public Meeting getMeetingByIdNum(int tradeId, int numMeeting){
+        for(Meeting meeting: listMeeting){
+            if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == numMeeting){
+                return meeting;
+            }}return new Meeting(0,0,0,0);
     }
 
     /** set to confirm the completeness of a meeting
