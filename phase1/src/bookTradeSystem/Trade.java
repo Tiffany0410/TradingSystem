@@ -11,7 +11,7 @@ public class Trade implements Serializable {
      */
     protected String tradeType;
     /**
-     * The type of the trade status (Open, Closed, Wait to be opened), default is Wait to be opened
+     * The type of the trade status (Open, Closed, Wait to be opened，Cancelled), default is Wait to be opened
      */
     protected String tradeStatus = "Wait to be opened";
 
@@ -51,6 +51,13 @@ public class Trade implements Serializable {
     public void closedTrade(){
         this.tradeStatus = "Closed";
 
+    }
+
+    /**
+     * change the trade status to Cancelled
+     */
+    public void cancelTrade(){
+        this.tradeStatus = "Cancelled";
     }
 
     /** Print the trade description
