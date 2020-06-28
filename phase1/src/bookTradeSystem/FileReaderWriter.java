@@ -35,7 +35,8 @@ public class FileReaderWriter implements Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public FileReaderWriter(Mapping<String, Object> ObjectMap, String filePath) throws ClassNotFoundException, IOException {
+    public FileReaderWriter(Map<String, Object> ObjectMap, String filePath) throws ClassNotFoundException, IOException {
+        this.ObjectMap = ObjectMap;
 
         // Reads serializable objects from file.
         // Populates the record list using stored data, if it exists.
@@ -75,7 +76,7 @@ public class FileReaderWriter implements Serializable {
      * @param ObjectMap the mapping of onject ids to Objects
      * @throws IOException
      */
-    public void saveToFile(String filePath, Mapping<String, Object> ObjectMap) throws IOException {
+    public void saveToFile(String filePath) throws IOException {
 
         OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
