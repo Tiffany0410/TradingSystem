@@ -118,6 +118,19 @@ public class MeetingManager implements java.io.Serializable{
         return listMeetingById;
     }
 
+    /**check if the meeting is in the MeetingManager or not.
+     * @param tradeId  the id of the trade.
+     * @param numMeeting the number of the meeting
+     * @return true if the meeting is in the MeetingManage
+     */
+    public Boolean checkInManager(int tradeId, int numMeeting){
+        for (Meeting meeting:listMeeting){
+            if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == numMeeting){
+                return true;
+            }
+        }return false;
+    }
+
     /** search a meeting in the MeetingManager by a given tradeId and numMeeting
      * @param tradeId the id of the trade
      * @param numMeeting the number of the meeting for a given trade
@@ -198,8 +211,9 @@ public class MeetingManager implements java.io.Serializable{
     }
 
     /** If a meeting is edited more than 3 times by both users without confirmation, and if it's a first meeting,
-     * delete the meeting and the trade with printing the transaction is cancelled. If it's second meeting, only
-     * print an empty string
+     * change the trade status to cancelled with returning string that the transaction is cancelled.
+     * If it's second meeting, return a string "You have edited too many times". If it is not go over threshold,
+     * return an empty string.
      * @param tradeManager a list of trade
      * @param meeting the meeting for the trade
      * @return a string shows that the transaction is cancelled if the meeting is edited over threshold, otherwise,
@@ -207,8 +221,7 @@ public class MeetingManager implements java.io.Serializable{
      */
     public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting){
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 && meeting.getMeetingNum() ==1){
-            this.removeMeeting(meeting);
-            tradeManager.removeTrade(meeting.getTradeId());
+            tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
             return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
             }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 &&
                 meeting.getMeetingNum() ==2){
