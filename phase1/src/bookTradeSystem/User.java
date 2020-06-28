@@ -15,15 +15,16 @@ public class User implements Serializable {
     private ArrayList<Integer> wishList;
     private ArrayList<Item> inventory;
     private int id;
-    protected int numLent;
-    protected int numBorrowed;
+    protected int numLent;      // Maybe not needed -> can loop over trade to get numLent
+    protected int numBorrowed;      // Maybe not needed
     int maxThreshold;
     protected Boolean isFrozen;
-    protected Boolean isAdmin;
-    private ArrayList<Integer> topThreePartners;
-    private ArrayList<Integer> mostRecentThreeTrade;
-    private int numTransaction;
-    private int numUncompletedTransaction;
+    protected Boolean isAdmin;          // Maybe not needed
+    private ArrayList<Integer> topThreePartners;    // Maybe not needed -> TradeManager has tradeHistory method
+    private ArrayList<Integer> mostRecentThreeTrade;    // Maybe not needed
+    private int numTransaction;     // Maybe not needed
+    private int numUncompletedTransaction;      // Maybe not needed
+    private static int idNumber = 1;
 
     /**
      * Construct an User.
@@ -36,6 +37,8 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
         this.email = email;
+        id = idNumber;
+        idNumber ++;
     }
     /**
      * Set the user's password.
