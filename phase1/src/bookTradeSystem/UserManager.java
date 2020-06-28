@@ -10,7 +10,7 @@ public class UserManager implements Serializable {
 
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
-    private ArrayList<String> listUnfreezeRequest;
+    private ArrayList<String[]> listUnfreezeRequest;
     private ArrayList<Item> listItemToAdd;
 
     /**
@@ -66,18 +66,18 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Get the list of usernames of User that request to be unfrozen
-     * @return The list of usernames
+     * Get the list of usernames and messages of User that request to be unfrozen
+     * @return The list of usernames and messages
      */
-    public ArrayList<String> getListUnfreezeRequest() {
+    public ArrayList<String[]> getListUnfreezeRequest() {
         return listUnfreezeRequest;
     }
 
     /**
-     * Set the list of usernames of User that request to be unfrozen
-     * @param listUnfreezeRequest The list of usernames
+     * Set the list of usernames and messages of User that request to be unfrozen
+     * @param listUnfreezeRequest The list of usernames and messages
      */
-    public void setListUnfreezeRequest(ArrayList<String> listUnfreezeRequest) {
+    public void setListUnfreezeRequest(ArrayList<String[]> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
     }
 
@@ -435,13 +435,17 @@ public class UserManager implements Serializable {
     /**
      * Sends a request to unfreeze a User
      * @param username The username of the User
+     * @param message The message of the User to unfreeze
      * @return true if the request was successful, false otherwise
      */
-    public boolean requestUnfreeze(String username){
+    public boolean requestUnfreeze(String username, String message){
         boolean out = false;
-        if (!listUnfreezeRequest.contains(username)){
-            listUnfreezeRequest.add(username);
-            out = true;
+        for (String[] request: listUnfreezeRequest) {
+            if (!request[0].contains(username)) {
+                String[] toAdd = {username, message};
+                listUnfreezeRequest.add(toAdd);
+                out = true;
+            }
         }
         return out;
     }
