@@ -40,11 +40,19 @@ public class RegularUserController implements Serializable, Controllable {
      */
     @Override
     public String alerts() {
-       /*
-        1. get the list of things to be printed
-        2. call the presenter class to let it format it and then print
-        */
-//      TODO: TO BE DECIDED
+        //Read this in from file
+        /*"1. Please check your unconfirmed meetings in the MeetingMenu.
+           2. Please check your open trades in the TradingMenu.
+           3. Please respond to outstanding trade requests in the TradingMenu.
+           4. Please set up a meeting for the to-be-opened trades"*/
+        // Your current status:   (frozen / unfrozen) + corresponding messages.
+        // Your have borrowed:
+        // You have lent:
+        // KEEP IN MIND OF THE THRESHOLD VALUES
+        // Max number of transactions a week =
+        // Max number of transactions that can be incomplete before the account is frozen =
+        // Max umber of books you must lend before you can borrow =
+        // Max edits per user for meeting’s date + time =
         return "";
     }
 
@@ -92,7 +100,6 @@ public class RegularUserController implements Serializable, Controllable {
          */
         switch(subMenuOption){
             case 1:
-                List<User> allUsers = um.getListUser();
 //              TODO: return a list of books of all other users [Gabriel]
                 break;
             case 2:
@@ -157,7 +164,7 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: let user enter borrower id
 //              TODO: let user enter lender id
 //              TODO: let user enter item id
-//              TODO: let user enter tradeType ('PERMANENT' OR 'TEMPORARY')
+//              TODO: let user enter tradeType ('Permanent' OR 'Temporary')
 //              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN
 //              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE
 //              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
