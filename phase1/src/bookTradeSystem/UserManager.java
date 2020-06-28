@@ -180,6 +180,9 @@ public class UserManager implements Serializable {
     public ArrayList<String> underLending(){
         ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
+//           TODO: maybe this threshold should be the numLendBeforeBorrow?
+//            because there are multiple thresholds -- will add them to user class
+//            as static attributes later but yeah one of them will be numLendBeforeBorrow
             if (person.getNumBorrowed() - person.getNumLent < person.threshold){
                 out.add(person.getUsername());
             }
@@ -299,6 +302,10 @@ public class UserManager implements Serializable {
      * @return The User that is being searched for
      */
     public User findUser(String username){
+//      TODO: can you make this a usernameToID
+//        method? so instead of returning the object,
+//       can you return the id of the user?
+//       Thanks! :)
         User out = null;
         for (User person : listUser) {
             if (person.getUsername().equals(username)) {
@@ -328,6 +335,11 @@ public class UserManager implements Serializable {
      * @param change The new threshold
      */
     public void changeThreshold(int change){
+//      TODO: I guess this is for numLendBeforeBorrow
+//       too. Hmm, I was thinking maybe we can make the
+//        thresholds private and then have getters and setters
+//        in the user class - what do you think? So, in other
+//        words, maybe we don't need this changeThreshold method
         User.threshold = change;
     }
 
@@ -336,6 +348,8 @@ public class UserManager implements Serializable {
      * @return A map of usernames to IDs for all User
      */
     public HashMap<String, Integer> userIDs(){
+//       TODO: maybe we don't need this but I
+//        guess you can leave it for now
         HashMap<String, Integer> out = new HashMap<>();
         for (User person: listUser){
             String name = person.getUsername();
@@ -350,6 +364,13 @@ public class UserManager implements Serializable {
      * @return A list of all the Items of all the Users' inventories
      */
     public ArrayList<Item> allItems(){
+//      TODO: can you make it so that we can
+//        pass in the user id or username (maybe
+//        username since many of your methods param
+//        is username) and then this can return
+//        a list of all the items in all of the
+//        OTHER users inventory - for the browse
+//        inventory from other users menu option
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
             for (Item thing: person.inventory){

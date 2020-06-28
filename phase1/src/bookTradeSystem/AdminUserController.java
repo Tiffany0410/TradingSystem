@@ -80,9 +80,10 @@ public class AdminUserController implements Serializable, Controllable {
 //              um.unfreezeUser('*user's username here*')
 //              TODO: let presenter print the msg of successful or not [Jiaqi]
             case 3:
-//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print - getter [Gabriel]
+//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print - getter
 //              TODO: adminUser chooses the number and then we do the item adding
 //              TODO: Add item to user's inventory
+//              TODO: AND I GUESS REMOVE THE ITEM FROM LIST IF IT'S ADDED
 //              TODO: let presenter print the msg of successful or not
                 break;
 
@@ -100,18 +101,22 @@ public class AdminUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
 //              TODO: where is it stored? [User]
+//              TODO: maxNumTransactionsAllowed (need getter + setter)
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
 //              TODO: where is it stored? [User]
+//              TODO: maxNumTransactionIncomplete (need getter + setter)
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 3:
 //              TODO: where is it stored? [User]
+//              TODO: numLendBeforeBorrow (need getter + setter)
 //              TODO: let presenter print the msg of successful or not
                 break;
             case 4:
 //              TODO: where is it stored? [User]
+//              TODO: maxMeetingDateTimeEdits (need getter + setter)
 //              TODO: let presenter print the msg of successful or not
                 break;
         }
