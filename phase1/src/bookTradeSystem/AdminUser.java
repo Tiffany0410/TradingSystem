@@ -9,6 +9,7 @@ public class AdminUser {
     private String password;
     private String email;
     private int id;
+    private static int idNumber = 1;
 
     /**
      * Construct an User.
@@ -21,6 +22,8 @@ public class AdminUser {
         this.username = username;
         this.password = password;
         this.email = email;
+        id = idNumber;
+        idNumber ++;
     }
 
     /**
