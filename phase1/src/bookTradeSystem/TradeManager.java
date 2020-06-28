@@ -1,6 +1,5 @@
 package bookTradeSystem;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
@@ -156,7 +155,7 @@ public class TradeManager implements Serializable {
     public boolean confirmComplete(int tradeId){
         for (Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId){
-                if(t.tradeStatus.equals("Closed")){
+                if(t.tradeStatus.equals("Closed")|| t.tradeStatus.equals("Cancelled")){
                     return true;
                 }
             }
