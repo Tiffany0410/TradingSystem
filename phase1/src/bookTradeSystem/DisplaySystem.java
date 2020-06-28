@@ -4,10 +4,12 @@ package bookTradeSystem;
 import java.util.Scanner;
 
 public class DisplaySystem {
-    private FileReader menuOption;
-    private FileReader notification;
-    private FileReader length;
+    private FileReader fileReader;
     private int option;
+
+    public DisplaySystem(){
+        fileReader = new FileReader();
+    }
 
     /**
      * print the put in sentence to the screen
@@ -62,8 +64,8 @@ public class DisplaySystem {
      * @return
      */
 
-    public int getMenuLength(String fileName){
-        return length.getlength(fileName);
+    private int getMenuLength(String fileName){
+        return fileReader.getlength(fileName);
     }
 
 
@@ -74,8 +76,8 @@ public class DisplaySystem {
      * @param fileName
      */
 
-    public void printMenu(String fileName){
-        this.printOut(menuOption.getContent(fileName));
+    private void printMenu(String fileName){
+        this.printOut(fileReader.getContent(fileName));
     }
 
     /**
@@ -85,8 +87,9 @@ public class DisplaySystem {
      * @param userName
      */
 
+    // TODO: Need future discussion
     public void printNotification(String userName){
-        this.printOut(notification.getContent(userName));
+        this.printOut(fileReader.getContent(userName));
     }
 
     /**
@@ -116,11 +119,53 @@ public class DisplaySystem {
         return password;
     }
 
+    /**
+     * Get email address user put in
+     */
+
+    public String getEmail(){
+        String emailAddress;
+        Scanner sc = new Scanner(System.in);
+        this.printOut("Please enter your email address");
+        emailAddress = sc.nextLine();  // get email address user typed in
+        return emailAddress;
+    }
+
+
+    /**
+     * When log in fail shows this
+     */
     public void failLogin(){
         this.printOut("Wrong username or password, please check again.");
     }
 
+    /**
+     * print the notifications for the user
+     * @param userName
+     * @return String
+     */
+
     public String getNotification(String userName) {
         // TODO: discuss with others about how we store notifications
+    }
+
+    /**
+     * Print out the result of action with boolean type
+     * @param result
+     */
+    public void printResult(boolean result){
+        if (result){
+            printOut("Success");
+        }else{
+            printOut("Fail");
+        }
+    }
+
+    /**
+     * print out the result of action with object type
+     * @param obj
+     */
+    public void printResult(Object obj){
+        this.printOut(obj.toString());
     }
 }

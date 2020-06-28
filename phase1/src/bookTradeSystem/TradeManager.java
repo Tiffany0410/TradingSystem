@@ -70,6 +70,21 @@ public class TradeManager implements Serializable {
         return list1;
     }
 
+    /** Get list of user's cancelled trade
+     * @param userId the user we want to look for
+     * @return the list of cancel trade by user.
+     */
+    public List<Trade> getCancelledTrade(int userId){
+        List<Trade> list = this.getTradeHistory(userId);
+        List<Trade> list1 = new ArrayList<>();
+        for(Trade t: list){
+            if (t.tradeStatus.equals("Cancelled")){
+                list1.add(t);
+            }
+        }
+        return list1;
+    }
+
     /** Get list of trade which its status is wait to be opened
      * @param userId the user's id we want to check
      * @return the list of trade which its status is wait to be opened
@@ -83,6 +98,13 @@ public class TradeManager implements Serializable {
             }
         }
         return list1;
+    }
+
+    /** Print the list of "wait to be opened" trade status for user
+     * @param userId user we want to print for
+     */
+    public void printWaitTrade(int userId){
+        System.out.println(this.getWaitTrade(userId));
     }
 
     /** check if the trade with id in the TradeManager or not

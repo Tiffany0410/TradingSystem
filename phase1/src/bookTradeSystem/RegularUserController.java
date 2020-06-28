@@ -212,9 +212,10 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id and the time and place
 //              TODO: have a method in meetingManager -- given id - return meeting [Jianhong]
-//              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass in date object for time)
+                public Meeting getMeetingByIdNum(int tradeId, int numMeeting)
+//              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
 //              TODO: increment user's num edited by 1 --> WHAT IS TIMEPLACEEDIT IN MEETING CLASS??? [Jianhong]
-//               --> IDEALLY WE HAVE MAYBE A MAP OF USERID TO nunEdits FOR A MEETING??
+//               --> IDEALLY WE HAVE MAYBE A MAP OF USERID TO nunEdits FOR A MEETING??(a list of user id who edit the time and place)
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 2:
@@ -223,14 +224,14 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: ask the user to enter the meeting id
 //              TODO: do get meeting by trade id / should have another one for meeting id? [Jianhong]
 //              TODO: setTimePlaceConfirm(userId) -- for the meeting to be confirmed
-//               (both users need to confirm on the time and place I think... [Jianhong]
+//               (both users need to confirm on the time and place I think... (one suggest and one confirmed)[Jianhong]
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
             case 3:
                 List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId);
 //              TODO: call presenter to print it (all the meetings) [Jiaqi]
 //              TODO: ask the user to enter the meeting id of the meeting to be confirmed
-//              TODO: a setMeetingConfirmed method?
+//              TODO: a setMeetingConfirmed method?(I put it in the MeetingManager since it need the access to TradeManager, so I can closed the trade when both of them confirmed)
 //               -- so we can let the user to confirm the meeting took place because for now there is only get[Jianhong]
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
