@@ -64,24 +64,27 @@ public class MeetingManager implements java.io.Serializable{
      * @param userId the id for a user
      * @return a list of meeting that is not completed for a given id
      */
-    public List<Meeting> getUnCompleteMeeting(int userId){
+    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager){
         List<Meeting> listUnCompleteMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !(meeting.getMeetingConfirm().
-                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))){
+                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))&& !tradeManager
+                    .getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnCompleteMeeting.add(meeting);
             }
         }listUnCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
         return listUnCompleteMeeting;
     }
     /** get a list of meetings that has not been confirmed for the time and place
-     * @param userId the id for the user
+     * @param userId the
+     *              id for the user
      * @return the list of meeting that is not confirmed time and place by a given user
      */
-    public List<Meeting> getUnConfirmTimePlace(int userId){
+    public List<Meeting> getUnConfirmTimePlace(int userId, TradeManager tradeManager){
         List<Meeting> listUnConfirmMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
-            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !meeting.getTimePlaceConfirm()){
+            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !meeting.getTimePlaceConfirm()
+            &&!tradeManager.getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnConfirmMeeting.add(meeting);
             }
         }listUnConfirmMeeting.sort(Comparator.comparing(Meeting::getTime));
@@ -143,7 +146,10 @@ public class MeetingManager implements java.io.Serializable{
             }}return new Meeting(0,0,0,0);
     }
 
-    /** set to confirm the completeness of a meeting
+    /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
+     * Permanent or is the second meeting, then close the trade. If the meeting is confirmed by both user, but the
+     * trade is temporary and the meeting is th first meeting, then remains the trade open and create the second
+     * meeting for the trade.
      * @param tradeManager the list of trade
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
@@ -246,7 +252,7 @@ public class MeetingManager implements java.io.Serializable{
     public String toString(){
         StringBuilder string1 = new StringBuilder(new String(""));
         for(Meeting meeting: listMeeting){
-            string1.append(meeting.toString());
+            string1.append(meeting.toString()).append(System.lineSeparator());
         }return string1.toString();
     }
 }
