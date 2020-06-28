@@ -165,4 +165,10 @@ public class User implements Serializable {
     public int getNumUncompletedTransaction() {
         return numUncompletedTransaction;
     }
+
+    /**
+     * Getter for this user's password
+     * @return this user's password
+     */
+    public String getPassword() { return password;}
 }

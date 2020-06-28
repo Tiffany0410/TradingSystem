@@ -52,4 +52,10 @@ public class AdminUser {
     public int getId() {
         return this.id;
     }
+
+    /**
+     * Getter for admin user's password
+     * @return this admin user's password
+     */
+    public String getPassword() {return password;}
 }
