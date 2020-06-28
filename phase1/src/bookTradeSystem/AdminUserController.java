@@ -30,7 +30,9 @@ public class AdminUserController implements Serializable, Controllable {
      */
     @Override
     public String alerts() {
-//      TODO: TO BE DECIDED
+       // read the following in from a file
+       // 1. Please respond to user's request to add item to their inventory
+       // 2. Please respond to user's request to unfreeze.
     }
 
     /**
