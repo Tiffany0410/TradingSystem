@@ -4,20 +4,38 @@ import java.io.Serializable;
 
 public class AdminUserController implements Serializable, Controllable {
 
-    /**UserManager um;
-    DisplaySystem ds;
-    FileWriter fw;**/
-    int adminUserId;
+    private UserManager um;
+    private int adminUserId;
 
-    public AdminUserController(int adminUserId) {
+    /**
+     * Constructs the AdminUserController with a UserManager
+     * and an adminUserId.
+     * @param um The current state of the UserManager.
+     * @param adminUserId The user ID of the admin user.
+     */
+    public AdminUserController(UserManager um, int adminUserId) {
+        this.um = um;
         this.adminUserId = adminUserId;
     }
 
+
+    /**
+     * This method gathers all the necessary notifications
+     * for the admin user and then calls on the
+     * relevant presenter class method.
+     */
     @Override
     public void alerts() {
 //      TODO: TO BE DECIDED
     }
 
+    /**
+     * This method calls appropriate methods based on user input of
+     * the menu option (other than the logout or exit option)
+     * and calls on the relevant presenter class method.
+     * @param mainMenuOption The main menu option chosen by the admin user.
+     * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
+     */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
          /*
@@ -42,21 +60,29 @@ public class AdminUserController implements Serializable, Controllable {
     }
 
     private void adminManageUsersMenuResponse(int subMenuOption) {
-        /*1.Freeze/ unfreeze users (system auto-freeze and admin can freeze and unfreeze)
-        2.Confirm and add item to user’s inventory
-        3.Remove item from user’s wishlist
+        /*1.Freeze a user
+          2. Unfreeze users
+          3. Confirm and add item to user’s inventory
+//        FIXME: 3.Remove item from user’s wishlist --> don't need this --> should happen for trade
          */
 
         switch (subMenuOption) {
             case 1:
-//                TODO
+//              TODO: asks the admin for the username of the user TO FREEZE
+//              um.freezeUser('*user's username here*')
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
-//                TODO
-                break;
+//              TODO: asks the admin for the username of the user to UNFREEZE
+//              um.unfreezeUser('*user's username here*')
+//              TODO: let presenter print the msg of successful or not
             case 3:
-//                TODO
+//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print
+//              TODO: adminUser 1) input id of item to confirm(initial status of item = not confirmed)
+//              TODO: Add item to user's inventory
+//              TODO: let presenter print the msg of successful or not
                 break;
+
 
         }
     }
@@ -70,16 +96,20 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 2:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 3:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
             case 4:
-//                TODO
+//              TODO: where is it stored?
+//              TODO: let presenter print the msg of successful or not
                 break;
         }
     }
@@ -89,7 +119,8 @@ public class AdminUserController implements Serializable, Controllable {
         Add subsequent admin users
          */
         if (subMenuOption == 1){
-//            TODO: add other adminUser
+//            TODO: ask for newAdmin username, password, and email
+//            um.addAdmin();
         }
 
     }
