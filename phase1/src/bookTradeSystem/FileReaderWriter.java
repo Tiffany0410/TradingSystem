@@ -35,8 +35,7 @@ public class FileReaderWriter implements Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public FileReaderWriter(Map<String, Object> ObjectMap, String filePath) throws ClassNotFoundException, IOException {
-        this.ObjectMap = ObjectMap;
+    public FileReaderWriter(String filePath) throws ClassNotFoundException, IOException {
 
         // Reads serializable objects from file.
         // Populates the record list using stored data, if it exists.
@@ -47,6 +46,7 @@ public class FileReaderWriter implements Serializable {
           file.createNewFile();
         }
     }
+
 
     /**
      * Return the all menu in string from the file at path filePath.
@@ -76,7 +76,7 @@ public class FileReaderWriter implements Serializable {
      * @param ObjectMap the mapping of onject ids to Objects
      * @throws IOException
      */
-    public void saveToFile(String filePath) throws IOException {
+    public void saveToFile(Map<String, Object> ObjectMap, String filePath) throws IOException {
 
         OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
@@ -110,5 +110,15 @@ public class FileReaderWriter implements Serializable {
         scanner.close();
 
         return MenuNumber;
+    }
+
+
+    public void SerializeObject(String filePath, Object new_object){
+        try {
+            Map<String, Object> new_object_map = new HashMap<String, Object>{"new_object.getID": new_object};
+            saveToFile(new_object_map, filePath)
+        } catch (IOException ex){
+          TODO:}
+
     }
 }
