@@ -70,10 +70,33 @@ public class FileReaderWriter implements Serializable {
 
 
     /**
+         * Return the all object in the map of object ids to Objects from the file at path filePath.
+         *
+         * @param filePath the path of the data file
+         */
+    public HashMap<String, Object> readFromFile(String path) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, Object> ObjectMap = new HashMap<String, Object>();
+
+            try {
+              InputStream file = new FileInputStream(path);
+              InputStream buffer = new BufferedInputStream(file);
+              ObjectInput input = new ObjectInputStream(buffer);
+
+              // deserialize the Map
+              ObjectMap = (Map<String, Student>) input.readObject();
+              input.close();
+            } catch (IOException ex) {
+              TODO;
+            }
+          }
+
+
+    /**
      * Writes the objects to file at filePath.
      *
      * @param filePath the file to write the records to
-     * @param ObjectMap the mapping of onject ids to Objects
+     * @param ObjectMap the mapping of object ids to Objects
      * @throws IOException
      */
     public void saveToFile(Map<String, Object> ObjectMap, String filePath) throws IOException {
