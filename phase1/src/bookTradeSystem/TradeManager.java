@@ -3,14 +3,6 @@ import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
-
-    /** Constructor with a list of trade
-     * @param listTrade list of Trade
-     */
-    public TradeManager(List<Trade> listTrade){
-        this.listTrade = listTrade;
-    }
-
     /**
      * @return the list of trade
      */
@@ -25,6 +17,13 @@ public class TradeManager implements Serializable {
         this.listTrade = listTrade;
     }
 
+    /** Add a trade in list trade
+     * @param t trade
+     */
+    public void addTrade(Trade t){
+        listTrade.add(t);
+    }
+
     /** Check a user history
      * @param userId the user's id we want to check
      * @return a list of that user's trade history
@@ -37,6 +36,21 @@ public class TradeManager implements Serializable {
             }
         }
         return list;
+    }
+
+    /** Filter the user history by which his trade status is Closed
+     * @param userId user id
+     * @return a list of trades which status are closed
+     */
+    public List<Trade> filterHistory(int userId){
+        List<Trade> list = this.getTradeHistory(userId);
+        List<Trade> list1 = new ArrayList<>();
+        for(Trade t: list){
+            if(t.tradeStatus.equals("Closed")){
+                list1.add(t);
+            }
+        }
+        return list1;
     }
 
     /** Get a list of  user's Trades which its status is open
@@ -148,7 +162,7 @@ public class TradeManager implements Serializable {
     }
 
 
-    /** Check if the trade is confirmed
+    /** Check if the trade is confirmed(status is closed or cancelled)
      * @param tradeId the id of the trade
      * @return true if is, otherwise false
      */
