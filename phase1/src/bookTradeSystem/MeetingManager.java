@@ -9,11 +9,10 @@ import java.util.*;
 public class MeetingManager implements java.io.Serializable{
     List<Meeting> listMeeting = new ArrayList<>();
 
-    /** set this listMeeting with listMeeting
-     * @param listMeeting the list of meeting
+    /** set this listMeeting to an empty list of meeting.
      */
-    public MeetingManager(List<Meeting> listMeeting){
-        this.listMeeting = listMeeting;
+    public MeetingManager(){
+        listMeeting = new ArrayList<Meeting>();
     }
 
     /** get the list of meeting for the MeetingManager
@@ -252,7 +251,8 @@ public class MeetingManager implements java.io.Serializable{
     public String toString(){
         StringBuilder string1 = new StringBuilder(new String(""));
         for(Meeting meeting: listMeeting){
-            string1.append(meeting.toString()).append(System.lineSeparator());
+            string1.append(meeting.toString());
+            string1.append("\n");
         }return string1.toString();
     }
 }
