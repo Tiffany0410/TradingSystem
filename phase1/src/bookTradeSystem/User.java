@@ -2,33 +2,35 @@ package bookTradeSystem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class User implements Serializable {
     /**
      * username is the user's username. password is the user's password. email is
      * the user's email.
      */
+    //basic info
     private String username;
     private String password;
     private String email;
     private ArrayList<Integer> wishList;
     private ArrayList<Item> inventory;
     private int id;
-    protected int numLent;      // Maybe not needed -> can loop over trade to get numLent
-    protected int numBorrowed;      // Maybe not needed
-    int maxThreshold;
-    protected Boolean isFrozen;
-    protected Boolean isAdmin;          // Maybe not needed
-    private ArrayList<Integer> topThreePartners;    // Maybe not needed -> TradeManager has tradeHistory method
-    private ArrayList<Integer> mostRecentThreeTrade;    // Maybe not needed
-    private int numTransaction;     // Maybe not needed
-    private int numUncompletedTransaction;      // Maybe not needed
+    //status related
+    private int numLent;
+    private int numBorrowed;
+    private Boolean isFrozen;
+    //used to accumulate id
     private static int idNumber = 1;
+    //static threshold variables
+    private static int maxNumTransactionsAllowedAWeek;
+    private static int maxNumTransactionIncomplete;
+    private static int numLendBeforeBorrow = 1;
+    private static int maxMeetingDateTimeEdits = 3;
+
 
     /**
      * Construct an User.
-     * 
+     *
      * @param username user's username.
      * @param password user's password.
      * @param email    user's email
@@ -39,7 +41,19 @@ public class User implements Serializable {
         this.email = email;
         id = idNumber;
         idNumber ++;
+        wishList = new ArrayList<>();
+        inventory = new ArrayList<>();
+        numLent = 0;
+        numBorrowed = 0;
+        isFrozen = false;
     }
+
+    /**
+     * Getter for this user's password.
+     * @return This user's password.
+     */
+    public String getPassword() { return password;}
+
     /**
      * Set the user's password.
      *
@@ -51,7 +65,7 @@ public class User implements Serializable {
 
     /**
      * Set the user's email.
-     * 
+     *
      * @param email the user's email.
      */
     public void setEmail(String email) {
@@ -59,35 +73,8 @@ public class User implements Serializable {
     }
 
     /**
-     * Set the user's username.
-     * 
-     * @param name the user's username.
-     */
-    public void setUsername(String name) {
-        this.username = name;
-    }
-
-    /**
-     * Set the user's wishList.
-     *
-     * @param wishList the user's wishList.
-     */
-    public void setWishList(ArrayList<Integer> wishList) {
-        this.wishList = wishList;
-    }
-
-    /**
-     * Set the user's inventory.
-     *
-     * @param inventory the user's inventory.
-     */
-    public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
-    }
-
-    /**
      * Get the user's email.
-     * 
+     *
      * @return the email.
      */
     public String getEmail() {
@@ -95,8 +82,21 @@ public class User implements Serializable {
     }
 
     /**
+     * Set the user's username.
+     *
+     * @param name the user's username.
+     */
+    public void setUsername(String name) {
+        //TODO: do we need this method???
+        //TODO: there's no menu option that says the username can be changed anyways lol
+        //TODO: and has problem if the user changes username mid-way
+        //TODO: maybe delete this during refactoring phase :)
+        this.username = name;
+    }
+
+    /**
      * Get the user's username.
-     * 
+     *
      * @return username.
      */
     public String getUsername() {
@@ -104,8 +104,50 @@ public class User implements Serializable {
     }
 
     /**
+     * Add the id of the item to the user's wish list.
+     *
+     * @param itemID The id of the item to be added to the wish list.
+     */
+    public void addToWishList(Integer itemID) {
+        if (! wishList.contains(itemID))
+        {wishList.add(itemID);}
+    }
+
+
+    /**
+     * Get the user's wishList.
+     *
+     * @return wishList.
+     */
+    public ArrayList<Integer> getWishList() {
+        return wishList;
+    }
+
+
+
+    /**
+     * Add item to the user's inventory.
+     *
+     * @param item The item to be added to the inventory
+     */
+    public void addToInventory(Item item) {
+        inventory.add(item);
+    }
+
+
+    /**
+     * Get the user's inventory.
+     *
+     * @return inventory.
+     */
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+
+    /**
      * Get the user's id.
-     * 
+     *
      * @return id.
      */
     public int getId() {
@@ -113,62 +155,140 @@ public class User implements Serializable {
     }
 
     /**
-     * Get the user's wishList.
-     * 
-     * @return wishList.
+     * Get the number of items lent by the user.
+     *
+     * @return The number of items lent by the user.
      */
-    public ArrayList<Integer> getWishList() {
-        return wishList;
+    public int getNumLent(){
+        return numLent;
     }
 
     /**
-     * Get the user's inventory.
-     * 
-     * @return inventory.
+     * Increment the number of items lent by the user by one.
      */
-    public ArrayList<Item> getInventory() {
-        return inventory;
+    public void addOneToNumLent(){
+        numLent ++;
     }
 
     /**
-     * Get the user's topThreePartners.
-     * 
-     * @return topThreePartners.
+     * Get the number of items borrowed by the user.
+     *
+     * @return The number of items borrowed by the user.
      */
-    public ArrayList<Integer> getTopThreePartners() {
-        return topThreePartners;
+    public int getNumBorrowed(){
+        return numBorrowed;
     }
 
     /**
-     * Get the user's mostRecentThreeTrade.
-     * 
-     * @return mostRecentThreeTrade.
+     * Increment the number of items borrowed by the user by one.
      */
-    public ArrayList<Integer> getMostRecentThreeTrade() {
-        return mostRecentThreeTrade;
+    public void addOneToNumBorrowed(){
+        numBorrowed ++;
     }
 
     /**
-     * Get the user's numTransaction.
-     * 
-     * @return numTransaction.
+     * Get user's status (frozen or unfrozen).
+     * @return Whether this user is frozen.
      */
-    public int getNumTransaction() {
-        return numTransaction;
+    public boolean getIfFrozen(){
+        return isFrozen;
     }
 
     /**
-     * Get the user's numUncompletedTransaction.
-     * 
-     * @return numUncompletedTransaction.
+     * Set user's status (to frozen or unfrozen)
+     * @param newStatus The new status to be assigned.
      */
-    public int getNumUncompletedTransaction() {
-        return numUncompletedTransaction;
+    public void setIfFrozen(boolean newStatus){
+        isFrozen = newStatus;
+    }
+
+
+    /**
+     * Getter for the maximum number of transactions allowed
+     * for all the users in a week.
+     * @return The maximum number of transactions allowed
+     * in a week.
+     */
+    public static int getMaxNumTransactionsAllowedAWeek(){
+        return maxNumTransactionsAllowedAWeek;
     }
 
     /**
-     * Getter for this user's password
-     * @return this user's password
+     * Getter for the maximum number of uncompleted
+     * transactions allowed before the user's account
+     * gets frozen.
+     * @return The maximum number of uncompleted transactions
+     * allowed before the user's account gets frozen.
      */
-    public String getPassword() { return password;}
-}
+    public static int getMaxNumTransactionIncomplete(){
+        return maxNumTransactionIncomplete
+    }
+
+    /**
+     * Getter for the maximum number of edits to any
+     * meeting's time and place for all the users.
+     * @return The maximum number of edits to any
+     * meeting's time and place.
+     */
+    public static int getMaxMeetingDateTimeEdits() {
+        return maxMeetingDateTimeEdits;
+    }
+
+    /**
+     * Getter for the number of items user need to
+     * lend before the user can borrow, for all
+     * users.
+     * @return The  number of items user need to
+     * lend before the user can borrow.
+     *
+     */
+    public static int getNumLendBeforeBorrow(){
+        return numLendBeforeBorrow;
+    }
+
+    /**
+     * Setter for the maximum number of transactions allowed
+     * for all the users in a week.
+     * @param newVal The new threshold value for the
+     *               number of transactions allowed
+     *               for all the users in a week.
+     */
+    public static void setMaxNumTransactionsAllowedAWeek(int newVal){
+        maxNumTransactionsAllowedAWeek = newVal;
+    }
+
+    /**
+     * Setter for the maximum number of uncompleted
+     * transactions allowed before the user's account
+     * gets frozen.
+     * @param newVal The new threshold value for
+     *               uncompleted transactions allowed
+     *               before the user's account gets frozen.
+     */
+    public static void setMaxNumTransactionIncomplete(int newVal){
+        maxNumTransactionIncomplete = newVal;
+    }
+
+    /**
+     * Setter for the the number of items user need to
+     * lend before the user can borrow, for all
+     * users.
+     * @param newVal The new threshold value for
+     *               the number of items user need to
+     *               lend before the user can borrow
+     */
+    public static void setNumLendBeforeBorrow(int newVal){
+        numLendBeforeBorrow = newVal;
+    }
+
+    /**
+     * Setter for the maximum number of edits to any
+     * meeting's time and place for all the users.
+     * @param newVal The new threshold value for
+     *               the number of edits to any
+     *               meeting's time and place for
+     *               all the users.
+     */
+    public static void setMaxMeetingDateTimeEdits(int newVal){
+        maxMeetingDateTimeEdits = newVal;
+    }

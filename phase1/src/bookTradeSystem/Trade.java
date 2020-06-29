@@ -2,7 +2,7 @@ package bookTradeSystem;
 import java.util.*;
 import java.io.Serializable;
 public class Trade implements Serializable {
-    private static int tradeId;
+    private int tradeId;
     private int borrowerId;
     private int lenderId;
     private int itemId;
@@ -15,6 +15,7 @@ public class Trade implements Serializable {
      * The type of the trade status (Open, Closed, Wait to be opened，Cancelled), default is Wait to be opened
      */
     protected String tradeStatus = "Wait to be opened";
+    private static int idNumber = 1;
 
     /** Constructors of the Trade
      * @param borrowerId borrower id
@@ -23,13 +24,14 @@ public class Trade implements Serializable {
      * @param tradeType trade type
      */
     public Trade(int borrowerId, int lenderId, int itemId, String tradeType){
-        tradeId++;
         this.borrowerId = borrowerId;
         this.lenderId = lenderId;
         this.itemId = itemId;
         this.tradeType = tradeType;
         userStatus.put(borrowerId, "Agree");
         userStatus.put(lenderId, "Disagree");
+        tradeId = idNumber;
+        idNumber ++;
     }
 
     /** set borrower status
@@ -52,7 +54,7 @@ public class Trade implements Serializable {
      * @return a list of ids(tradeId, borrowerId, lenderId, itemId)
      */
     public List<Integer> getIds(){
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         Collections.addAll(list, tradeId, borrowerId, lenderId, itemId);
         return list;
     }
