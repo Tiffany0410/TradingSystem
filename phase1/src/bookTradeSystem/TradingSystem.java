@@ -10,20 +10,21 @@ public class TradingSystem {
    private MeetingManager meetingManager;
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
-   private RegularUserController regularUserController;
-   private AdminUserController adminUserController;
+   private FilesReaderWriter filesReaderWriter;
 
    /**
     * constructor of trading system
     * need demo pass in several things
     */
-   public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator, TradeManager tradeManager) throws IOException, ClassNotFoundException {
+   public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
+                        TradeManager tradeManager, FilesReaderWriter filesReaderWriter) throws IOException, ClassNotFoundException {
       this.userManager = userManager;
       this.displaySystem = new DisplaySystem();
       this.meetingManager = meetingManager;
       this.loginValidator = loginValidator;
       this.tradeManager = tradeManager;
       this.accountCreator = new AccountCreator(this.userManager, this.displaySystem);
+      this.filesReaderWriter = filesReaderWriter;
       this.tradingSystemInital();
    }
 
@@ -96,9 +97,10 @@ public class TradingSystem {
     */
 
    private void regularUserMain(String userName) throws FileNotFoundException {
-      this.regularUserController = new RegularUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
+      RegularUserController regularUserController = new RegularUserController(this.displaySystem,
+              this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.regularUserController.alerts());
+      displaySystem.printOut(regularUserController.alerts());
 
       int option;
       option = displaySystem.getMenuAnswer("RegularUserMainMenu.csv");
@@ -139,9 +141,10 @@ public class TradingSystem {
     */
 
    private void adminUserMain(String userName) throws FileNotFoundException {
-      this.adminUserController = new AdminUserController(this.tradeManager, this.meetingManager, this.userManager, userName);
+      AdminUserController adminUserController = new AdminUserController(this.displaySystem, this.filesReaderWriter,
+              this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(this.adminUserController.alerts());
+      displaySystem.printOut(adminUserController.alerts());
 
       int option;
       option = displaySystem.getMenuAnswer("AdminUserMainMenu.csv");

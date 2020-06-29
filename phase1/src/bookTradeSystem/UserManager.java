@@ -123,8 +123,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (person.isFrozen){
-                person.isFrozen = false;
+            if (person.getIfFrozen()){
+                person.setIfFrozen(false);
                 out = true;
             }
         }
@@ -140,8 +140,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.isFrozen){
-                person.isFrozen = true;
+            if (!person.getIfFrozen()){
+                person.setIfFrozen(true);
                 out = true;
             }
         }
@@ -180,10 +180,7 @@ public class UserManager implements Serializable {
     public ArrayList<String> underLending(){
         ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
-//           TODO: maybe this threshold should be the numLendBeforeBorrow?
-//            because there are multiple thresholds -- will add them to user class
-//            as static attributes later but yeah one of them will be numLendBeforeBorrow
-            if (person.getNumBorrowed() - person.getNumLent < person.threshold){
+            if (person.getNumBorrowed() - person.getNumLent() < User.getNumLendBeforeBorrow()){
                 out.add(person.getUsername());
             }
         }
@@ -338,14 +335,34 @@ public class UserManager implements Serializable {
      * Changes the threshold of how many more times a user has to lend before they can borrow
      * @param change The new threshold
      */
-    public void changeThreshold(int change){
-//      TODO: I guess this is for numLendBeforeBorrow
-//       too. Hmm, I was thinking maybe we can make the
-//        thresholds private and then have getters and setters
-//        in the user class - what do you think? So, in other
-//        words, maybe we don't need this changeThreshold method
-        User.threshold = change;
+    public void editNumLendBeforeBorrow(int change){
+        User.setNumLendBeforeBorrow(change);
     }
+
+    /**
+     * Change the maximum number of transactions Users can make per week
+     * @param change The new maximum number
+     */
+    public void editMaxNumTransactionsAllowedAWeek(int change){
+        User.setMaxNumTransactionsAllowedAWeek(change);
+    }
+
+    /**
+     * Change the maximum number of incomplete transactions a User can have
+     * @param change The new maximum number
+     */
+    public void editMaxNumTransactionIncomplete(int change){
+        User.setMaxNumTransactionIncomplete(change);
+    }
+
+    /**
+     * Changes the maximum number of times a User can edit the Meeting date or time
+     * @param change The maximum number
+     */
+    public void editMaxMeetingDateTimeEdits(int change){
+        User.setMaxMeetingDateTimeEdits(change);
+    }
+
 
     /**
      * Gives the username for the User with the given ID
@@ -393,6 +410,7 @@ public class UserManager implements Serializable {
      * @return A map of usernames to IDs for all User
      */
     public HashMap<String, Integer> userIDs(){
+        //TODO: Probably don't need this
         HashMap<String, Integer> out = new HashMap<>();
         for (User person: listUser){
             String name = person.getUsername();
