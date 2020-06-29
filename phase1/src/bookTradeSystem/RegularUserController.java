@@ -52,19 +52,23 @@ public class RegularUserController implements Serializable, Controllable {
     public String alerts() throws FileNotFoundException {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
-        User regUser = um.findUser(username)
+        User regUser = um.findUser(username);
         StringBuilder notification = new StringBuilder();
         String filepath = "./src/bookTradeSystem/UserAlerts.csv";
         notification.append(rw.readFromMenu(filepath) + "/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
-        notification.append("Your current status:" + String.valueOf(regUser.isFrozen) + "/n");
-        notification.append("You have borrowed:" + String.valueOf(regUser.numBorrowed));
-        notification.append("You have lent:" + String.valueOf(regUser.numBorrowed));
+        notification.append("Your current status:" + String.valueOf(regUser.getIfFrozen()) + "/n");
+        notification.append("You have borrowed:" + String.valueOf(regUser.getNumBorrowed()));
+        notification.append("You have lent:" + String.valueOf(regUser.getNumLent()));
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES");
-        notification.append("Max number of transactions a week = " +);
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = " +);
-        notification.append("Max umber of books you must lend before you can borrow = " +);
-        notification.append("Max edits per user for meeting’s date + time = " +);
+        notification.append("Max number of transactions a week = "
+                + User.getMaxNumTransactionsAllowedAWeek());
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = "
+                + User.getMaxNumTransactionIncomplete());
+        notification.append("Max umber of books you must lend before you can borrow = "
+                + User.getNumLendBeforeBorrow());
+        notification.append("Max edits per user for meeting’s date + time = "
+                + User.getMaxMeetingDateTimeEdits());
         return notification.toString();
     }
 

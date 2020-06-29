@@ -1,5 +1,6 @@
 package bookTradeSystem;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -9,16 +10,22 @@ import java.io.Serializable;
  */
 public class AdminUserController implements Serializable, Controllable {
 
+    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
     private UserManager um;
     private int adminUserId;
 
     /**
-     * Constructs the AdminUserController with a UserManager
-     * and an adminUserId.
+     * Constructs the AdminUserController with a DisplaySystem,
+     * FilesReadWriter, UserManager, and an adminUserId.
+     * @param ds The presenter class used to print to screen.
+     * @param rw The gateway class used to read or write to file.
      * @param um The current state of the UserManager.
      * @param adminUserId The user ID of the admin user.
      */
-    public AdminUserController(UserManager um, int adminUserId) {
+    public AdminUserController(DisplaySystem ds, FilesReaderWriter rw, UserManager um, int adminUserId) {
+        this.ds = ds;
+        this.rw = rw;
         this.um = um;
         this.adminUserId = adminUserId;
     }
@@ -32,9 +39,10 @@ public class AdminUserController implements Serializable, Controllable {
      */
     @Override
     public String alerts() throws FileNotFoundException {
-       // read the following in from a file
-       // 1. Please respond to user's request to add item to their inventory
-       // 2. Please respond to user's request to unfreeze.
+        //Read this in from file
+        //Exception needs to be resolved in main or TradingSystem.
+        String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
+        return rw.readFromMenu(filepath);
     }
 
     /**
