@@ -1,5 +1,6 @@
 package bookTradeSystem;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 /**
@@ -27,9 +28,10 @@ public class AdminUserController implements Serializable, Controllable {
      * This method gathers all the necessary notifications
      * for the admin user.
      * @return Notifications as properly formatted strings.
+     * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
-    public String alerts() {
+    public String alerts() throws FileNotFoundException {
        // read the following in from a file
        // 1. Please respond to user's request to add item to their inventory
        // 2. Please respond to user's request to unfreeze.

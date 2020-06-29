@@ -1,5 +1,7 @@
 package bookTradeSystem;
 
+import java.io.FileNotFoundException;
+
 public interface Controllable {
 
     /**
@@ -15,7 +17,8 @@ public interface Controllable {
     /**
      * This method gathers all the necessary notifications for the user.
      * @return Notifications as properly formatted strings.
+     * @throws FileNotFoundException In case the file can't be found.
      */
-    String alerts();
+    String alerts() throws FileNotFoundException;
 
 }

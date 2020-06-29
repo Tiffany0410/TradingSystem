@@ -1,8 +1,10 @@
 package bookTradeSystem;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -10,6 +12,8 @@ import java.util.List;
  * the use cases, and the presenter.
  */
 public class RegularUserController implements Serializable, Controllable {
+    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -17,43 +21,51 @@ public class RegularUserController implements Serializable, Controllable {
     private int userId;
 
     /**
-     * Constructs a RegularUserController with a TradeManager, a MeetingManager, a UserManager,
-     * regular user's username and userId.
+     * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
+     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * @param ds The presenter class used to print to screen.
+     * @param rw The gateway class used to read or write to file.
      * @param tm The current state of the TradeManager.
      * @param mm The current state of the MeetingManager.
      * @param um The current state of the UserManager.
      * @param username The username of the regular user.
-     * @param userId The user ID of the regular user.
      */
-    public RegularUserController(TradeManager tm, MeetingManager mm, UserManager um, String username, int userId) {
+    public RegularUserController(DisplaySystem ds, FilesReaderWriter rw,
+                                 TradeManager tm, MeetingManager mm,
+                                 UserManager um, String username) {
+        this.ds = ds;
+        this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = userId; // A method of username to userID for now? [Gabriel]
+        //this.userId = userId; // A method of username to userID for now? [Gabriel]
     }
 
     /**
      * This method gathers all the necessary notifications
      * for the regular user.
      * @return Notifications as properly formatted strings.
+     * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
-    public String alerts() {
+    public String alerts() throws FileNotFoundException {
         //Read this in from file
-        /*"1. Please check your unconfirmed meetings in the MeetingMenu.
-           2. Please check your open trades in the TradingMenu.
-           3. Please respond to outstanding trade requests in the TradingMenu.
-           4. Please set up a meeting for the to-be-opened trades"*/
+        //Exception needs to be resolved in main or TradingSystem.
+        User regUser = um.findUser(username)
+        StringBuilder notification = new StringBuilder();
+        String filepath = "./src/bookTradeSystem/UserAlerts.csv";
+        notification.append(rw.readFromMenu(filepath) + "/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
-        // Your have borrowed:
-        // You have lent:
-        // KEEP IN MIND OF THE THRESHOLD VALUES
-        // Max number of transactions a week =
-        // Max number of transactions that can be incomplete before the account is frozen =
-        // Max umber of books you must lend before you can borrow =
-        // Max edits per user for meeting’s date + time =
-        return "";
+        notification.append("Your current status:" + String.valueOf(regUser.isFrozen) + "/n");
+        notification.append("You have borrowed:" + String.valueOf(regUser.numBorrowed));
+        notification.append("You have lent:" + String.valueOf(regUser.numBorrowed));
+        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES");
+        notification.append("Max number of transactions a week = " +);
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = " +);
+        notification.append("Max umber of books you must lend before you can borrow = " +);
+        notification.append("Max edits per user for meeting’s date + time = " +);
+        return notification.toString();
     }
 
     /**
