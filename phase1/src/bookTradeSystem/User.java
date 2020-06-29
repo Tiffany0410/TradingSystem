@@ -2,7 +2,6 @@ package bookTradeSystem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class User implements Serializable {
     /**
@@ -18,7 +17,7 @@ public class User implements Serializable {
     protected int numLent;
     protected int numBorrowed;
     protected static int maxThreshold;
-    protected Boolean isFrozen;
+    protected Boolean isFrozen = false;
     private static int idNumber = 1;
 
     /**
