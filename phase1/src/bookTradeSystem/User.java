@@ -221,7 +221,7 @@ public class User implements Serializable {
      * allowed before the user's account gets frozen.
      */
     public static int getMaxNumTransactionIncomplete(){
-        return maxNumTransactionIncomplete
+        return maxNumTransactionIncomplete;
     }
 
     /**
@@ -292,3 +292,4 @@ public class User implements Serializable {
     public static void setMaxMeetingDateTimeEdits(int newVal){
         maxMeetingDateTimeEdits = newVal;
     }
+}
