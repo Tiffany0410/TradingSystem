@@ -24,7 +24,7 @@ public class Meeting implements java.io.Serializable{
      */
     public Meeting(int tradeId, int userId1, int userId2, int meetingNum){
         time = new Date();
-        place = new String("");
+        place = "";
         this.tradeId = tradeId;
         this.userId1 = userId1;
         this.userId2 = userId2;
@@ -33,7 +33,7 @@ public class Meeting implements java.io.Serializable{
         meetingConfirm = new HashMap<>();
         meetingConfirm.put(userId1, false);
         meetingConfirm.put(userId2, false);
-        timePlaceEdit = new ArrayList<Integer>();
+        timePlaceEdit = new ArrayList<>();
 
     }
 
@@ -162,6 +162,13 @@ public class Meeting implements java.io.Serializable{
      */
     public List<Integer> getTimePlaceEdit(){
         return timePlaceEdit;
+    }
+
+    /** set the timPlaceEdit with the listId.
+     * @param listId the list of user id that change the time and place
+     */
+    public void setTimePlaceEdit(List<Integer> listId){
+        timePlaceEdit = listId;
     }
 
     /** edit the time and place of a meeting

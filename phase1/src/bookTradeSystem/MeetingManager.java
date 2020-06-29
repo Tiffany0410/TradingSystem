@@ -12,7 +12,7 @@ public class MeetingManager implements java.io.Serializable{
     /** set this listMeeting to an empty list of meeting.
      */
     public MeetingManager(){
-        listMeeting = new ArrayList<Meeting>();
+        listMeeting = new ArrayList<>();
     }
 
     /** get the list of meeting for the MeetingManager
@@ -147,8 +147,8 @@ public class MeetingManager implements java.io.Serializable{
 
     /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
      * Permanent or is the second meeting, then close the trade. If the meeting is confirmed by both user, but the
-     * trade is temporary and the meeting is th first meeting, then remains the trade open and create the second
-     * meeting for the trade.
+     * trade is temporary and the meeting is the first meeting, then remains the trade open and create the second
+     * meeting for the trade which is one month after the first meeting and the same location.
      * @param tradeManager the list of trade
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
@@ -167,35 +167,42 @@ public class MeetingManager implements java.io.Serializable{
             }else if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
                     getUserId2())&&(tradeManager.getTradeById(meeting.getTradeId())
                     .tradeType.equals("Temporary")&&meeting.getMeetingNum() == 1)){
-                this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(), 2,
-                        tradeManager);
+                Meeting meeting1 = this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(),
+                        2, tradeManager);
+                Calendar time1 = Calendar.getInstance();
+                time1.setTime(meeting.getTime());
+                meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+1,
+                        time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
+                        time1.get(Calendar.SECOND),meeting.getPlace());
+                if(meeting.getUserId1() != userId){
+                    meeting1.setTimePlaceConfirm(meeting.getUserId1());
+                }else {meeting1.setTimePlaceConfirm(meeting.getUserId2());}
+                meeting1.setTimePlaceEdit(new ArrayList<>());
             }
         }else {
             return false;
         }return true;
         }
 
-    /** get whether or not a trade is go over one month and one day.
-     * @return true iff the trade is not complete in one month and a day.
+    /** check whether or not a meeting is not confirmed by users after one day of the meeting should happen.
+     * @return true iff the meeting is not confirmed after one day of the real life meeting time.
      */
-    public Boolean getOverTime(TradeManager tradeManager, Meeting meeting){
+    public Boolean getOverTime(Meeting meeting){
         Calendar time1 = Calendar.getInstance();
         time1.setTime(meeting.getTime());
-        time1.add(Calendar.MONTH,1);
         time1.add(Calendar.DATE,1);
         Date time2 = time1.getTime();
-        return tradeManager.checkInManager(meeting.getTradeId())&& tradeManager.getTradeById(meeting.getTradeId()).
-                tradeStatus.equals("Open") && meeting.getTimePlaceConfirm() && time2.before(new Date());
+        return !((meeting.getMeetingConfirm().get(meeting.getUserId1()))|| (meeting.getMeetingConfirm().
+                get(meeting.getUserId2()))) && meeting.getTimePlaceConfirm() && time2.before(new Date());
     }
 
-    /** get a list of trades that go over one month and one day.
-     * @param tradeManager a list of trade
-     * @return a list of trades that have not finished in 1 month and 1 day.
+    /** get a list of meetings that go over one day.
+     * @return a list of meetings that have not confirmed after one day of the real life meeting time.
      */
-    public List<Meeting> getListOverTime(TradeManager tradeManager){
+    public List<Meeting> getListOverTime(){
         List<Meeting> listOverTime = new ArrayList<>();
         for (Meeting meeting: listMeeting){
-            if (this.getOverTime(tradeManager, meeting)){
+            if (this.getOverTime(meeting)){
                 listOverTime.add(meeting);
             }
         }return listOverTime;
@@ -249,7 +256,7 @@ public class MeetingManager implements java.io.Serializable{
      * @return a string show the detailed information about the meetings in the MeetingManager
      */
     public String toString(){
-        StringBuilder string1 = new StringBuilder(new String(""));
+        StringBuilder string1 = new StringBuilder();
         for(Meeting meeting: listMeeting){
             string1.append(meeting.toString());
             string1.append("\n");
