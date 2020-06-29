@@ -3,6 +3,9 @@ import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
+    public TradeManager(){
+        listTrade = new ArrayList<>();
+    }
     /**
      * @return the list of trade
      */
