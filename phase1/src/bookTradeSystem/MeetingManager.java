@@ -7,7 +7,7 @@ import java.util.*;
  * An instance of this class represents the list of meeting
  */
 public class MeetingManager implements java.io.Serializable{
-    List<Meeting> listMeeting = new ArrayList<>();
+    private List<Meeting> listMeeting;
 
     /** set this listMeeting to an empty list of meeting.
      */
