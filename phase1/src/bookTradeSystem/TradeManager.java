@@ -53,6 +53,19 @@ public class TradeManager implements Serializable {
         return list1;
     }
 
+    /** returen list of recent three item ids
+     * @param userId user id
+     * @return a list of recent three item ids
+     */
+    public List<Integer> recentThreeItem(int userId){
+        List<Trade> list = this.filterHistory(userId);
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(list.get(list.size()-3).getIds().get(3));
+        list1.add(list.get(list.size()-2).getIds().get(3));
+        list1.add(list.get(list.size()-1).getIds().get(3));
+        return list1;
+    }
+
     /** Get a list of  user's Trades which its status is open
      * @param userId the user's id we want to check
      * @return the list of  user's Trades which its status is open
