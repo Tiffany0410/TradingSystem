@@ -12,18 +12,13 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
-    private ArrayList<Integer> wishList;
-    private ArrayList<Item> inventory;
+    private ArrayList<Integer> wishList = new ArrayList<>();
+    private ArrayList<Item> inventory = new ArrayList<>();
     private int id;
-    protected int numLent;      // Maybe not needed -> can loop over trade to get numLent
-    protected int numBorrowed;      // Maybe not needed
-    int maxThreshold;
+    protected int numLent;
+    protected int numBorrowed;
+    protected static int maxThreshold;
     protected Boolean isFrozen;
-    protected Boolean isAdmin;          // Maybe not needed
-    private ArrayList<Integer> topThreePartners;    // Maybe not needed -> TradeManager has tradeHistory method
-    private ArrayList<Integer> mostRecentThreeTrade;    // Maybe not needed
-    private int numTransaction;     // Maybe not needed
-    private int numUncompletedTransaction;      // Maybe not needed
     private static int idNumber = 1;
 
     /**
@@ -68,21 +63,22 @@ public class User implements Serializable {
     }
 
     /**
-     * Set the user's wishList.
+     * Add itemID to user's wishlist
      *
-     * @param wishList the user's wishList.
+     * @param itemID the id of Item
      */
-    public void setWishList(ArrayList<Integer> wishList) {
-        this.wishList = wishList;
+    public void addToWishList(Integer itemID) {
+        if (! wishList.contains(itemID))
+        {wishList.add(itemID);}
     }
 
     /**
-     * Set the user's inventory.
+     * Add item to user's inventory
      *
-     * @param inventory the user's inventory.
+     * @param item the Item object
      */
-    public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
+    public void addToInventory(Item item) {
+        inventory.add(item);
     }
 
     /**
@@ -128,42 +124,6 @@ public class User implements Serializable {
      */
     public ArrayList<Item> getInventory() {
         return inventory;
-    }
-
-    /**
-     * Get the user's topThreePartners.
-     * 
-     * @return topThreePartners.
-     */
-    public ArrayList<Integer> getTopThreePartners() {
-        return topThreePartners;
-    }
-
-    /**
-     * Get the user's mostRecentThreeTrade.
-     * 
-     * @return mostRecentThreeTrade.
-     */
-    public ArrayList<Integer> getMostRecentThreeTrade() {
-        return mostRecentThreeTrade;
-    }
-
-    /**
-     * Get the user's numTransaction.
-     * 
-     * @return numTransaction.
-     */
-    public int getNumTransaction() {
-        return numTransaction;
-    }
-
-    /**
-     * Get the user's numUncompletedTransaction.
-     * 
-     * @return numUncompletedTransaction.
-     */
-    public int getNumUncompletedTransaction() {
-        return numUncompletedTransaction;
     }
 
     /**
