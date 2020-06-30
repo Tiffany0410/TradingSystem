@@ -39,7 +39,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.mm = mm;
         this.um = um;
         this.username = username;
-        //this.userId = userId; // A method of username to userID for now? [Gabriel]
+        this.userId = um.usernameToID(username);
     }
 
     /**

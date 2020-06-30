@@ -10,20 +10,24 @@ import java.io.Serializable;
  */
 public class AdminUserController implements Serializable, Controllable {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
+    private AccountCreator ac; //instead of this maybe make the tradingSystem's one protected?
+    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected?
+    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected?
     private UserManager um;
     private int adminUserId;
 
     /**
-     * Constructs the AdminUserController with a DisplaySystem,
+     * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
      * FilesReadWriter, UserManager, and an adminUserId.
+     * @param ac The controller class used to create an account.
      * @param ds The presenter class used to print to screen.
      * @param rw The gateway class used to read or write to file.
      * @param um The current state of the UserManager.
      * @param adminUserId The user ID of the admin user.
      */
-    public AdminUserController(DisplaySystem ds, FilesReaderWriter rw, UserManager um, int adminUserId) {
+    public AdminUserController(AccountCreator ac, DisplaySystem ds,
+                               FilesReaderWriter rw, UserManager um, int adminUserId) {
+        this.ac = ac;
         this.ds = ds;
         this.rw = rw;
         this.um = um;
@@ -140,9 +144,7 @@ public class AdminUserController implements Serializable, Controllable {
         Add subsequent admin users
          */
         if (subMenuOption == 1){
-//            TODO: ask for newAdmin username, password, and email
-//            um.addAdmin();
-//            TODO: let presenter print the msg of successful or not
+              ds.printResult(this.ac.createAccount("Admin"));
         }
 
     }
