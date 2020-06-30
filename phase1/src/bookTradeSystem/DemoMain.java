@@ -17,8 +17,8 @@ public class DemoMain {
         DisplaySystem displaySystem = new DisplaySystem();
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
-        Map<String, String> userLoginInfo = filesReaderWriter.readUserInfo("./src/bookTradeSystem/RegularUserAccounts.csv");
-        Map<String, String> adminUserLoginInfo = filesReaderWriter.readUserInfo("./src/bookTradeSystem/AdminUserAccounts.csv");
+        Map<String, String> userLoginInfo = filesReaderWriter.readUserInfoFromCSVFile("./src/bookTradeSystem/RegularUserUsernameAndPassword.csv");
+        Map<String, String> adminUserLoginInfo = filesReaderWriter.readUserInfoFromCSVFile("./src/bookTradeSystem/AdminUserUsernameAndPassword.csv");
         LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
         TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
