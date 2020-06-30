@@ -3,6 +3,8 @@ package bookTradeSystem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -81,27 +83,45 @@ public class AdminUserController implements Serializable, Controllable {
     }
 
     private void adminManageUsersMenuResponse(int subMenuOption) {
-        /*1.Freeze a user
+        /*1. Freeze a user
           2. Unfreeze users
           3. Confirm and add item to user’s inventory
          */
 
         switch (subMenuOption) {
             case 1:
-//              TODO: asks the admin for the username of the user TO FREEZE
-//              um.freezeUser('*user's username here*')
-//              TODO: let presenter print the msg of successful or not [Jiaqi]
+//              asks the admin for the username of the user TO FREEZE
+                ds.printOut("Please enter the username of the user to FREEZE");
+//              TODO: maybe do a bulletproof for username for later? (later)
+//              let presenter print the msg of successful or not
+                ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
-//              TODO: asks the admin for the username of the user to UNFREEZE
-//              um.unfreezeUser('*user's username here*')
-//              TODO: let presenter print the msg of successful or not [Jiaqi]
+//              asks the admin for the username of the user to UNFREEZE
+                ds.printOut("Please enter the username of the user to UNFREEZE");
+//              TODO: maybe do a bulletproof for username for later? (later)
+//              let presenter print the msg of successful or not
+                ds.printResult(um.unfreezeUser(ds.getUsername()));
+                break;
             case 3:
-//              TODO: NEED A LIST OF the item-to-be-added request so presenter can print - getter
-//              TODO: adminUser chooses the number and then we do the item adding
-//              TODO: Add item to user's inventory
-//              TODO: AND I GUESS REMOVE THE ITEM FROM LIST IF IT'S ADDED
-//              TODO: let presenter print the msg of successful or not
+                ArrayList<Item> listItemToAdd = um.getListItemToAdd();
+                int len = listItemToAdd.size();
+//              get the list of item to be added to inventories
+//              TODO: make sure items are printed one by one ;) (***)
+                ds.printResult(listItemToAdd);
+//              TODO: maybe can improve printResult method by adding # to each thing? start w 1(***)
+//              TODO: maybe add a loop so admin can keep on entering ... until chooses to exit? (later)
+                Item itemSelected = listItemToAdd.get(getItem(len)-1);
+                if (getAddOrNot()){
+                    //if add
+                    ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
+                }
+                else{
+                    ds.printResult(true);
+                }
+                //either add or not add - need to remove from to-be-added list
+//              TODO: can I just remove like this? (later)
+                um.getListItemToAdd().remove(itemSelected);
                 break;
 
 
@@ -117,35 +137,111 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-//              TODO: where is it stored? [User]
-//              TODO: maxNumTransactionsAllowed (need getter + setter)
-//              TODO: let presenter print the msg of successful or not
+                User.setMaxNumTransactionsAllowedAWeek(getThresholdAns());
                 break;
             case 2:
-//              TODO: where is it stored? [User]
-//              TODO: maxNumTransactionIncomplete (need getter + setter)
-//              TODO: let presenter print the msg of successful or not
+                User.setMaxNumTransactionIncomplete(getThresholdAns());
                 break;
             case 3:
-//              TODO: where is it stored? [User]
-//              TODO: numLendBeforeBorrow (need getter + setter)
-//              TODO: let presenter print the msg of successful or not
+                User.setNumLendBeforeBorrow(getThresholdAns());
                 break;
             case 4:
-//              TODO: where is it stored? [User]
-//              TODO: maxMeetingDateTimeEdits (need getter + setter)
-//              TODO: let presenter print the msg of successful or not
+                User.setMaxMeetingDateTimeEdits(getThresholdAns());
                 break;
         }
+        ds.printResult(true);
     }
 
     private void adminOthersMenuResponse(int subMenuOption) {
         /*
-        Add subsequent admin users
+        1. Add subsequent admin users
          */
         if (subMenuOption == 1){
               ds.printResult(this.ac.createAccount("Admin"));
         }
+
+    }
+
+    /**
+     * Other ask-user-for-input methods
+     */
+
+    private int getThresholdAns(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+        */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        int thresholdAns = 0;
+        do{
+            ds.printOut("Enter the new threshold value: ");
+            if(sc.hasNextInt()){
+               thresholdAns = sc.nextInt();
+                okInput = true;
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        }while(!okInput);
+        return thresholdAns;
+    }
+
+    private int getItem(int numItemsToAdd){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        // asks for the item name, description, owner id of the user to be added
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        // does not store the number of items but the number of the item the admin chooses
+        int numItem = 0;
+        do{
+            ds.printOut("Enter the number of the item in the above list ");
+            if(sc.hasNextInt()){
+                numItem = sc.nextInt();
+                if (1<= numItem && numItem <= numItemsToAdd) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper option please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        }while(!okInput);
+        return numItem;
+    }
+
+    private boolean getAddOrNot(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+        do{
+            ds.printOut("Please enter a number (1 - add, 2 - not add): ");
+            if(sc.hasNextInt()){
+                num = sc.nextInt();
+                if (num == 1 || num == 2) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper option please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        }while(!okInput);
+        return num == 1;
 
     }
 

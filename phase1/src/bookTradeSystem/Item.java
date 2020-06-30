@@ -85,7 +85,7 @@ public class Item implements Serializable {
         this.currHolderId = currHolderId;
     }
 
-    /** Override the to string to describe the meeting
+    /** Override the to string to describe the item
      * @return A string description of this item
      */
     public String toString(){
