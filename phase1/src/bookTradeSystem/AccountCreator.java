@@ -23,27 +23,35 @@ public class AccountCreator {
 
     /**
      * Creates and adds a new User
-     * @param username The username of the User
-     * @param password The password of the User
-     * @param email The email of the User
      * @param type The type of account: normal user or admin
      * @return true if the User was successfully added, false otherwise
      */
-    public boolean createAccount(String username, String password, String email, String type){
+    public boolean createAccount(String type){
         boolean out = false;
         HashMap<String, String> info = um.userPasswords();
         ArrayList<User> listPeople = um.getListUser();
-        if (!info.containsKey(username)){
-            User toAdd = new User(username, password, email);
-            listPeople.add(toAdd);
-            um.setListUser(listPeople);
-            out = true;
-            if (type.equals("Regular")){
-                fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
-            }else {
-                fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
-            }
 
+        String username;
+        String password;
+        String email;
+
+        while(!out){
+            username = ds.getUsername();
+            password = ds.getPassword();
+            email = ds.getEmail();
+
+            if (!info.containsKey(username)) {
+                User toAdd = new User(username, password, email);
+                listPeople.add(toAdd);
+                um.setListUser(listPeople);
+                out = true;
+
+                if (type.equals("Regular")) {
+                    fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
+                } else if (type.equals("Admin")) {
+                    fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
+                }
+            }
         }
         return out;
     }
