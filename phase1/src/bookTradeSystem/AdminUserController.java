@@ -41,7 +41,8 @@ public class AdminUserController implements Serializable, Controllable {
     public String alerts() throws FileNotFoundException {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
-        String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
+        //String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
+        String filepath = "AdminAlerts.csv"; // move it to src and not the bookTradeSystem
         return rw.readFromMenu(filepath);
     }
 

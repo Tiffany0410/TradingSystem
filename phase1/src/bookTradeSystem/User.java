@@ -113,6 +113,14 @@ public class User implements Serializable {
         {wishList.add(itemID);}
     }
 
+    /**
+     * Sets user's wishlist to a new one.
+     * @param newWishList The new wishlist.
+     */
+    public void setWishList(ArrayList<Integer> newWishList){
+        wishList = newWishList;
+    }
+
 
     /**
      * Get the user's wishList.
@@ -134,6 +142,14 @@ public class User implements Serializable {
         inventory.add(item);
     }
 
+
+    /**
+     * Sets user's inventory to a new one.
+     * @param newInventory The new inventory.
+     */
+    public void setInventory(ArrayList<Item> newInventory){
+        inventory = newInventory;
+    }
 
     /**
      * Get the user's inventory.
