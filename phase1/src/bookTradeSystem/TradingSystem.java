@@ -49,7 +49,13 @@ public class TradingSystem {
 
          while(!condition){
             condition = accountCreator.createAccount( "Regular");
+
+            // If fail, give the reason why fail
+            if (!condition){
+               displaySystem.printOut("Uername already exist");
+            }
             displaySystem.printResult(condition);
+
          }
       }
 
