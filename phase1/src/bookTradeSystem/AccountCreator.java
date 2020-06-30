@@ -35,24 +35,24 @@ public class AccountCreator {
         String password;
         String email;
 
-        while(!out){
-            username = ds.getUsername();
-            password = ds.getPassword();
-            email = ds.getEmail();
 
-            if (!info.containsKey(username)) {
-                User toAdd = new User(username, password, email);
-                listPeople.add(toAdd);
-                um.setListUser(listPeople);
-                out = true;
+        username = ds.getUsername();
+        password = ds.getPassword();
+        email = ds.getEmail();
 
-                if (type.equals("Regular")) {
-                    fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
-                } else if (type.equals("Admin")) {
-                    fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
-                }
+        if (!info.containsKey(username)) {
+            User toAdd = new User(username, password, email);
+            listPeople.add(toAdd);
+            um.setListUser(listPeople);
+            out = true;
+
+            if (type.equals("Regular")) {
+                fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
+            } else if (type.equals("Admin")) {
+                fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
             }
         }
+
         return out;
     }
 }
