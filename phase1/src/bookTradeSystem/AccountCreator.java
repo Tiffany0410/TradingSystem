@@ -26,9 +26,10 @@ public class AccountCreator {
      * @param username The username of the User
      * @param password The password of the User
      * @param email The email of the User
+     * @param type The type of account: normal user or admin
      * @return true if the User was successfully added, false otherwise
      */
-    public boolean createAccount(String username, String password, String email){
+    public boolean createAccount(String username, String password, String email, String type){
         boolean out = false;
         HashMap<String, String> info = um.userPasswords();
         ArrayList<User> listPeople = um.getListUser();
@@ -37,7 +38,7 @@ public class AccountCreator {
             listPeople.add(toAdd);
             um.setListUser(listPeople);
             out = true;
-            fr.addNewUser(username, password, email);
+            fr.addNewUser(username, password, email, type);
         }
         return out;
     }
