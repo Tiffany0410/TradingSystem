@@ -23,8 +23,9 @@ public class TradingSystem {
       this.meetingManager = meetingManager;
       this.loginValidator = loginValidator;
       this.tradeManager = tradeManager;
-      this.accountCreator = new AccountCreator(this.userManager, this.displaySystem);
       this.filesReaderWriter = filesReaderWriter;
+      this.accountCreator = new AccountCreator(this.userManager, this.displaySystem, this.filesReaderWriter);
+
       this.tradingSystemInital();
    }
 
@@ -38,7 +39,7 @@ public class TradingSystem {
 
       // Option 1 is login
       if (option == 1){
-         this.Login();
+         this.login();
       }
 
       // Option 2 is create new account
@@ -46,8 +47,8 @@ public class TradingSystem {
          boolean condition = false;
 
          while(!condition){
-            condition = accountCreator.createAccount(displaySystem.getUsername(), displaySystem.getPassword(),
-                    displaySystem.getEmail());
+            condition = accountCreator.createAccount( "Regular");
+            displaySystem.printResult(condition);
          }
       }
 
@@ -57,7 +58,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void Login() throws FileNotFoundException {
+   private void login() throws FileNotFoundException {
       String type;
       String userName;
       String userPassword;
@@ -70,6 +71,7 @@ public class TradingSystem {
       switch (type) {
          case "fail":
             displaySystem.failLogin();
+            this.tradingSystemInital();
             break;
          case "user":
             this.regularUserMain(userName);
@@ -85,9 +87,9 @@ public class TradingSystem {
     * For log out this account
     */
 
-   private void logOut() throws FileNotFoundException {
+   private void logOut(String userName) throws FileNotFoundException {
       // TODO: serialize what?
-
+      String filePath = "./src/bookTradeSystem";
       this.tradingSystemInital();
    }
 
@@ -108,7 +110,7 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut();
+         this.logOut(userName);
       }
 
       int suboption = 0;
@@ -151,7 +153,7 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut();
+         this.logOut(userName);
       }
 
       int suboption = 0;
