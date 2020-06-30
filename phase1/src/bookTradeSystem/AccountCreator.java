@@ -8,15 +8,17 @@ import java.util.ArrayList;
 public class AccountCreator {
     private UserManager um;
     private DisplaySystem ds;
+    private FilesReaderWriter fr;
 
     /**
      * Constructs an AccountCreator with the given UserManager and DisplaySystem
      * @param um The initial UserManager
      * @param ds The initial Display system
      */
-    public AccountCreator(UserManager um, DisplaySystem ds){
+    public AccountCreator(UserManager um, DisplaySystem ds, FilesReaderWriter fr){
         this.um = um;
         this.ds = ds;
+        this.fr = fr;
     }
 
     /**
@@ -35,6 +37,7 @@ public class AccountCreator {
             listPeople.add(toAdd);
             um.setListUser(listPeople);
             out = true;
+            fr.addNewUser(username, password, email);
         }
         return out;
     }
