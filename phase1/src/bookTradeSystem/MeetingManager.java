@@ -33,7 +33,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param userId the id of the user
      * @return a list f meeting for a given user id
      */
-    public List<Meeting> getMeetingsById(int userId){
+    public List<Meeting> getMeetingsByUserId(int userId){
         List<Meeting> listMeeting1 = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if (meeting.getUserId1() == userId || meeting.getUserId2() == userId){
@@ -110,7 +110,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param tradeId the id for a trade
      * @return a list of meetings for a given trade id
      */
-    public List<Meeting> getMeetingById(int tradeId){
+    public List<Meeting> getMeetingByTradeId(int tradeId){
         List<Meeting> listMeetingById = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if (meeting.getTradeId() == tradeId){
@@ -171,7 +171,7 @@ public class MeetingManager implements java.io.Serializable{
                         2, tradeManager);
                 Calendar time1 = Calendar.getInstance();
                 time1.setTime(meeting.getTime());
-                meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+1,
+                meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
                         time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
                         time1.get(Calendar.SECOND),meeting.getPlace());
                 if(meeting.getUserId1() != userId){
