@@ -38,7 +38,12 @@ public class AccountCreator {
             listPeople.add(toAdd);
             um.setListUser(listPeople);
             out = true;
-            fr.addNewUser(username, password, email, type);
+            if (type.equals("Regular")){
+                fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
+            }else {
+                fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
+            }
+
         }
         return out;
     }
