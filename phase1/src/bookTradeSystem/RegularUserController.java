@@ -54,12 +54,12 @@ public class RegularUserController implements Serializable, Controllable {
         //Exception needs to be resolved in main or TradingSystem.
         User regUser = um.findUser(username);
         StringBuilder notification = new StringBuilder();
-        String filepath = "./src/bookTradeSystem/UserAlerts.csv";
+        String filepath = "UserAlerts.csv"; // move it to src and not the bookTradeSystem
         notification.append(rw.readFromMenu(filepath) + "/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
-        notification.append("Your current status:" + String.valueOf(regUser.getIfFrozen()) + "/n");
-        notification.append("You have borrowed:" + String.valueOf(regUser.getNumBorrowed()));
-        notification.append("You have lent:" + String.valueOf(regUser.getNumLent()));
+        notification.append("Your current status:" + regUser.getIfFrozen() + "/n");
+        notification.append("You have borrowed:" + regUser.getNumBorrowed());
+        notification.append("You have lent:" + regUser.getNumLent());
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES");
         notification.append("Max number of transactions a week = "
                 + User.getMaxNumTransactionsAllowedAWeek());
