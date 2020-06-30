@@ -17,14 +17,15 @@ public class TradingSystem {
     * need demo pass in several things
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
-                        TradeManager tradeManager, FilesReaderWriter filesReaderWriter) throws IOException, ClassNotFoundException {
+                        TradeManager tradeManager, FilesReaderWriter filesReaderWriter,DisplaySystem displaySystem,
+                        AccountCreator accountCreator) throws IOException, ClassNotFoundException {
       this.userManager = userManager;
-      this.displaySystem = new DisplaySystem();
+      this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
       this.loginValidator = loginValidator;
       this.tradeManager = tradeManager;
       this.filesReaderWriter = filesReaderWriter;
-      this.accountCreator = new AccountCreator(this.userManager, this.displaySystem, this.filesReaderWriter);
+      this.accountCreator = accountCreator;
 
       this.tradingSystemInital();
    }
