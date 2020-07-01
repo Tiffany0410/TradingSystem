@@ -1,5 +1,6 @@
 package bookTradeSystem;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,18 @@ public class UserManager implements Serializable {
     public UserManager(ArrayList<User> users, ArrayList<AdminUser> admins){
         this.listUser = users;
         this.listAdmin = admins;
+        this.listUnfreezeRequest = new ArrayList<>();
+    }
+
+    /**
+     * Constructs a UserManager with the Users and AdminUsers read from the file at the given filepath
+     * @param filepath The filepath to read the Users and AdminUsers from
+     * @throws IOException If file is not found or problem with file
+     * @throws ClassNotFoundException If FilesReaderWriter is not found
+     */
+    public UserManager(String filepath) throws IOException, ClassNotFoundException {
+        this.listUser = FilesReaderWriter.readUsersFromFile(filepath);
+        this.listAdmin = FilesReaderWriter.readAdminUsersFromFile(filepath);
         this.listUnfreezeRequest = new ArrayList<>();
     }
 
