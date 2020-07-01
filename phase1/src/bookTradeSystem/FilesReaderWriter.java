@@ -1,10 +1,7 @@
 package bookTradeSystem;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import bookTradeSystem.*;
 
@@ -17,8 +14,8 @@ public class FilesReaderWriter implements Serializable {
     /**
      * Constructor of the FilesReaderWriter
      *
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws IOException all possible input/output errors
+     * @throws ClassNotFoundException the specified class cannot be found
      */
     public FilesReaderWriter() throws ClassNotFoundException, IOException {}
 
@@ -96,8 +93,119 @@ public class FilesReaderWriter implements Serializable {
             }
             scanner.close();
             return users;
+        } else {throw new FileNotFoundException();}
+    }
+
+
+    /**
+     * Return the arraylist includes all Users from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
+    public static ArrayList<User> readUsersFromFile(String filePath) throws IOException, ClassNotFoundException {
+
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, User> userMap = new HashMap<>();
+            InputStream file = new FileInputStream(filePath);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
+
+            // deserialize the Map
+            userMap = (Map<String, User>) input.readObject();
+            input.close();
+            //Convert the Map to Arraylist
+            ArrayList<User> listUser = new ArrayList<>(userMap.values());
+            return listUser;
+        } else {
+            ArrayList<User> listUser = new ArrayList<>();
+            return listUser;
         }
-        else {throw new FileNotFoundException();}
+    }
+
+
+    /**
+     * Return the arraylist of all AdminUsers from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
+    public static ArrayList<AdminUser> readAdminUsersFromFile(String filePath) throws IOException, ClassNotFoundException {
+
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, AdminUser> adminMap = new HashMap<>();
+            InputStream file = new FileInputStream(filePath);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
+
+            // deserialize the Map
+            adminMap = (Map<String, AdminUser>) input.readObject();
+            input.close();
+            //Convert the Map to Arraylist
+            ArrayList<AdminUser> listAdminUser = new ArrayList<>(adminMap.values());
+            return listAdminUser;
+        } else {
+            ArrayList<AdminUser> listAdminUser = new ArrayList<>();
+            return listAdminUser;
+        }
+    }
+
+
+    /**
+     * Return the list of all Meeting from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
+    public static List<Meeting> readMeetingsFromFile(String filePath) throws IOException, ClassNotFoundException {
+
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, Meeting> meetingMap = new HashMap<>();
+            InputStream file = new FileInputStream(filePath);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
+
+            // deserialize the Map
+            meetingMap = (Map<String, Meeting>) input.readObject();
+            input.close();
+            //Convert the Map to list
+            List<Meeting> listMeeting = new ArrayList<>(meetingMap.values());
+            return listMeeting;
+        } else {
+            ArrayList<Meeting> listMeeting = new ArrayList<>();
+            return listMeeting;
+        }
+    }
+
+
+    /**
+     * Return the list of all Trade from the file at path filePath.
+     *
+     * @param filePath the path of the data file
+     */
+    public static List<Trade> readTradesFromFile(String filePath) throws IOException, ClassNotFoundException {
+
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            //Create a new empty hashmap which key is the id and value is the object
+            Map<String, Trade> tradeMap = new HashMap<>();
+            InputStream file = new FileInputStream(filePath);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
+
+            // deserialize the Map
+            tradeMap = (Map<String, Trade>) input.readObject();
+            input.close();
+            //Convert the Map to list
+            List<Trade> listTrade = new ArrayList<>(tradeMap.values());
+            return listTrade;
+        } else {
+            ArrayList<Trade> listTrade = new ArrayList<>();
+            return listTrade;
+        }
     }
 
 
@@ -106,146 +214,155 @@ public class FilesReaderWriter implements Serializable {
      *
      * @param filePath the path of the data file
      */
-    public Map<String, Item> readItemsFromFile(String filePath) throws FileNotFoundException{
+    public Map<String, Item> readItemsFromFile(String filePath) throws IOException, ClassNotFoundException {
 
         File new_file = new File(filePath);
         if (new_file.exists()) {
             //Create a new empty hashmap which key is the id and value is the object
             Map<String, Item> itemMap = new HashMap<>();
-            try {
-                InputStream file = new FileInputStream(filePath);
-                InputStream buffer = new BufferedInputStream(file);
-                ObjectInput input = new ObjectInputStream(buffer);
+            InputStream file = new FileInputStream(filePath);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
 
-                // deserialize the Map
-                itemMap = (Map<String, Item>) input.readObject();
-                input.close();
-            } catch (IOException | ClassNotFoundException ex) {
-                //TODO;
-            }
+            // deserialize the Map
+            itemMap = (Map<String, Item>) input.readObject();
+            input.close();
             return itemMap;
-        } else {
-            throw new FileNotFoundException();
         }
+
+        else {throw new FileNotFoundException();}
     }
 
 
     /**
-     * Return the all users in the map of user ids to Users from the file at path filePath.
-     *
-     * @param filePath the path of the data file
-     */
-    public Map<String, User> readUsersFromFile(String filePath) throws FileNotFoundException{
-
-        File new_file = new File(filePath);
-        if (new_file.exists()) {
-            //Create a new empty hashmap which key is the id and value is the object
-            Map<String, User> userMap = new HashMap<>();
-            try {
-                InputStream file = new FileInputStream(filePath);
-                InputStream buffer = new BufferedInputStream(file);
-                ObjectInput input = new ObjectInputStream(buffer);
-
-                // deserialize the Map
-                userMap = (Map<String, User>) input.readObject();
-                input.close();
-            } catch (IOException | ClassNotFoundException ex) {
-                //TODO;
-            }
-            return userMap;
-        } else {
-            throw new FileNotFoundException();
-        }
-    }
-
-
-    /**
-     * Return the all AdminUser in the map of adminUser ids to AdminUsers from the file at path filePath.
-     *
-     * @param filePath the path of the data file
-     */
-    public Map<String, AdminUser> readAdminUserFromFile(String filePath) throws FileNotFoundException{
-
-        File new_file = new File(filePath);
-        if (new_file.exists()) {
-            //Create a new empty hashmap which key is the id and value is the object
-            Map<String, AdminUser> adminUserMap = new HashMap<>();
-            try {
-                InputStream file = new FileInputStream(filePath);
-                InputStream buffer = new BufferedInputStream(file);
-                ObjectInput input = new ObjectInputStream(buffer);
-
-                // deserialize the Map
-                adminUserMap = (Map<String, AdminUser>) input.readObject();
-                input.close();
-            } catch (IOException | ClassNotFoundException ex) {
-                //TODO;
-            }
-            return adminUserMap;
-        } else {
-            throw new FileNotFoundException();
-        }
-    }
-
-
-    /**
-     * Writes the objects to file at filePath.
+     * Writes the Users to file at filePath.
      *
      * @param filePath the file to write the records to
-     * @param userMap the mapping of user ids to Users
-     * @throws IOException
+     * @param listUser the Arraylist of Users
+     * @throws IOException all possible input/output errors
      */
-    public void saveUserToFile(Map<String, User> userMap, String filePath) throws IOException {
-        //If the file does not exist, create the file with the name of filePath first
+    public static void saveUsersToFile(ArrayList<User> listUser, String filePath) throws IOException {
+        //If the file does not exist, throws FileNotFoundException
         File new_file = new File(filePath);
         if (!new_file.exists()) {
-            new_file.createNewFile();
+           throw new FileNotFoundException();
         }
 
         OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
         ObjectOutput output = new ObjectOutputStream(buffer);
 
+        //Convert the arraylist of user to the map which mapping of user ids to Users
+        Map<String, User> userMap= new HashMap<>();
+        for (User user: listUser) {
+            userMap.put(Integer.toString(user.getId()), user);
+        }
+        // serialize the Map
+        output.writeObject(userMap);
+        output.close();
+
+    }
+
+    /**
+     * Writes the AdminUsers to file at filePath.
+     *
+     * @param filePath the file to write the records to
+     * @param listAdminUser the Arraylist of AdminUsers
+     * @throws IOException all possible input/output errors
+     */
+    public static void saveAdminUsersToFile(ArrayList<AdminUser> listAdminUser, String filePath) throws IOException {
+        //If the file does not exist, throws FileNotFoundException
+        File new_file = new File(filePath);
+        if (!new_file.exists()) {
+            throw new FileNotFoundException();
+        }
+
+        OutputStream file = new FileOutputStream(filePath);
+        OutputStream buffer = new BufferedOutputStream(file);
+        ObjectOutput output = new ObjectOutputStream(buffer);
+
+        //Convert the Arraylist of admin user to the map which mapping of admin user ids to AdminUsers
+        Map<String, AdminUser> userMap= new HashMap<>();
+        for (AdminUser adminUser: listAdminUser) {
+            userMap.put(Integer.toString(adminUser.getId()), adminUser);
+        }
         // serialize the Map
         output.writeObject(userMap);
         output.close();
     }
 
+
     /**
-     * Writes the objects to file at filePath.
+     * Writes the Meeting to file at filePath.
      *
      * @param filePath the file to write the records to
-     * @param adminUserMap the mapping of admin user ids to AdminUsers
-     * @throws IOException
+     * @param listMeeting the Arraylist of Meetings
+     * @throws IOException all possible input/output errors
      */
-    public void saveAdminUserToFile(Map<String, AdminUser> adminUserMap, String filePath) throws IOException {
-        //If the file does not exist, create the file with the name of filePath first
+    public static void saveMeetingsToFile(List<Meeting> listMeeting, String filePath) throws IOException {
+        //If the file does not exist, throws FileNotFoundException
         File new_file = new File(filePath);
         if (!new_file.exists()) {
-            new_file.createNewFile();
+            throw new FileNotFoundException();
         }
 
         OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
         ObjectOutput output = new ObjectOutputStream(buffer);
 
+        //Convert the list of meeting to the map which mapping of meeting ids to Meetings
+        Map<String, Meeting> meetingMap= new HashMap<>();
+        for (Meeting meeting: listMeeting) {
+            meetingMap.put(Integer.toString(meeting.getMeetingNum()), meeting);
+        }
         // serialize the Map
-        output.writeObject(adminUserMap);
+        output.writeObject(meetingMap);
         output.close();
     }
+
+
+    /**
+     * Writes the Trade to file at filePath.
+     *
+     * @param filePath the file to write the records to
+     * @param listTrade the Arraylist of Trades
+     * @throws IOException all possible input/output errors
+     */
+    public static void saveTradesToFile(List<Trade> listTrade, String filePath) throws IOException {
+        //If the file does not exist, throws FileNotFoundException
+        File new_file = new File(filePath);
+        if (!new_file.exists()) {
+            throw new FileNotFoundException();
+        }
+
+        OutputStream file = new FileOutputStream(filePath);
+        OutputStream buffer = new BufferedOutputStream(file);
+        ObjectOutput output = new ObjectOutputStream(buffer);
+
+        //Convert the list of trade to the map which mapping of trade ids to Trades
+        Map<String, Trade> meetingMap= new HashMap<>();
+        for (Trade trade: listTrade) {
+            meetingMap.put(Integer.toString(trade.getIds().get(1)), trade);
+        }
+        // serialize the Map
+        output.writeObject(meetingMap);
+        output.close();
+    }
+
+
 
     /**
      * Writes the objects to file at filePath.
      *
      * @param filePath the file to write the records to
      * @param itemMap the mapping of item ids to Items
-     * @throws IOException
+     * @throws IOException all possible input/output errors
      */
     public void saveItemsToFile(Map<String, Item> itemMap, String filePath) throws IOException {
-        //If the file does not exist, create the file with the name of filePath first
+        //If the file does not exist, throws FileNotFoundException
         File new_file = new File(filePath);
         if (!new_file.exists()) {
-            new_file.createNewFile();
+            throw new FileNotFoundException();
         }
 
         OutputStream file = new FileOutputStream(filePath);
@@ -262,7 +379,7 @@ public class FilesReaderWriter implements Serializable {
      * Return the largest menu number of the menu file at filePath.
      *
      * @param filePath the file to write the records to
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if filePath is not a valid path
      */
     public int MenuLength(String filePath) throws FileNotFoundException {
         File file = new File(filePath);
@@ -289,102 +406,5 @@ public class FilesReaderWriter implements Serializable {
     }
 
 
-    /**
-     * Serialize the User into the file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param new_user the object need to be saved to the file at filePath
-     */
-    public void SerializeUser(String filePath, User new_user){
-        try {
-            Map<String, User> new_user_map = new HashMap<>();
-            new_user_map.put(Integer.toString(new_user.getId()), new_user);
-            saveUserToFile(new_user_map, filePath);
-        } catch (IOException ex){
-            //TODO:}
-
-        }
-    }
-
-
-    /**
-     * Serialize the AdminUser into the file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param new_adminUser the object need to be saved to the file at filePath
-     */
-    public void SerializeAdminUser(String filePath, AdminUser new_adminUser){
-        try {
-            Map<String, AdminUser> new_adminUser_map = new HashMap<>();
-            new_adminUser_map.put(Integer.toString(new_adminUser.getId()), new_adminUser);
-            saveAdminUserToFile(new_adminUser_map, filePath);
-        } catch (IOException ex){
-            //TODO:}
-
-        }
-    }
-
-    /**
-     * Serialize the arraylist of Items into the file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param itemArrayList list of Items need to be saved to the file at filePath
-     */
-    public void setItemListtoFile(String filePath, ArrayList<Item> itemArrayList) throws IOException {
-        Map<String, Item> itemHashMap = new HashMap<String, Item>();
-        for (Item item: itemArrayList) {
-            itemHashMap.put(Integer.toString(item.getItemId()), item);
-        }
-        saveItemsToFile(itemHashMap, filePath);
-    }
-
-
-    /**
-     * Serialize the Item into the file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param new_item Item need to be saved to the file at filePath
-     */
-    public void addItemtoFile(String filePath, Item new_item) throws IOException {
-        Map<String, Item> itemHashMap = new HashMap<String, Item>();
-        itemHashMap.put(Integer.toString(new_item.getItemId()), new_item);
-        saveItemsToFile(itemHashMap, filePath);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void deleteItemfromfile(String filePath, String name_for_search) throws FileNotFoundException {
-        //Read all item from the file
-        Map<String, Item> itemMap = readItemsFromFile(filePath);
-        //Convert the values of map to list
-        ArrayList<Item> itemList = new ArrayList<Item>(itemMap.values());
-        //Get the name of all item in the list
-        ArrayList<String> itemNameList = null;
-        for (Item item: itemList) {
-            itemNameList.add(item.getName());
-        }
-        //Search the name list to find if item exist in the file
-        for (String itemName: itemNameList) {
-            if (name_for_search.equals(itemName)) {
-
-            }
-        }
-
-    }
 }
 
