@@ -175,11 +175,11 @@ public class RegularUserController implements Serializable, Controllable {
 //              let user enter item id
 //              let user enter tradeType ('Permanent' OR 'Temporary')
                 //get info
-                borrowerId = getUserID();
-                lenderId = getUserID();
-                itemId = getItemID();
-                tradeType = askForTradeType();
-                Trade newTrade = Trade(borrowerId, lenderId, itemId, tradeType);
+                int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
+                int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                int itemId = getItemID();
+                String tradeType = askForTradeType();
+                Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
 //              set status for the person who requested the trade
                 if (borrowerId == userId){
                     newTrade.setBorrowerStatus(userId,"Agree");
@@ -189,7 +189,7 @@ public class RegularUserController implements Serializable, Controllable {
                 }
 //              add trade
                 tm.addTrade(newTrade);
-//              TODO: ***THRESHOLD PROBLEM***
+//              TODO: do I need to check user's numBorrowed and numLend to make sure lend>=borrowed???
 //              TODO: what if the other person disagrees -- do we keep the trade in tm?
                 break;
             case 2:
@@ -197,7 +197,8 @@ public class RegularUserController implements Serializable, Controllable {
                 ds.printResult(tm.getWaitTrade(userId));
                 Trade trade = tm.getTradeById(getTradeId());
                 String tradeStatus = getAgreeOrNot();
-                if (borrowerId == userId){
+//              TODO: add getBorrowerid and getLenderid methods in the Trade class
+                if (trade.getBorrowerId() == userId){
                     trade.setBorrowerStatus(userId, tradeStatus);
                 }
                 else{
@@ -245,49 +246,49 @@ public class RegularUserController implements Serializable, Controllable {
 
         switch (subMenuOption) {
             case 1:
-                List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId);
-//              TODO: call presenter to print it [Jiaqi]
-//              TODO: ask the user to enter the meeting id and the time and place
-//              TODO: have a method in meetingManager -- given id - return meeting
-                public Meeting getMeetingByIdNum ( int tradeId, int numMeeting)
-//              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-//              TODO: call presenter to print msg of successful or not [Jiaqi]
+                Meeting meeting = getMeeting();
+                Date time = getTime();
+                String place = getPlace();
+//              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
+                ds.printResult(meeting.setTimePlaceEdit(userId, time));
                 break;
             case 2:
-                //List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId); (dupli. code)
-//              TODO: call presenter to print it [Jiaqi]
-//              TODO: ask the user to enter the meeting id
-//              TODO: do get meeting by trade id / should have another one for meeting id?
-//              TODO: setTimePlaceConfirm(userId) -- for the meeting to be confirmed
-//               (both users need to confirm on the time and place I think... (one suggest and one confirmed)
-//              TODO: call presenter to print msg of successful or not [Jiaqi]
+                Meeting meeting2 = getMeeting();
+                ds.printResult(meeting2.setTimePlaceConfirm(userId));
                 break;
             case 3:
-                List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId);
-//              TODO: call presenter to print it (all the meetings) [Jiaqi]
-//              TODO: ask the user to enter the meeting id of the meeting to be confirmed
-//              TODO: public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId)
-//               a setMeetingConfirmed method?(I put it in the MeetingManager
-//              TODO: call presenter to print msg of successful or not [Jiaqi]
+//              "confirmed" means the meeting haven't take place but time and place are confirmed
+                ds.printResult(mm.getUnConfirmMeeting(userId));
+                Meeting meeting3 = getMeeting();
+                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
                 break;
             case 4:
-                // List<Meeting> meetingsToBeConfirmed = mm.getUnConfirmMeeting(userId); (dupli. code)
-//              TODO: call the presenter to print it [Jiaqi]
+                ds.printResult(mm.getUnConfirmMeeting(userId));
                 break;
             case 5:
-                List<Meeting> meetingsConfirmed = mm.getCompleteMeeting(userId);
-//              TODO: call the presenter to print it [Jiaqi]
+                ds.printResult(mm.getCompleteMeeting(userId));
                 break;
             case 6:
-//              TODO: get to-be-opened trades for the userId [getWaitTrade]
-//              TODO: let presenter prints it [Jiaqi]
-//              TODO: user can enter the trade id for the one that he/she wants to set up the first meeting for
-//              TODO: user can enter the other user's id or username and we'll set it up
-//              TODO: add it to the meetingManager
-//              TODO: let presenter print msg of successful or not [Jiaqi]
+                // print a list of trades waiting to be opened -- to have the 1st meeting
+                // because once the meeting is set up --> open
+                // so need to set up first meeting for the waiting to be opened trades
+                ds.printResult(tm.getWaitTrade(userId));
+                //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
+                int tradeId = getTradeId();
+                int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
+                int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                ds.printResult(mm.addMeeting(tradeId, userId1, userId2,1, tm));
                 break;
         }
 
+    }
+
+    private Meeting getMeeting() {
+        ds.printResult(mm.getUnConfirmTimePlace(userId, tm));
+//      ask the user to enter the trade id, meetingNum, time and place
+        int tradeId = getTradeId();
+        int numMeeting = getNumMeeting();
+        return mm.getMeetingByIdNum(tradeId, numMeeting);
     }
 
     /**
@@ -376,4 +377,31 @@ public class RegularUserController implements Serializable, Controllable {
         }
         return fullMsg.toString();
     }
+
+    private int getUserID(String type){
+        Scanner sc = new Scanner(System.in);
+        int userId = 0;
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the userId of the " + type + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                userId = sc.nextInt();
+                // if the input is valid
+                if (um.checkUser(um.idToUsername(userId))) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid id!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return userId;
+    }
+
+    private
+
+
 }
