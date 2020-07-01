@@ -174,41 +174,60 @@ public class RegularUserController implements Serializable, Controllable {
 //              let user enter lender id
 //              let user enter item id
 //              let user enter tradeType ('Permanent' OR 'Temporary')
-                askForTradeInfo();
-                tm.
-//              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN
-//              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE
-//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
+                //get info
+                borrowerId = getUserID();
+                lenderId = getUserID();
+                itemId = getItemID();
+                tradeType = askForTradeType();
+                Trade newTrade = Trade(borrowerId, lenderId, itemId, tradeType);
+//              set status for the person who requested the trade
+                if (borrowerId == userId){
+                    newTrade.setBorrowerStatus(userId,"Agree");
+                }
+                else{
+                    newTrade.setLenderStatus(userId, "Disagree");
+                }
+//              add trade
+                tm.addTrade(newTrade);
+//              TODO: ***THRESHOLD PROBLEM***
+//              TODO: what if the other person disagrees -- do we keep the trade in tm?
                 break;
             case 2:
-                //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?)
-                //             TODO: ASKS THE USER WHETHER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-//              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE [
-//              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
+//              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
+                ds.printResult(tm.getWaitTrade(userId));
+                Trade trade = tm.getTradeById(getTradeId());
+                String tradeStatus = getAgreeOrNot();
+                if (borrowerId == userId){
+                    trade.setBorrowerStatus(userId, tradeStatus);
+                }
+                else{
+                    trade.setLenderStatus(userId, tradeStatus);
+                }
+                //remove items -- if agree
+                if (tradeStatus.equals("Agree")){
+                    um.removeItemInventory(idToItem(itemId), um.idToUsername(lenderId));
+                    um.removeItemWishlist(idToItem(itemId), um.idToUsername(borrowerId));}
+                ds.printResult(true);
                 break;
             case 3:
-                tm.getOpenTrade(userId);
-//              TODO: call presenter class [Jiaqi]
+                ds.printResult(tm.getOpenTrade(userId));
                 break;
             case 4:
-                tm.getClosedTrade(userId);
-//              TODO: call presenter class [Jiaqi]
+                ds.printResult(tm.getClosedTrade(userId));
                 break;
             case 5:
-//              TODO: print all the open trades [Jiaqi]
-                tm.getOpenTrade(userId);
-//              TODO: let user enter trade id and we use it to confirm complete
-//              tm.confirmComplete();
-//              TODO: call presenter class [Jiaqi]
+                ds.printResult(tm.getOpenTrade(userId));
+                tradeId = getTradeID();
+//              let user enter trade id and we use it to confirm complete
+                ds.printResult(tm.confirmComplete(tradeId));
                 break;
             case 6:
-//              TODO: we need id for the top three partners :) - storage in User class [Daniel]
+//              TODO: id for the top three partners???
 //              TODO: with that, userManager can have a searchUser function (id - user instance) and then
 //              TODO: I'll pass in the ids, get the user instance and then pass it to the presenter class
                 break;
             case 7:
-//              TODO: get a boolean variable for whether the trade is cancelled or not
-//              TODO: get list of trades with cancelled status with a given user id
+                ds.printResult(tm.getCancelledTrade(userId));
                 break;
 
         }
