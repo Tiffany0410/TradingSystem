@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * An instance of this class represents the communication system between the regular user,
@@ -23,11 +25,12 @@ public class RegularUserController implements Serializable, Controllable {
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
-     * @param ds The presenter class used to print to screen.
-     * @param rw The gateway class used to read or write to file.
-     * @param tm The current state of the TradeManager.
-     * @param mm The current state of the MeetingManager.
-     * @param um The current state of the UserManager.
+     *
+     * @param ds       The presenter class used to print to screen.
+     * @param rw       The gateway class used to read or write to file.
+     * @param tm       The current state of the TradeManager.
+     * @param mm       The current state of the MeetingManager.
+     * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
     public RegularUserController(DisplaySystem ds, FilesReaderWriter rw,
@@ -45,6 +48,7 @@ public class RegularUserController implements Serializable, Controllable {
     /**
      * This method gathers all the necessary notifications
      * for the regular user.
+     *
      * @return Notifications as properly formatted strings.
      * @throws FileNotFoundException In case the file can't be found.
      */
@@ -76,8 +80,9 @@ public class RegularUserController implements Serializable, Controllable {
      * This method calls appropriate methods based on user input
      * of the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
+     *
      * @param mainMenuOption The main menu option chosen by the regular user.
-     * @param subMenuOption The sub menu option for a particular sub menu chosen by the regular user.
+     * @param subMenuOption  The sub menu option for a particular sub menu chosen by the regular user.
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) {
@@ -88,7 +93,7 @@ public class RegularUserController implements Serializable, Controllable {
         3. decide what presenter method to call to print the results for each menu option
 
         */
-        switch(mainMenuOption){
+        switch (mainMenuOption) {
             case 1:
                 userAccountMenuResponse(subMenuOption);
                 break;
@@ -114,56 +119,44 @@ public class RegularUserController implements Serializable, Controllable {
         8.See most recent three items traded
         0.Exit menu
          */
-        switch(subMenuOption){
+        ArrayList<Item> allOtherItems = um.allItems(userId);
+        switch (subMenuOption) {
             case 1:
-//              TODO: return a list of books of all other users [Gabriel]
+                // print items in all users inventory except this user
+                ds.printResult(allOtherItems);
                 break;
             case 2:
-                um.addItemWishlist(getItem("ADD"), username);
-//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
+                // add the id to user's wishlist
+                ds.printResult(um.addItemWishlist(getItemID(allOtherItems, 1), username));
                 break;
             case 3:
-//              TODO: get the itemName from user  [Jiaqi / me?]
-//              um.searchItem(*item name*)
-//              TODO: call presenter to print the result of the method call [Jiaqi]
-
+                // print all the items being searched for
+                ds.printResult(um.searchItem(getItemName()));
             case 4:
-                um.removeItemWishlist(getItem("REMOVE"), username);
-//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
+                // remove the item id from wishlist
+                ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
                 break;
             case 5:
-                um.removeItemInventory(getItem("REMOVE"), username);
-//              TODO: call presenter class to pass the boolean to and print msg [Jiaqi]
+                ArrayList<Item> userInventory = um.findUser(userId).getInventory();
+                ds.printResult(userInventory);
+                ds.printResult(um.removeItemInventory(getItemID(userInventory, 1), username));
                 break;
             case 6:
-//              TODO: maybe have a setter for the listUnfreezeRequest in userManager?
-//              TODO: add the user's request to the list in proper format*
-//               (a message with user id so admin can use it to unfreeze)
+                ds.printResult(um.requestUnfreeze(username, getMessage("Leave your unfreeze request message")));
                 break;
             case 7:
-//              TODO: receive user input of all the details needed to create an item
-//              TODO: maybe there can be a listAddItemRequest in userManager?
-//               (like each element are strings with all the information needed for the admin to create
-//               the item instance (when the admin wants to confirm it)
+                ds.printResult(um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
                 break;
             case 8:
-//              TODO: top three items traded --> id plz!!! [Daniel]
+                List<Item> threeItems = new ArrayList<>();
+                List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+                for (int id: recentThreeTradedIds) {
+                   threeItems.add(idToItem(id));
+                }
+                ds.printResult(threeItems);
                 break;
         }
     }
-
-    private Item getItem(String action) {
-        if (action.equals("ADD")){
-            System.out.println("ITEM TO BE ADDED");
-        }
-        else{
-            System.out.println("ITEM TO BE DELETED");
-        }
-        // Reads in from the keyboard
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//      TODO: CREATE SEVERAL ITERATOR CLASSES TO PASS PROMPTS
-    }
-
 
     private void userTradingMenuResponse(int subMenuOption) {
         /*
@@ -177,17 +170,19 @@ public class RegularUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-//              TODO: let user enter borrower id
-//              TODO: let user enter lender id
-//              TODO: let user enter item id
-//              TODO: let user enter tradeType ('Permanent' OR 'Temporary')
+//              let user enter borrower id
+//              let user enter lender id
+//              let user enter item id
+//              let user enter tradeType ('Permanent' OR 'Temporary')
+                askForTradeInfo();
+                tm.
 //              TODO: THERE SHOULD BE ... MAYBE A MAP OF USERID TO BOOLEAN
 //              TODO: AND THE DEFAULT IS THE PERSON WHO REQUEST THE TRADE = AGREE
 //              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
             case 2:
- //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?)
- //             TODO: ASKS THE USER WHETHER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
+                //             TODO: PRINT THE LIST OF WAIT TO BE OPENED TRADES (OR MAYBE HAVE A WAIT TO BE AGREED LIST OF TRADES?)
+                //             TODO: ASKS THE USER WHETHER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
 //              TODO: WE CAN JUST SET THE MAP^ USE USERID TO SET THE BOOLEAN TO TRUE/FALSE [
 //              TODO: CALL PRESENTER TO PRINT MSG -- SUCCESSFUL OR NOT [Jiaqi]
                 break;
@@ -229,13 +224,13 @@ public class RegularUserController implements Serializable, Controllable {
     6.View to-be-opened trades and set up first meeting
         */
 
-        switch(subMenuOption) {
+        switch (subMenuOption) {
             case 1:
                 List<Meeting> unconfirmedMeetings = mm.getUnConfirmTimePlace(userId);
 //              TODO: call presenter to print it [Jiaqi]
 //              TODO: ask the user to enter the meeting id and the time and place
 //              TODO: have a method in meetingManager -- given id - return meeting
-                public Meeting getMeetingByIdNum(int tradeId, int numMeeting)
+                public Meeting getMeetingByIdNum ( int tradeId, int numMeeting)
 //              TODO: call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
 //              TODO: call presenter to print msg of successful or not [Jiaqi]
                 break;
@@ -276,4 +271,90 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
+    /**
+     * Other ask-user-for-input methods
+     */
+    private int getItemID(ArrayList<Item> potentialItems, int type) {
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        // all possible ids the user can pick from
+        ArrayList<Integer> potentialIds;
+        // depends on the option the user chooses
+        if (type == 1) {
+            potentialIds = getItemsIDs(potentialItems);
+        } else {
+            potentialIds = um.findUser(userId).getWishList();
+        }
+        Scanner sc = new Scanner(System.in);
+        int itemId = 0;
+        do {
+            ds.printOut("Please enter the id of the item: ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                itemId = sc.nextInt();
+                // if the input is valid
+                if (potentialIds.contains(itemId)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid id!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return itemId;
+    }
+
+    //TODO maybe put this somewhere else
+    private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
+        ArrayList<Integer> potentialIds = new ArrayList<>();
+        //get the id of all the items in the given arraylist
+        for (Item item : allOtherItems) {
+            potentialIds.add(item.getItemId());
+        }
+        return potentialIds;
+    }
+
+    private String getItemName() {
+        Scanner sc = new Scanner(System.in);
+        ds.printOut("Please enter the prefix of the item being searched for: ");
+        String itemName = sc.nextLine();
+        return itemName;
+    }
+
+    //TODO maybe put this somewhere else
+    //TODO MAKE SURE ALL IDS IN RECENTTHREEITEM METHOD EXISTS IN THE ARRAYLIST
+    private Item idToItem(int id) {
+        //Get all the items in the system
+        ArrayList<Item> allOtherItems = um.allItems(userId);
+        allOtherItems.addAll(um.findUser(userId).getInventory());
+        //find the item with <id>
+        for (Item item : allOtherItems) {
+            if (item.getOwnerId() == id) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    private String getMessage(String TypeOfMessage){
+        Scanner sc = new Scanner(System.in);
+        ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
+        StringBuilder fullMsg = null;
+        //prevent the null pointer exception
+        fullMsg.append("");
+        //read the first line
+        String msg = sc.nextLine();
+        //read in + append until user enters "OK"
+        while(!msg.equals("OK")){
+            fullMsg.append(msg);
+            msg = sc.nextLine();
+        }
+        return fullMsg.toString();
+    }
 }
