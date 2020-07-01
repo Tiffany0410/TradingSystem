@@ -1,5 +1,6 @@
 package bookTradeSystem;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class AccountCreator {
      * @param type The type of account: normal user or admin
      * @return true if the User was successfully added, false otherwise
      */
-    public boolean createAccount(String type){
+    public boolean createAccount(String type) throws FileNotFoundException {
         boolean out = false;
         HashMap<String, String> info = um.userPasswords();
         ArrayList<User> listPeople = um.getListUser();
@@ -47,9 +48,9 @@ public class AccountCreator {
             out = true;
 
             if (type.equals("Regular")) {
-                fr.addNewUser(username, password, email, "./src/bookTradeSystem/RegularUserAccounts.csv");
+                fr.saveUserInfoToCSVFile("./src/bookTradeSystem/RegularUserUsernameAndPasssword.csv", username, password, email );
             } else if (type.equals("Admin")) {
-                fr.addNewUser(username, password, email, "./src/bookTradeSystem/AdminUserAccounts.csv");
+                fr.saveUserInfoToCSVFile("./src/bookTradeSystem/AdminUserUsernameAndPassword.csv", username, password, email);
             }
         }
 
