@@ -197,31 +197,33 @@ public class TradeManager implements Serializable {
      * get the trade by the given trade id
      *
      * @param tradeId the id of the trade
-     * @return a trade with the given id if the trade is in the TradeManager, otherwise, return a trade with borrowerId
-     * and lenderId and itemId with 0, and tradeType with "".
+     * @return a trade with the given id if the trade is in the TradeManager, otherwise, throw InvalidIdException
      */
-    public Trade getTradeById(int tradeId) {
+    public Trade getTradeById(int tradeId) throws InvalidIdException {
         Trade trade1 = listTrade.get(0);
         for (Trade trade : listTrade) {
             if (trade.getIds().get(0) == tradeId) {
                 return trade;
             }
         }
-        return new Trade(0, 0, 0, "");
+        throw new InvalidIdException("Invalid Id");
     }
 
 
     /**
      * Create a trade
      *
-     * @param borrowerId borrower id
-     * @param lenderId   lender id
+     * @param userId1 borrower id
+     * @param userId2   lender id
      * @param itemId     item id
      * @param tradeType  type of the trade
      * @return a Trade
      */
-    public Trade createTrade(int borrowerId, int lenderId, int itemId, String tradeType) {
-        return new Trade(borrowerId, lenderId, itemId, tradeType);
+    public Trade createTrade(int userId1, int userId2, int itemId, String tradeType) {
+        return new Trade(userId1, userId2, itemId, tradeType);
+    }
+    public Trade createTrade(int borrowerId, int lenderId, int itemId, int itemId1, String tradeType) {
+        return new Trade(borrowerId, lenderId, itemId, itemId1, tradeType);
     }
 
     /**
