@@ -11,6 +11,7 @@ public class TradingSystem {
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
    private FilesReaderWriter filesReaderWriter;
+   private String userType;
 
    /**
     * constructor of trading system
@@ -18,7 +19,7 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, FilesReaderWriter filesReaderWriter,DisplaySystem displaySystem,
-                        AccountCreator accountCreator) throws IOException, ClassNotFoundException {
+                        AccountCreator accountCreator) throws IOException {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
@@ -66,16 +67,15 @@ public class TradingSystem {
     */
 
    private void login() throws FileNotFoundException {
-      String type;
       String userName;
       String userPassword;
 
       // get the type of account
       userName = displaySystem.getUsername();
       userPassword = displaySystem.getPassword();
-      type = loginValidator.verifyLogin(userName, userPassword );
+      this.userType = loginValidator.verifyLogin(userName, userPassword );
 
-      switch (type) {
+      switch (this.userType) {
          case "fail":
             displaySystem.failLogin();
             this.tradingSystemInital();
@@ -96,7 +96,19 @@ public class TradingSystem {
 
    private void logOut(String userName) throws FileNotFoundException {
       // TODO: serialize what?
-      String filePath = "./src/bookTradeSystem";
+       // get the user need to pass in
+
+       // get the file path need to pass in
+       if (this.userType.equals("user")){
+           AdminUser adminUser = this.userManager.findAdmin(userName);
+           String filePath = "./src/bookTradeSystem/";
+           this.filesReaderWriter.SerializeAdminUser(filePath ,adminUser);
+       }else{
+           User user = this.userManager.findUser(userName);
+           String filePath = "./src/bookTradeSystem/";
+           this.filesReaderWriter.SerializeUser(filePath, user);
+       }
+
       this.tradingSystemInital();
    }
 
@@ -150,8 +162,8 @@ public class TradingSystem {
     */
 
    private void adminUserMain(String userName) throws FileNotFoundException {
-      AdminUserController adminUserController = new AdminUserController(this.displaySystem, this.filesReaderWriter,
-              this.userManager, userName);
+      AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
+              this.filesReaderWriter, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(adminUserController.alerts());
 
