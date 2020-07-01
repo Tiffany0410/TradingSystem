@@ -94,21 +94,7 @@ public class TradingSystem {
     * For log out this account
     */
 
-   private void logOut(String userName) throws FileNotFoundException {
-      // TODO: serialize what?
-       // get the user need to pass in
-
-       // get the file path need to pass in
-       if (this.userType.equals("user")){
-           AdminUser adminUser = this.userManager.findAdmin(userName);
-           String filePath = "./src/bookTradeSystem/";
-           this.filesReaderWriter.SerializeAdminUser(filePath ,adminUser);
-       }else{
-           User user = this.userManager.findUser(userName);
-           String filePath = "./src/bookTradeSystem/";
-           this.filesReaderWriter.SerializeUser(filePath, user);
-       }
-
+   private void logOut() throws FileNotFoundException {
       this.tradingSystemInital();
    }
 
@@ -129,7 +115,7 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut(userName);
+         this.logOut();
       }
 
       int suboption = 0;
@@ -172,7 +158,7 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut(userName);
+         this.logOut();
       }
 
       int suboption = 0;
