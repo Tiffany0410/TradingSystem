@@ -16,7 +16,6 @@ public class AdminUserController implements Serializable, Controllable {
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected?
     private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected?
     private UserManager um;
-    private int adminUserId;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
@@ -25,15 +24,13 @@ public class AdminUserController implements Serializable, Controllable {
      * @param ds The presenter class used to print to screen.
      * @param rw The gateway class used to read or write to file.
      * @param um The current state of the UserManager.
-     * @param adminUserId The user ID of the admin user.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds,
-                               FilesReaderWriter rw, UserManager um, int adminUserId) {
+                               FilesReaderWriter rw, UserManager um) {
         this.ac = ac;
         this.ds = ds;
         this.rw = rw;
         this.um = um;
-        this.adminUserId = adminUserId;
     }
 
 

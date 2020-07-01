@@ -11,7 +11,6 @@ public class TradingSystem {
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
    private FilesReaderWriter filesReaderWriter;
-   private String userType;
 
    /**
     * constructor of trading system
@@ -19,7 +18,7 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, FilesReaderWriter filesReaderWriter,DisplaySystem displaySystem,
-                        AccountCreator accountCreator) throws IOException {
+                        AccountCreator accountCreator) {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
@@ -27,17 +26,21 @@ public class TradingSystem {
       this.tradeManager = tradeManager;
       this.filesReaderWriter = filesReaderWriter;
       this.accountCreator = accountCreator;
-
-      this.tradingSystemInital();
    }
 
 
    /**
     * Initial trading system menu
+    * @return false when user exit trading system, true when user not exit the system
     */
-   private void tradingSystemInital() throws FileNotFoundException {
+   public boolean tradingSystemInital() throws FileNotFoundException {
       int option;
       option = displaySystem.getMenuAnswer("TradingSystemInitMenu.csv");
+
+      // Option 0 is exit system
+      if (option == 0){
+         return false;
+      }
 
       // Option 1 is login
       if (option == 1){
@@ -53,13 +56,14 @@ public class TradingSystem {
 
             // If fail, give the reason why fail
             if (!condition){
-               displaySystem.printOut("Uername already exist");
+               displaySystem.printOut("Uername already exist, please try another one.");
             }
             displaySystem.printResult(condition);
 
          }
       }
 
+      return true;
    }
 
    /**
@@ -73,9 +77,9 @@ public class TradingSystem {
       // get the type of account
       userName = displaySystem.getUsername();
       userPassword = displaySystem.getPassword();
-      this.userType = loginValidator.verifyLogin(userName, userPassword );
+      String userType = loginValidator.verifyLogin(userName, userPassword);
 
-      switch (this.userType) {
+      switch (userType) {
          case "fail":
             displaySystem.failLogin();
             this.tradingSystemInital();
@@ -94,22 +98,8 @@ public class TradingSystem {
     * For log out this account
     */
 
-   private void logOut(String userName) throws FileNotFoundException {
-      // TODO: serialize what?
-       // get the user need to pass in
-
-       // get the file path need to pass in
-       if (this.userType.equals("user")){
-           AdminUser adminUser = this.userManager.findAdmin(userName);
-           String filePath = "./src/bookTradeSystem/";
-           this.filesReaderWriter.SerializeAdminUser(filePath ,adminUser);
-       }else{
-           User user = this.userManager.findUser(userName);
-           String filePath = "./src/bookTradeSystem/";
-           this.filesReaderWriter.SerializeUser(filePath, user);
-       }
-
-      this.tradingSystemInital();
+   private void logOut(){
+      this.displaySystem.printOut("Log out success.");
    }
 
 
@@ -129,32 +119,41 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut(userName);
+         this.logOut();
       }
 
-      int suboption = 0;
       // Option 1 is Account Info
       if (option == 1){
-         suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu.csv");
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{regularUserController.actionResponse(option, suboption);}
+         }
+         this.regularUserMain(userName);
       }
 
       // Option 2 is Trading Info
       else if (option == 2){
-         suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu.csv");
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{regularUserController.actionResponse(option, suboption);}
+         }
+         this.regularUserMain(userName);
       }
 
       // Option 3 is Meeting Info
       else if (option == 3){
-         suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu.csv");
-      }
-
-      if (suboption == 0){
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{regularUserController.actionResponse(option, suboption);}
+         }
          this.regularUserMain(userName);
-      }else{
-         regularUserController.actionResponse(option, suboption);
       }
-
-
    }
 
    /**
@@ -172,30 +171,43 @@ public class TradingSystem {
 
       // Option 0 is log out
       if (option == 0){
-         this.logOut(userName);
+         this.logOut();
       }
 
-      int suboption = 0;
       // Option 1 is manage users
       if (option == 1){
-         suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu,csv");
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{adminUserController.actionResponse(option, suboption);}
+         }
+         this.adminUserMain(userName);
       }
 
       // Option 2 is Edit Thresholds
       else if (option == 2){
-         suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu.csv");
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{adminUserController.actionResponse(option, suboption);}
+         }
+         this.adminUserMain(userName);
       }
 
       // Option 3 is other
       else if (option == 3){
-         suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu.csv");
+         boolean condition = true;
+         while(condition) {
+            int suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu,csv");
+            if (suboption == 0) { condition = false; }
+            else{adminUserController.actionResponse(option, suboption);}
+         }
+         this.adminUserMain(userName);
+
       }
 
-      if (suboption == 0){
-         this.adminUserMain(userName);
-      }else{
-         adminUserController.actionResponse(option, suboption);
-      }
    }
 
 }
