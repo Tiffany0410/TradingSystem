@@ -93,13 +93,21 @@ public class TradeManager implements Serializable {
                 numTrade.put(t.getIds().get(2), 1);
             }
         }
-        List<Integer> list1 = new ArrayList<>(numTrade.values());
-        Collections.sort(list1);
+        MapValueComparator com = new MapValueComparator(numTrade);
+        TreeMap<Integer, Integer> sortTrade = new TreeMap<Integer, Integer>(com);
+        List<Integer> list1 = new ArrayList<>(sortTrade.keySet());
         List<Integer> list2 = new ArrayList<>();
-        list2.add(list1.get(list.size() - 1));
-        list2.add(list1.get(list.size() - 2));
-        list2.add(list1.get(list.size() - 3));
-        return list2;
+        if (list1.size() >= 3) {
+            list2.add(list1.get(list.size() - 1));
+            list2.add(list1.get(list.size() - 2));
+            list2.add(list1.get(list.size() - 3));
+        } else if (list1.size() == 2) {
+            list2.add(list1.get(list.size() - 1));
+            list2.add(list1.get(list.size() - 2));
+        } else if (list1.size() == 1) {
+            list2.add(list1.get(list.size() - 1));
+            return list2;
+        }
     }
 
     /**
