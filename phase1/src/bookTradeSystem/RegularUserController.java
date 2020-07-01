@@ -1,10 +1,7 @@
 package bookTradeSystem;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -188,9 +185,8 @@ public class RegularUserController implements Serializable, Controllable {
                 //get info
                 int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
                 int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                //FIXME: FIX THE PARAM(***)
-                int itemId = getItemID(getItemsIDs());
-                String tradeType = askForTradeType();
+                int itemId = getItemID(getAllItems(), 1);
+                String tradeType = getTradeType();
                 Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
 //              set status for the person who requested the trade
                 if (borrowerId == userId){
@@ -207,7 +203,7 @@ public class RegularUserController implements Serializable, Controllable {
             case 2:
 //              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                 ds.printResult(tm.getWaitTrade(userId));
-                Trade trade = tm.getTradeById(getTradeId());
+                Trade trade = tm.getTradeById(getTradeID());
                 String tradeStatus = getAgreeOrNot();
 //              TODO: add getBorrowerid and getLenderid methods in the Trade class
                 if (trade.getBorrowerId() == userId){
@@ -230,7 +226,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 5:
                 ds.printResult(tm.getOpenTrade(userId));
-                tradeId = getTradeID();
+                int tradeId = getTradeID();
 //              let user enter trade id and we use it to confirm complete
                 ds.printResult(tm.confirmComplete(tradeId));
                 break;
@@ -286,7 +282,7 @@ public class RegularUserController implements Serializable, Controllable {
                 // so need to set up first meeting for the waiting to be opened trades
                 ds.printResult(tm.getWaitTrade(userId));
                 //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
-                int tradeId = getTradeId();
+                int tradeId = getTradeID();
                 int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
                 int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
                 ds.printResult(mm.addMeeting(tradeId, userId1, userId2,1, tm));
@@ -298,7 +294,7 @@ public class RegularUserController implements Serializable, Controllable {
     private Meeting getMeeting() {
         ds.printResult(mm.getUnConfirmTimePlace(userId, tm));
 //      ask the user to enter the trade id, meetingNum, time and place
-        int tradeId = getTradeId();
+        int tradeId = getTradeID();
         int numMeeting = getNumMeeting();
         return mm.getMeetingByIdNum(tradeId, numMeeting);
     }
@@ -363,8 +359,7 @@ public class RegularUserController implements Serializable, Controllable {
     //TODO MAKE SURE ALL IDS IN RECENTTHREEITEM METHOD EXISTS IN THE ARRAYLIST
     private Item idToItem(int id) {
         //Get all the items in the system
-        ArrayList<Item> allOtherItems = um.allItems(userId);
-        allOtherItems.addAll(um.findUser(userId).getInventory());
+        ArrayList<Item> allOtherItems = getAllItems();
         //find the item with <id>
         for (Item item : allOtherItems) {
             if (item.getOwnerId() == id) {
@@ -372,6 +367,12 @@ public class RegularUserController implements Serializable, Controllable {
             }
         }
         return null;
+    }
+
+    private ArrayList<Item> getAllItems() {
+        ArrayList<Item> allOtherItems = um.allItems(userId);
+        allOtherItems.addAll(um.findUser(userId).getInventory());
+        return allOtherItems;
     }
 
     private String getMessage(String TypeOfMessage){
@@ -391,6 +392,11 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     private int getUserID(String type){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
         Scanner sc = new Scanner(System.in);
         int userId = 0;
         boolean okInput = false;
@@ -413,7 +419,72 @@ public class RegularUserController implements Serializable, Controllable {
         return userId;
     }
 
-    private
+    /* useless for now...
+    private enum TradeType{
+        Permanent, Temporary
+    }*/
+
+    private String getTradeType(){
+        Scanner sc = new Scanner(System.in);
+        ds.printOut("Please enter the type of this trade (Permanent or Temporary) : ");
+        //read the first line
+        String tradeType = sc.nextLine();
+        //read in + append until user enters "OK"
+        while(!tradeType.equals("Permanent") && !tradeType.equals("Temporary")){
+            ds.printOut("Please enter a proper type!!!");
+            tradeType = sc.nextLine();
+        }
+        return tradeType;
+    }
 
 
+    private int getTradeID(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        Scanner sc = new Scanner(System.in);
+        int tradeId = 0;
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the id of the trade : ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                tradeId = sc.nextInt();
+                // if the input is valid
+                if (tm.getTradeById(tradeId).tradeType != "") {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid id!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return tradeId;
+    }
+
+    private String getAgreeOrNot(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        Scanner sc = new Scanner(System.in);
+        boolean ok = false;
+        String response;
+        do {
+            ds.printOut("Agree / Disagree?");
+            response = sc.nextLine();
+            if (!response.equals("Agree") && !response.equals("Disagree")) {
+                ds.printOut("Invalid string (the system is case sensitive)! Please enter again");
+            } else {
+                ok = true;
+            }
+        }
+         while(!ok);
+         return response;
+    }
 }
