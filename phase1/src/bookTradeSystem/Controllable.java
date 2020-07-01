@@ -11,8 +11,9 @@ public interface Controllable {
      * @param mainMenuOption The main menu option chosen by the one who logged into the program.
      * @param subMenuOption The sub menu option for a particular sub menu chosen by the one
      *                      who logged into the program.
+     * @throws FileNotFoundException In case the file can't be found.
      */
-    void actionResponse(int mainMenuOption, int subMenuOption);
+    void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException;
 
     /**
      * This method gathers all the necessary notifications for the user.

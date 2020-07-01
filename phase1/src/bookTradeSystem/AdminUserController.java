@@ -60,7 +60,7 @@ public class AdminUserController implements Serializable, Controllable {
      * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) {
+    public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException {
          /*
         1. decide the menu options
         2. decide what use case method to call for each menu option (discuss with Gabriel)
@@ -152,7 +152,7 @@ public class AdminUserController implements Serializable, Controllable {
         ds.printResult(true);
     }
 
-    private void adminOthersMenuResponse(int subMenuOption) {
+    private void adminOthersMenuResponse(int subMenuOption) throws FileNotFoundException {
         /*
         1. Add subsequent admin users
          */
