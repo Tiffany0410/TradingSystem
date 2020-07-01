@@ -8,11 +8,13 @@ import java.util.*;
  */
 public class MeetingManager implements java.io.Serializable{
     private List<Meeting> listMeeting;
+    private String filePath;
 
     /** set this listMeeting to an empty list of meeting.
      */
-    public MeetingManager(){
-        listMeeting = new ArrayList<>();
+    public MeetingManager(String filePath){
+        this.filePath = filePath;
+        listMeeting = FilesReaderWriter.readMeetingsFromFile(filePath);
     }
 
     /** get the list of meeting for the MeetingManager
@@ -218,6 +220,7 @@ public class MeetingManager implements java.io.Serializable{
     public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager){
         Meeting meeting1 =new Meeting(tradeId, userId1, userId2, meetingNum);
         listMeeting.add(meeting1);
+        FilesReaderWriter.saveMeetingsToFile(listMeeting, filePath);
         tradeManager.getTradeById(tradeId).openTrade();
         return meeting1;
     }
@@ -247,6 +250,7 @@ public class MeetingManager implements java.io.Serializable{
     public Boolean removeMeeting(Meeting meeting){
         if (listMeeting.contains(meeting)){
             listMeeting.remove(meeting);
+            FilesReaderWriter.saveMeetingsToFile(listMeeting, filePath);
             return true;
         }else {
             return false;
