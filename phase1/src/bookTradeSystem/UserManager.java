@@ -332,6 +332,21 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Searches for a AdminUser
+     * @param username The username of the AdminUser
+     * @return The AdminUser that is being searched for
+     */
+    public AdminUser findAdmin(String username){
+        AdminUser out = null;
+        for (AdminUser person: listAdmin){
+            if (person.getUsername().equals(username)){
+                out = person;
+            }
+        }
+        return out;
+    }
+
+    /**
      * Changes the threshold of how many more times a user has to lend before they can borrow
      * @param change The new threshold
      */
