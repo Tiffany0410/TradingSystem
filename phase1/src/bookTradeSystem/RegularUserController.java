@@ -93,15 +93,26 @@ public class RegularUserController implements Serializable, Controllable {
         3. decide what presenter method to call to print the results for each menu option
 
         */
+        User thisUser = um.findUser(userId);
         switch (mainMenuOption) {
             case 1:
                 userAccountMenuResponse(subMenuOption);
                 break;
             case 2:
-                userTradingMenuResponse(subMenuOption);
+                //TODO: lock here or in the options
+                if (thisUser.getIfFrozen()){
+                    ds.printOut("This menu is locked");}
+                else{
+                        userTradingMenuResponse(subMenuOption);
+                    }
                 break;
             case 3:
+                //TODO: lock here or in the options
+                if (thisUser.getIfFrozen()){
+                    ds.printOut("This menu is locked");}
+                else{
                 userMeetingMenuResponse(subMenuOption);
+                }
                 break;
         }
 
@@ -177,7 +188,8 @@ public class RegularUserController implements Serializable, Controllable {
                 //get info
                 int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
                 int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                int itemId = getItemID();
+                //FIXME: FIX THE PARAM(***)
+                int itemId = getItemID(getItemsIDs());
                 String tradeType = askForTradeType();
                 Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
 //              set status for the person who requested the trade
