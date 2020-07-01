@@ -3,8 +3,10 @@ import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
-    public TradeManager(){
-        listTrade = new ArrayList<>();
+    private String filePath;
+    public TradeManager(String filePath){
+        this.filePath = filePath;
+        listTrade = FilesReaderWriter.readTradesFromFile(filePath);
     }
     /**
      * @return the list of trade
@@ -13,18 +15,12 @@ public class TradeManager implements Serializable {
         return listTrade;
     }
 
-    /** Set the old listTrade to new listTrade
-     * @param listTrade a list of trade
-     */
-    public void setListTrade(List<Trade> listTrade){
-        this.listTrade = listTrade;
-    }
-
     /** Add a trade in list trade
      * @param t trade
      */
     public void addTrade(Trade t){
         listTrade.add(t);
+        FilesReaderWriter.saveTradesToFile(listTrade, filePath);
     }
 
     /** Check a user history
