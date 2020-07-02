@@ -96,7 +96,7 @@ public class FilesReaderWriter implements Serializable {
         } else {throw new FileNotFoundException();}
     }
 
-    private boolean helper_check_file_empty_or_not(String filePath) throws IOException {
+    private static boolean helper_check_file_empty_or_not(String filePath) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         if (br.readLine() == null) {
             return true;
@@ -110,12 +110,12 @@ public class FilesReaderWriter implements Serializable {
      *
      * @param filePath the path of the data file
      */
-    public UserManager readUserManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
+    public static UserManager readUserManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
         //check if the file at filePath exist or not
         File new_file = new File(filePath);
         if (new_file.exists()) {
             //check if the file is empty or not, if empty, return an new UserManager
-            if (this.helper_check_file_empty_or_not(filePath)) {
+            if (helper_check_file_empty_or_not(filePath)) {
                 return new UserManager();
             }
 
@@ -138,12 +138,12 @@ public class FilesReaderWriter implements Serializable {
      *
      * @param filePath the path of the data file
      */
-    public TradeManager readTradeManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
+    public static TradeManager readTradeManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
 
         File new_file = new File(filePath);
         if (new_file.exists()) {
             //check if the file is empty or not, if empty, return an new TradeManager
-            if (this.helper_check_file_empty_or_not(filePath)) {
+            if (helper_check_file_empty_or_not(filePath)) {
                 return new TradeManager();
             }
 
@@ -166,12 +166,12 @@ public class FilesReaderWriter implements Serializable {
      *
      * @param filePath the path of the data file
      */
-    public MeetingManager readMeetingManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
+    public static MeetingManager readMeetingManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
 
         File new_file = new File(filePath);
         if (new_file.exists()) {
             //check if the file is empty or not, if empty, return an new TradeManager
-            if (this.helper_check_file_empty_or_not(filePath)) {
+            if (helper_check_file_empty_or_not(filePath)) {
                 return new MeetingManager();
             }
 

@@ -13,24 +13,22 @@ public class DemoMain {
 
     public static void DemoMainManager() throws IOException, ClassNotFoundException, InvalidIdException {
         // File path
-        String userAccountInfoFilePath = "./src/bookTradeSystem/RegularUserUsernameAndPassword.csv";
-        String adminAccountInfoFilePath = "./src/bookTradeSystem/AdminUserUsernameAndPassword.csv";
-        String serializedUsersFilePath = "./src/bookTradeSystem/Managers/SerializedUsers.ser";
-        String serializedAdminUsersFilePath = "./src/bookTradeSystem/Managers/SerializedAdminUsers.ser";
-        String serializedItemsFilePath = "./src/bookTradeSystem/Managers/SerializedItems.ser";
-        String serializedMeetingsFilePath = "./src/bookTradeSystem/Managers/SerializedMeetings.ser";
-        String serializedTradesFilePath = "./src/bookTradeSystem/Managers/SerializedTrades.ser";
+        String userAccountInfoFilePath = "./src/Managers/RegularUserUsernameAndPassword.csv";
+        String adminAccountInfoFilePath = "./src/Managers/AdminUserUsernameAndPassword.csv";
+        String serializedUserManagerFilePath = "./src/bookTradeSystem/Managers/SerializedUserManager.ser";
+        String serializedTradeManagerFilePath = "./src/bookTradeSystem/Managers/SerializedTradeManager.ser";
+        String serializedMeetingManagerFilePath = "./src/bookTradeSystem/Managers/SerializedMeetingManager.ser";
+
 
         // Start trading system
         boolean condition = true;
         while (condition){
 
         // Create all use classes
-        UserManager userManager = new UserManager(serializedUsersFilePath, serializedAdminUsersFilePath,
-                serializedItemsFilePath);
-        MeetingManager meetingManager = new MeetingManager(serializedMeetingsFilePath);
+        UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
+        MeetingManager meetingManager = FilesReaderWriter.readMeetingManagerFromFile(serializedMeetingManagerFilePath);
         FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
-        TradeManager tradeManager = new TradeManager(serializedTradesFilePath);
+        TradeManager tradeManager = FilesReaderWriter.readTradeManagerFromFile(serializedTradeManagerFilePath);
         DisplaySystem displaySystem = new DisplaySystem();
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
