@@ -237,11 +237,11 @@ public class MeetingManager implements java.io.Serializable{
      * return a empty string.
      */
     public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting) throws InvalidIdException {
-        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= User.getMaxMeetingDateTimeEdits() &&
-                meeting.getMeetingNum() ==1){
+        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2*User.getMaxMeetingDateTimeEdits()
+                && meeting.getMeetingNum() ==1){
             tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
             return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
-            }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >=
+            }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2 *
                 User.getMaxMeetingDateTimeEdits() && meeting.getMeetingNum() ==2){
             return "You have edited too many times";
         }return "";
