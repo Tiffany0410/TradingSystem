@@ -141,8 +141,8 @@ public class Meeting implements java.io.Serializable{
      * @return true iff the meeting time and place is confirmed successfully.
      */
     public Boolean setTimePlaceConfirm(int userId){
-        if (!timePlaceConfirm && timePlaceEdit.size() < 6 && ! timePlaceEdit.isEmpty() &&
-                timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
+        if (!timePlaceConfirm && timePlaceEdit.size() < 2 * User.getMaxMeetingDateTimeEdits() && ! timePlaceEdit.
+                isEmpty() && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
             timePlaceConfirm = true;
             timePlaceEdit.add(userId);
             return true;
@@ -178,7 +178,8 @@ public class Meeting implements java.io.Serializable{
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
                                     String place){
     if (!timePlaceConfirm &&(userId == userId1 ||userId == userId2)&&(timePlaceEdit.isEmpty()
-            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<6))){
+            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()< 2 * User.
+            getMaxMeetingDateTimeEdits()))){
         this.setTime(year, month, day, hour, min,sec);
         this.place = place;
         timePlaceEdit.add(userId);

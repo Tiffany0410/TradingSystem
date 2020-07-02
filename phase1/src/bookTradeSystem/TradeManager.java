@@ -3,11 +3,9 @@ import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
-    private String filePath;
 
-    public TradeManager(String filePath) {
-        this.filePath = filePath;
-        listTrade = FilesReaderWriter.readTradesFromFile(filePath);
+    public TradeManager() {
+        listTrade = new ArrayList<>();
     }
 
     /**
@@ -24,7 +22,6 @@ public class TradeManager implements Serializable {
      */
     public void addTrade(Trade t) {
         listTrade.add(t);
-        FilesReaderWriter.saveTradesToFile(listTrade, filePath);
     }
 
     /**
