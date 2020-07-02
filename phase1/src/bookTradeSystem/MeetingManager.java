@@ -198,13 +198,14 @@ public class MeetingManager implements java.io.Serializable{
                 get(meeting.getUserId2()))) && meeting.getTimePlaceConfirm() && time2.before(new Date());
     }
 
-    /** get a list of meetings that go over one day.
-     * @return a list of meetings that have not confirmed after one day of the real life meeting time.
+    /** get a list of meetings that go over one day for a given user id.
+     * @return a list of meetings that have not confirmed after one day of the real life meeting time for a given user
+     * id.
      */
-    public List<Meeting> getListOverTime(){
+    public List<Meeting> getListOverTime(int userId){
         List<Meeting> listOverTime = new ArrayList<>();
         for (Meeting meeting: listMeeting){
-            if (this.getOverTime(meeting)){
+            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && this.getOverTime(meeting)){
                 listOverTime.add(meeting);
             }
         }return listOverTime;
@@ -235,11 +236,12 @@ public class MeetingManager implements java.io.Serializable{
      * return a empty string.
      */
     public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting){
-        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 && meeting.getMeetingNum() ==1){
+        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= User.getMaxMeetingDateTimeEdits() &&
+                meeting.getMeetingNum() ==1){
             tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
             return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
-            }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 6 &&
-                meeting.getMeetingNum() ==2){
+            }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >=
+                User.getMaxMeetingDateTimeEdits() && meeting.getMeetingNum() ==2){
             return "You have edited too many times";
         }return "";
         }
