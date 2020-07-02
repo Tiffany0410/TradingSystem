@@ -13,20 +13,24 @@ public class DemoMain {
 
     public static void DemoMainManager() throws IOException, ClassNotFoundException, InvalidIdException {
         // File path
-        String meetingManagerFilePath = "";
-        String tradeManagerFilePath = "";
         String userAccountInfoFilePath = "./src/bookTradeSystem/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/bookTradeSystem/AdminUserUsernameAndPassword.csv";
+        String serializedUsersFilePath = "./src/bookTradeSystem/Managers/SerializedUsers.ser";
+        String serializedAdminUsersFilePath = "./src/bookTradeSystem/Managers/SerializedAdminUsers.ser";
+        String serializedItemsFilePath = "./src/bookTradeSystem/Managers/SerializedItems.ser";
+        String serializedMeetingsFilePath = "./src/bookTradeSystem/Managers/SerializedMeetings.ser";
+        String serializedTradesFilePath = "./src/bookTradeSystem/Managers/SerializedTrades.ser";
 
         // Start trading system
         boolean condition = true;
         while (condition){
 
         // Create all use classes
-        UserManager userManager = new UserManager();
-        MeetingManager meetingManager = new MeetingManager(meetingManagerFilePath);
+        UserManager userManager = new UserManager(serializedUsersFilePath, serializedAdminUsersFilePath,
+                serializedItemsFilePath);
+        MeetingManager meetingManager = new MeetingManager(serializedMeetingsFilePath);
         FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
-        TradeManager tradeManager = new TradeManager(tradeManagerFilePath);
+        TradeManager tradeManager = new TradeManager(serializedTradesFilePath);
         DisplaySystem displaySystem = new DisplaySystem();
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
