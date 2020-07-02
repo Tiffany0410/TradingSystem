@@ -173,7 +173,13 @@ public class Meeting implements java.io.Serializable{
 
     /** edit the time and place of a meeting
      * @param userId the id for whom to edit the meeting time and place
-     * @return true iff the change to the numEdit happen
+     * @param year the year for the meeting
+     * @param month the month for the meeting(from 1 to 12)
+     * @param day the date for the meeting
+     * @param hour the hour for the meeting(24 hours)
+     * @param min the minute for the meeting
+     * @param sec the second for the meeting
+     * @return true iff the change to the TimePlaceEdit happen
      */
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
                                     String place){
