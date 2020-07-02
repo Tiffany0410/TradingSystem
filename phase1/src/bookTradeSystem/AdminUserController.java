@@ -55,6 +55,7 @@ public class AdminUserController implements Serializable, Controllable {
      * and calls on the relevant presenter class method.
      * @param mainMenuOption The main menu option chosen by the admin user.
      * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
+     * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException {
@@ -154,7 +155,7 @@ public class AdminUserController implements Serializable, Controllable {
         1. Add subsequent admin users
          */
         if (subMenuOption == 1){
-              ds.printResult(this.ac.createAccount("Admin"));
+            ds.printResult(this.ac.createAccount("Admin"));
         }
 
     }
@@ -168,14 +169,14 @@ public class AdminUserController implements Serializable, Controllable {
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
          * by answerer Yassine.b
-        */
+         */
         boolean okInput = false;
         Scanner sc = new Scanner(System.in);
         int thresholdAns = 0;
         do{
             ds.printOut("Enter the new threshold value: ");
             if(sc.hasNextInt()){
-               thresholdAns = sc.nextInt();
+                thresholdAns = sc.nextInt();
                 okInput = true;
             }else{
                 sc.nextLine();

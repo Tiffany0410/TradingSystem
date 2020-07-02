@@ -3,6 +3,7 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,9 +81,11 @@ public class RegularUserController implements Serializable, Controllable {
      *
      * @param mainMenuOption The main menu option chosen by the regular user.
      * @param subMenuOption  The sub menu option for a particular sub menu chosen by the regular user.
+     * @throws InvalidIdException In case the id is invalid.
+     *
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) {
+    public void actionResponse(int mainMenuOption, int subMenuOption) throws InvalidIdException {
        /*
         1. decide the menu options
         1.5 decide how to read in user's input
@@ -100,22 +103,22 @@ public class RegularUserController implements Serializable, Controllable {
                 if (thisUser.getIfFrozen()){
                     ds.printOut("This menu is locked");}
                 else{
-                        userTradingMenuResponse(subMenuOption);
-                    }
+                    userTradingMenuResponse(subMenuOption);
+                }
                 break;
             case 3:
                 //TODO: lock here or in the options
                 if (thisUser.getIfFrozen()){
                     ds.printOut("This menu is locked");}
                 else{
-                userMeetingMenuResponse(subMenuOption);
+                    userMeetingMenuResponse(subMenuOption);
                 }
                 break;
         }
 
     }
 
-    private void userAccountMenuResponse(int subMenuOption) {
+    private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
         1.Browse all the books in other users inventories
         2.Add to own Wish List
@@ -153,20 +156,21 @@ public class RegularUserController implements Serializable, Controllable {
                 ds.printResult(um.requestUnfreeze(username, getMessage("Leave your unfreeze request message")));
                 break;
             case 7:
-                ds.printResult(um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
+                um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
+                ds.printResult(true);
                 break;
             case 8:
                 List<Item> threeItems = new ArrayList<>();
                 List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
                 for (int id: recentThreeTradedIds) {
-                   threeItems.add(idToItem(id));
+                    threeItems.add(idToItem(id));
                 }
                 ds.printResult(threeItems);
                 break;
         }
     }
 
-    private void userTradingMenuResponse(int subMenuOption) {
+    private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
           1.Request a trade (lend / borrow / two-way) !!!!- NEED to remove item from wishlist &/ inventory (maybe in constructor???)
           2.Respond to trade requests (agree / disagree)
@@ -178,6 +182,7 @@ public class RegularUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
+//              TODO: WHAT IF TWO-WAY-TRADE?
 //              let user enter borrower id
 //              let user enter lender id
 //              let user enter item id
@@ -201,12 +206,16 @@ public class RegularUserController implements Serializable, Controllable {
 //              TODO: what if the other person disagrees -- do we keep the trade in tm?
                 break;
             case 2:
+//              TODO: WHAT IF TWO-WAY-TRADE?
 //              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                 ds.printResult(tm.getWaitTrade(userId));
                 Trade trade = tm.getTradeById(getTradeID());
+                int borrowerId2 = trade.getIds().get(1);
+                int lenderId2 = trade.getIds().get(2);
+                int itemId2 = trade.getIds().get(3);
                 String tradeStatus = getAgreeOrNot();
-//              TODO: add getBorrowerid and getLenderid methods in the Trade class
-                if (trade.getBorrowerId() == userId){
+                //trade.getIds().get(1) == borrower id
+                if (trade.getIds().get(1) == userId){
                     trade.setBorrowerStatus(userId, tradeStatus);
                 }
                 else{
@@ -214,8 +223,9 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 //remove items -- if agree
                 if (tradeStatus.equals("Agree")){
-                    um.removeItemInventory(idToItem(itemId), um.idToUsername(lenderId));
-                    um.removeItemWishlist(idToItem(itemId), um.idToUsername(borrowerId));}
+                    um.removeItemInventory(itemId2, um.idToUsername(lenderId2));
+                    um.removeItemWishlist(itemId2, um.idToUsername(borrowerId2));
+                }
                 ds.printResult(true);
                 break;
             case 3:
@@ -242,7 +252,7 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
-    private void userMeetingMenuResponse(int subMenuOption) {
+    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
     1.Suggest/edit time and place for meetings
     2.Confirm time and place for meetings
@@ -255,8 +265,14 @@ public class RegularUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 Meeting meeting = getMeeting();
-                Date time = getTime();
+                int year = getInt("year");
+                int month = getInt("month");
+                int day = getInt("day");
+                int hour = getInt("hour");
+                int min = getInt("min");
+                int sec = 0;
                 String place = getPlace();
+                //int year, int month, int day, int hour, int min, int sec
 //              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
                 ds.printResult(meeting.setTimePlaceEdit(userId, time));
                 break;
@@ -467,11 +483,6 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     private String getAgreeOrNot(){
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
         Scanner sc = new Scanner(System.in);
         boolean ok = false;
         String response;
@@ -484,7 +495,111 @@ public class RegularUserController implements Serializable, Controllable {
                 ok = true;
             }
         }
-         while(!ok);
-         return response;
+        while(!ok);
+        return response;
+    }
+
+    private int getDate(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        Scanner sc = new Scanner(System.in);
+        ArrayList<String> prompts = new ArrayList<>(Arrays.asList("year, month, day, hour, min"));
+        int i = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the " + prompts.get(0) " : ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                num = sc.nextInt();
+                // if the input is valid
+                if (isValid(type, num)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid " + type + " !");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+            i ++;
+        } while (!okInput);
+        return num;
+
+    }
+
+    private boolean isValid (int year, int month, int day, int hour, int min){
+        return isValidYear(year) && isValidMonth(month) && isValidDay(year, month, day) &&
+                isValidHour(hour) && isValidMin(min);
+    }
+
+    private boolean isValidYear(int year){
+        return 2020 <= year && year <= 2030;
+    }
+
+    private boolean isValidMonth(int month){
+        return 1 <= month && month <= 12;
+    }
+
+    private boolean isValidDay(int year, int month, int day){
+        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+            return 1 <= day && day <= 31;
+        }
+        else if(month == 4 || month == 6|| month == 9 || month == 11){
+            return 1 <= day && day <= 30;
+        }
+        else{
+            if (year % 4 == 0 && (year % 100 != 0 || year % 100 == 0 && year % 400 == 0)){
+                return 1 <= day && day <= 29;
+            }
+            return 1 <= day && day <= 28;
+        }
+    }
+    private boolean isValidHour(int hour){
+        return 1 <= hour && hour <= 24;
+    }
+    private boolean isValidMin(int min){
+        return 0 <= min && min <= 60;
+    }
+
+    private String getPlace(){
+        Scanner sc = new Scanner(System.in);
+        ds.printOut("Please enter the name of the place: ");
+        String place;
+        //read the first line
+        place = sc.nextLine();
+        return place;
+    }
+
+    private int getNumMeeting(){
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the meeting number (1 - first, 2 - second)"  + " : ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                num = sc.nextInt();
+                // if the input is valid
+                if (num == 1 || num == 2) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid meeting number!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return num;
+
     }
 }
