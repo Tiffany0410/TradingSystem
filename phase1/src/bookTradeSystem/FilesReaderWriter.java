@@ -210,22 +210,23 @@ public class FilesReaderWriter implements Serializable {
 
 
     /**
-     * Return the all Items in the map of item ids to Items from the file at path filePath.
+     * Return the map from the file at path filePath, which key is user id and value is an arraylist store all
+     * this user's Items
      *
      * @param filePath the path of the data file
      */
-    public Map<String, Item> readItemsFromFile(String filePath) throws IOException, ClassNotFoundException {
+    public static Map<String, ArrayList<Item>> readItemsFromFile(String filePath) throws IOException, ClassNotFoundException {
 
         File new_file = new File(filePath);
         if (new_file.exists()) {
             //Create a new empty hashmap which key is the id and value is the object
-            Map<String, Item> itemMap = new HashMap<>();
+            Map<String, ArrayList<Item>> itemMap = new HashMap<>();
             InputStream file = new FileInputStream(filePath);
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
 
             // deserialize the Map
-            itemMap = (Map<String, Item>) input.readObject();
+            itemMap = (Map<String, ArrayList<Item>>) input.readObject();
             input.close();
             return itemMap;
         }
@@ -352,13 +353,13 @@ public class FilesReaderWriter implements Serializable {
 
 
     /**
-     * Writes the objects to file at filePath.
-     *
+     * Writes the map which key is user id and value is an arraylist store all
+     * this user's Items to file at filePath.
      * @param filePath the file to write the records to
-     * @param itemMap the mapping of item ids to Items
+     * @param itemMap the mapping of user ids to an arraylist store all this user's Items
      * @throws IOException all possible input/output errors
      */
-    public void saveItemsToFile(Map<String, Item> itemMap, String filePath) throws IOException {
+    public static void saveItemsToFile(Map<String, ArrayList<Item>> itemMap, String filePath) throws IOException {
         //If the file does not exist, throws FileNotFoundException
         File new_file = new File(filePath);
         if (!new_file.exists()) {

@@ -3,9 +3,10 @@ import java.util.*;
 import java.io.Serializable;
 public class Trade implements Serializable {
     private int tradeId;
-    private int borrowerId;
-    private int lenderId;
+    private int userId1;
+    private int userId2;
     private int itemId;
+    private int itemId1;
     protected Map<Integer, String> userStatus = new HashMap<>();
     /**
      * tradeType the type of the trade
@@ -17,59 +18,82 @@ public class Trade implements Serializable {
     protected String tradeStatus = "Wait to be opened";
     private static int idNumber = 1;
 
-    /** Constructors of the Trade
-     * @param borrowerId borrower id
-     * @param lenderId lender id
-     * @param itemId item id
+    /**
+     * Constructors of the Trade
+     *
+     * @param userId1   user1 id if it is two way trade then this is also lenderid
+     * @param userId2   user2 id if it is two way trade then this is also borrowerid
+     * @param itemId    user borrow item id
      * @param tradeType trade type
      */
-    public Trade(int borrowerId, int lenderId, int itemId, String tradeType){
-        this.borrowerId = borrowerId;
-        this.lenderId = lenderId;
+    public Trade(int userId1, int userId2, int itemId, String tradeType) {
+        this.userId1 = userId1;
+        this.userId2 = userId2;
         this.itemId = itemId;
         this.tradeType = tradeType;
-        userStatus.put(borrowerId, "Agree");
-        userStatus.put(lenderId, "Disagree");
+        userStatus.put(userId1, "Agree");
+        userStatus.put(userId2, "Disagree");
         tradeId = idNumber;
-        idNumber ++;
+        idNumber++;
     }
 
-    /** set borrower status
+    /**
+     * Constructors of the Trade
+     *
+     * @param userId1   user1 id if it is two way trade then this is also lenderid
+     * @param userId2   user2 id if it is two way trade then this is also borrowerid
+     * @param itemId    user1 borrow item id
+     * @param itemId1   user2 borrow item id
+     * @param tradeType trade type
+     */
+    public Trade(int userId1, int userId2, int itemId, int itemId1, String tradeType) {
+        this.userId1 = userId1;
+        this.userId2 = userId2;
+        this.itemId = itemId;
+        this.itemId1 = itemId1;
+        this.tradeType = tradeType;
+        userStatus.put(userId1, "Disagree");
+        userStatus.put(userId2, "Disagree");
+        tradeId = idNumber;
+        idNumber++;
+    }
+
+    /**
+     * set user status
+     *
      * @param userId borrower id
      * @param status Agree or Disagree
      */
-    public void setBorrowerStatus(int userId, String status){
+    public void setUserStatus(int userId, String status) {
         userStatus.replace(userId, status);
     }
 
-
-    /** set lender status
-     * @param userId lender id
-     * @param status Agree or Disagree
-     */
-    public void setLenderStatus(int userId, String status){
-        userStatus.replace(userId, status);
-    }
     /**
-     * @return a list of ids(tradeId, borrowerId, lenderId, itemId)
+     * Get user trade, user , item ids
+     *
+     * @return list of ids
      */
-    public List<Integer> getIds(){
+    public List<Integer> getIds() {
         List<Integer> list = new ArrayList<>();
-        Collections.addAll(list, tradeId, borrowerId, lenderId, itemId);
+        if (itemId1 == 0) {
+            Collections.addAll(list, tradeId, userId1, userId2, itemId);
+        } else {
+            Collections.addAll(list, tradeId, userId1, userId2, itemId, itemId1);
+        }
         return list;
     }
 
     /**
      * Change the trade status to Open
      */
-    public void openTrade(){
+    public void openTrade() {
         this.tradeStatus = "Open";
     }
 
     /**
      * Change the trade status to Closed
      */
-    public void closedTrade(){
+    public void closedTrade() {
         this.tradeStatus = "Closed";
 
     }
@@ -77,16 +101,25 @@ public class Trade implements Serializable {
     /**
      * change the trade status to Cancelled
      */
-    public void cancelTrade(){
+    public void cancelTrade() {
         this.tradeStatus = "Cancelled";
     }
 
-    /** Print the trade description
+    /**
+     * Print the trade description
+     *
      * @return trade id + borrow id + lender id + item id + trade type + trade status.
      */
-    public String toString(){
-        return "trade id:" + tradeId + "" + "borrower id:" + borrowerId + "" + "lender id:" + lenderId  + ""
-                + "item id:" + itemId + "\n" + "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
-                + "borrower status:" + userStatus.get(borrowerId) + "" + "lender status" + userStatus.get(lenderId);
+    public String toString() {
+        if (itemId1 == 0) {
+            return "trade id:" + tradeId + "" + "borrower id:" + userId1 + "" + "lender id:" + userId2 + ""
+                    + "item id:" + itemId + "\n" + "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
+                    + "borrower status:" + userStatus.get(userId1) + "" + "lender status" + userStatus.get(userId2);
+        } else {
+            return "trade id:" + tradeId + "" + "user id1:" + userId1 + "" + "user id2:" + userId2 + ""
+                    + "item id1:" + itemId + "\n" + "item id2: " + itemId1 + "\n" +
+                    "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
+                    + "user1 status:" + userStatus.get(userId1) + "" + "user2 status" + userStatus.get(userId2);
+        }
     }
 }
