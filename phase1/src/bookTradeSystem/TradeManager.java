@@ -253,10 +253,8 @@ public class TradeManager implements Serializable {
         for (Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 return t.tradeStatus.equals("Closed") || t.tradeStatus.equals("Cancelled");
-            }else{
-                throw new InvalidIdException("Invalid Id");
             }
         }
-        return false;
+        throw new InvalidIdException("Invalid Id");
     }
 }
