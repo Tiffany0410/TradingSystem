@@ -13,23 +13,25 @@ public class DemoMain {
 
     public static void DemoMainManager() throws IOException, ClassNotFoundException, InvalidIdException {
         // File path
-        String meetingManagerFilePath = "";
-        String tradeManagerFilePath = "";
         String userAccountInfoFilePath = "./src/bookTradeSystem/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/bookTradeSystem/AdminUserUsernameAndPassword.csv";
-
-        // Create use class does not need to update all the time
-        UserManager userManager = new UserManager();
-        FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
-        DisplaySystem displaySystem = new DisplaySystem();
+        String serializedUsersFilePath = "./src/bookTradeSystem/Managers/SerializedUsers.ser";
+        String serializedAdminUsersFilePath = "./src/bookTradeSystem/Managers/SerializedAdminUsers.ser";
+        String serializedItemsFilePath = "./src/bookTradeSystem/Managers/SerializedItems.ser";
+        String serializedMeetingsFilePath = "./src/bookTradeSystem/Managers/SerializedMeetings.ser";
+        String serializedTradesFilePath = "./src/bookTradeSystem/Managers/SerializedTrades.ser";
 
         // Start trading system
         boolean condition = true;
         while (condition){
 
-        // Create use classes need to update
-        MeetingManager meetingManager = new MeetingManager(meetingManagerFilePath);
-        TradeManager tradeManager = new TradeManager(tradeManagerFilePath);
+        // Create all use classes
+        UserManager userManager = new UserManager(serializedUsersFilePath, serializedAdminUsersFilePath,
+                serializedItemsFilePath);
+        MeetingManager meetingManager = new MeetingManager(serializedMeetingsFilePath);
+        FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
+        TradeManager tradeManager = new TradeManager(serializedTradesFilePath);
+        DisplaySystem displaySystem = new DisplaySystem();
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
         // Load accounts data from CSV file to initial login validator
