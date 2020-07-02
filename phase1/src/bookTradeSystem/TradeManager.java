@@ -105,6 +105,7 @@ public class TradeManager implements Serializable {
             list2.add(list1.get(list.size() - 1));
             return list2;
         }
+        return list2;
     }
 
     /**
