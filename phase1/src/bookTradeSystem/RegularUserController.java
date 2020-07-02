@@ -55,22 +55,19 @@ public class RegularUserController implements Serializable, Controllable {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
         User regUser = um.findUser(username);
-        StringBuilder notification = new StringBuilder();
+        StringBuilder notification;
+        notification = new StringBuilder();
         String filepath = "UserAlerts.csv"; // move it to src and not the bookTradeSystem
-        notification.append(rw.readFromMenu(filepath) + "/n");
+        notification.append(rw.readFromMenu(filepath)).append("/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
-        notification.append("Your current status:" + regUser.getIfFrozen() + "/n");
-        notification.append("You have borrowed:" + regUser.getNumBorrowed());
-        notification.append("You have lent:" + regUser.getNumLent());
+        notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
+        notification.append("You have borrowed:").append(regUser.getNumBorrowed());
+        notification.append("You have lent:").append(regUser.getNumLent());
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES");
-        notification.append("Max number of transactions a week = "
-                + User.getMaxNumTransactionsAllowedAWeek());
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = "
-                + User.getMaxNumTransactionIncomplete());
-        notification.append("Max umber of books you must lend before you can borrow = "
-                + User.getNumLendBeforeBorrow());
-        notification.append("Max edits per user for meeting’s date + time = "
-                + User.getMaxMeetingDateTimeEdits());
+        notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek());
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete());
+        notification.append("Max umber of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow());
+        notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits());
         return notification.toString();
     }
 
@@ -195,10 +192,10 @@ public class RegularUserController implements Serializable, Controllable {
                 Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
 //              set status for the person who requested the trade
                 if (borrowerId == userId){
-                    newTrade.setBorrowerStatus(userId,"Agree");
+                    newTrade.setUserStatus(userId,"Agree");
                 }
                 else{
-                    newTrade.setLenderStatus(userId, "Disagree");
+                    newTrade.setUserStatus(userId, "Disagree");
                 }
 //              add trade
                 tm.addTrade(newTrade);
@@ -214,13 +211,8 @@ public class RegularUserController implements Serializable, Controllable {
                 int lenderId2 = trade.getIds().get(2);
                 int itemId2 = trade.getIds().get(3);
                 String tradeStatus = getAgreeOrNot();
-                //trade.getIds().get(1) == borrower id
-                if (trade.getIds().get(1) == userId){
-                    trade.setBorrowerStatus(userId, tradeStatus);
-                }
-                else{
-                    trade.setLenderStatus(userId, tradeStatus);
-                }
+                //set user id
+                trade.setUserStatus(userId, tradeStatus);
                 //remove items -- if agree
                 if (tradeStatus.equals("Agree")){
                     um.removeItemInventory(itemId2, um.idToUsername(lenderId2));
@@ -265,16 +257,16 @@ public class RegularUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 Meeting meeting = getMeeting();
-                int year = getInt("year");
-                int month = getInt("month");
-                int day = getInt("day");
-                int hour = getInt("hour");
-                int min = getInt("min");
+                int year = getYear();
+                int month = getMonth();
+                int day = getDay(year, month);
+                int hour = getHour();
+                int min = getMin();
                 int sec = 0;
                 String place = getPlace();
                 //int year, int month, int day, int hour, int min, int sec
 //              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                ds.printResult(meeting.setTimePlaceEdit(userId, time));
+                ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
                 break;
             case 2:
                 Meeting meeting2 = getMeeting();
@@ -307,7 +299,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
-    private Meeting getMeeting() {
+    private Meeting getMeeting() throws InvalidIdException {
         ds.printResult(mm.getUnConfirmTimePlace(userId, tm));
 //      ask the user to enter the trade id, meetingNum, time and place
         int tradeId = getTradeID();
@@ -320,9 +312,8 @@ public class RegularUserController implements Serializable, Controllable {
      */
     private int getItemID(ArrayList<Item> potentialItems, int type) {
         /*
-         * Referenced the code in the first answer in
+         * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
          */
         boolean okInput = false;
         // all possible ids the user can pick from
@@ -367,12 +358,11 @@ public class RegularUserController implements Serializable, Controllable {
     private String getItemName() {
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the prefix of the item being searched for: ");
-        String itemName = sc.nextLine();
-        return itemName;
+        return sc.nextLine();
     }
 
     //TODO maybe put this somewhere else
-    //TODO MAKE SURE ALL IDS IN RECENTTHREEITEM METHOD EXISTS IN THE ARRAYLIST
+    //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXISTS IN THE ARRAYLIST
     private Item idToItem(int id) {
         //Get all the items in the system
         ArrayList<Item> allOtherItems = getAllItems();
@@ -394,9 +384,7 @@ public class RegularUserController implements Serializable, Controllable {
     private String getMessage(String TypeOfMessage){
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
-        StringBuilder fullMsg = null;
-        //prevent the null pointer exception
-        fullMsg.append("");
+        StringBuilder fullMsg = new StringBuilder();
         //read the first line
         String msg = sc.nextLine();
         //read in + append until user enters "OK"
@@ -409,9 +397,8 @@ public class RegularUserController implements Serializable, Controllable {
 
     private int getUserID(String type){
         /*
-         * Referenced the code in the first answer in
+         * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
          */
         Scanner sc = new Scanner(System.in);
         int userId = 0;
@@ -454,11 +441,10 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
 
-    private int getTradeID(){
+    private int getTradeID() throws InvalidIdException {
         /*
-         * Referenced the code in the first answer in
+         * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
          */
         Scanner sc = new Scanner(System.in);
         int tradeId = 0;
@@ -469,7 +455,7 @@ public class RegularUserController implements Serializable, Controllable {
             if (sc.hasNextInt()) {
                 tradeId = sc.nextInt();
                 // if the input is valid
-                if (tm.getTradeById(tradeId).tradeType != "") {
+                if (!tm.getTradeById(tradeId).tradeType.equals("")) {
                     okInput = true;
                 } else {
                     ds.printOut("Please enter a valid id!");
@@ -499,41 +485,147 @@ public class RegularUserController implements Serializable, Controllable {
         return response;
     }
 
-    private int getDate(){
+    private int getYear(){
         /*
-         * Referenced the code in the first answer in
+         * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
          */
         Scanner sc = new Scanner(System.in);
-        ArrayList<String> prompts = new ArrayList<>(Arrays.asList("year, month, day, hour, min"));
-        int i = 0;
+        int year = 0;
 
         boolean okInput = false;
         do {
-            ds.printOut("Please enter the " + prompts.get(0) " : ");
+            ds.printOut("Please enter the year (2020-2030) " + ": ");
             // if the input is int
             if (sc.hasNextInt()) {
-                num = sc.nextInt();
+                year = sc.nextInt();
                 // if the input is valid
-                if (isValid(type, num)) {
+                if (isValidYear(year)) {
                     okInput = true;
                 } else {
-                    ds.printOut("Please enter a valid " + type + " !");
+                    ds.printOut("Please enter a valid year!");
                 }
             } else {
                 sc.nextLine();
                 ds.printOut("Enter a valid Integer value please");
             }
-            i ++;
         } while (!okInput);
-        return num;
+        return year;
+    }
+
+    private int getMonth(){
+        /*
+         * Based on code by Yassine.b from
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         */
+        Scanner sc = new Scanner(System.in);
+        int month = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the month (1-12)" + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                month = sc.nextInt();
+                // if the input is valid
+                if (isValidMonth(month)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid month!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return month;
+    }
+
+    private int getDay(int year, int month){
+        /*
+         * Based on code by Yassine.b from
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         */
+        Scanner sc = new Scanner(System.in);
+        int day = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the day" + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                day = sc.nextInt();
+                // if the input is valid
+                if (isValidDay(year, month, day)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid day!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return day;
 
     }
 
-    private boolean isValid (int year, int month, int day, int hour, int min){
-        return isValidYear(year) && isValidMonth(month) && isValidDay(year, month, day) &&
-                isValidHour(hour) && isValidMin(min);
+    private int getHour(){
+        /*
+         * Based on code by Yassine.b from
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         */
+        Scanner sc = new Scanner(System.in);
+        int hour = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the hour (1-24)" + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                hour = sc.nextInt();
+                // if the input is valid
+                if (isValidHour(hour)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid hour!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return hour;
+
+    }
+
+    private int getMin(){
+        /*
+         * Based on code by Yassine.b from
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         */
+        Scanner sc = new Scanner(System.in);
+        int min = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the minute (0-59)" + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                min = sc.nextInt();
+                // if the input is valid
+                if (isValidMin(min)) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid minute!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return min;
+
     }
 
     private boolean isValidYear(int year){
@@ -562,7 +654,7 @@ public class RegularUserController implements Serializable, Controllable {
         return 1 <= hour && hour <= 24;
     }
     private boolean isValidMin(int min){
-        return 0 <= min && min <= 60;
+        return 0 <= min && min <= 59;
     }
 
     private String getPlace(){
@@ -576,9 +668,8 @@ public class RegularUserController implements Serializable, Controllable {
 
     private int getNumMeeting(){
         /*
-         * Referenced the code in the first answer in
+         * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
          */
         Scanner sc = new Scanner(System.in);
         int num = 0;
