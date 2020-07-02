@@ -34,8 +34,10 @@ public class TradingSystem {
     * @return false when user exit trading system, true when user not exit the system
     */
    public boolean tradingSystemInital() throws FileNotFoundException {
+      displaySystem.printOut("Welcome to book trading system");
+
       int option;
-      option = displaySystem.getMenuAnswer("TradingSystemInitMenu.csv");
+      option = displaySystem.getMenuAnswer("Menus/TradingSystemInitMenu.csv");
 
       // Option 0 is exit system
       if (option == 0){
@@ -56,7 +58,7 @@ public class TradingSystem {
 
             // If fail, give the reason why fail
             if (!condition){
-               displaySystem.printOut("Uername already exist, please try another one.");
+               displaySystem.printOut("Username already exist, please try another one.");
             }
             displaySystem.printResult(condition);
 
@@ -114,7 +116,7 @@ public class TradingSystem {
       displaySystem.printOut(regularUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("RegularUserMainMenu.csv");
+      option = displaySystem.getMenuAnswer("Menus/RegularUserMainMenu.csv");
 
 
       // Option 0 is log out
@@ -126,7 +128,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("RegularUserAccountMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserAccountMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -137,7 +139,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("RegularUserTradingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserTradingMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -148,7 +150,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("RegularUserMeetingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserMeetingMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -162,12 +164,12 @@ public class TradingSystem {
 
    private void adminUserMain(String userName) throws FileNotFoundException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
-              this.filesReaderWriter, this.userManager, userName);
+              this.filesReaderWriter, this.userManager);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(adminUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("AdminUserMainMenu.csv");
+      option = displaySystem.getMenuAnswer("Menus/AdminUserMainMenu.csv");
 
       // Option 0 is log out
       if (option == 0){
@@ -178,7 +180,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("AdminUserManageUsersSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserManageUsersSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -189,7 +191,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("AdminUserEditThresholdsSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserEditThresholdsSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -200,7 +202,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("AdminUserOtherSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserOtherSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
