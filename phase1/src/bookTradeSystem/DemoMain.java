@@ -18,16 +18,18 @@ public class DemoMain {
         String userAccountInfoFilePath = "./src/bookTradeSystem/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/bookTradeSystem/AdminUserUsernameAndPassword.csv";
 
+        // Create use class does not need to update all the time
+        UserManager userManager = new UserManager();
+        FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
+        DisplaySystem displaySystem = new DisplaySystem();
+
         // Start trading system
         boolean condition = true;
         while (condition){
 
-        // Create all use classes
-        UserManager userManager = new UserManager();
+        // Create use classes need to update
         MeetingManager meetingManager = new MeetingManager(meetingManagerFilePath);
-        FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
         TradeManager tradeManager = new TradeManager(tradeManagerFilePath);
-        DisplaySystem displaySystem = new DisplaySystem();
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
         // Load accounts data from CSV file to initial login validator
