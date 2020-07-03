@@ -208,24 +208,6 @@ public class TradeManager implements Serializable {
         throw new InvalidIdException("Invalid Id");
     }
 
-
-    /**
-     * Create a trade
-     *
-     * @param userId1   borrower id
-     * @param userId2   lender id
-     * @param itemId    item id
-     * @param tradeType type of the trade
-     * @return a Trade
-     */
-    public Trade createTrade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade) {
-        return new Trade(userId1, userId2, itemId, tradeType, isOneWayTrade);
-    }
-
-    public Trade createTrade(int borrowerId, int lenderId, int itemId, int itemId1, String tradeType, boolean isOneWayTrade) {
-        return new Trade(borrowerId, lenderId, itemId, itemId1, tradeType, isOneWayTrade);
-    }
-
     /**
      * remove the trade from the list of trade
      *

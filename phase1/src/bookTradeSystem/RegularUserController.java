@@ -207,15 +207,15 @@ public class RegularUserController implements Serializable, Controllable {
                     // preparing the trade object
                     if (numKindOfTrade == 1) {
                         // new one-way-trade
-                        trade = new Trade(userId1, userId2, itemId, tradeType);
+                        trade = new Trade(userId1, userId2, itemId, tradeType, true);
                     }
                     else {
                         // new two-way-trade
-                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType);
+                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false);
                     }
                     // validate the trade
                     // pass in trade, borrower, lender
-                    if (tm.validateTrade(trade, um.findUser(userId1), um.findUser(userId2))) {
+                    if (tm.validateTrade(trade, um.findUser(userId1))) {
                         // add trade
                         tm.addTrade(trade);
                         // tell the user it's successful
@@ -245,7 +245,7 @@ public class RegularUserController implements Serializable, Controllable {
                     int userId22 = trade.getIds().get(2);
                     //TODO: tm needs to add itemId1 = 0 for the one-way-trade constructor
                     int itemId11 = trade.getIds().get(3);
-                    if (!trade.isOneWayTrade){
+                    if (!trade.getIsOneWayTrade()){
                         // two-way-trade
                         // need one more item id
                         itemid22 = trade.getIds().get(4);
@@ -257,7 +257,7 @@ public class RegularUserController implements Serializable, Controllable {
                     if (tradeStatus.equals("Agree")) {
                         // item1 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
                         removeItemFromUsers(userId11, userId22, itemId11);
-                        if (!trade.isOneWayTrade) {
+                        if (!trade.getIsOneWayTrade()) {
                             // if it's two-way-trade
                             // item2 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
                             removeItemFromUsers(userId11, userId22, itemid22);
