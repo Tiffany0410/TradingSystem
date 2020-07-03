@@ -315,7 +315,7 @@ public class User implements Serializable {
     }
 
     /**
-     * getter for the number of transactions left
+     * Getter for the number of transactions left
      * for this week.
      * @return the number of transactions left for
      * this week.
@@ -325,7 +325,7 @@ public class User implements Serializable {
     }
 
     /**
-     * setter for the number of transactions left
+     * Setter for the number of transactions left
      * for this week
      * @param newVal The new number of transactions
      *               left for the week.
@@ -334,4 +334,21 @@ public class User implements Serializable {
         transactionsLeftForTheWeek = newVal;
     }
 
+    /**
+     * Getter for the number of times the user
+     * has been frozen.
+     * @return the number of times the user has
+     * been frozen
+     */
+    public int getNumFrozen(){
+        return numFrozen;
+    }
+
+    /**
+     * Increments the number of times
+     * the user has been frozen by one.
+     */
+    public void addOneToNumFrozen(){
+        numFrozen ++;
+    }
 }

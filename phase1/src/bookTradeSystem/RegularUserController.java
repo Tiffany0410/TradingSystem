@@ -58,11 +58,12 @@ public class RegularUserController implements Serializable, Controllable {
         notification.append(rw.readFromMenu(filepath)).append("/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
         // check if we should freeze this user based on the number of incomplete transactions this user has so far
-        //TODO: what do we do with the case when the admin unfreezes the user? Do we temporary close
-        // this check or ...?
+        // Q: what do we do with the case when the admin unfreezes the user?
+        // A: extends the threshold value for the user -- but if numFrozen = 3 -- permanent frozen
+        // if user is not frozen
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
-            freezeUserOrNot();
+            freezeUserOrNot(regUser);
         }
         notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed());
@@ -213,7 +214,8 @@ public class RegularUserController implements Serializable, Controllable {
                         trade = new Trade(userId1, userId2, itemId, itemId2, tradeType);
                     }
                     // validate the trade
-                    if (tm.validateTrade(trade)) {
+                    // pass in trade, borrower, lender
+                    if (tm.validateTrade(trade, um.findUser(userId1), um.findUser(userId2))) {
                         // add trade
                         tm.addTrade(trade);
                         // tell the user it's successful
@@ -372,18 +374,24 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
-    private boolean freezeUserOrNot(){
+    private boolean freezeUserOrNot(User thisUser){
         List<Integer> uniqueTradeIDs = new ArrayList<>();
         List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
+        int numFrozen = thisUser.getNumFrozen();
+        // find the num of uncompleted transactions
         for (Meeting meeting : overTimeMeetings){
             int tradeID = meeting.getTradeId();
             if (!uniqueTradeIDs.contains(tradeID)){
                 uniqueTradeIDs.add(tradeID);
             }
         }
-        if (uniqueTradeIDs.size() > User.getMaxNumTransactionIncomplete()){
-            um.freezeUser(username);
-            return true;
+            // if user went over the threshold
+            // or if the user's been frozen for three times -- freeze the account everytime = permanent freeze
+            int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
+            if (uniqueTradeIDs.size() > threshold || thisUser.getNumFrozen() == 3) {
+                um.freezeUser(username);
+                thisUser.addOneToNumFrozen();
+                return true;
         }
         return false;
     }
