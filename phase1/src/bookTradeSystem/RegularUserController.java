@@ -2,10 +2,7 @@ package bookTradeSystem;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * An instance of this class represents the communication system between the regular user,
@@ -64,6 +61,7 @@ public class RegularUserController implements Serializable, Controllable {
         //TODO: what do we do with the case when the admin unfreezes the user? Do we temporary close
         // this check or ...?
         if (!regUser.getIfFrozen()) {
+            // this check if for the uncompletedTransactions one
             freezeUserOrNot();
         }
         notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
@@ -191,27 +189,40 @@ public class RegularUserController implements Serializable, Controllable {
                     lockMessageForThreshold();
                 }
                 else {
-                    //              TODO: WHAT IF TWO-WAY-TRADE?
-                    //              let user enter borrower id
-                    //              let user enter lender id
-                    //              let user enter item id
-                    //              let user enter tradeType ('Permanent' OR 'Temporary')
-                    //get info
-                    int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                    int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                    int itemId = getItemID(getAllItems(), 1);
-                    String tradeType = getTradeType();
-                    Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
-                    //              set status for the person who requested the trade
-                    if (borrowerId == userId) {
-                        newTrade.setUserStatus(userId, "Agree");
-                    } else {
-                        newTrade.setUserStatus(userId, "Disagree");
+                    // get whether it is one-way-trade or two-way-trade
+                    // 1 - one-way-trade
+                    // 2 - two-way-trade
+                    int numKindOfTrade = getnumKindOfTrade();
+                    Trade trade;
+                    //
+                    if (numkindOfTrade == 1){
+                        //int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
+                        //int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                        //int itemId = getItemID(getAllItems(), 1);
+                        //String tradeType = getTradeType();
+                        //new Trade(int userId1, int userId2, int itemId, String tradeType);
+                        trade = getOneWayTrade();
                     }
-                    //              add trade
-                    tm.addTrade(newTrade);
-                    //              TODO: do I need to check user's numBorrowed and numLend to make sure lend>=borrowed???
-                    //              TODO: what if the other person disagrees -- do we keep the trade in tm?
+                    else{
+                        // new Trade (int userId1, int userId2, int itemId, int itemId1, String tradeType)
+                        trade = getTwoWayTrade();
+                    }
+                    // validate the trade
+                    if (tm.validateTrade(trade)) {
+                        // add trade
+                        // TODO: what if the other person disagrees -- do we keep the trade in tm?
+                        tm.addTrade(trade);
+                        ds.printResult(true);
+                        // set status for the person who requested the trade
+                        if (borrowerId == userId) {
+                            trade.setUserStatus(userId, "Agree");
+                        } else {
+                            trade.setUserStatus(userId, "Disagree");
+                        }
+
+                        changeNumTradesLeftForTheWeek(thisUser);
+                    }
+                    ds.printResult(false);
                 }
                 break;
             case 2:
@@ -220,20 +231,26 @@ public class RegularUserController implements Serializable, Controllable {
                     lockMessageForThreshold();
                 }
                 else {
-                    //              TODO: WHAT IF TWO-WAY-TRADE?
-                    //              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
+                    //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                     ds.printResult(tm.getWaitTrade(userId));
                     Trade trade = tm.getTradeById(getTradeID());
-                    int borrowerId2 = trade.getIds().get(1);
-                    int lenderId2 = trade.getIds().get(2);
-                    int itemId2 = trade.getIds().get(3);
+                    // if it's one-way-trade
+                    // only need borrower id, lender id, and the item id
+                    if (!trade.isOneWayTrade){
+                        // two-way-trade
+                        // need one more pair of borrower id, lender id, and the item id
+                    }
                     String tradeStatus = getAgreeOrNot();
-                    //set user id
+                    //set the tradeStatus for this trade
                     trade.setUserStatus(userId, tradeStatus);
                     //remove items -- if agree
                     if (tradeStatus.equals("Agree")) {
-                        um.removeItemInventory(itemId2, um.idToUsername(lenderId2));
-                        um.removeItemWishlist(itemId2, um.idToUsername(borrowerId2));
+                        // item1 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
+                        removeItemFromUsers(itemId1);
+                        if (!trade.isOneWayTrade) {
+                            removeItemFromUsers(itemid2);
+                            // item2 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
+                        }
                     }
                     ds.printResult(true);
                 }
@@ -268,6 +285,23 @@ public class RegularUserController implements Serializable, Controllable {
     private void lockMessageForThreshold() {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
+    }
+
+    private void changeNumTradesLeftForTheWeek(User thisUser){
+        /*
+        Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
+         */
+        int currentVal = thisUser.getNumTransactionLeftForTheWeek();
+        if (isFirstDayOfTheWeek()) {
+            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek() - 1);
+        }
+        else{
+            thisUser.setTransactionLeftForTheWeek(currentVal-1);
+        }
+    }
+    private boolean isFirstDayOfTheWeek(){
+        Calendar c = Calendar.getInstance();
+        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
