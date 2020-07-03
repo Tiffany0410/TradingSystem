@@ -3,11 +3,9 @@ import java.util.*;
 import java.io.Serializable;
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
-    private String filePath;
 
-    public TradeManager(String filePath) {
-        this.filePath = filePath;
-        listTrade = FilesReaderWriter.readTradesFromFile(filePath);
+    public TradeManager() {
+        listTrade = new ArrayList<>();
     }
 
     /**
@@ -24,7 +22,6 @@ public class TradeManager implements Serializable {
      */
     public void addTrade(Trade t) {
         listTrade.add(t);
-        FilesReaderWriter.saveTradesToFile(listTrade, filePath);
     }
 
     /**
@@ -108,6 +105,7 @@ public class TradeManager implements Serializable {
             list2.add(list1.get(list.size() - 1));
             return list2;
         }
+        return list2;
     }
 
     /**
@@ -253,10 +251,8 @@ public class TradeManager implements Serializable {
         for (Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 return t.tradeStatus.equals("Closed") || t.tradeStatus.equals("Cancelled");
-            }else{
-                throw new InvalidIdException("Invalid Id");
             }
         }
-        return false;
+        throw new InvalidIdException("Invalid Id");
     }
 }

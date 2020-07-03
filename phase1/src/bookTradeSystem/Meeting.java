@@ -141,8 +141,8 @@ public class Meeting implements java.io.Serializable{
      * @return true iff the meeting time and place is confirmed successfully.
      */
     public Boolean setTimePlaceConfirm(int userId){
-        if (!timePlaceConfirm && timePlaceEdit.size() < User.getMaxMeetingDateTimeEdits() && ! timePlaceEdit.isEmpty() &&
-                timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
+        if (!timePlaceConfirm && timePlaceEdit.size() < 2 * User.getMaxMeetingDateTimeEdits() && ! timePlaceEdit.
+                isEmpty() && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
             timePlaceConfirm = true;
             timePlaceEdit.add(userId);
             return true;
@@ -173,12 +173,18 @@ public class Meeting implements java.io.Serializable{
 
     /** edit the time and place of a meeting
      * @param userId the id for whom to edit the meeting time and place
-     * @return true iff the change to the numEdit happen
+     * @param year the year for the meeting
+     * @param month the month for the meeting(from 1 to 12)
+     * @param day the date for the meeting
+     * @param hour the hour for the meeting(24 hours)
+     * @param min the minute for the meeting
+     * @param sec the second for the meeting
+     * @return true iff the change to the TimePlaceEdit happen
      */
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
                                     String place){
     if (!timePlaceConfirm &&(userId == userId1 ||userId == userId2)&&(timePlaceEdit.isEmpty()
-            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<User.
+            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()< 2 * User.
             getMaxMeetingDateTimeEdits()))){
         this.setTime(year, month, day, hour, min,sec);
         this.place = place;
