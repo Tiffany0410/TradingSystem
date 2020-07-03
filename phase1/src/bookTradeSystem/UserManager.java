@@ -36,22 +36,6 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Constructs a UserManager with the Users and AdminUsers read from the file at the given filepath
-     * @param usersFilePath The filepath to read the Users from
-     * @param adminUsersFilePath The filepath to read the AdminUsers from
-     * @param itemsFilePath The filepath to read the Items from
-     * @throws IOException If file is not found or problem with file
-     * @throws ClassNotFoundException If FilesReaderWriter is not found
-     */
-    public UserManager(String usersFilePath, String adminUsersFilePath, String itemsFilePath)
-            throws IOException, ClassNotFoundException {
-        this.listUser = FilesReaderWriter.readUsersFromFile(usersFilePath);
-        this.listAdmin = FilesReaderWriter.readAdminUsersFromFile(adminUsersFilePath);
-        this.listAllItems = FilesReaderWriter.readItemsFromFile(itemsFilePath);
-        this.listUnfreezeRequest = new ArrayList<>();
-    }
-
-    /**
      * Gets the list of AdminUser
      * @return List of AdminUser
      */
