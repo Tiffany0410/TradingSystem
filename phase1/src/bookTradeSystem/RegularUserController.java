@@ -197,8 +197,8 @@ public class RegularUserController implements Serializable, Controllable {
                     Trade trade;
                     int itemId2 = 0;
                     //get info for 1 way trade
-                    int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                    int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                    int userId1 = getUserID("borrower (if one-way-trade) or borrower-and-lender 1 (if two-way-trade)");
+                    int userId2 = getUserID("lender (if one-way-trade) or borrower-and-lender 2 (if two-way-trade)");
                     int itemId = getItemID(getAllItems(), 1);
                     if (numKindOfTrade == 2){
                         itemId2 = getItemID(getAllItems(), 1);
@@ -375,25 +375,30 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     private boolean freezeUserOrNot(User thisUser){
-        List<Integer> uniqueTradeIDs = new ArrayList<>();
-        List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
+        int numUncompletedTransactions = numUncompletedTransactions();
+        // if user went over the threshold
+        // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
+        int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
+        if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
+            um.freezeUser(username);
+            thisUser.addOneToNumFrozen();
+            return true;
+        }
+        return false;
+    }
+
+    private int numUncompletedTransactions() {
+        List<Integer> uniqueTradeIDs = new ArrayList<>();
+        List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
         for (Meeting meeting : overTimeMeetings){
             int tradeID = meeting.getTradeId();
             if (!uniqueTradeIDs.contains(tradeID)){
                 uniqueTradeIDs.add(tradeID);
             }
         }
-            // if user went over the threshold
-            // or if the user's been frozen for three times -- freeze the account everytime = permanent freeze
-            int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
-            if (uniqueTradeIDs.size() > threshold || thisUser.getNumFrozen() == 3) {
-                um.freezeUser(username);
-                thisUser.addOneToNumFrozen();
-                return true;
-        }
-        return false;
+        return uniqueTradeIDs.size();
     }
 
     private Meeting getMeeting() throws InvalidIdException {
@@ -538,7 +543,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
 
-    private int getTradeID() throws InvalidIdException {
+    private int getTradeID() {
         /*
          * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -551,8 +556,8 @@ public class RegularUserController implements Serializable, Controllable {
             // if the input is int
             if (sc.hasNextInt()) {
                 tradeId = sc.nextInt();
-                // if the input is valid
-                if (!tm.getTradeById(tradeId).tradeType.equals("")) {
+                // if the trade with this tradeId rests in the tradeManager
+                if (tm.checkInManager(tradeId)) {
                     okInput = true;
                 } else {
                     ds.printOut("Please enter a valid id!");
