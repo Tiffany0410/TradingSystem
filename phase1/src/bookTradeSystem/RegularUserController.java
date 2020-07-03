@@ -16,6 +16,8 @@ public class RegularUserController implements Serializable, Controllable {
     private UserManager um;
     private String username;
     private int userId;
+    // whether the max transactions per week threshold is reassessed
+    private boolean thresholdReassessed;
 
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
@@ -38,6 +40,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.um = um;
         this.username = username;
         this.userId = um.usernameToID(username);
+        this.thresholdReassessed = false;
     }
 
     /**
@@ -64,6 +67,7 @@ public class RegularUserController implements Serializable, Controllable {
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
             freezeUserOrNot(regUser);
+            ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
         }
         notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed());
@@ -183,6 +187,10 @@ public class RegularUserController implements Serializable, Controllable {
           7.View transactions that have been cancelled
          */
         User thisUser = um.findUser(userId);
+        // reassess it at the first day of the week - only once
+        // TODO: small bug - user has to login in other days (non-Sundays) to re-enable this function for next Sunday
+        //  and can only reassess it on Sunday (the first day of the week)
+        reassessNumTransactionsLeftForTheWeek(thisUser);
         switch (subMenuOption) {
             case 1:
                 if (thisUser.getNumTransactionLeftForTheWeek() == 0){
@@ -225,7 +233,16 @@ public class RegularUserController implements Serializable, Controllable {
                         // change the threshold value
                         changeNumTradesLeftForTheWeek(thisUser);
                     }
-                    ds.printResult(false);
+                    else {
+                        ds.printResult(false);
+                        // TODO: should I put this here?
+                        // system auto-freeze
+                        // user borrow more than lend
+                        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
+                            um.freezeUser(username);
+                            ds.printOut("You're frozen because you borrowed more than lend.");
+                        }
+                    }
                 }
                 break;
             case 2:
@@ -297,6 +314,16 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
+    private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
+        if (isFirstDayOfTheWeek() && !thresholdReassessed){
+            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
+            thresholdReassessed = true;
+        }
+        else if (!isFirstDayOfTheWeek()){
+            thresholdReassessed = false;
+        }
+    }
+
     private void lockMessageForThreshold() {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
@@ -307,17 +334,14 @@ public class RegularUserController implements Serializable, Controllable {
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
          */
         int currentVal = thisUser.getNumTransactionLeftForTheWeek();
-        if (isFirstDayOfTheWeek()) {
-            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek() - 1);
+        thisUser.setTransactionLeftForTheWeek(currentVal-1);
         }
-        else{
-            thisUser.setTransactionLeftForTheWeek(currentVal-1);
-        }
-    }
+
     private boolean isFirstDayOfTheWeek(){
         Calendar c = Calendar.getInstance();
         return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
+
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
