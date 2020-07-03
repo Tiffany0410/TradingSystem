@@ -7,6 +7,7 @@ public class Trade implements Serializable {
     private int userId2;
     private int itemId;
     private int itemId1;
+    private boolean isOneWayTrade;
     protected Map<Integer, String> userStatus = new HashMap<>();
     /**
      * tradeType the type of the trade
@@ -25,12 +26,14 @@ public class Trade implements Serializable {
      * @param userId2   user2 id if it is two way trade then this is also borrowerid
      * @param itemId    user borrow item id
      * @param tradeType trade type
+     * @param isOneWayTrade True if it is one way trade
      */
-    public Trade(int userId1, int userId2, int itemId, String tradeType) {
+    public Trade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade) {
         this.userId1 = userId1;
         this.userId2 = userId2;
         this.itemId = itemId;
         this.tradeType = tradeType;
+        this.isOneWayTrade = isOneWayTrade;
         userStatus.put(userId1, "Agree");
         userStatus.put(userId2, "Disagree");
         tradeId = idNumber;
@@ -45,13 +48,15 @@ public class Trade implements Serializable {
      * @param itemId    user1 borrow item id
      * @param itemId1   user2 borrow item id
      * @param tradeType trade type
+     * @param isOneWayTrade True if it is one way trade
      */
-    public Trade(int userId1, int userId2, int itemId, int itemId1, String tradeType) {
+    public Trade(int userId1, int userId2, int itemId, int itemId1, String tradeType, boolean isOneWayTrade) {
         this.userId1 = userId1;
         this.userId2 = userId2;
         this.itemId = itemId;
         this.itemId1 = itemId1;
         this.tradeType = tradeType;
+        this.isOneWayTrade = isOneWayTrade;
         userStatus.put(userId1, "Disagree");
         userStatus.put(userId2, "Disagree");
         tradeId = idNumber;
@@ -68,6 +73,12 @@ public class Trade implements Serializable {
         userStatus.replace(userId, status);
     }
 
+    /** Get is one way trade
+     * @return true if it is one way trade
+     */
+    public boolean getIsOneWayTrade(){
+        return this.isOneWayTrade;
+    }
     /**
      * Get user trade, user , item ids
      *
@@ -114,12 +125,14 @@ public class Trade implements Serializable {
         if (itemId1 == 0) {
             return "trade id:" + tradeId + "" + "borrower id:" + userId1 + "" + "lender id:" + userId2 + ""
                     + "item id:" + itemId + "\n" + "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
-                    + "borrower status:" + userStatus.get(userId1) + "" + "lender status" + userStatus.get(userId2);
+                    + "borrower status:" + userStatus.get(userId1) + "" + "lender status" + userStatus.get(userId2) +
+                    "One way trade:" + isOneWayTrade;
         } else {
             return "trade id:" + tradeId + "" + "user id1:" + userId1 + "" + "user id2:" + userId2 + ""
                     + "item id1:" + itemId + "\n" + "item id2: " + itemId1 + "\n" +
                     "trade type: " + tradeType + "" + "trade status" + tradeStatus + "\n"
-                    + "user1 status:" + userStatus.get(userId1) + "" + "user2 status" + userStatus.get(userId2);
+                    + "user1 status:" + userStatus.get(userId1) + "" + "user2 status" + userStatus.get(userId2) +
+                    "One way trade:" + isOneWayTrade;
         }
     }
 }

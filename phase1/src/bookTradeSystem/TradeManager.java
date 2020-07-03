@@ -35,8 +35,7 @@ public class TradeManager implements Serializable {
         for (Trade t : listTrade) {
             if (t.getIds().get(1) == userId || t.getIds().get(2) == userId) {
                 list.add(t);
-            }
-            else{
+            } else {
                 throw new InvalidIdException("Invalid Id");
             }
         }
@@ -75,7 +74,9 @@ public class TradeManager implements Serializable {
         return list1;
     }
 
-    /** return a list of top three partners id
+    /**
+     * return a list of top three partners id
+     *
      * @param userId user id
      * @return list of top three partners id
      * @throws InvalidIdException
@@ -211,17 +212,18 @@ public class TradeManager implements Serializable {
     /**
      * Create a trade
      *
-     * @param userId1 borrower id
+     * @param userId1   borrower id
      * @param userId2   lender id
-     * @param itemId     item id
-     * @param tradeType  type of the trade
+     * @param itemId    item id
+     * @param tradeType type of the trade
      * @return a Trade
      */
-    public Trade createTrade(int userId1, int userId2, int itemId, String tradeType) {
-        return new Trade(userId1, userId2, itemId, tradeType);
+    public Trade createTrade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade) {
+        return new Trade(userId1, userId2, itemId, tradeType, isOneWayTrade);
     }
-    public Trade createTrade(int borrowerId, int lenderId, int itemId, int itemId1, String tradeType) {
-        return new Trade(borrowerId, lenderId, itemId, itemId1, tradeType);
+
+    public Trade createTrade(int borrowerId, int lenderId, int itemId, int itemId1, String tradeType, boolean isOneWayTrade) {
+        return new Trade(borrowerId, lenderId, itemId, itemId1, tradeType, isOneWayTrade);
     }
 
     /**
@@ -255,4 +257,29 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+
+    /** Validate trade
+     * @param trade trade we want to validate
+     * @param borrower User borrower
+     * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
+     * is two way trade and otherwise false.
+     */
+    public boolean validateTrade(Trade trade, User borrower){
+        if (!(trade.getIsOneWayTrade())){
+            return false;
+        }
+        if(borrower.getNumBorrowed()== 0 && borrower.getNumLent() == 0) {
+            return false;
+        }else{
+            return borrower.getNumLent() == borrower.getNumLendBeforeBorrow() && borrower.getNumLent() >=
+                    borrower.getNumBorrowed();
+        }
+    }
+    public static void main(String[] args) throws InvalidIdException {
+        TradeManager tm = new TradeManager();
+        tm.addTrade(new Trade(1, 2, 1, "P", true));
+        tm.addTrade(new Trade(1, 3, 1, "P", true));
+        tm.topThreePartners(1);
+    }
 }
+
