@@ -264,16 +264,19 @@ public class TradeManager implements Serializable {
      * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
      * is two way trade and otherwise false.
      */
-    public boolean validateTrade(Trade trade, User borrower){
-        if (!(trade.getIsOneWayTrade())){
-            return false;
+    public boolean validateTrade(Trade trade, User borrower) {
+        if (!(trade.getIsOneWayTrade())) {
+            //if two way trade
+            return true;
         }
-        if(borrower.getNumBorrowed()== 0 && borrower.getNumLent() == 0) {
+        //if one way trade
+        if (borrower.getNumBorrowed() == 0 && borrower.getNumLent() == 0) {
             return false;
-        }else{
-            return borrower.getNumLent() == borrower.getNumLendBeforeBorrow() && borrower.getNumLent() >=
+        } else {
+            return borrower.getNumLent() == User.getNumLendBeforeBorrow() && borrower.getNumLent() >=
                     borrower.getNumBorrowed();
         }
+
     }
     public static void main(String[] args) throws InvalidIdException {
         TradeManager tm = new TradeManager();
