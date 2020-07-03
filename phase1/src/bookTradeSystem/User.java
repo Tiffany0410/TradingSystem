@@ -19,11 +19,14 @@ public class User implements Serializable {
     private int numLent;
     private int numBorrowed;
     private Boolean isFrozen;
+    // stores the number of times the user's been frozen.
+    private int numFrozen;
     private int transactionsLeftForTheWeek = 3;
     //used to accumulate id
     private static int idNumber = 1;
     //static threshold variables
-    private static int maxNumTransactionsAllowedAWeek;
+    // set it to 3
+    private static int maxNumTransactionsAllowedAWeek = 3;
     // set it to 3
     private static int maxNumTransactionIncomplete = 3;
     private static int numLendBeforeBorrow = 1;
