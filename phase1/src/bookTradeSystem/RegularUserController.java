@@ -60,6 +60,12 @@ public class RegularUserController implements Serializable, Controllable {
         String filepath = "UserAlerts.csv"; // move it to src and not the bookTradeSystem
         notification.append(rw.readFromMenu(filepath)).append("/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
+        // check if we should freeze this user based on the number of incomplete transactions this user has so far
+        //TODO: what do we do with the case when the admin unfreezes the user? Do we temporary close
+        // this check or ...?
+        if (!regUser.getIfFrozen()) {
+            freezeUserOrNot();
+        }
         notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed());
         notification.append("You have lent:").append(regUser.getNumLent());
@@ -177,48 +183,60 @@ public class RegularUserController implements Serializable, Controllable {
           6.See top three most frequent trading partners
           7.View transactions that have been cancelled
          */
+        User thisUser = um.findUser(userId);
         switch (subMenuOption) {
             case 1:
-//              TODO: WHAT IF TWO-WAY-TRADE?
-//              let user enter borrower id
-//              let user enter lender id
-//              let user enter item id
-//              let user enter tradeType ('Permanent' OR 'Temporary')
-                //get info
-                int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                int itemId = getItemID(getAllItems(), 1);
-                String tradeType = getTradeType();
-                Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
-//              set status for the person who requested the trade
-                if (borrowerId == userId){
-                    newTrade.setUserStatus(userId,"Agree");
+                if (thisUser.getNumTransactionLeftForTheWeek() == 0){
+                    // the case with user reaching the max number of transactions for the week
+                    lockMessageForThreshold();
                 }
-                else{
-                    newTrade.setUserStatus(userId, "Disagree");
+                else {
+                    //              TODO: WHAT IF TWO-WAY-TRADE?
+                    //              let user enter borrower id
+                    //              let user enter lender id
+                    //              let user enter item id
+                    //              let user enter tradeType ('Permanent' OR 'Temporary')
+                    //get info
+                    int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
+                    int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                    int itemId = getItemID(getAllItems(), 1);
+                    String tradeType = getTradeType();
+                    Trade newTrade = new Trade(borrowerId, lenderId, itemId, tradeType);
+                    //              set status for the person who requested the trade
+                    if (borrowerId == userId) {
+                        newTrade.setUserStatus(userId, "Agree");
+                    } else {
+                        newTrade.setUserStatus(userId, "Disagree");
+                    }
+                    //              add trade
+                    tm.addTrade(newTrade);
+                    //              TODO: do I need to check user's numBorrowed and numLend to make sure lend>=borrowed???
+                    //              TODO: what if the other person disagrees -- do we keep the trade in tm?
                 }
-//              add trade
-                tm.addTrade(newTrade);
-//              TODO: do I need to check user's numBorrowed and numLend to make sure lend>=borrowed???
-//              TODO: what if the other person disagrees -- do we keep the trade in tm?
                 break;
             case 2:
-//              TODO: WHAT IF TWO-WAY-TRADE?
-//              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-                ds.printResult(tm.getWaitTrade(userId));
-                Trade trade = tm.getTradeById(getTradeID());
-                int borrowerId2 = trade.getIds().get(1);
-                int lenderId2 = trade.getIds().get(2);
-                int itemId2 = trade.getIds().get(3);
-                String tradeStatus = getAgreeOrNot();
-                //set user id
-                trade.setUserStatus(userId, tradeStatus);
-                //remove items -- if agree
-                if (tradeStatus.equals("Agree")){
-                    um.removeItemInventory(itemId2, um.idToUsername(lenderId2));
-                    um.removeItemWishlist(itemId2, um.idToUsername(borrowerId2));
+                if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
+                    // the case with user reaching the max number of transactions for the week
+                    lockMessageForThreshold();
                 }
-                ds.printResult(true);
+                else {
+                    //              TODO: WHAT IF TWO-WAY-TRADE?
+                    //              ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
+                    ds.printResult(tm.getWaitTrade(userId));
+                    Trade trade = tm.getTradeById(getTradeID());
+                    int borrowerId2 = trade.getIds().get(1);
+                    int lenderId2 = trade.getIds().get(2);
+                    int itemId2 = trade.getIds().get(3);
+                    String tradeStatus = getAgreeOrNot();
+                    //set user id
+                    trade.setUserStatus(userId, tradeStatus);
+                    //remove items -- if agree
+                    if (tradeStatus.equals("Agree")) {
+                        um.removeItemInventory(itemId2, um.idToUsername(lenderId2));
+                        um.removeItemWishlist(itemId2, um.idToUsername(borrowerId2));
+                    }
+                    ds.printResult(true);
+                }
                 break;
             case 3:
                 ds.printResult(tm.getOpenTrade(userId));
@@ -233,15 +251,23 @@ public class RegularUserController implements Serializable, Controllable {
                 ds.printResult(tm.confirmComplete(tradeId));
                 break;
             case 6:
-//              TODO: id for the top three partners???
-//              TODO: with that, userManager can have a searchUser function (id - user instance) and then
-//              TODO: I'll pass in the ids, get the user instance and then pass it to the presenter class
+                List<Integer> topThreeIDS= tm.topThreePartners(userId);
+                List<User> topThree = new ArrayList<>();
+                for (int id : topThreeIDS){
+                    topThree.add(um.findUser(id));
+                }
+                ds.printResult(topThree);
                 break;
             case 7:
                 ds.printResult(tm.getCancelledTrade(userId));
                 break;
 
         }
+    }
+
+    private void lockMessageForThreshold() {
+        ds.printOut("This option is locked");
+        ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
     }
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
@@ -297,6 +323,22 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
         }
 
+    }
+
+    private boolean freezeUserOrNot(){
+        List<Integer> uniqueTradeIDs = new ArrayList<>();
+        List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
+        for (Meeting meeting : overTimeMeetings){
+            int tradeID = meeting.getTradeId();
+            if (!uniqueTradeIDs.contains(tradeID)){
+                uniqueTradeIDs.add(tradeID);
+            }
+        }
+        if (uniqueTradeIDs.size() > User.getMaxNumTransactionIncomplete()){
+            um.freezeUser(username);
+            return true;
+        }
+        return false;
     }
 
     private Meeting getMeeting() throws InvalidIdException {
