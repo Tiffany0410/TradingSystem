@@ -19,11 +19,13 @@ public class User implements Serializable {
     private int numLent;
     private int numBorrowed;
     private Boolean isFrozen;
+    private int transactionsLeftForTheWeek = 3;
     //used to accumulate id
     private static int idNumber = 1;
     //static threshold variables
     private static int maxNumTransactionsAllowedAWeek;
-    private static int maxNumTransactionIncomplete;
+    // set it to 3
+    private static int maxNumTransactionIncomplete = 3;
     private static int numLendBeforeBorrow = 1;
     private static int maxMeetingDateTimeEdits = 3;
 
@@ -308,4 +310,25 @@ public class User implements Serializable {
     public static void setMaxMeetingDateTimeEdits(int newVal){
         maxMeetingDateTimeEdits = newVal;
     }
+
+    /**
+     * getter for the number of transactions left
+     * for this week.
+     * @return the number of transactions left for
+     * this week.
+     */
+    public int getNumTransactionLeftForTheWeek(){
+        return transactionsLeftForTheWeek;
+    }
+
+    /**
+     * setter for the number of transactions left
+     * for this week
+     * @param newVal The new number of transactions
+     *               left for the week.
+     */
+    public void setTransactionLeftForTheWeek(int newVal){
+        transactionsLeftForTheWeek = newVal;
+    }
+
 }
