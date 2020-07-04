@@ -30,7 +30,8 @@ public class AccountCreator {
      */
     public boolean createAccount(String type) throws IOException {
         boolean out = false;
-        HashMap<String, String> info = um.userPasswords();
+        HashMap<String, String> userInfo = um.userPasswords();
+        HashMap<String, String> adminInfo = um.adminPasswords();
         ArrayList<User> listPeople = um.getListUser();
 
         String username;
@@ -42,18 +43,25 @@ public class AccountCreator {
         password = ds.getPassword();
         email = ds.getEmail();
 
-        if (!info.containsKey(username)) {
-            User toAdd = new User(username, password, email);
-            listPeople.add(toAdd);
-            um.setListUser(listPeople);
-            out = true;
-            //Write the UserManger into ser file in order to save the data
-            FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
+        if (type.equals("Regular")) {
+            if (!userInfo.containsKey(username)) {
+                User toAdd = new User(username, password, email);
+                listPeople.add(toAdd);
+                um.setListUser(listPeople);
+                out = true;
+                //Write the UserManger into ser file in order to save the data
+                FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
+                fr.saveUserInfoToCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv", username, password, email);
+            }
+        }
 
-            if (type.equals("Regular")) {
-                fr.saveUserInfoToCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv", username, password, email );
-            } else if (type.equals("Admin")) {
-                fr.saveUserInfoToCSVFile("./src/Managers/AdminUserUsernameAndPassword.csv", username, password, email);
+       else if (type.equals("Admin")) {
+           if (!adminInfo.containsKey(username)){
+               um.addAdmin(username, password, email);
+               out = true;
+               //Write the UserManger into ser file in order to save the data
+               FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
+               fr.saveUserInfoToCSVFile("./src/Managers/AdminUserUsernameAndPassword.csv", username, password, email);
             }
         }
 

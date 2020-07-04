@@ -44,6 +44,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.thresholdReassessed = false;
     }
 
+    // TODO: move to a presenter class
     /**
      * This method gathers all the necessary notifications
      * for the regular user.
@@ -71,7 +72,7 @@ public class RegularUserController implements Serializable, Controllable {
                ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
            }
         }
-        notification.append("Are you frozen?:").append(regUser.getIfFrozen()).append("\n");
+        notification.append("The answer to you're frozen is ").append(regUser.getIfFrozen()).append("\n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");

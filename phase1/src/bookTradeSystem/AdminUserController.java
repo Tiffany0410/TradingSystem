@@ -36,6 +36,7 @@ public class AdminUserController implements Serializable, Controllable {
     }
 
 
+    // TODO: move to a presenter class
     /**
      * This method gathers all the necessary notifications
      * for the admin user.
@@ -90,9 +91,6 @@ public class AdminUserController implements Serializable, Controllable {
 
         switch (subMenuOption) {
             case 1:
-                //TODO: THE FOLLOWING LINE IS FOR TEST!!!
-                //ds.printResult(um.getListUser());
-                //TODO: THE ABOVE LINE IS FOR TEST!!!
 //              asks the admin for the username of the user TO FREEZE
                 ds.printOut("Please enter the username of the user to FREEZE");
 //              TODO: maybe do a bulletproof for username for later? (later)
@@ -100,6 +98,16 @@ public class AdminUserController implements Serializable, Controllable {
                 ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
+                //TODO: THE FOLLOWING LINE IS FOR TEST!!!
+                ds.printResult(um.getListUser().size() != 0);
+                ds.printResult(um.getListAdmin().size() == 0);
+                for (User u: um.getListUser()) {
+                    ds.printOut(u.getUsername());
+                }
+                for (AdminUser u: um.getListAdmin()){
+                    ds.printOut(u.getUsername());
+                }
+                //TODO: THE ABOVE LINE IS FOR TEST!!!
 //              asks the admin for the username of the user to UNFREEZE
                 ds.printOut("Please enter the username of the user to UNFREEZE");
 //              TODO: maybe do a bulletproof for username for later? (later)
@@ -124,6 +132,7 @@ public class AdminUserController implements Serializable, Controllable {
                 }
                 //either add or not add - need to remove from to-be-added list
 //              TODO: can I just remove like this? (later)
+//              TODO: need a method to remove item from um's getListItemToAdd
                 um.getListItemToAdd().remove(itemSelected);
                 break;
 

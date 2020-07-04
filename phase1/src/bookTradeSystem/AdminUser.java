@@ -1,6 +1,8 @@
 package bookTradeSystem;
 
-public class AdminUser {
+import java.io.Serializable;
+
+public class AdminUser implements Serializable {
     /**
      * username is the user's username. password is the user's password. email is
      * the user's email.

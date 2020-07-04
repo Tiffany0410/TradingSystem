@@ -154,7 +154,7 @@ public class DisplaySystem {
     public void printResult(ArrayList<Object> obj)
     {   for (Object o : obj)
     {
-        this.printOut(o.toString());
+        this.printOut(o.toString() + "\n");
     }
     }
 }
