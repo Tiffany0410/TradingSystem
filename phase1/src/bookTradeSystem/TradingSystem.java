@@ -1,6 +1,7 @@
 package bookTradeSystem;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class TradingSystem {
    private UserManager userManager;
@@ -32,7 +33,7 @@ public class TradingSystem {
     * Initial trading system menu
     * @return false when user exit trading system, true when user not exit the system
     */
-   public boolean tradingSystemInital() throws FileNotFoundException, InvalidIdException {
+   public boolean tradingSystemInital() throws IOException, InvalidIdException {
       displaySystem.printOut("Welcome to book trading system");
 
       int option;
@@ -71,7 +72,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void login() throws FileNotFoundException, InvalidIdException {
+   private void login() throws IOException, InvalidIdException {
       String userName;
       String userPassword;
 
@@ -108,7 +109,7 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   private void regularUserMain(String userName) throws FileNotFoundException, InvalidIdException {
+   private void regularUserMain(String userName) throws IOException, InvalidIdException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
@@ -161,7 +162,7 @@ public class TradingSystem {
     * For admin user menu
     */
 
-   private void adminUserMain() throws FileNotFoundException {
+   private void adminUserMain() throws IOException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
               this.filesReaderWriter, this.userManager);
       displaySystem.printOut("######### Notification ########");

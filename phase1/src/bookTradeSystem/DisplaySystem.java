@@ -29,7 +29,7 @@ public class DisplaySystem {
      * @return option
      */
 
-    public int getMenuAnswer(String filePath) throws FileNotFoundException {
+    public int getMenuAnswer(String filePath) throws IOException {
         boolean condition = true;
 
         // get valid option user typed in
@@ -78,7 +78,7 @@ public class DisplaySystem {
      * @param filePath the path of file need to be read
      */
 
-    private void printMenu(String filePath) throws FileNotFoundException {
+    private void printMenu(String filePath) throws IOException {
         this.printOut(fileReader.readFromMenu(filePath));
     }
 

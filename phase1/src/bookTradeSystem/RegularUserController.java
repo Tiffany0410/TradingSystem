@@ -1,6 +1,7 @@
 package bookTradeSystem;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -51,7 +52,7 @@ public class RegularUserController implements Serializable, Controllable {
      * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
-    public String alerts() throws FileNotFoundException {
+    public String alerts() throws IOException {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
         User regUser = um.findUser(username);

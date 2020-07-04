@@ -26,18 +26,17 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public String readFromMenu(String filePath) throws FileNotFoundException {
+    public String readFromMenu(String filePath) throws IOException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
-            // FileInputStream can be used for reading raw bytes, like an image.
-            Scanner scanner = new Scanner(new FileInputStream(filePath));
-            StringBuilder record = null;
-
-            while (scanner.hasNextLine()) {
-                record.append(scanner.nextLine());
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line = "";
+            StringBuilder record = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                record.append(line);
                 record.append("\n");
             }
-            scanner.close();
+
             return record.toString();
         }
         else {

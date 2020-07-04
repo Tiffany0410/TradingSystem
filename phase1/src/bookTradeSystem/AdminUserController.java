@@ -2,6 +2,7 @@ package bookTradeSystem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -41,7 +42,7 @@ public class AdminUserController implements Serializable, Controllable {
      * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
-    public String alerts() throws FileNotFoundException {
+    public String alerts() throws IOException {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
         //String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
