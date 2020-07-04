@@ -433,6 +433,7 @@ public class RegularUserController implements Serializable, Controllable {
     // TODO: MOVE TO PRESENTER CLASS
     private void msgForNothing(){
         ds.printOut("There's nothing here");
+        ds.printOut("\n");
     }
     private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
@@ -444,9 +445,11 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
+    // TODO: MOVE TO PRESENTER CLASS
     private void lockMessageForThreshold() {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
+        ds.printOut("\n");
     }
 
     private void changeNumTradesLeftForTheWeek(User thisUser){
