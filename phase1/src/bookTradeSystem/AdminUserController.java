@@ -59,7 +59,7 @@ public class AdminUserController implements Serializable, Controllable {
      * @throws FileNotFoundException In case the file can't be found.
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException {
+    public void actionResponse(int mainMenuOption, int subMenuOption) throws IOException {
          /*
         1. decide the menu options
         2. decide what use case method to call for each menu option (discuss with Gabriel)
@@ -151,7 +151,7 @@ public class AdminUserController implements Serializable, Controllable {
         ds.printResult(true);
     }
 
-    private void adminOthersMenuResponse(int subMenuOption) throws FileNotFoundException {
+    private void adminOthersMenuResponse(int subMenuOption) throws IOException {
         /*
         1. Add subsequent admin users
          */

@@ -33,8 +33,8 @@ public class DemoMain {
         AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
         // Load accounts data from CSV file to initial login validator
-        Map<String, String> userLoginInfo = filesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
-        Map<String, String> adminUserLoginInfo = filesReaderWriter.readUserInfoFromCSVFile(adminAccountInfoFilePath);
+        Map<String, String> userLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
+        Map<String, String> adminUserLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(adminAccountInfoFilePath);
         LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
         // Create trading system

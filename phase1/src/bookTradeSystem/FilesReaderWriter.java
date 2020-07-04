@@ -54,9 +54,21 @@ public class FilesReaderWriter implements Serializable {
      * @param email the email address of the new user
      */
     public void saveUserInfoToCSVFile(String filePath, String username, String password, String email)
-            throws FileNotFoundException {
+            throws IOException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
+            List<String> dataList = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                dataList.add(line + "\n");
+
+            }
+
+
+
+
+
             PrintWriter writer = new PrintWriter(new File(filePath));
 
             StringBuilder sb = new StringBuilder();
@@ -66,8 +78,12 @@ public class FilesReaderWriter implements Serializable {
             sb.append(',');
             sb.append(email);
             sb.append('\n');
+            dataList.add(sb.toString());
 
-            writer.write(sb.toString());
+            for (String singleUser: dataList ) {
+                writer.write(singleUser);
+            }
+
             writer.close();
         }
         else {throw new FileNotFoundException();}
@@ -80,7 +96,7 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public Map<String, String> readUserInfoFromCSVFile(String filePath) throws FileNotFoundException {
+    public static Map<String, String> readUserInfoFromCSVFile(String filePath) throws FileNotFoundException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
             // FileInputStream can be used for reading raw bytes, like an image.

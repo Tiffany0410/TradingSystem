@@ -15,7 +15,7 @@ public interface Controllable {
      * @throws FileNotFoundException In case the file can't be found.
      * @throws InvalidIdException In case the id is invalid.
      */
-    void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException, InvalidIdException;
+    void actionResponse(int mainMenuOption, int subMenuOption) throws IOException, InvalidIdException;
 
     /**
      * This method gathers all the necessary notifications for the user.
