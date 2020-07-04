@@ -128,7 +128,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserAccountMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserAccountMenu.csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -139,7 +139,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserTradingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserTradingMenu.csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -150,7 +150,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserMeetingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserMeetingMenu.csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -180,7 +180,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserManageUsersSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserManageUsersSubMenu.csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -191,7 +191,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserEditThresholdsSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserEditThresholdsSubMenu.csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -202,7 +202,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserOtherSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserOtherSubMenu.csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
