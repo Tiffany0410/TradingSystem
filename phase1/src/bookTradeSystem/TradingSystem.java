@@ -42,7 +42,6 @@ public class TradingSystem {
 
       // Option 0 is exit system
       if (option == 0){
-         System.out.println("Here is 0");
          return false;
       }
 
@@ -86,7 +85,6 @@ public class TradingSystem {
       switch (userType) {
          case "False":
             displaySystem.failLogin();
-            this.tradingSystemInital();
             break;
          case "User":
             this.regularUserMain(userName);
