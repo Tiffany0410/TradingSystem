@@ -273,8 +273,8 @@ public class FilesReaderWriter implements Serializable {
             int MenuNumber = 0;
 
             while (scanner.hasNextLine()) {
-                record = scanner.nextLine().split(".");
-                int TempNumber = Integer.valueOf(record[0]);
+                record = scanner.nextLine().split("\\.");
+                int TempNumber = Integer.parseInt(record[0]);
                 if (TempNumber >= MenuNumber) {
                     MenuNumber = TempNumber;
                 }

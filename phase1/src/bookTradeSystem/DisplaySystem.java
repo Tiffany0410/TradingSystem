@@ -30,29 +30,30 @@ public class DisplaySystem {
      */
 
     public int getMenuAnswer(String filePath) throws IOException {
-        boolean condition = true;
 
         // get valid option user typed in
-        while (condition) {
+        while (true) {
 
             Scanner sc = new Scanner(System.in);
 
-            this.printOut("Please enter the number of your option.");
             printMenu(filePath);  // print all options
+            this.printOut("Please enter the number of your option:");
+
+            String typeIn = sc.nextLine();  // get number user typed in
 
             try {
-                option = sc.nextInt();  // get number user typed in
+                option = Integer.parseInt(typeIn);
 
                 // check the number user typed in
                 if (0 <=option && option < getMenuLength(filePath)){
-                    condition = false;
+                    break;
                 }
                 else{
                     this.printOut("Please enter a number provide in the menu");
                 }
             } catch (Exception InputMismatchException) {
                 // If user type in not int
-                this.printOut("Please enter a number.");
+                this.printOut("Please enter a number!");
 
             }
 
