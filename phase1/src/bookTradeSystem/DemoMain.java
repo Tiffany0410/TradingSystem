@@ -15,9 +15,9 @@ public class DemoMain {
         // File path
         String userAccountInfoFilePath = "./src/Managers/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/Managers/AdminUserUsernameAndPassword.csv";
-        String serializedUserManagerFilePath = "./src/bookTradeSystem/Managers/SerializedUserManager.ser";
-        String serializedTradeManagerFilePath = "./src/bookTradeSystem/Managers/SerializedTradeManager.ser";
-        String serializedMeetingManagerFilePath = "./src/bookTradeSystem/Managers/SerializedMeetingManager.ser";
+        String serializedUserManagerFilePath = "./src/Managers/SerializedUserManager.ser";
+        String serializedTradeManagerFilePath = "./src/Managers/SerializedTradeManager.ser";
+        String serializedMeetingManagerFilePath = "./src/Managers/SerializedMeetingManager.ser";
 
 
         // Start trading system
