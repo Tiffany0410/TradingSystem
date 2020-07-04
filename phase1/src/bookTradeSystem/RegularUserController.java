@@ -16,6 +16,8 @@ public class RegularUserController implements Serializable, Controllable {
     private UserManager um;
     private String username;
     private int userId;
+    // whether the max transactions per week threshold is reassessed
+    private boolean thresholdReassessed;
 
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
@@ -38,6 +40,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.um = um;
         this.username = username;
         this.userId = um.usernameToID(username);
+        this.thresholdReassessed = false;
     }
 
     /**
@@ -58,11 +61,13 @@ public class RegularUserController implements Serializable, Controllable {
         notification.append(rw.readFromMenu(filepath)).append("/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
         // check if we should freeze this user based on the number of incomplete transactions this user has so far
-        //TODO: what do we do with the case when the admin unfreezes the user? Do we temporary close
-        // this check or ...?
+        // Q: what do we do with the case when the admin unfreezes the user?
+        // A: extends the threshold value for the user -- but if numFrozen = 3 -- permanent frozen
+        // if user is not frozen
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
-            freezeUserOrNot();
+            freezeUserOrNot(regUser);
+            ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
         }
         notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed());
@@ -182,6 +187,10 @@ public class RegularUserController implements Serializable, Controllable {
           7.View transactions that have been cancelled
          */
         User thisUser = um.findUser(userId);
+        // reassess it at the first day of the week - only once
+        // TODO: small bug - user has to login in other days (non-Sundays) to re-enable this function for next Sunday
+        //  and can only reassess it on Sunday (the first day of the week)
+        reassessNumTransactionsLeftForTheWeek(thisUser);
         switch (subMenuOption) {
             case 1:
                 if (thisUser.getNumTransactionLeftForTheWeek() == 0){
@@ -192,37 +201,48 @@ public class RegularUserController implements Serializable, Controllable {
                     // get whether it is one-way-trade or two-way-trade
                     // 1 - one-way-trade
                     // 2 - two-way-trade
-                    int numKindOfTrade = getnumKindOfTrade();
+                    int numKindOfTrade = getNumKindOfTrade();
                     Trade trade;
-                    //
-                    if (numkindOfTrade == 1){
-                        //int borrowerId = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                        //int lenderId = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                        //int itemId = getItemID(getAllItems(), 1);
-                        //String tradeType = getTradeType();
-                        //new Trade(int userId1, int userId2, int itemId, String tradeType);
-                        trade = getOneWayTrade();
+                    int itemId2 = 0;
+                    //get info for 1 way trade
+                    int userId1 = getUserID("borrower (if one-way-trade) or borrower-and-lender 1 (if two-way-trade)");
+                    int userId2 = getUserID("lender (if one-way-trade) or borrower-and-lender 2 (if two-way-trade)");
+                    int itemId = getItemID(getAllItems(), 1);
+                    if (numKindOfTrade == 2){
+                        itemId2 = getItemID(getAllItems(), 1);
                     }
-                    else{
-                        // new Trade (int userId1, int userId2, int itemId, int itemId1, String tradeType)
-                        trade = getTwoWayTrade();
+                    String tradeType = getTradeType();
+                    // preparing the trade object
+                    if (numKindOfTrade == 1) {
+                        // new one-way-trade
+                        trade = new Trade(userId1, userId2, itemId, tradeType, true);
+                    }
+                    else {
+                        // new two-way-trade
+                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false);
                     }
                     // validate the trade
-                    if (tm.validateTrade(trade)) {
+                    // pass in trade, borrower, lender
+                    if (tm.validateTrade(trade, um.findUser(userId1))) {
                         // add trade
-                        // TODO: what if the other person disagrees -- do we keep the trade in tm?
                         tm.addTrade(trade);
+                        // tell the user it's successful
                         ds.printResult(true);
                         // set status for the person who requested the trade
-                        if (borrowerId == userId) {
-                            trade.setUserStatus(userId, "Agree");
-                        } else {
-                            trade.setUserStatus(userId, "Disagree");
-                        }
-
+                        trade.setUserStatus(userId, "Agree");
+                        // change the threshold value
                         changeNumTradesLeftForTheWeek(thisUser);
                     }
-                    ds.printResult(false);
+                    else {
+                        ds.printResult(false);
+                        // TODO: should I put this here?
+                        // system auto-freeze
+                        // user borrow more than lend
+                        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
+                            um.freezeUser(username);
+                            ds.printOut("You're frozen because you borrowed more than lend.");
+                        }
+                    }
                 }
                 break;
             case 2:
@@ -232,13 +252,20 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 else {
                     //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
+                    //TODO: so here assume wait-to-be-opened = wait for the other user's response i guess
                     ds.printResult(tm.getWaitTrade(userId));
                     Trade trade = tm.getTradeById(getTradeID());
+                    int itemid22 = 0;
                     // if it's one-way-trade
                     // only need borrower id, lender id, and the item id
-                    if (!trade.isOneWayTrade){
+                    int userId11 = trade.getIds().get(1);
+                    int userId22 = trade.getIds().get(2);
+                    //TODO: tm needs to add itemId1 = 0 for the one-way-trade constructor
+                    int itemId11 = trade.getIds().get(3);
+                    if (!trade.getIsOneWayTrade()){
                         // two-way-trade
-                        // need one more pair of borrower id, lender id, and the item id
+                        // need one more item id
+                        itemid22 = trade.getIds().get(4);
                     }
                     String tradeStatus = getAgreeOrNot();
                     //set the tradeStatus for this trade
@@ -246,11 +273,16 @@ public class RegularUserController implements Serializable, Controllable {
                     //remove items -- if agree
                     if (tradeStatus.equals("Agree")) {
                         // item1 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
-                        removeItemFromUsers(itemId1);
-                        if (!trade.isOneWayTrade) {
-                            removeItemFromUsers(itemid2);
+                        removeItemFromUsers(userId11, userId22, itemId11);
+                        if (!trade.getIsOneWayTrade()) {
+                            // if it's two-way-trade
                             // item2 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
+                            removeItemFromUsers(userId11, userId22, itemid22);
                         }
+                    }
+                    else{
+                        // cancel the trade so user can see it's cancelled
+                        trade.cancelTrade();
                     }
                     ds.printResult(true);
                 }
@@ -282,6 +314,16 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
+    private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
+        if (isFirstDayOfTheWeek() && !thresholdReassessed){
+            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
+            thresholdReassessed = true;
+        }
+        else if (!isFirstDayOfTheWeek()){
+            thresholdReassessed = false;
+        }
+    }
+
     private void lockMessageForThreshold() {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
@@ -292,17 +334,14 @@ public class RegularUserController implements Serializable, Controllable {
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
          */
         int currentVal = thisUser.getNumTransactionLeftForTheWeek();
-        if (isFirstDayOfTheWeek()) {
-            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek() - 1);
+        thisUser.setTransactionLeftForTheWeek(currentVal-1);
         }
-        else{
-            thisUser.setTransactionLeftForTheWeek(currentVal-1);
-        }
-    }
+
     private boolean isFirstDayOfTheWeek(){
         Calendar c = Calendar.getInstance();
         return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
+
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
@@ -359,7 +398,22 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
-    private boolean freezeUserOrNot(){
+    private boolean freezeUserOrNot(User thisUser){
+        int numFrozen = thisUser.getNumFrozen();
+        // find the num of uncompleted transactions
+        int numUncompletedTransactions = numUncompletedTransactions();
+        // if user went over the threshold
+        // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
+        int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
+        if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
+            um.freezeUser(username);
+            thisUser.addOneToNumFrozen();
+            return true;
+        }
+        return false;
+    }
+
+    private int numUncompletedTransactions() {
         List<Integer> uniqueTradeIDs = new ArrayList<>();
         List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
         for (Meeting meeting : overTimeMeetings){
@@ -368,11 +422,7 @@ public class RegularUserController implements Serializable, Controllable {
                 uniqueTradeIDs.add(tradeID);
             }
         }
-        if (uniqueTradeIDs.size() > User.getMaxNumTransactionIncomplete()){
-            um.freezeUser(username);
-            return true;
-        }
-        return false;
+        return uniqueTradeIDs.size();
     }
 
     private Meeting getMeeting() throws InvalidIdException {
@@ -438,7 +488,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     //TODO maybe put this somewhere else
-    //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXISTS IN THE ARRAYLIST
+    //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXIST IN THE ARRAYLIST
     private Item idToItem(int id) {
         //Get all the items in the system
         ArrayList<Item> allOtherItems = getAllItems();
@@ -517,7 +567,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
 
-    private int getTradeID() throws InvalidIdException {
+    private int getTradeID() {
         /*
          * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -530,8 +580,8 @@ public class RegularUserController implements Serializable, Controllable {
             // if the input is int
             if (sc.hasNextInt()) {
                 tradeId = sc.nextInt();
-                // if the input is valid
-                if (!tm.getTradeById(tradeId).tradeType.equals("")) {
+                // if the trade with this tradeId rests in the tradeManager
+                if (tm.checkInManager(tradeId)) {
                     okInput = true;
                 } else {
                     ds.printOut("Please enter a valid id!");
@@ -769,4 +819,55 @@ public class RegularUserController implements Serializable, Controllable {
         return num;
 
     }
+
+    private int getNumKindOfTrade(){
+        /*
+         * Based on code by Yassine.b from
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         */
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter an integer (1 - one-way-trade, 2 - two-way-trade)" + ": ");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                num = sc.nextInt();
+                // if the input is valid
+                if (num == 1 || num == 2) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid integer!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        } while (!okInput);
+        return num;
+    }
+
+
+    private void removeItemFromUsers(int userId1, int userId2, int itemId){
+        User user1 = um.findUser(userId1);
+        User user2 = um.findUser(userId2);
+        //TODO: shouldn't call contains here - maybe have a method for it in
+        // the item manager
+        if (user1.getWishList().contains(itemId)){
+            //user1 = borrower
+            um.removeItemWishlist(itemId, user1.getUsername());
+            //remove the item from user2's inventory
+            um.removeItemInventory(itemId, user2.getUsername());
+        }
+        else{
+            //user2 = borrower
+            um.removeItemWishlist(itemId, user2.getUsername());
+            //remove item from user1's inventory
+            um.removeItemInventory(itemId, user1.getUsername());
+
+        }
+
+    }
 }
+
