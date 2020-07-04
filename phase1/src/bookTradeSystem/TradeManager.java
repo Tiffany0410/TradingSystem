@@ -1,6 +1,9 @@
 package bookTradeSystem;
 import java.util.*;
 import java.io.Serializable;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 public class TradeManager implements Serializable {
     private List<Trade> listTrade;
 
@@ -127,22 +130,18 @@ public class TradeManager implements Serializable {
                 numTrade.put(t.getIds().get(2), 1);
             }
         }
-        MapValueComparator com = new MapValueComparator(numTrade);
-        TreeMap<Integer, Integer> sortTrade = new TreeMap<Integer, Integer>(com);
-        List<Integer> list1 = new ArrayList<>(sortTrade.keySet());
-        List<Integer> list2 = new ArrayList<>();
-        if (list1.size() >= 3) {
-            list2.add(list1.get(list.size() - 1));
-            list2.add(list1.get(list.size() - 2));
-            list2.add(list1.get(list.size() - 3));
-        } else if (list1.size() == 2) {
-            list2.add(list1.get(list.size() - 1));
-            list2.add(list1.get(list.size() - 2));
-        } else if (list1.size() == 1) {
-            list2.add(list1.get(list.size() - 1));
-            return list2;
-        }
-        return list2;
+        Stream<Map.Entry<Integer,Integer>> sorted =
+                numTrade.entrySet().stream()
+                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+        Map<Integer,Integer> top3 =
+                numTrade.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .limit(3)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        return new ArrayList<Integer>(top3.keySet());
+        // finding the way to solve by comparing values
+        // in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
     }
 
     /**
@@ -294,7 +293,6 @@ public class TradeManager implements Serializable {
             return borrower.getNumLent() == User.getNumLendBeforeBorrow() && borrower.getNumLent() >=
                     borrower.getNumBorrowed();
         }
-
     }
 }
 
