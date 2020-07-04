@@ -59,7 +59,7 @@ public class RegularUserController implements Serializable, Controllable {
         StringBuilder notification;
         notification = new StringBuilder();
         String filepath = "./src/Alerts/UserAlerts.csv";
-        notification.append(rw.readFromMenu(filepath)).append("/n");
+        notification.append(rw.readFromMenu(filepath)).append("\n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
         // check if we should freeze this user based on the number of incomplete transactions this user has so far
         // Q: what do we do with the case when the admin unfreezes the user?
@@ -70,14 +70,14 @@ public class RegularUserController implements Serializable, Controllable {
             freezeUserOrNot(regUser);
             ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
         }
-        notification.append("Your current status:").append(regUser.getIfFrozen()).append("/n");
-        notification.append("You have borrowed:").append(regUser.getNumBorrowed());
-        notification.append("You have lent:").append(regUser.getNumLent());
-        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES");
-        notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek());
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete());
-        notification.append("Max umber of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow());
-        notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits());
+        notification.append("Your current status:").append(regUser.getIfFrozen()).append("\n");
+        notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
+        notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
+        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
+        notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek()).append("\n");
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete()).append("\n");
+        notification.append("Max umber of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
+        notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits()).append("\n");
         return notification.toString();
     }
 
