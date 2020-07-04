@@ -68,9 +68,45 @@ public class TradeManager implements Serializable {
     public List<Integer> recentThreeItem(int userId) throws InvalidIdException {
         List<Trade> list = this.filterHistory(userId);
         List<Integer> list1 = new ArrayList<>();
-        list1.add(list.get(list.size() - 1).getIds().get(3));
-        list1.add(list.get(list.size() - 2).getIds().get(3));
-        list1.add(list.get(list.size() - 3).getIds().get(3));
+        if (list.size() >= 3) {
+            if (list.get(list.size() - 1).getIsOneWayTrade()) {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+            } else {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+                list1.add(list.get(list.size() - 1).getIds().get(4));
+            }
+            if (list.get(list.size() - 2).getIsOneWayTrade() && list1.size() == 1) {
+                list1.add(list.get(list.size() - 2).getIds().get(3));
+            } else if (!(list.get(list.size() - 2).getIsOneWayTrade()) && list1.size() == 1) {
+                list1.add(list.get(list.size() - 2).getIds().get(3));
+                list1.add(list.get(list.size() - 2).getIds().get(4));
+            }
+            if (list.size() != 3) {
+                list1.add(list.get(list.size() - 3).getIds().get(3));
+            }
+
+        } else if (list.size() == 2) {
+            if (list.get(list.size() - 1).getIsOneWayTrade()) {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+            } else {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+                list1.add(list.get(list.size() - 1).getIds().get(4));
+            }
+            if (list1.size() != 2 && list.get(list.size() - 2).getIsOneWayTrade()) {
+                list1.add(list.get(list.size() - 2).getIds().get(3));
+            } else {
+                list1.add(list.get(list.size() - 2).getIds().get(3));
+                list1.add(list.get(list.size() - 2).getIds().get(4));
+            }
+        }
+        if (list.size() == 1) {
+            if (list.get(list.size() - 1).getIsOneWayTrade()) {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+            } else {
+                list1.add(list.get(list.size() - 1).getIds().get(3));
+                list1.add(list.get(list.size() - 1).getIds().get(4));
+            }
+        }
         return list1;
     }
 
