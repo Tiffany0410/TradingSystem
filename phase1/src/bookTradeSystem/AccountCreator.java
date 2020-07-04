@@ -1,6 +1,7 @@
 package bookTradeSystem;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,11 @@ public class AccountCreator {
      * @param type The type of account: normal user or admin
      * @return true if the User was successfully added, false otherwise
      */
-    public boolean createAccount(String type) throws FileNotFoundException {
+    public boolean createAccount(String type) throws IOException {
         boolean out = false;
         HashMap<String, String> info = um.userPasswords();
         ArrayList<User> listPeople = um.getListUser();
+        Map<String, String> info2 = FilesReaderWriter.readUserInfoFromCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv");
 
         String username;
         String password;
@@ -46,6 +48,8 @@ public class AccountCreator {
             listPeople.add(toAdd);
             um.setListUser(listPeople);
             out = true;
+            //Write the UserManger into ser file in order to save the data
+            FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
 
             if (type.equals("Regular")) {
                 fr.saveUserInfoToCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv", username, password, email );

@@ -175,6 +175,7 @@ public class UserManager implements Serializable {
         this.listAdmin.add(toAdd);
     }
 
+
     /**
      * Gives the Users who are not lending enough
      * @return A list of usernames of the Users who are not lending enough
@@ -276,7 +277,7 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Gives all the usernames and passwords of all AdminUser
+     * Gives all the usernames and passwords of all User
      * @return A map of usernames to passwords for all User
      */
     public HashMap<String, String> userPasswords(){

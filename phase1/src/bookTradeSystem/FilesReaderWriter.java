@@ -65,10 +65,6 @@ public class FilesReaderWriter implements Serializable {
 
             }
 
-
-
-
-
             PrintWriter writer = new PrintWriter(new File(filePath));
 
             StringBuilder sb = new StringBuilder();
@@ -115,10 +111,7 @@ public class FilesReaderWriter implements Serializable {
 
     private static boolean helper_check_file_empty_or_not(String filePath) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
-        if (br.readLine() == null) {
-            return true;
-        }
-        else {return false;}
+        return br.readLine() == null;
     }
 
 
