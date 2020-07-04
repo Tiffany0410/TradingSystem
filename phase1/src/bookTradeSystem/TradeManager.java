@@ -260,11 +260,5 @@ public class TradeManager implements Serializable {
         }
 
     }
-    public static void main(String[] args) throws InvalidIdException {
-        TradeManager tm = new TradeManager();
-        tm.addTrade(new Trade(1, 2, 1, "P", true));
-        tm.addTrade(new Trade(1, 3, 1, "P", true));
-        tm.topThreePartners(1);
-    }
 }
 
