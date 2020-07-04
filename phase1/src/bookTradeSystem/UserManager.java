@@ -127,8 +127,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (person.getIfFrozen()){
-                person.setIfFrozen(false);
+            if (!person.getIfFrozen()){
+                person.setIfFrozen(true);
                 out = true;
             }
         }
@@ -144,8 +144,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.getIfFrozen()){
-                person.setIfFrozen(true);
+            if (person.getIfFrozen()){
+                person.setIfFrozen(false);
                 out = true;
             }
         }
