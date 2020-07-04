@@ -127,8 +127,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (person.getIfFrozen()){
-                person.setIfFrozen(false);
+            if (!person.getIfFrozen()){
+                person.setIfFrozen(true);
                 out = true;
             }
         }
@@ -144,8 +144,8 @@ public class UserManager implements Serializable {
         boolean out = false;
         User person = findUser(username);
         if (person != null){
-            if (!person.getIfFrozen()){
-                person.setIfFrozen(true);
+            if (person.getIfFrozen()){
+                person.setIfFrozen(false);
                 out = true;
             }
         }
@@ -198,7 +198,7 @@ public class UserManager implements Serializable {
      * @param username The username of the User to remove the item from their wishlist
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemWishlist(int itemID, String username){
+    public boolean removeItemWishlist(Integer itemID, String username){
         boolean out = false;
         User person = findUser(username);
         if (person != null){
@@ -424,22 +424,6 @@ public class UserManager implements Serializable {
         return out;
     }
 
-
-    /**
-     * Gives the usernames and the corresponding IDs of all User
-     * @return A map of usernames to IDs for all User
-     */
-    public HashMap<String, Integer> userIDs(){
-        //TODO: Probably don't need this
-        HashMap<String, Integer> out = new HashMap<>();
-        for (User person: listUser){
-            String name = person.getUsername();
-            Integer ID = person.getId();
-            out.put(name, ID);
-        }
-        return out;
-    }
-
     /**
      * Gives all the Items in all the Users' inventories except the one with the given username
      * @param username The username of the User
@@ -477,15 +461,21 @@ public class UserManager implements Serializable {
      * @return true if the request was successful, false otherwise
      */
     public boolean requestUnfreeze(String username, String message){
-        boolean out = false;
+        User person = findUser(username);
+        if (person == null){
+            return false;
+        }
+        if (!person.getIfFrozen()){
+            return false;
+        }
         for (String[] request: listUnfreezeRequest) {
-            if (!request[0].contains(username)) {
-                String[] toAdd = {username, message};
-                listUnfreezeRequest.add(toAdd);
-                out = true;
+            if (request[0].equals(username)) {
+                return false;
             }
         }
-        return out;
+        String[] toAdd = {username, message};
+        listUnfreezeRequest.add(toAdd);
+        return true;
     }
 
     /**
