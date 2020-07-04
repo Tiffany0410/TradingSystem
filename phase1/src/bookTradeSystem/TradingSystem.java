@@ -35,6 +35,7 @@ public class TradingSystem {
     */
    public boolean tradingSystemInital() throws IOException, InvalidIdException {
       displaySystem.printOut("Welcome to book trading system");
+      displaySystem.printOut(" ");
 
       int option;
       option = displaySystem.getMenuAnswer("./src/Menus/TradingSystemInitMenu.csv");
@@ -82,7 +83,7 @@ public class TradingSystem {
       String userType = loginValidator.verifyLogin(userName, userPassword);
 
       switch (userType) {
-         case "fail":
+         case "False":
             displaySystem.failLogin();
             this.tradingSystemInital();
             break;

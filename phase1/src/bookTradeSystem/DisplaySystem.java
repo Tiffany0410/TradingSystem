@@ -45,7 +45,8 @@ public class DisplaySystem {
                 option = Integer.parseInt(typeIn);
 
                 // check the number user typed in
-                if (0 <=option && option < getMenuLength(filePath)){
+                int menuLength = getMenuLength(filePath);
+                if (0 <=option && option <= menuLength){
                     break;
                 }
                 else{
