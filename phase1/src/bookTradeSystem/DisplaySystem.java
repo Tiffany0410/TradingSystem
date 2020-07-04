@@ -3,6 +3,8 @@ package bookTradeSystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DisplaySystem {
@@ -147,9 +149,12 @@ public class DisplaySystem {
 
     /**
      * print out the result of action with object type
-     * @param obj the object need to be print
+     * @param obj the list of objects need to be printed
      */
-    public void printResult(Object obj){
-        this.printOut(obj.toString());
+    public void printResult(ArrayList<Object> obj)
+    {   for (Object o : obj)
+    {
+        this.printOut(o.toString());
+    }
     }
 }

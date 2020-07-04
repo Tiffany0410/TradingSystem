@@ -142,7 +142,7 @@ public class RegularUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 // print items in all users inventory except this user
-                ds.printResult(allOtherItems);
+                ds.printResult(new ArrayList<Object>(allOtherItems));
                 break;
             case 2:
                 // add the id to user's wishlist
@@ -150,14 +150,14 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 3:
                 // print all the items being searched for
-                ds.printResult(um.searchItem(getItemName()));
+                ds.printResult(new ArrayList<Object>(um.searchItem(getItemName())));
             case 4:
                 // remove the item id from wishlist
                 ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
                 break;
             case 5:
                 ArrayList<Item> userInventory = um.findUser(userId).getInventory();
-                ds.printResult(userInventory);
+                ds.printResult(new ArrayList<Object>(userInventory));
                 ds.printResult(um.removeItemInventory(getItemID(userInventory, 1), username));
                 break;
             case 6:
@@ -173,7 +173,7 @@ public class RegularUserController implements Serializable, Controllable {
                 for (int id: recentThreeTradedIds) {
                     threeItems.add(idToItem(id));
                 }
-                ds.printResult(threeItems);
+                ds.printResult(new ArrayList<Object>(threeItems));
                 break;
         }
     }
@@ -258,7 +258,7 @@ public class RegularUserController implements Serializable, Controllable {
                 else {
                     //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                     //TODO: so here assume wait-to-be-opened = wait for the other user's response i guess
-                    ds.printResult(tm.getWaitTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getWaitTrade(userId)));
                     Trade trade = tm.getTradeById(getTradeID());
                     int itemid22 = 0;
                     // if it's one-way-trade
@@ -293,7 +293,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 3:
                 if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(tm.getOpenTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getOpenTrade(userId)));
                 }
                 else {
                     msgForNothing();
@@ -301,7 +301,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 4:
                 if (tm.getClosedTrade(userId).size() != 0) {
-                    ds.printResult(tm.getClosedTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getClosedTrade(userId)));
                 }
                 else {
                     msgForNothing();
@@ -309,7 +309,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 5:
                 if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(tm.getOpenTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getOpenTrade(userId)));
                     int tradeId = getTradeID();
 //              let user enter trade id and we use it to confirm complete
                     ds.printResult(tm.confirmComplete(tradeId));
@@ -324,7 +324,7 @@ public class RegularUserController implements Serializable, Controllable {
                 List<User> topThree = new ArrayList<>();
                 for (int id : topThreeIDS) {
                     topThree.add(um.findUser(id));
-                ds.printResult(topThree);
+                ds.printResult(new ArrayList<Object>(topThree));
                 }
                 }
                 else{
@@ -334,7 +334,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 7:
                 if (tm.getCancelledTrade(userId).size()!= 0) {
-                    ds.printResult(tm.getCancelledTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getCancelledTrade(userId)));
                 }
                 else{
                     msgForNothing();
@@ -389,7 +389,7 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 else {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
-                    ds.printResult(mm.getUnConfirmMeeting(userId));
+                    ds.printResult(new ArrayList<Object>(mm.getUnConfirmMeeting(userId)));
                     Meeting meeting3 = getMeeting();
                     ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
                 }
@@ -399,7 +399,7 @@ public class RegularUserController implements Serializable, Controllable {
                     msgForNothing();
                 }
                 else {
-                    ds.printResult(mm.getUnConfirmMeeting(userId));
+                    ds.printResult(new ArrayList<Object>(mm.getUnConfirmMeeting(userId)));
                 }
                 break;
             case 5:
@@ -407,7 +407,7 @@ public class RegularUserController implements Serializable, Controllable {
                     msgForNothing();
                 }
                 else {
-                    ds.printResult(mm.getCompleteMeeting(userId));
+                    ds.printResult(new ArrayList<Object>(mm.getCompleteMeeting(userId)));
                 }
                 break;
             case 6:
@@ -415,12 +415,13 @@ public class RegularUserController implements Serializable, Controllable {
                     // print a list of trades waiting to be opened -- to have the 1st meeting
                     // because once the meeting is set up --> open
                     // so need to set up first meeting for the waiting to be opened trades
-                    ds.printResult(tm.getWaitTrade(userId));
+                    ds.printResult(new ArrayList<Object>(tm.getWaitTrade(userId)));
                     //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
                     int tradeId = getTradeID();
                     int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
                     int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                    ds.printResult(mm.addMeeting(tradeId, userId1, userId2, 1, tm));
+                    mm.addMeeting(tradeId, userId1, userId2, 1, tm);
+                    ds.printResult(true);
                     break;
                 }
                 else{
@@ -494,7 +495,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     private Meeting getMeeting() throws InvalidIdException {
-        ds.printResult(mm.getUnConfirmTimePlace(userId, tm));
+        ds.printResult(new ArrayList<Object>(mm.getUnConfirmTimePlace(userId, tm)));
 //      ask the user to enter the trade id, meetingNum, time and place
         int tradeId = getTradeID();
         int numMeeting = getNumMeeting();

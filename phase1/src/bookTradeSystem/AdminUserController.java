@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -89,6 +90,9 @@ public class AdminUserController implements Serializable, Controllable {
 
         switch (subMenuOption) {
             case 1:
+                //TODO: THE FOLLOWING LINE IS FOR TEST!!!
+                //ds.printResult(um.getListUser());
+                //TODO: THE ABOVE LINE IS FOR TEST!!!
 //              asks the admin for the username of the user TO FREEZE
                 ds.printOut("Please enter the username of the user to FREEZE");
 //              TODO: maybe do a bulletproof for username for later? (later)
@@ -104,13 +108,10 @@ public class AdminUserController implements Serializable, Controllable {
                 break;
             case 3:
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
-                if (um.getListItemToAdd() == null){
-                    ds.printOut("whyyyyy");
-                }
                 int len = listItemToAdd.size();
 //              get the list of item to be added to inventories
 //              TODO: make sure items are printed one by one ;) (***)
-                ds.printResult(listItemToAdd);
+                ds.printResult(new ArrayList<Object>(listItemToAdd));
 //              TODO: maybe can improve printResult method by adding # to each thing? start w 1(***)
 //              TODO: maybe add a loop so admin can keep on entering ... until chooses to exit? (later)
                 Item itemSelected = listItemToAdd.get(getItem(len)-1);
@@ -139,15 +140,19 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
+                printCurrentValue(User.getMaxNumTransactionsAllowedAWeek());
                 User.setMaxNumTransactionsAllowedAWeek(getThresholdAns());
                 break;
             case 2:
+                printCurrentValue(User.getMaxNumTransactionIncomplete());
                 User.setMaxNumTransactionIncomplete(getThresholdAns());
                 break;
             case 3:
+                printCurrentValue(User.getNumLendBeforeBorrow());
                 User.setNumLendBeforeBorrow(getThresholdAns());
                 break;
             case 4:
+                printCurrentValue(User.getMaxMeetingDateTimeEdits());
                 User.setMaxMeetingDateTimeEdits(getThresholdAns());
                 break;
         }
@@ -167,6 +172,11 @@ public class AdminUserController implements Serializable, Controllable {
     /**
      * Other ask-user-for-input methods
      */
+
+    //TODO: MOVE TO PRESENTER
+    private void printCurrentValue(int currentVal){
+        ds.printOut("The current value is " + currentVal);
+    }
 
     private int getThresholdAns(){
         /*
