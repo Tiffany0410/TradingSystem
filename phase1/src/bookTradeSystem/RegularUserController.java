@@ -272,11 +272,10 @@ public class RegularUserController implements Serializable, Controllable {
                     trade.setUserStatus(userId, tradeStatus);
                     //remove items -- if agree
                     if (tradeStatus.equals("Agree")) {
-                        // item1 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
+                        // remove + record the borrowing/lending
                         removeItemFromUsers(userId11, userId22, itemId11);
                         if (!trade.getIsOneWayTrade()) {
-                            // if it's two-way-trade
-                            // item2 -- userid1 (if borrow - userid2 - lend/if lend - userid2 - borrow)
+                            // remove + record the borrowing/lending
                             removeItemFromUsers(userId11, userId22, itemid22);
                         }
                     }
@@ -314,42 +313,13 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
-    private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
-        if (isFirstDayOfTheWeek() && !thresholdReassessed){
-            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
-            thresholdReassessed = true;
-        }
-        else if (!isFirstDayOfTheWeek()){
-            thresholdReassessed = false;
-        }
-    }
-
-    private void lockMessageForThreshold() {
-        ds.printOut("This option is locked");
-        ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
-    }
-
-    private void changeNumTradesLeftForTheWeek(User thisUser){
-        /*
-        Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
-         */
-        int currentVal = thisUser.getNumTransactionLeftForTheWeek();
-        thisUser.setTransactionLeftForTheWeek(currentVal-1);
-        }
-
-    private boolean isFirstDayOfTheWeek(){
-        Calendar c = Calendar.getInstance();
-        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
-    }
-
-
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
     1.Suggest/edit time and place for meetings
     2.Confirm time and place for meetings
     3.Confirm the meeting took place
-    4.See the list of meetings need to be confirmed
-    5.See the list of meetings that have been confirmed
+    4.See the list of meetings need to be confirmed (that it took place)
+    5.See the list of meetings that have been confirmed (that have taken place)
     6.View to-be-opened trades and set up first meeting
         */
 
@@ -366,6 +336,8 @@ public class RegularUserController implements Serializable, Controllable {
                 //int year, int month, int day, int hour, int min, int sec
 //              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
                 ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
+                // for the edit threshold
+                ds.printOut(mm.getEditOverThreshold(tm, meeting));
                 break;
             case 2:
                 Meeting meeting2 = getMeeting();
@@ -397,6 +369,35 @@ public class RegularUserController implements Serializable, Controllable {
         }
 
     }
+
+    private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
+        if (isFirstDayOfTheWeek() && !thresholdReassessed){
+            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
+            thresholdReassessed = true;
+        }
+        else if (!isFirstDayOfTheWeek()){
+            thresholdReassessed = false;
+        }
+    }
+
+    private void lockMessageForThreshold() {
+        ds.printOut("This option is locked");
+        ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
+    }
+
+    private void changeNumTradesLeftForTheWeek(User thisUser){
+        /*
+        Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
+         */
+        int currentVal = thisUser.getNumTransactionLeftForTheWeek();
+        thisUser.setTransactionLeftForTheWeek(currentVal-1);
+    }
+
+    private boolean isFirstDayOfTheWeek(){
+        Calendar c = Calendar.getInstance();
+        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
+    }
+
 
     private boolean freezeUserOrNot(User thisUser){
         int numFrozen = thisUser.getNumFrozen();
@@ -849,25 +850,31 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
 
-    private void removeItemFromUsers(int userId1, int userId2, int itemId){
+    private void removeItemFromUsers(int userId1, int userId2, int itemId) {
         User user1 = um.findUser(userId1);
         User user2 = um.findUser(userId2);
         //TODO: shouldn't call contains here - maybe have a method for it in
         // the item manager
-        if (user1.getWishList().contains(itemId)){
+        if (user1.getWishList().contains(itemId)) {
             //user1 = borrower
             um.removeItemWishlist(itemId, user1.getUsername());
+            // record the borrow
+            user1.addOneToNumBorrowed();
             //remove the item from user2's inventory
             um.removeItemInventory(itemId, user2.getUsername());
-        }
-        else{
+            // record the lend
+            user2.addOneToNumLent();
+        } else {
             //user2 = borrower
             um.removeItemWishlist(itemId, user2.getUsername());
+            // record the borrow
+            user2.addOneToNumBorrowed();
             //remove item from user1's inventory
             um.removeItemInventory(itemId, user1.getUsername());
+            // record the lend
+            user1.addOneToNumLent();
 
         }
-
     }
 }
 
