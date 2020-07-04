@@ -85,12 +85,11 @@ public class TradingSystem {
       switch (userType) {
          case "False":
             displaySystem.failLogin();
-            this.tradingSystemInital();
             break;
-         case "user":
+         case "User":
             this.regularUserMain(userName);
             break;
-         case "admin":
+         case "Admin":
             this.adminUserMain();
             break;
       }
