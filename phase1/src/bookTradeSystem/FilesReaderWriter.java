@@ -58,6 +58,7 @@ public class FilesReaderWriter implements Serializable {
         File new_file = new File(filePath);
         if (new_file.exists()) {
             PrintWriter writer = new PrintWriter(new File(filePath));
+
             StringBuilder sb = new StringBuilder();
             sb.append(username);
             sb.append(',');
@@ -67,6 +68,7 @@ public class FilesReaderWriter implements Serializable {
             sb.append('\n');
 
             writer.write(sb.toString());
+            writer.close();
         }
         else {throw new FileNotFoundException();}
     }
