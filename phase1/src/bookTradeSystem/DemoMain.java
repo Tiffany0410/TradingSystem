@@ -43,6 +43,7 @@ public class DemoMain {
 
         // Run trading system
         condition = tradingSystem.tradingSystemInital();
+
         }
 
     }
