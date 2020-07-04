@@ -48,9 +48,9 @@ public class AccountCreator {
             out = true;
 
             if (type.equals("Regular")) {
-                fr.saveUserInfoToCSVFile("./src/bookTradeSystem/RegularUserUsernameAndPasssword.csv", username, password, email );
+                fr.saveUserInfoToCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv", username, password, email );
             } else if (type.equals("Admin")) {
-                fr.saveUserInfoToCSVFile("./src/bookTradeSystem/AdminUserUsernameAndPassword.csv", username, password, email);
+                fr.saveUserInfoToCSVFile("./src/Managers/AdminUserUsernameAndPassword.csv", username, password, email);
             }
         }
 
