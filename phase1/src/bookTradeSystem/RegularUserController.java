@@ -67,16 +67,17 @@ public class RegularUserController implements Serializable, Controllable {
         // if user is not frozen
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
-            freezeUserOrNot(regUser);
-            ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
+           if (freezeUserOrNot(regUser)){
+               ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
+           }
         }
-        notification.append("Your current status:").append(regUser.getIfFrozen()).append("\n");
+        notification.append("Are you frozen?:").append(regUser.getIfFrozen()).append("\n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
         notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek()).append("\n");
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete()).append("\n");
-        notification.append("Max umber of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
+        notification.append("Max number of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
         notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits()).append("\n");
         return notification.toString();
     }
@@ -251,6 +252,9 @@ public class RegularUserController implements Serializable, Controllable {
                     // the case with user reaching the max number of transactions for the week
                     lockMessageForThreshold();
                 }
+                else if (tm.getTradeHistory(userId).size() == 0){
+                    msgForNothing();
+                 }
                 else {
                     //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                     //TODO: so here assume wait-to-be-opened = wait for the other user's response i guess
@@ -288,27 +292,53 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 break;
             case 3:
-                ds.printResult(tm.getOpenTrade(userId));
+                if (tm.getOpenTrade(userId).size() != 0) {
+                    ds.printResult(tm.getOpenTrade(userId));
+                }
+                else {
+                    msgForNothing();
+                }
                 break;
             case 4:
-                ds.printResult(tm.getClosedTrade(userId));
+                if (tm.getClosedTrade(userId).size() != 0) {
+                    ds.printResult(tm.getClosedTrade(userId));
+                }
+                else {
+                    msgForNothing();
+                }
                 break;
             case 5:
-                ds.printResult(tm.getOpenTrade(userId));
-                int tradeId = getTradeID();
+                if (tm.getOpenTrade(userId).size() != 0) {
+                    ds.printResult(tm.getOpenTrade(userId));
+                    int tradeId = getTradeID();
 //              let user enter trade id and we use it to confirm complete
-                ds.printResult(tm.confirmComplete(tradeId));
+                    ds.printResult(tm.confirmComplete(tradeId));
+                }
+                else{
+                    msgForNothing();
+                }
                 break;
             case 6:
+                if (tm.getTradeHistory(userId).size() != 0){
                 List<Integer> topThreeIDS= tm.topThreePartners(userId);
                 List<User> topThree = new ArrayList<>();
-                for (int id : topThreeIDS){
+                for (int id : topThreeIDS) {
                     topThree.add(um.findUser(id));
-                }
                 ds.printResult(topThree);
+                }
+                }
+                else{
+                    // because the user do not have any trade
+                    msgForNothing();
+                }
                 break;
             case 7:
-                ds.printResult(tm.getCancelledTrade(userId));
+                if (tm.getCancelledTrade(userId).size()!= 0) {
+                    ds.printResult(tm.getCancelledTrade(userId));
+                }
+                else{
+                    msgForNothing();
+                }
                 break;
 
         }
@@ -323,54 +353,87 @@ public class RegularUserController implements Serializable, Controllable {
     5.See the list of meetings that have been confirmed (that have taken place)
     6.View to-be-opened trades and set up first meeting
         */
-
         switch (subMenuOption) {
             case 1:
-                Meeting meeting = getMeeting();
-                int year = getYear();
-                int month = getMonth();
-                int day = getDay(year, month);
-                int hour = getHour();
-                int min = getMin();
-                int sec = 0;
-                String place = getPlace();
-                //int year, int month, int day, int hour, int min, int sec
+                if (mm.getMeetingsByUserId(userId).size() == 0){
+                    msgForNothing();
+                }
+                else {
+                    Meeting meeting = getMeeting();
+                    int year = getYear();
+                    int month = getMonth();
+                    int day = getDay(year, month);
+                    int hour = getHour();
+                    int min = getMin();
+                    int sec = 0;
+                    String place = getPlace();
+                    //int year, int month, int day, int hour, int min, int sec
 //              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
-                // for the edit threshold
-                ds.printOut(mm.getEditOverThreshold(tm, meeting));
+                    ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
+                    // for the edit threshold
+                    ds.printOut(mm.getEditOverThreshold(tm, meeting));
+                }
                 break;
             case 2:
-                Meeting meeting2 = getMeeting();
-                ds.printResult(meeting2.setTimePlaceConfirm(userId));
+                if (mm.getMeetingsByUserId(userId).size() == 0){
+                    msgForNothing();
+                }
+                else {
+                    Meeting meeting2 = getMeeting();
+                    ds.printResult(meeting2.setTimePlaceConfirm(userId));
+                }
                 break;
             case 3:
+                if (mm.getMeetingsByUserId(userId).size() == 0){
+                    msgForNothing();
+                }
+                else {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
-                ds.printResult(mm.getUnConfirmMeeting(userId));
-                Meeting meeting3 = getMeeting();
-                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+                    ds.printResult(mm.getUnConfirmMeeting(userId));
+                    Meeting meeting3 = getMeeting();
+                    ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+                }
                 break;
             case 4:
-                ds.printResult(mm.getUnConfirmMeeting(userId));
+                if (mm.getUnConfirmMeeting(userId).size() == 0){
+                    msgForNothing();
+                }
+                else {
+                    ds.printResult(mm.getUnConfirmMeeting(userId));
+                }
                 break;
             case 5:
-                ds.printResult(mm.getCompleteMeeting(userId));
+                if (mm.getCompleteMeeting(userId).size() == 0){
+                    msgForNothing();
+                }
+                else {
+                    ds.printResult(mm.getCompleteMeeting(userId));
+                }
                 break;
             case 6:
-                // print a list of trades waiting to be opened -- to have the 1st meeting
-                // because once the meeting is set up --> open
-                // so need to set up first meeting for the waiting to be opened trades
-                ds.printResult(tm.getWaitTrade(userId));
-                //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
-                int tradeId = getTradeID();
-                int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                ds.printResult(mm.addMeeting(tradeId, userId1, userId2,1, tm));
-                break;
+                if (tm.getWaitTrade(userId).size() != 0) {
+                    // print a list of trades waiting to be opened -- to have the 1st meeting
+                    // because once the meeting is set up --> open
+                    // so need to set up first meeting for the waiting to be opened trades
+                    ds.printResult(tm.getWaitTrade(userId));
+                    //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
+                    int tradeId = getTradeID();
+                    int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
+                    int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
+                    ds.printResult(mm.addMeeting(tradeId, userId1, userId2, 1, tm));
+                    break;
+                }
+                else{
+                    msgForNothing();
+                }
         }
 
     }
 
+    // TODO: MOVE TO PRESENTER CLASS
+    private void msgForNothing(){
+        ds.printOut("There's nothing here");
+    }
     private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
             thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
