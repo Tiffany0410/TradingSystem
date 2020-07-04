@@ -1,6 +1,4 @@
 package bookTradeSystem;
-import com.sun.deploy.util.StringUtils;
-
 import java.util.*;
 
 /**
@@ -8,7 +6,6 @@ import java.util.*;
  */
 public class MeetingManager implements java.io.Serializable{
     private List<Meeting> listMeeting;
-
 
     /** set this listMeeting to an empty list of meeting.
      */
