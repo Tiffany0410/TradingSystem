@@ -33,7 +33,6 @@ public class AccountCreator {
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
         ArrayList<User> listPeople = um.getListUser();
-        ArrayList<AdminUser> listAdmin = um.getListAdmin();
 
         String username;
         String password;
@@ -58,9 +57,7 @@ public class AccountCreator {
 
        else if (type.equals("Admin")) {
            if (!adminInfo.containsKey(username)){
-               AdminUser toAdd = new AdminUser(username, password, email);
-               listAdmin.add(toAdd);
-               um.setListAdmin(listAdmin);
+               um.addAdmin(username, password, email);
                out = true;
                //Write the UserManger into ser file in order to save the data
                FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
