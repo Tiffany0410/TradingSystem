@@ -91,7 +91,9 @@ public class AdminUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 //TODO: THE FOLLOWING LINE IS FOR TEST!!!
-                //ds.printResult(um.getListUser());
+                for (User u: um.getListUser()) {
+                    ds.printOut(u.getUsername());
+                }
                 //TODO: THE ABOVE LINE IS FOR TEST!!!
 //              asks the admin for the username of the user TO FREEZE
                 ds.printOut("Please enter the username of the user to FREEZE");
@@ -124,6 +126,7 @@ public class AdminUserController implements Serializable, Controllable {
                 }
                 //either add or not add - need to remove from to-be-added list
 //              TODO: can I just remove like this? (later)
+//              TODO: need a method to remove item from um's getListItemToAdd
                 um.getListItemToAdd().remove(itemSelected);
                 break;
 

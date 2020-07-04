@@ -34,6 +34,7 @@ public class UserManager implements Serializable {
         this.listUser = users;
         this.listAdmin = admins;
         this.listUnfreezeRequest = new ArrayList<>();
+        this.listItemToAdd = new ArrayList<>();
     }
 
     /**
