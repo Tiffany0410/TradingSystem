@@ -32,7 +32,6 @@ public class AccountCreator {
         boolean out = false;
         HashMap<String, String> info = um.userPasswords();
         ArrayList<User> listPeople = um.getListUser();
-        Map<String, String> info2 = FilesReaderWriter.readUserInfoFromCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv");
 
         String username;
         String password;
