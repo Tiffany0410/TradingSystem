@@ -58,7 +58,7 @@ public class RegularUserController implements Serializable, Controllable {
         User regUser = um.findUser(username);
         StringBuilder notification;
         notification = new StringBuilder();
-        String filepath = "UserAlerts.csv"; // move it to src and not the bookTradeSystem
+        String filepath = "./src/Alerts/UserAlerts.csv";
         notification.append(rw.readFromMenu(filepath)).append("/n");
         // Your current status:   (frozen / unfrozen) + corresponding messages.
         // check if we should freeze this user based on the number of incomplete transactions this user has so far
