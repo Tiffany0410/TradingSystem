@@ -104,6 +104,9 @@ public class AdminUserController implements Serializable, Controllable {
                 break;
             case 3:
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
+                if (um.getListItemToAdd() == null){
+                    ds.printOut("whyyyyy");
+                }
                 int len = listItemToAdd.size();
 //              get the list of item to be added to inventories
 //              TODO: make sure items are printed one by one ;) (***)
