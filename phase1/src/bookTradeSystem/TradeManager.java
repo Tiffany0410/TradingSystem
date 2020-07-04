@@ -92,9 +92,9 @@ public class TradeManager implements Serializable {
                 list1.add(list.get(list.size() - 1).getIds().get(3));
                 list1.add(list.get(list.size() - 1).getIds().get(4));
             }
-            if (list1.size() != 2 && list.get(list.size() - 2).getIsOneWayTrade()) {
+            if (list1.size() == 2 ||list.get(list.size() - 2).getIsOneWayTrade()){
                 list1.add(list.get(list.size() - 2).getIds().get(3));
-            } else {
+            } else if (list1.size()!=2 && !(list.get(list.size() - 2).getIsOneWayTrade())){
                 list1.add(list.get(list.size() - 2).getIds().get(3));
                 list1.add(list.get(list.size() - 2).getIds().get(4));
             }
