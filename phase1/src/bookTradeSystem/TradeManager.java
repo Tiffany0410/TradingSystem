@@ -114,7 +114,8 @@ public class TradeManager implements Serializable {
     }
 
     /**
-     * return a list of top three partners id
+     * return a list of top three partners id（finding the way to solve by comparing values
+     * in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values)
      *
      * @param userId user id
      * @return list of top three partners id
