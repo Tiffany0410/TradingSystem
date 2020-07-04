@@ -36,7 +36,7 @@ public class TradingSystem {
       displaySystem.printOut("Welcome to book trading system");
 
       int option;
-      option = displaySystem.getMenuAnswer("Menus/TradingSystemInitMenu.csv");
+      option = displaySystem.getMenuAnswer("./src/Menus/TradingSystemInitMenu.csv");
 
       // Option 0 is exit system
       if (option == 0){
@@ -115,7 +115,7 @@ public class TradingSystem {
       displaySystem.printOut(regularUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("Menus/RegularUserMainMenu.csv");
+      option = displaySystem.getMenuAnswer("./src/Menus/RegularUserMainMenu.csv");
 
 
       // Option 0 is log out
@@ -127,7 +127,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserAccountMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserAccountMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -138,7 +138,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserTradingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserTradingMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -149,7 +149,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/RegularUserMeetingMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserMeetingMenu,csv");
             if (suboption == 0) { condition = false; }
             else{regularUserController.actionResponse(option, suboption);}
          }
@@ -168,7 +168,7 @@ public class TradingSystem {
       displaySystem.printOut(adminUserController.alerts());
 
       int option;
-      option = displaySystem.getMenuAnswer("Menus/AdminUserMainMenu.csv");
+      option = displaySystem.getMenuAnswer("./src/Menus/AdminUserMainMenu.csv");
 
       // Option 0 is log out
       if (option == 0){
@@ -179,7 +179,7 @@ public class TradingSystem {
       if (option == 1){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserManageUsersSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserManageUsersSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -190,7 +190,7 @@ public class TradingSystem {
       else if (option == 2){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserEditThresholdsSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserEditThresholdsSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
@@ -201,7 +201,7 @@ public class TradingSystem {
       else if (option == 3){
          boolean condition = true;
          while(condition) {
-            int suboption = displaySystem.getMenuAnswer("Menus/AdminUserOtherSubMenu,csv");
+            int suboption = displaySystem.getMenuAnswer("./src/Menus/AdminUserOtherSubMenu,csv");
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption);}
          }
