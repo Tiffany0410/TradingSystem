@@ -33,7 +33,6 @@ public class AccountCreator {
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
         ArrayList<User> listPeople = um.getListUser();
-        ArrayList<AdminUser> listAdmin = um.getListAdmin();
 
         String username;
         String password;
