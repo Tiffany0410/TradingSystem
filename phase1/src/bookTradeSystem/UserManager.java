@@ -520,10 +520,12 @@ public class UserManager implements Serializable {
         int temp_itemID;
         //the id of the first item wait for add is 1
         if (listAllItems.isEmpty() && listItemToAdd.isEmpty()) {temp_itemID = 1;}
-        //find the max ids in the list of item which already been add and the list of item wait for add
+        //find the max ids in the list of items which already been add and the list of items wait for add
         //then use the (largest id + 1) as the new item id
         else {
+            //max ids in the list of items wait for add
             int temp_itemID1 = listItemToAdd.get(listItemToAdd.size() - 1).getItemId();
+            //max id in the list of items which already been add
             int temp_itemID2 = listAllItems.get(listAllItems.size() - 1).getItemId();
             if (temp_itemID1 >= temp_itemID2) {temp_itemID = temp_itemID1 + 1;}
             else {temp_itemID = temp_itemID2 + 1;}
