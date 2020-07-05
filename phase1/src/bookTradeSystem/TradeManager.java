@@ -66,7 +66,7 @@ public class TradeManager implements Serializable {
      * returen list of recent three trade item ids
      *
      * @param userId user id
-     * @return a list of recent three item ids
+     * @return a list of recent three item ids (Latest at index 0)
      */
     public List<Integer> recentThreeItem(int userId) throws InvalidIdException {
         List<Trade> list = this.filterHistory(userId);
@@ -118,7 +118,7 @@ public class TradeManager implements Serializable {
      * in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values)
      *
      * @param userId user id
-     * @return list of top three partners id
+     * @return list of top three partners id (Most is at index 0 and least at last index)
      * @throws InvalidIdException
      */
     public List<Integer> topThreePartners(int userId) throws InvalidIdException {
