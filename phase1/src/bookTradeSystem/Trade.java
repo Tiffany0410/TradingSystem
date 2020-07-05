@@ -17,7 +17,7 @@ public class Trade implements Serializable {
      * The type of the trade status (Open, Closed, Wait to be opened，Cancelled), default is Wait to be opened
      */
     protected String tradeStatus = "Wait to be opened";
-    private static int idNumber = 1;
+
 
     /**
      * Constructors of the Trade
@@ -28,17 +28,16 @@ public class Trade implements Serializable {
      * @param tradeType trade type
      * @param isOneWayTrade True if it is one way trade
      */
-    public Trade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade) {
+    public Trade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade, int tradeID) {
         this.userId1 = userId1;
         this.userId2 = userId2;
         this.itemId = itemId;
         this.itemId1 = 0;
         this.tradeType = tradeType;
         this.isOneWayTrade = isOneWayTrade;
+        this.tradeId = tradeID;
         userStatus.put(userId1, "Agree");
         userStatus.put(userId2, "Disagree");
-        tradeId = idNumber;
-        idNumber++;
     }
 
     /**
@@ -51,17 +50,16 @@ public class Trade implements Serializable {
      * @param tradeType trade type
      * @param isOneWayTrade True if it is one way trade
      */
-    public Trade(int userId1, int userId2, int itemId, int itemId1, String tradeType, boolean isOneWayTrade) {
+    public Trade(int userId1, int userId2, int itemId, int itemId1, String tradeType, boolean isOneWayTrade, int tradeID) {
         this.userId1 = userId1;
         this.userId2 = userId2;
         this.itemId = itemId;
         this.itemId1 = itemId1;
         this.tradeType = tradeType;
         this.isOneWayTrade = isOneWayTrade;
+        this.tradeId = tradeID;
         userStatus.put(userId1, "Disagree");
         userStatus.put(userId2, "Disagree");
-        tradeId = idNumber;
-        idNumber++;
     }
 
     /** Get user status
