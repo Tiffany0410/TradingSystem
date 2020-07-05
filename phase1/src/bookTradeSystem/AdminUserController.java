@@ -124,6 +124,8 @@ public class AdminUserController implements Serializable, Controllable {
                 }
                 else{
                     // print systemMessage's there's nothing here method
+                    // TODO: CALL SYSTEM MESSAGE'S METHOD
+                    ds.printOut("There's nothing here");
                 }
                 break;
 
