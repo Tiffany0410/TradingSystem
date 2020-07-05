@@ -98,17 +98,6 @@ public class AdminUserController implements Serializable, Controllable {
                 ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
-                //TODO: THE FOLLOWING LINE IS FOR TEST!!!
-                //TODO NOTE: getListAdmin is empty
-                ds.printResult(um.getListUser().size() != 0);
-                ds.printResult(um.getListAdmin().size() == 0);
-                for (User u: um.getListUser()) {
-                    ds.printOut(u.getUsername());
-                }
-                for (AdminUser u: um.getListAdmin()){
-                    ds.printOut(u.getUsername());
-                }
-                //TODO: THE ABOVE LINE IS FOR TEST!!!
 //              asks the admin for the username of the user to UNFREEZE
                 ds.printOut("Please enter the username of the user to UNFREEZE");
 //              TODO: maybe do a bulletproof for username for later? (later)

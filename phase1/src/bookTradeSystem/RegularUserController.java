@@ -129,21 +129,26 @@ public class RegularUserController implements Serializable, Controllable {
 
     private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
-        1.Browse all the books in other users inventories
+        1.Browse all the books in other users inventories (add)
         2.Add to own Wish List
         3.Search item
         4.Remove from own Wish List
         5.Remove from own Inventory
         6.Request to unfreeze account
         7.Request that an item be added to your inventory
-        8.See most recent three items traded
+        8.See most recent three items traded (add)
         0.Exit menu
          */
         ArrayList<Item> allOtherItems = um.allItems(userId);
         switch (subMenuOption) {
             case 1:
-                // print items in all users inventory except this user
-                ds.printResult(new ArrayList<Object>(allOtherItems));
+                if (allOtherItems.size() != 0) {
+                    // print items in all users inventory except this user
+                    ds.printResult(new ArrayList<Object>(allOtherItems));
+                }
+                else{
+                    msgForNothing();
+                }
                 break;
             case 2:
                 // add the id to user's wishlist
@@ -152,6 +157,9 @@ public class RegularUserController implements Serializable, Controllable {
             case 3:
                 // print all the items being searched for
                 ds.printResult(new ArrayList<Object>(um.searchItem(getItemName())));
+                if (um.searchItem(getItemName()).size() == 0){
+                    msgForNothing();
+                }
             case 4:
                 // remove the item id from wishlist
                 ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
@@ -174,7 +182,12 @@ public class RegularUserController implements Serializable, Controllable {
                 for (int id: recentThreeTradedIds) {
                     threeItems.add(idToItem(id));
                 }
-                ds.printResult(new ArrayList<Object>(threeItems));
+                if (threeItems.size() != 0) {
+                    ds.printResult(new ArrayList<Object>(threeItems));
+                }
+                else{
+                    msgForNothing();
+                }
                 break;
         }
     }
