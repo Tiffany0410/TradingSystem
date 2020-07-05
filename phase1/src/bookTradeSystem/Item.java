@@ -11,7 +11,6 @@ public class Item implements Serializable {
     private int itemId;
     private int ownerId;
     private int currHolderId;
-    private static int idNumber = 1;
 
     /** Constructor of item.
      * Set this name with name, set this description with description, set this ownerId with ownerId, set this
@@ -20,13 +19,12 @@ public class Item implements Serializable {
      * @param description The description of this item
      * @param ownerId The owner's id of this item
      */
-    public Item(String name, String description, int ownerId) {
+    public Item(String name, String description, int ownerId, int itemID) {
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
         currHolderId = ownerId;
-        itemId = idNumber;
-        idNumber ++;
+        this.itemId = itemID;
     }
 
     /** Get the name of this item

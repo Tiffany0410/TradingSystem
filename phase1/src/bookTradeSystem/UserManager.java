@@ -13,7 +13,7 @@ public class UserManager implements Serializable {
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
     private ArrayList<Item> listItemToAdd;
-    private Map<String, ArrayList<Item>> listAllItems;
+    private ArrayList<Item> listAllItems;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -502,8 +502,18 @@ public class UserManager implements Serializable {
      * @param ownerID The ID of the User who owns the Item
      */
     public void requestAddItem(String name, String description, int ownerID){
-        Item out = new Item(name, description, ownerID);
+        int temp_itemID = listAllItems.size() + listItemToAdd.size() + 1;
+        Item out = new Item(name, description, ownerID, temp_itemID);
         listItemToAdd.add(out);
+    }
+
+
+    /**
+     * Add the item into the list which contains all items
+     * @param new_item the item which is allowed to add into specific user inventory
+     */
+    public void addItemToAllItemsList (Item new_item) {
+        listAllItems.add(new_item);
     }
 
 }

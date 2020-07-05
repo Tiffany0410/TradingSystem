@@ -114,6 +114,7 @@ public class AdminUserController implements Serializable, Controllable {
                     Item itemSelected = listItemToAdd.get(getItem(len) - 1);
                     if (getAddOrNot()) {
                         //if add
+                        um.addItemToAllItemsList(itemSelected);
                         ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
                     } else {
                         ds.printResult(true);
