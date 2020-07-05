@@ -22,8 +22,6 @@ public class User implements Serializable {
     // stores the number of times the user's been frozen.
     private int numFrozen;
     private int transactionsLeftForTheWeek = 3;
-    //used to accumulate id
-    private static int idNumber = 1;
     //static threshold variables
     // set it to 3
     private static int maxNumTransactionsAllowedAWeek = 3;
@@ -40,12 +38,11 @@ public class User implements Serializable {
      * @param password user's password.
      * @param email    user's email
      */
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, Integer userID) {
         this.username = username;
         this.password = password;
         this.email = email;
-        id = idNumber;
-        idNumber ++;
+        this.id = userID;
         wishList = new ArrayList<>();
         inventory = new ArrayList<>();
         numLent = 0;
