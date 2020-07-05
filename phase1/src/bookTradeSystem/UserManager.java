@@ -81,6 +81,7 @@ public class UserManager implements Serializable {
      * Set the list of usernames and messages of User that request to be unfrozen
      * @param listUnfreezeRequest The list of usernames and messages
      */
+    //TODO:Delete
     public void setListUnfreezeRequest(ArrayList<String[]> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
     }
@@ -106,6 +107,7 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
+    //TODO:Delete
     public ArrayList<Item> searchItem(String item){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
@@ -149,6 +151,14 @@ public class UserManager implements Serializable {
                 out = true;
             }
         }
+        if (out) {
+            for (String[] request : listUnfreezeRequest) {
+                if (request[0].equals(username)) {
+                    listUnfreezeRequest.remove(request);
+                    return true;
+                }
+            }
+        }
         return out;
     }
 
@@ -172,7 +182,7 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addUser(String username, String password, String email){
-        Integer userID;
+        int userID;
         if (listUser.size() != 0) {userID = listUser.size() + 1;}
         else {userID = 1;}
 
@@ -187,7 +197,7 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addAdmin(String username, String password, String email){
-        Integer adminID;
+        int adminID;
         if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
         else {adminID = 1;}
         AdminUser toAdd = new AdminUser(username, password, email, adminID);
@@ -199,6 +209,7 @@ public class UserManager implements Serializable {
      * Gives the Users who are not lending enough
      * @return A list of usernames of the Users who are not lending enough
      */
+    //TODO:Delete
     public ArrayList<String> underLending(){
         ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
@@ -290,6 +301,9 @@ public class UserManager implements Serializable {
                 temp.add(item);
                 out = true;
                 person.setInventory(temp);
+                if (listItemToAdd.contains(item)) {
+                    listItemToAdd.remove(item);
+                }
             }
         }
         return out;
@@ -358,6 +372,7 @@ public class UserManager implements Serializable {
      * @param username The username of the AdminUser
      * @return The AdminUser that is being searched for
      */
+    //TODO:Delete
     public AdminUser findAdmin(String username){
         AdminUser out = null;
         for (AdminUser person: listAdmin){
