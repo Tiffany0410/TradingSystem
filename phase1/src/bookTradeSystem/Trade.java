@@ -64,6 +64,13 @@ public class Trade implements Serializable {
         idNumber++;
     }
 
+    /** Get user status
+     * @param userId user id
+     * @return the status of user(Agree or Disagree)
+     */
+    public String getUserStatus(int userId){
+        return userStatus.get(userId);
+    }
     /**
      * set user status
      *
