@@ -14,7 +14,7 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",true);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",true,1);
             t.addTrade(trade);
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
@@ -28,7 +28,7 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(), item2.getItemId(),"P",false);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(), item2.getItemId(),"P",false,1);
             t.addTrade(trade);
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
@@ -43,8 +43,8 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(), item2.getItemId(),"P",false);
-            Trade trade1 = new Trade(user1.getId(),user2.getId(),item2.getItemId(), item1.getItemId(),"P",false);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(), item2.getItemId(),"P",false,1);
+            Trade trade1 = new Trade(user1.getId(),user2.getId(),item2.getItemId(), item1.getItemId(),"P",false,2);
             t.addTrade(trade);
             t.addTrade(trade1);
             trade.closedTrade();
@@ -62,7 +62,7 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",true);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",true,1);
             t.addTrade(trade);
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
@@ -76,7 +76,7 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",false);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",false,1);
             t.addTrade(trade);
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
@@ -90,7 +90,7 @@ public class TradeManagerTest {
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
-            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",false);
+            Trade trade = new Trade(user1.getId(),user2.getId(),item1.getItemId(),"P",false,1);
             t.addTrade(trade);
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
