@@ -152,9 +152,11 @@ public class DisplaySystem {
      * @param obj the list of objects need to be printed
      */
     public void printResult(ArrayList<Object> obj)
-    {   for (Object o : obj)
+    {   int count = 1;
+        for (Object o : obj)
     {
-        this.printOut(o.toString() + "\n");
+        this.printOut("#" + count + ". " + o.toString() + "\n");
+        count++;
     }
     }
 }

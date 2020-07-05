@@ -108,9 +108,7 @@ public class AdminUserController implements Serializable, Controllable {
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
                 int len = listItemToAdd.size();
 //              get the list of item to be added to inventories
-//              TODO: make sure items are printed one by one ;) (***)
                 ds.printResult(new ArrayList<Object>(listItemToAdd));
-//              TODO: maybe can improve printResult method by adding # to each thing? start w 1(***)
 //              TODO: maybe add a loop so admin can keep on entering ... until chooses to exit? (later)
                 Item itemSelected = listItemToAdd.get(getItem(len)-1);
                 if (getAddOrNot()){
