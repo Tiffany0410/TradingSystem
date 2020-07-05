@@ -260,20 +260,24 @@ public class RegularUserController implements Serializable, Controllable {
                     int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
                     int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
                     int itemId = getItemID(getAllItems(), 1);
+                    int tradeID;
+                    if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
+                    else {tradeID = 1;}
+                    String tradeType = getTradeType();
                     if (numKindOfTrade == 2){
                         itemId2 = getItemID(getAllItems(), 1);
                     }
-                    String tradeType = getTradeType();
+
                     // TODO preparing the trade object
                     if (numKindOfTrade == 1) {
                         // new one-way-trade
-                        trade = new Trade(userId1, userId2, itemId, tradeType, true);
+                        trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
                         // pass in borrower, lender, item
                         ok = validateItems(userId1, userId2, itemId);
                     }
                     else {
                         // new two-way-trade
-                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false);
+                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
                         // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
                         ok = validateItems(userId1, userId2, itemId, itemId2);
                     }
