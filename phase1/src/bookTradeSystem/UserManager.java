@@ -502,7 +502,19 @@ public class UserManager implements Serializable {
      * @param ownerID The ID of the User who owns the Item
      */
     public void requestAddItem(String name, String description, int ownerID){
-        int temp_itemID = listAllItems.size() + listItemToAdd.size() + 1;
+        int temp_itemID;
+        //the id of the first item wait for add is 1
+        if (listAllItems.isEmpty() && listItemToAdd.isEmpty()) {temp_itemID = 1;}
+        //find the max ids in the list of item which already been add and the list of item wait for add
+        //then use the (largest id + 1) as the new item id
+        else {
+            int temp_itemID1 = listItemToAdd.get(listItemToAdd.size() - 1).getItemId();
+            int temp_itemID2 = listAllItems.get(listAllItems.size() - 1).getItemId();
+            if (temp_itemID1 >= temp_itemID2) {temp_itemID = temp_itemID1 + 1;}
+            else {temp_itemID = temp_itemID2 + 1;}
+        }
+
+
         Item out = new Item(name, description, ownerID, temp_itemID);
         listItemToAdd.add(out);
     }
