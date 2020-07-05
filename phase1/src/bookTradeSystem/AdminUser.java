@@ -11,7 +11,6 @@ public class AdminUser implements Serializable {
     private String password;
     private String email;
     private int id;
-    private static int idNumber = 1;
 
     /**
      * Construct an User.
@@ -20,12 +19,11 @@ public class AdminUser implements Serializable {
      * @param password user's password.
      * @param email    user's email
      */
-    public AdminUser(String username, String password, String email) {
+    public AdminUser(String username, String password, String email, Integer adminID) {
         this.username = username;
         this.password = password;
         this.email = email;
-        id = idNumber;
-        idNumber ++;
+        this.id = adminID;
     }
 
     /**

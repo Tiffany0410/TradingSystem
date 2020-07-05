@@ -13,7 +13,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRequestItem() {
-        User user1 = new User("User1","123","123@gmail.com");
+        User user1 = new User("User1","123","123@gmail.com", 1);
         Item item1 = new Item("Item1","This is item 1", user1.getId());
         UserManager um = new UserManager();
         um.requestAddItem(item1.getName(), item1.getDescription(), user1.getId());
@@ -32,7 +32,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testSearchItem(){
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -51,7 +51,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testFreezeUser(){
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -63,7 +63,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testUnfreezeUser(){
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -76,7 +76,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testCheckUser(){
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -88,7 +88,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testAddAdmin() {
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -102,7 +102,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRemoveItemWishList() {
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -124,7 +124,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRemoveItemInventory() {
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -146,7 +146,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testAddItemWishList() {
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -167,7 +167,7 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testAddItemInventory() {
-        User person = new User("a", "a", "a@a");
+        User person = new User("a", "a", "a@a", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -187,8 +187,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testUserPasswords() {
-        User person = new User("a", "a", "a@a");
-        AdminUser admin = new AdminUser("d","d","d@d");
+        User person = new User("a", "a", "a@a", 2);
+        AdminUser admin = new AdminUser("d","d","d@d", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -209,8 +209,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testAdminPasswords() {
-        User person = new User("a", "a", "a@a");
-        AdminUser admin = new AdminUser("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        AdminUser admin = new AdminUser("d", "d", "d@d", 1);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -231,8 +231,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testFindUser() {
-        User person = new User("a", "a", "a@a");
-        User admin = new User("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        User admin = new User("d", "d", "d@d", 2);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -254,8 +254,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testIDtoUsername() {
-        User person = new User("a", "a", "a@a");
-        AdminUser admin = new AdminUser("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        AdminUser admin = new AdminUser("d", "d", "d@d", 1);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -270,8 +270,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testUsernametoID() {
-        User person = new User("a", "a", "a@a");
-        AdminUser admin = new AdminUser("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        AdminUser admin = new AdminUser("d", "d", "d@d", 1);
         ArrayList<User> emp = new ArrayList<>();
         emp.add(person);
         ArrayList<AdminUser> emp2 = new ArrayList<>();
@@ -286,8 +286,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testAllItems() {
-        User person = new User("a", "a", "a@a");
-        User admin = new User("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        User admin = new User("d", "d", "d@d", 3);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();
@@ -307,8 +307,8 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRequestUnfreeze() {
-        User person = new User("a", "a", "a@a");
-        User admin = new User("d", "d", "d@d");
+        User person = new User("a", "a", "a@a", 2);
+        User admin = new User("d", "d", "d@d", 3);
         Item thing1 = new Item("b", "b", 1);
         Item thing2 = new Item("c", "c", 1);
         ArrayList<Item> personinv = new ArrayList<>();

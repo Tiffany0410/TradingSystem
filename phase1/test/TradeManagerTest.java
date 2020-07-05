@@ -9,8 +9,8 @@ import static org.junit.Assert.assertEquals;
 public class TradeManagerTest {
         @Test(timeout = 50)
         public void testRecentThreeItems() throws InvalidIdException {
-            User user1 = new User("User1","123","123@gmail.com");
-            User user2 = new User("User2","321","321@gmail.com");
+            User user1 = new User("User1","123","123@gmail.com", 1);
+            User user2 = new User("User2","321","321@gmail.com", 2);
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
@@ -23,8 +23,8 @@ public class TradeManagerTest {
         }
         @Test(timeout = 50)
         public void testRecentThreeItems1() throws InvalidIdException {
-            User user1 = new User("User1","123","123@gmail.com");
-            User user2 = new User("User2","321","321@gmail.com");
+            User user1 = new User("User1","123","123@gmail.com", 1);
+            User user2 = new User("User2","321","321@gmail.com", 2);
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
@@ -38,8 +38,8 @@ public class TradeManagerTest {
         }
         @Test(timeout = 50)
         public void testValidateTrade(){
-            User user1 = new User("User1","123","123@gmail.com");
-            User user2 = new User("User2","321","321@gmail.com");
+            User user1 = new User("User1","123","123@gmail.com", 1);
+            User user2 = new User("User2","321","321@gmail.com", 2);
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
@@ -52,8 +52,8 @@ public class TradeManagerTest {
         }
         @Test(timeout = 50)
         public void testValidateTrade1(){
-            User user1 = new User("User1","123","123@gmail.com");
-            User user2 = new User("User2","321","321@gmail.com");
+            User user1 = new User("User1","123","123@gmail.com", 1);
+            User user2 = new User("User2","321","321@gmail.com", 2);
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();
@@ -66,8 +66,8 @@ public class TradeManagerTest {
         }
         @Test(timeout = 50)
         public void testTopThreePartners() throws InvalidIdException {
-            User user1 = new User("User1","123","123@gmail.com");
-            User user2 = new User("User2","321","321@gmail.com");
+            User user1 = new User("User1","123","123@gmail.com", 1);
+            User user2 = new User("User2","321","321@gmail.com", 2);
             Item item1 = new Item("Item1","This is item 1", user1.getId());
             Item item2 = new Item("Item2", "This is item 2", user2.getId());
             TradeManager t = new TradeManager();

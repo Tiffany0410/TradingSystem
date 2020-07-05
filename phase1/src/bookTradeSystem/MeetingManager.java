@@ -137,14 +137,14 @@ public class MeetingManager implements java.io.Serializable{
     /** search a meeting in the MeetingManager by a given tradeId and numMeeting
      * @param tradeId the id of the trade
      * @param numMeeting the number of the meeting for a given trade
-     * @return a meeting with the given tradeId and numMeeting
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
+     * @return a meeting with the given tradeId and numMeeting, if the meeting is not in the meetingmanager, return a
+     * meeting with all 0 parameters.
      */
-    public Meeting getMeetingByIdNum(int tradeId, int numMeeting) throws InvalidIdException{
+    public Meeting getMeetingByIdNum(int tradeId, int numMeeting){
         for(Meeting meeting: listMeeting){
             if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == numMeeting){
                 return meeting;
-            }}throw new InvalidIdException("Invalid Id");
+            }}return new Meeting(0,0,0,0);
     }
 
     /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
