@@ -252,20 +252,13 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 else {
                     // TODO get whether it is one-way-trade or two-way-trade
-                    // 1 - one-way-trade
-                    // 2 - two-way-trade
                     int numKindOfTrade = getNumKindOfTrade();
+                    boolean ok = false;
                     Trade trade;
                     int itemId2 = 0;
                     //TODO get info for trade
-                    /*need to check if item1 is in item1 borrower's wishlist and item1 lender's inventory
-                    need to check if item2 is in item2 borrower's wishlist and item2 borrower's inventory
-                    um get method that -- pass in item id1 -- returns borrower id (id of the user that has it
-                    in his/her wish list) & pass in item id2 -- (id of the user that has it in his/her inventory)
-                    return lender id -- after we got all the borrower and lender ids for each item
-                    use um's method to check if the item is in the borrow's wishlist and lender's inventory*/
-                    int userId1 = getUserID("borrower (if one-way-trade) or borrower-and-lender 1 (if two-way-trade)");
-                    int userId2 = getUserID("lender (if one-way-trade) or borrower-and-lender 2 (if two-way-trade)");
+                    int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
+                    int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
                     int itemId = getItemID(getAllItems(), 1);
                     if (numKindOfTrade == 2){
                         itemId2 = getItemID(getAllItems(), 1);
@@ -275,14 +268,18 @@ public class RegularUserController implements Serializable, Controllable {
                     if (numKindOfTrade == 1) {
                         // new one-way-trade
                         trade = new Trade(userId1, userId2, itemId, tradeType, true);
+                        // pass in borrower, lender, item
+                        ok = validateItems(userId1, userId2, itemId);
                     }
                     else {
                         // new two-way-trade
                         trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false);
+                        // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
+                        ok = validateItems(userId1, userId2, itemId, itemId2);
                     }
                     //TODO validate the trade
-                    // pass in trade, borrower, lender
-                    if (tm.validateTrade(trade, um.findUser(userId1))) {
+                    // pass in trade and borrower
+                    if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
                         // add trade
                         tm.addTrade(trade);
                         // tell the user it's successful
@@ -405,6 +402,18 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
 
         }
+    }
+
+    // TODO MOVE TO
+    public boolean validateItems(int borrower, int lender, int itemId){
+        return um.findUser(borrower).getWishList().contains(itemId) &&
+                um.findUser(lender).getInventory().contains(itemId);
+    }
+
+    // TODO MOVE TO
+    public boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
+        return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
+                validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
 
     // TODO: needs to be refactored
