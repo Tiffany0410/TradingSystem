@@ -208,9 +208,13 @@ public class RegularUserController implements Serializable, Controllable {
 
     private void searchItem() {
         // print all the items being searched for
-        ds.printResult(new ArrayList<>(um.searchItem(getItemName())));
-        if (um.searchItem(getItemName()).size() == 0){
-            msgForNothing();
+        String name = getItemName();
+        ArrayList<Item> matchItems = um.searchItem(name);
+        if (matchItems.size() == 0){
+            msgForNothing(" that matches your input");
+        }
+        else{
+            ds.printResult(new ArrayList<>(matchItems));
         }
     }
 
@@ -407,18 +411,23 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 else {
                     Meeting meeting = getMeeting();
-                    int year = getYear();
-                    int month = getMonth();
-                    int day = getDay(year, month);
-                    int hour = getHour();
-                    int min = getMin();
-                    int sec = 0;
-                    String place = getPlace();
-                    //int year, int month, int day, int hour, int min, int sec
+                    if (meeting.getTradeId() != 0) {
+                        int year = getYear();
+                        int month = getMonth();
+                        int day = getDay(year, month);
+                        int hour = getHour();
+                        int min = getMin();
+                        int sec = 0;
+                        String place = getPlace();
+                        //int year, int month, int day, int hour, int min, int sec
 //              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                    ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
-                    // for the edit threshold
-                    ds.printOut(mm.getEditOverThreshold(tm, meeting));
+                        ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
+                        // for the edit threshold
+                        ds.printOut(mm.getEditOverThreshold(tm, meeting));
+                    }
+                    else{
+                        msgForMeetingDNE();
+                    }
                 }
                 break;
             case 2:
@@ -427,7 +436,12 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 else {
                     Meeting meeting2 = getMeeting();
-                    ds.printResult(meeting2.setTimePlaceConfirm(userId));
+                    if (meeting2.getTradeId() != 0) {
+                        ds.printResult(meeting2.setTimePlaceConfirm(userId));
+                    }
+                    else{
+                       msgForMeetingDNE();
+                    }
                 }
                 break;
             case 3:
@@ -438,7 +452,12 @@ public class RegularUserController implements Serializable, Controllable {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
                     ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
                     Meeting meeting3 = getMeeting();
-                    ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+                    if (meeting3.getTradeId() != 0) {
+                        ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+                    }
+                    else{
+                        msgForMeetingDNE();
+                    }
                 }
                 break;
             case 4:
@@ -459,6 +478,11 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
         }
 
+    }
+
+    // TODO: MOVE TO SystemMessage CLASS
+    private void msgForMeetingDNE() {
+        ds.printOut("This meeting doesn't exist in the system.");
     }
 
     // TODO: MOVE TO SystemMessage CLASS

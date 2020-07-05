@@ -107,21 +107,24 @@ public class AdminUserController implements Serializable, Controllable {
             case 3:
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
                 int len = listItemToAdd.size();
+                if (len != 0) {
 //              get the list of item to be added to inventories
-                ds.printResult(new ArrayList<Object>(listItemToAdd));
+                    ds.printResult(new ArrayList<Object>(listItemToAdd));
 //              TODO: maybe add a loop so admin can keep on entering ... until chooses to exit? (later)
-                Item itemSelected = listItemToAdd.get(getItem(len)-1);
-                if (getAddOrNot()){
-                    //if add
-                    ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
+                    Item itemSelected = listItemToAdd.get(getItem(len) - 1);
+                    if (getAddOrNot()) {
+                        //if add
+                        ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
+                    } else {
+                        ds.printResult(true);
+                    }
+                    //either add or not add - need to remove from to-be-added list
+//                  TODO: need a method to remove item from um's getListItemToAdd
+                    um.getListItemToAdd().remove(itemSelected);
                 }
                 else{
-                    ds.printResult(true);
+                    // print systemMessage's there's nothing here method
                 }
-                //either add or not add - need to remove from to-be-added list
-//              TODO: can I just remove like this? (later)
-//              TODO: need a method to remove item from um's getListItemToAdd
-                um.getListItemToAdd().remove(itemSelected);
                 break;
 
 
