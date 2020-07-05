@@ -125,14 +125,14 @@ public class Trade implements Serializable {
     public String toString() {
         if (itemId1 == 0) {
             return "trade id:" + tradeId + ", " + "borrower id:" + userId1 + ", " + "lender id:" + userId2 + ", "
-                    + "item id:" + itemId + "\n" + "trade type: " + tradeType + ", " + "trade status" + tradeStatus + "\n"
-                    + "borrower status:" + userStatus.get(userId1) + ", " + "lender status" + userStatus.get(userId2) +
+                    + "item id:" + itemId + "\n" + "trade type: " + tradeType + ", " + "trade status:" + tradeStatus + "\n"
+                    + "borrower status:" + userStatus.get(userId1) + ", " + "lender status:" + userStatus.get(userId2) +
                     ", " + "One way trade:" + isOneWayTrade;
         } else {
             return "trade id:" + tradeId + ", " + "user1 id1:" + userId1 + ", " + "user2 id:" + userId2 + ", "
                     + "item1 id:" + itemId + ", " + "item2 id: " + itemId1 + "\n" +
-                    "trade type: " + tradeType + ", " + "trade status" + tradeStatus + "\n"
-                    + "user1 status:" + userStatus.get(userId1) + ", " + "user2 status" + userStatus.get(userId2) + ", "+
+                    "trade type: " + tradeType + ", " + "trade status: " + tradeStatus + "\n"
+                    + "user1 status:" + userStatus.get(userId1) + ", " + "user2 status:" + userStatus.get(userId2) + ", "+
                     "One way trade:" + isOneWayTrade;
         }
     }
