@@ -99,6 +99,7 @@ public class AdminUserController implements Serializable, Controllable {
                 break;
             case 2:
                 //TODO: THE FOLLOWING LINE IS FOR TEST!!!
+                //TODO NOTE: getListAdmin is empty
                 ds.printResult(um.getListUser().size() != 0);
                 ds.printResult(um.getListAdmin().size() == 0);
                 for (User u: um.getListUser()) {

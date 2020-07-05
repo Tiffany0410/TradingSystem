@@ -100,8 +100,13 @@ public class TradingSystem {
     * For log out this account
     */
 
-   private void logOut(){
+   private void logOut() throws IOException{
+      // serialize all managers before log out
+      FilesReaderWriter.saveUserManagerToFile(userManager, "./src/Managers/SerializedUserManager.ser");
+      FilesReaderWriter.saveTradeManagerToFile(tradeManager, "./src/Managers/SerializedTradeManager.ser");
+      FilesReaderWriter.saveMeetingManagerToFile(meetingManager, "./src/Managers/SerializedMeetingManager.ser");
       this.displaySystem.printOut("Log out success.");
+
    }
 
 
