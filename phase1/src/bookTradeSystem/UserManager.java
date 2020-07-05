@@ -188,7 +188,7 @@ public class UserManager implements Serializable {
      */
     public void addAdmin(String username, String password, String email){
         Integer adminID;
-        if (listAdmin.size() != 0) {adminID = listUser.size() + 1;}
+        if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
         else {adminID = 1;}
         AdminUser toAdd = new AdminUser(username, password, email, adminID);
         this.listAdmin.add(toAdd);
