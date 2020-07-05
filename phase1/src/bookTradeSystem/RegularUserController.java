@@ -118,7 +118,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
     private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
-        1.Browse all the books in other users inventories (add)
+        1.Browse all the books in other users inventories
         2.Add to own Wish List
         3.Search item
         4.Remove from own Wish List
@@ -227,8 +227,8 @@ public class RegularUserController implements Serializable, Controllable {
     // TODO: needs to be refactored
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
-          1.Request a trade (lend / borrow / two-way) !!!!- NEED to remove item from wishlist &/ inventory (maybe in constructor???)
-          2.Respond to trade requests (agree / disagree)
+          1.Request a trade (lend / borrow / two-way)
+          2.Respond to trade requests (agree / disagree) - first meeting is set up by system
           3.View open trades
           4.View closed trades
           5.Confirm that a trade has been completed
@@ -399,7 +399,6 @@ public class RegularUserController implements Serializable, Controllable {
     3.Confirm the meeting took place
     4.See the list of meetings need to be confirmed (that it took place)
     5.See the list of meetings that have been confirmed (that have taken place)
-    6.View to-be-opened trades and set up first meeting
         */
         switch (subMenuOption) {
             case 1:
@@ -458,23 +457,6 @@ public class RegularUserController implements Serializable, Controllable {
                     ds.printResult(new ArrayList<>(mm.getCompleteMeeting(userId)));
                 }
                 break;
-            case 6:
-                if (tm.getWaitTrade(userId).size() != 0) {
-                    // print a list of trades waiting to be opened -- to have the 1st meeting
-                    // because once the meeting is set up --> open
-                    // so need to set up first meeting for the waiting to be opened trades
-                    ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
-                    //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
-                    int tradeId = getTradeID();
-                    int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
-                    int userId2 = getUserID("lender or borrower-and-lender 2 (if two-way-trade)");
-                    mm.addMeeting(tradeId, userId1, userId2, 1, tm);
-                    ds.printResult(true);
-                    break;
-                }
-                else{
-                    msgForNothing(" to view or do here");
-                }
         }
 
     }
