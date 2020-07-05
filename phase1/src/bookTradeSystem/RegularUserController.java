@@ -61,11 +61,11 @@ public class RegularUserController implements Serializable, Controllable {
         notification = new StringBuilder();
         String filepath = "./src/Alerts/UserAlerts.csv";
         notification.append(rw.readFromMenu(filepath)).append("\n");
-        // Your current status:   (frozen / unfrozen) + corresponding messages.
-        // check if we should freeze this user based on the number of incomplete transactions this user has so far
-        // Q: what do we do with the case when the admin unfreezes the user?
-        // A: extends the threshold value for the user -- but if numFrozen = 3 -- permanent frozen
-        // if user is not frozen
+        activeAlerts(regUser, notification);
+        return notification.toString();
+    }
+
+    private void activeAlerts(User regUser, StringBuilder notification) {
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
            if (freezeUserOrNot(regUser)){
@@ -80,7 +80,6 @@ public class RegularUserController implements Serializable, Controllable {
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete()).append("\n");
         notification.append("Max number of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
         notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits()).append("\n");
-        return notification.toString();
     }
 
     /**
@@ -95,20 +94,12 @@ public class RegularUserController implements Serializable, Controllable {
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) throws InvalidIdException {
-       /*
-        1. decide the menu options
-        1.5 decide how to read in user's input
-        2. decide what use case method to call for each menu option
-        3. decide what presenter method to call to print the results for each menu option
-
-        */
         User thisUser = um.findUser(userId);
         switch (mainMenuOption) {
             case 1:
                 userAccountMenuResponse(subMenuOption);
                 break;
             case 2:
-                //TODO: lock here or in the options
                 if (thisUser.getIfFrozen()){
                     ds.printOut("This menu is locked");}
                 else{
@@ -116,7 +107,6 @@ public class RegularUserController implements Serializable, Controllable {
                 }
                 break;
             case 3:
-                //TODO: lock here or in the options
                 if (thisUser.getIfFrozen()){
                     ds.printOut("This menu is locked");}
                 else{
@@ -126,7 +116,6 @@ public class RegularUserController implements Serializable, Controllable {
         }
 
     }
-
     private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
         1.Browse all the books in other users inventories (add)
@@ -142,56 +131,100 @@ public class RegularUserController implements Serializable, Controllable {
         ArrayList<Item> allOtherItems = um.allItems(userId);
         switch (subMenuOption) {
             case 1:
-                if (allOtherItems.size() != 0) {
-                    // print items in all users inventory except this user
-                    ds.printResult(new ArrayList<Object>(allOtherItems));
-                }
-                else{
-                    msgForNothing();
-                }
+                browseBooks(allOtherItems);
                 break;
             case 2:
-                // add the id to user's wishlist
-                ds.printResult(um.addItemWishlist(getItemID(allOtherItems, 1), username));
+                addToWishList(allOtherItems);
                 break;
             case 3:
-                // print all the items being searched for
-                ds.printResult(new ArrayList<Object>(um.searchItem(getItemName())));
-                if (um.searchItem(getItemName()).size() == 0){
-                    msgForNothing();
-                }
+                searchItem();
+                break;
             case 4:
-                // remove the item id from wishlist
-                ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
+                removeFromWishList(allOtherItems);
                 break;
             case 5:
-                ArrayList<Item> userInventory = um.findUser(userId).getInventory();
-                ds.printResult(new ArrayList<Object>(userInventory));
-                ds.printResult(um.removeItemInventory(getItemID(userInventory, 1), username));
+                removeFromInventory();
                 break;
             case 6:
-                ds.printResult(um.requestUnfreeze(username, getMessage("Leave your unfreeze request message")));
+                RequestToUnfreeze();
                 break;
             case 7:
-                um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
-                ds.printResult(true);
+                requestAddItem();
                 break;
             case 8:
-                List<Item> threeItems = new ArrayList<>();
-                List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-                for (int id: recentThreeTradedIds) {
-                    threeItems.add(idToItem(id));
-                }
-                if (threeItems.size() != 0) {
-                    ds.printResult(new ArrayList<Object>(threeItems));
-                }
-                else{
-                    msgForNothing();
-                }
+                seeMostRecentThreeItems();
                 break;
         }
     }
 
+    private void addToWishList(ArrayList<Item> allOtherItems) {
+        // add the id to user's wishlist
+        ds.printResult(um.addItemWishlist(getItemID(allOtherItems, 1), username));
+    }
+
+    private void requestAddItem() {
+        um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
+        ds.printResult(true);
+    }
+
+    private void RequestToUnfreeze() {
+        ds.printResult(um.requestUnfreeze(username, getMessage("Leave your unfreeze request message")));
+    }
+
+    private void seeMostRecentThreeItems() throws InvalidIdException {
+        List<Item> threeItems = new ArrayList<>();
+        List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+        for (int id: recentThreeTradedIds) {
+            threeItems.add(idToItem(id));
+        }
+        if (threeItems.size() != 0) {
+            ds.printResult(new ArrayList<>(threeItems));
+        }
+        else{
+            msgForNothing();
+        }
+    }
+
+    private void removeFromInventory() {
+        ArrayList<Item> userInventory = um.findUser(userId).getInventory();
+        if (userInventory.size() != 0) {
+            ds.printResult(new ArrayList<>(userInventory));
+            ds.printResult(um.removeItemInventory(getItemID(userInventory, 1), username));
+        }
+        else{
+            msgForNothing(" in your inventory");
+        }
+    }
+
+    private void removeFromWishList(ArrayList<Item> allOtherItems) {
+        // remove the item id from wishlist
+        if (um.findUser(userId).getWishList().size() != 0) {
+            ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
+        }
+        else{
+            msgForNothing(" in your wish list");
+        }
+    }
+
+    private void searchItem() {
+        // print all the items being searched for
+        ds.printResult(new ArrayList<>(um.searchItem(getItemName())));
+        if (um.searchItem(getItemName()).size() == 0){
+            msgForNothing();
+        }
+    }
+
+    private void browseBooks(ArrayList<Item> allOtherItems) {
+        if (allOtherItems.size() != 0) {
+            // print items in all users inventory except this user
+            ds.printResult(new ArrayList<>(allOtherItems));
+        }
+        else{
+            msgForNothing();
+        }
+    }
+
+    // TODO: needs to be refactored
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
           1.Request a trade (lend / borrow / two-way) !!!!- NEED to remove item from wishlist &/ inventory (maybe in constructor???)
@@ -256,7 +289,7 @@ public class RegularUserController implements Serializable, Controllable {
                         // user borrow more than lend
                         if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
                             um.freezeUser(username);
-                            ds.printOut("You're frozen because you borrowed more than lend.");
+                            ds.printOut("You're frozen because you borrowed more than you lend.");
                         }
                     }
                 }
@@ -272,7 +305,7 @@ public class RegularUserController implements Serializable, Controllable {
                 else {
                     //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
                     //TODO: so here assume wait-to-be-opened = wait for the other user's response i guess
-                    ds.printResult(new ArrayList<Object>(tm.getWaitTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
                     Trade trade = tm.getTradeById(getTradeID());
                     int itemid22 = 0;
                     // if it's one-way-trade
@@ -307,7 +340,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 3:
                 if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<Object>(tm.getOpenTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
                 }
                 else {
                     msgForNothing();
@@ -315,7 +348,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 4:
                 if (tm.getClosedTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<Object>(tm.getClosedTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getClosedTrade(userId)));
                 }
                 else {
                     msgForNothing();
@@ -323,7 +356,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 5:
                 if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<Object>(tm.getOpenTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
                     int tradeId = getTradeID();
 //              let user enter trade id and we use it to confirm complete
                     ds.printResult(tm.confirmComplete(tradeId));
@@ -338,7 +371,7 @@ public class RegularUserController implements Serializable, Controllable {
                 List<User> topThree = new ArrayList<>();
                 for (int id : topThreeIDS) {
                     topThree.add(um.findUser(id));
-                ds.printResult(new ArrayList<Object>(topThree));
+                ds.printResult(new ArrayList<>(topThree));
                 }
                 }
                 else{
@@ -348,7 +381,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 7:
                 if (tm.getCancelledTrade(userId).size()!= 0) {
-                    ds.printResult(new ArrayList<Object>(tm.getCancelledTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getCancelledTrade(userId)));
                 }
                 else{
                     msgForNothing();
@@ -358,6 +391,7 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
+    // TODO: needs to be refactored
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
     1.Suggest/edit time and place for meetings
@@ -370,7 +404,7 @@ public class RegularUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing();
+                    msgForNothing(" here that requires action");
                 }
                 else {
                     Meeting meeting = getMeeting();
@@ -390,7 +424,7 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 2:
                 if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing();
+                    msgForNothing(" that needs to be confirmed");
                 }
                 else {
                     Meeting meeting2 = getMeeting();
@@ -399,29 +433,29 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
             case 3:
                 if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing();
+                    msgForNothing(" that needs to be confirmed");
                 }
                 else {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
-                    ds.printResult(new ArrayList<Object>(mm.getUnConfirmMeeting(userId)));
+                    ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
                     Meeting meeting3 = getMeeting();
                     ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
                 }
                 break;
             case 4:
                 if (mm.getUnConfirmMeeting(userId).size() == 0){
-                    msgForNothing();
+                    msgForNothing("that needs to be confirmed");
                 }
                 else {
-                    ds.printResult(new ArrayList<Object>(mm.getUnConfirmMeeting(userId)));
+                    ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
                 }
                 break;
             case 5:
                 if (mm.getCompleteMeeting(userId).size() == 0){
-                    msgForNothing();
+                    msgForNothing(" that have been confirmed");
                 }
                 else {
-                    ds.printResult(new ArrayList<Object>(mm.getCompleteMeeting(userId)));
+                    ds.printResult(new ArrayList<>(mm.getCompleteMeeting(userId)));
                 }
                 break;
             case 6:
@@ -429,7 +463,7 @@ public class RegularUserController implements Serializable, Controllable {
                     // print a list of trades waiting to be opened -- to have the 1st meeting
                     // because once the meeting is set up --> open
                     // so need to set up first meeting for the waiting to be opened trades
-                    ds.printResult(new ArrayList<Object>(tm.getWaitTrade(userId)));
+                    ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
                     //public Meeting(int tradeId, int userId1, int userId2, int meetingNum)
                     int tradeId = getTradeID();
                     int userId1 = getUserID("borrower or borrower-and-lender 1 (if two-way-trade)");
@@ -439,17 +473,25 @@ public class RegularUserController implements Serializable, Controllable {
                     break;
                 }
                 else{
-                    msgForNothing();
+                    msgForNothing(" to view or do here");
                 }
         }
 
     }
 
-    // TODO: MOVE TO PRESENTER CLASS
+    // TODO: MOVE TO SystemMessage CLASS
     private void msgForNothing(){
-        ds.printOut("There's nothing here");
+        ds.printOut("There's nothing here.");
         ds.printOut("\n");
     }
+
+    // TODO: MOVE TO SystemMessage CLASS
+    private void msgForNothing(String nextPart){
+        ds.printOut("There's nothing " + nextPart + " .");
+        ds.printOut("\n");
+    }
+
+    // TODO: MOVE TO ThresholdController class
     private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
             thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
@@ -460,13 +502,14 @@ public class RegularUserController implements Serializable, Controllable {
         }
     }
 
-    // TODO: MOVE TO PRESENTER CLASS
+    // TODO: MOVE TO SystemMessage CLASS
     private void lockMessageForThreshold() {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
         ds.printOut("\n");
     }
 
+    // TODO: MOVE TO ThresholdController class
     private void changeNumTradesLeftForTheWeek(User thisUser){
         /*
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
@@ -475,12 +518,13 @@ public class RegularUserController implements Serializable, Controllable {
         thisUser.setTransactionLeftForTheWeek(currentVal-1);
     }
 
+    // TODO: MOVE TO ThresholdController class
     private boolean isFirstDayOfTheWeek(){
         Calendar c = Calendar.getInstance();
         return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
 
-
+    // TODO: MOVE TO ThresholdController class
     private boolean freezeUserOrNot(User thisUser){
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
@@ -496,6 +540,7 @@ public class RegularUserController implements Serializable, Controllable {
         return false;
     }
 
+    // TODO: MOVE TO ThresholdController class
     private int numUncompletedTransactions() {
         List<Integer> uniqueTradeIDs = new ArrayList<>();
         List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
@@ -508,8 +553,9 @@ public class RegularUserController implements Serializable, Controllable {
         return uniqueTradeIDs.size();
     }
 
+    // TODO: MOVE TO InstanceGetter class
     private Meeting getMeeting() throws InvalidIdException {
-        ds.printResult(new ArrayList<Object>(mm.getUnConfirmTimePlace(userId, tm)));
+        ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId, tm)));
 //      ask the user to enter the trade id, meetingNum, time and place
         int tradeId = getTradeID();
         int numMeeting = getNumMeeting();
@@ -519,6 +565,7 @@ public class RegularUserController implements Serializable, Controllable {
     /**
      * Other ask-user-for-input methods
      */
+    // TODO: move to IDGetter class
     private int getItemID(ArrayList<Item> potentialItems, int type) {
         /*
          * Based on code by Yassine.b from
@@ -554,6 +601,7 @@ public class RegularUserController implements Serializable, Controllable {
         return itemId;
     }
 
+    // TODO: move to IDGetter class
     //TODO maybe put this somewhere else
     private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
         ArrayList<Integer> potentialIds = new ArrayList<>();
@@ -564,12 +612,14 @@ public class RegularUserController implements Serializable, Controllable {
         return potentialIds;
     }
 
+    // TODO: move to InfoGetter class
     private String getItemName() {
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the prefix of the item being searched for: ");
         return sc.nextLine();
     }
 
+    // TODO: move to IdGetter class
     //TODO maybe put this somewhere else
     //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXIST IN THE ARRAYLIST
     private Item idToItem(int id) {
@@ -584,12 +634,14 @@ public class RegularUserController implements Serializable, Controllable {
         return null;
     }
 
+    // TODO: move to IdGetter class
     private ArrayList<Item> getAllItems() {
         ArrayList<Item> allOtherItems = um.allItems(userId);
         allOtherItems.addAll(um.findUser(userId).getInventory());
         return allOtherItems;
     }
 
+    // TODO: move to InfoGetter class
     private String getMessage(String TypeOfMessage){
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
@@ -604,6 +656,7 @@ public class RegularUserController implements Serializable, Controllable {
         return fullMsg.toString();
     }
 
+    // TODO: move to IdGetter class
     private int getUserID(String type){
         /*
          * Based on code by Yassine.b from
@@ -636,6 +689,7 @@ public class RegularUserController implements Serializable, Controllable {
         Permanent, Temporary
     }*/
 
+    // move to InfoGetter class
     private String getTradeType(){
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the type of this trade (Permanent or Temporary) : ");
@@ -649,7 +703,7 @@ public class RegularUserController implements Serializable, Controllable {
         return tradeType;
     }
 
-
+   // move to IdGetter class
     private int getTradeID() {
         /*
          * Based on code by Yassine.b from
@@ -677,6 +731,7 @@ public class RegularUserController implements Serializable, Controllable {
         return tradeId;
     }
 
+    // move to InfoGetter class
     private String getAgreeOrNot(){
         Scanner sc = new Scanner(System.in);
         boolean ok = false;
@@ -694,6 +749,7 @@ public class RegularUserController implements Serializable, Controllable {
         return response;
     }
 
+    // move to DatetimeGetter class
     private int getYear(){
         /*
          * Based on code by Yassine.b from
@@ -722,6 +778,7 @@ public class RegularUserController implements Serializable, Controllable {
         return year;
     }
 
+    // move to DatetimeGetter class
     private int getMonth(){
         /*
          * Based on code by Yassine.b from
@@ -750,6 +807,7 @@ public class RegularUserController implements Serializable, Controllable {
         return month;
     }
 
+    // move to DatetimeGetter class
     private int getDay(int year, int month){
         /*
          * Based on code by Yassine.b from
@@ -779,6 +837,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
+    // move to DatetimeGetter class
     private int getHour(){
         /*
          * Based on code by Yassine.b from
@@ -808,6 +867,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
+    // move to DatetimeGetter class
     private int getMin(){
         /*
          * Based on code by Yassine.b from
@@ -837,14 +897,17 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
+    // move to DatetimeGetter class
     private boolean isValidYear(int year){
         return 2020 <= year && year <= 2030;
     }
 
+    // move to DatetimeGetter class
     private boolean isValidMonth(int month){
         return 1 <= month && month <= 12;
     }
 
+    // move to DatetimeGetter class
     private boolean isValidDay(int year, int month, int day){
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
             return 1 <= day && day <= 31;
@@ -859,13 +922,16 @@ public class RegularUserController implements Serializable, Controllable {
             return 1 <= day && day <= 28;
         }
     }
+    // move to DatetimeGetter class
     private boolean isValidHour(int hour){
         return 1 <= hour && hour <= 24;
     }
+    // move to DatetimeGetter class
     private boolean isValidMin(int min){
         return 0 <= min && min <= 59;
     }
 
+    // move to InfoGetter class
     private String getPlace(){
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the name of the place: ");
@@ -875,6 +941,7 @@ public class RegularUserController implements Serializable, Controllable {
         return place;
     }
 
+    // move to InfoGetter class
     private int getNumMeeting(){
         /*
          * Based on code by Yassine.b from
@@ -903,6 +970,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     }
 
+    // move to infoGetter class
     private int getNumKindOfTrade(){
         /*
          * Based on code by Yassine.b from
@@ -932,6 +1000,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
 
+    // move to userManager or something
     private void removeItemFromUsers(int userId1, int userId2, int itemId) {
         User user1 = um.findUser(userId1);
         User user2 = um.findUser(userId2);
