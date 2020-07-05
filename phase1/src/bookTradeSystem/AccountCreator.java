@@ -45,9 +45,7 @@ public class AccountCreator {
 
         if (type.equals("Regular")) {
             if (!userInfo.containsKey(username)) {
-                User toAdd = new User(username, password, email);
-                listPeople.add(toAdd);
-                um.setListUser(listPeople);
+                um.addUser(username, password, email);
                 out = true;
                 //Write the UserManger into ser file in order to save the data
                 FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");

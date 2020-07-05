@@ -165,6 +165,20 @@ public class UserManager implements Serializable {
         }
         return false;
     }
+    /**
+     * Creates a new User
+     * @param username Username of the new User
+     * @param password Password of the new User
+     * @param email Email of the new AdminUser
+     */
+    public void addUser(String username, String password, String email){
+        Integer userID;
+        if (listUser.size() != 0) {userID = listUser.size() + 1;}
+        else {userID = 1;}
+
+        User toAdd = new User(username, password, email, userID);
+        this.listUser.add(toAdd);
+    }
 
     /**
      * Creates a new AdminUser
@@ -173,7 +187,10 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addAdmin(String username, String password, String email){
-        AdminUser toAdd = new AdminUser(username, password, email);
+        Integer adminID;
+        if (listAdmin.size() != 0) {adminID = listUser.size() + 1;}
+        else {adminID = 1;}
+        AdminUser toAdd = new AdminUser(username, password, email, adminID);
         this.listAdmin.add(toAdd);
     }
 
