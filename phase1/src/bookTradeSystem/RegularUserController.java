@@ -334,9 +334,13 @@ public class RegularUserController implements Serializable, Controllable {
                             // remove + record the borrowing/lending
                             removeItemFromUsers(userId11, userId22, itemid22);
                         }
+                        // change the status to open
+                        // so it won't be among the list of trade requests again
+                        trade.openTrade();
                     }
                     else{
                         // cancel the trade so user can see it's cancelled
+                        // in the list of cancelled trades
                         trade.cancelTrade();
                     }
                     ds.printResult(true);
