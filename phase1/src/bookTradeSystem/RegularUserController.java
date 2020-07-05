@@ -251,32 +251,35 @@ public class RegularUserController implements Serializable, Controllable {
                     lockMessageForThreshold();
                 }
                 else {
-                    // get whether it is one-way-trade or two-way-trade
-                    // 1 - one-way-trade
-                    // 2 - two-way-trade
+                    // TODO get whether it is one-way-trade or two-way-trade
                     int numKindOfTrade = getNumKindOfTrade();
+                    boolean ok = false;
                     Trade trade;
                     int itemId2 = 0;
-                    //get info for 1 way trade
-                    int userId1 = getUserID("borrower (if one-way-trade) or borrower-and-lender 1 (if two-way-trade)");
-                    int userId2 = getUserID("lender (if one-way-trade) or borrower-and-lender 2 (if two-way-trade)");
+                    //TODO get info for trade
+                    int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
+                    int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
                     int itemId = getItemID(getAllItems(), 1);
                     if (numKindOfTrade == 2){
                         itemId2 = getItemID(getAllItems(), 1);
                     }
                     String tradeType = getTradeType();
-                    // preparing the trade object
+                    // TODO preparing the trade object
                     if (numKindOfTrade == 1) {
                         // new one-way-trade
                         trade = new Trade(userId1, userId2, itemId, tradeType, true);
+                        // pass in borrower, lender, item
+                        ok = validateItems(userId1, userId2, itemId);
                     }
                     else {
                         // new two-way-trade
                         trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false);
+                        // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
+                        ok = validateItems(userId1, userId2, itemId, itemId2);
                     }
-                    // validate the trade
-                    // pass in trade, borrower, lender
-                    if (tm.validateTrade(trade, um.findUser(userId1))) {
+                    //TODO validate the trade
+                    // pass in trade and borrower
+                    if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
                         // add trade
                         tm.addTrade(trade);
                         // tell the user it's successful
@@ -287,6 +290,7 @@ public class RegularUserController implements Serializable, Controllable {
                         changeNumTradesLeftForTheWeek(thisUser);
                     }
                     else {
+                        //TODO if the trade request failed
                         ds.printResult(false);
                         // TODO: should I put this here?
                         // system auto-freeze
@@ -308,15 +312,15 @@ public class RegularUserController implements Serializable, Controllable {
                  }
                 else {
                     //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-                    //TODO: so here assume wait-to-be-opened = wait for the other user's response i guess
+                    //TODO: assume wait-to-be-opened = wait for the other user's response
                     ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
-                    Trade trade = tm.getTradeById(getTradeID());
+                    int tradeID = getTradeID();
+                    Trade trade = tm.getTradeById(tradeID);
                     int itemid22 = 0;
                     // if it's one-way-trade
                     // only need borrower id, lender id, and the item id
                     int userId11 = trade.getIds().get(1);
                     int userId22 = trade.getIds().get(2);
-                    //TODO: tm needs to add itemId1 = 0 for the one-way-trade constructor
                     int itemId11 = trade.getIds().get(3);
                     if (!trade.getIsOneWayTrade()){
                         // two-way-trade
@@ -337,6 +341,7 @@ public class RegularUserController implements Serializable, Controllable {
                         // change the status to open
                         // so it won't be among the list of trade requests again
                         trade.openTrade();
+                        mm.addMeeting(tradeID, userId11, userId22, 1, tm);
                     }
                     else{
                         // cancel the trade so user can see it's cancelled
@@ -397,6 +402,18 @@ public class RegularUserController implements Serializable, Controllable {
                 break;
 
         }
+    }
+
+    // TODO MOVE TO
+    public boolean validateItems(int borrower, int lender, int itemId){
+        return um.findUser(borrower).getWishList().contains(itemId) &&
+                um.findUser(lender).getInventory().contains(itemId);
+    }
+
+    // TODO MOVE TO
+    public boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
+        return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
+                validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
 
     // TODO: needs to be refactored
