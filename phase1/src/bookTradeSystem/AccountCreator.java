@@ -44,7 +44,7 @@ public class AccountCreator {
         email = ds.getEmail();
 
         if (type.equals("Regular")) {
-            if (!userInfo.containsKey(username)) {
+            if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email);
                 out = true;
                 //Write the UserManger into ser file in order to save the data
@@ -54,7 +54,7 @@ public class AccountCreator {
         }
 
        else if (type.equals("Admin")) {
-           if (!adminInfo.containsKey(username)){
+           if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)){
                um.addAdmin(username, password, email);
                out = true;
                //Write the UserManger into ser file in order to save the data

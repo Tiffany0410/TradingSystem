@@ -277,8 +277,8 @@ public class RegularUserController implements Serializable, Controllable {
                         // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
                         ok = validateItems(userId1, userId2, itemId, itemId2);
                     }
-                    //TODO validate the trade
-                    // pass in trade and borrower
+                    // TODO validate the trade
+                    //  pass in trade and borrower
                     if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
                         // add trade
                         tm.addTrade(trade);
@@ -317,6 +317,7 @@ public class RegularUserController implements Serializable, Controllable {
                     int tradeID = getTradeID();
                     Trade trade = tm.getTradeById(tradeID);
                     int itemid22 = 0;
+                    boolean agreedBefore = false;
                     // if it's one-way-trade
                     // only need borrower id, lender id, and the item id
                     int userId11 = trade.getIds().get(1);
@@ -327,28 +328,35 @@ public class RegularUserController implements Serializable, Controllable {
                         // need one more item id
                         itemid22 = trade.getIds().get(4);
                     }
-                    String tradeStatus = getAgreeOrNot();
-                    //set the tradeStatus for this trade
-                    trade.setUserStatus(userId, tradeStatus);
-                    //remove items -- if agree
-                    if (tradeStatus.equals("Agree")) {
-                        // remove + record the borrowing/lending
-                        removeItemFromUsers(userId11, userId22, itemId11);
-                        if (!trade.getIsOneWayTrade()) {
+                    //TODO to see if the user already agreed or not
+                    if (trade.getUserStatus(userId).equals( "Agree")){
+                        agreedBefore = true;
+                    }
+                    // TODO if the user haven't agreed before
+                    if (!agreedBefore) {
+                        String tradeStatus = getAgreeOrNot();
+                        trade.setUserStatus(userId, tradeStatus);
+                        //remove items -- if agree
+                        if (tradeStatus.equals("Agree")) {
                             // remove + record the borrowing/lending
-                            removeItemFromUsers(userId11, userId22, itemid22);
+                            removeItemFromUsers(userId11, userId22, itemId11);
+                            if (!trade.getIsOneWayTrade()) {
+                                // remove + record the borrowing/lending
+                                removeItemFromUsers(userId11, userId22, itemid22);
+                            }
+                            // change the status to open
+                            // so it won't be among the list of trade requests again
+                            trade.openTrade();
+                            mm.addMeeting(tradeID, userId11, userId22, 1, tm);
+                        } else {
+                            // cancel the trade so user can see it's cancelled
+                            // in the list of cancelled trades
+                            trade.cancelTrade();
                         }
-                        // change the status to open
-                        // so it won't be among the list of trade requests again
-                        trade.openTrade();
-                        mm.addMeeting(tradeID, userId11, userId22, 1, tm);
+                        ds.printResult(true);
                     }
-                    else{
-                        // cancel the trade so user can see it's cancelled
-                        // in the list of cancelled trades
-                        trade.cancelTrade();
-                    }
-                    ds.printResult(true);
+                    //TODO because the user already agreed so false request
+                    ds.printResult(false);
                 }
                 break;
             case 3:
