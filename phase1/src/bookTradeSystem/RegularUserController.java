@@ -268,174 +268,231 @@ public class RegularUserController implements Serializable, Controllable {
         reassessNumTransactionsLeftForTheWeek(thisUser);
         switch (subMenuOption) {
             case 1:
-                if (thisUser.getNumTransactionLeftForTheWeek() == 0){
-                    // the case with user reaching the max number of transactions for the week
-                    lockMessageForThreshold();
-                }
-                else {
-                    // TODO get whether it is one-way-trade or two-way-trade
-                    int numKindOfTrade = getNumKindOfTrade();
-                    boolean ok = false;
-                    Trade trade;
-                    int itemId2 = 0;
-                    //TODO get info for trade
-                    int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
-                    int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
-                    int itemId = getItemID(getAllItems(), 1);
-                    int tradeID;
-                    if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
-                    else {tradeID = 1;}
-                    String tradeType = getTradeType();
-                    if (numKindOfTrade == 2){
-                        itemId2 = getItemID(getAllItems(), 1);
-                    }
-
-                    // TODO preparing the trade object
-                    if (numKindOfTrade == 1) {
-                        // new one-way-trade
-                        trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
-                        // pass in borrower, lender, item
-                        ok = validateItems(userId1, userId2, itemId);
-                    }
-                    else {
-                        // new two-way-trade
-                        trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
-                        // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
-                        ok = validateItems(userId1, userId2, itemId, itemId2);
-                    }
-                    // TODO validate the trade
-                    //  pass in trade and borrower
-                    if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
-                        // add trade
-                        tm.addTrade(trade);
-                        // tell the user it's successful
-                        ds.printResult(true);
-                        // set status for the person who requested the trade
-                        trade.setUserStatus(userId, "Agree");
-                        // change the threshold value
-                        changeNumTradesLeftForTheWeek(thisUser);
-                    }
-                    else {
-                        //TODO if the trade request failed
-                        ds.printResult(false);
-                        // TODO: should I put this here?
-                        // system auto-freeze
-                        // user borrow more than lend
-                        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
-                            um.freezeUser(username);
-                            ds.printOut("You're frozen because you borrowed more than you lend.");
-                        }
-                    }
-                }
+                requestTrade(thisUser);
                 break;
             case 2:
-                if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
-                    // the case with user reaching the max number of transactions for the week
-                    lockMessageForThreshold();
-                }
-                else if (tm.getTradeHistory(userId).size() == 0){
-                    msgForNothing();
-                 }
-                else {
-                    //ASKS THE USER TO ENTER TRADE ID AND ENTER AGREE OR DISAGREE
-                    //TODO: assume wait-to-be-opened = wait for the other user's response
-                    ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
-                    int tradeID = getTradeID();
-                    Trade trade = tm.getTradeById(tradeID);
-                    int itemid22 = 0;
-                    boolean agreedBefore = false;
-                    // if it's one-way-trade
-                    // only need borrower id, lender id, and the item id
-                    int userId11 = trade.getIds().get(1);
-                    int userId22 = trade.getIds().get(2);
-                    int itemId11 = trade.getIds().get(3);
-                    if (!trade.getIsOneWayTrade()){
-                        // two-way-trade
-                        // need one more item id
-                        itemid22 = trade.getIds().get(4);
-                    }
-                    //TODO to see if the user already agreed or not
-                    if (trade.getUserStatus(userId).equals( "Agree")){
-                        agreedBefore = true;
-                    }
-                    // TODO if the user haven't agreed before
-                    if (!agreedBefore) {
-                        String tradeStatus = getAgreeOrNot();
-                        trade.setUserStatus(userId, tradeStatus);
-                        //remove items -- if agree
-                        if (tradeStatus.equals("Agree")) {
-                            // remove + record the borrowing/lending
-                            removeItemFromUsers(userId11, userId22, itemId11);
-                            if (!trade.getIsOneWayTrade()) {
-                                // remove + record the borrowing/lending
-                                removeItemFromUsers(userId11, userId22, itemid22);
-                            }
-                            // change the status to open
-                            // so it won't be among the list of trade requests again
-                            trade.openTrade();
-                            mm.addMeeting(tradeID, userId11, userId22, 1, tm);
-                        } else {
-                            // cancel the trade so user can see it's cancelled
-                            // in the list of cancelled trades
-                            trade.cancelTrade();
-                        }
-                        ds.printResult(true);
-                    }
-                    //TODO because the user already agreed so false request
-                    ds.printResult(false);
-                }
+                respondToTradeRequests(thisUser);
                 break;
             case 3:
-                if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
-                }
-                else {
-                    msgForNothing();
-                }
+                viewOpenTrades(tm.getOpenTrade(userId));
                 break;
             case 4:
-                if (tm.getClosedTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<>(tm.getClosedTrade(userId)));
-                }
-                else {
-                    msgForNothing();
-                }
+                viewOpenTrades(tm.getClosedTrade(userId));
                 break;
             case 5:
-                if (tm.getOpenTrade(userId).size() != 0) {
-                    ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
-                    int tradeId = getTradeID();
-//              let user enter trade id and we use it to confirm complete
-                    ds.printResult(tm.confirmComplete(tradeId));
-                }
-                else{
-                    msgForNothing();
-                }
+                confirmTradeComplete();
                 break;
             case 6:
-                if (tm.getTradeHistory(userId).size() != 0){
-                List<Integer> topThreeIDS= tm.topThreePartners(userId);
-                List<User> topThree = new ArrayList<>();
-                for (int id : topThreeIDS) {
-                    topThree.add(um.findUser(id));
-                ds.printResult(new ArrayList<>(topThree));
-                }
-                }
-                else{
-                    // because the user do not have any trade
-                    msgForNothing();
-                }
+                seeTopThreePartners();
                 break;
             case 7:
-                if (tm.getCancelledTrade(userId).size()!= 0) {
-                    ds.printResult(new ArrayList<>(tm.getCancelledTrade(userId)));
-                }
-                else{
-                    msgForNothing();
-                }
+                viewOpenTrades(tm.getCancelledTrade(userId));
                 break;
 
         }
+    }
+
+    private void seeTopThreePartners() throws InvalidIdException {
+        if (tm.getTradeHistory(userId).size() != 0){
+        List<Integer> topThreeIDS= tm.topThreePartners(userId);
+        List<User> topThree = new ArrayList<>();
+        for (int id : topThreeIDS) {
+            topThree.add(um.findUser(id));
+        ds.printResult(new ArrayList<>(topThree));
+        }
+        }
+        else{
+            // because the user do not have any trade
+            msgForNothing();
+        }
+    }
+
+    private void confirmTradeComplete() throws InvalidIdException {
+        if (tm.getOpenTrade(userId).size() != 0) {
+            ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
+            int tradeId = getTradeID();
+//              let user enter trade id and we use it to confirm complete
+            ds.printResult(tm.confirmComplete(tradeId));
+        }
+        else{
+            msgForNothing();
+        }
+    }
+
+    private void viewOpenTrades(List<Trade> openTrade) {
+        if (openTrade.size() != 0) {
+            ds.printResult(new ArrayList<>(openTrade));
+        } else {
+            msgForNothing();
+        }
+    }
+
+    private void respondToTradeRequests(User thisUser) throws InvalidIdException {
+        if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
+            // the case with user reaching the max number of transactions for the week
+            lockMessageForThreshold();
+        }
+        else if (tm.getTradeHistory(userId).size() == 0){
+            msgForNothing();
+         }
+        else {
+            //assume wait-to-be-opened = wait for the other user's response
+            ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
+            // asks for trade id
+            int tradeID = getTradeID();
+            // get the actual trade object
+            Trade trade = tm.getTradeById(tradeID);
+            // will be used if two-way-trade
+            int itemid22 = 0;
+            // will store if the user agreed before
+            boolean agreedBefore = false;
+            // if it's one-way-trade
+            // only need borrower id, lender id, and the item id
+            int userId11 = trade.getIds().get(1);
+            int userId22 = trade.getIds().get(2);
+            int itemId11 = trade.getIds().get(3);
+            if (!trade.getIsOneWayTrade()){
+                // two-way-trade - need one more item id
+                itemid22 = trade.getIds().get(4);
+            }
+            // see if the user already agreed to the request
+            agreedBefore = isAgreedBefore(agreedBefore, trade.getUserStatus(userId).equals("Agree"), true);
+            // the result of the response
+            respondResult(tradeID, trade, itemid22, agreedBefore, userId11, userId22, itemId11);
+        }
+    }
+
+    private boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
+        if (agree) {
+            agreedBefore = b;
+        }
+        return agreedBefore;
+    }
+
+    private void respondResult(int tradeID, Trade trade, int itemid22, boolean agreedBefore, int userId11, int userId22, int itemId11) throws InvalidIdException {
+        // if the user haven't agreed before
+        if (!agreedBefore) {
+            String tradeStatus = getAgreeOrNot();
+            trade.setUserStatus(userId, tradeStatus);
+            //remove items -- if agree
+            if (tradeStatus.equals("Agree")) {
+                respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
+            } else {
+                // cancel the trade so user can see it's cancelled in the list of cancelled trades
+                trade.cancelTrade();
+            }
+            ds.printResult(true);
+        }
+        //because the user already agreed so false request
+        ds.printResult(false);
+    }
+
+    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+        // remove + record the borrowing/lending
+        removeItemFromUsers(userId11, userId22, itemId11);
+        if (!trade.getIsOneWayTrade()) {
+            // remove + record the borrowing/lending
+            removeItemFromUsers(userId11, userId22, itemid22);
+        }
+        // change the status to open
+        // so it won't be among the list of trade requests again
+        trade.openTrade();
+        mm.addMeeting(tradeID, userId11, userId22, 1, tm);
+    }
+
+    private void requestTrade(User thisUser) {
+        if (thisUser.getNumTransactionLeftForTheWeek() == 0){
+            // the case with user reaching the max number of transactions for the week
+            lockMessageForThreshold();
+        }
+        else {
+            // get whether it is one-way-trade or two-way-trade
+            int numKindOfTrade = getNumKindOfTrade();
+            // will store the validation value
+            boolean ok = false;
+            // will store the trade object
+            Trade trade;
+            // will store the item id if it's two-way-trade
+            int itemId2 = 0;
+            //get info for trade
+            int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
+            int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
+            int itemId = getItemID(getAllItems(), 1);
+            int tradeID = determineTradeID();
+            String tradeType = getTradeType();
+            if (numKindOfTrade == 2){ itemId2 = getItemID(getAllItems(), 1); }
+            //get the trade object
+            trade = getTrade(numKindOfTrade, itemId2, userId1, userId2, itemId, tradeID, tradeType);
+            // get the validation from the item side
+            ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
+            // use all these to determine the result
+            requestResult(thisUser, ok, trade, userId1);
+        }
+    }
+
+    private int determineTradeID() {
+        int tradeID;
+        if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
+        else {tradeID = 1;}
+        return tradeID;
+    }
+
+    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
+        boolean ok;
+        if (numKindOfTrade == 1) {
+            // pass in borrower, lender, item
+            ok = validateItems(userId1, userId2, itemId);
+        }
+        else {
+            // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
+            ok = validateItems(userId1, userId2, itemId, itemId2);
+        }
+        return ok;
+    }
+
+    private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
+        Trade trade;
+        if (numKindOfTrade == 1) {
+            // new one-way-trade
+            trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
+        }
+        else {
+            // new two-way-trade
+            trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
+        }
+        return trade;
+    }
+
+    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
+        if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
+            requestSuccess(thisUser, trade);
+        }
+        else {
+            requestFail(thisUser);
+        }
+    }
+
+    private void requestFail(User thisUser) {
+        //TODO if the trade request failed
+        ds.printResult(false);
+        // TODO: should I put this here?
+        // system auto-freeze
+        // user borrow more than lend
+        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
+            um.freezeUser(username);
+            ds.printOut("You're frozen because you borrowed more than you lend.");
+        }
+    }
+
+    private void requestSuccess(User thisUser, Trade trade) {
+        // add trade
+        tm.addTrade(trade);
+        // tell the user it's successful
+        ds.printResult(true);
+        // set status for the person who requested the trade
+        trade.setUserStatus(userId, "Agree");
+        // change the threshold value
+        changeNumTradesLeftForTheWeek(thisUser);
     }
 
     // TODO MOVE TO
@@ -462,83 +519,97 @@ public class RegularUserController implements Serializable, Controllable {
         */
         switch (subMenuOption) {
             case 1:
-                if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing(" here that requires action");
-                }
-                else {
-                    Meeting meeting = getMeeting();
-                    if (meeting.getTradeId() != 0) {
-                        int year = getYear();
-                        int month = getMonth();
-                        int day = getDay(year, month);
-                        int hour = getHour();
-                        int min = getMin();
-                        int sec = 0;
-                        String place = getPlace();
-                        //int year, int month, int day, int hour, int min, int sec
-//              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                        ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
-                        // for the edit threshold
-                        ds.printOut(mm.getEditOverThreshold(tm, meeting));
-                    }
-                    else{
-                        msgForMeetingDNE();
-                    }
-                }
+                EditMeetingTandP();
                 break;
             case 2:
-                if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing(" that needs to be confirmed");
-                }
-                else {
-                    Meeting meeting2 = getMeeting();
-                    if (meeting2.getTradeId() != 0) {
-                        ds.printResult(meeting2.setTimePlaceConfirm(userId));
-                    }
-                    else{
-                       msgForMeetingDNE();
-                    }
-                }
+                confirmMeetingTandP();
                 break;
             case 3:
-                if (mm.getMeetingsByUserId(userId).size() == 0){
-                    msgForNothing(" that needs to be confirmed");
-                }
-                else {
-//              "confirmed" means the meeting haven't take place but time and place are confirmed
-                    ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
-                    Meeting meeting3 = getMeeting();
-                    if (meeting3.getTradeId() != 0) {
-                        ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
-                    }
-                    else{
-                        msgForMeetingDNE();
-                    }
-                }
+                confirmMeetingTookPlace();
                 break;
             case 4:
-                if (mm.getUnConfirmMeeting(userId).size() == 0){
-                    msgForNothing("that needs to be confirmed");
-                }
-                else {
-                    ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
-                }
+                seeMeetingsToBeConfirmed(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
                 break;
             case 5:
-                if (mm.getCompleteMeeting(userId).size() == 0){
-                    msgForNothing(" that have been confirmed");
-                }
-                else {
-                    ds.printResult(new ArrayList<>(mm.getCompleteMeeting(userId)));
-                }
+                seeMeetingsToBeConfirmed(mm.getCompleteMeeting(userId), " that have been confirmed");
                 break;
             case 6:
                 // See the list of meetings that has not yet been confirmed for time and place
-                ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId,tm)));
+                unconfirmedTandPMeetings();
                 break;
 
         }
 
+    }
+
+    private void seeMeetingsToBeConfirmed(List<Meeting> unConfirmMeeting, String s) {
+        if (unConfirmMeeting.size() == 0) {
+            msgForNothing(s);
+        } else {
+            ds.printResult(new ArrayList<>(unConfirmMeeting));
+        }
+    }
+
+    private void confirmMeetingTookPlace() throws InvalidIdException {
+        if (mm.getMeetingsByUserId(userId).size() == 0){
+            msgForNothing(" that needs to be confirmed");
+        }
+        else {
+//              "confirmed" means the meeting haven't take place but time and place are confirmed
+            ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
+            Meeting meeting3 = getMeeting();
+            if (meeting3.getTradeId() != 0) {
+                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+            }
+            else{
+                msgForMeetingDNE();
+            }
+        }
+    }
+
+    private void confirmMeetingTandP() throws InvalidIdException {
+        if (mm.getMeetingsByUserId(userId).size() == 0){
+            msgForNothing(" that needs to be confirmed");
+        }
+        else {
+            Meeting meeting2 = getMeeting();
+            if (meeting2.getTradeId() != 0) {
+                ds.printResult(meeting2.setTimePlaceConfirm(userId));
+            }
+            else{
+               msgForMeetingDNE();
+            }
+        }
+    }
+
+    private void EditMeetingTandP() throws InvalidIdException {
+        if (mm.getMeetingsByUserId(userId).size() == 0){
+            msgForNothing(" here that requires action");
+        }
+        else {
+            Meeting meeting = getMeeting();
+            if (meeting.getTradeId() != 0) {
+                int year = getYear();
+                int month = getMonth();
+                int day = getDay(year, month);
+                int hour = getHour();
+                int min = getMin();
+                int sec = 0;
+                String place = getPlace();
+                //int year, int month, int day, int hour, int min, int sec
+//              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
+                ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
+                // for the edit threshold
+                ds.printOut(mm.getEditOverThreshold(tm, meeting));
+            }
+            else{
+                msgForMeetingDNE();
+            }
+        }
+    }
+
+    private void unconfirmedTandPMeetings() throws InvalidIdException {
+        ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId,tm)));
     }
 
     // TODO: MOVE TO SystemMessage CLASS
@@ -622,7 +693,7 @@ public class RegularUserController implements Serializable, Controllable {
 
     // TODO: MOVE TO InstanceGetter class
     private Meeting getMeeting() throws InvalidIdException {
-        ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId, tm)));
+        unconfirmedTandPMeetings();
 //      ask the user to enter the trade id, meetingNum, time and place
         int tradeId = getTradeID();
         int numMeeting = getNumMeeting();
