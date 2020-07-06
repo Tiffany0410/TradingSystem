@@ -154,7 +154,28 @@ public class RegularUserController implements Serializable, Controllable {
             case 8:
                 seeMostRecentThreeItems();
                 break;
+            case 9:
+                viewWishListInventory();
         }
+    }
+
+    private void viewWishListInventory() {
+        // get user
+        User thisUser = um.findUser(userId);
+        // get user's wishlist and inventory
+        ArrayList<Integer> wishlistIDs = thisUser.getWishList();
+        ArrayList<Item> wishlist = new ArrayList<>();
+        ArrayList<Item> inventory = thisUser.getInventory();
+        for (int id: wishlistIDs){
+            wishlist.add(idToItem(id));
+        }
+        // print user's wishlist and inventory
+        ds.printOut("Your wishlist: ");
+        ds.printResult(new ArrayList<>(wishlist));
+        ds.printOut("\n");
+        ds.printOut("Your inventory: ");
+        ds.printResult(new ArrayList<>(inventory));
+
     }
 
     private void addToWishList(ArrayList<Item> allOtherItems) {
@@ -227,6 +248,7 @@ public class RegularUserController implements Serializable, Controllable {
             msgForNothing();
         }
     }
+
 
     // TODO: needs to be refactored
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
@@ -659,7 +681,7 @@ public class RegularUserController implements Serializable, Controllable {
     }
 
     // TODO: move to IdGetter class
-    //TODO maybe put this somewhere else
+    //TODO maybe put this somewhere else - best to put it in itemManager
     //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXIST IN THE ARRAYLIST
     private Item idToItem(int id) {
         //Get all the items in the system
@@ -673,7 +695,7 @@ public class RegularUserController implements Serializable, Controllable {
         return null;
     }
 
-    // TODO: move to IdGetter class
+    // TODO: move to IdGetter class - best to put it in itemManager
     private ArrayList<Item> getAllItems() {
         ArrayList<Item> allOtherItems = um.allItems(userId);
         allOtherItems.addAll(um.findUser(userId).getInventory());
