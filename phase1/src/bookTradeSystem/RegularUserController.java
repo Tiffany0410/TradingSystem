@@ -458,6 +458,7 @@ public class RegularUserController implements Serializable, Controllable {
     3.Confirm the meeting took place
     4.See the list of meetings need to be confirmed (that it took place)
     5.See the list of meetings that have been confirmed (that have taken place)
+    6.See the list of meetings with time and place that need to be confirmed
         */
         switch (subMenuOption) {
             case 1:
@@ -531,6 +532,11 @@ public class RegularUserController implements Serializable, Controllable {
                     ds.printResult(new ArrayList<>(mm.getCompleteMeeting(userId)));
                 }
                 break;
+            case 6:
+                // See the list of meetings that has not yet been confirmed for time and place
+                ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId,tm)));
+                break;
+
         }
 
     }
