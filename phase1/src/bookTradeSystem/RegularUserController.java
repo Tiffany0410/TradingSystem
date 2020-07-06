@@ -15,11 +15,6 @@ public class RegularUserController implements Serializable, Controllable {
     private RegularUserTradingMenuController atc;
     private RegularUserMeetingMenuController mmc;
     private RegularUserThresholdController tc;
-    private RegularUserOtherInfoGetter otherInfoGetter;
-    private RegularUserInstanceGetter instanceGetter;
-    private RegularUserIDGetter idGetter;
-    private RegularUserDateTimeGetter dateTimeGetter;
-    private SystemMessage sm;
     private DisplaySystem ds;
     private FilesReaderWriter rw;
     private TradeManager tm;
@@ -27,8 +22,6 @@ public class RegularUserController implements Serializable, Controllable {
     private UserManager um;
     private String username;
     private int userId;
-    // whether the max transactions per week threshold is reassessed
-    private boolean thresholdReassessed;
 
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
@@ -51,7 +44,6 @@ public class RegularUserController implements Serializable, Controllable {
         this.um = um;
         this.username = username;
         this.userId = um.usernameToID(username);
-        this.thresholdReassessed = false;
         // for other controllers / presenters
         this.amc = new RegularUserAccountMenuController(ds, rw, tm, mm, um, username);
         this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
@@ -59,11 +51,6 @@ public class RegularUserController implements Serializable, Controllable {
         this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
         this.mmc = new RegularUserMeetingMenuController(ds, rw, tm, mm, um, username);
         this.tc = new RegularUserThresholdController(ds, rw, tm, mm, um, username);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
-        this.instanceGetter = new RegularUserInstanceGetter(ds, rw, tm, mm, um, username);
-        this.idGetter = new RegularUserIDGetter(ds, rw, tm, mm, um, username);
-        this.dateTimeGetter = new RegularUserDateTimeGetter(ds, rw, tm, mm, um, username);
-        this.sm = new SystemMessage();
     }
 
     // TODO: move to a presenter class
