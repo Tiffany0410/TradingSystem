@@ -3,7 +3,9 @@ package bookTradeSystem;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class RegularUserDateTimeGetter {
@@ -18,40 +20,24 @@ public class RegularUserDateTimeGetter {
 
 
     /**
-     * Constructs a RegularUserDateTimeGetter with a DisplaySystem, a FilesReaderWriter,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
-     *
-     * @param ds       The presenter class used to print to screen.
-     * @param rw       The gateway class used to read or write to file.
-     * @param tm       The current state of the TradeManager.
-     * @param mm       The current state of the MeetingManager.
-     * @param um       The current state of the UserManager.
-     * @param username The username of the regular user.
+     * Constructs for RegularUserDateTimeGetter
      */
-    public RegularUserDateTimeGetter(DisplaySystem ds, FilesReaderWriter rw,
-                                 TradeManager tm, MeetingManager mm,
-                                 UserManager um, String username) {
-        this.ds = ds;
-        this.rw = rw;
-        this.tm = tm;
-        this.mm = mm;
-        this.um = um;
-        this.username = username;
-        this.userId = um.usernameToID(username);
+    public RegularUserDateTimeGetter() {
+
     }
 
 
-    public String getValidDate(){
-        String typeIn = "";
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+    public List<Integer> getValidDate(){
 
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+        List<Integer> list = new ArrayList<>();
         boolean condition = true;
 
         while (condition) {
             ds.printOut("Please enter the date between 2020 to 2030 (Format: yyyy-MM-dd HH-mm)");
 
             Scanner sc = new Scanner(System.in);
-            typeIn = sc.nextLine();
+            String typeIn = sc.nextLine();
 
             try {
                 Date date = format.parse(typeIn);
@@ -72,9 +58,14 @@ public class RegularUserDateTimeGetter {
                 ds.printOut("Please enter the year between 2020 to 2030");
             }
             condition = false;
+            list.add(year);
+            list.add(month);
+            list.add(day);
+            list.add(hour);
+            list.add(minute);
         }
 
-        return typeIn;
+        return list;
 
     }
 

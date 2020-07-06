@@ -41,7 +41,7 @@ public class RegularUserMeetingMenuController {
         this.userId = um.usernameToID(username);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
         this.instanceGetter = new RegularUserInstanceGetter(ds, rw, tm, mm, um, username);
-        this.dateTimeGetter = new RegularUserDateTimeGetter(ds, rw, tm, mm, um, username);
+        this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
     }
 
@@ -92,16 +92,13 @@ public class RegularUserMeetingMenuController {
         else {
             Meeting meeting = instanceGetter.getMeeting();
             if (meeting.getTradeId() != 0) {
-                int year = dateTimeGetter.getYear();
-                int month = dateTimeGetter.getMonth();
-                int day = dateTimeGetter.getDay(year, month);
-                int hour = dateTimeGetter.getHour();
-                int min = dateTimeGetter.getMin();
-                int sec = 0;
+
+                List<Integer> list = this.dateTimeGetter.getValidDate();
                 String place = otherInfoGetter.getPlace();
+
                 //int year, int month, int day, int hour, int min, int sec
-//              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
+                //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
+                ds.printResult(meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), 0, place));
                 // for the edit threshold
                 ds.printOut(mm.getEditOverThreshold(tm, meeting));
             }
