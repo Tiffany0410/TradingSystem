@@ -145,10 +145,10 @@ public class RegularUserTradingMenuController {
 
     protected void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         // remove + record the borrowing/lending
-        removeItemFromUsers(userId11, userId22, itemId11);
+        um.removeItemFromUsers(userId11, userId22, itemId11);
         if (!trade.getIsOneWayTrade()) {
             // remove + record the borrowing/lending
-            removeItemFromUsers(userId11, userId22, itemid22);
+            um.removeItemFromUsers(userId11, userId22, itemid22);
         }
         // change the status to open
         // so it won't be among the list of trade requests again
@@ -263,32 +263,4 @@ public class RegularUserTradingMenuController {
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
 
-
-    // move to userManager or something
-    private void removeItemFromUsers(int userId1, int userId2, int itemId) {
-        User user1 = um.findUser(userId1);
-        User user2 = um.findUser(userId2);
-        //TODO: shouldn't call contains here - maybe have a method for it in
-        // the item manager
-        if (user1.getWishList().contains(itemId)) {
-            //user1 = borrower
-            um.removeItemWishlist(itemId, user1.getUsername());
-            // record the borrow
-            user1.addOneToNumBorrowed();
-            //remove the item from user2's inventory
-            um.removeItemInventory(itemId, user2.getUsername());
-            // record the lend
-            user2.addOneToNumLent();
-        } else {
-            //user2 = borrower
-            um.removeItemWishlist(itemId, user2.getUsername());
-            // record the borrow
-            user2.addOneToNumBorrowed();
-            //remove item from user1's inventory
-            um.removeItemInventory(itemId, user1.getUsername());
-            // record the lend
-            user1.addOneToNumLent();
-
-        }
-    }
 }

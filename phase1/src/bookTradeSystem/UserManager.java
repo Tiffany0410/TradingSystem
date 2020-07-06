@@ -550,4 +550,36 @@ public class UserManager implements Serializable {
         listAllItems.add(new_item);
     }
 
+
+    /**
+     * Remove item with itemId from the user with userId1 and
+     * the user with userId2 appropriately.
+     * @param userId1 The first user.
+     * @param userId2 The second user.
+     * @param itemId The id of the item to be removed.
+     */
+    public void removeItemFromUsers(int userId1, int userId2, int itemId) {
+        User user1 = findUser(userId1);
+        User user2 = findUser(userId2);
+        if (user1.getWishList().contains(itemId)) {
+            //user1 = borrower
+            removeItemWishlist(itemId, user1.getUsername());
+            // record the borrow
+            user1.addOneToNumBorrowed();
+            //remove the item from user2's inventory
+            removeItemInventory(itemId, user2.getUsername());
+            // record the lend
+            user2.addOneToNumLent();
+        } else {
+            //user2 = borrower
+            removeItemWishlist(itemId, user2.getUsername());
+            // record the borrow
+            user2.addOneToNumBorrowed();
+            //remove item from user1's inventory
+            removeItemInventory(itemId, user1.getUsername());
+            // record the lend
+            user1.addOneToNumLent();
+
+        }
+    }
 }
