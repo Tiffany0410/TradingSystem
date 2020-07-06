@@ -1,5 +1,7 @@
 package bookTradeSystem;
 
+import java.util.Scanner;
+
 public class RegularUserInstanceGetter {
 
     private RegularUserMeetingMenuController mmc;
@@ -48,6 +50,5 @@ public class RegularUserInstanceGetter {
         int numMeeting = otherInfoGetter.getNumMeeting();
         return mm.getMeetingByIdNum(tradeId, numMeeting);
     }
-
 
 }

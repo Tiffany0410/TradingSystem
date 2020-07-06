@@ -32,4 +32,9 @@ public class SystemMessage {
         ds.printOut("\n");
     }
 
+    protected void msgForThresholdValue(int currentVal, DisplaySystem ds)
+    {
+        ds.printOut("The current threshold value is " + currentVal);
+    }
+
 }

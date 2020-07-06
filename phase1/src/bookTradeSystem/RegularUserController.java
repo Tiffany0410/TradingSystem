@@ -78,16 +78,16 @@ public class RegularUserController implements Serializable, Controllable {
     public String alerts() throws IOException {
         //Read this in from file
         //Exception needs to be resolved in main or TradingSystem.
-        User regUser = um.findUser(username);
         StringBuilder notification;
         notification = new StringBuilder();
         String filepath = "./src/Alerts/UserAlerts.csv";
         notification.append(rw.readFromMenu(filepath)).append("\n");
-        activeAlerts(regUser, notification);
+        activeAlerts(notification);
         return notification.toString();
     }
 
-    private void activeAlerts(User regUser, StringBuilder notification) {
+    private void activeAlerts(StringBuilder notification) {
+        User regUser = um.findUser(username);
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
            if (tc.freezeUserOrNot(regUser)){

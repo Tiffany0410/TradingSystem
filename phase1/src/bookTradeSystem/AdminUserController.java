@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 public class AdminUserController implements Serializable, Controllable {
 
+    private AdminUserInstanceGetter instanceGetter;
+    private AdminUserOtherInfoGetter otherInfoGetter;
+    private SystemMessage sm;
     private AccountCreator ac; //instead of this maybe make the tradingSystem's one protected?
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected?
     private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected?
@@ -33,6 +36,8 @@ public class AdminUserController implements Serializable, Controllable {
         this.ds = ds;
         this.rw = rw;
         this.um = um;
+        this.sm = new SystemMessage();
+        this.instanceGetter = new AdminUserInstanceGetter(ds);
     }
 
 
@@ -93,44 +98,49 @@ public class AdminUserController implements Serializable, Controllable {
             case 1:
 //              asks the admin for the username of the user TO FREEZE
                 ds.printOut("Please enter the username of the user to FREEZE");
-//              TODO: maybe do a bulletproof for username for later? (later)
 //              let presenter print the msg of successful or not
                 ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
 //              asks the admin for the username of the user to UNFREEZE
                 ds.printOut("Please enter the username of the user to UNFREEZE");
-//              TODO: maybe do a bulletproof for username for later? (later)
 //              let presenter print the msg of successful or not
                 ds.printResult(um.unfreezeUser(ds.getUsername()));
                 break;
             case 3:
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
                 int len = listItemToAdd.size();
-                if (len != 0) {
-//              get the list of item to be added to inventories
-                    ds.printResult(new ArrayList<Object>(listItemToAdd));
-//              TODO: maybe add a loop so admin can keep on entering ... until chooses to exit? (later)
-                    Item itemSelected = listItemToAdd.get(getItem(len) - 1);
-                    if (getAddOrNot()) {
-                        //if add
-                        um.addItemToAllItemsList(itemSelected);
-                        ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
-                    } else {
-                        ds.printResult(true);
-                    }
-                    //either add or not add - need to remove from to-be-added list
-//                  TODO: need a method to remove item from um's getListItemToAdd
-                    um.getListItemToAdd().remove(itemSelected);
-                }
-                else{
-                    // print systemMessage's there's nothing here method
-                    // TODO: CALL SYSTEM MESSAGE'S METHOD
-                    ds.printOut("There's nothing here");
-                }
+                ResponseToToAddListSize(listItemToAdd, len);
                 break;
 
 
+        }
+    }
+
+    // create another class and move them for phase 2
+    private void ResponseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
+        if (len != 0) {
+//              get the list of item to be added to inventories
+            ds.printResult(new ArrayList<Object>(listItemToAdd));
+            Item itemSelected = listItemToAdd.get(instanceGetter.getItem(len) - 1);
+            addOrNotAdd(itemSelected);
+            //either add or not add - need to remove from to-be-added list
+//          TODO: need a method to remove item from um's getListItemToAdd
+            um.getListItemToAdd().remove(itemSelected);
+        }
+        else{
+            // print systemMessage's there's nothing here method
+            sm.msgForNothing(ds);
+        }
+    }
+
+    private void addOrNotAdd(Item itemSelected) {
+        if (otherInfoGetter.getAddOrNot()) {
+            //if add
+            um.addItemToAllItemsList(itemSelected);
+            ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
+        } else {
+            ds.printResult(true);
         }
     }
 
@@ -143,20 +153,20 @@ public class AdminUserController implements Serializable, Controllable {
          */
         switch (subMenuOption) {
             case 1:
-                printCurrentValue(User.getMaxNumTransactionsAllowedAWeek());
-                User.setMaxNumTransactionsAllowedAWeek(getThresholdAns());
+                sm.msgForThresholdValue(User.getMaxNumTransactionsAllowedAWeek(),ds);
+                User.setMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
                 break;
             case 2:
-                printCurrentValue(User.getMaxNumTransactionIncomplete());
-                User.setMaxNumTransactionIncomplete(getThresholdAns());
+                sm.msgForThresholdValue(User.getMaxNumTransactionIncomplete(),ds);
+                User.setMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
                 break;
             case 3:
-                printCurrentValue(User.getNumLendBeforeBorrow());
-                User.setNumLendBeforeBorrow(getThresholdAns());
+                sm.msgForThresholdValue(User.getNumLendBeforeBorrow(),ds);
+                User.setNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
                 break;
             case 4:
-                printCurrentValue(User.getMaxMeetingDateTimeEdits());
-                User.setMaxMeetingDateTimeEdits(getThresholdAns());
+                sm.msgForThresholdValue(User.getMaxMeetingDateTimeEdits(),ds);
+                User.setMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
                 break;
         }
         ds.printResult(true);
@@ -169,94 +179,6 @@ public class AdminUserController implements Serializable, Controllable {
         if (subMenuOption == 1){
             ds.printResult(this.ac.createAccount("Admin"));
         }
-
-    }
-
-    /**
-     * Other ask-user-for-input methods
-     */
-
-    //TODO: MOVE TO PRESENTER
-    private void printCurrentValue(int currentVal){
-        ds.printOut("The current value is " + currentVal);
-    }
-
-    private int getThresholdAns(){
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        int thresholdAns = 0;
-        do{
-            ds.printOut("Enter the new threshold value: ");
-            if(sc.hasNextInt()){
-                thresholdAns = sc.nextInt();
-                okInput = true;
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return thresholdAns;
-    }
-
-    private int getItem(int numItemsToAdd){
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        // asks for the item name, description, owner id of the user to be added
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        // does not store the number of items but the number of the item the admin chooses
-        int numItem = 0;
-        do{
-            ds.printOut("Enter the number of the item in the above list ");
-            if(sc.hasNextInt()){
-                numItem = sc.nextInt();
-                if (1<= numItem && numItem <= numItemsToAdd) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper option please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return numItem;
-    }
-
-    private boolean getAddOrNot(){
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-        do{
-            ds.printOut("Please enter a number (1 - add, 2 - not add): ");
-            if(sc.hasNextInt()){
-                num = sc.nextInt();
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper option please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return num == 1;
 
     }
 
