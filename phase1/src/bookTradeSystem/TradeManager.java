@@ -262,7 +262,7 @@ public class TradeManager implements Serializable {
 
 
     /**
-     * Check if the trade is confirmed(status is closed or cancelled)
+     * Check if the trade is confirmed(status is closed)
      *
      * @param tradeId the id of the trade
      * @return true if is, otherwise false
@@ -270,7 +270,7 @@ public class TradeManager implements Serializable {
     public boolean confirmComplete(int tradeId) throws InvalidIdException {
         for (Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
-                return t.tradeStatus.equals("Closed") || t.tradeStatus.equals("Cancelled");
+                return t.tradeStatus.equals("Closed");
             }
         }
         throw new InvalidIdException("Invalid Id");

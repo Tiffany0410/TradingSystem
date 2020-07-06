@@ -15,6 +15,7 @@ public class RegularUserController implements Serializable, Controllable {
     private RegularUserTradingMenuController atc;
     private RegularUserMeetingMenuController mmc;
     private RegularUserThresholdController tc;
+    private SystemMessage sm;
     private DisplaySystem ds;
     private FilesReaderWriter rw;
     private TradeManager tm;
@@ -51,6 +52,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
         this.mmc = new RegularUserMeetingMenuController(ds, rw, tm, mm, um, username);
         this.tc = new RegularUserThresholdController(ds, rw, tm, mm, um, username);
+        this.sm = new SystemMessage();
     }
 
     // TODO: move to a presenter class
