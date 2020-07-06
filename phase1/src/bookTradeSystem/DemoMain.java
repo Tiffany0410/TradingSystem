@@ -47,10 +47,13 @@ public class DemoMain {
             condition = tradingSystem.tradingSystemInital();
         } catch (ClassNotFoundException ex){
             System.out.println("Can not find file");
+            break;
         } catch (InvalidIdException ex){
             System.out.println("Invalid ID");
+            break;
         } catch (IOException ex){
             System.out.println("IO Exception");
+            break;
         }
         }
 
