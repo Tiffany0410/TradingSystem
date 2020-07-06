@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.Map;
 
 public class DemoMain {
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InvalidIdException {
+    public static void main(String[] args) {
         DemoMainManager();
     }
 
 
 
-    public static void DemoMainManager() throws IOException, ClassNotFoundException, InvalidIdException {
+    public static void DemoMainManager() {
         // File path
         String userAccountInfoFilePath = "./src/Managers/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/Managers/AdminUserUsernameAndPassword.csv";
@@ -24,26 +24,34 @@ public class DemoMain {
         boolean condition = true;
         while (condition){
 
-        // Create all use classes
-        UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
-        MeetingManager meetingManager = FilesReaderWriter.readMeetingManagerFromFile(serializedMeetingManagerFilePath);
-        FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
-        TradeManager tradeManager = FilesReaderWriter.readTradeManagerFromFile(serializedTradeManagerFilePath);
-        DisplaySystem displaySystem = new DisplaySystem();
-        AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
-        // Load accounts data from CSV file to initial login validator
-        Map<String, String> userLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
-        Map<String, String> adminUserLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(adminAccountInfoFilePath);
-        LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
+        try {
+            // Create all use classes
+            UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
+            MeetingManager meetingManager = FilesReaderWriter.readMeetingManagerFromFile(serializedMeetingManagerFilePath);
+            FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
+            TradeManager tradeManager = FilesReaderWriter.readTradeManagerFromFile(serializedTradeManagerFilePath);
+            DisplaySystem displaySystem = new DisplaySystem();
+            AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
 
-        // Create trading system
-        TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
-                filesReaderWriter, displaySystem, accountCreator);
+            // Load accounts data from CSV file to initial login validator
+            Map<String, String> userLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
+            Map<String, String> adminUserLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(adminAccountInfoFilePath);
+            LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
-        // Run trading system
-        condition = tradingSystem.tradingSystemInital();
+            // Create trading system
+            TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
+                    filesReaderWriter, displaySystem, accountCreator);
 
+            // Run trading system
+            condition = tradingSystem.tradingSystemInital();
+        } catch (ClassNotFoundException ex){
+            System.out.println("Can not find file");
+        } catch (InvalidIdException ex){
+            System.out.println("Invalid ID");
+        } catch (IOException ex){
+            System.out.println("IO Exception");
+        }
         }
 
     }
