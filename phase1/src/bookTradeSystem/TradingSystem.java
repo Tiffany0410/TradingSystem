@@ -33,8 +33,8 @@ public class TradingSystem {
     * Initial trading system menu
     * @return false when user exit trading system, true when user not exit the system
     */
-   public boolean tradingSystemInital() throws IOException, InvalidIdException {
-      displaySystem.printOut("Welcome to book trading system");
+   public boolean tradingSystemInital() throws IOException {
+      displaySystem.printOut("Welcome to the trading system");
       displaySystem.printOut(" ");
 
       int option;
@@ -73,7 +73,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void login() throws IOException, InvalidIdException {
+   private void login() throws IOException {
       String userName;
       String userPassword;
 
@@ -114,7 +114,7 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   private void regularUserMain(String userName) throws IOException, InvalidIdException {
+   private void regularUserMain(String userName) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, userName);
       displaySystem.printOut("######### Notification ########");
@@ -129,37 +129,50 @@ public class TradingSystem {
          this.logOut();
       }
 
-      // Option 1 is Account Info
-      if (option == 1){
-         boolean condition = true;
-         while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserAccountMenu.csv");
-            if (suboption == 0) { condition = false; }
-            else{regularUserController.actionResponse(option, suboption);}
+      try {
+         // Option 1 is Account Info
+         if (option == 1) {
+            boolean condition = true;
+            while (condition) {
+               int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserAccountMenu.csv");
+               if (suboption == 0) {
+                  condition = false;
+               } else {
+                  regularUserController.actionResponse(option, suboption);
+               }
+            }
+            this.regularUserMain(userName);
          }
-         this.regularUserMain(userName);
-      }
 
-      // Option 2 is Trading Info
-      else if (option == 2){
-         boolean condition = true;
-         while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserTradingMenu.csv");
-            if (suboption == 0) { condition = false; }
-            else{regularUserController.actionResponse(option, suboption);}
+         // Option 2 is Trading Info
+         else if (option == 2) {
+            boolean condition = true;
+            while (condition) {
+               int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserTradingMenu.csv");
+               if (suboption == 0) {
+                  condition = false;
+               } else {
+                  regularUserController.actionResponse(option, suboption);
+               }
+            }
+            this.regularUserMain(userName);
          }
-         this.regularUserMain(userName);
-      }
 
-      // Option 3 is Meeting Info
-      else if (option == 3){
-         boolean condition = true;
-         while(condition) {
-            int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserMeetingMenu.csv");
-            if (suboption == 0) { condition = false; }
-            else{regularUserController.actionResponse(option, suboption);}
+         // Option 3 is Meeting Info
+         else if (option == 3) {
+            boolean condition = true;
+            while (condition) {
+               int suboption = displaySystem.getMenuAnswer("./src/Menus/RegularUserMeetingMenu.csv");
+               if (suboption == 0) {
+                  condition = false;
+               } else {
+                  regularUserController.actionResponse(option, suboption);
+               }
+            }
+            this.regularUserMain(userName);
          }
-         this.regularUserMain(userName);
+      }catch (InvalidIdException ex){
+         displaySystem.printOut("This user can not do this, Invalid ID");
       }
    }
 

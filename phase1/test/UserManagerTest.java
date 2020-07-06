@@ -14,7 +14,7 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testRequestItem() {
         User user1 = new User("User1","123","123@gmail.com", 1);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(), 1);
         UserManager um = new UserManager();
         um.requestAddItem(item1.getName(), item1.getDescription(), user1.getId());
         assertEquals(um.getListItemToAdd().size(), 1);
@@ -33,8 +33,8 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testSearchItem(){
         User person = new User("a", "a", "a@a", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         personinv.add(thing2);
@@ -103,8 +103,8 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testRemoveItemWishList() {
         User person = new User("a", "a", "a@a", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         ArrayList<Integer> personwish = new ArrayList<>();
         personinv.add(thing1);
@@ -125,8 +125,8 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testRemoveItemInventory() {
         User person = new User("a", "a", "a@a", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         ArrayList<Integer> personwish = new ArrayList<>();
         personinv.add(thing1);
@@ -147,9 +147,8 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testAddItemWishList() {
         User person = new User("a", "a", "a@a", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
-        ArrayList<Item> personinv = new ArrayList<>();
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Integer> personwish = new ArrayList<>();
         personwish.add(thing2.getItemId());
         ArrayList<User> emp = new ArrayList<>();
@@ -168,8 +167,8 @@ public class UserManagerTest {
     @Test(timeout = 50)
     public void testAddItemInventory() {
         User person = new User("a", "a", "a@a", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         ArrayList<User> emp = new ArrayList<>();
@@ -189,8 +188,7 @@ public class UserManagerTest {
     public void testUserPasswords() {
         User person = new User("a", "a", "a@a", 2);
         AdminUser admin = new AdminUser("d","d","d@d", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         ArrayList<User> emp = new ArrayList<>();
@@ -211,8 +209,7 @@ public class UserManagerTest {
     public void testAdminPasswords() {
         User person = new User("a", "a", "a@a", 2);
         AdminUser admin = new AdminUser("d", "d", "d@d", 1);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         ArrayList<User> emp = new ArrayList<>();
@@ -231,10 +228,9 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testFindUser() {
-        User person = new User("a", "a", "a@a", 2);
+        User person = new User("a", "a", "a@a", 1);
         User admin = new User("d", "d", "d@d", 2);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         ArrayList<User> emp = new ArrayList<>();
@@ -263,9 +259,9 @@ public class UserManagerTest {
         UserManager um = new UserManager(emp, emp2);
 
         assertEquals("a", um.idToUsername(person.getId()));
-        assertNotEquals("a", um.idToUsername(2));
+        assertEquals("a", um.idToUsername(2));
         assertEquals("d", um.idToUsername(admin.getId()));
-        assertNotEquals("d", um.idToUsername(1));
+        assertEquals("d", um.idToUsername(1));
     }
 
     @Test(timeout = 50)
@@ -279,7 +275,7 @@ public class UserManagerTest {
         UserManager um = new UserManager(emp, emp2);
 
         assertEquals(person.getId(), um.usernameToID("a"));
-        assertNotEquals(2, um.usernameToID("a"));
+        assertEquals(2, um.usernameToID("a"));
         assertEquals(admin.getId(), um.usernameToID("d"));
         assertNotEquals(person.getId(), um.usernameToID("d"));
     }
@@ -288,8 +284,8 @@ public class UserManagerTest {
     public void testAllItems() {
         User person = new User("a", "a", "a@a", 2);
         User admin = new User("d", "d", "d@d", 3);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 2, 1);
+        Item thing2 = new Item("c", "c", 2, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         personinv.add(thing2);
@@ -300,8 +296,8 @@ public class UserManagerTest {
         UserManager um = new UserManager(emp, emp2);
         person.setInventory(personinv);
 
-        assertTrue(um.allItems(1).isEmpty());
-        assertTrue(um.allItems(2).contains(thing1));
+        assertTrue(um.allItems(2).isEmpty());
+        assertTrue(um.allItems(3).contains(thing1));
         assertTrue(um.allItems("d").contains(thing2));
     }
 
@@ -309,8 +305,8 @@ public class UserManagerTest {
     public void testRequestUnfreeze() {
         User person = new User("a", "a", "a@a", 2);
         User admin = new User("d", "d", "d@d", 3);
-        Item thing1 = new Item("b", "b", 1);
-        Item thing2 = new Item("c", "c", 1);
+        Item thing1 = new Item("b", "b", 1, 1);
+        Item thing2 = new Item("c", "c", 1, 2);
         ArrayList<Item> personinv = new ArrayList<>();
         personinv.add(thing1);
         personinv.add(thing2);

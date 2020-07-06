@@ -151,12 +151,11 @@ public class DisplaySystem {
      * print out the result of action with object type
      * @param obj the list of objects need to be printed
      */
-    public void printResult(ArrayList<Object> obj)
-    {   int count = 1;
-        for (Object o : obj)
-    {
+    public void printResult(ArrayList<Object> obj) {
+        int count = 1;
+        for (Object o : obj) {
         this.printOut("#" + count + ". " + o.toString() + "\n");
         count++;
-    }
+        }
     }
 }

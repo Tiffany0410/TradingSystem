@@ -13,7 +13,7 @@ public class UserManager implements Serializable {
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
     private ArrayList<Item> listItemToAdd;
-    private Map<String, ArrayList<Item>> listAllItems;
+    private ArrayList<Item> listAllItems;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -23,6 +23,7 @@ public class UserManager implements Serializable {
         this.listAdmin = new ArrayList<>();
         this.listUnfreezeRequest = new ArrayList<>();
         this.listItemToAdd = new ArrayList<>();
+        this.listAllItems = new ArrayList<>();
     }
 
     /**
@@ -81,6 +82,7 @@ public class UserManager implements Serializable {
      * Set the list of usernames and messages of User that request to be unfrozen
      * @param listUnfreezeRequest The list of usernames and messages
      */
+    //TODO:Delete
     public void setListUnfreezeRequest(ArrayList<String[]> listUnfreezeRequest) {
         this.listUnfreezeRequest = listUnfreezeRequest;
     }
@@ -106,6 +108,7 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
+    //TODO:Delete
     public ArrayList<Item> searchItem(String item){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
@@ -149,6 +152,14 @@ public class UserManager implements Serializable {
                 out = true;
             }
         }
+        if (out) {
+            for (String[] request : listUnfreezeRequest) {
+                if (request[0].equals(username)) {
+                    listUnfreezeRequest.remove(request);
+                    return true;
+                }
+            }
+        }
         return out;
     }
 
@@ -172,7 +183,7 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addUser(String username, String password, String email){
-        Integer userID;
+        int userID;
         if (listUser.size() != 0) {userID = listUser.size() + 1;}
         else {userID = 1;}
 
@@ -187,7 +198,7 @@ public class UserManager implements Serializable {
      * @param email Email of the new AdminUser
      */
     public void addAdmin(String username, String password, String email){
-        Integer adminID;
+        int adminID;
         if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
         else {adminID = 1;}
         AdminUser toAdd = new AdminUser(username, password, email, adminID);
@@ -199,6 +210,7 @@ public class UserManager implements Serializable {
      * Gives the Users who are not lending enough
      * @return A list of usernames of the Users who are not lending enough
      */
+    //TODO:Delete
     public ArrayList<String> underLending(){
         ArrayList<String> out = new ArrayList<>();
         for (User person: listUser){
@@ -290,6 +302,9 @@ public class UserManager implements Serializable {
                 temp.add(item);
                 out = true;
                 person.setInventory(temp);
+                if (listItemToAdd.contains(item)) {
+                    listItemToAdd.remove(item);
+                }
             }
         }
         return out;
@@ -358,6 +373,7 @@ public class UserManager implements Serializable {
      * @param username The username of the AdminUser
      * @return The AdminUser that is being searched for
      */
+    //TODO:Delete
     public AdminUser findAdmin(String username){
         AdminUser out = null;
         for (AdminUser person: listAdmin){
@@ -502,8 +518,36 @@ public class UserManager implements Serializable {
      * @param ownerID The ID of the User who owns the Item
      */
     public void requestAddItem(String name, String description, int ownerID){
-        Item out = new Item(name, description, ownerID);
+        int temp_itemID;
+        //the id of the first item wait for add is 1
+        if (listAllItems.isEmpty() && listItemToAdd.isEmpty()) {temp_itemID = 1;}
+        //when list of items which already been add is empty
+        else if (listAllItems.isEmpty()) {temp_itemID = listItemToAdd.get(listItemToAdd.size() - 1).getItemId() + 1;}
+        //when list of items wait for add is empty
+        else if (listItemToAdd.isEmpty()) {temp_itemID = listAllItems.get(listAllItems.size() - 1).getItemId() + 1;}
+        //find the max ids in the list of items which already been add and the list of items wait for add
+        //then use the (largest id + 1) as the new item id
+        else {
+            //max ids in the list of items wait for add
+            int temp_itemID1 = listItemToAdd.get(listItemToAdd.size() - 1).getItemId();
+            //max id in the list of items which already been add
+            int temp_itemID2 = listAllItems.get(listAllItems.size() - 1).getItemId();
+            if (temp_itemID1 >= temp_itemID2) {temp_itemID = temp_itemID1 + 1;}
+            else {temp_itemID = temp_itemID2 + 1;}
+        }
+
+
+        Item out = new Item(name, description, ownerID, temp_itemID);
         listItemToAdd.add(out);
+    }
+
+
+    /**
+     * Add the item into the list which contains all items
+     * @param new_item the item which is allowed to add into specific user inventory
+     */
+    public void addItemToAllItemsList (Item new_item) {
+        listAllItems.add(new_item);
     }
 
 }

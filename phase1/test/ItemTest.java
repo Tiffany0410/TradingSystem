@@ -10,15 +10,15 @@ public class ItemTest {
     public void testItem() {
         User user1 = new User("User1","123","123@gmail.com", 1);
         User user2 = new User("User2","321","321@gmail.com", 2);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
-        Item item2 = new Item("Item2", "This is item 2", user2.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(), 1);
+        Item item2 = new Item("Item2", "This is item 2", user2.getId(), 2);
         }
 
     // test set and get name
     @Test(timeout = 50)
     public void testSetAndGetName(){
         User user1 = new User("User1","123","123@gmail.com", 1);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(), 1);
         item1.setName("Item2");
         assertEquals("Item2", item1.getName());
     }
@@ -27,7 +27,7 @@ public class ItemTest {
     @Test(timeout = 50)
     public void testSetAndGetDescription(){
         User user1 = new User("User1","123","123@gmail.com", 1);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(), 1);
         item1.setDescription("Hehe");
         assertEquals("Hehe", item1.getDescription());
     }
@@ -37,8 +37,8 @@ public class ItemTest {
     public void testGetItemId(){
         User user1 = new User("User1","123","123@gmail.com", 1);
         User user2 = new User("User2","321","321@gmail.com", 2);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
-        Item item2 = new Item("Item2", "This is item 2", user2.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(),1);
+        Item item2 = new Item("Item2", "This is item 2", user2.getId(),2);
         assertEquals(1,item1.getItemId());
         assertEquals(2,item2.getItemId());
 
@@ -48,7 +48,7 @@ public class ItemTest {
     @Test(timeout = 50)
     public void testGetOwnerID(){
         User user1 = new User("User1","123","123@gmail.com", 1);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(),1);
         assertEquals(1, item1.getOwnerId());
     }
 
@@ -57,9 +57,9 @@ public class ItemTest {
     public void testSetAndGetCurrHolderId(){
         User user1 = new User("User1","123","123@gmail.com", 1);
         User user2 = new User("User2","321","321@gmail.com", 2);
-        Item item1 = new Item("Item1","This is item 1", user1.getId());
+        Item item1 = new Item("Item1","This is item 1", user1.getId(),1);
         assertEquals(1, item1.getCurrHolderId());
-        item1.setCurrHolderId(user2.getId());
+        item1.setCurrHolderId(2);
         assertEquals(2, item1.getCurrHolderId());
     }
 
