@@ -155,19 +155,19 @@ public class AdminUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 sm.msgForThresholdValue(User.getMaxNumTransactionsAllowedAWeek(),ds);
-                User.setMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
+                um.editMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
                 break;
             case 2:
                 sm.msgForThresholdValue(User.getMaxNumTransactionIncomplete(),ds);
-                User.setMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
+                um.editMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
                 break;
             case 3:
                 sm.msgForThresholdValue(User.getNumLendBeforeBorrow(),ds);
-                User.setNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
+                um.editNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
                 break;
             case 4:
                 sm.msgForThresholdValue(User.getMaxMeetingDateTimeEdits(),ds);
-                User.setMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
+                um.editMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
                 break;
         }
         ds.printResult(true);
