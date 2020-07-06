@@ -138,7 +138,7 @@ public class RegularUserController implements Serializable, Controllable {
         }
 
     }
-    private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
+    private void userAccountMenuResponse(int subMenuOption) {
         /*
         1.Browse all the books in other users inventories
         2.Add to own Wish List

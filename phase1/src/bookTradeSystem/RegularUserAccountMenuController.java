@@ -75,18 +75,19 @@ public class RegularUserAccountMenuController {
         ds.printResult(um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
     }
 
-    protected void seeMostRecentThreeItems() throws InvalidIdException {
-        List<Item> threeItems = new ArrayList<>();
-        List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-        for (int id: recentThreeTradedIds) {
-            threeItems.add(idGetter.idToItem(id));
-        }
-        if (threeItems.size() != 0) {
-            ds.printResult(new ArrayList<>(threeItems));
-        }
-        else{
-            sm.msgForNothing(ds);
-        }
+    protected void seeMostRecentThreeItems() {
+        try {
+            List<Item> threeItems = new ArrayList<>();
+            List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+            for (int id : recentThreeTradedIds) {
+                threeItems.add(idGetter.idToItem(id));
+            }
+            if (threeItems.size() != 0) {
+                ds.printResult(new ArrayList<>(threeItems));
+            } else {
+                sm.msgForNothing(ds);
+            }
+        } catch (InvalidIdException ex){this.ds.printOut("Invalid ID");}
     }
 
     protected void removeFromInventory() {
