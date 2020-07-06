@@ -34,7 +34,7 @@ public class TradingSystem {
     * @return false when user exit trading system, true when user not exit the system
     */
    public boolean tradingSystemInital() throws IOException, InvalidIdException {
-      displaySystem.printOut("Welcome to book trading system");
+      displaySystem.printOut("Welcome to the trading system");
       displaySystem.printOut(" ");
 
       int option;
