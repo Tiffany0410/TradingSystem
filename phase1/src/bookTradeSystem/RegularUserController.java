@@ -62,7 +62,7 @@ public class RegularUserController implements Serializable, Controllable {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
         this.instanceGetter = new RegularUserInstanceGetter(ds, rw, tm, mm, um, username);
         this.idGetter = new RegularUserIDGetter(ds, rw, tm, mm, um, username);
-        this.dateTimeGetter = new RegularUserDateTimeGetter(ds, rw, tm, mm, um, username);
+        this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
     }
 
