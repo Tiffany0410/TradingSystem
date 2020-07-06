@@ -9,7 +9,6 @@ public class RegularUserAccountMenuController {
     private RegularUserIDGetter idGetter;
     private RegularUserOtherInfoGetter otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -17,29 +16,27 @@ public class RegularUserAccountMenuController {
     private int userId;
 
     /**
-     * Constructs a RegularUserAccountMenuController with a DisplaySystem, a FilesReaderWriter,
+     * Constructs a RegularUserAccountMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
-     * @param rw       The gateway class used to read or write to file.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
-    public RegularUserAccountMenuController(DisplaySystem ds, FilesReaderWriter rw,
+    public RegularUserAccountMenuController(DisplaySystem ds,
                                  TradeManager tm, MeetingManager mm,
-                                 UserManager um, String username) {
+                                 UserManager um, String username, int userId) {
         this.ds = ds;
-        this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = um.usernameToID(username);
+        this.userId = userId;
         this.sm = new SystemMessage();
-        this.idGetter = new RegularUserIDGetter(ds, rw, tm, mm, um, username);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
 
     protected void viewWishListInventory() {

@@ -7,12 +7,9 @@ public class RegularUserTradingMenuController {
 
     private RegularUserThresholdController tc;
     private RegularUserOtherInfoGetter otherInfoGetter;
-    private RegularUserInstanceGetter instanceGetter;
     private RegularUserIDGetter idGetter;
-    private RegularUserDateTimeGetter dateTimeGetter;
     private SystemMessage sm;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -20,31 +17,27 @@ public class RegularUserTradingMenuController {
     private int userId;
 
     /**
-     * Constructs a RegularUserTradingMenuController with a DisplaySystem, a FilesReaderWriter,
+     * Constructs a RegularUserTradingMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
-     * @param rw       The gateway class used to read or write to file.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
-    public RegularUserTradingMenuController(DisplaySystem ds, FilesReaderWriter rw,
+    public RegularUserTradingMenuController(DisplaySystem ds,
                                           TradeManager tm, MeetingManager mm,
-                                          UserManager um, String username) {
+                                          UserManager um, String username, int userId) {
         this.ds = ds;
-        this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = um.usernameToID(username);
-        this.tc = new RegularUserThresholdController(ds, rw, tm, mm, um, username);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
-        this.instanceGetter = new RegularUserInstanceGetter(ds, rw, tm, mm, um, username);
-        this.idGetter = new RegularUserIDGetter(ds, rw, tm, mm, um, username);
-        this.dateTimeGetter = new RegularUserDateTimeGetter();
+        this.userId = userId;
+        this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
 

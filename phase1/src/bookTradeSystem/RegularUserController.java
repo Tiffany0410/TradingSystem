@@ -46,12 +46,10 @@ public class RegularUserController implements Serializable, Controllable {
         this.username = username;
         this.userId = um.usernameToID(username);
         // for other controllers / presenters
-        this.amc = new RegularUserAccountMenuController(ds, rw, tm, mm, um, username);
-        this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
-        this.amc = new RegularUserAccountMenuController(ds, rw, tm, mm, um, username);
-        this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
-        this.mmc = new RegularUserMeetingMenuController(ds, rw, tm, mm, um, username);
-        this.tc = new RegularUserThresholdController(ds, rw, tm, mm, um, username);
+        this.amc = new RegularUserAccountMenuController(ds,  tm, mm, um, username, userId);
+        this.atc = new RegularUserTradingMenuController(ds,  tm, mm, um, username, userId);
+        this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, username, userId);
+        this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
 

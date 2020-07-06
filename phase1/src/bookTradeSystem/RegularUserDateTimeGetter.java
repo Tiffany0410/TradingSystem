@@ -10,15 +10,6 @@ import java.util.Scanner;
 
 public class RegularUserDateTimeGetter {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
-    private TradeManager tm;
-    private MeetingManager mm;
-    private UserManager um;
-    private String username;
-    private int userId;
-
-
     /**
      * Constructs for RegularUserDateTimeGetter
      */
@@ -27,7 +18,7 @@ public class RegularUserDateTimeGetter {
     }
 
 
-    public List<Integer> getValidDate(){
+    public List<Integer> getValidDate(DisplaySystem ds){
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
         List<Integer> list = new ArrayList<>();

@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class RegularUserOtherInfoGetter {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -13,26 +12,23 @@ public class RegularUserOtherInfoGetter {
     private int userId;
 
     /**
-     * Constructs a RegularUserOtherInfoGetter with a DisplaySystem, a FilesReaderWriter,
+     * Constructs a RegularUserOtherInfoGetter with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
-     * @param rw       The gateway class used to read or write to file.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
-    public RegularUserOtherInfoGetter(DisplaySystem ds, FilesReaderWriter rw,
-                                            TradeManager tm, MeetingManager mm,
-                                            UserManager um, String username) {
+    public RegularUserOtherInfoGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+                                            UserManager um, String username, int userId) {
         this.ds = ds;
-        this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = um.usernameToID(username);
+        this.userId = userId;
     }
 
     // TODO: move to InfoGetter class
