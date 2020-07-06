@@ -1,5 +1,9 @@
 package bookTradeSystem;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class RegularUserDateTimeGetter {
@@ -37,165 +41,50 @@ public class RegularUserDateTimeGetter {
     }
 
 
-    protected int getYear(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int year = 0;
+    public String getValidDate(){
+        String typeIn = "";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
 
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the year (2020-2030) " + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                year = sc.nextInt();
-                // if the input is valid
-                if (isValidYear(year)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid year!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
+        boolean condition = true;
+
+        while (condition) {
+            ds.printOut("Please enter the date between 2020 to 2030 (Format: yyyy-MM-dd HH-mm)");
+
+            Scanner sc = new Scanner(System.in);
+            typeIn = sc.nextLine();
+
+            try {
+                Date date = format.parse(typeIn);
+
+            } catch (ParseException e) {
+                ds.printOut("Wrong date format, please enter the date follow the format.");
             }
-        } while (!okInput);
-        return year;
-    }
 
-    // move to DatetimeGetter class
-    protected int getMonth(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int month = 0;
+            int year = Integer.parseInt(typeIn.substring(0, 4));
+            int month = Integer.parseInt(typeIn.substring(5, 7));
+            int day = Integer.parseInt(typeIn.substring(8, 10));
+            int hour = Integer.parseInt(typeIn.substring(11, 13));
+            int minute = Integer.parseInt(typeIn.substring(14, 16));
 
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the month (1-12)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                month = sc.nextInt();
-                // if the input is valid
-                if (isValidMonth(month)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid month!");
-                }
+            if (isValidDay(year, month, day) && isValidTime(hour, minute)) {
+                ds.printOut("Time set success");
             } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
+                ds.printOut("Please enter the year between 2020 to 2030");
             }
-        } while (!okInput);
-        return month;
-    }
+            condition = false;
+        }
 
-    // move to DatetimeGetter class
-    protected int getDay(int year, int month){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int day = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the day" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                day = sc.nextInt();
-                // if the input is valid
-                if (isValidDay(year, month, day)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid day!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return day;
+        return typeIn;
 
     }
 
-    // move to DatetimeGetter class
-    protected int getHour(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int hour = 0;
+    private boolean isValidTime(int hour, int min){return 1 <= hour && hour <= 24 && 0 <= min && min <= 59;}
 
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the hour (1-24)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                hour = sc.nextInt();
-                // if the input is valid
-                if (isValidHour(hour)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid hour!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return hour;
+    private boolean isValidDay(int year, int month, int day){
+        if (year <= 2020 || year >= 2030){return false;}
 
-    }
+        if (month < 1 || month > 12){return false;}
 
-    // move to DatetimeGetter class
-    protected int getMin(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int min = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the minute (0-59)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                min = sc.nextInt();
-                // if the input is valid
-                if (isValidMin(min)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid minute!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return min;
-
-    }
-
-    // move to DatetimeGetter class
-    protected boolean isValidYear(int year){
-        return 2020 <= year && year <= 2030;
-    }
-
-    // move to DatetimeGetter class
-    protected boolean isValidMonth(int month){
-        return 1 <= month && month <= 12;
-    }
-
-    // move to DatetimeGetter class
-    protected boolean isValidDay(int year, int month, int day){
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
             return 1 <= day && day <= 31;
         }
@@ -209,12 +98,7 @@ public class RegularUserDateTimeGetter {
             return 1 <= day && day <= 28;
         }
     }
-    // move to DatetimeGetter class
-    protected boolean isValidHour(int hour){
-        return 1 <= hour && hour <= 24;
-    }
-    // move to DatetimeGetter class
-    protected boolean isValidMin(int min){
-        return 0 <= min && min <= 59;
-    }
+
+
+
 }
