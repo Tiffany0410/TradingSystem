@@ -14,7 +14,6 @@ import java.util.Scanner;
  */
 public class AdminUserController implements Serializable, Controllable {
 
-    private AdminUserInstanceGetter instanceGetter;
     private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
     private AccountCreator ac; //instead of this maybe make the tradingSystem's one protected?
@@ -37,7 +36,6 @@ public class AdminUserController implements Serializable, Controllable {
         this.rw = rw;
         this.um = um;
         this.sm = new SystemMessage();
-        this.instanceGetter = new AdminUserInstanceGetter(ds);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
 
@@ -123,7 +121,7 @@ public class AdminUserController implements Serializable, Controllable {
         if (len != 0) {
 //              get the list of item to be added to inventories
             ds.printResult(new ArrayList<Object>(listItemToAdd));
-            Item itemSelected = listItemToAdd.get(instanceGetter.getItem(len) - 1);
+            Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
 //          TODO: need a method to remove item from um's getListItemToAdd
