@@ -38,6 +38,7 @@ public class AdminUserController implements Serializable, Controllable {
         this.um = um;
         this.sm = new SystemMessage();
         this.instanceGetter = new AdminUserInstanceGetter(ds);
+        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
 
 
