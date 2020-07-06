@@ -654,7 +654,7 @@ public class RegularUserController implements Serializable, Controllable {
     // TODO: move to InfoGetter class
     private String getItemName() {
         Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the prefix of the item being searched for: ");
+        ds.printOut("Please enter the name of the item: ");
         return sc.nextLine();
     }
 
