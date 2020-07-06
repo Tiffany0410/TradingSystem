@@ -10,8 +10,18 @@ import java.util.*;
  * the use cases, and the presenter.
  */
 public class RegularUserController implements Serializable, Controllable {
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected
+
+    private RegularUserAccountMenuController amc;
+    private RegularUserTradingMenuController atc;
+    private RegularUserMeetingMenuController mmc;
+    private RegularUserThresholdController tc;
+    private RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserInstanceGetter instanceGetter;
+    private RegularUserIDGetter idGetter;
+    private RegularUserDateTimeGetter dateTimeGetter;
+    private SystemMessage sm;
+    private DisplaySystem ds;
+    private FilesReaderWriter rw;
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -42,6 +52,18 @@ public class RegularUserController implements Serializable, Controllable {
         this.username = username;
         this.userId = um.usernameToID(username);
         this.thresholdReassessed = false;
+        // for other controllers / presenters
+        this.amc = new RegularUserAccountMenuController(ds, rw, tm, mm, um, username);
+        this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
+        this.amc = new RegularUserAccountMenuController(ds, rw, tm, mm, um, username);
+        this.atc = new RegularUserTradingMenuController(ds, rw, tm, mm, um, username);
+        this.mmc = new RegularUserMeetingMenuController(ds, rw, tm, mm, um, username);
+        this.tc = new RegularUserThresholdController(ds, rw, tm, mm, um, username);
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, rw, tm, mm, um, username);
+        this.instanceGetter = new RegularUserInstanceGetter(ds, rw, tm, mm, um, username);
+        this.idGetter = new RegularUserIDGetter(ds, rw, tm, mm, um, username);
+        this.dateTimeGetter = new RegularUserDateTimeGetter(ds, rw, tm, mm, um, username);
+        this.sm = new SystemMessage();
     }
 
     // TODO: move to a presenter class
@@ -68,7 +90,7 @@ public class RegularUserController implements Serializable, Controllable {
     private void activeAlerts(User regUser, StringBuilder notification) {
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
-           if (freezeUserOrNot(regUser)){
+           if (tc.freezeUserOrNot(regUser)){
                ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
            }
         }
@@ -131,126 +153,35 @@ public class RegularUserController implements Serializable, Controllable {
         ArrayList<Item> allOtherItems = um.allItems(userId);
         switch (subMenuOption) {
             case 1:
-                browseBooks(allOtherItems);
+                amc.browseBooks(allOtherItems);
                 break;
             case 2:
-                addToWishList(allOtherItems);
+                amc.addToWishList(allOtherItems);
                 break;
             case 3:
-                searchItem();
+                amc.searchItem();
                 break;
             case 4:
-                removeFromWishList(allOtherItems);
+                amc.removeFromWishList(allOtherItems);
                 break;
             case 5:
-                removeFromInventory();
+                amc.removeFromInventory();
                 break;
             case 6:
-                RequestToUnfreeze();
+                amc.RequestToUnfreeze();
                 break;
             case 7:
-                requestAddItem();
+                amc.requestAddItem();
                 break;
             case 8:
-                seeMostRecentThreeItems();
+                amc.seeMostRecentThreeItems();
                 break;
             case 9:
-                viewWishListInventory();
-        }
-    }
-
-    private void viewWishListInventory() {
-        // get user
-        User thisUser = um.findUser(userId);
-        // get user's wishlist and inventory
-        ArrayList<Integer> wishlistIDs = thisUser.getWishList();
-        ArrayList<Item> wishlist = new ArrayList<>();
-        ArrayList<Item> inventory = thisUser.getInventory();
-        for (int id: wishlistIDs){
-            wishlist.add(idToItem(id));
-        }
-        // print user's wishlist and inventory
-        ds.printOut("Your wishlist: ");
-        ds.printResult(new ArrayList<>(wishlist));
-        ds.printOut("\n");
-        ds.printOut("Your inventory: ");
-        ds.printResult(new ArrayList<>(inventory));
-
-    }
-
-    private void addToWishList(ArrayList<Item> allOtherItems) {
-        // add the id to user's wishlist
-        ds.printResult(um.addItemWishlist(getItemID(allOtherItems, 1), username));
-    }
-
-    private void requestAddItem() {
-        um.requestAddItem(getItemName(), getMessage("Enter the description of the item"), userId);
-        ds.printResult(true);
-    }
-
-    private void RequestToUnfreeze() {
-        ds.printResult(um.requestUnfreeze(username, getMessage("Leave your unfreeze request message")));
-    }
-
-    private void seeMostRecentThreeItems() throws InvalidIdException {
-        List<Item> threeItems = new ArrayList<>();
-        List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-        for (int id: recentThreeTradedIds) {
-            threeItems.add(idToItem(id));
-        }
-        if (threeItems.size() != 0) {
-            ds.printResult(new ArrayList<>(threeItems));
-        }
-        else{
-            msgForNothing();
-        }
-    }
-
-    private void removeFromInventory() {
-        ArrayList<Item> userInventory = um.findUser(userId).getInventory();
-        if (userInventory.size() != 0) {
-            ds.printResult(new ArrayList<>(userInventory));
-            ds.printResult(um.removeItemInventory(getItemID(userInventory, 1), username));
-        }
-        else{
-            msgForNothing(" in your inventory");
-        }
-    }
-
-    private void removeFromWishList(ArrayList<Item> allOtherItems) {
-        // remove the item id from wishlist
-        if (um.findUser(userId).getWishList().size() != 0) {
-            ds.printResult(um.removeItemWishlist(getItemID(allOtherItems, 0), username));
-        }
-        else{
-            msgForNothing(" in your wish list");
-        }
-    }
-
-    private void searchItem() {
-        // print all the items being searched for
-        String name = getItemName();
-        ArrayList<Item> matchItems = um.searchItem(name);
-        if (matchItems.size() == 0){
-            msgForNothing(" that matches your input");
-        }
-        else{
-            ds.printResult(new ArrayList<>(matchItems));
-        }
-    }
-
-    private void browseBooks(ArrayList<Item> allOtherItems) {
-        if (allOtherItems.size() != 0) {
-            // print items in all users inventory except this user
-            ds.printResult(new ArrayList<>(allOtherItems));
-        }
-        else{
-            msgForNothing();
+                amc.viewWishListInventory();
         }
     }
 
 
-    // TODO: needs to be refactored
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
           1.Request a trade (lend / borrow / two-way)
@@ -265,249 +196,34 @@ public class RegularUserController implements Serializable, Controllable {
         // reassess it at the first day of the week - only once
         // TODO: small bug - user has to login in other days (non-Sundays) to re-enable this function for next Sunday
         //  and can only reassess it on Sunday (the first day of the week)
-        reassessNumTransactionsLeftForTheWeek(thisUser);
+        tc.reassessNumTransactionsLeftForTheWeek(thisUser);
         switch (subMenuOption) {
             case 1:
-                requestTrade(thisUser);
+                atc.requestTrade(thisUser);
                 break;
             case 2:
-                respondToTradeRequests(thisUser);
+                atc.respondToTradeRequests(thisUser);
                 break;
             case 3:
-                viewOpenTrades(tm.getOpenTrade(userId));
+                atc.viewOpenTrades(tm.getOpenTrade(userId));
                 break;
             case 4:
-                viewOpenTrades(tm.getClosedTrade(userId));
+                atc.viewOpenTrades(tm.getClosedTrade(userId));
                 break;
             case 5:
-                confirmTradeComplete();
+                atc.confirmTradeComplete();
                 break;
             case 6:
-                seeTopThreePartners();
+                atc.seeTopThreePartners();
                 break;
             case 7:
-                viewOpenTrades(tm.getCancelledTrade(userId));
+                atc.viewOpenTrades(tm.getCancelledTrade(userId));
                 break;
 
         }
     }
 
-    private void seeTopThreePartners() throws InvalidIdException {
-        if (tm.getTradeHistory(userId).size() != 0){
-        List<Integer> topThreeIDS= tm.topThreePartners(userId);
-        List<User> topThree = new ArrayList<>();
-        for (int id : topThreeIDS) {
-            topThree.add(um.findUser(id));
-        ds.printResult(new ArrayList<>(topThree));
-        }
-        }
-        else{
-            // because the user do not have any trade
-            msgForNothing();
-        }
-    }
 
-    private void confirmTradeComplete() throws InvalidIdException {
-        if (tm.getOpenTrade(userId).size() != 0) {
-            ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
-            int tradeId = getTradeID();
-//              let user enter trade id and we use it to confirm complete
-            ds.printResult(tm.confirmComplete(tradeId));
-        }
-        else{
-            msgForNothing();
-        }
-    }
-
-    private void viewOpenTrades(List<Trade> openTrade) {
-        if (openTrade.size() != 0) {
-            ds.printResult(new ArrayList<>(openTrade));
-        } else {
-            msgForNothing();
-        }
-    }
-
-    private void respondToTradeRequests(User thisUser) throws InvalidIdException {
-        if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
-            // the case with user reaching the max number of transactions for the week
-            lockMessageForThreshold();
-        }
-        else if (tm.getTradeHistory(userId).size() == 0){
-            msgForNothing();
-         }
-        else {
-            //assume wait-to-be-opened = wait for the other user's response
-            ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
-            // asks for trade id
-            int tradeID = getTradeID();
-            // get the actual trade object
-            Trade trade = tm.getTradeById(tradeID);
-            // will be used if two-way-trade
-            int itemid22 = 0;
-            // will store if the user agreed before
-            boolean agreedBefore = false;
-            // if it's one-way-trade
-            // only need borrower id, lender id, and the item id
-            int userId11 = trade.getIds().get(1);
-            int userId22 = trade.getIds().get(2);
-            int itemId11 = trade.getIds().get(3);
-            if (!trade.getIsOneWayTrade()){
-                // two-way-trade - need one more item id
-                itemid22 = trade.getIds().get(4);
-            }
-            // see if the user already agreed to the request
-            agreedBefore = isAgreedBefore(agreedBefore, trade.getUserStatus(userId).equals("Agree"), true);
-            // the result of the response
-            respondResult(tradeID, trade, itemid22, agreedBefore, userId11, userId22, itemId11);
-        }
-    }
-
-    private boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
-        if (agree) {
-            agreedBefore = b;
-        }
-        return agreedBefore;
-    }
-
-    private void respondResult(int tradeID, Trade trade, int itemid22, boolean agreedBefore, int userId11, int userId22, int itemId11) throws InvalidIdException {
-        // if the user haven't agreed before
-        if (!agreedBefore) {
-            String tradeStatus = getAgreeOrNot();
-            trade.setUserStatus(userId, tradeStatus);
-            //remove items -- if agree
-            if (tradeStatus.equals("Agree")) {
-                respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
-            } else {
-                // cancel the trade so user can see it's cancelled in the list of cancelled trades
-                trade.cancelTrade();
-            }
-            ds.printResult(true);
-        }
-        //because the user already agreed so false request
-        ds.printResult(false);
-    }
-
-    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
-        // remove + record the borrowing/lending
-        removeItemFromUsers(userId11, userId22, itemId11);
-        if (!trade.getIsOneWayTrade()) {
-            // remove + record the borrowing/lending
-            removeItemFromUsers(userId11, userId22, itemid22);
-        }
-        // change the status to open
-        // so it won't be among the list of trade requests again
-        trade.openTrade();
-        mm.addMeeting(tradeID, userId11, userId22, 1, tm);
-    }
-
-    private void requestTrade(User thisUser) {
-        if (thisUser.getNumTransactionLeftForTheWeek() == 0){
-            // the case with user reaching the max number of transactions for the week
-            lockMessageForThreshold();
-        }
-        else {
-            // get whether it is one-way-trade or two-way-trade
-            int numKindOfTrade = getNumKindOfTrade();
-            // will store the validation value
-            boolean ok = false;
-            // will store the trade object
-            Trade trade;
-            // will store the item id if it's two-way-trade
-            int itemId2 = 0;
-            //get info for trade
-            int userId1 = getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
-            int userId2 = getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
-            int itemId = getItemID(getAllItems(), 1);
-            int tradeID = determineTradeID();
-            String tradeType = getTradeType();
-            if (numKindOfTrade == 2){ itemId2 = getItemID(getAllItems(), 1); }
-            //get the trade object
-            trade = getTrade(numKindOfTrade, itemId2, userId1, userId2, itemId, tradeID, tradeType);
-            // get the validation from the item side
-            ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
-            // use all these to determine the result
-            requestResult(thisUser, ok, trade, userId1);
-        }
-    }
-
-    private int determineTradeID() {
-        int tradeID;
-        if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
-        else {tradeID = 1;}
-        return tradeID;
-    }
-
-    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
-        boolean ok;
-        if (numKindOfTrade == 1) {
-            // pass in borrower, lender, item
-            ok = validateItems(userId1, userId2, itemId);
-        }
-        else {
-            // pass in (borrower for itemId + lender for itemId2) and (borrower for itemId2 + lender for itemId)
-            ok = validateItems(userId1, userId2, itemId, itemId2);
-        }
-        return ok;
-    }
-
-    private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
-        Trade trade;
-        if (numKindOfTrade == 1) {
-            // new one-way-trade
-            trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
-        }
-        else {
-            // new two-way-trade
-            trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
-        }
-        return trade;
-    }
-
-    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
-        if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
-            requestSuccess(thisUser, trade);
-        }
-        else {
-            requestFail(thisUser);
-        }
-    }
-
-    private void requestFail(User thisUser) {
-        //TODO if the trade request failed
-        ds.printResult(false);
-        // TODO: should I put this here?
-        // system auto-freeze
-        // user borrow more than lend
-        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
-            um.freezeUser(username);
-            ds.printOut("You're frozen because you borrowed more than you lend.");
-        }
-    }
-
-    private void requestSuccess(User thisUser, Trade trade) {
-        // add trade
-        tm.addTrade(trade);
-        // tell the user it's successful
-        ds.printResult(true);
-        // set status for the person who requested the trade
-        trade.setUserStatus(userId, "Agree");
-        // change the threshold value
-        changeNumTradesLeftForTheWeek(thisUser);
-    }
-
-    // TODO MOVE TO
-    public boolean validateItems(int borrower, int lender, int itemId){
-        return um.findUser(borrower).getWishList().contains(itemId) &&
-                um.findUser(lender).getInventory().contains(itemId);
-    }
-
-    // TODO MOVE TO
-    public boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
-        return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
-                validateItems(borrower2lender1, borrower1Lender2, itemId2);
-    }
-
-    // TODO: needs to be refactored
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
        /*
     1.Suggest/edit time and place for meetings
@@ -519,651 +235,28 @@ public class RegularUserController implements Serializable, Controllable {
         */
         switch (subMenuOption) {
             case 1:
-                EditMeetingTandP();
+                mmc.EditMeetingTandP();
                 break;
             case 2:
-                confirmMeetingTandP();
+                mmc.confirmMeetingTandP();
                 break;
             case 3:
-                confirmMeetingTookPlace();
+                mmc.confirmMeetingTookPlace();
                 break;
             case 4:
-                seeMeetingsToBeConfirmed(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
+                mmc.seeMeetingsToBeConfirmed(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
                 break;
             case 5:
-                seeMeetingsToBeConfirmed(mm.getCompleteMeeting(userId), " that have been confirmed");
+                mmc.seeMeetingsToBeConfirmed(mm.getCompleteMeeting(userId), " that have been confirmed");
                 break;
             case 6:
                 // See the list of meetings that has not yet been confirmed for time and place
-                unconfirmedTandPMeetings();
+                mmc.unconfirmedTandPMeetings();
                 break;
 
         }
 
     }
 
-    private void seeMeetingsToBeConfirmed(List<Meeting> unConfirmMeeting, String s) {
-        if (unConfirmMeeting.size() == 0) {
-            msgForNothing(s);
-        } else {
-            ds.printResult(new ArrayList<>(unConfirmMeeting));
-        }
-    }
-
-    private void confirmMeetingTookPlace() throws InvalidIdException {
-        if (mm.getMeetingsByUserId(userId).size() == 0){
-            msgForNothing(" that needs to be confirmed");
-        }
-        else {
-//              "confirmed" means the meeting haven't take place but time and place are confirmed
-            ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
-            Meeting meeting3 = getMeeting();
-            if (meeting3.getTradeId() != 0) {
-                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
-            }
-            else{
-                msgForMeetingDNE();
-            }
-        }
-    }
-
-    private void confirmMeetingTandP() throws InvalidIdException {
-        if (mm.getMeetingsByUserId(userId).size() == 0){
-            msgForNothing(" that needs to be confirmed");
-        }
-        else {
-            Meeting meeting2 = getMeeting();
-            if (meeting2.getTradeId() != 0) {
-                ds.printResult(meeting2.setTimePlaceConfirm(userId));
-            }
-            else{
-               msgForMeetingDNE();
-            }
-        }
-    }
-
-    private void EditMeetingTandP() throws InvalidIdException {
-        if (mm.getMeetingsByUserId(userId).size() == 0){
-            msgForNothing(" here that requires action");
-        }
-        else {
-            Meeting meeting = getMeeting();
-            if (meeting.getTradeId() != 0) {
-                int year = getYear();
-                int month = getMonth();
-                int day = getDay(year, month);
-                int hour = getHour();
-                int min = getMin();
-                int sec = 0;
-                String place = getPlace();
-                //int year, int month, int day, int hour, int min, int sec
-//              call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                ds.printResult(meeting.setTimePlaceEdit(userId, year, month, day, hour, min, sec, place));
-                // for the edit threshold
-                ds.printOut(mm.getEditOverThreshold(tm, meeting));
-            }
-            else{
-                msgForMeetingDNE();
-            }
-        }
-    }
-
-    private void unconfirmedTandPMeetings() throws InvalidIdException {
-        ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId,tm)));
-    }
-
-    // TODO: MOVE TO SystemMessage CLASS
-    private void msgForMeetingDNE() {
-        ds.printOut("This meeting doesn't exist in the system.");
-    }
-
-    // TODO: MOVE TO SystemMessage CLASS
-    private void msgForNothing(){
-        ds.printOut("There's nothing here.");
-        ds.printOut("\n");
-    }
-
-    // TODO: MOVE TO SystemMessage CLASS
-    private void msgForNothing(String nextPart){
-        ds.printOut("There's nothing " + nextPart + " .");
-        ds.printOut("\n");
-    }
-
-    // TODO: MOVE TO ThresholdController class
-    private void reassessNumTransactionsLeftForTheWeek(User thisUser) {
-        if (isFirstDayOfTheWeek() && !thresholdReassessed){
-            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
-            thresholdReassessed = true;
-        }
-        else if (!isFirstDayOfTheWeek()){
-            thresholdReassessed = false;
-        }
-    }
-
-    // TODO: MOVE TO SystemMessage CLASS
-    private void lockMessageForThreshold() {
-        ds.printOut("This option is locked");
-        ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
-        ds.printOut("\n");
-    }
-
-    // TODO: MOVE TO ThresholdController class
-    private void changeNumTradesLeftForTheWeek(User thisUser){
-        /*
-        Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
-         */
-        int currentVal = thisUser.getNumTransactionLeftForTheWeek();
-        thisUser.setTransactionLeftForTheWeek(currentVal-1);
-    }
-
-    // TODO: MOVE TO ThresholdController class
-    private boolean isFirstDayOfTheWeek(){
-        Calendar c = Calendar.getInstance();
-        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
-    }
-
-    // TODO: MOVE TO ThresholdController class
-    private boolean freezeUserOrNot(User thisUser){
-        int numFrozen = thisUser.getNumFrozen();
-        // find the num of uncompleted transactions
-        int numUncompletedTransactions = numUncompletedTransactions();
-        // if user went over the threshold
-        // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
-        int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
-        if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
-            um.freezeUser(username);
-            thisUser.addOneToNumFrozen();
-            return true;
-        }
-        return false;
-    }
-
-    // TODO: MOVE TO ThresholdController class
-    private int numUncompletedTransactions() {
-        List<Integer> uniqueTradeIDs = new ArrayList<>();
-        List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
-        for (Meeting meeting : overTimeMeetings){
-            int tradeID = meeting.getTradeId();
-            if (!uniqueTradeIDs.contains(tradeID)){
-                uniqueTradeIDs.add(tradeID);
-            }
-        }
-        return uniqueTradeIDs.size();
-    }
-
-    // TODO: MOVE TO InstanceGetter class
-    private Meeting getMeeting() throws InvalidIdException {
-        unconfirmedTandPMeetings();
-//      ask the user to enter the trade id, meetingNum, time and place
-        int tradeId = getTradeID();
-        int numMeeting = getNumMeeting();
-        return mm.getMeetingByIdNum(tradeId, numMeeting);
-    }
-
-    /**
-     * Other ask-user-for-input methods
-     */
-    // TODO: move to IDGetter class
-    private int getItemID(ArrayList<Item> potentialItems, int type) {
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        boolean okInput = false;
-        // all possible ids the user can pick from
-        ArrayList<Integer> potentialIds;
-        // depends on the option the user chooses
-        if (type == 1) {
-            potentialIds = getItemsIDs(potentialItems);
-        } else {
-            potentialIds = um.findUser(userId).getWishList();
-        }
-        Scanner sc = new Scanner(System.in);
-        int itemId = 0;
-        do {
-            ds.printOut("Please enter the id of the item: ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                itemId = sc.nextInt();
-                // if the input is valid
-                if (potentialIds.contains(itemId)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return itemId;
-    }
-
-    // TODO: move to IDGetter class
-    //TODO maybe put this somewhere else
-    private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
-        ArrayList<Integer> potentialIds = new ArrayList<>();
-        //get the id of all the items in the given arraylist
-        for (Item item : allOtherItems) {
-            potentialIds.add(item.getItemId());
-        }
-        return potentialIds;
-    }
-
-    // TODO: move to InfoGetter class
-    private String getItemName() {
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the name of the item: ");
-        return sc.nextLine();
-    }
-
-    // TODO: move to IdGetter class
-    //TODO maybe put this somewhere else - best to put it in itemManager
-    //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXIST IN THE ARRAYLIST
-    private Item idToItem(int id) {
-        //Get all the items in the system
-        ArrayList<Item> allOtherItems = getAllItems();
-        //find the item with <id>
-        for (Item item : allOtherItems) {
-            if (item.getOwnerId() == id) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    // TODO: move to IdGetter class - best to put it in itemManager
-    private ArrayList<Item> getAllItems() {
-        ArrayList<Item> allOtherItems = um.allItems(userId);
-        allOtherItems.addAll(um.findUser(userId).getInventory());
-        return allOtherItems;
-    }
-
-    // TODO: move to InfoGetter class
-    private String getMessage(String TypeOfMessage){
-        Scanner sc = new Scanner(System.in);
-        ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
-        StringBuilder fullMsg = new StringBuilder();
-        //read the first line
-        String msg = sc.nextLine();
-        //read in + append until user enters "OK"
-        while(!msg.equals("OK")){
-            fullMsg.append(msg);
-            msg = sc.nextLine();
-        }
-        return fullMsg.toString();
-    }
-
-    // TODO: move to IdGetter class
-    private int getUserID(String type){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int userId = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the userId of the " + type + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                userId = sc.nextInt();
-                // if the input is valid
-                if (um.checkUser(um.idToUsername(userId))) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return userId;
-    }
-
-    /* useless for now...
-    private enum TradeType{
-        Permanent, Temporary
-    }*/
-
-    // move to InfoGetter class
-    private String getTradeType(){
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the type of this trade (Permanent or Temporary) : ");
-        //read the first line
-        String tradeType = sc.nextLine();
-        //read in + append until user enters "OK"
-        while(!tradeType.equals("Permanent") && !tradeType.equals("Temporary")){
-            ds.printOut("Please enter a proper type!!!");
-            tradeType = sc.nextLine();
-        }
-        return tradeType;
-    }
-
-   // move to IdGetter class
-    private int getTradeID() {
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int tradeId = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the id of the trade : ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                tradeId = sc.nextInt();
-                // if the trade with this tradeId rests in the tradeManager
-                if (tm.checkInManager(tradeId)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return tradeId;
-    }
-
-    // move to InfoGetter class
-    private String getAgreeOrNot(){
-        Scanner sc = new Scanner(System.in);
-        boolean ok = false;
-        String response;
-        do {
-            ds.printOut("Agree / Disagree?");
-            response = sc.nextLine();
-            if (!response.equals("Agree") && !response.equals("Disagree")) {
-                ds.printOut("Invalid string (the system is case sensitive)! Please enter again");
-            } else {
-                ok = true;
-            }
-        }
-        while(!ok);
-        return response;
-    }
-
-    // move to DatetimeGetter class
-    private int getYear(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int year = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the year (2020-2030) " + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                year = sc.nextInt();
-                // if the input is valid
-                if (isValidYear(year)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid year!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return year;
-    }
-
-    // move to DatetimeGetter class
-    private int getMonth(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int month = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the month (1-12)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                month = sc.nextInt();
-                // if the input is valid
-                if (isValidMonth(month)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid month!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return month;
-    }
-
-    // move to DatetimeGetter class
-    private int getDay(int year, int month){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int day = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the day" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                day = sc.nextInt();
-                // if the input is valid
-                if (isValidDay(year, month, day)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid day!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return day;
-
-    }
-
-    // move to DatetimeGetter class
-    private int getHour(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int hour = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the hour (1-24)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                hour = sc.nextInt();
-                // if the input is valid
-                if (isValidHour(hour)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid hour!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return hour;
-
-    }
-
-    // move to DatetimeGetter class
-    private int getMin(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int min = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the minute (0-59)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                min = sc.nextInt();
-                // if the input is valid
-                if (isValidMin(min)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid minute!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return min;
-
-    }
-
-    // move to DatetimeGetter class
-    private boolean isValidYear(int year){
-        return 2020 <= year && year <= 2030;
-    }
-
-    // move to DatetimeGetter class
-    private boolean isValidMonth(int month){
-        return 1 <= month && month <= 12;
-    }
-
-    // move to DatetimeGetter class
-    private boolean isValidDay(int year, int month, int day){
-        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
-            return 1 <= day && day <= 31;
-        }
-        else if(month == 4 || month == 6|| month == 9 || month == 11){
-            return 1 <= day && day <= 30;
-        }
-        else{
-            if (year % 4 == 0 && (year % 100 != 0 || year % 100 == 0 && year % 400 == 0)){
-                return 1 <= day && day <= 29;
-            }
-            return 1 <= day && day <= 28;
-        }
-    }
-    // move to DatetimeGetter class
-    private boolean isValidHour(int hour){
-        return 1 <= hour && hour <= 24;
-    }
-    // move to DatetimeGetter class
-    private boolean isValidMin(int min){
-        return 0 <= min && min <= 59;
-    }
-
-    // move to InfoGetter class
-    private String getPlace(){
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the name of the place: ");
-        String place;
-        //read the first line
-        place = sc.nextLine();
-        return place;
-    }
-
-    // move to InfoGetter class
-    private int getNumMeeting(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the meeting number (1 - first, 2 - second)"  + " : ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                num = sc.nextInt();
-                // if the input is valid
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid meeting number!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return num;
-
-    }
-
-    // move to infoGetter class
-    private int getNumKindOfTrade(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter an integer (1 - one-way-trade, 2 - two-way-trade)" + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                num = sc.nextInt();
-                // if the input is valid
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid integer!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return num;
-    }
-
-
-    // move to userManager or something
-    private void removeItemFromUsers(int userId1, int userId2, int itemId) {
-        User user1 = um.findUser(userId1);
-        User user2 = um.findUser(userId2);
-        //TODO: shouldn't call contains here - maybe have a method for it in
-        // the item manager
-        if (user1.getWishList().contains(itemId)) {
-            //user1 = borrower
-            um.removeItemWishlist(itemId, user1.getUsername());
-            // record the borrow
-            user1.addOneToNumBorrowed();
-            //remove the item from user2's inventory
-            um.removeItemInventory(itemId, user2.getUsername());
-            // record the lend
-            user2.addOneToNumLent();
-        } else {
-            //user2 = borrower
-            um.removeItemWishlist(itemId, user2.getUsername());
-            // record the borrow
-            user2.addOneToNumBorrowed();
-            //remove item from user1's inventory
-            um.removeItemInventory(itemId, user1.getUsername());
-            // record the lend
-            user1.addOneToNumLent();
-
-        }
-    }
 }
 
