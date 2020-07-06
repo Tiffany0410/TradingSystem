@@ -46,7 +46,7 @@ public class DemoMain {
             // Run trading system
             condition = tradingSystem.tradingSystemInital();
         } catch (ClassNotFoundException ex){
-            System.out.println("Can not find file");
+            System.out.println("Can not find file, Please check the root of the program and README file.");
             break;
         } catch (IOException ex){
             System.out.println("IO Exception");
