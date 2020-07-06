@@ -15,3 +15,33 @@ Description Of Our Project:
 
 
 
+
+
+
+    
+
+
+
+
+
+
+
+Things you should know before running this program:
+
+    - To run our program properly, make phase 1 the root or change the build configurations (add the “\phase1” to
+      the end of the working directory)
+
+    - You can create a regular user by going to the main menu create account option.
+      See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
+      for the username, password, and email information about the user you created
+
+    - you can add an admin user to the system by logging in as an admin user (see “AdminUserUsernameAndPassword.csv”)
+      for username and passwords and going to the Others submenu where you should see the option to add another admin
+      user
+
+    - In “RegularUserUsernameAndPassword.csv” or “AdminUserUsernameAndPassword.csv”, each line is in the following format
+      and corresponds to one user: username, password, email
+
+
+
+
