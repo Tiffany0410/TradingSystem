@@ -85,6 +85,8 @@ public class AdminUserController implements Controllable {
                 ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
+                ds.printOut("Here's the list of user who request to be unfrozen:");
+                ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
 //              asks the admin for the username of the user to UNFREEZE
                 ds.printOut("Please enter the username of the user to UNFREEZE");
 //              let presenter print the msg of successful or not

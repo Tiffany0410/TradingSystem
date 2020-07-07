@@ -141,8 +141,10 @@ public class DisplaySystem {
     public void printResult(boolean result){
         if (result){
             printOut("Success");
+            printOut("\n");
         }else{
             printOut("Fail");
+            printOut("\n");
         }
     }
 
@@ -153,8 +155,17 @@ public class DisplaySystem {
     public void printResult(ArrayList<Object> obj) {
         int count = 1;
         for (Object o : obj) {
-        this.printOut("#" + count + ". " + o.toString() + "\n");
-        count++;
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                this.printOut("#" + count + ". " + o.toString() + "\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[])o;
+                this.printOut("#" + count + ". " + "\n" + "Username: " + strings[0]);
+                this.printOut("Message: " + strings[1] + "\n");
+            }
+            count++;
         }
     }
 
@@ -167,8 +178,10 @@ public class DisplaySystem {
     public void printResult(String str, boolean result){
         if (result){
             printOut(str + " is sent successfully");
+            printOut("\n");
         }else{
             printOut(str + " fails to be sent");
+            printOut("\n");
         }
     }
 }

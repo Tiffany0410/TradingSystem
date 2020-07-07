@@ -82,7 +82,7 @@ public class RegularUserAccountMenuController {
      */
     protected void requestAddItem() {
         um.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
-        ds.printResult("Your request to add item", true);
+        ds.printResult("Your add-item request", true);
     }
 
     /**
@@ -90,7 +90,7 @@ public class RegularUserAccountMenuController {
      * and let the user manager handle it.
      */
     protected void RequestToUnfreeze() {
-        ds.printResult("Your request to add unfreeze", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
+        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
     }
 
     /**
