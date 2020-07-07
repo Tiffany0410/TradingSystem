@@ -53,43 +53,6 @@ public class RegularUserController implements Serializable, Controllable {
         this.sm = new SystemMessage();
     }
 
-    // TODO: move to a presenter class
-    /**
-     * This method gathers all the necessary notifications
-     * for the regular user.
-     *
-     * @return Notifications as properly formatted strings.
-     * @throws FileNotFoundException In case the file can't be found.
-     */
-    @Override
-    public String alerts() throws IOException {
-        //Read this in from file
-        //Exception needs to be resolved in main or TradingSystem.
-        StringBuilder notification;
-        notification = new StringBuilder();
-        String filepath = "./src/Alerts/UserAlerts.csv";
-        notification.append(rw.readFromMenu(filepath)).append("\n");
-        activeAlerts(notification);
-        return notification.toString();
-    }
-
-    private void activeAlerts(StringBuilder notification) {
-        User regUser = um.findUser(username);
-        if (!regUser.getIfFrozen()) {
-            // this check if for the uncompletedTransactions one
-           if (tc.freezeUserOrNot(regUser)){
-               ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
-           }
-        }
-        notification.append("The answer to you're frozen is ").append(regUser.getIfFrozen()).append("\n");
-        notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
-        notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
-        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
-        notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek()).append("\n");
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete()).append("\n");
-        notification.append("Max number of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
-        notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits()).append("\n");
-    }
 
     /**
      * This method calls appropriate methods based on user input

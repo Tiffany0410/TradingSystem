@@ -70,7 +70,7 @@ public class RegularUserIDGetter {
                 if (potentialIds.contains(itemId)) {
                     okInput = true;
                 } else {
-                    ds.printOut("Please enter a valid id!");
+                    ds.printOut("Please enter a valid id for this purpose!");
                 }
             } else {
                 sc.nextLine();
@@ -101,7 +101,8 @@ public class RegularUserIDGetter {
         ArrayList<Item> allOtherItems = getAllItems();
         //find the item with <id>
         for (Item item : allOtherItems) {
-            if (item.getOwnerId() == id) {
+            // compare item id with given id
+            if (item.getItemId() == id) {
                 return item;
             }
         }

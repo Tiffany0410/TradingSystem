@@ -62,6 +62,7 @@ public class RegularUserAccountMenuController {
         ds.printOut("\n");
         ds.printOut("Your inventory: ");
         ds.printResult(new ArrayList<>(inventory));
+        ds.printOut("\n");
 
     }
 

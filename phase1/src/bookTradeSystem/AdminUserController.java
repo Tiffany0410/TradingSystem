@@ -40,22 +40,6 @@ public class AdminUserController implements Serializable, Controllable {
     }
 
 
-    // TODO: move to a presenter class
-    /**
-     * This method gathers all the necessary notifications
-     * for the admin user.
-     * @return Notifications as properly formatted strings.
-     * @throws FileNotFoundException In case the file can't be found.
-     */
-    @Override
-    public String alerts() throws IOException {
-        //Read this in from file
-        //Exception needs to be resolved in main or TradingSystem.
-        //String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
-        String filepath = "./src/Alerts/AdminAlerts.csv"; // move it to src and not the bookTradeSystem
-        return rw.readFromMenu(filepath);
-    }
-
     /**
      * This method calls appropriate methods based on user input of
      * the menu option (other than the logout or exit option)

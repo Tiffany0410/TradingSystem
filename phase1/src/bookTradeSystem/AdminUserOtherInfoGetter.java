@@ -35,7 +35,7 @@ public class AdminUserOtherInfoGetter {
         // does not store the number of items but the number of the item the admin chooses
         int numItem = 0;
         do{
-            ds.printOut("Enter the number of the item in the above list ");
+            ds.printOut("Enter the number of the item in the above list (the number beside the #");
             if(sc.hasNextInt()){
                 numItem = sc.nextInt();
                 if (1<= numItem && numItem <= numItemsToAdd) {
