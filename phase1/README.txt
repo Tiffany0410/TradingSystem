@@ -28,8 +28,11 @@ Description Of Our Project:
 
 Things you should know before running this program:
 
-    - To run our program properly, make phase 1 the root or change the build configurations (add the “\phase1” to
+    - To run our program properly, make phase 1 as the root or change the build configurations (add the “\phase1” to
       the end of the working directory)
+
+    - For first time running the program, please clear all content of the files in Manager folder except
+      AdminUserUsernameAndPassword.csv
 
     - You can create a regular user by going to the main menu create account option.
       See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
@@ -46,5 +49,15 @@ Things you should know before running this program:
     until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
 
 
-
+Key feature of adminuser manage user menu:
+    1. Freeze user:
+       admin user can freeze a user from trading if admin user think this user violate the rule of trading by typing the
+       user name of the user
+    2. Unfreeze user:
+       admin user can see the list of user request unfreeze and decide to unfreeze which user by typing the username of
+       the user
+    3. Confirm and add item to user's inventory:
+       admin user can see the request of user want to add item into their inventory and approve this request
+    0. Exit menu:
+       return to adminuser main menu.
 
