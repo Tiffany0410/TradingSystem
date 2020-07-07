@@ -49,7 +49,7 @@ public class DemoMain {
             System.out.println("Can not find file, Please check the root of the program and README file.");
             break;
         } catch (IOException ex){
-            System.out.println("IO Exception, try to clean the content of the files in Managers folder");
+            System.out.println("Please try to clean the content of the files in Managers folder");
             break;
         }
         }

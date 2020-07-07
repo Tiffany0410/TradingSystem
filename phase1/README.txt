@@ -28,8 +28,11 @@ Description Of Our Project:
 
 Things you should know before running this program:
 
-    - To run our program properly, make phase 1 the root or change the build configurations (add the “\phase1” to
+    - To run our program properly, make phase 1 as the root or change the build configurations (add the “\phase1” to
       the end of the working directory)
+
+    - For first time running the program, please clear all content of the files in Manager folder except
+      AdminUserUsernameAndPassword.csv
 
     - You can create a regular user by going to the main menu create account option.
       See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
