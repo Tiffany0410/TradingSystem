@@ -4,7 +4,6 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class DisplaySystem {
@@ -156,6 +155,20 @@ public class DisplaySystem {
         for (Object o : obj) {
         this.printOut("#" + count + ". " + o.toString() + "\n");
         count++;
+        }
+    }
+
+    /**
+     * print out the result of action with string and boolean type
+     * @param str the sentence want to present
+     * @param result the result of the action
+     */
+
+    public void printResult(String str, boolean result){
+        if (result){
+            printOut(str + "Success");
+        }else{
+            printOut(str + "Fail");
         }
     }
 }
