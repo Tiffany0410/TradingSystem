@@ -2,6 +2,11 @@ package bookTradeSystem;
 
 import java.util.Scanner;
 
+/**
+ * An instance of this class represents the other information
+ * getter for the RegularUserController class.
+ */
+
 public class RegularUserOtherInfoGetter {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
@@ -20,6 +25,7 @@ public class RegularUserOtherInfoGetter {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserOtherInfoGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
                                             UserManager um, String username, int userId) {
@@ -31,7 +37,10 @@ public class RegularUserOtherInfoGetter {
         this.userId = userId;
     }
 
-    // TODO: move to InfoGetter class
+    /**
+     * Get the name of the item from the user.
+     * @return The name of the item.
+     */
     protected String getItemName() {
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the name of the item: ");
@@ -39,8 +48,11 @@ public class RegularUserOtherInfoGetter {
     }
 
 
-
-    // TODO: move to InfoGetter class
+    /**
+     * Gets user's message, which can be in any length.
+     * @param TypeOfMessage The part of the message that relates to the context.
+     * @return User's message in string format.
+     */
     protected String getMessage(String TypeOfMessage){
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
@@ -55,13 +67,11 @@ public class RegularUserOtherInfoGetter {
         return fullMsg.toString();
     }
 
-
-    /* useless for now...
-    private enum TradeType{
-        Permanent, Temporary
-    }*/
-
-    // move to InfoGetter class
+    /**
+     * Get the type of the trade from the user.
+     * For now, there're only permanent and temporary.
+     * @return The type of the trade.
+     */
     protected String getTradeType(){
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the type of this trade (Permanent or Temporary) : ");
@@ -69,14 +79,18 @@ public class RegularUserOtherInfoGetter {
         String tradeType = sc.nextLine();
         //read in + append until user enters "OK"
         while(!tradeType.equals("Permanent") && !tradeType.equals("Temporary")){
-            ds.printOut("Please enter a proper type!!!");
+            ds.printOut("Please enter a proper type (the system is case sensitive)");
             tradeType = sc.nextLine();
         }
         return tradeType;
     }
 
 
-    // move to InfoGetter class
+    /**
+     * Get the response from the user to
+     * the agree or not question.
+     * @return User's response.
+     */
     protected String getAgreeOrNot(){
         Scanner sc = new Scanner(System.in);
         boolean ok = false;
@@ -95,7 +109,10 @@ public class RegularUserOtherInfoGetter {
     }
 
 
-    // move to InfoGetter class
+    /**
+     * Get user's input of the place.
+     * @return User's input of the place.
+     */
     protected String getPlace(){
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the name of the place: ");
@@ -105,7 +122,10 @@ public class RegularUserOtherInfoGetter {
         return place;
     }
 
-    // move to InfoGetter class
+    /**
+     * Get user's input of the meeting number.
+     * @return User's valid input of the meeting number.
+     */
     protected int getNumMeeting(){
         /*
          * Based on code by Yassine.b from
@@ -134,7 +154,12 @@ public class RegularUserOtherInfoGetter {
 
     }
 
-    // move to infoGetter class
+    /**
+     * Get user's input of the kind of trade.
+     * For now, there are one-way-trade and
+     * two-way-trade.
+     * @return User's input of the kind of trade.
+     */
     protected int getNumKindOfTrade(){
         /*
          * Based on code by Yassine.b from

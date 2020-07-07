@@ -166,9 +166,9 @@ public class DisplaySystem {
 
     public void printResult(String str, boolean result){
         if (result){
-            printOut(str + "Success");
+            printOut(str + " is sent successfully");
         }else{
-            printOut(str + "Fail");
+            printOut(str + " fails to be sent");
         }
     }
 }

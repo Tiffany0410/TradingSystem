@@ -28,6 +28,7 @@ public class RegularUserAccountMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds,
                                  TradeManager tm, MeetingManager mm,
@@ -81,7 +82,7 @@ public class RegularUserAccountMenuController {
      */
     protected void requestAddItem() {
         um.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
-        ds.printResult(true);
+        ds.printResult("Your request to add item", true);
     }
 
     /**
@@ -89,7 +90,7 @@ public class RegularUserAccountMenuController {
      * and let the user manager handle it.
      */
     protected void RequestToUnfreeze() {
-        ds.printResult(um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
+        ds.printResult("Your request to add unfreeze", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
     }
 
     /**

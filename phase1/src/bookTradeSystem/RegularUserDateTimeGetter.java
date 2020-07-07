@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class RegularUserDateTimeGetter {
 
     /**
-     * Constructs for RegularUserDateTimeGetter
+     * Constructs for RegularUserDateTimeGetter.
      */
     public RegularUserDateTimeGetter() {
 

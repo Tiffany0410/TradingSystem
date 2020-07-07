@@ -3,9 +3,17 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * An instance of this class represents the
+ * communication bridge from the system
+ * to the user.
+ */
 public class SystemMessage {
 
 
+    /**
+     * Constructs a SystemMessage instance.
+     */
     public SystemMessage(){
 
     }

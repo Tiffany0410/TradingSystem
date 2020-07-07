@@ -3,6 +3,10 @@ package bookTradeSystem;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter, for the meeting menu part.
+ */
 public class RegularUserMeetingMenuController {
 
     private SystemMessage sm;
@@ -26,6 +30,7 @@ public class RegularUserMeetingMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserMeetingMenuController(DisplaySystem ds,
                                             TradeManager tm, MeetingManager mm,
@@ -42,6 +47,12 @@ public class RegularUserMeetingMenuController {
         this.sm = new SystemMessage();
     }
 
+    /**
+     * Let the presenter print the list of unconfirmed meetings if there are any,
+     * otherwise, print to let user know that there aren't any.
+     * @param unConfirmMeeting The list of unconfirmed meetings.
+     * @param s The specific part of the message that relates to context.
+     */
     protected void seeMeetingsToBeConfirmed(List<Meeting> unConfirmMeeting, String s) {
         if (unConfirmMeeting.size() == 0) {
             sm.msgForNothing(s, ds);
@@ -50,6 +61,13 @@ public class RegularUserMeetingMenuController {
         }
     }
 
+    /**
+     * If there're meetings that need to be confirmed,
+     * get user's input of the meeting information and let the user
+     * confirm the meeting. Else, print to let user know that there
+     * aren't any.
+     * @throws InvalidIdException In case if the id is not valid.
+     */
     protected void confirmMeetingTookPlace() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing(" that needs to be confirmed", ds);
@@ -65,6 +83,13 @@ public class RegularUserMeetingMenuController {
         }
     }
 
+    /**
+     * If there're meetings that need to be confirmed for time and place
+     * get user's input of the meeting information and let the user
+     * confirm the meeting. Else, print to let user know that there
+     * aren't any.
+     * @throws InvalidIdException In case if the id is not valid.
+     */
     protected void confirmMeetingTandP() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing(" that needs to be confirmed", ds);
@@ -78,6 +103,13 @@ public class RegularUserMeetingMenuController {
         }
     }
 
+    /**
+     * If there're any meetings that need to be edited for time
+     * and place, let the user input the input of the meeting information
+     * and let the user edit the time and place. Else, print to
+     * let the user know that there aren't any.
+     * @throws InvalidIdException In case if the id is not valid.
+     */
     protected void EditMeetingTandP() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing(" here that requires action", ds);
@@ -99,10 +131,27 @@ public class RegularUserMeetingMenuController {
         }
     }
 
+    /**
+     * Let the presenter print the list of unconfirmed meetings
+     * with unconfirmed time and place, if there are any.
+     * Else, print to let the user know that there aren't any.
+     * @throws InvalidIdException In case if the id is not valid.
+     */
     protected void unconfirmedTandPMeetings() throws InvalidIdException {
-        ds.printResult(new ArrayList<>(mm.getUnConfirmTimePlace(userId, tm)));
+        List<Meeting> listOfUnconfirmedTimePlace = mm.getUnConfirmTimePlace(userId, tm);
+        if (listOfUnconfirmedTimePlace.size() != 0) {
+            ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
+        }
+        else{
+            sm.msgForNothing(" that needs to be confirmed", ds);
+        }
     }
 
+    /**
+     * Asks the user for the meeting information and finds that meeting.
+     * @return The meeting instance that match user's input of the meeting information.
+     * @throws InvalidIdException In case if the id is not valid.
+     */
     private Meeting getMeeting() throws InvalidIdException {
         unconfirmedTandPMeetings();
 //      ask the user to enter the trade id, meetingNum, time and place

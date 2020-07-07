@@ -25,6 +25,7 @@ public class RegularUserIDGetter {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserIDGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
                                  UserManager um, String username, int userId) {

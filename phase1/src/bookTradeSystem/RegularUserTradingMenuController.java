@@ -3,6 +3,10 @@ package bookTradeSystem;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An instance of this class represents the threshold
+ * controller for the RegularUserController class.
+ */
 public class RegularUserTradingMenuController {
 
     private RegularUserThresholdController tc;
@@ -25,6 +29,7 @@ public class RegularUserTradingMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserTradingMenuController(DisplaySystem ds,
                                           TradeManager tm, MeetingManager mm,
@@ -41,6 +46,13 @@ public class RegularUserTradingMenuController {
         this.sm = new SystemMessage();
     }
 
+    /**
+     * If the user has top three trading partners,
+     * print it to the screen. Else, print
+     * an appropriate message to inform the user
+     * of so.
+     * @throws InvalidIdException In case the id is invalid.
+     */
     protected void seeTopThreePartners() throws InvalidIdException {
         if (tm.getTradeHistory(userId).size() != 0){
             List<Integer> topThreeIDS= tm.topThreePartners(userId);
@@ -56,11 +68,17 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    /**
+     * Asks the user to confirm the trade to be complete.
+     * If there're no open trades, print an appropriate
+     * message.
+     * @throws InvalidIdException In case the id is invalid.
+     */
     protected void confirmTradeComplete() throws InvalidIdException {
         if (tm.getOpenTrade(userId).size() != 0) {
             ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
             int tradeId = idGetter.getTradeID();
-//              let user enter trade id and we use it to confirm complete
+//           let user enter trade id and we use it to confirm complete
             ds.printResult(tm.confirmComplete(tradeId));
         }
         else{
@@ -68,6 +86,13 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    /**
+     * Let the presenter to print to screen
+     * all of user's open trades, if there are
+     * any. If there aren't any, print
+     * an appropriate message.
+     * @param openTrade The list of open trades for the user.
+     */
     protected void viewOpenTrades(List<Trade> openTrade) {
         if (openTrade.size() != 0) {
             ds.printResult(new ArrayList<>(openTrade));
@@ -76,6 +101,16 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    /**
+     * Get from user the information about the trade the user
+     * wants to respond to and determine whether the
+     * response is successfully sent or not. If there're no
+     * outstanding trade requests or if the user has reached
+     * the maximum number of transactions
+     * for a week threshold, print an appropriate message.
+     * @param thisUser The user to respond to the request.
+     * @throws InvalidIdException In case the id is invalid.
+     */
     protected void respondToTradeRequests(User thisUser) throws InvalidIdException {
         if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
             // the case with user reaching the max number of transactions for the week
@@ -111,14 +146,14 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    protected boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
+    private boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
         if (agree) {
             agreedBefore = b;
         }
         return agreedBefore;
     }
 
-    protected void respondResult(int tradeID, Trade trade, int itemid22, boolean agreedBefore, int userId11, int userId22, int itemId11) throws InvalidIdException {
+    private void respondResult(int tradeID, Trade trade, int itemid22, boolean agreedBefore, int userId11, int userId22, int itemId11) throws InvalidIdException {
         // if the user haven't agreed before
         if (!agreedBefore) {
             String tradeStatus = otherInfoGetter.getAgreeOrNot();
@@ -130,13 +165,13 @@ public class RegularUserTradingMenuController {
                 // cancel the trade so user can see it's cancelled in the list of cancelled trades
                 trade.cancelTrade();
             }
-            ds.printResult(true);
+            ds.printResult("Your response to this trade request", true);
         }
         //because the user already agreed so false request
         ds.printResult(false);
     }
 
-    protected void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
         if (!trade.getIsOneWayTrade()) {
@@ -149,6 +184,14 @@ public class RegularUserTradingMenuController {
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
 
+    /**
+     * Get from user the information about the trade the user
+     * request and determine whether the request is sent
+     * successfully sent or not. If the user has reached
+     * the maximum number of transactions
+     * for a week threshold, print an appropriate message.
+     * @param thisUser The user who wants to request the trade.
+     */
     protected void requestTrade(User thisUser) {
         if (thisUser.getNumTransactionLeftForTheWeek() == 0){
             // the case with user reaching the max number of transactions for the week
@@ -179,14 +222,14 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    protected int determineTradeID() {
+    private int determineTradeID() {
         int tradeID;
         if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
         else {tradeID = 1;}
         return tradeID;
     }
 
-    protected boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
+    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
         boolean ok;
         if (numKindOfTrade == 1) {
             // pass in borrower, lender, item
@@ -199,7 +242,8 @@ public class RegularUserTradingMenuController {
         return ok;
     }
 
-    protected Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
+
+    private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Trade trade;
         if (numKindOfTrade == 1) {
             // new one-way-trade
@@ -212,7 +256,7 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    protected void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
+    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
         if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
             requestSuccess(thisUser, trade);
         }
@@ -221,7 +265,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    protected void requestFail(User thisUser) {
+    private void requestFail(User thisUser) {
         //TODO if the trade request failed
         ds.printResult(false);
         // TODO: should I put this here?
@@ -233,7 +277,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    protected void requestSuccess(User thisUser, Trade trade) {
+    private void requestSuccess(User thisUser, Trade trade) {
         // add trade
         tm.addTrade(trade);
         // tell the user it's successful
@@ -244,14 +288,14 @@ public class RegularUserTradingMenuController {
         tc.changeNumTradesLeftForTheWeek(thisUser);
     }
 
-    // TODO MOVE TO
-    protected boolean validateItems(int borrower, int lender, int itemId){
+
+    private boolean validateItems(int borrower, int lender, int itemId){
         return um.findUser(borrower).getWishList().contains(itemId) &&
                 um.findUser(lender).getInventory().contains(itemId);
     }
 
-    // TODO MOVE TO
-    protected boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
+
+    private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
         return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }

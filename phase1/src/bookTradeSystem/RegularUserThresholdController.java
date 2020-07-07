@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * An instance of this class represents the threshold
+ * controller for the RegularUserController class.
+ */
+
 public class RegularUserThresholdController {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
@@ -24,6 +29,7 @@ public class RegularUserThresholdController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserThresholdController(DisplaySystem ds,
                                       TradeManager tm, MeetingManager mm,
@@ -37,7 +43,11 @@ public class RegularUserThresholdController {
         this.thresholdReassessed = false;
     }
 
-    // TODO: MOVE TO ThresholdController class
+    /**
+     * Re-assess user's number of transactions left for the week.
+     * @param thisUser The user to be re-assessed the number of transactions
+     *                 left for the week for.
+     */
     protected void reassessNumTransactionsLeftForTheWeek(User thisUser) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
             thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
@@ -48,7 +58,12 @@ public class RegularUserThresholdController {
         }
     }
 
-    // TODO: MOVE TO ThresholdController class
+    /**
+     * Decrement the number of trades left for the week
+     * for this user by one.
+     * @param thisUser The user whose number of trade left for
+     *                 the week is to be changed.
+     */
     protected void changeNumTradesLeftForTheWeek(User thisUser){
         /*
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
@@ -58,13 +73,22 @@ public class RegularUserThresholdController {
     }
 
 
-    // TODO: MOVE TO ThresholdController class
+    /**
+     * Finds out if now, or today, is the first day of the week.
+     * @return Whether now is the first day of the week.
+     */
     protected boolean isFirstDayOfTheWeek(){
         Calendar c = Calendar.getInstance();
         return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
 
-    // TODO: MOVE TO ThresholdController class
+    /**
+     * Judge whether the user should be frozen and actually do so
+     * based on the maximum uncompleted transactions allowed before
+     * the user is frozen threshold.
+     * @param thisUser The user to be determined whether he/she should be frozen or not.
+     * @return Whether the user is frozen or not.
+     */
     protected boolean freezeUserOrNot(User thisUser){
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
@@ -80,8 +104,8 @@ public class RegularUserThresholdController {
         return false;
     }
 
-    // TODO: MOVE TO ThresholdController class
-    protected int numUncompletedTransactions() {
+
+     private int numUncompletedTransactions() {
         List<Integer> uniqueTradeIDs = new ArrayList<>();
         List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
         for (Meeting meeting : overTimeMeetings){
