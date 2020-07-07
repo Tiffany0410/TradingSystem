@@ -4,7 +4,6 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class DisplaySystem {
@@ -145,6 +144,7 @@ public class DisplaySystem {
         }else{
             printOut("Fail");
         }
+        printOut("\n");
     }
 
     /**
@@ -154,8 +154,33 @@ public class DisplaySystem {
     public void printResult(ArrayList<Object> obj) {
         int count = 1;
         for (Object o : obj) {
-        this.printOut("#" + count + ". " + o.toString() + "\n");
-        count++;
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                this.printOut("#" + count + ". " + o.toString() + "\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[])o;
+                this.printOut("#" + count + ". " + "\n" + "Username: " + strings[0]);
+                this.printOut("Message: " + strings[1] + "\n");
+            }
+            count++;
+        }
+    }
+
+    /**
+     * print out the result of action with string and boolean type
+     * @param str the sentence want to present
+     * @param result the result of the action
+     */
+
+    public void printResult(String str, boolean result){
+        if (result){
+            printOut(str + " is sent successfully");
+            printOut("\n");
+        }else{
+            printOut(str + " fails to be sent");
+            printOut("\n");
         }
     }
 }

@@ -11,6 +11,8 @@ public class TradingSystem {
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
    private FilesReaderWriter filesReaderWriter;
+   private RegularUserThresholdController tc;
+   private SystemMessage sm;
 
    /**
     * constructor of trading system
@@ -26,6 +28,7 @@ public class TradingSystem {
       this.tradeManager = tradeManager;
       this.filesReaderWriter = filesReaderWriter;
       this.accountCreator = accountCreator;
+      this.sm = new SystemMessage();
    }
 
 
@@ -117,8 +120,12 @@ public class TradingSystem {
    private void regularUserMain(String userName) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, userName);
+      // Initialize the threshold controller
+      tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
+              userName, userManager.usernameToID(userName));
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(regularUserController.alerts());
+      displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.filesReaderWriter, this.displaySystem,
+              userName));
 
       int option;
       option = displaySystem.getMenuAnswer("./src/Menus/RegularUserMainMenu.csv");
@@ -184,7 +191,7 @@ public class TradingSystem {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
               this.filesReaderWriter, this.userManager);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(adminUserController.alerts());
+      displaySystem.printOut(sm.AdminUserAlerts(filesReaderWriter));
 
       int option;
       option = displaySystem.getMenuAnswer("./src/Menus/AdminUserMainMenu.csv");

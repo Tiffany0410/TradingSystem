@@ -3,6 +3,10 @@ package bookTradeSystem;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * An instance of this class represents the id
+ * getter for the RegularUserController class.
+ */
 public class RegularUserIDGetter {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
@@ -21,6 +25,7 @@ public class RegularUserIDGetter {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserIDGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
                                  UserManager um, String username, int userId) {
@@ -32,6 +37,15 @@ public class RegularUserIDGetter {
         this.userId = userId;
     }
 
+    /**
+     * Get the item id from the user.
+     * @param potentialItems The list of potential items
+     *                       that should contain item with the item id
+     *                       input by the user.
+     * @param type The type of the item id to get from the user. It could
+     *             be from user's wish list or other list of items.
+     * @return The valid item id input by the user.
+     */
     protected int getItemID(ArrayList<Item> potentialItems, int type) {
         /*
          * Based on code by Yassine.b from
@@ -57,7 +71,7 @@ public class RegularUserIDGetter {
                 if (potentialIds.contains(itemId)) {
                     okInput = true;
                 } else {
-                    ds.printOut("Please enter a valid id!");
+                    ds.printOut("Please enter a valid id for this purpose!");
                 }
             } else {
                 sc.nextLine();
@@ -67,9 +81,8 @@ public class RegularUserIDGetter {
         return itemId;
     }
 
-    // TODO: move to IDGetter class
-    //TODO maybe put this somewhere else
-    protected ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
+
+    private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
         ArrayList<Integer> potentialIds = new ArrayList<>();
         //get the id of all the items in the given arraylist
         for (Item item : allOtherItems) {
@@ -78,29 +91,41 @@ public class RegularUserIDGetter {
         return potentialIds;
     }
 
-    // TODO: move to IdGetter class
-    //TODO maybe put this somewhere else - best to put it in itemManager
-    //TODO MAKE SURE ALL IDS IN RECENT THREE ITEMS METHOD EXIST IN THE ARRAYLIST
+
+    /**
+     * Get the actual item object with a given item id.
+     * @param id The id of the item.
+     * @return The actual item object with the id.
+     */
     protected Item idToItem(int id) {
         //Get all the items in the system
         ArrayList<Item> allOtherItems = getAllItems();
         //find the item with <id>
         for (Item item : allOtherItems) {
-            if (item.getOwnerId() == id) {
+            // compare item id with given id
+            if (item.getItemId() == id) {
                 return item;
             }
         }
         return null;
     }
 
-    // TODO: move to IdGetter class - best to put it in itemManager
-    protected ArrayList<Item> getAllItems() {
+
+    /**
+     * Get all the items in the system.
+     * @return All the items in the system.
+     */
+    public ArrayList<Item> getAllItems() {
         ArrayList<Item> allOtherItems = um.allItems(userId);
         allOtherItems.addAll(um.findUser(userId).getInventory());
         return allOtherItems;
     }
 
-    // TODO: move to IdGetter class
+    /**
+     * Get the user id from the user.
+     * @param type The type of user the system wants the id from.
+     * @return A valid user id for the type of user.
+     */
     protected int getUserID(String type){
         /*
          * Based on code by Yassine.b from
@@ -128,7 +153,10 @@ public class RegularUserIDGetter {
         return userId;
     }
 
-    // move to IdGetter class
+    /**
+     * Asks the user for the trade id.
+     * @return A valid trade id input by the user.
+     */
     protected int getTradeID() {
         /*
          * Based on code by Yassine.b from

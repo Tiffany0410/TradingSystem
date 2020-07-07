@@ -8,16 +8,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * An instance of this class represents the datetime
+ * getter for the RegularUserController class.
+ */
 public class RegularUserDateTimeGetter {
 
     /**
-     * Constructs for RegularUserDateTimeGetter
+     * Constructs for RegularUserDateTimeGetter.
      */
     public RegularUserDateTimeGetter() {
 
     }
 
 
+    /**
+     * Asks the user for the valid datetime.
+     * @param ds The presenter used to display information.
+     * @return A list containing user's input of the valid datetime.
+     */
     public List<Integer> getValidDate(DisplaySystem ds){
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");

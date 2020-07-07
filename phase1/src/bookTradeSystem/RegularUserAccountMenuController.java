@@ -3,6 +3,10 @@ package bookTradeSystem;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter, for the account menu part.
+ */
 public class RegularUserAccountMenuController {
 
     private SystemMessage sm;
@@ -24,6 +28,7 @@ public class RegularUserAccountMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
+     * @param userId   The userid of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds,
                                  TradeManager tm, MeetingManager mm,
@@ -39,6 +44,9 @@ public class RegularUserAccountMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
 
+    /**
+     * Let the presenter print user's wishlist and inventory.
+     */
     protected void viewWishListInventory() {
         // get user
         User thisUser = um.findUser(userId);
@@ -55,23 +63,42 @@ public class RegularUserAccountMenuController {
         ds.printOut("\n");
         ds.printOut("Your inventory: ");
         ds.printResult(new ArrayList<>(inventory));
+        ds.printOut("\n");
 
     }
 
+    /**
+     * Let the user manager add the appropriate item id for the item user wants to add to his/her wish list.
+     * @param allOtherItems The potential items user can add to his/her wish list.
+     */
     protected void addToWishList(ArrayList<Item> allOtherItems) {
         // add the id to user's wishlist
         ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
     }
 
+    /**
+     * Receives the request to add item to his/her inventory from the user
+     * and let the user manager handle it.
+     */
     protected void requestAddItem() {
         um.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
-        ds.printResult(true);
+        ds.printResult("Your add-item request", true);
     }
 
+    /**
+     * Receives the request to unfreeze from the user
+     * and let the user manager handle it.
+     */
     protected void RequestToUnfreeze() {
-        ds.printResult(um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
+        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
+        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
     }
 
+    /**
+     * Let the presenter print user's most recent three items traded.
+     * If it doesn't apply to the user, an appropriate message will be
+     * printed.
+     */
     protected void seeMostRecentThreeItems() {
         try {
             List<Item> threeItems = new ArrayList<>();
@@ -87,6 +114,11 @@ public class RegularUserAccountMenuController {
         } catch (InvalidIdException ex){this.ds.printOut("Invalid ID");}
     }
 
+    /**
+     * Receives user's request to remove item from his/her inventory
+     * and let the user manager remove it. If user has nothing to remove,
+     * an appropriate message will be printed.
+     */
     protected void removeFromInventory() {
         ArrayList<Item> userInventory = um.findUser(userId).getInventory();
         if (userInventory.size() != 0) {
@@ -98,6 +130,12 @@ public class RegularUserAccountMenuController {
         }
     }
 
+    /**
+     * Receives user's request to remove item from his/her inventory
+     * and let the user manager remove it. If user has nothing to remove,
+     * an appropriate message will be printed.
+     * @param allOtherItems The list of items that contain user's wishlist items.
+     */
     protected void removeFromWishList(ArrayList<Item> allOtherItems) {
         // remove the item id from wishlist
         if (um.findUser(userId).getWishList().size() != 0) {
@@ -108,6 +146,10 @@ public class RegularUserAccountMenuController {
         }
     }
 
+    /**
+     * Get the item name from the user and let the user manager search for it
+     * in the system.
+     */
     protected void searchItem() {
         // print all the items being searched for
         String name = otherInfoGetter.getItemName();
@@ -120,6 +162,11 @@ public class RegularUserAccountMenuController {
         }
     }
 
+    /**
+     * Let the presenter print the items that should be displayed
+     * for the user to browse through.
+     * @param allOtherItems The items that will be displayed to the user.
+     */
     protected void browseBooks(ArrayList<Item> allOtherItems) {
         if (allOtherItems.size() != 0) {
             // print items in all users inventory except this user

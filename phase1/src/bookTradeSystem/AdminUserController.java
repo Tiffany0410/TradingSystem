@@ -12,9 +12,8 @@ import java.util.Scanner;
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter.
  */
-public class AdminUserController implements Serializable, Controllable {
+public class AdminUserController implements Controllable {
 
-    private AdminUserInstanceGetter instanceGetter;
     private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
     private AccountCreator ac; //instead of this maybe make the tradingSystem's one protected?
@@ -37,26 +36,9 @@ public class AdminUserController implements Serializable, Controllable {
         this.rw = rw;
         this.um = um;
         this.sm = new SystemMessage();
-        this.instanceGetter = new AdminUserInstanceGetter(ds);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
 
-
-    // TODO: move to a presenter class
-    /**
-     * This method gathers all the necessary notifications
-     * for the admin user.
-     * @return Notifications as properly formatted strings.
-     * @throws FileNotFoundException In case the file can't be found.
-     */
-    @Override
-    public String alerts() throws IOException {
-        //Read this in from file
-        //Exception needs to be resolved in main or TradingSystem.
-        //String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
-        String filepath = "./src/Alerts/AdminAlerts.csv"; // move it to src and not the bookTradeSystem
-        return rw.readFromMenu(filepath);
-    }
 
     /**
      * This method calls appropriate methods based on user input of
@@ -103,6 +85,8 @@ public class AdminUserController implements Serializable, Controllable {
                 ds.printResult(um.freezeUser(ds.getUsername()));
                 break;
             case 2:
+                ds.printOut("Here's the list of user who request to be unfrozen:");
+                ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
 //              asks the admin for the username of the user to UNFREEZE
                 ds.printOut("Please enter the username of the user to UNFREEZE");
 //              let presenter print the msg of successful or not
@@ -123,7 +107,7 @@ public class AdminUserController implements Serializable, Controllable {
         if (len != 0) {
 //              get the list of item to be added to inventories
             ds.printResult(new ArrayList<Object>(listItemToAdd));
-            Item itemSelected = listItemToAdd.get(instanceGetter.getItem(len) - 1);
+            Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
 //          TODO: need a method to remove item from um's getListItemToAdd
@@ -155,19 +139,19 @@ public class AdminUserController implements Serializable, Controllable {
         switch (subMenuOption) {
             case 1:
                 sm.msgForThresholdValue(User.getMaxNumTransactionsAllowedAWeek(),ds);
-                User.setMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
+                um.editMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
                 break;
             case 2:
                 sm.msgForThresholdValue(User.getMaxNumTransactionIncomplete(),ds);
-                User.setMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
+                um.editMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
                 break;
             case 3:
                 sm.msgForThresholdValue(User.getNumLendBeforeBorrow(),ds);
-                User.setNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
+                um.editNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
                 break;
             case 4:
                 sm.msgForThresholdValue(User.getMaxMeetingDateTimeEdits(),ds);
-                User.setMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
+                um.editMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
                 break;
         }
         ds.printResult(true);
