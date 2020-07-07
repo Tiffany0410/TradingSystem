@@ -42,6 +42,9 @@ Things you should know before running this program:
     - In “RegularUserUsernameAndPassword.csv” or “AdminUserUsernameAndPassword.csv”, each line is in the following format
       and corresponds to one user: username, password, email
 
+    - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
+    until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
+
 
 
 
