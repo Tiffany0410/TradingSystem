@@ -9,7 +9,7 @@ import java.util.*;
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter.
  */
-public class RegularUserController implements Serializable, Controllable {
+public class RegularUserController implements Controllable {
 
     private RegularUserAccountMenuController amc;
     private RegularUserTradingMenuController atc;

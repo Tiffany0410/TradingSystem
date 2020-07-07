@@ -12,7 +12,7 @@ import java.util.Scanner;
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter.
  */
-public class AdminUserController implements Serializable, Controllable {
+public class AdminUserController implements Controllable {
 
     private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
