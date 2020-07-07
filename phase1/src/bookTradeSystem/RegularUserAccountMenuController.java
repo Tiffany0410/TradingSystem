@@ -90,6 +90,7 @@ public class RegularUserAccountMenuController {
      * and let the user manager handle it.
      */
     protected void RequestToUnfreeze() {
+        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
         ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
     }
 

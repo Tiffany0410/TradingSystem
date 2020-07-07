@@ -141,11 +141,10 @@ public class DisplaySystem {
     public void printResult(boolean result){
         if (result){
             printOut("Success");
-            printOut("\n");
         }else{
             printOut("Fail");
-            printOut("\n");
         }
+        printOut("\n");
     }
 
     /**
