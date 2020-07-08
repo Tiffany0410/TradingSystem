@@ -14,10 +14,47 @@
     same location. Users can edit or confirm the time and place to meet in real life to trade items.
 
 
+    Key feature of trading system main menu:
+       1. Login:
+          By type in the user name and password, user can login to their account. Regular user will get into regular user
+          main menu and admin user get into admin user main menu.
+
+       2. Create new account:
+          User can use this option to create new regular user account by give username, password and email address. user
+          can not create an account which username already exist in the system. Can not create admin use account by this.
+
+       0. Exit system:
+          Exit this system and end the program.
 
 
+    Key feature of regular user main menu:
+        Regular user can see the state and the notification of this account at the top
+
+        1. AccountInfo:
+           User get into regular user account menu.
+
+        2. TradingInfo:
+           User get into regular user trading menu.
+
+        3. MeetingInfo:
+           User get into regular user meeting menu.
+
+        0. Logout
+          User can log out this account and back into the trading system main menu.
 
 
+    Key feature of admin user main menu:
+        1. ManageUsers:
+           Admin user get into admin user manage users sub menu to manage regular users.
+
+        2. EditThresholds:
+           Admin user get into admin user edit thresholds sub menu to manage user's thresholds.
+
+        3. Other:
+           Admin user get into admin user other sub menu to do other things.
+
+        0. Logout:
+           Admin user can log out this account and get back into trading system main menu.
 
 
     Key feature of admin user manage user menu:
@@ -54,6 +91,8 @@
 
     - For first time running the program, please clear all content of the files in Manager folder except
       AdminUserUsernameAndPassword.csv
+
+    - The default admin user account is: username: adminTest, password: adminTest
 
     - You can create a regular user by going to the main menu create account option.
       See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
