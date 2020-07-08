@@ -95,7 +95,7 @@ public class AdminUserController implements Controllable {
             case 3:
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
                 int len = listItemToAdd.size();
-                ResponseToToAddListSize(listItemToAdd, len);
+                responseToToAddListSize(listItemToAdd, len);
                 break;
 
 
@@ -103,7 +103,7 @@ public class AdminUserController implements Controllable {
     }
 
     // create another class and move them for phase 2
-    private void ResponseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
+    private void responseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
         if (len != 0) {
 //              get the list of item to be added to inventories
             ds.printResult(new ArrayList<Object>(listItemToAdd));
