@@ -13,6 +13,27 @@
     will be created where the second exchange will happen exactly one month after the first meeting in the
     same location. Users can edit or confirm the time and place to meet in real life to trade items.
 
+    Key features of RegularUserAccountMenu
+    1. Browse all the items in other users inventories:
+    Prints a list of all the items in all the other users’ inventories.
+    2. Add to own Wish List
+    Enter the id of the item you want to add. The item will be added to your wishlist if it is not already there.
+    3. Search item
+    Enter part of the name of the item. Prints all the items with whose name contains the input.
+    4. Remove from own Wish List
+    Enter the id of the item you want to remove. The item will be removed from your wishlist if it is there.
+    5. Remove from own Inventory
+    Prints a list of all the items in your inventory. Enter the number in the list of the item that you want to remove.
+    The item will be removed from your inventory.
+    6. Request to unfreeze account
+    Enter a message to tell an AdminUser and type OK to finish. A request with the message will be sent to an AdminUser
+    to review.
+    7. Request that an item be added to your inventory
+    Enter the name and description of the item. A request will be sent to an AdminUser to review.
+    8. View your wish list or inventory
+    Prints all the items in your wishlist and all the items in your inventory.
+    9. Exit
+    Go to the previous menu.
 
 
 
