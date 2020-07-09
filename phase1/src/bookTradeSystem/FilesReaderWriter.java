@@ -121,7 +121,7 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public static void saveThresholdValuesToCSVFile(List<Integer> thresholdValues, String filePath)
+    public void saveThresholdValuesToCSVFile(List<Integer> thresholdValues, String filePath)
             throws IOException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
