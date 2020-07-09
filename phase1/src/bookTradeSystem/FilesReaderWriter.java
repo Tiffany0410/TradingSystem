@@ -44,6 +44,32 @@ public class FilesReaderWriter implements Serializable {
         }
     }
 
+    /**
+     * Return a List contain 4 integer read from file at filePath, where first number is maxNumTransactionAllowedAWeek,
+     * second number is maxNumTransactionIncomplete, third number is numLendBeforeBorrow,
+     * and last number is maxMeetingDateTimeEdits.
+     *
+     * @param filePath the path of the data file
+     * @throws FileNotFoundException if filePath is not a valid path
+     */
+    public static List<Integer> readThresholdValuesFromCSVFile(String filePath) throws FileNotFoundException {
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            // FileInputStream can be used for reading raw bytes, like an image.
+            Scanner scanner = new Scanner(new FileInputStream(filePath));
+            List<Integer> thresholdValues = new ArrayList<>();
+            String[] record;
+
+            while (scanner.hasNextLine()) {
+                record = scanner.nextLine().split(":");
+                String eachThresholdValue = Character.toString(record[1].charAt(0));
+                thresholdValues.add(Integer.parseInt(eachThresholdValue));
+            }
+            scanner.close();
+            return thresholdValues;
+        } else {throw new FileNotFoundException();}
+    }
+
 
     /**
      * Write new user account info(including username, password, email) into files at filePath
@@ -62,7 +88,6 @@ public class FilesReaderWriter implements Serializable {
             String line = "";
             while ((line = br.readLine()) != null) {
                 dataList.add(line + "\n");
-
             }
 
             PrintWriter writer = new PrintWriter(new File(filePath));
@@ -76,6 +101,7 @@ public class FilesReaderWriter implements Serializable {
             sb.append('\n');
             dataList.add(sb.toString());
 
+            //Write each User into csv file
             for (String singleUser: dataList ) {
                 writer.write(singleUser);
             }
@@ -83,6 +109,51 @@ public class FilesReaderWriter implements Serializable {
             writer.close();
         }
         else {throw new FileNotFoundException();}
+    }
+
+
+    /**
+     * Rewrite the file at filePath through replacing the value by the integer provided in given list
+     *
+     * @param thresholdValues the list 4 integer, where first number is maxNumTransactionAllowedAWeek,
+     * second number is maxNumTransactionIncomplete, third number is numLendBeforeBorrow,
+     * and last number is maxMeetingDateTimeEdits.
+     * @param filePath the path of the data file
+     * @throws FileNotFoundException if filePath is not a valid path
+     */
+    public void saveThresholdValuesToCSVFile(List<Integer> thresholdValues, String filePath)
+            throws IOException {
+        File new_file = new File(filePath);
+        if (new_file.exists()) {
+            List<String> thresholdValuesList = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                thresholdValuesList.add(line + "\n");
+            }
+
+            //create a integer to track the location in thresholdValuesList and thresholdValues
+            int location = thresholdValuesList.size() - 1;
+            while (location >= 0) {
+                StringBuilder sb = new StringBuilder(thresholdValuesList.get(location));
+                sb.deleteCharAt(sb.length() - 1);
+                sb.deleteCharAt(sb.length() - 1);
+                sb.append(thresholdValues.get(location));
+                if (location != thresholdValuesList.size() - 1) {sb.append("\n");}
+                thresholdValuesList.set(location, sb.toString());
+                location --;
+            }
+
+            PrintWriter writer = new PrintWriter(new File(filePath));
+            //Rewrite the csv file with new threshold value
+            for (String singleThresholdValueString: thresholdValuesList ) {
+                writer.write(singleThresholdValueString);
+            }
+
+            writer.close();
+
+
+        } else {throw new FileNotFoundException();}
     }
 
 
@@ -176,7 +247,8 @@ public class FilesReaderWriter implements Serializable {
      *
      * @param filePath the path of the data file
      */
-    public static MeetingManager readMeetingManagerFromFile(String filePath) throws IOException, ClassNotFoundException {
+    public static MeetingManager readMeetingManagerFromFile(String filePath)
+            throws IOException, ClassNotFoundException {
 
         File new_file = new File(filePath);
         if (new_file.exists()) {

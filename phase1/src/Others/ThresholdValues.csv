@@ -1,0 +1,4 @@
+maxNumTransactionAllowedAWeek:3
+maxNumTransactionIncomplete:3
+numLendBeforeBorrow:1
+maxMeetingDateTimeEdits:3

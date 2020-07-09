@@ -1,5 +1,7 @@
 package bookTradeSystem;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,11 +112,13 @@ public class RegularUserTradingMenuController {
      * for a week threshold, print an appropriate message.
      * @param thisUser The user to respond to the request.
      * @throws InvalidIdException In case the id is invalid.
+     * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void respondToTradeRequests(User thisUser) throws InvalidIdException {
+    protected void respondToTradeRequests(User thisUser) throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
             // the case with user reaching the max number of transactions for the week
-            sm.lockMessageForThreshold(ds);
+            sm.lockMessageForThreshold(ds, thresholdValues.get(0));
         }
         else if (tm.getTradeHistory(userId).size() == 0){
             sm.msgForNothing(ds);
@@ -204,11 +208,13 @@ public class RegularUserTradingMenuController {
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
      * @param thisUser The user who wants to request the trade.
+     * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void requestTrade(User thisUser) {
+    protected void requestTrade(User thisUser) throws FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (thisUser.getNumTransactionLeftForTheWeek() == 0){
             // the case with user reaching the max number of transactions for the week
-            sm.lockMessageForThreshold(ds);
+            sm.lockMessageForThreshold(ds, thresholdValues.get(0));
         }
         else {
             // get whether it is one-way-trade or two-way-trade
