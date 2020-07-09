@@ -62,7 +62,8 @@ public class FilesReaderWriter implements Serializable {
 
             while (scanner.hasNextLine()) {
                 record = scanner.nextLine().split(":");
-                thresholdValues.add(Integer.parseInt(record[1]));
+                String eachThresholdValue = Character.toString(record[1].charAt(0));
+                thresholdValues.add(Integer.parseInt(eachThresholdValue));
             }
             scanner.close();
             return thresholdValues;
@@ -120,7 +121,7 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public void saveThresholdValuesToCSVFile(List<Integer> thresholdValues, String filePath)
+    public static void saveThresholdValuesToCSVFile(List<Integer> thresholdValues, String filePath)
             throws IOException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
@@ -132,11 +133,13 @@ public class FilesReaderWriter implements Serializable {
             }
 
             //create a integer to track the location in thresholdValuesList and thresholdValues
-            int location = thresholdValuesList.size();
-            while (location > 0) {
-                StringBuilder sb = new StringBuilder(thresholdValuesList.get(location - 1));
+            int location = thresholdValuesList.size() - 1;
+            while (location >= 0) {
+                StringBuilder sb = new StringBuilder(thresholdValuesList.get(location));
+                sb.deleteCharAt(sb.length() - 1);
                 sb.deleteCharAt(sb.length() - 1);
                 sb.append(thresholdValues.get(location));
+                sb.append("\n");
                 thresholdValuesList.set(location, sb.toString());
                 location --;
             }
