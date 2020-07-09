@@ -8,6 +8,9 @@ import java.util.List;
  * An instance of this class represents the
  * communication bridge from the system
  * to the user.
+ *
+ * @author Yu Xin Yan
+ * @version 3.0
  */
 public class SystemMessage {
 

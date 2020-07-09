@@ -6,6 +6,9 @@ import java.util.Scanner;
 /**
  * An instance of this class represents the id
  * getter for the RegularUserController class.
+ *
+ * @author Yu Xin Yan
+ * @version 3.0
  */
 public class RegularUserIDGetter {
 

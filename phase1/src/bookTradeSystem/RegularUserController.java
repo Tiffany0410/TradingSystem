@@ -8,6 +8,9 @@ import java.util.*;
 /**
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter.
+ *
+ *  @author Yu Xin Yan
+ *  @version 11.0
  */
 public class RegularUserController implements Controllable {
 

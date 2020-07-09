@@ -5,6 +5,9 @@ import java.util.Scanner;
 /**
  * An instance of this class represents the other
  * information getter for the AdminUserController class.
+ *
+ * @author Yu Xin Yan
+ * @version 2.0
  */
 public class AdminUserOtherInfoGetter {
 

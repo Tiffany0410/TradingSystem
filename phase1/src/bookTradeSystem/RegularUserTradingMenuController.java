@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An instance of this class represents the threshold
- * controller for the RegularUserController class.
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter, for the trade menu part.
+ *
+ * @author Yu Xin Yan
+ * @version 4.0
  */
 public class RegularUserTradingMenuController {
 

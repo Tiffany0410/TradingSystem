@@ -3,6 +3,14 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Classes that implement this interface
+ * appropriately reacts to user input.
+ *
+ * @author Yu Xin, Yan
+ * @version 4.0
+ */
+
 public interface Controllable {
 
     /**

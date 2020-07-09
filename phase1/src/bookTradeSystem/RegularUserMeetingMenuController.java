@@ -7,6 +7,9 @@ import java.util.List;
 /**
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the meeting menu part.
+ *
+ * @author Yu Xin Yan
+ * @version 4.0
  */
 public class RegularUserMeetingMenuController {
 

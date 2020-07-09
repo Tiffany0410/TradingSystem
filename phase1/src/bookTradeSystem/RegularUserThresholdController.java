@@ -7,6 +7,9 @@ import java.util.List;
 /**
  * An instance of this class represents the threshold
  * controller for the RegularUserController class.
+ *
+ * @author Yu Xin Yan
+ * @version 4.0
  */
 
 public class RegularUserThresholdController {
