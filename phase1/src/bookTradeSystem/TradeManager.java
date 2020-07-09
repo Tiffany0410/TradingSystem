@@ -279,6 +279,7 @@ public class TradeManager implements Serializable {
     /** Validate trade
      * @param trade trade we want to validate
      * @param borrower User borrower
+     * @param numLendBeforeBorrow number of lend before borrow
      * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
      * is two way trade and otherwise false.
      */
