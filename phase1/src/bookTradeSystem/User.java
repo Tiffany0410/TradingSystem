@@ -22,14 +22,6 @@ public class User implements Serializable {
     // stores the number of times the user's been frozen.
     private int numFrozen;
     private int transactionsLeftForTheWeek = 3;
-    //static threshold variables
-    // set it to 3
-    private static int maxNumTransactionsAllowedAWeek = 3;
-    // set it to 3
-    private static int maxNumTransactionIncomplete = 3;
-    private static int numLendBeforeBorrow = 1;
-    private static int maxMeetingDateTimeEdits = 3;
-
 
     /**
      * Construct an User.
@@ -84,19 +76,6 @@ public class User implements Serializable {
     }
 
     /**
-     * Set the user's username.
-     *
-     * @param name the user's username.
-     */
-    public void setUsername(String name) {
-        //TODO: do we need this method???
-        //TODO: there's no menu option that says the username can be changed anyways lol
-        //TODO: and has problem if the user changes username mid-way
-        //TODO: maybe delete this during refactoring phase :)
-        this.username = name;
-    }
-
-    /**
      * Get the user's username.
      *
      * @return username.
@@ -132,7 +111,6 @@ public class User implements Serializable {
     public ArrayList<Integer> getWishList() {
         return wishList;
     }
-
 
 
     /**
@@ -218,97 +196,6 @@ public class User implements Serializable {
      */
     public void setIfFrozen(boolean newStatus){
         isFrozen = newStatus;
-    }
-
-
-    /**
-     * Getter for the maximum number of transactions allowed
-     * for all the users in a week.
-     * @return The maximum number of transactions allowed
-     * in a week.
-     */
-    public static int getMaxNumTransactionsAllowedAWeek(){
-        return maxNumTransactionsAllowedAWeek;
-    }
-
-    /**
-     * Getter for the maximum number of uncompleted
-     * transactions allowed before the user's account
-     * gets frozen.
-     * @return The maximum number of uncompleted transactions
-     * allowed before the user's account gets frozen.
-     */
-    public static int getMaxNumTransactionIncomplete(){
-        return maxNumTransactionIncomplete;
-    }
-
-    /**
-     * Getter for the maximum number of edits to any
-     * meeting's time and place for all the users.
-     * @return The maximum number of edits to any
-     * meeting's time and place.
-     */
-    public static int getMaxMeetingDateTimeEdits() {
-        return maxMeetingDateTimeEdits;
-    }
-
-    /**
-     * Getter for the number of items user need to
-     * lend before the user can borrow, for all
-     * users.
-     * @return The  number of items user need to
-     * lend before the user can borrow.
-     *
-     */
-    public static int getNumLendBeforeBorrow(){
-        return numLendBeforeBorrow;
-    }
-
-    /**
-     * Setter for the maximum number of transactions allowed
-     * for all the users in a week.
-     * @param newVal The new threshold value for the
-     *               number of transactions allowed
-     *               for all the users in a week.
-     */
-    public static void setMaxNumTransactionsAllowedAWeek(int newVal){
-        maxNumTransactionsAllowedAWeek = newVal;
-    }
-
-    /**
-     * Setter for the maximum number of uncompleted
-     * transactions allowed before the user's account
-     * gets frozen.
-     * @param newVal The new threshold value for
-     *               uncompleted transactions allowed
-     *               before the user's account gets frozen.
-     */
-    public static void setMaxNumTransactionIncomplete(int newVal){
-        maxNumTransactionIncomplete = newVal;
-    }
-
-    /**
-     * Setter for the the number of items user need to
-     * lend before the user can borrow, for all
-     * users.
-     * @param newVal The new threshold value for
-     *               the number of items user need to
-     *               lend before the user can borrow
-     */
-    public static void setNumLendBeforeBorrow(int newVal){
-        numLendBeforeBorrow = newVal;
-    }
-
-    /**
-     * Setter for the maximum number of edits to any
-     * meeting's time and place for all the users.
-     * @param newVal The new threshold value for
-     *               the number of edits to any
-     *               meeting's time and place for
-     *               all the users.
-     */
-    public static void setMaxMeetingDateTimeEdits(int newVal){
-        maxMeetingDateTimeEdits = newVal;
     }
 
     /**

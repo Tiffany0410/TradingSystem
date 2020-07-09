@@ -48,9 +48,9 @@ public class RegularUserThresholdController {
      * @param thisUser The user to be re-assessed the number of transactions
      *                 left for the week for.
      */
-    protected void reassessNumTransactionsLeftForTheWeek(User thisUser) {
+    protected void reassessNumTransactionsLeftForTheWeek(User thisUser, int maxNumTransactionAllowedAWeek) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
-            thisUser.setTransactionLeftForTheWeek(User.getMaxNumTransactionsAllowedAWeek());
+            thisUser.setTransactionLeftForTheWeek(maxNumTransactionAllowedAWeek);
             thresholdReassessed = true;
         }
         else if (!isFirstDayOfTheWeek()){
@@ -89,13 +89,13 @@ public class RegularUserThresholdController {
      * @param thisUser The user to be determined whether he/she should be frozen or not.
      * @return Whether the user is frozen or not.
      */
-    protected boolean freezeUserOrNot(User thisUser){
+    protected boolean freezeUserOrNot(User thisUser, int maxNumTransactionIncomplete){
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
         int numUncompletedTransactions = numUncompletedTransactions();
         // if user went over the threshold
         // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
-        int threshold =  User.getMaxNumTransactionIncomplete() + (numFrozen * User.getMaxNumTransactionIncomplete());
+        int threshold =  maxNumTransactionIncomplete + (numFrozen * maxNumTransactionIncomplete);
         if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
             um.freezeUser(username);
             thisUser.addOneToNumFrozen();

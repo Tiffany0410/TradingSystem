@@ -2,6 +2,7 @@ package bookTradeSystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * An instance of this class represents the
@@ -9,7 +10,6 @@ import java.io.IOException;
  * to the user.
  */
 public class SystemMessage {
-
 
     /**
      * Constructs a SystemMessage instance.
@@ -34,11 +34,12 @@ public class SystemMessage {
         return notification.toString();
     }
 
-    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) {
+    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws IOException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User regUser = um.findUser(username);
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
-            if (tc.freezeUserOrNot(regUser)){
+            if (tc.freezeUserOrNot(regUser, thresholdValues.get(1))){
                 ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
             }
         }
@@ -48,10 +49,10 @@ public class SystemMessage {
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
-        notification.append("Max number of transactions a week = ").append(User.getMaxNumTransactionsAllowedAWeek()).append("\n");
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(User.getMaxNumTransactionIncomplete()).append("\n");
-        notification.append("Max number of books you must lend before you can borrow = ").append(User.getNumLendBeforeBorrow()).append("\n");
-        notification.append("Max edits per user for meeting’s date + time = ").append(User.getMaxMeetingDateTimeEdits()).append("\n");
+        notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append("\n");
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append("\n");
+        notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append("\n");
+        notification.append("Max edits per user for meeting’s date + time = ").append(thresholdValues.get(3)).append("\n");
     }
 
 
@@ -104,9 +105,9 @@ public class SystemMessage {
      * due to the threshold.
      * @param ds The presenter that prints to screen.
      */
-    protected void lockMessageForThreshold(DisplaySystem ds) {
+    protected void lockMessageForThreshold(DisplaySystem ds, int maxNumTransactionAWeek) {
         ds.printOut("This option is locked");
-        ds.printOut("You have reached the" + User.getMaxNumTransactionIncomplete() + "transactions a week limit");
+        ds.printOut("You have reached the" + maxNumTransactionAWeek + "transactions a week limit");
         ds.printOut("\n");
     }
 

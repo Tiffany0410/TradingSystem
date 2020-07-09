@@ -62,10 +62,11 @@ public class RegularUserController implements Controllable {
      * @param mainMenuOption The main menu option chosen by the regular user.
      * @param subMenuOption  The sub menu option for a particular sub menu chosen by the regular user.
      * @throws InvalidIdException In case the id is invalid.
+     * @throws FileNotFoundException In case the file cannot be found.
      *
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) throws InvalidIdException {
+    public void actionResponse(int mainMenuOption, int subMenuOption) throws InvalidIdException, FileNotFoundException {
         User thisUser = um.findUser(userId);
         switch (mainMenuOption) {
             case 1:
@@ -132,7 +133,7 @@ public class RegularUserController implements Controllable {
     }
 
 
-    private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException {
+    private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
         /*
           1.Request a trade (lend / borrow / two-way)
           2.Respond to trade requests (agree / disagree) - first meeting is set up by system
@@ -142,11 +143,12 @@ public class RegularUserController implements Controllable {
           6.See top three most frequent trading partners
           7.View transactions that have been cancelled
          */
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User thisUser = um.findUser(userId);
         // reassess it at the first day of the week - only once
         // TODO: small bug - user has to login in other days (non-Sundays) to re-enable this function for next Sunday
         //  and can only reassess it on Sunday (the first day of the week)
-        tc.reassessNumTransactionsLeftForTheWeek(thisUser);
+        tc.reassessNumTransactionsLeftForTheWeek(thisUser, thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
                 atc.requestTrade(thisUser);
