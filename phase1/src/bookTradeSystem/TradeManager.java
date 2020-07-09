@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * A TradeManager
  * @author Yuanze Bao
- * @version 11.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class TradeManager implements Serializable {
 

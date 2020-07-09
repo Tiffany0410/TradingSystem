@@ -3,7 +3,7 @@ package bookTradeSystem;
 /**
  * Invalid id exception
  * @author YuanzeBao
- * @version 1.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class InvalidIdException extends Exception {
     public InvalidIdException(String msg){

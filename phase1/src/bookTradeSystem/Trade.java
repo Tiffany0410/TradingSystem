@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * A trade
  * @author YuanzeBao
- * @version 7.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class Trade implements Serializable {
     private int tradeId;
