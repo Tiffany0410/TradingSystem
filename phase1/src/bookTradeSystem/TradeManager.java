@@ -4,9 +4,18 @@ import java.io.Serializable;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+/**
+ * A TradeManager
+ * @author Yuanze Bao
+ * @version IntelliJ IDEA 2020.1
+ */
 public class TradeManager implements Serializable {
+
     private List<Trade> listTrade;
 
+    /** Constructor with no parameter
+     * store a new list for listTrade
+     */
     public TradeManager() {
         listTrade = new ArrayList<>();
     }
@@ -32,6 +41,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return a list of that user's trade history
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Trade> getTradeHistory(int userId) throws InvalidIdException {
         List<Trade> list = new ArrayList<>();
@@ -50,6 +60,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId user id
      * @return a list of trades which status are closed
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Trade> filterHistory(int userId) throws InvalidIdException {
         List<Trade> list = this.getTradeHistory(userId);
@@ -67,6 +78,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId user id
      * @return a list of recent three item ids (Latest at index 0)
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Integer> recentThreeItem(int userId) throws InvalidIdException {
         List<Trade> list = this.filterHistory(userId);
@@ -150,6 +162,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of  user's Trades which its status is open
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Trade> getOpenTrade(int userId) throws InvalidIdException {
         List<Trade> list = this.getTradeHistory(userId);
@@ -167,6 +180,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of  user's Trades which its status is closed
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Trade> getClosedTrade(int userId) throws InvalidIdException {
         List<Trade> list = this.getTradeHistory(userId);
@@ -183,7 +197,7 @@ public class TradeManager implements Serializable {
      * Get list of user's cancelled trade
      *
      * @param userId the user we want to look for
-     * @return the list of cancel trade by user.
+     * @return the list of cancel trade by user, throw InvalidIdException if invalid id
      */
     public List<Trade> getCancelledTrade(int userId) throws InvalidIdException {
         List<Trade> list = this.getTradeHistory(userId);
@@ -201,6 +215,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of trade which its status is wait to be opened
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Trade> getWaitTrade(int userId) throws InvalidIdException {
         List<Trade> list = this.getTradeHistory(userId);
@@ -279,6 +294,7 @@ public class TradeManager implements Serializable {
     /** Validate trade
      * @param trade trade we want to validate
      * @param borrower User borrower
+     * @param numLendBeforeBorrow number of lend before borrow
      * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
      * is two way trade and otherwise false.
      */

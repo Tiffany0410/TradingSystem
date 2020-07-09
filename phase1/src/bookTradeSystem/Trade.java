@@ -1,6 +1,12 @@
 package bookTradeSystem;
 import java.util.*;
 import java.io.Serializable;
+
+/**
+ * A trade
+ * @author YuanzeBao
+ * @version IntelliJ IDEA 2020.1
+ */
 public class Trade implements Serializable {
     private int tradeId;
     private int userId1;
