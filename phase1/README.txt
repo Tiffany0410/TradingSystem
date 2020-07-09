@@ -13,6 +13,14 @@
     will be created where the second exchange will happen exactly one month after the first meeting in the
     same location. Users can edit or confirm the time and place to meet in real life to trade items.
 
+    There exist two different menus for Admin User and Regular User. After login with correct username and password,
+    AdminUsers have one main menu <AdminUserMainMenu> and three sub menus <AdminUserManageUsersSubMenu>,
+    <AdminUserManageEditThresholdsSubMenu> and <AdminUserOtherSubMenu>.
+    RegularUsers have one main menu <RegularUserMainMenu> and three sub menus <RegularUserAccountMenu>,
+    <RegularUserTradingMenu> and <RegularUserMeetingMenu>.
+
+
+
     Key features of RegularUserAccountMenu
         1. Browse all the items in other users inventories:
         Prints a list of all the items in all the other users’ inventories.
@@ -41,7 +49,7 @@
 
 
 
-    Key features of Admin User manage user menu:
+    Key features of AdminUserManageUsersMenu:
         1. Freeze user:
         Admin user can freeze a user from trading if admin user think this user violate the rule of trading by typing the
         user name of the user
