@@ -73,7 +73,13 @@ public class RegularUserAccountMenuController {
      */
     protected void addToWishList(ArrayList<Item> allOtherItems) {
         // add the id to user's wishlist
-        ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
+        if (allOtherItems.size() != 0) {
+            ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
+        }
+        else{
+            sm.msgForNothing("that can be added to your wishlist for now", ds);
+        }
+
     }
 
     /**
@@ -126,7 +132,7 @@ public class RegularUserAccountMenuController {
             ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
         }
         else{
-            sm.msgForNothing(" in your inventory", ds);
+            sm.msgForNothing("in your inventory", ds);
         }
     }
 
@@ -142,7 +148,7 @@ public class RegularUserAccountMenuController {
             ds.printResult(um.removeItemWishlist(idGetter.getItemID(allOtherItems, 0), username));
         }
         else{
-            sm.msgForNothing(" in your wish list", ds);
+            sm.msgForNothing("in your wish list", ds);
         }
     }
 
@@ -155,7 +161,7 @@ public class RegularUserAccountMenuController {
         String name = otherInfoGetter.getItemName();
         ArrayList<Item> matchItems = um.searchItem(name);
         if (matchItems.size() == 0){
-            sm.msgForNothing(" that matches your input", ds);
+            sm.msgForNothing("that matches your input", ds);
         }
         else{
             ds.printResult(new ArrayList<>(matchItems));

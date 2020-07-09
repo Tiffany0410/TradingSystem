@@ -36,7 +36,7 @@ public class Trade implements Serializable {
         this.tradeType = tradeType;
         this.isOneWayTrade = isOneWayTrade;
         this.tradeId = tradeID;
-        userStatus.put(userId1, "Agree");
+        userStatus.put(userId1, "Disagree");
         userStatus.put(userId2, "Disagree");
     }
 

@@ -70,7 +70,7 @@ public class RegularUserMeetingMenuController {
      */
     protected void confirmMeetingTookPlace() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
-            sm.msgForNothing(" that needs to be confirmed", ds);
+            sm.msgForNothing("that needs to be confirmed", ds);
         } else {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
             ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
@@ -92,7 +92,7 @@ public class RegularUserMeetingMenuController {
      */
     protected void confirmMeetingTandP() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
-            sm.msgForNothing(" that needs to be confirmed", ds);
+            sm.msgForNothing("that needs to be confirmed", ds);
         } else {
             Meeting meeting2 = getMeeting();
             if (meeting2.getTradeId() != 0) {
@@ -112,21 +112,35 @@ public class RegularUserMeetingMenuController {
      */
     protected void EditMeetingTandP() throws InvalidIdException {
         if (mm.getMeetingsByUserId(userId).size() == 0) {
-            sm.msgForNothing(" here that requires action", ds);
+            sm.msgForNothing("here that requires action", ds);
         } else {
             Meeting meeting = getMeeting();
-            if (meeting.getTradeId() != 0) {
+            // if the meeting exists and the threshold is not reached yet
+            if (meeting.getTradeId() != 0 && mm.getEditOverThreshold(tm, meeting).equals("")) {
 
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
 
                 //int year, int month, int day, int hour, int min, int sec
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                ds.printResult(meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), 0, place));
+                boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), 0, place);
+                ds.printResult(editSuccess);
+                if (!editSuccess){
+                    ds.printOut("It's not your turn.");
+                }
+                // record that it's confirmed by this user
+                meeting.setTimePlaceConfirm(userId);
                 // for the edit threshold
                 ds.printOut(mm.getEditOverThreshold(tm, meeting));
             } else {
-                sm.msgForMeetingDNE(ds);
+                if (meeting.getTradeId() == 0) {
+                    sm.msgForMeetingDNE(ds);
+                }
+                else {
+                    ds.printOut("You reached the threshold to edit." + "\n");
+                    ds.printOut("And/or, the trade that goes with this meeting is cancelled" + "\n");
+                }
+
             }
         }
     }
@@ -140,10 +154,11 @@ public class RegularUserMeetingMenuController {
     protected void unconfirmedTandPMeetings() throws InvalidIdException {
         List<Meeting> listOfUnconfirmedTimePlace = mm.getUnConfirmTimePlace(userId, tm);
         if (listOfUnconfirmedTimePlace.size() != 0) {
+            ds.printOut("Here's a list of meeting(s) with unconfirmed time and place:");
             ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
         }
         else{
-            sm.msgForNothing(" that needs to be confirmed", ds);
+            sm.msgForNothing(ds);
         }
     }
 

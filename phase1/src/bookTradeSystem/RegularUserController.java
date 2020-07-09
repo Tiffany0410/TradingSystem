@@ -185,6 +185,8 @@ public class RegularUserController implements Controllable {
         */
         switch (subMenuOption) {
             case 1:
+                // show user a list of potential meetings to edit the time and place for
+                // and then let him/her edit it
                 mmc.EditMeetingTandP();
                 break;
             case 2:
