@@ -4,9 +4,18 @@ import java.io.Serializable;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+/**
+ * A TradeManager
+ * @author Yuanze Bao
+ * @version 11.0
+ */
 public class TradeManager implements Serializable {
+
     private List<Trade> listTrade;
 
+    /** Constructor with no parameter
+     * store a new list for listTrade
+     */
     public TradeManager() {
         listTrade = new ArrayList<>();
     }
