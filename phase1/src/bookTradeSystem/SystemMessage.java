@@ -34,7 +34,7 @@ public class SystemMessage {
         return notification.toString();
     }
 
-    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws IOException {
+    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User regUser = um.findUser(username);
         if (!regUser.getIfFrozen()) {

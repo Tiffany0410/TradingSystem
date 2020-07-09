@@ -220,7 +220,7 @@ public class RegularUserTradingMenuController {
             // get whether it is one-way-trade or two-way-trade
             int numKindOfTrade = otherInfoGetter.getNumKindOfTrade();
             // will store the validation value
-            boolean ok = false;
+            boolean ok;
             // will store the trade object
             Trade trade;
             // will store the item id if it's two-way-trade
@@ -278,8 +278,9 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
-        if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
+    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) throws FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        if (tm.validateTrade(trade, um.findUser(userId1), thresholdValues.get(2)) && ok) {
             requestSuccess(thisUser, trade);
         }
         else {

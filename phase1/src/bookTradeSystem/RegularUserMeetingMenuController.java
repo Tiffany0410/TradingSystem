@@ -1,5 +1,6 @@
 package bookTradeSystem;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,10 @@ public class RegularUserMeetingMenuController {
      * confirm the meeting. Else, print to let user know that there
      * aren't any.
      * @throws InvalidIdException In case if the id is not valid.
+     * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void confirmMeetingTookPlace() throws InvalidIdException {
+    protected void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
@@ -76,7 +79,7 @@ public class RegularUserMeetingMenuController {
             ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
             Meeting meeting3 = getMeeting();
             if (meeting3.getTradeId() != 0) {
-                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId));
+                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, thresholdValues.get(3)));
             } else {
                 sm.msgForMeetingDNE(ds);
             }
@@ -89,14 +92,16 @@ public class RegularUserMeetingMenuController {
      * confirm the meeting. Else, print to let user know that there
      * aren't any.
      * @throws InvalidIdException In case if the id is not valid.
+     * @throws FileNotFoundException In case if the file cannot be found.
      */
-    protected void confirmMeetingTandP() throws InvalidIdException {
+    protected void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
             Meeting meeting2 = getMeeting();
             if (meeting2.getTradeId() != 0) {
-                ds.printResult(meeting2.setTimePlaceConfirm(userId));
+                ds.printResult(meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3)));
             } else {
                 sm.msgForMeetingDNE(ds);
             }
@@ -109,29 +114,33 @@ public class RegularUserMeetingMenuController {
      * and let the user edit the time and place. Else, print to
      * let the user know that there aren't any.
      * @throws InvalidIdException In case if the id is not valid.
+     * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void EditMeetingTandP() throws InvalidIdException {
+    protected void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        int maxMeetingTimePlaceEdits = thresholdValues.get(3);
         if (mm.getMeetingsByUserId(userId).size() == 0) {
             sm.msgForNothing("here that requires action", ds);
         } else {
             Meeting meeting = getMeeting();
             // if the meeting exists and the threshold is not reached yet
-            if (meeting.getTradeId() != 0 && mm.getEditOverThreshold(tm, meeting).equals("")) {
+            if (meeting.getTradeId() != 0 && mm.getEditOverThreshold(tm, meeting, thresholdValues.get(3)).equals("")) {
 
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
 
                 //int year, int month, int day, int hour, int min, int sec
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), 0, place);
+                boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2),
+                        list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 if (!editSuccess){
                     ds.printOut("It's not your turn.");
                 }
                 // record that it's confirmed by this user
-                meeting.setTimePlaceConfirm(userId);
+                meeting.setTimePlaceConfirm(userId, maxMeetingTimePlaceEdits);
                 // for the edit threshold
-                ds.printOut(mm.getEditOverThreshold(tm, meeting));
+                ds.printOut(mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits));
             } else {
                 if (meeting.getTradeId() == 0) {
                     sm.msgForMeetingDNE(ds);

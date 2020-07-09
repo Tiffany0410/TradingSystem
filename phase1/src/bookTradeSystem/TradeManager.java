@@ -119,7 +119,7 @@ public class TradeManager implements Serializable {
      *
      * @param userId user id
      * @return list of top three partners id (Most is at index 0 and least at last index)
-     * @throws InvalidIdException
+     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Integer> topThreePartners(int userId) throws InvalidIdException {
         Map<Integer, Integer> numTrade = new HashMap<>();
@@ -282,7 +282,7 @@ public class TradeManager implements Serializable {
      * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
      * is two way trade and otherwise false.
      */
-    public boolean validateTrade(Trade trade, User borrower) {
+    public boolean validateTrade(Trade trade, User borrower, int numLendBeforeBorrow) {
         if (!(trade.getIsOneWayTrade())) {
             //if two way trade
             return true;
@@ -291,7 +291,7 @@ public class TradeManager implements Serializable {
         if (borrower.getNumBorrowed() == 0 && borrower.getNumLent() == 0) {
             return false;
         } else {
-            return borrower.getNumLent() == User.getNumLendBeforeBorrow() && borrower.getNumLent() >=
+            return borrower.getNumLent() == numLendBeforeBorrow && borrower.getNumLent() >=
                     borrower.getNumBorrowed();
         }
     }

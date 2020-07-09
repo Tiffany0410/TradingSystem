@@ -159,7 +159,7 @@ public class MeetingManager implements java.io.Serializable{
      * confirmed yet)
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId) throws InvalidIdException {
+    public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId, int maxMeetingTimePlaceEdits) throws InvalidIdException {
         if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
                 get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
@@ -176,10 +176,10 @@ public class MeetingManager implements java.io.Serializable{
                 time1.setTime(meeting.getTime());
                 meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
                         time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
-                        time1.get(Calendar.SECOND),meeting.getPlace());
+                        time1.get(Calendar.SECOND),meeting.getPlace(), maxMeetingTimePlaceEdits);
                 if(meeting.getUserId1() != userId){
-                    meeting1.setTimePlaceConfirm(meeting.getUserId1());
-                }else {meeting1.setTimePlaceConfirm(meeting.getUserId2());}
+                    meeting1.setTimePlaceConfirm(meeting.getUserId1(), maxMeetingTimePlaceEdits);
+                }else {meeting1.setTimePlaceConfirm(meeting.getUserId2(), maxMeetingTimePlaceEdits);}
                 meeting1.setTimePlaceEdit(new ArrayList<>());
             }
         }else {
@@ -230,7 +230,7 @@ public class MeetingManager implements java.io.Serializable{
         return meeting1;
     }
 
-    /** If a meeting is edited more than 3 times by both users without confirmation, and if it's a first meeting,
+    /** If a meeting is edited more than the maximum meeting datetime edits times by both users without confirmation, and if it's a first meeting,
      * change the trade status to cancelled with returning string that the transaction is cancelled.
      * If it's second meeting, return a string "You have edited too many times". If it is not go over threshold,
      * return an empty string.
@@ -240,13 +240,13 @@ public class MeetingManager implements java.io.Serializable{
      * return a empty string.
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting) throws InvalidIdException {
-        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2*User.getMaxMeetingDateTimeEdits()
+    public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2*maxMeetingTimePlaceEdits
                 && meeting.getMeetingNum() ==1){
             tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
             return "Your transaction with id " + meeting.getTradeId() + " has been cancelled.";
             }else if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2 *
-                User.getMaxMeetingDateTimeEdits() && meeting.getMeetingNum() ==2){
+                maxMeetingTimePlaceEdits && meeting.getMeetingNum() ==2){
             return "You have edited too many times";
         }return "";
         }

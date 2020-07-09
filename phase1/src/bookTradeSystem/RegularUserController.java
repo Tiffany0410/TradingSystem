@@ -176,7 +176,7 @@ public class RegularUserController implements Controllable {
     }
 
 
-    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
+    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
        /*
     1.Suggest/edit time and place for meetings
     2.Confirm time and place for meetings
