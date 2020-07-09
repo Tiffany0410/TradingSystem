@@ -7,7 +7,7 @@ import java.util.Scanner;
  * getter for the RegularUserController class.
  *
  * @author Yu Xin Yan
- * @version 2.0
+ * @version IntelliJ IDEA 2020.1
  */
 
 public class RegularUserOtherInfoGetter {

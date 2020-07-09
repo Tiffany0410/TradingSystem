@@ -13,7 +13,7 @@ import java.util.Scanner;
  * getter for the RegularUserController class.
  *
  * @author Yu Xin Yan, Jiaqi Gong
- * @version 3.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserDateTimeGetter {
 

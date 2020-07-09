@@ -10,7 +10,7 @@ import java.util.*;
  * the use cases, and the presenter.
  *
  *  @author Yu Xin Yan
- *  @version 11.0
+ *  @version IntelliJ IDEA 2020.1
  */
 public class RegularUserController implements Controllable {
 

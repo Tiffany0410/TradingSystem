@@ -8,7 +8,7 @@ import java.io.IOException;
  * appropriately reacts to user input.
  *
  * @author Yu Xin, Yan
- * @version 4.0
+ * @version IntelliJ IDEA 2020.1
  */
 
 public interface Controllable {

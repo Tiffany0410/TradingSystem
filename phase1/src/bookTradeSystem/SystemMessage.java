@@ -10,7 +10,7 @@ import java.util.List;
  * to the user.
  *
  * @author Yu Xin Yan
- * @version 3.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
 

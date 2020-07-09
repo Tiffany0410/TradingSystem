@@ -8,7 +8,7 @@ import java.util.List;
  * the use cases, and the presenter, for the account menu part.
  *
  * @author Yu Xin Yan
- * @version 4.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserAccountMenuController {
 

@@ -13,7 +13,7 @@ import java.util.Scanner;
  * the use cases, and the presenter.
  *
  * @author Yu Xin Yan
- * @version 7.0
+ * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserController implements Controllable {
 

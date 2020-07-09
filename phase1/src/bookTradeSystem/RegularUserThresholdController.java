@@ -9,7 +9,7 @@ import java.util.List;
  * controller for the RegularUserController class.
  *
  * @author Yu Xin Yan
- * @version 4.0
+ * @version IntelliJ IDEA 2020.1
  */
 
 public class RegularUserThresholdController {
