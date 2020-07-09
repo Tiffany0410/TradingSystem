@@ -104,7 +104,6 @@
         9.Exit
         Return to regular user main menu <RegularUserMainMenu.csv>.
 
-
     >>Key features of RegularUserTradingMenu:
         1.Request a trade:
         You can request a trade to another user, first step you need to choose what kind of trade you wanna do ( input 1 is one way trade and 2 is two way trade)
@@ -134,6 +133,35 @@
 
     >>Key features of RegularUserMeetingMenu:
 
+        The first meeting of the trade is created by the system automatically if both users agree to the trade.
+        The second meeting is created by the system if the trade is “Temporary”, and the first meeting is complete.
+        The second meeting is one month after the first meeting and in the same location. Users can not edit and
+        confirm the time and place for the second meeting, but they have to confirm the completeness of the meeting.
+
+        1. Suggest/edit time and place for meetings:
+	    By entering the trade id and meeting number to choose the meeting you want to edit, then you can edit the
+	    meeting time and place by inputting the valid time and place according to the instruction(We allow you to set
+	    meeting time that is before current time for the reason to test easily, see the details in “The meeting time
+	    thing” at the end of this text). The user only can edit successfully if it is the user’s turn and the times
+	    of editing does not reach the threshold.
+
+        2. Confirm time and place for meetings:
+        You can confirm the meeting time and place if it is your turn and the times of editing does not reach the threshold.
+
+        3. Confirm the meeting took place:
+        You can confirm the meeting took place if the meeting time is before the current time.
+
+        4. see the list of meetings that need to be confirmed that it too place:
+        You can view the list of meetings that time and place has been confirmed, but the occurrence has not been confirmed.
+
+        5. see the list of meetings that has been confirmed:
+        You can view the list of meetings that is done.
+
+        6. see the list of meetings with time and place that need to be confirmed:
+        You can see the list of meetings that is not confirmed time and place.
+
+        7. Exit menu:
+        Go to the previous menu.
 
 
 
@@ -171,3 +199,11 @@
 
 
 
+4) Other things you should know to run the program:
+
+    -The meeting time thing?
+ 	    In order to easily test some methods, we allow the user to set the meeting time before the current time(any
+ 	    time from 2020 to 2030). Therefore, we can test  the “confirm the meeting took place” function immediately(since
+ 	    we can only confirm the meeting took place when the meeting time is before current time). Also, we can check
+ 	    the meetings that should have happened but have not confirmed the completeness after one day of the meeting
+ 	    time immediately.
