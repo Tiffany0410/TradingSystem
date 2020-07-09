@@ -49,6 +49,16 @@
 
 
     >>Key features of AdminUserEditThresholdsSubMenu:
+           This menu has four options, which allows the admin user to edit the four
+            threshold values in our system. They are:
+
+                1. the maximum number of transactions allowed a week
+
+                2. the max number of transactions that can be incomplete before the account is frozen
+
+                3. the number of books users must lend before users can borrow
+
+                4. the max edits per user for meeting’s date + time
 
 
     >>Key features of AdminUserOtherSubMenu
