@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 /**
  * An instance of this class represents an item in the system.
+ *
+ *
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1.1
  */
 public class Item implements Serializable {
     private String name;
