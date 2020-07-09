@@ -1,6 +1,7 @@
 package bookTradeSystem;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -45,8 +46,11 @@ public class DemoMain {
 
             // Run trading system
             condition = tradingSystem.tradingSystemInital();
-        } catch (ClassNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             System.out.println("Can not find file, Please check the root of the program and README file.");
+            break;
+        }catch (ClassNotFoundException ex){
+            System.out.println("Can not find Manager in related file, Please check README file or rerun the program.");
             break;
         } catch (IOException ex){
             System.out.println("Please try to clean the content of the files in Managers folder");
