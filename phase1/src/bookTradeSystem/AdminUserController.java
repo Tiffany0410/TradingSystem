@@ -113,7 +113,7 @@ public class AdminUserController implements Controllable {
             Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
-//          TODO: need a method to remove item from um's getListItemToAdd
+            //need a method to remove item from um's getListItemToAdd (***)
             um.getListItemToAdd().remove(itemSelected);
         }
         else{
