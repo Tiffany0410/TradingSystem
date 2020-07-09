@@ -2,7 +2,9 @@ package bookTradeSystem;
 import java.util.*;
 
 /**
- * An instance of this class represents the list of meeting
+ * An instance of this class represents the list of meetings
+ * @author Jianhong Guo
+ * @version IntelliJ IDEA 2020.1
  */
 public class MeetingManager implements java.io.Serializable{
     private List<Meeting> listMeeting;
@@ -13,15 +15,15 @@ public class MeetingManager implements java.io.Serializable{
         listMeeting = new ArrayList<>();
     }
 
-    /** get the list of meeting for the MeetingManager
-     * @return a list of meeting for the meeting manager
+    /** get the list of meetings for the MeetingManager
+     * @return a list of meetings for the meeting manager
      */
     public List<Meeting> getListMeeting(){
         return listMeeting;
     }
 
     /** set the list of meeting in the MeetingManager with listMeeting
-     * @param listMeeting list of meeting
+     * @param listMeeting list of meetings
      */
     public void setListMeeting(List<Meeting> listMeeting){
         this.listMeeting = listMeeting;
@@ -29,7 +31,7 @@ public class MeetingManager implements java.io.Serializable{
 
     /** search the list of meetings by a given userId
      * @param userId the id of the user
-     * @return a list f meeting for a given user id
+     * @return a list of meetings for a given user id
      */
     public List<Meeting> getMeetingsByUserId(int userId){
         List<Meeting> listMeeting1 = new ArrayList<>();
@@ -44,7 +46,7 @@ public class MeetingManager implements java.io.Serializable{
 
     /** get a list of complete meetings for a given id
      * @param userId the id for a user
-     * @return a list of meeting that is completed for a given id
+     * @return a list of meetings that is completed for a given id
      */
     public List<Meeting> getCompleteMeeting(int userId){
         List<Meeting> listCompleteMeeting = new ArrayList<>();
@@ -60,7 +62,7 @@ public class MeetingManager implements java.io.Serializable{
     /** get a list of not complete meetings for a given user id
      * @param userId the id for a user
      * @param tradeManager the list of trades
-     * @return a list of meeting that is not completed for a given id
+     * @return a list of meetings that is not completed for a given id
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
     public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager) throws InvalidIdException {
@@ -77,7 +79,7 @@ public class MeetingManager implements java.io.Serializable{
     /** get a list of meetings that has not been confirmed for the time and place
      * @param userId the id for the user
      * @param tradeManager the list of trades
-     * @return the list of meeting that is not confirmed time and place by a given user
+     * @return the list of meetings that is not confirmed time and place by a given user
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
     public List<Meeting> getUnConfirmTimePlace(int userId, TradeManager tradeManager) throws InvalidIdException {
@@ -137,7 +139,7 @@ public class MeetingManager implements java.io.Serializable{
     /** search a meeting in the MeetingManager by a given tradeId and numMeeting
      * @param tradeId the id of the trade
      * @param numMeeting the number of the meeting for a given trade
-     * @return a meeting with the given tradeId and numMeeting, if the meeting is not in the meetingmanager, return a
+     * @return a meeting with the given tradeId and numMeeting, if the meeting is not in the meetingManager, return a
      * meeting with all 0 parameters.
      */
     public Meeting getMeetingByIdNum(int tradeId, int numMeeting){
@@ -154,8 +156,8 @@ public class MeetingManager implements java.io.Serializable{
      * @param tradeManager the list of trade
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
-     * @return true iff confirm is successful(the confirm is
-     * successful iff the meeting is for the user and the user has not
+     * @return true if confirm is successful(the confirm is
+     * successful if the meeting is for the user and the user has not
      * confirmed yet)
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
@@ -188,7 +190,7 @@ public class MeetingManager implements java.io.Serializable{
         }
 
     /** check whether or not a meeting is not confirmed by users after one day of the meeting should happen.
-     * @return true iff the meeting is not confirmed after one day of the real life meeting time.
+     * @return true if the meeting is not confirmed after one day of the real life meeting time.
      */
     public Boolean getOverTime(Meeting meeting){
         Calendar time1 = Calendar.getInstance();
@@ -252,7 +254,7 @@ public class MeetingManager implements java.io.Serializable{
         }
     /** remove a meeting from the MeetingManager
      * @param meeting a meeting for a trade
-     * @return true iff the meeting is removed from the system.
+     * @return true if the meeting is removed from the system.
      */
     public Boolean removeMeeting(Meeting meeting){
         if (listMeeting.contains(meeting)){
