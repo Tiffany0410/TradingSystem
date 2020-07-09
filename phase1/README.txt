@@ -53,7 +53,7 @@
         0. Exit menu:
            return to admin user main menu.
 
-    Key feature of trade menu:
+    Key feature of tradingInfo menu:
         1.Request a trade: You can request a trade to another user, first step you need to choose what kind of trade you wanna do ( input 1 is one way trade and 2 is two way trade)
         Next enter the user id(input user1/(borrower) id first and user2 next)
         Next enter the id of the item you want to trade.
