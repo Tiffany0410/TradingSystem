@@ -32,6 +32,25 @@
         0. Exit menu:
            return to admin user main menu.
 
+    Key feature of trade menu:
+        1.Request a trade: You can request a trade to another user, first step you need to choose what kind of trade you wanna do ( input 1 is one way trade and 2 is two way trade)
+        Next enter the user id(input user1/(borrower) id first and user2 next)
+        Next enter the id of the item you want to trade.
+
+        2. Respond to trade requests: Respond a waited trade sent by others.
+
+        3. View open trades: You can view all your trades with status open
+
+        4. View closed trades: You can view all your trades with status closed
+
+        5. Confirm that a trade has been completed: You can confirm that a trade has been completed or not.
+
+        6.  See top three most frequent trading partners: You can see the top three most frequent trading partners with you.
+
+        7. View transactions that have been cancelled: You can view transactions you made that have been cancelled.
+
+        8. Exit: To the previous page.
+
 
 
 
