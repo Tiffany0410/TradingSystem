@@ -44,7 +44,7 @@ public class AdminUserController implements Controllable {
 
 
     /**
-     * This method calls appropriate methods based on user input of
+     * Calls appropriate methods based on user input of
      * the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
      * @param mainMenuOption The main menu option chosen by the admin user.
