@@ -139,7 +139,7 @@ public class FilesReaderWriter implements Serializable {
                 sb.deleteCharAt(sb.length() - 1);
                 sb.deleteCharAt(sb.length() - 1);
                 sb.append(thresholdValues.get(location));
-                sb.append("\n");
+                if (location != thresholdValuesList.size() - 1) {sb.append("\n");}
                 thresholdValuesList.set(location, sb.toString());
                 location --;
             }
