@@ -127,8 +127,8 @@ public class TradeManager implements Serializable {
 
     /**
      * return a list of top three partners id（finding the way to solve by comparing values
-     * in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values)
-     *
+     * in the following website
+     * @link https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
      * @param userId user id
      * @return list of top three partners id (Most is at index 0 and least at last index)
      * @throws InvalidIdException In case the id is invalid.

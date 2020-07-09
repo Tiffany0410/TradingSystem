@@ -3,11 +3,14 @@ package bookTradeSystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * An instance of this class represents a regular user in our system.
+ *
+ * @author
+ * @version IntelliJ IDEA 2020.1
+ */
 public class User implements Serializable {
-    /**
-     * username is the user's username. password is the user's password. email is
-     * the user's email.
-     */
+
     //basic info
     private String username;
     private String password;

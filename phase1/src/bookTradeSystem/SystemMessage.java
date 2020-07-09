@@ -22,7 +22,7 @@ public class SystemMessage {
     }
 
     /**
-     * This method gathers all the necessary messages
+     * Gathers all the necessary messages
      * for the regular user.
      *
      * @return messages as properly formatted strings.
@@ -60,7 +60,7 @@ public class SystemMessage {
 
 
     /**
-     * This method gathers all the necessary notifications
+     * Gathers all the necessary notifications
      * for the admin user.
      * @return Notifications as properly formatted strings.
      * @throws IOException In case the file can't be found.

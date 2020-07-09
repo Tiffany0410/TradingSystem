@@ -22,7 +22,7 @@ public class AdminUserOtherInfoGetter {
     }
 
     /**
-     * Get the item number from the admin user.
+     * Gets the item number from the admin user.
      * @param numItemsToAdd The list of items to be added to regular users inventories.
      * @return The number of the item in the list.
      */
@@ -82,7 +82,7 @@ public class AdminUserOtherInfoGetter {
     }
 
     /**
-     * Get admin user's response of whether to add or not.
+     * Gets admin user's response of whether to add or not.
      * @return Admin user's response of whether to add or not.
      */
     protected boolean getAddOrNot(){

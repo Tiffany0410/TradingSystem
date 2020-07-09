@@ -156,7 +156,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Get the item name from the user and let the user manager search for it
+     * Gets the item name from the user and let the user manager search for it
      * in the system.
      */
     protected void searchItem() {

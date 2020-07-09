@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * Classes that implement this interface
- * appropriately reacts to user input.
+ * appropriately react to user input.
  *
  * @author Yu Xin, Yan
  * @version IntelliJ IDEA 2020.1
@@ -14,7 +14,7 @@ import java.io.IOException;
 public interface Controllable {
 
     /**
-     * This method calls appropriate methods based on user input
+     * Calls appropriate methods based on user input
      * of the option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
      * @param mainMenuOption The main menu option chosen by the one who logged into the program.

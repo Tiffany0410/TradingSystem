@@ -2,11 +2,14 @@ package bookTradeSystem;
 
 import java.io.Serializable;
 
+/**
+ * An instance of this class represents an admin user in this system.
+ *
+ * @author
+ * @version IntelliJ IDEA 2020.1
+ */
 public class AdminUser implements Serializable {
-    /**
-     * username is the user's username. password is the user's password. email is
-     * the user's email.
-     */
+
     private String username;
     private String password;
     private String email;

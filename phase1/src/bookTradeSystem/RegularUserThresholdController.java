@@ -47,7 +47,7 @@ public class RegularUserThresholdController {
     }
 
     /**
-     * Re-assess user's number of transactions left for the week.
+     * Re-assesses user's number of transactions left for the week.
      * @param thisUser The user to be re-assessed the number of transactions
      *                 left for the week for.
      */
@@ -62,7 +62,7 @@ public class RegularUserThresholdController {
     }
 
     /**
-     * Decrement the number of trades left for the week
+     * Decrements the number of trades left for the week
      * for this user by one.
      * @param thisUser The user whose number of trade left for
      *                 the week is to be changed.
@@ -86,7 +86,7 @@ public class RegularUserThresholdController {
     }
 
     /**
-     * Judge whether the user should be frozen and actually do so
+     * Judges whether the user should be frozen and actually do so
      * based on the maximum uncompleted transactions allowed before
      * the user is frozen threshold.
      * @param thisUser The user to be determined whether he/she should be frozen or not.

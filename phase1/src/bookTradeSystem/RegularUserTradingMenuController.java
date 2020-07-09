@@ -107,7 +107,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * Get from user the information about the trade the user
+     * Gets from user the information about the trade the user
      * wants to respond to and determine whether the
      * response is successfully sent or not. If there're no
      * outstanding trade requests or if the user has reached
@@ -205,7 +205,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * Get from user the information about the trade the user
+     * Gets from user the information about the trade the user
      * request and determine whether the request is sent
      * successfully sent or not. If the user has reached
      * the maximum number of transactions
