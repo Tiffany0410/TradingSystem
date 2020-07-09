@@ -120,8 +120,7 @@ public class RegularUserTradingMenuController {
             sm.msgForNothing(ds);
         }
         else {
-            //assume wait-to-be-opened = wait for the other user's response
-            ds.printResult(new ArrayList<>(tm.getWaitTrade(userId)));
+            TradeRequestsToRespond();
             // asks for trade id
             int tradeID = idGetter.getTradeID();
             // get the actual trade object
@@ -146,6 +145,18 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    private void TradeRequestsToRespond() throws InvalidIdException {
+        //assume wait-to-be-opened = wait for the other user's response
+        List<Trade> requests = new ArrayList<>();
+        // only print ones that user haven't agree on
+        for (Trade t: tm.getWaitTrade(userId)){
+            if (t.getUserStatus(userId).equals("Disagree")){
+                requests.add(t);
+            }
+        }
+        ds.printResult(new ArrayList<>(requests));
+    }
+
     private boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
         if (agree) {
             agreedBefore = b;
@@ -167,8 +178,10 @@ public class RegularUserTradingMenuController {
             }
             ds.printResult("Your response to this trade request", true);
         }
-        //because the user already agreed so false request
-        ds.printResult(false);
+        else {
+            //because the user already agreed so false request
+            ds.printResult(false);
+        }
     }
 
     private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
@@ -209,10 +222,13 @@ public class RegularUserTradingMenuController {
             //get info for trade
             int userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
             int userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
+            ds.printOut("For the first item: ");
             int itemId = idGetter.getItemID(idGetter.getAllItems(), 1);
             int tradeID = determineTradeID();
             String tradeType = otherInfoGetter.getTradeType();
-            if (numKindOfTrade == 2){ itemId2 = idGetter.getItemID(idGetter.getAllItems(), 1); }
+            if (numKindOfTrade == 2){
+                ds.printOut("For the second item: ");
+                itemId2 = idGetter.getItemID(idGetter.getAllItems(), 1); }
             //get the trade object
             trade = getTrade(numKindOfTrade, itemId2, userId1, userId2, itemId, tradeID, tradeType);
             // get the validation from the item side
@@ -266,9 +282,8 @@ public class RegularUserTradingMenuController {
     }
 
     private void requestFail(User thisUser) {
-        //TODO if the trade request failed
+        //if the trade request failed
         ds.printResult(false);
-        // TODO: should I put this here?
         // system auto-freeze
         // user borrow more than lend
         if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
@@ -291,7 +306,7 @@ public class RegularUserTradingMenuController {
 
     private boolean validateItems(int borrower, int lender, int itemId){
         return um.findUser(borrower).getWishList().contains(itemId) &&
-                um.findUser(lender).getInventory().contains(itemId);
+                um.findUser(lender).getInventory().contains(idGetter.idToItem(itemId));
     }
 
 

@@ -42,6 +42,8 @@ public class SystemMessage {
                 ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
             }
         }
+        notification.append("Your username is ").append(username).append("\n");
+        notification.append("Your userId is ").append(um.usernameToID(username)).append("\n");
         notification.append("The answer to you're frozen is ").append(regUser.getIfFrozen()).append("\n");
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
@@ -72,7 +74,7 @@ public class SystemMessage {
      * @param ds The presenter that prints to screen.
      */
     protected void msgForMeetingDNE(DisplaySystem ds) {
-        ds.printOut("This meeting doesn't exist in the system.");
+        ds.printOut("This meeting doesn't exist in the system." + "\n");
     }
 
 
