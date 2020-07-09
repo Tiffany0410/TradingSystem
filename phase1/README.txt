@@ -20,66 +20,91 @@
     <RegularUserTradingMenu> and <RegularUserMeetingMenu>.
 
 
+    Key features of AdminUserManageUsersMenu:
+        1. Freeze user:
+        Admin user can freeze a user from trading if admin user think this user violate the rule of trading
+        by typing the user name of the user
+
+        2. Unfreeze user:
+        Admin user can see the list of user request unfreeze and decide to unfreeze which user by typing the username of
+        the user
+
+        3. Confirm and add item to user's inventory:
+        Admin user can see the request of user want to add item into their inventory and approve this request
+
+        0. Exit menu:
+        Return to admin user main menu <AdminUserMainMenu.csv>.
+
+
+    Key features of AdminUserOtherSubMenu
+        1. Add subsequent admin users:
+        Create a new AdminUser by entering the username, password and email address.
+        (the info of this new AdminUser will be saved into AdminUserUsernameAndPassword.csv
+        and as part of UserManager be serialized into SerializedUserManager.ser)
+
+        0.Exit menu:
+        Return to admin user main menu <AdminUserMainMenu.csv>.
+
+
+
 
     Key features of RegularUserAccountMenu
         1. Browse all the items in other users inventories:
         Prints a list of all the items in all the other users’ inventories.
+
         2. Add to own Wish List
         Enter the id of the item you want to add. The item will be added to your wishlist if it is not already there.
+
         3. Search item
         Enter part of the name of the item. Prints all the items with whose name contains the input.
+
         4. Remove from own Wish List
         Enter the id of the item you want to remove. The item will be removed from your wishlist if it is there.
+
         5. Remove from own Inventory
-        Prints a list of all the items in your inventory. Enter the number in the list of the item that you want to remove.
-        The item will be removed from your inventory.
+        Prints a list of all the items in your inventory. Enter the number in the list of the item
+        that you want to remove. The item will be removed from your inventory.
+
         6. Request to unfreeze account
-        Enter a message to tell an AdminUser and type OK to finish. A request with the message will be sent to an AdminUser
-        to review.
+        Enter a message to tell an AdminUser and type OK to finish. A request with the message will be sent to an
+        AdminUser to review.
+
         7. Request that an item be added to your inventory
         Enter the name and description of the item. A request will be sent to an AdminUser to review.
+
         8. View your wish list or inventory
         Prints all the items in your wishlist and all the items in your inventory.
+
         9. Exit
-        Go to the previous menu.
+        Return to regular user main menu <RegularUserMainMenu.csv>.
 
-
-
-
-
-
-
-    Key features of AdminUserManageUsersMenu:
-        1. Freeze user:
-        Admin user can freeze a user from trading if admin user think this user violate the rule of trading by typing the
-        user name of the user
-        2. Unfreeze user:
-        Admin user can see the list of user request unfreeze and decide to unfreeze which user by typing the username of
-        the user
-        3. Confirm and add item to user's inventory:
-        Admin user can see the request of user want to add item into their inventory and approve this request
-        0. Exit menu:
-        Return to admin user main menu.
 
     Key feature of RegularUserTradingMenu:
-        1.Request a trade:
+        1. Request a trade:
         You can request a trade to another user, first step you need to choose what kind of trade you wanna do ( input 1 is one way trade and 2 is two way trade)
         Next enter the user id(input user1/(borrower) id first and user2 next)
         Next enter the id of the item you want to trade.
 
-        2. Respond to trade requests: Respond a waited trade sent by others.
+        2. Respond to trade requests:
+        Respond a waited trade sent by others.
 
-        3. View open trades: You can view all your trades with status open
+        3. View open trades:
+        You can view all your trades with status open
 
-        4. View closed trades: You can view all your trades with status closed
+        4. View closed trades:
+        You can view all your trades with status closed
 
-        5. Confirm that a trade has been completed: You can confirm that a trade has been completed or not.
+        5. Confirm that a trade has been completed:
+        You can confirm that a trade has been completed or not.
 
-        6.  See top three most frequent trading partners: You can see the top three most frequent trading partners with you.
+        6.  See top three most frequent trading partners:
+        You can see the top three most frequent trading partners with you.
 
-        7. View transactions that have been cancelled: You can view transactions you made that have been cancelled.
+        7. View transactions that have been cancelled:
+        You can view transactions you made that have been cancelled.
 
-        8. Exit: To the previous page.
+        8. Exit:
+        Return to regular user main menu <RegularUserMainMenu.csv>.
 
 
 
