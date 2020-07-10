@@ -214,7 +214,9 @@ public class RegularUserTradingMenuController {
      * @throws FileNotFoundException In case the file cannot be found.
      */
     protected void requestTrade(User thisUser) throws FileNotFoundException {
+        // read threshold values in from the csv file
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        // if the user has no more transactions left
         if (thisUser.getNumTransactionLeftForTheWeek() == 0){
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, thresholdValues.get(0));
@@ -226,16 +228,23 @@ public class RegularUserTradingMenuController {
             boolean ok;
             // will store the trade object
             Trade trade;
-            // will store the item id if it's two-way-trade
+            // will store the second item id if it's two-way-trade
             int itemId2 = 0;
             //get info for trade
+            // get borrower1lender2's user Id
             int userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
+            // get borrower2lender1's user Id
             int userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
+            // Get the id for the first item
             ds.printOut("For the first item: ");
             int itemId = idGetter.getItemID(idGetter.getAllItems(), 1);
+            // get the trade id
             int tradeID = determineTradeID();
+            // get the trade type (permanent or temporary)
             String tradeType = otherInfoGetter.getTradeType();
+            // if two-way-trade
             if (numKindOfTrade == 2){
+                // asks for the item id for the second item
                 ds.printOut("For the second item: ");
                 itemId2 = idGetter.getItemID(idGetter.getAllItems(), 1); }
             //get the trade object
@@ -249,6 +258,7 @@ public class RegularUserTradingMenuController {
 
     private int determineTradeID() {
         int tradeID;
+        //add the trade id so that there're no duplicates
         if (tm.getListTrade().size() != 0) {tradeID = tm.getListTrade().size() + 1;}
         else {tradeID = 1;}
         return tradeID;
@@ -315,12 +325,17 @@ public class RegularUserTradingMenuController {
 
 
     private boolean validateItems(int borrower, int lender, int itemId){
+        // return true iff the borrower has the item in his/her wishlist and
+        // the lender has the item in his/her inventory
         return um.findUser(borrower).getWishList().contains(itemId) &&
                 um.findUser(lender).getInventory().contains(idGetter.idToItem(itemId));
     }
 
 
     private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
+        // return true iff the borrower has the item in his/her wishlist and
+        // the lender has the item in his/her inventory for both items
+        // to be traded
         return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }

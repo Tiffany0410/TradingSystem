@@ -139,7 +139,7 @@ public class RegularUserController implements Controllable {
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
         /*
           1.Request a trade (lend / borrow / two-way) (tried)
-          2.Respond to trade requests (agree / disagree) - first meeting is set up by system (**)
+          2.Respond to trade requests (agree / disagree) - first meeting is set up by system (should be ok)
           3.View open trades (ok)
           4.View closed trades (ok)
           5.Confirm that a trade has been completed (ok)
@@ -181,7 +181,7 @@ public class RegularUserController implements Controllable {
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
        /*
-    1.Suggest/edit time and place for meetings (tried - need to test threshold)
+    1.Suggest/edit time and place for meetings (tried)
     2.Confirm time and place for meetings (**)
     3.Confirm the meeting took place (**)
     4.See the list of meetings need to be confirmed (that it took place) (ok)

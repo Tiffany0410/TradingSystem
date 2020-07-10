@@ -78,16 +78,21 @@ public class RegularUserMeetingMenuController {
         if (mm.getUnConfirmMeeting(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
-//              "confirmed" means the meeting haven't take place but time and place are confirmed
+            // "confirmed" means the meeting haven't take place but time and place are confirmed
             List<Meeting> listOfUnconfirmedMeeting = mm.getUnConfirmMeeting(userId);
+            // get the list of meetings whose completion are not confirmed
             ds.printOut("Here's a list of meeting(s) with unconfirmed complete:");
             ds.printResult(new ArrayList<>(listOfUnconfirmedMeeting));
+            // get the information related to the meeting
             int tradeId = idGetter.getTradeID();
             int numMeeting = otherInfoGetter.getNumMeeting();
+            // get the meeting
             Meeting meeting3 = mm.getMeetingByIdNum(tradeId, numMeeting);
+            // if the meeting exists
             if (meeting3.getTradeId() != 0) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, thresholdValues.get(3)));
             } else {
+                // if the meeting DNE
                 sm.msgForMeetingDNE(ds);
             }
             }
@@ -107,13 +112,17 @@ public class RegularUserMeetingMenuController {
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
+            //it will print the list of meetings with unconfirmed time and place
+            // and then ask the user for the meeting info
             Meeting meeting2 = getMeeting();
+            // if the meeting exists in the system
             if (meeting2.getTradeId() != 0) {
                 Boolean confirmSuccess = meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3));
                 ds.printResult(confirmSuccess);
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
                 }
+                // if the meeting DNE in the system
             } else {
                 sm.msgForMeetingDNE(ds);
             }
@@ -129,23 +138,27 @@ public class RegularUserMeetingMenuController {
      * @throws FileNotFoundException In case the file cannot be found.
      */
     protected void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
+        // get the threshold values read from the csv file
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        // get the threshold value needed for this method
         int maxMeetingTimePlaceEdits = thresholdValues.get(3);
+        // if there're no meetings that need to be confirmed for time and place
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("here that requires action", ds);
         } else {
+            // print the list of unconfirmed time and place meetings
+            // get the meeting info from the user
             Meeting meeting = getMeeting();
             // if the meeting exists and the threshold is not reached yet
             if (meeting.getTradeId() != 0 && mm.getEditOverThreshold(tm, meeting, thresholdValues.get(3)).equals("")) {
-
+                //asks the user for the date and place
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
-
-                //int year, int month, int day, int hour, int min, int sec
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
                 boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
+                // if the user did not edit it successfully
                 if (!editSuccess){
                     ds.printOut("It's not your turn.");
                 }
@@ -154,9 +167,12 @@ public class RegularUserMeetingMenuController {
                 // for the edit threshold
                 ds.printOut(mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits));
             } else {
+                // print a helpful messages to let user know why failed
+                // if the meeting DNE
                 if (meeting.getTradeId() == 0) {
                     sm.msgForMeetingDNE(ds);
                 }
+                // if the threshold is reached
                 else {
                     ds.printOut("You reached the threshold to edit." + "\n");
                     ds.printOut("And/or, the trade that goes with this meeting is cancelled" + "\n");
@@ -173,11 +189,14 @@ public class RegularUserMeetingMenuController {
      * @throws InvalidIdException In case if the id is not valid.
      */
     protected void unconfirmedTandPMeetings() throws InvalidIdException {
+        //get the list of meetings with unconfirmed time and place from the meeting manager
         List<Meeting> listOfUnconfirmedTimePlace = mm.getUnConfirmTimePlace(userId, tm);
+        // if there're meeting with unconfirmed time and place
         if (listOfUnconfirmedTimePlace.size() != 0) {
             ds.printOut("Here's a list of meeting(s) with unconfirmed time and place:");
             ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
         }
+        // if there're no meeting with unconfirmed time and place
         else{
             sm.msgForNothing(ds);
         }
@@ -189,6 +208,8 @@ public class RegularUserMeetingMenuController {
      * @throws InvalidIdException In case if the id is not valid.
      */
     private Meeting getMeeting() throws InvalidIdException {
+        // print the meetings with unconfirmed time and place
+        // the else part of the below method'll not be reached
         unconfirmedTandPMeetings();
 //      ask the user to enter the trade id, meetingNum, time and place
         int tradeId = idGetter.getTradeID();
