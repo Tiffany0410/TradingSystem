@@ -199,13 +199,19 @@
     - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
       until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
 
+    - Our system auto-freezes users but admin can still freeze / unfreeze users.
+
  Section 2:
 
  	- In order to easily test some methods, we allow the user to set the meeting time before the current time(any
- 	  time from 2020 to 2030). Therefore, we can test  the “confirm the meeting took place” function immediately(since
+ 	  time from 2020 to 2030). Therefore, we can test the “confirm the meeting took place” function immediately(since
  	  we can only confirm the meeting took place when the meeting time is before current time). Also, we can check
  	  the meetings that should have happened but have not confirmed the completeness after one day of the meeting
  	  time immediately.
+
+ 	- once a user agrees to the trade request sent by the other user, their first meeting is automatically set
+ 	up by the system. They can see it in by going to the edit meeting time and place option, which is where they
+ 	can also edit its time and place.
 
     - You can see your user ID and username after you logged in. And in the browse other users inventory option,
       you can not only see the items and their IDs but also their owner IDs so you can use that when you
