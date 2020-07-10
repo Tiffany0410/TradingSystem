@@ -90,7 +90,8 @@ public class RegularUserMeetingMenuController {
             } else {
                 sm.msgForMeetingDNE(ds);
             }
-            }}
+            }
+    }
 
 
     /**
