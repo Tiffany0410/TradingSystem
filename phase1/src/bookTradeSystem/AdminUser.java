@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * An instance of this class represents an admin user in this system.
  *
- * @author
+ * @author Hao Du
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUser implements Serializable {
@@ -18,9 +18,9 @@ public class AdminUser implements Serializable {
     /**
      * Construct an User.
      * 
-     * @param username user's username.
-     * @param password user's password.
-     * @param email    user's email
+     * @param username admin user's username.
+     * @param password admin user's password.
+     * @param email    admin user's email
      */
     public AdminUser(String username, String password, String email, Integer adminID) {
         this.username = username;
@@ -30,27 +30,18 @@ public class AdminUser implements Serializable {
     }
 
     /**
-     * Get the user's email.
+     * Get the admin user's username.
      * 
-     * @return the email.
-     */
-    public String getEmail() {
-        return this.email;
-    }
-
-    /**
-     * Get the user's username.
-     * 
-     * @return username.
+     * @return Admin user's username.
      */
     public String getUsername() {
         return this.username;
     }
 
     /**
-     * Get the user's id.
+     * Get the admin user's id.
      * 
-     * @return id.
+     * @return Admin user's id.
      */
     public int getId() {
         return this.id;
