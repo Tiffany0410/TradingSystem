@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * An instance of this class represents an admin user in this system.
  *
- * @author
+ * @author Hao Du
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUser implements Serializable {
