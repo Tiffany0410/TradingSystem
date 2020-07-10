@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * An instance of this class represents a regular user in our system.
  *
- * @author Hao Du, Shi Tang
+ * @author
  * @version IntelliJ IDEA 2020.1
  */
 public class User implements Serializable {

@@ -307,7 +307,7 @@ public class TradeManager implements Serializable {
         if (borrower.getNumBorrowed() == 0 && borrower.getNumLent() == 0) {
             return false;
         } else {
-            return borrower.getNumLent() == numLendBeforeBorrow && borrower.getNumLent() >=
+            return borrower.getNumLent() >= numLendBeforeBorrow && borrower.getNumLent() >=
                     borrower.getNumBorrowed();
         }
     }
