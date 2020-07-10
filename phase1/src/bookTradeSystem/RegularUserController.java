@@ -94,14 +94,14 @@ public class RegularUserController implements Controllable {
     }
     private void userAccountMenuResponse(int subMenuOption) {
         /*
-        1.Browse all the books in other users inventories
-        2.Add to own Wish List
-        3.Search item
-        4.Remove from own Wish List
-        5.Remove from own Inventory
-        6.Request to unfreeze account
-        7.Request that an item be added to your inventory
-        8.See most recent three items traded (add)
+        1.Browse all the books in other users inventories (ok)
+        2.Add to own Wish List (ok)
+        3.Search item (ok)
+        4.Remove from own Wish List (ok)
+        5.Remove from own Inventory (ok)
+        6.Request to unfreeze account (ok)
+        7.Request that an item be added to your inventory (ok)
+        8.See most recent three items traded (add) (assume ok)
         0.Exit menu
          */
         ArrayList<Item> allOtherItems = um.allItems(userId);
@@ -138,13 +138,13 @@ public class RegularUserController implements Controllable {
 
     private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
         /*
-          1.Request a trade (lend / borrow / two-way)
-          2.Respond to trade requests (agree / disagree) - first meeting is set up by system
-          3.View open trades
-          4.View closed trades
-          5.Confirm that a trade has been completed
-          6.See top three most frequent trading partners
-          7.View transactions that have been cancelled
+          1.Request a trade (lend / borrow / two-way) (tried)
+          2.Respond to trade requests (agree / disagree) - first meeting is set up by system (should be ok)
+          3.View open trades (ok)
+          4.View closed trades (ok)
+          5.Confirm that a trade has been completed (ok)
+          6.See top three most frequent trading partners (ok)
+          7.View transactions that have been cancelled (ok)
          */
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User thisUser = um.findUser(userId);
@@ -160,10 +160,10 @@ public class RegularUserController implements Controllable {
                 atc.respondToTradeRequests(thisUser);
                 break;
             case 3:
-                atc.viewOpenTrades(tm.getOpenTrade(userId));
+                atc.viewTrades(tm.getOpenTrade(userId));
                 break;
             case 4:
-                atc.viewOpenTrades(tm.getClosedTrade(userId));
+                atc.viewTrades(tm.getClosedTrade(userId));
                 break;
             case 5:
                 atc.confirmTradeComplete();
@@ -172,7 +172,7 @@ public class RegularUserController implements Controllable {
                 atc.seeTopThreePartners();
                 break;
             case 7:
-                atc.viewOpenTrades(tm.getCancelledTrade(userId));
+                atc.viewTrades(tm.getCancelledTrade(userId));
                 break;
 
         }
@@ -181,12 +181,12 @@ public class RegularUserController implements Controllable {
 
     private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
        /*
-    1.Suggest/edit time and place for meetings
-    2.Confirm time and place for meetings
-    3.Confirm the meeting took place
-    4.See the list of meetings need to be confirmed (that it took place)
-    5.See the list of meetings that have been confirmed (that have taken place)
-    6.See the list of meetings with time and place that need to be confirmed
+    1.Suggest/edit time and place for meetings (tried)
+    2.Confirm time and place for meetings (**)
+    3.Confirm the meeting took place (**)
+    4.See the list of meetings need to be confirmed (that it took place) (ok)
+    5.See the list of meetings that have been confirmed (that have taken place) (ok)
+    6.See the list of meetings with time and place that need to be confirmed (ok)
         */
         switch (subMenuOption) {
             case 1:
@@ -201,10 +201,10 @@ public class RegularUserController implements Controllable {
                 mmc.confirmMeetingTookPlace();
                 break;
             case 4:
-                mmc.seeMeetingsToBeConfirmed(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
+                mmc.seeMeetings(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
                 break;
             case 5:
-                mmc.seeMeetingsToBeConfirmed(mm.getCompleteMeeting(userId), " that have been confirmed");
+                mmc.seeMeetings(mm.getCompleteMeeting(userId), " that have been confirmed");
                 break;
             case 6:
                 // See the list of meetings that has not yet been confirmed for time and place

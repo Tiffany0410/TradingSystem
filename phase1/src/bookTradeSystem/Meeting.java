@@ -82,25 +82,11 @@ public class Meeting implements java.io.Serializable{
         return tradeId;
     }
 
-    /** set the trade id of the meeting with tradeId
-     * @param tradeId the trade id related to this meeting
-     */
-    public void setTradeId(int tradeId){
-        this.tradeId = tradeId;
-    }
-
     /** get the id of the first user of the meeting
      * @return the first user's id for this meeting
      */
     public int getUserId1(){
         return userId1;
-    }
-
-    /** set the id of the first user of the meeting with userId1
-     * @param userId1 the first user's id for the meeting
-     */
-    public void setUserId1(int userId1){
-        this.userId1 = userId1;
     }
 
     /** get the id of the second user of the meeting
@@ -110,25 +96,11 @@ public class Meeting implements java.io.Serializable{
         return userId2;
     }
 
-    /** set the id of the second user of the meeting with userId2
-     * @param userId2 the second user's id for the meeting
-     */
-    public void setUserId2(int userId2){
-        this.userId2 = userId2;
-    }
-
     /** get the number of the meeting
      * @return 1(first meeting of the trade) or 2(second meeting of the trade)
      */
     public int getMeetingNum(){
         return meetingNum;
-    }
-
-    /** set the number of the meeting with meetingNum
-     * @param meetingNum shows the first or second meeting of a trade
-     */
-    public void setMeetingNum(int meetingNum){
-        this.meetingNum = meetingNum;
     }
 
     /** get whether or not the time and the place of the meeting is confirmed.
@@ -186,26 +158,13 @@ public class Meeting implements java.io.Serializable{
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
                                     String place, int maxMeetingTimePlaceEdits){
     if (!timePlaceConfirm &&(userId == userId1 ||userId == userId2)&&(timePlaceEdit.isEmpty()
-            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()< 2 * maxMeetingTimePlaceEdits))){
+            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<
+            2 * maxMeetingTimePlaceEdits))){
         this.setTime(year, month, day, hour, min,sec);
-        this.place = place;
+        this.setPlace(place);
         timePlaceEdit.add(userId);
         return true;
     }else{return false;}
-    }
-
-    /** count the number of time the user with userId who edited the time and place
-     * @param userId id of the user
-     * @return the number that the user edited the time and place
-     */
-    public int countEdit(int userId){
-        int num = 0;
-        for(int userId3: timePlaceEdit){
-            if (userId3 == userId){
-                num++;
-            }
-        }
-        return num;
     }
 
     /** override the to string to describe the meeting

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * An instance of this class represents a regular user in our system.
  *
- * @author
+ * @author Hao Du, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
 public class User implements Serializable {
@@ -199,4 +199,15 @@ public class User implements Serializable {
     public void addOneToNumFrozen(){
         numFrozen ++;
     }
+
+    /** Override the to string to describe the user
+     * @return A string description of this user
+     */
+    @Override
+    public String toString(){
+        return "This user has" + "username: " + this.username + ", id: " + this.id + ", email: " + this.email
+                + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
+                "The answer to whether he/she is frozen is " + isFrozen;
+    }
+
 }

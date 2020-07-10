@@ -185,34 +185,54 @@
     - For first time running the program, please clear all content of the files in Manager folder except
       AdminUserUsernameAndPassword.csv
 
+    - In “RegularUserUsernameAndPassword.csv” or “AdminUserUsernameAndPassword.csv”, each line is in the following format
+      and corresponds to one user: username, password, email
+
     - You can create a regular user by going to the main menu create account option.
       See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
       for the username, password, and email information about the user you created
 
     - you can add an admin user to the system by logging in as an admin user (see “AdminUserUsernameAndPassword.csv”)
-      for username and passwords and going to the Others submenu where you should see the option to add another admin
+      for username and passwords and then going to the Others submenu where you should see the option to add another admin
       user
 
-    - In “RegularUserUsernameAndPassword.csv” or “AdminUserUsernameAndPassword.csv”, each line is in the following format
-      and corresponds to one user: username, password, email
+    - you can add an item to a regular user's inventory by requesting to add it first in the regular
+      user's account menu and then log in as an admin user and then add it in the manage user menu.
+
+    - you can add an item to a regular user's wishlist by going to the add item to wishlist option. However,
+      I suggest you to browse the items in other users inventories first because adding an item to the wishlist
+      asks for that item's id. And if you browse the items in other users inventories first, when you're adding
+      an item to your wishlist, you can easily scroll up to see the items (with their ids) that you can add.
+
+    - A trade is created if you requested it successfully.
 
     - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
       until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
 
+    - Our system auto-freezes users but admin can still freeze / unfreeze users.
+
  Section 2:
 
  	- In order to easily test some methods, we allow the user to set the meeting time before the current time(any
- 	  time from 2020 to 2030). Therefore, we can test  the “confirm the meeting took place” function immediately(since
+ 	  time from 2020 to 2030). Therefore, we can test the “confirm the meeting took place” function immediately(since
  	  we can only confirm the meeting took place when the meeting time is before current time). Also, we can check
  	  the meetings that should have happened but have not confirmed the completeness after one day of the meeting
  	  time immediately.
+
+ 	- once a user agrees to the trade request sent by the other user, their first meeting is automatically set
+ 	  up by the system. They can see it in by going to the edit meeting time and place option, which is where they
+ 	  can also edit its time and place. Also, the trade status will be changed to "open". If the user disagrees
+ 	  to the trade, the trade is cancelled.
 
     - You can see your user ID and username after you logged in. And in the browse other users inventory option,
       you can not only see the items and their IDs but also their owner IDs so you can use that when you
       request for a trade.
 
     - when you request for a one-way-trade, please keep in mind the numLendBeforeBorrow threshold and
-      that the borrower needs to have numLend >= numBorrow
+      that the borrower needs to have numLend >= numBorrow.
+
+    - When you request for a trade in general, remember that the lender must have the item to be traded
+      in his/her inventory and the borrower must have the item to traded in his/her wishlist.
 
     - We serialize when we create new users/admin users and when user/admin user logs out. So, if you force
       the program to stop, your progress will not be saved. So, you might want to immediately log out after you
