@@ -75,19 +75,23 @@ public class RegularUserMeetingMenuController {
      */
     protected void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
-        if (mm.getMeetingsByUserId(userId).size() == 0) {
+        if (mm.getUnConfirmMeeting(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
 //              "confirmed" means the meeting haven't take place but time and place are confirmed
-            ds.printResult(new ArrayList<>(mm.getUnConfirmMeeting(userId)));
-            Meeting meeting3 = getMeeting();
+            List<Meeting> listOfUnconfirmedMeeting = mm.getUnConfirmMeeting(userId);
+            ds.printOut("Here's a list of meeting(s) with unconfirmed complete:");
+            ds.printResult(new ArrayList<>(listOfUnconfirmedMeeting));
+            int tradeId = idGetter.getTradeID();
+            int numMeeting = otherInfoGetter.getNumMeeting();
+            Meeting meeting3 = mm.getMeetingByIdNum(tradeId, numMeeting);
             if (meeting3.getTradeId() != 0) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, thresholdValues.get(3)));
             } else {
                 sm.msgForMeetingDNE(ds);
             }
-        }
-    }
+            }}
+
 
     /**
      * If there're meetings that need to be confirmed for time and place
@@ -99,12 +103,16 @@ public class RegularUserMeetingMenuController {
      */
     protected void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
-        if (mm.getMeetingsByUserId(userId).size() == 0) {
+        if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
             Meeting meeting2 = getMeeting();
             if (meeting2.getTradeId() != 0) {
-                ds.printResult(meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3)));
+                Boolean confirmSuccess = meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3));
+                ds.printResult(confirmSuccess);
+                if(!confirmSuccess){
+                    ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
+                }
             } else {
                 sm.msgForMeetingDNE(ds);
             }
@@ -122,7 +130,7 @@ public class RegularUserMeetingMenuController {
     protected void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         int maxMeetingTimePlaceEdits = thresholdValues.get(3);
-        if (mm.getMeetingsByUserId(userId).size() == 0) {
+        if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("here that requires action", ds);
         } else {
             Meeting meeting = getMeeting();
