@@ -203,6 +203,18 @@
      whether or not to add the item back or not (ex. user may decide not to add the item back to his/her inventory
      after this trade).
 
+    - You can see your user ID and username after you logged in. And in the browse other users inventory option,
+      you can not only see the items and their IDs but also their owner IDs so you can use that when you
+      request for a trade.
+
+    - when you request for a one-way-trade, please keep in mind the numLendBeforeBorrow threshold and
+    that the borrower needs to have numLend >= numBorrow
+
+    - We serialize when we create new users/admin users and when user/admin user logs out. So, if you force
+    the program to stop, your progress will not be saved. So, you might want to immediately log out after you
+    have done something major (ex. request for a trade) and then log in to proceed with the next functionality
+    to test.
+
 
 
 4) Other things you should know to run the program:
