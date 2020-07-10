@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
+/**
+ * Used to create a new User account
+ * @author Gabriel
+ * @version IntelliJ IDEA 2020.1
+ */
 public class AccountCreator {
     private UserManager um;
     private DisplaySystem ds;
