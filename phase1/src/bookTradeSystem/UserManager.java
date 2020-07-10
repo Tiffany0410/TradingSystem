@@ -7,11 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-/**
- * Stores all the Users and AdminUsers. Manages the Users and the actions that they can make.
- * @author Gabriel
- * @version IntelliJ IDEA 2020.1
- */
 public class UserManager implements Serializable {
 
     private ArrayList<User> listUser;
