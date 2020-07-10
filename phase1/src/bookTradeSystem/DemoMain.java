@@ -5,6 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * This is the main class of whole system, this class start and initial whole program
+ *
+ * @author Jiaqi Gong, Chengle Yang
+ * @version IntelliJ IDEA 2020.1.1
+ */
+
 public class DemoMain {
     public static void main(String[] args) {
         DemoMainManager();

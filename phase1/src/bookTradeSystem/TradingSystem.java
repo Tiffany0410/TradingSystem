@@ -3,6 +3,13 @@ package bookTradeSystem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * This class represent the whole system, control the whole system and communicate user with controller classes.
+ *
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1.1
+ */
+
 public class TradingSystem {
    private UserManager userManager;
    private DisplaySystem displaySystem;

@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * An instance of this class represents the communication bridge from the trading system to the user.
+ *
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1.1
+ */
+
+
 public class DisplaySystem {
     private FilesReaderWriter fileReader;
     private int option;
