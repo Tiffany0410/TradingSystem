@@ -201,10 +201,10 @@ public class RegularUserController implements Controllable {
                 mmc.confirmMeetingTookPlace();
                 break;
             case 4:
-                mmc.seeMeetingsToBeConfirmed(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
+                mmc.seeMeetings(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
                 break;
             case 5:
-                mmc.seeMeetingsToBeConfirmed(mm.getCompleteMeeting(userId), " that have been confirmed");
+                mmc.seeMeetings(mm.getCompleteMeeting(userId), " that have been confirmed");
                 break;
             case 6:
                 // See the list of meetings that has not yet been confirmed for time and place

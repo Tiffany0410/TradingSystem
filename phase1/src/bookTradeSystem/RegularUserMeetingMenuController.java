@@ -52,16 +52,16 @@ public class RegularUserMeetingMenuController {
     }
 
     /**
-     * Let the presenter print the list of unconfirmed meetings if there are any,
+     * Let the presenter print the list of meetings if there are any,
      * otherwise, print to let user know that there aren't any.
-     * @param unConfirmMeeting The list of unconfirmed meetings.
-     * @param s The specific part of the message that relates to context.
+     * @param meetings The list of meetings
+     * @param type The type of the meeting.
      */
-    protected void seeMeetingsToBeConfirmed(List<Meeting> unConfirmMeeting, String s) {
-        if (unConfirmMeeting.size() == 0) {
-            sm.msgForNothing(s, ds);
+    protected void seeMeetings(List<Meeting>  meetings, String type) {
+        if (meetings.size() == 0) {
+            sm.msgForNothing(type, ds);
         } else {
-            ds.printResult(new ArrayList<>(unConfirmMeeting));
+            ds.printResult(new ArrayList<>(meetings));
         }
     }
 
