@@ -74,7 +74,9 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * Asks the user to confirm the trade to be complete.
+     * Asks the user to for the trade id and let the user
+     * know if the trade with this trade id is completed
+     * or not.
      * If there're no open trades, print an appropriate
      * message.
      * @throws InvalidIdException In case the id is invalid.
@@ -84,10 +86,15 @@ public class RegularUserTradingMenuController {
             ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
             int tradeId = idGetter.getTradeID();
 //           let user enter trade id and we use it to confirm complete
-            ds.printResult(tm.confirmComplete(tradeId));
+            if (tm.confirmComplete(tradeId)){
+                ds.printOut("This trade is completed.");
+            }
+            else{
+                ds.printOut("This trade is Incomplete.");
+            }
         }
         else{
-            sm.msgForNothing(ds);
+            sm.msgForNothing("that you can confirm whether it's completed for now", ds);
         }
     }
 
@@ -123,36 +130,41 @@ public class RegularUserTradingMenuController {
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, thresholdValues.get(0));
         }
-        else if (tm.getTradeHistory(userId).size() == 0){
-            sm.msgForNothing(ds);
-        }
         else {
-            TradeRequestsToRespond();
-            // asks for trade id
-            int tradeID = idGetter.getTradeID();
-            // get the actual trade object
-            Trade trade = tm.getTradeById(tradeID);
-            // will be used if two-way-trade
-            int itemid22 = 0;
-            // will store if the user agreed before
-            boolean agreedBefore = false;
-            // if it's one-way-trade
-            // only need borrower id, lender id, and the item id
-            int userId11 = trade.getIds().get(1);
-            int userId22 = trade.getIds().get(2);
-            int itemId11 = trade.getIds().get(3);
-            if (!trade.getIsOneWayTrade()){
-                // two-way-trade - need one more item id
-                itemid22 = trade.getIds().get(4);
+            // user haven't reach the max number of transactions a week threshold
+            // there're no trade request to respond to
+            if (tradeRequestsToRespond().size() == 0){
+                sm.msgForNothing("that you need to respond to here", ds);
             }
-            // see if the user already agreed to the request
-            agreedBefore = isAgreedBefore(agreedBefore, trade.getUserStatus(userId).equals("Agree"), true);
-            // the result of the response
-            respondResult(tradeID, trade, itemid22, agreedBefore, userId11, userId22, itemId11);
+            // there is trade request to respond to
+            // no need to check if the user agreed before
+            // because they won't be able to agree / disagree for
+            // a second time
+            else {
+                // print the trade requests
+                ds.printResult(new ArrayList<>(tradeRequestsToRespond()));
+                // asks for trade id
+                int tradeID = idGetter.getTradeID();
+                // get the actual trade object
+                Trade trade = tm.getTradeById(tradeID);
+                // will be used if two-way-trade
+                int itemid22 = 0;
+                // if it's one-way-trade
+                // only need borrower id, lender id, and the item id
+                int userId11 = trade.getIds().get(1);
+                int userId22 = trade.getIds().get(2);
+                int itemId11 = trade.getIds().get(3);
+                if (!trade.getIsOneWayTrade()) {
+                    // two-way-trade - need one more item id
+                    itemid22 = trade.getIds().get(4);
+                }
+                // the result of the response
+                respondResult(tradeID, trade, itemid22, userId11, userId22, itemId11);
+            }
         }
     }
 
-    private void TradeRequestsToRespond() throws InvalidIdException {
+    private List<Trade> tradeRequestsToRespond() throws InvalidIdException {
         //assume wait-to-be-opened = wait for the other user's response
         List<Trade> requests = new ArrayList<>();
         // only print ones that user haven't agree on
@@ -161,34 +173,20 @@ public class RegularUserTradingMenuController {
                 requests.add(t);
             }
         }
-        ds.printResult(new ArrayList<>(requests));
+        return requests;
     }
 
-    private boolean isAgreedBefore(boolean agreedBefore, boolean agree, boolean b) {
-        if (agree) {
-            agreedBefore = b;
+    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+        String tradeStatus = otherInfoGetter.getAgreeOrNot();
+        trade.setUserStatus(userId, tradeStatus);
+        //remove items -- if agree
+        if (tradeStatus.equals("Agree")) {
+            respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
+        } else {
+            // cancel the trade so user can see it's cancelled in the list of cancelled trades
+            trade.cancelTrade();
         }
-        return agreedBefore;
-    }
-
-    private void respondResult(int tradeID, Trade trade, int itemid22, boolean agreedBefore, int userId11, int userId22, int itemId11) throws InvalidIdException {
-        // if the user haven't agreed before
-        if (!agreedBefore) {
-            String tradeStatus = otherInfoGetter.getAgreeOrNot();
-            trade.setUserStatus(userId, tradeStatus);
-            //remove items -- if agree
-            if (tradeStatus.equals("Agree")) {
-                respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
-            } else {
-                // cancel the trade so user can see it's cancelled in the list of cancelled trades
-                trade.cancelTrade();
-            }
-            ds.printResult("Your response to this trade request", true);
-        }
-        else {
-            //because the user already agreed so false request
-            ds.printResult(false);
-        }
+        ds.printResult("Your response to this trade request", true);
     }
 
     private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {

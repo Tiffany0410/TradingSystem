@@ -199,4 +199,15 @@ public class User implements Serializable {
     public void addOneToNumFrozen(){
         numFrozen ++;
     }
+
+    /** Override the to string to describe the user
+     * @return A string description of this user
+     */
+    @Override
+    public String toString(){
+        return "This user has" + "username: " + this.username + ", id: " + this.id + ", email: " + this.email
+                + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
+                "The answer to whether he/she is frozen is " + isFrozen;
+    }
+
 }
