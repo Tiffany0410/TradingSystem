@@ -15,35 +15,6 @@ public class MeetingManager implements java.io.Serializable{
         listMeeting = new ArrayList<>();
     }
 
-    /** get the list of meetings for the MeetingManager
-     * @return a list of meetings for the meeting manager
-     */
-    public List<Meeting> getListMeeting(){
-        return listMeeting;
-    }
-
-    /** set the list of meeting in the MeetingManager with listMeeting
-     * @param listMeeting list of meetings
-     */
-    public void setListMeeting(List<Meeting> listMeeting){
-        this.listMeeting = listMeeting;
-    }
-
-    /** search the list of meetings by a given userId
-     * @param userId the id of the user
-     * @return a list of meetings for a given user id
-     */
-    public List<Meeting> getMeetingsByUserId(int userId){
-        List<Meeting> listMeeting1 = new ArrayList<>();
-        for (Meeting meeting: listMeeting){
-            if (meeting.getUserId1() == userId || meeting.getUserId2() == userId){
-                listMeeting1.add(meeting);
-            }
-        }listMeeting1.sort(Comparator.comparing(Meeting::getTime));
-        return listMeeting1;
-    }
-
-
     /** get a list of complete meetings for a given id
      * @param userId the id for a user
      * @return a list of meetings that is completed for a given id
@@ -59,23 +30,6 @@ public class MeetingManager implements java.io.Serializable{
         return listCompleteMeeting;
     }
 
-    /** get a list of not complete meetings for a given user id
-     * @param userId the id for a user
-     * @param tradeManager the list of trades
-     * @return a list of meetings that is not completed for a given id
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
-     */
-    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager) throws InvalidIdException {
-        List<Meeting> listUnCompleteMeeting = new ArrayList<>();
-        for (Meeting meeting: listMeeting){
-            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !(meeting.getMeetingConfirm().
-                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))&& !tradeManager
-                    .getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
-                listUnCompleteMeeting.add(meeting);
-            }
-        }listUnCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
-        return listUnCompleteMeeting;
-    }
     /** get a list of meetings that has not been confirmed for the time and place
      * @param userId the id for the user
      * @param tradeManager the list of trades
@@ -109,32 +63,6 @@ public class MeetingManager implements java.io.Serializable{
         }listUnConfirmMeeting.sort(Comparator.comparing(Meeting::getTime));
         return listUnConfirmMeeting;
     }
-    /** get a list of meetings for a given trade id
-     * @param tradeId the id for a trade
-     * @return a list of meetings for a given trade id
-     */
-    public List<Meeting> getMeetingByTradeId(int tradeId){
-        List<Meeting> listMeetingById = new ArrayList<>();
-        for (Meeting meeting: listMeeting){
-            if (meeting.getTradeId() == tradeId){
-                listMeetingById.add(meeting);
-            }
-        }listMeetingById.sort(Comparator.comparing(Meeting::getMeetingNum));
-        return listMeetingById;
-    }
-
-    /**check if the meeting is in the MeetingManager or not.
-     * @param tradeId  the id of the trade.
-     * @param numMeeting the number of the meeting
-     * @return true if the meeting is in the MeetingManage
-     */
-    public Boolean checkInManager(int tradeId, int numMeeting){
-        for (Meeting meeting:listMeeting){
-            if (meeting.getTradeId() == tradeId && meeting.getMeetingNum() == numMeeting){
-                return true;
-            }
-        }return false;
-    }
 
     /** search a meeting in the MeetingManager by a given tradeId and numMeeting
      * @param tradeId the id of the trade
@@ -161,7 +89,8 @@ public class MeetingManager implements java.io.Serializable{
      * confirmed yet)
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+    public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
+                                     int maxMeetingTimePlaceEdits) throws InvalidIdException {
         if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
                 get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
@@ -232,8 +161,9 @@ public class MeetingManager implements java.io.Serializable{
         return meeting1;
     }
 
-    /** If a meeting is edited more than the maximum meeting datetime edits times by both users without confirmation, and if it's a first meeting,
-     * change the trade status to cancelled with returning string that the transaction is cancelled.
+    /** If a meeting is edited more than the maximum meeting datetime edits times by both users without confirmation,
+     * and if it's a first meeting,change the trade status to cancelled with returning string that the transaction
+     * is cancelled.
      * If it's second meeting, return a string "You have edited too many times". If it is not go over threshold,
      * return an empty string.
      * @param tradeManager a list of trade
@@ -242,7 +172,8 @@ public class MeetingManager implements java.io.Serializable{
      * return a empty string.
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+    public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting,
+                                       int maxMeetingTimePlaceEdits) throws InvalidIdException {
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2*maxMeetingTimePlaceEdits
                 && meeting.getMeetingNum() ==1){
             tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();
@@ -252,18 +183,7 @@ public class MeetingManager implements java.io.Serializable{
             return "You have edited too many times";
         }return "";
         }
-    /** remove a meeting from the MeetingManager
-     * @param meeting a meeting for a trade
-     * @return true if the meeting is removed from the system.
-     */
-    public Boolean removeMeeting(Meeting meeting){
-        if (listMeeting.contains(meeting)){
-            listMeeting.remove(meeting);
-            return true;
-        }else {
-            return false;
-        }
-    }
+
     /** override the toString method to describe a list of meetings
      * @return a string show the detailed information about the meetings in the MeetingManager
      */
