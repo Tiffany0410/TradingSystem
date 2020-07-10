@@ -109,8 +109,14 @@ public class RegularUserThresholdController {
 
 
      private int numUncompletedTransactions() {
+        // will store all the unique trade IDs
         List<Integer> uniqueTradeIDs = new ArrayList<>();
+        // get the meetings that are overtime
         List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
+        /* we get unique # of trades for meetings
+        that are overtime and that's how we
+        get the number of uncompleted transactions
+         */
         for (Meeting meeting : overTimeMeetings){
             int tradeID = meeting.getTradeId();
             if (!uniqueTradeIDs.contains(tradeID)){

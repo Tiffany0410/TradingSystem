@@ -174,10 +174,10 @@
 
 
 
-
-
-
 3) Things you should know before running this program:
+
+
+ Section 1:
 
     - To run our program properly, make phase 1 as the root or change the build configurations (add the “\phase1” to
       the end of the working directory)
@@ -199,13 +199,51 @@
     - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
       until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
 
+ Section 2:
+
+ 	- In order to easily test some methods, we allow the user to set the meeting time before the current time(any
+ 	  time from 2020 to 2030). Therefore, we can test  the “confirm the meeting took place” function immediately(since
+ 	  we can only confirm the meeting took place when the meeting time is before current time). Also, we can check
+ 	  the meetings that should have happened but have not confirmed the completeness after one day of the meeting
+ 	  time immediately.
+
+    - You can see your user ID and username after you logged in. And in the browse other users inventory option,
+      you can not only see the items and their IDs but also their owner IDs so you can use that when you
+      request for a trade.
+
+    - when you request for a one-way-trade, please keep in mind the numLendBeforeBorrow threshold and
+      that the borrower needs to have numLend >= numBorrow
+
+    - We serialize when we create new users/admin users and when user/admin user logs out. So, if you force
+      the program to stop, your progress will not be saved. So, you might want to immediately log out after you
+      have done something major (ex. request for a trade) and then log in to proceed with the next functionality
+      to test.
 
 
-4) Other things you should know to run the program:
+ Section 3:
 
-    -The meeting time thing?
- 	    In order to easily test some methods, we allow the user to set the meeting time before the current time(any
- 	    time from 2020 to 2030). Therefore, we can test  the “confirm the meeting took place” function immediately(since
- 	    we can only confirm the meeting took place when the meeting time is before current time). Also, we can check
- 	    the meetings that should have happened but have not confirmed the completeness after one day of the meeting
- 	    time immediately.
+    - About the maxNumIncompleteTransactions threshold, if the user's frozen because of that for less than three times,
+      the user can request the admin to get itself unfrozen and it would work (the threshold number of the user is going
+      to be extended by itself). However, if the user's frozen because of that for three times, then this user
+      will be permanently frozen. That is, the user can go to the account menu but not the other two menus
+      anymore.
+
+    - About the maxNumTransactionsAWeek threshold, we understood it as the max number of transactions a user can request a week,
+      but if the limit is reached, the user can’t request nor accept any trade requests and can only make changes to ones already there.
+
+      This is to prevent users from getting strategies to go behind this and use our program for other purposes (ex. a business
+      can use this to arrange meetings between its customers).
+
+      We keep track of the number of each user individually,
+      and we deduct one from the number of transactions the user can request a week every time the user requests a
+      trade successfully.
+
+      When you first use this, you will get 3 transactions that you can request a week.
+      If you decide to change this threshold value, it will be reflected next week
+      when the threshold value is reassessed on Sunday.
+
+      Note this threshold value will only be reassessed on Sunday (the first day of the week)
+      but the user does need to log on on some other days of week once to enable the reassess function
+      for the following Sunday.
+
+
