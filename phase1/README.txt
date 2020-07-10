@@ -49,16 +49,15 @@
 
 
     >>Key features of AdminUserEditThresholdsSubMenu:
-           This menu has four options, which allows the admin user to edit the four
-            threshold values in our system. They are:
+        This menu has four options, which allows the admin user to edit the four threshold values in our system.
 
-                1. the maximum number of transactions allowed a week
+        1. the maximum number of transactions allowed a week
 
-                2. the max number of transactions that can be incomplete before the account is frozen
+        2. the max number of transactions that can be incomplete before the account is frozen
 
-                3. the number of books users must lend before users can borrow
+        3. the number of books users must lend before users can borrow
 
-                4. the max edits per user for meeting’s date + time
+        4. the max edits per user for meeting’s date + time
 
 
     >>Key features of AdminUserOtherSubMenu
@@ -171,14 +170,7 @@
         You can see the list of meetings that is not confirmed time and place.
 
         7. Exit menu:
-        Go to the previous menu.
-
-
-
-
-
-
-
+        Return to regular user main menu <RegularUserMainMenu.csv>.
 
 
 
@@ -205,7 +197,11 @@
       and corresponds to one user: username, password, email
 
     - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
-      until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
+      until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it. :)
+
+    - Our system don't add back items to the users even after the trade has been cancelled so the users can choose
+     whether or not to add the item back or not (ex. user may decide not to add the item back to his/her inventory
+     after this trade).
 
 
 

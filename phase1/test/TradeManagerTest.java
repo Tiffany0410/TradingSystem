@@ -67,7 +67,8 @@ public class TradeManagerTest {
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
             list.add(item1.getItemId());
-            assertFalse(t.validateTrade(trade, user1));
+            // third arg = numLendBeforeBorrow (default = 1)
+            assertFalse(t.validateTrade(trade, user1, 1));
         }
         @Test(timeout = 50)
         public void testValidateTrade1(){
@@ -81,7 +82,8 @@ public class TradeManagerTest {
             trade.closedTrade();
             List<Integer> list = new ArrayList<>();
             list.add(item1.getItemId());
-            assertTrue(t.validateTrade(trade, user1));
+            // third arg = numLendBeforeBorrow (default = 1)
+            assertTrue(t.validateTrade(trade, user1, 1));
         }
         @Test(timeout = 50)
         public void testTopThreePartners() throws InvalidIdException {

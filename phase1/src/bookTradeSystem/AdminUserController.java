@@ -11,6 +11,9 @@ import java.util.Scanner;
 /**
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserController implements Controllable {
 
@@ -41,12 +44,12 @@ public class AdminUserController implements Controllable {
 
 
     /**
-     * This method calls appropriate methods based on user input of
+     * Calls appropriate methods based on user input of
      * the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
      * @param mainMenuOption The main menu option chosen by the admin user.
      * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
-     * @throws FileNotFoundException In case the file can't be found.
+     * @throws IOException In case the file can't be found.
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) throws IOException {
@@ -106,11 +109,11 @@ public class AdminUserController implements Controllable {
     private void responseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
         if (len != 0) {
 //              get the list of item to be added to inventories
-            ds.printResult(new ArrayList<Object>(listItemToAdd));
+            ds.printResult(new ArrayList<>(listItemToAdd));
             Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
-//          TODO: need a method to remove item from um's getListItemToAdd
+            //need a method to remove item from um's getListItemToAdd (***)
             um.getListItemToAdd().remove(itemSelected);
         }
         else{
@@ -129,31 +132,37 @@ public class AdminUserController implements Controllable {
         }
     }
 
-    private void adminEditThresholdMenuResponse(int subMenuOption) {
+    private void adminEditThresholdMenuResponse(int subMenuOption) throws IOException {
         /*
         1.Edit the max number of transactions allowed a week
         2.Edit the max number of transactions that can be incomplete before the account is frozen
         3.Edit the number of books users must lend before users can borrow
         4.Edit the max Edits per user for meeting’s date + time
          */
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         switch (subMenuOption) {
             case 1:
-                sm.msgForThresholdValue(User.getMaxNumTransactionsAllowedAWeek(),ds);
-                um.editMaxNumTransactionsAllowedAWeek(otherInfoGetter.getThresholdAns());
+                sm.msgForThresholdValue(thresholdValues.get(0),ds);
+                // editMaxNumTransactionsAllowedAWeek
+                thresholdValues.set(0, otherInfoGetter.getThresholdAns());
                 break;
             case 2:
-                sm.msgForThresholdValue(User.getMaxNumTransactionIncomplete(),ds);
-                um.editMaxNumTransactionIncomplete(otherInfoGetter.getThresholdAns());
+                sm.msgForThresholdValue(thresholdValues.get(1),ds);
+                // editMaxNumTransactionIncomplete
+                thresholdValues.set(1, otherInfoGetter.getThresholdAns());
                 break;
             case 3:
-                sm.msgForThresholdValue(User.getNumLendBeforeBorrow(),ds);
-                um.editNumLendBeforeBorrow(otherInfoGetter.getThresholdAns());
+                sm.msgForThresholdValue(thresholdValues.get(2),ds);
+                // editNumLendBeforeBorrow
+                thresholdValues.set(2, otherInfoGetter.getThresholdAns());
                 break;
             case 4:
-                sm.msgForThresholdValue(User.getMaxMeetingDateTimeEdits(),ds);
-                um.editMaxMeetingDateTimeEdits(otherInfoGetter.getThresholdAns());
+                sm.msgForThresholdValue(thresholdValues.get(3),ds);
+                //editMaxMeetingDateTimeEdits
+                thresholdValues.set(3, otherInfoGetter.getThresholdAns());
                 break;
         }
+        rw.saveThresholdValuesToCSVFile(thresholdValues, "./src/Others/ThresholdValues.csv");
         ds.printResult(true);
     }
 

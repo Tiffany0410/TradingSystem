@@ -6,6 +6,10 @@ import java.util.Map;
 
 /**
  * A login validator of this system that stores username and password for users and administrative users.
+ *
+ *
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1.1
  */
 public class LoginValidator implements Serializable {
     private Map<String, String> userLoginInfo;

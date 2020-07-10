@@ -3,11 +3,14 @@ package bookTradeSystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * An instance of this class represents a regular user in our system.
+ *
+ * @author Hao Du, Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class User implements Serializable {
-    /**
-     * username is the user's username. password is the user's password. email is
-     * the user's email.
-     */
+
     //basic info
     private String username;
     private String password;
@@ -49,24 +52,6 @@ public class User implements Serializable {
     public String getPassword() { return password;}
 
     /**
-     * Set the user's password.
-     *
-     * @param password the user's password.
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Set the user's email.
-     *
-     * @param email the user's email.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * Get the user's email.
      *
      * @return the email.
@@ -82,16 +67,6 @@ public class User implements Serializable {
      */
     public String getUsername() {
         return this.username;
-    }
-
-    /**
-     * Add the id of the item to the user's wish list.
-     *
-     * @param itemID The id of the item to be added to the wish list.
-     */
-    public void addToWishList(Integer itemID) {
-        if (! wishList.contains(itemID))
-        {wishList.add(itemID);}
     }
 
     /**
@@ -111,17 +86,6 @@ public class User implements Serializable {
     public ArrayList<Integer> getWishList() {
         return wishList;
     }
-
-
-    /**
-     * Add item to the user's inventory.
-     *
-     * @param item The item to be added to the inventory
-     */
-    public void addToInventory(Item item) {
-        inventory.add(item);
-    }
-
 
     /**
      * Sets user's inventory to a new one.

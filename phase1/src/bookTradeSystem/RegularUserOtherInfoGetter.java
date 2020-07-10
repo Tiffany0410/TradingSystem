@@ -5,6 +5,9 @@ import java.util.Scanner;
 /**
  * An instance of this class represents the other information
  * getter for the RegularUserController class.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 
 public class RegularUserOtherInfoGetter {
@@ -38,7 +41,7 @@ public class RegularUserOtherInfoGetter {
     }
 
     /**
-     * Get the name of the item from the user.
+     * Gets the name of the item from the user.
      * @return The name of the item.
      */
     protected String getItemName() {
@@ -68,7 +71,7 @@ public class RegularUserOtherInfoGetter {
     }
 
     /**
-     * Get the type of the trade from the user.
+     * Gets the type of the trade from the user.
      * For now, there're only permanent and temporary.
      * @return The type of the trade.
      */
@@ -87,7 +90,7 @@ public class RegularUserOtherInfoGetter {
 
 
     /**
-     * Get the response from the user to
+     * Gets the response from the user to
      * the agree or not question.
      * @return User's response.
      */
@@ -110,7 +113,7 @@ public class RegularUserOtherInfoGetter {
 
 
     /**
-     * Get user's input of the place.
+     * Gets user's input of the place.
      * @return User's input of the place.
      */
     protected String getPlace(){
@@ -123,7 +126,7 @@ public class RegularUserOtherInfoGetter {
     }
 
     /**
-     * Get user's input of the meeting number.
+     * Gets user's input of the meeting number.
      * @return User's valid input of the meeting number.
      */
     protected int getNumMeeting(){
@@ -155,7 +158,7 @@ public class RegularUserOtherInfoGetter {
     }
 
     /**
-     * Get user's input of the kind of trade.
+     * Gets user's input of the kind of trade.
      * For now, there are one-way-trade and
      * two-way-trade.
      * @return User's input of the kind of trade.

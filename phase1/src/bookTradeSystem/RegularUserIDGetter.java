@@ -6,6 +6,9 @@ import java.util.Scanner;
 /**
  * An instance of this class represents the id
  * getter for the RegularUserController class.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserIDGetter {
 
@@ -38,7 +41,7 @@ public class RegularUserIDGetter {
     }
 
     /**
-     * Get the item id from the user.
+     * Gets the item id from the user.
      * @param potentialItems The list of potential items
      *                       that should contain item with the item id
      *                       input by the user.
@@ -93,7 +96,7 @@ public class RegularUserIDGetter {
 
 
     /**
-     * Get the actual item object with a given item id.
+     * Gets the actual item object with a given item id.
      * @param id The id of the item.
      * @return The actual item object with the id.
      */
@@ -112,7 +115,7 @@ public class RegularUserIDGetter {
 
 
     /**
-     * Get all the items in the system.
+     * Gets all the items in the system.
      * @return All the items in the system.
      */
     public ArrayList<Item> getAllItems() {
@@ -122,7 +125,7 @@ public class RegularUserIDGetter {
     }
 
     /**
-     * Get the user id from the user.
+     * Gets the user id from the user.
      * @param type The type of user the system wants the id from.
      * @return A valid user id for the type of user.
      */

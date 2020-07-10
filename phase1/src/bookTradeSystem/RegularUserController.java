@@ -8,6 +8,9 @@ import java.util.*;
 /**
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter.
+ *
+ *  @author Yu Xin Yan
+ *  @version IntelliJ IDEA 2020.1
  */
 public class RegularUserController implements Controllable {
 
@@ -55,7 +58,7 @@ public class RegularUserController implements Controllable {
 
 
     /**
-     * This method calls appropriate methods based on user input
+     * Calls appropriate methods based on user input
      * of the menu option (other than the logout or exit option)
      * and calls on the relevant presenter class method.
      *
@@ -146,8 +149,8 @@ public class RegularUserController implements Controllable {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User thisUser = um.findUser(userId);
         // reassess it at the first day of the week - only once
-        // TODO: small bug - user has to login in other days (non-Sundays) to re-enable this function for next Sunday
-        //  and can only reassess it on Sunday (the first day of the week)
+        // Thing to note: user has to login on other days (non-Sundays) to re-enable this function for next Sunday (***)
+        // and can only reassess it on Sunday (the first day of the week)
         tc.reassessNumTransactionsLeftForTheWeek(thisUser, thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
@@ -176,7 +179,7 @@ public class RegularUserController implements Controllable {
     }
 
 
-    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException {
+    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
        /*
     1.Suggest/edit time and place for meetings
     2.Confirm time and place for meetings

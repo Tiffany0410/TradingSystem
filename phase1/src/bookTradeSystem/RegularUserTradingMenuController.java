@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An instance of this class represents the threshold
- * controller for the RegularUserController class.
+ * An instance of this class represents the communication system between the regular user,
+ * the use cases, and the presenter, for the trade menu part.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserTradingMenuController {
 
@@ -104,7 +107,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * Get from user the information about the trade the user
+     * Gets from user the information about the trade the user
      * wants to respond to and determine whether the
      * response is successfully sent or not. If there're no
      * outstanding trade requests or if the user has reached
@@ -202,7 +205,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * Get from user the information about the trade the user
+     * Gets from user the information about the trade the user
      * request and determine whether the request is sent
      * successfully sent or not. If the user has reached
      * the maximum number of transactions
@@ -220,7 +223,7 @@ public class RegularUserTradingMenuController {
             // get whether it is one-way-trade or two-way-trade
             int numKindOfTrade = otherInfoGetter.getNumKindOfTrade();
             // will store the validation value
-            boolean ok = false;
+            boolean ok;
             // will store the trade object
             Trade trade;
             // will store the item id if it's two-way-trade
@@ -278,8 +281,9 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) {
-        if (tm.validateTrade(trade, um.findUser(userId1)) && ok) {
+    private void requestResult(User thisUser, boolean ok, Trade trade, int userId1) throws FileNotFoundException {
+        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        if (tm.validateTrade(trade, um.findUser(userId1), thresholdValues.get(2)) && ok) {
             requestSuccess(thisUser, trade);
         }
         else {

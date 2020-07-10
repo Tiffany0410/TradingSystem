@@ -8,6 +8,9 @@ import java.util.List;
  * An instance of this class represents the
  * communication bridge from the system
  * to the user.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
 
@@ -19,7 +22,7 @@ public class SystemMessage {
     }
 
     /**
-     * This method gathers all the necessary messages
+     * Gathers all the necessary messages
      * for the regular user.
      *
      * @return messages as properly formatted strings.
@@ -34,7 +37,7 @@ public class SystemMessage {
         return notification.toString();
     }
 
-    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws IOException {
+    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User regUser = um.findUser(username);
         if (!regUser.getIfFrozen()) {
@@ -57,7 +60,7 @@ public class SystemMessage {
 
 
     /**
-     * This method gathers all the necessary notifications
+     * Gathers all the necessary notifications
      * for the admin user.
      * @return Notifications as properly formatted strings.
      * @throws IOException In case the file can't be found.

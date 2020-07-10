@@ -3,6 +3,8 @@ import java.util.*;
 
 /**
  * An instance of this class represents the meeting that holds for a trade.
+ * @author Jianhong Guo
+ * @version IntelliJ IDEA 2020.1
  */
 public class Meeting implements java.io.Serializable{
     private Date time;
@@ -138,10 +140,10 @@ public class Meeting implements java.io.Serializable{
 
     /** confirm the time and place of the meeting
      * @param  userId the id of a user
-     * @return true iff the meeting time and place is confirmed successfully.
+     * @return true if the meeting time and place is confirmed successfully.
      */
-    public Boolean setTimePlaceConfirm(int userId){
-        if (!timePlaceConfirm && timePlaceEdit.size() < 2 * User.getMaxMeetingDateTimeEdits() && ! timePlaceEdit.
+    public Boolean setTimePlaceConfirm(int userId, int maxMeetingTimePlaceEdits){
+        if (!timePlaceConfirm && timePlaceEdit.size() < 2 * maxMeetingTimePlaceEdits && ! timePlaceEdit.
                 isEmpty() && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
             timePlaceConfirm = true;
             timePlaceEdit.add(userId);
@@ -179,13 +181,12 @@ public class Meeting implements java.io.Serializable{
      * @param hour the hour for the meeting(24 hours)
      * @param min the minute for the meeting
      * @param sec the second for the meeting
-     * @return true iff the change to the TimePlaceEdit happen
+     * @return true if the change to the TimePlaceEdit happen
      */
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
-                                    String place){
+                                    String place, int maxMeetingTimePlaceEdits){
     if (!timePlaceConfirm &&(userId == userId1 ||userId == userId2)&&(timePlaceEdit.isEmpty()
-            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()< 2 * User.
-            getMaxMeetingDateTimeEdits()))){
+            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()< 2 * maxMeetingTimePlaceEdits))){
         this.setTime(year, month, day, hour, min,sec);
         this.place = place;
         timePlaceEdit.add(userId);
@@ -223,7 +224,7 @@ public class Meeting implements java.io.Serializable{
 
     /** override the equals method for two meetings
      * @param meeting the meeting for a trade
-     * @return true iff this tradeId, userId1, userId2 and meetingNum equals to the meeting's tradeId,
+     * @return true if this tradeId, userId1, userId2 and meetingNum equals to the meeting's tradeId,
      * userId1, userId2 and meetingNum.
      */
     public Boolean equals(Meeting meeting){

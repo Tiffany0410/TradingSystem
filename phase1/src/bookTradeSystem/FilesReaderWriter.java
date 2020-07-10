@@ -8,6 +8,10 @@ import bookTradeSystem.*;
 
 /**
  * Manages the saving and loading of objects.
+ *
+ * @author Chengle Yang
+ * @version IntelliJ IDEA 2020.1
+ *
  */
 public class FilesReaderWriter implements Serializable {
 
@@ -277,6 +281,8 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the file to write the records to
      * @param userManager the UserManager
      * @throws IOException all possible input/output errors
+     *
+     * @serial serialize UserManager
      */
     public static void saveUserManagerToFile(UserManager userManager, String filePath) throws IOException {
         //If the file does not exist, throws FileNotFoundException
@@ -300,6 +306,8 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the file to write the records to
      * @param tradeManager the TradeManager
      * @throws IOException all possible input/output errors
+     *
+     * @serial serialize TradeManager
      */
     public static void saveTradeManagerToFile(TradeManager tradeManager, String filePath) throws IOException {
         //If the file does not exist, throws FileNotFoundException
@@ -323,6 +331,8 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the file to write the records to
      * @param meetingManager the UserManager
      * @throws IOException all possible input/output errors
+     *
+     * @serial serialize MeetingManager
      */
     public static void saveMeetingManagerToFile(MeetingManager meetingManager, String filePath) throws IOException {
         //If the file does not exist, throws FileNotFoundException

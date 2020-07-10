@@ -6,6 +6,9 @@ import java.util.List;
 /**
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the account menu part.
+ *
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserAccountMenuController {
 
@@ -153,7 +156,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Get the item name from the user and let the user manager search for it
+     * Gets the item name from the user and let the user manager search for it
      * in the system.
      */
     protected void searchItem() {

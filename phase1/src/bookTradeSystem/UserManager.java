@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * Stores all the Users and AdminUsers. Manages the Users and the actions that they can make.
+ * @author Gabriel
+ * @version IntelliJ IDEA 2020.1
+ */
 public class UserManager implements Serializable {
 
     private ArrayList<User> listUser;
@@ -171,21 +176,6 @@ public class UserManager implements Serializable {
         this.listAdmin.add(toAdd);
     }
 
-
-    /**
-     * Gives the Users who are not lending enough
-     * @return A list of usernames of the Users who are not lending enough
-     */
-    public ArrayList<String> underLending(){
-        ArrayList<String> out = new ArrayList<>();
-        for (User person: listUser){
-            if (person.getNumBorrowed() - person.getNumLent() < User.getNumLendBeforeBorrow()){
-                out.add(person.getUsername());
-            }
-        }
-        return out;
-    }
-
     /**
      * Removes an Item from a User's wishlist
      * @param itemID The ID of the Item to be removed
@@ -332,39 +322,6 @@ public class UserManager implements Serializable {
         }
         return out;
     }
-
-    /**
-     * Changes the threshold of how many more times a user has to lend before they can borrow
-     * @param change The new threshold
-     */
-    public void editNumLendBeforeBorrow(int change){
-        User.setNumLendBeforeBorrow(change);
-    }
-
-    /**
-     * Change the maximum number of transactions Users can make per week
-     * @param change The new maximum number
-     */
-    public void editMaxNumTransactionsAllowedAWeek(int change){
-        User.setMaxNumTransactionsAllowedAWeek(change);
-    }
-
-    /**
-     * Change the maximum number of incomplete transactions a User can have
-     * @param change The new maximum number
-     */
-    public void editMaxNumTransactionIncomplete(int change){
-        User.setMaxNumTransactionIncomplete(change);
-    }
-
-    /**
-     * Changes the maximum number of times a User can edit the Meeting date or time
-     * @param change The maximum number
-     */
-    public void editMaxMeetingDateTimeEdits(int change){
-        User.setMaxMeetingDateTimeEdits(change);
-    }
-
 
     /**
      * Gives the username for the User with the given ID
