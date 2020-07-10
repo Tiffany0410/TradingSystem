@@ -19,9 +19,9 @@ public class AdminUserController implements Controllable {
 
     private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
-    private AccountCreator ac; //instead of this maybe make the tradingSystem's one protected?
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected?
-    private FilesReaderWriter rw; //instead of this maybe make the tradingSystem's one protected?
+    private AccountCreator ac;
+    private DisplaySystem ds;
+    private FilesReaderWriter rw;
     private UserManager um;
 
     /**
@@ -53,12 +53,6 @@ public class AdminUserController implements Controllable {
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) throws IOException {
-         /*
-        1. decide the menu options
-        2. decide what use case method to call for each menu option (discuss with Gabriel)
-        3. decide what presenter method to call to print the results for each menu option (discuss with Jiaqi)
-
-        */
         switch(mainMenuOption){
             case 1:
                 adminManageUsersMenuResponse(subMenuOption);
@@ -108,7 +102,7 @@ public class AdminUserController implements Controllable {
     // create another class and move them for phase 2
     private void responseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
         if (len != 0) {
-//              get the list of item to be added to inventories
+            // get the list of item to be added to inventories
             ds.printResult(new ArrayList<>(listItemToAdd));
             Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
             addOrNotAdd(itemSelected);

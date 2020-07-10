@@ -93,14 +93,14 @@ public class RegularUserTradingMenuController {
 
     /**
      * Let the presenter to print to screen
-     * all of user's open trades, if there are
+     * <trades></trades>, if there are
      * any. If there aren't any, print
      * an appropriate message.
-     * @param openTrade The list of open trades for the user.
+     * @param trades The list of <trades></trades>.
      */
-    protected void viewOpenTrades(List<Trade> openTrade) {
-        if (openTrade.size() != 0) {
-            ds.printResult(new ArrayList<>(openTrade));
+    protected void viewTrades(List<Trade> trades) {
+        if (trades.size() != 0) {
+            ds.printResult(new ArrayList<>(trades));
         } else {
             sm.msgForNothing(ds);
         }
