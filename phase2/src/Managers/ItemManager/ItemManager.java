@@ -4,7 +4,6 @@ import Exception.InvalidIdException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ItemManager implements Serializable {
 
@@ -36,6 +35,19 @@ public class ItemManager implements Serializable {
             }
         }
         throw new InvalidIdException("Invalid Item ID");
+    }
+
+    public Item getItembyId(int itemId) throws InvalidIdException{
+        for (Item item: listItem){
+            if (item.getItemId() == itemId){
+                return item;
+            }
+        }
+        throw new InvalidIdException("Invalid Item Id");
+    }
+
+    public ArrayList<Item> getAllItem(){
+        return listItem;
     }
 
     public void setCurrHolderId(int itemId, int currHolderId) throws InvalidIdException{
@@ -77,4 +89,5 @@ public class ItemManager implements Serializable {
     public void addItem(Item item){
         listItem.add(item);
     }
+
 }
