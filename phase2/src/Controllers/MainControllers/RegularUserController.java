@@ -1,5 +1,9 @@
-package Controllers.RegularUserController;
+package Controllers.MainControllers;
 
+import Controllers.RegularUserController.RegularUserAccountMenuController;
+import Controllers.RegularUserController.RegularUserMeetingMenuController;
+import Controllers.RegularUserController.RegularUserThresholdController;
+import Controllers.RegularUserController.RegularUserTradingMenuController;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;

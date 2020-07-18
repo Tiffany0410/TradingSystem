@@ -1,4 +1,4 @@
-package Controllers.AdminUserController;
+package Controllers.MainControllers;
 
 import Managers.UserManager.UserManager;
 
