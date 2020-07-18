@@ -141,7 +141,7 @@ public class Trade implements Serializable {
     public String toString() {
         if (itemId1 == 0) {
             return "trade id:" + tradeId + ", " + "borrower id:" + userId1 + ", " + "lender id:" + userId2 + ", "
-                    + "item id:" + itemId + "\n" + "item name:"+  "trade type: " + tradeType + ", " + "trade status:" + tradeStatus + "\n"
+                    + "item id:" + itemId + "\n" +  "trade type: " + tradeType + ", " + "trade status:" + tradeStatus + "\n"
                     + "borrower status:" + userStatus.get(userId1) + ", " + "lender status:" + userStatus.get(userId2) +
                     ", " + "One way trade:" + isOneWayTrade;
         } else {
