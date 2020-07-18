@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @version IntelliJ IDEA 2020.1
  */
 public class AccountCreator {
-    private Managers.UserManager.UserManager um;
+    private UserManager um;
     private DisplaySystem ds;
     private FilesReaderWriter fr;
 

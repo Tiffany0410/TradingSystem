@@ -22,12 +22,12 @@ import java.util.List;
 public class RegularUserAccountMenuController {
 
     private SystemMessage sm;
-    private Controllers.RegularUserSubController.RegularUserIDGetter idGetter;
-    private Controllers.RegularUserSubController.RegularUserOtherInfoGetter otherInfoGetter;
-    private Presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private Managers.TradeManager.TradeManager tm;
-    private Managers.MeetingManager.MeetingManager mm;
-    private Managers.UserManager.UserManager um;
+    private RegularUserIDGetter idGetter;
+    private RegularUserOtherInfoGetter otherInfoGetter;
+    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private TradeManager tm;
+    private MeetingManager mm;
+    private UserManager um;
     private String username;
     private int userId;
 
@@ -52,8 +52,8 @@ public class RegularUserAccountMenuController {
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
-        this.idGetter = new Controllers.RegularUserSubController.RegularUserIDGetter(ds, tm, mm, um, username, userId);
-        this.otherInfoGetter = new Controllers.RegularUserSubController.RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
 
     /**

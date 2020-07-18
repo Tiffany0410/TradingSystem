@@ -22,9 +22,9 @@ import java.util.List;
 public class RegularUserThresholdController {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private Managers.TradeManager.TradeManager tm;
-    private Managers.MeetingManager.MeetingManager mm;
-    private Managers.UserManager.UserManager um;
+    private TradeManager tm;
+    private MeetingManager mm;
+    private UserManager um;
     private String username;
     private int userId;
     // whether the max transactions per week threshold is reassessed

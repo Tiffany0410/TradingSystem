@@ -25,8 +25,8 @@ public class AdminUserController implements Controllable {
     private SystemMessage sm;
     private AccountCreator ac;
     private DisplaySystem ds;
+    private UserManager um;
     private FilesReaderWriter rw;
-    private Managers.UserManager.UserManager um;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,

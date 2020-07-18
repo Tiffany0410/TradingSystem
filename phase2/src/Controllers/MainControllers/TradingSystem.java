@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 
 public class TradingSystem {
-   private Managers.UserManager.UserManager userManager;
+   private UserManager userManager;
    private DisplaySystem displaySystem;
    private TradeManager tradeManager;
    private MeetingManager meetingManager;
