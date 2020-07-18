@@ -66,7 +66,7 @@ public class RegularUserMeetingMenuController {
      * @param meetings The list of meetings
      * @param type The type of the meeting.
      */
-    public void seeMeetings(List<Managers.MeetingManager.Meeting> meetings, String type) {
+    public void seeMeetings(List<Meeting> meetings, String type) {
         if (meetings.size() == 0) {
             sm.msgForNothing(type, ds);
         } else {
@@ -88,7 +88,7 @@ public class RegularUserMeetingMenuController {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
             // "confirmed" means the meeting haven't take place but time and place are confirmed
-            List<Managers.MeetingManager.Meeting> listOfUnconfirmedMeeting = mm.getUnConfirmMeeting(userId);
+            List<Meeting> listOfUnconfirmedMeeting = mm.getUnConfirmMeeting(userId);
             // get the list of meetings whose completion are not confirmed
             ds.printOut("Here's a list of meeting(s) that haven't confirmed as complete:");
             ds.printResult(new ArrayList<>(listOfUnconfirmedMeeting));
@@ -121,7 +121,7 @@ public class RegularUserMeetingMenuController {
             // print the meetings with unconfirmed time and place
             unconfirmedTandPMeetings();
             // and then ask the user for the meeting info
-            Managers.MeetingManager.Meeting meeting2 = getMeeting();
+            Meeting meeting2 = getMeeting();
             // if the meeting exists in the system
             if (meeting2.getTradeId() != 0) {
                 Boolean confirmSuccess = meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3));
