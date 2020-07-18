@@ -9,6 +9,10 @@ import java.util.*;
  * @version IntelliJ IDEA 2020.1
  */
 public class Trade implements Serializable {
+    private String OPEN = "Opened";
+    private String WAIT = "Wait to be opened";
+    private String CANCEL = "Cancelled";
+    private String CLOSE = "Closed";
     private int tradeId;
     private int userId1;
     private int userId2;
@@ -23,7 +27,7 @@ public class Trade implements Serializable {
     /**
      * The type of the trade status (Open, Closed, Wait to be opened，Cancelled), default is Wait to be opened
      */
-    public String tradeStatus = "Wait to be opened";
+    public String tradeStatus = WAIT;
 
 
     /**
@@ -111,14 +115,14 @@ public class Trade implements Serializable {
      * Change the trade status to Open
      */
     public void openTrade() {
-        this.tradeStatus = "Open";
+        this.tradeStatus = OPEN;
     }
 
     /**
      * Change the trade status to Closed
      */
     public void closedTrade() {
-        this.tradeStatus = "Closed";
+        this.tradeStatus = CLOSE;
 
     }
 
@@ -126,7 +130,7 @@ public class Trade implements Serializable {
      * change the trade status to Cancelled
      */
     public void cancelTrade() {
-        this.tradeStatus = "Cancelled";
+        this.tradeStatus = CANCEL;
     }
 
     /**
@@ -137,7 +141,7 @@ public class Trade implements Serializable {
     public String toString() {
         if (itemId1 == 0) {
             return "trade id:" + tradeId + ", " + "borrower id:" + userId1 + ", " + "lender id:" + userId2 + ", "
-                    + "item id:" + itemId + "\n" + "trade type: " + tradeType + ", " + "trade status:" + tradeStatus + "\n"
+                    + "item id:" + itemId + "\n" + "item name:"+  "trade type: " + tradeType + ", " + "trade status:" + tradeStatus + "\n"
                     + "borrower status:" + userStatus.get(userId1) + ", " + "lender status:" + userStatus.get(userId2) +
                     ", " + "One way trade:" + isOneWayTrade;
         } else {
