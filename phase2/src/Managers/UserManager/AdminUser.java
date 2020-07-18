@@ -1,4 +1,4 @@
-package Managers.UserManger;
+package Managers.UserManager;
 
 import java.io.Serializable;
 

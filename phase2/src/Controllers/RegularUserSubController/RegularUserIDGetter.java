@@ -1,8 +1,10 @@
-package Controllers.RegularUserController;
+package Controllers.RegularUserSubController;
 
+import Managers.ItemManager.Item;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,7 +18,7 @@ import java.util.Scanner;
  */
 public class RegularUserIDGetter {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private Presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private Managers.TradeManager.TradeManager tm;
     private Managers.MeetingManager.MeetingManager mm;
     private Managers.UserManager.UserManager um;
@@ -53,7 +55,7 @@ public class RegularUserIDGetter {
      *             be from user's wish list or other list of items.
      * @return The valid item id input by the user.
      */
-    protected int getItemID(ArrayList<Item> potentialItems, int type) {
+    public int getItemID(ArrayList<Item> potentialItems, int type) {
         /*
          * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -104,7 +106,7 @@ public class RegularUserIDGetter {
      * @param id The id of the item.
      * @return The actual item object with the id.
      */
-    protected Item idToItem(int id) {
+    public Item idToItem(int id) {
         //Get all the items in the system
         ArrayList<Item> allOtherItems = getAllItems();
         //find the item with <id>

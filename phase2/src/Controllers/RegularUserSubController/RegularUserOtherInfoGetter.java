@@ -1,8 +1,9 @@
-package Controllers.RegularUserController;
+package Controllers.RegularUserSubController;
 
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
 
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ import java.util.Scanner;
 
 public class RegularUserOtherInfoGetter {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private Presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private Managers.TradeManager.TradeManager tm;
     private Managers.MeetingManager.MeetingManager mm;
     private Managers.UserManager.UserManager um;
@@ -48,7 +49,7 @@ public class RegularUserOtherInfoGetter {
      * Gets the name of the item from the user.
      * @return The name of the item.
      */
-    protected String getItemName() {
+    public String getItemName() {
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the name of the item: ");
         return sc.nextLine();
@@ -60,7 +61,7 @@ public class RegularUserOtherInfoGetter {
      * @param TypeOfMessage The part of the message that relates to the context.
      * @return User's message in string format.
      */
-    protected String getMessage(String TypeOfMessage){
+    public String getMessage(String TypeOfMessage){
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
         StringBuilder fullMsg = new StringBuilder();
@@ -120,7 +121,7 @@ public class RegularUserOtherInfoGetter {
      * Gets user's input of the place.
      * @return User's input of the place.
      */
-    protected String getPlace(){
+    public String getPlace(){
         Scanner sc = new Scanner(System.in);
         ds.printOut("Please enter the name of the place: ");
         String place;
@@ -133,7 +134,7 @@ public class RegularUserOtherInfoGetter {
      * Gets user's input of the meeting number.
      * @return User's valid input of the meeting number.
      */
-    protected int getNumMeeting(){
+    public int getNumMeeting(){
         /*
          * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner

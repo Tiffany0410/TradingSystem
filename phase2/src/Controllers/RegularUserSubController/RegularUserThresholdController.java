@@ -1,10 +1,11 @@
-package Controllers.RegularUserController;
+package Controllers.RegularUserSubController;
 
 import Managers.MeetingManager.Meeting;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +58,7 @@ public class RegularUserThresholdController {
      * @param thisUser The user to be re-assessed the number of transactions
      *                 left for the week for.
      */
-    protected void reassessNumTransactionsLeftForTheWeek(Managers.UserManager.User thisUser, int maxNumTransactionAllowedAWeek) {
+    public void reassessNumTransactionsLeftForTheWeek(Managers.UserManager.User thisUser, int maxNumTransactionAllowedAWeek) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
             thisUser.setTransactionLeftForTheWeek(maxNumTransactionAllowedAWeek);
             thresholdReassessed = true;
@@ -98,7 +99,7 @@ public class RegularUserThresholdController {
      * @param thisUser The user to be determined whether he/she should be frozen or not.
      * @return Whether the user is frozen or not.
      */
-    protected boolean freezeUserOrNot(User thisUser, int maxNumTransactionIncomplete){
+    public boolean freezeUserOrNot(User thisUser, int maxNumTransactionIncomplete){
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
         int numUncompletedTransactions = numUncompletedTransactions();

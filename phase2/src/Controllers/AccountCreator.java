@@ -1,7 +1,8 @@
 package Controllers;
 
-import Managers.UserManager.User;
+import Gateway.FilesReaderWriter;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class AccountCreator {
         boolean out = false;
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
-        ArrayList<User> listPeople = um.getListUser();
+        ArrayList<Managers.UserManager.User> listPeople = um.getListUser();
 
         String username;
         String password;

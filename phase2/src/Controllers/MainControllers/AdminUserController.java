@@ -1,6 +1,12 @@
 package Controllers.MainControllers;
 
+import Controllers.AccountCreator;
+import Controllers.AdminUserController.AdminUserOtherInfoGetter;
+import Gateway.FilesReaderWriter;
+import Managers.ItemManager.Item;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
+import Presenter.SystemMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +21,7 @@ import java.util.List;
  */
 public class AdminUserController implements Controllable {
 
-    private bookTradeSystem.AdminUserOtherInfoGetter otherInfoGetter;
+    private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
     private AccountCreator ac;
     private DisplaySystem ds;
@@ -37,7 +43,7 @@ public class AdminUserController implements Controllable {
         this.rw = rw;
         this.um = um;
         this.sm = new SystemMessage();
-        this.otherInfoGetter = new bookTradeSystem.AdminUserOtherInfoGetter(ds);
+        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
 
 

@@ -1,5 +1,7 @@
 package Controllers.MainControllers;
 
+import Exception.InvalidIdException;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 

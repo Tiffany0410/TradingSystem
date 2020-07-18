@@ -1,5 +1,7 @@
 package Controllers.AdminUserController;
 
+import Presenter.DisplaySystem;
+
 import java.util.Scanner;
 
 /**
@@ -26,7 +28,7 @@ public class AdminUserOtherInfoGetter {
      * @param numItemsToAdd The list of items to be added to regular users inventories.
      * @return The number of the item in the list.
      */
-    protected int getItem(int numItemsToAdd){
+    public int getItem(int numItemsToAdd){
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -59,7 +61,7 @@ public class AdminUserOtherInfoGetter {
      * Gets the new threshold value from the admin user.
      * @return The new threshold value.
      */
-    protected int getThresholdAns(){
+    public int getThresholdAns(){
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -85,7 +87,7 @@ public class AdminUserOtherInfoGetter {
      * Gets admin user's response of whether to add or not.
      * @return Admin user's response of whether to add or not.
      */
-    protected boolean getAddOrNot(){
+    public boolean getAddOrNot(){
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner

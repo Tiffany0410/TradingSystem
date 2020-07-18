@@ -1,4 +1,6 @@
-package Managers.UserManger;
+package Managers.UserManager;
+
+import Managers.ItemManager.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;

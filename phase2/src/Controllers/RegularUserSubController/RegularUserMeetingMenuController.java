@@ -1,9 +1,13 @@
-package Controllers.RegularUserController;
+package Controllers.RegularUserSubController;
 
+import Gateway.FilesReaderWriter;
 import Managers.MeetingManager.Meeting;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
+import Presenter.SystemMessage;
+import Exception.InvalidIdException;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ public class RegularUserMeetingMenuController {
     private SystemMessage sm;
     private RegularUserIDGetter idGetter;
     private RegularUserDateTimeGetter dateTimeGetter;
-    private bookTradeSystem.RegularUserOtherInfoGetter otherInfoGetter;
+    private Controllers.RegularUserSubController.RegularUserOtherInfoGetter otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private Managers.TradeManager.TradeManager tm;
     private Managers.MeetingManager.MeetingManager mm;
@@ -51,7 +55,7 @@ public class RegularUserMeetingMenuController {
         this.username = username;
         this.userId = userId;
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
-        this.otherInfoGetter = new bookTradeSystem.RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new Controllers.RegularUserSubController.RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
     }
@@ -62,7 +66,7 @@ public class RegularUserMeetingMenuController {
      * @param meetings The list of meetings
      * @param type The type of the meeting.
      */
-    protected void seeMeetings(List<Managers.MeetingManager.Meeting>  meetings, String type) {
+    public void seeMeetings(List<Managers.MeetingManager.Meeting> meetings, String type) {
         if (meetings.size() == 0) {
             sm.msgForNothing(type, ds);
         } else {
@@ -78,7 +82,7 @@ public class RegularUserMeetingMenuController {
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
+    public void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getUnConfirmMeeting(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
@@ -112,7 +116,7 @@ public class RegularUserMeetingMenuController {
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case if the file cannot be found.
      */
-    protected void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
+    public void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
@@ -142,7 +146,7 @@ public class RegularUserMeetingMenuController {
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
+    public void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
         // get the threshold values read from the csv file
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // get the threshold value needed for this method
@@ -193,7 +197,7 @@ public class RegularUserMeetingMenuController {
      * Else, print to let the user know that there aren't any.
      * @throws InvalidIdException In case if the id is not valid.
      */
-    protected void unconfirmedTandPMeetings() throws InvalidIdException {
+    public void unconfirmedTandPMeetings() throws InvalidIdException {
         //get the list of meetings with unconfirmed time and place from the meeting manager
         List<Managers.MeetingManager.Meeting> listOfUnconfirmedTimePlace = mm.getUnConfirmTimePlace(userId, tm);
         // if there're meeting with unconfirmed time and place

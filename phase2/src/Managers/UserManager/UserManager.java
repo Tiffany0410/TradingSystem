@@ -1,8 +1,6 @@
-package Managers.UserManger;
+package Managers.UserManager;
 
-import Managers.UserManager.AdminUser;
-import Managers.UserManager.User;
-
+import Managers.ItemManager.Item;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -466,7 +464,7 @@ public class UserManager implements Serializable {
      */
     public void removeItemFromUsers(int userId1, int userId2, int itemId) {
         Managers.UserManager.User user1 = findUser(userId1);
-        bookTradeSystem.User user2 = findUser(userId2);
+        User user2 = findUser(userId2);
         if (user1.getWishList().contains(itemId)) {
             //user1 = borrower
             removeItemWishlist(itemId, user1.getUsername());

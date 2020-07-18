@@ -1,10 +1,14 @@
-package Controllers.RegularUserController;
+package Controllers.RegularUserSubController;
 
+import Gateway.FilesReaderWriter;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.Trade;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
+import Presenter.SystemMessage;
+import Exception.InvalidIdException;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -19,11 +23,11 @@ import java.util.List;
  */
 public class RegularUserTradingMenuController {
 
-    private bookTradeSystem.RegularUserThresholdController tc;
-    private bookTradeSystem.RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserThresholdController tc;
+    private RegularUserOtherInfoGetter otherInfoGetter;
     private RegularUserIDGetter idGetter;
     private SystemMessage sm;
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private Presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private Managers.TradeManager.TradeManager tm;
     private Managers.MeetingManager.MeetingManager mm;
     private Managers.UserManager.UserManager um;
@@ -50,8 +54,8 @@ public class RegularUserTradingMenuController {
         this.um = um;
         this.username = username;
         this.userId = userId;
-        this.tc = new bookTradeSystem.RegularUserThresholdController(ds, tm, mm, um, username, userId);
-        this.otherInfoGetter = new bookTradeSystem.RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
@@ -63,7 +67,7 @@ public class RegularUserTradingMenuController {
      * of so.
      * @throws InvalidIdException In case the id is invalid.
      */
-    protected void seeTopThreePartners() throws InvalidIdException {
+    public void seeTopThreePartners() throws InvalidIdException {
         if (tm.getTradeHistory(userId).size() != 0){
             List<Integer> topThreeIDS= tm.topThreePartners(userId);
             List<Managers.UserManager.User> topThree = new ArrayList<>();
@@ -86,7 +90,7 @@ public class RegularUserTradingMenuController {
      * message.
      * @throws InvalidIdException In case the id is invalid.
      */
-    protected void confirmTradeComplete() throws InvalidIdException {
+    public void confirmTradeComplete() throws InvalidIdException {
         if (tm.getOpenTrade(userId).size() != 0) {
             ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
             int tradeId = idGetter.getTradeID();
@@ -110,7 +114,7 @@ public class RegularUserTradingMenuController {
      * an appropriate message.
      * @param trades The list of <trades></trades>.
      */
-    protected void viewTrades(List<Managers.TradeManager.Trade> trades) {
+    public void viewTrades(List<Managers.TradeManager.Trade> trades) {
         if (trades.size() != 0) {
             ds.printResult(new ArrayList<>(trades));
         } else {
@@ -129,7 +133,7 @@ public class RegularUserTradingMenuController {
      * @throws InvalidIdException In case the id is invalid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void respondToTradeRequests(Managers.UserManager.User thisUser) throws InvalidIdException, FileNotFoundException {
+    public void respondToTradeRequests(Managers.UserManager.User thisUser) throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
             // the case with user reaching the max number of transactions for the week
@@ -216,7 +220,7 @@ public class RegularUserTradingMenuController {
      * @param thisUser The user who wants to request the trade.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    protected void requestTrade(Managers.UserManager.User thisUser) throws FileNotFoundException {
+    public void requestTrade(Managers.UserManager.User thisUser) throws FileNotFoundException {
         // read threshold values in from the csv file
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // if the user has no more transactions left

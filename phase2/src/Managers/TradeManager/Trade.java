@@ -19,11 +19,11 @@ public class Trade implements Serializable {
     /**
      * tradeType the type of the trade
      */
-    protected String tradeType;
+    public String tradeType;
     /**
      * The type of the trade status (Open, Closed, Wait to be opened，Cancelled), default is Wait to be opened
      */
-    protected String tradeStatus = "Wait to be opened";
+    public String tradeStatus = "Wait to be opened";
 
 
     /**

@@ -1,6 +1,7 @@
 package Managers.TradeManager;
 
 import Managers.UserManager.User;
+import Exception.InvalidIdException;
 
 import java.io.Serializable;
 import java.util.*;

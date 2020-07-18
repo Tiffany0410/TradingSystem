@@ -1,13 +1,17 @@
 package Controllers.MainControllers;
 
-import Controllers.RegularUserController.RegularUserAccountMenuController;
-import Controllers.RegularUserController.RegularUserMeetingMenuController;
-import Controllers.RegularUserController.RegularUserThresholdController;
-import Controllers.RegularUserController.RegularUserTradingMenuController;
+import Controllers.RegularUserSubController.RegularUserAccountMenuController;
+import Controllers.RegularUserSubController.RegularUserMeetingMenuController;
+import Controllers.RegularUserSubController.RegularUserThresholdController;
+import Controllers.RegularUserSubController.RegularUserTradingMenuController;
+import Exception.InvalidIdException;
+import Gateway.FilesReaderWriter;
+import Managers.ItemManager.Item;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
+import Presenter.SystemMessage;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -27,7 +31,7 @@ public class RegularUserController implements Controllable {
     private RegularUserMeetingMenuController mmc;
     private RegularUserThresholdController tc;
     private SystemMessage sm;
-    private DisplaySystem ds;
+    private Presenter.DisplaySystem ds;
     private FilesReaderWriter rw;
     private Managers.TradeManager.TradeManager tm;
     private Managers.MeetingManager.MeetingManager mm;
@@ -46,7 +50,7 @@ public class RegularUserController implements Controllable {
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
-    public RegularUserController(DisplaySystem ds, FilesReaderWriter rw,
+    public RegularUserController(Presenter.DisplaySystem ds, FilesReaderWriter rw,
                                  TradeManager tm, MeetingManager mm,
                                  UserManager um, String username) {
         this.ds = ds;
@@ -77,7 +81,7 @@ public class RegularUserController implements Controllable {
      *
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) throws InvalidIdException, FileNotFoundException {
+    public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException, InvalidIdException {
         Managers.UserManager.User thisUser = um.findUser(userId);
         switch (mainMenuOption) {
             case 1:

@@ -1,6 +1,10 @@
+import Controllers.AccountCreator;
+import Controllers.LoginValidator;
+import Controllers.MainControllers.TradingSystem;
+import Gateway.FilesReaderWriter;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
-import Managers.UserManager.UserManager;
+import Presenter.DisplaySystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,7 +40,7 @@ public class DemoMain {
 
         try {
             // Create all use classes
-            UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
+            Managers.UserManager.UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
             MeetingManager meetingManager = FilesReaderWriter.readMeetingManagerFromFile(serializedMeetingManagerFilePath);
             FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
             TradeManager tradeManager = FilesReaderWriter.readTradeManagerFromFile(serializedTradeManagerFilePath);

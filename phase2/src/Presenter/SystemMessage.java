@@ -1,5 +1,7 @@
 package Presenter;
 
+import Controllers.RegularUserSubController.RegularUserThresholdController;
+import Gateway.FilesReaderWriter;
 import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
 
@@ -80,7 +82,7 @@ public class SystemMessage {
      * Prints the message for a meeting that doesn't exist.
      * @param ds The presenter that prints to screen.
      */
-    protected void msgForMeetingDNE(DisplaySystem ds) {
+    public void msgForMeetingDNE(DisplaySystem ds) {
         ds.printOut("This meeting doesn't exist in the system." + "\n");
     }
 
@@ -89,7 +91,7 @@ public class SystemMessage {
      * Prints the message for when there is nothing to be shown.
      * @param ds The presenter that prints to screen.
      */
-    protected void msgForNothing(DisplaySystem ds){
+    public void msgForNothing(DisplaySystem ds){
         ds.printOut("There's nothing here.");
         ds.printOut("\n");
     }
@@ -100,7 +102,7 @@ public class SystemMessage {
      * @param nextPart The more specific part of the message that relates to the context.
      * @param ds The presenter that prints to screen.
      */
-    protected void msgForNothing(String nextPart, DisplaySystem ds){
+    public void msgForNothing(String nextPart, DisplaySystem ds){
         ds.printOut("There's nothing " + nextPart + " .");
         ds.printOut("\n");
     }
@@ -111,7 +113,7 @@ public class SystemMessage {
      * due to the threshold.
      * @param ds The presenter that prints to screen.
      */
-    protected void lockMessageForThreshold(DisplaySystem ds, int maxNumTransactionAWeek) {
+    public void lockMessageForThreshold(DisplaySystem ds, int maxNumTransactionAWeek) {
         ds.printOut("This option is locked");
         ds.printOut("You have reached the" + maxNumTransactionAWeek + "transactions a week limit");
         ds.printOut("\n");
@@ -122,7 +124,7 @@ public class SystemMessage {
      * @param currentVal The current threshold value.
      * @param ds The presenter that prints to screen.
      */
-    protected void msgForThresholdValue(int currentVal, DisplaySystem ds)
+    public void msgForThresholdValue(int currentVal, DisplaySystem ds)
     {
         ds.printOut("The current threshold value is " + currentVal);
     }
