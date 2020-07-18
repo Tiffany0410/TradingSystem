@@ -14,6 +14,10 @@ import java.util.stream.Stream;
  * @version IntelliJ IDEA 2020.1
  */
 public class TradeManager implements Serializable {
+    private String OPEN = "Opened";
+    private String WAIT = "Wait to be opened";
+    private String CANCEL = "Cancelled";
+    private String CLOSE = "Closed";
 
     private List<Managers.TradeManager.Trade> listTrade;
 
@@ -59,6 +63,35 @@ public class TradeManager implements Serializable {
         return list;
     }
 
+    /** Ccreate a trade
+     * @param userId1 user1 id
+     * @param userId2 user2 id
+     * @param itemId item id
+     * @param tradeType trade type
+     * @param isOneWayTrade is one way trade
+     * @param tradeID trade id
+     * @return Trade
+     */
+    public Managers.TradeManager.Trade createTrade(int userId1, int userId2, int itemId, String tradeType, boolean isOneWayTrade, int tradeID){
+        return new Trade(userId1, userId2, itemId, tradeType, isOneWayTrade, tradeID);
+    }
+
+    /** Ccreate a trade
+     * @param userId1 user1 id
+     * @param userId2 user2 id
+     * @param itemId item1 id
+     * @param itemId1 item 2 id
+     * @param tradeType trade type
+     * @param isOneWayTrade is one way trade
+     * @param tradeID trade id
+     * @return Trade
+     */
+    public Managers.TradeManager.Trade createTrade(int userId1, int userId2, int itemId, int itemId1, String tradeType,
+                             boolean isOneWayTrade, int tradeID){
+        return new Trade(userId1, userId2, itemId, itemId1, tradeType, isOneWayTrade, tradeID);
+    }
+
+
     /**
      * Filter the user history by which his trade status is Closed
      *
@@ -70,7 +103,7 @@ public class TradeManager implements Serializable {
         List<Managers.TradeManager.Trade> list = this.getTradeHistory(userId);
         List<Managers.TradeManager.Trade> list1 = new ArrayList<>();
         for (Managers.TradeManager.Trade t : list) {
-            if (t.tradeStatus.equals("Closed")) {
+            if (t.tradeStatus.equals(CLOSE)) {
                 list1.add(t);
             }
         }
@@ -172,7 +205,7 @@ public class TradeManager implements Serializable {
         List<Managers.TradeManager.Trade> list = this.getTradeHistory(userId);
         List<Managers.TradeManager.Trade> list1 = new ArrayList<>();
         for (Managers.TradeManager.Trade t : list) {
-            if (t.tradeStatus.equals("Open")) {
+            if (t.tradeStatus.equals(OPEN)) {
                 list1.add(t);
             }
         }
@@ -190,7 +223,7 @@ public class TradeManager implements Serializable {
         List<Managers.TradeManager.Trade> list = this.getTradeHistory(userId);
         List<Managers.TradeManager.Trade> list1 = new ArrayList<>();
         for (Managers.TradeManager.Trade t : list) {
-            if (t.tradeStatus.equals("Closed")) {
+            if (t.tradeStatus.equals(CLOSE)) {
                 list1.add(t);
             }
         }
@@ -207,7 +240,7 @@ public class TradeManager implements Serializable {
         List<Managers.TradeManager.Trade> list = this.getTradeHistory(userId);
         List<Managers.TradeManager.Trade> list1 = new ArrayList<>();
         for (Managers.TradeManager.Trade t : list) {
-            if (t.tradeStatus.equals("Cancelled")) {
+            if (t.tradeStatus.equals(CANCEL)) {
                 list1.add(t);
             }
         }
@@ -225,7 +258,7 @@ public class TradeManager implements Serializable {
         List<Managers.TradeManager.Trade> list = this.getTradeHistory(userId);
         List<Managers.TradeManager.Trade> list1 = new ArrayList<>();
         for (Managers.TradeManager.Trade t : list) {
-            if (t.tradeStatus.equals("Wait to be opened")) {
+            if (t.tradeStatus.equals(WAIT)) {
                 list1.add(t);
             }
         }
@@ -289,7 +322,7 @@ public class TradeManager implements Serializable {
     public boolean confirmComplete(int tradeId) throws InvalidIdException {
         for (Managers.TradeManager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
-                return t.tradeStatus.equals("Closed");
+                return t.tradeStatus.equals(CLOSE);
             }
         }
         throw new InvalidIdException("Invalid Id");
