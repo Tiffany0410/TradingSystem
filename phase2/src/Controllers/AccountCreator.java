@@ -49,6 +49,10 @@ public class AccountCreator {
         password = ds.getPassword();
         email = ds.getEmail();
 
+        if (username.toLowerCase().equals("guest")){
+            return out;
+        }
+
         if (type.equals("Regular")) {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email);
