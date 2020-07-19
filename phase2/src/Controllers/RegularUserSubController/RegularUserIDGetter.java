@@ -102,7 +102,7 @@ public class RegularUserIDGetter {
         return potentialIds;
     }
 
-
+//   TODO: remove them and use item manager's method instead
     /**
      * Gets the actual item object with a given item id.
      * @param id The id of the item.
@@ -122,6 +122,7 @@ public class RegularUserIDGetter {
     }
 
 
+//    TODO: remove them and use item manager's method instead
     /**
      * Gets all the items in the system.
      * @return All the items in the system.

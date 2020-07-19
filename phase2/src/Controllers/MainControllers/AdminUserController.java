@@ -94,6 +94,7 @@ public class AdminUserController implements Controllable {
                 ds.printResult(um.unfreezeUser(ds.getUsername()));
                 break;
             case 3:
+//              TODO: Expect this part to change
                 ArrayList<Item> listItemToAdd = um.getListItemToAdd();
                 int len = listItemToAdd.size();
                 responseToToAddListSize(listItemToAdd, len);
