@@ -88,6 +88,8 @@ public class RegularUserController implements Controllable {
                 userAccountMenuResponse(subMenuOption);
                 break;
             case 2:
+//              TODO: need method from um for this (given an username / user id and return if that user is frozen)
+//              TODO: replace thisUser.getIfFrozen()
                 if (thisUser.getIfFrozen()){
                     ds.printOut("This menu is locked");}
                 else{

@@ -63,8 +63,12 @@ public class RegularUserAccountMenuController {
         // get user
         User thisUser = um.findUser(userId);
         // get user's wishlist and inventory
+//      TODO: new um method to return wishlist of user given username or user id
+//      TODO: replace thisUser.getWishList
         ArrayList<Integer> wishlistIDs = thisUser.getWishList();
         ArrayList<Item> wishlist = new ArrayList<>();
+//      TODO: new um method to return inventory of user given username or user id
+//      TODO: replace thisUser.getInventory
         ArrayList<Item> inventory = thisUser.getInventory();
         for (int id: wishlistIDs){
             wishlist.add(idGetter.idToItem(id));

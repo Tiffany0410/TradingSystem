@@ -78,7 +78,11 @@ public class RegularUserThresholdController {
         /*
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
          */
+//      TODO: need an um method that returns the user's numTransactionLeftForTheWeek given user id or username
+//      TODO: replace getNumTransactionLeftForTheWeek();
         int currentVal = thisUser.getNumTransactionLeftForTheWeek();
+//      TODO: need an um method that can set user's numTransactionLeftForTheWeek given user id or username and value
+//      TODO: replace setTransactionLeftForTheWeek();
         thisUser.setTransactionLeftForTheWeek(currentVal-1);
     }
 
@@ -100,12 +104,16 @@ public class RegularUserThresholdController {
      * @return Whether the user is frozen or not.
      */
     public boolean freezeUserOrNot(User thisUser, int maxNumTransactionIncomplete){
+//      TODO: need an um method that returns the numFrozen given user id/username
+//      TODO: replace getNumFrozen()
         int numFrozen = thisUser.getNumFrozen();
         // find the num of uncompleted transactions
         int numUncompletedTransactions = numUncompletedTransactions();
         // if user went over the threshold
         // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
         int threshold =  maxNumTransactionIncomplete + (numFrozen * maxNumTransactionIncomplete);
+//      TODO: need an um method that adds one to numFrozen given user id/username
+//      TODO: replace addOneToNumFrozen()
         if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
             um.freezeUser(username);
             thisUser.addOneToNumFrozen();

@@ -45,6 +45,8 @@ public class SystemMessage {
     private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         User regUser = um.findUser(username);
+//      TODO: need method from um for this (given an username / user id and return if that user is frozen)
+//      TODO: replace thisUser.getIfFrozen()
         if (!regUser.getIfFrozen()) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(regUser, thresholdValues.get(1))){
@@ -54,7 +56,11 @@ public class SystemMessage {
         notification.append("Your username is ").append(username).append("\n");
         notification.append("Your userId is ").append(um.usernameToID(username)).append("\n");
         notification.append("The answer to you're frozen is ").append(regUser.getIfFrozen()).append("\n");
+//      TODO: need method from um for this (given an username / user id and return the user's numBorrowed)
+//      TODO: replace thisUser.getNumBorrowed
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
+//      TODO: need method from um for this (given an username / user id and return the user's numLent)
+//      TODO: replace thisUser.getNumLent
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
         notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append("\n");

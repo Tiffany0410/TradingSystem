@@ -95,6 +95,8 @@ public class RegularUserMeetingMenuController {
             // get the meeting
             Meeting meeting3 = getMeeting();
             // if the meeting exists
+//          TODO: need a mm method to check if a meeting's trade id is 0 or not
+//          TODO: replace getTradeId()
             if (meeting3.getTradeId() != 0) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, thresholdValues.get(3)));
             } else {
@@ -124,6 +126,8 @@ public class RegularUserMeetingMenuController {
             Meeting meeting2 = getMeeting();
             // if the meeting exists in the system
             if (meeting2.getTradeId() != 0) {
+//          TODO: need a mm method to set time place confirm for a meeting
+//          TODO: replace setTimePlaceConfirm()
                 Boolean confirmSuccess = meeting2.setTimePlaceConfirm(userId, thresholdValues.get(3));
                 ds.printResult(confirmSuccess);
                 if(!confirmSuccess){
@@ -163,6 +167,8 @@ public class RegularUserMeetingMenuController {
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
+//          TODO: need a mm method to set time place edit for a meeting
+//          TODO: replace setTimePlaceEdit()
                 boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);

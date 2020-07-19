@@ -67,6 +67,8 @@ public class RegularUserIDGetter {
         if (type == 1) {
             potentialIds = getItemsIDs(potentialItems);
         } else {
+//      TODO: new um method to return wishlist of user given username or user id
+//      TODO: replace thisUser.getWishList
             potentialIds = um.findUser(userId).getWishList();
         }
         Scanner sc = new Scanner(System.in);
@@ -126,6 +128,8 @@ public class RegularUserIDGetter {
      */
     public ArrayList<Item> getAllItems() {
         ArrayList<Item> allOtherItems = um.allItems(userId);
+//      TODO: new um method to return inventory of user given username or user id
+//      TODO: replace thisUser.getInventory
         allOtherItems.addAll(um.findUser(userId).getInventory());
         return allOtherItems;
     }

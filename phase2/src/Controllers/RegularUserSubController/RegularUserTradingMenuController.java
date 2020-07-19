@@ -160,9 +160,15 @@ public class RegularUserTradingMenuController {
                 int itemid22 = 0;
                 // if it's one-way-trade
                 // only need borrower id, lender id, and the item id
+//              TODO: tm need to have a method such that when given the trade id and the index,
+//              TODO: it can return the right id
+//              TODO: replace trade.getIds()
                 int userId11 = trade.getIds().get(1);
                 int userId22 = trade.getIds().get(2);
                 int itemId11 = trade.getIds().get(3);
+//              TODO: tm need to have a method such that when given the trade id
+//              TODO: it can return whether it's one way or two way trade
+//              TODO: replace trade.getIsOneWayTrade()
                 if (!trade.getIsOneWayTrade()) {
                     // two-way-trade - need one more item id
                     itemid22 = trade.getIds().get(4);
@@ -192,6 +198,8 @@ public class RegularUserTradingMenuController {
         if (tradeStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
         } else {
+//          TODO: need a tm method that cancels the trade with the given trade id
+//          TODO: replace trade.cancelTrade()
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
             trade.cancelTrade();
         }
@@ -207,6 +215,8 @@ public class RegularUserTradingMenuController {
         }
         // change the status to open
         // so it won't be among the list of trade requests again
+//      TODO: need a tm method that opens the trade with the given trade id
+//      TODO: replace trade.openTrade()
         trade.openTrade();
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
@@ -287,6 +297,7 @@ public class RegularUserTradingMenuController {
 
     private Managers.TradeManager.Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Managers.TradeManager.Trade trade;
+//      TODO: replace them with createTrade instead - can't just call the constructor
         if (numKindOfTrade == 1) {
             // new one-way-trade
             trade = new Managers.TradeManager.Trade(userId1, userId2, itemId, tradeType, true, tradeID);
