@@ -1,7 +1,7 @@
 package Controllers.MainControllers;
 
 import Controllers.AccountCreator;
-import Controllers.AdminUserController.AdminUserOtherInfoGetter;
+import Controllers.AdminUserSubController.AdminUserOtherInfoGetter;
 import Gateway.FilesReaderWriter;
 import Managers.ItemManager.Item;
 import Managers.UserManager.UserManager;

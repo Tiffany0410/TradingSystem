@@ -16,6 +16,7 @@ public class UserManager implements Serializable {
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
+    //TODO: I think the two attributes below can be deleted
     private ArrayList<Item> listItemToAdd;
     private ArrayList<Item> listAllItems;
 
@@ -79,6 +80,7 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
+    //TODO: I think this should probably be moved to the item manager
     public ArrayList<Item> searchItem(String item){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){

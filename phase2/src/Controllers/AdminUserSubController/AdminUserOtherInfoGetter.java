@@ -1,4 +1,4 @@
-package Controllers.AdminUserController;
+package Controllers.AdminUserSubController;
 
 import Presenter.DisplaySystem;
 

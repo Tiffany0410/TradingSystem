@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String password;
     private String email;
     private ArrayList<Integer> wishList;
-    private ArrayList<Item> inventory;
+    private ArrayList<Integer> inventory;
     private int id;
     //status related
     private int numLent;
@@ -93,7 +93,7 @@ public class User implements Serializable {
      * Sets user's inventory to a new one.
      * @param newInventory The new inventory.
      */
-    public void setInventory(ArrayList<Item> newInventory){
+    public void setInventory(ArrayList<Integer> newInventory){
         inventory = newInventory;
     }
 
@@ -102,7 +102,7 @@ public class User implements Serializable {
      *
      * @return inventory.
      */
-    public ArrayList<Item> getInventory() {
+    public ArrayList<Integer> getInventory() {
         return inventory;
     }
 
