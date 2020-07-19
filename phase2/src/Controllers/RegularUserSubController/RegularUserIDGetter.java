@@ -92,11 +92,13 @@ public class RegularUserIDGetter {
         return itemId;
     }
 
+//   TODO: remove them and use item manager's method instead
 
     private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
         ArrayList<Integer> potentialIds = new ArrayList<>();
         //get the id of all the items in the given arraylist
         for (Item item : allOtherItems) {
+//          TODO: need a im method to replace getItemId()
             potentialIds.add(item.getItemId());
         }
         return potentialIds;

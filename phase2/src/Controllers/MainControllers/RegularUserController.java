@@ -7,6 +7,7 @@ import Controllers.RegularUserSubController.RegularUserTradingMenuController;
 import Exception.InvalidIdException;
 import Gateway.FilesReaderWriter;
 import Managers.ItemManager.Item;
+import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
@@ -36,33 +37,36 @@ public class RegularUserController implements Controllable {
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
+    private ItemManager im;
     private String username;
     private int userId;
 
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * a TradeManager, a MeetingManager, an UserManager, an ItemManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param rw       The gateway class used to read or write to file.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
+     * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
      */
     public RegularUserController(DisplaySystem ds, FilesReaderWriter rw,
                                  TradeManager tm, MeetingManager mm,
-                                 UserManager um, String username) {
+                                 UserManager um, ItemManager im, String username) {
         this.ds = ds;
         this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
+        this.im = im;
         this.username = username;
         this.userId = um.usernameToID(username);
         // for other controllers / presenters
-        this.amc = new RegularUserAccountMenuController(ds,  tm, mm, um, username, userId);
-        this.atc = new RegularUserTradingMenuController(ds,  tm, mm, um, username, userId);
+        this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, username, userId);
+        this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
@@ -106,7 +110,7 @@ public class RegularUserController implements Controllable {
         }
 
     }
-    private void userAccountMenuResponse(int subMenuOption) {
+    private void userAccountMenuResponse(int subMenuOption) throws InvalidIdException {
         /*
         1.Browse all the books in other users inventories (ok)
         2.Add to own Wish List (ok)
@@ -118,6 +122,9 @@ public class RegularUserController implements Controllable {
         8.See most recent three items traded (add) (assume ok)
         0.Exit menu
          */
+        //TODO: hmm, maybe it needs to be an im method
+        // or return only ids and i use im's method
+        // to turn them into items
         ArrayList<Item> allOtherItems = um.allItems(userId);
         switch (subMenuOption) {
             case 1:

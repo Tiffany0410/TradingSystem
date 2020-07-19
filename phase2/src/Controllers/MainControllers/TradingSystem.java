@@ -4,6 +4,7 @@ import Controllers.AccountCreator;
 import Controllers.LoginValidator;
 import Controllers.RegularUserSubController.RegularUserThresholdController;
 import Gateway.FilesReaderWriter;
+import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.UserManager;
@@ -30,6 +31,7 @@ public class TradingSystem {
    private FilesReaderWriter filesReaderWriter;
    private RegularUserThresholdController tc;
    private SystemMessage sm;
+   private ItemManager itemManager;
 
    /**
     * constructor of trading system
@@ -37,7 +39,7 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, FilesReaderWriter filesReaderWriter, DisplaySystem displaySystem,
-                        AccountCreator accountCreator) {
+                        AccountCreator accountCreator, ItemManager itemManager) {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
@@ -46,6 +48,7 @@ public class TradingSystem {
       this.filesReaderWriter = filesReaderWriter;
       this.accountCreator = accountCreator;
       this.sm = new SystemMessage();
+      this.itemManager = itemManager;
    }
 
 
@@ -136,7 +139,8 @@ public class TradingSystem {
 
    private void regularUserMain(String userName) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
-              this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, userName);
+              this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
+              userName);
       // Initialize the threshold controller
       tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
               userName, userManager.usernameToID(userName));
@@ -206,7 +210,7 @@ public class TradingSystem {
 
    private void adminUserMain() throws IOException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
-              this.filesReaderWriter, this.userManager);
+              this.filesReaderWriter, this.userManager, this.itemManager);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(sm.AdminUserAlerts(filesReaderWriter));
 

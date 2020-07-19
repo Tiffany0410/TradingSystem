@@ -1,6 +1,7 @@
 package Controllers.RegularUserSubController;
 
 import Managers.ItemManager.Item;
+import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
@@ -28,27 +29,31 @@ public class RegularUserAccountMenuController {
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
+    private ItemManager im;
     private String username;
     private int userId;
 
     /**
      * Constructs a RegularUserAccountMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
+     * the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
+     * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds,
                                             TradeManager tm, MeetingManager mm,
-                                            UserManager um, String username, int userId) {
+                                            UserManager um, ItemManager im, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
+        this.im = im;
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
@@ -58,8 +63,9 @@ public class RegularUserAccountMenuController {
 
     /**
      * Let the presenter print user's wishlist and inventory.
+     * @throws InvalidIdException In case the item id provided is not valid.
      */
-    public void viewWishListInventory() {
+    public void viewWishListInventory() throws InvalidIdException{
         // get user
         User thisUser = um.findUser(userId);
         // get user's wishlist and inventory
@@ -69,9 +75,17 @@ public class RegularUserAccountMenuController {
         ArrayList<Item> wishlist = new ArrayList<>();
 //      TODO: new um method to return inventory of user given username or user id
 //      TODO: replace thisUser.getInventory
-        ArrayList<Item> inventory = thisUser.getInventory();
+        ArrayList<Integer> inventoryIDs = thisUser.getInventory();
+        ArrayList<Item> inventory = new ArrayList<>();
+        //TODO:  let im have a method that
+        // takes in a list of item ids and returns a list of items
+        //get the real item objects for the wishlist
         for (int id: wishlistIDs){
-            wishlist.add(idGetter.idToItem(id));
+            wishlist.add(im.getItembyId(id));
+        }
+        // get the real item objects for the inventory
+        for (int id: inventoryIDs){
+            inventory.add(im.getItembyId(id));
         }
         // print user's wishlist and inventory
         ds.printOut("Your wishlist: ");
@@ -103,7 +117,7 @@ public class RegularUserAccountMenuController {
      * and let the user manager handle it.
      */
     public void requestAddItem() {
-        um.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
+        im.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
         ds.printResult("Your add-item request", true);
     }
 
@@ -125,8 +139,10 @@ public class RegularUserAccountMenuController {
         try {
             List<Item> threeItems = new ArrayList<>();
             List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+            //TODO:  let im have a method that
+            // takes in a list of item ids and returns a list of items
             for (int id : recentThreeTradedIds) {
-                threeItems.add(idGetter.idToItem(id));
+                threeItems.add(im.getItembyId(id));
             }
             if (threeItems.size() != 0) {
                 ds.printResult(new ArrayList<>(threeItems));
@@ -142,7 +158,10 @@ public class RegularUserAccountMenuController {
      * an appropriate message will be printed.
      */
     public void removeFromInventory() {
-        ArrayList<Item> userInventory = um.findUser(userId).getInventory();
+        ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
+        //TODO:  let im have a method that
+        // takes in a list of item ids and returns a list of items
+        ArrayList<Item> userInventory = im.idsToItems(userInventoryIDs);
         if (userInventory.size() != 0) {
             ds.printResult(new ArrayList<>(userInventory));
             ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
@@ -175,6 +194,7 @@ public class RegularUserAccountMenuController {
     public void searchItem() {
         // print all the items being searched for
         String name = otherInfoGetter.getItemName();
+//      TODO: use im's searchItem method
         ArrayList<Item> matchItems = um.searchItem(name);
         if (matchItems.size() == 0){
             sm.msgForNothing("that matches your input", ds);

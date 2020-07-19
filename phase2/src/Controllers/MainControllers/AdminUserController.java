@@ -4,6 +4,7 @@ import Controllers.AccountCreator;
 import Controllers.AdminUserSubController.AdminUserOtherInfoGetter;
 import Gateway.FilesReaderWriter;
 import Managers.ItemManager.Item;
+import Managers.ItemManager.ItemManager;
 import Managers.UserManager.UserManager;
 import Presenter.DisplaySystem;
 import Presenter.SystemMessage;
@@ -26,22 +27,25 @@ public class AdminUserController implements Controllable {
     private AccountCreator ac;
     private DisplaySystem ds;
     private UserManager um;
+    private ItemManager im;
     private FilesReaderWriter rw;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
-     * FilesReadWriter, UserManager, and an adminUserId.
+     * FilesReadWriter, an UserManager, an ItemManager and an adminUserId.
      * @param ac The controller class used to create an account.
      * @param ds The presenter class used to print to screen.
      * @param rw The gateway class used to read or write to file.
+     * @param im The current state of the ItemManager
      * @param um The current state of the UserManager.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds,
-                               FilesReaderWriter rw, UserManager um) {
+                               FilesReaderWriter rw, UserManager um, ItemManager im) {
         this.ac = ac;
         this.ds = ds;
         this.rw = rw;
         this.um = um;
+        this.im = im;
         this.sm = new SystemMessage();
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
@@ -94,8 +98,8 @@ public class AdminUserController implements Controllable {
                 ds.printResult(um.unfreezeUser(ds.getUsername()));
                 break;
             case 3:
-//              TODO: Expect this part to change
-                ArrayList<Item> listItemToAdd = um.getListItemToAdd();
+//              TODO: im needs a getListItemToAdd method
+                ArrayList<Item> listItemToAdd = im.getListItemToAdd();
                 int len = listItemToAdd.size();
                 responseToToAddListSize(listItemToAdd, len);
                 break;
@@ -113,7 +117,8 @@ public class AdminUserController implements Controllable {
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
             //need a method to remove item from um's getListItemToAdd (***)
-            um.getListItemToAdd().remove(itemSelected);
+            //TODO: im needs a removeFromListItemToAdd method
+            im.removeFromListItemToAdd(itemSelected);
         }
         else{
             // print systemMessage's there's nothing here method
@@ -124,7 +129,12 @@ public class AdminUserController implements Controllable {
     private void addOrNotAdd(Item itemSelected) {
         if (otherInfoGetter.getAddOrNot()) {
             //if add
-            um.addItemToAllItemsList(itemSelected);
+            //TODO: im needs a addItemToAllItemsList method
+            im.addItemToAllItemsList(itemSelected);
+            //TODO: im needs a method that takes in an item and returns its item id
+            //TODO: im needs a method that takes in an item and returns its owner id
+            //TODO: suggestion: maybe can have just one method that takes in
+            // an item and returns an arraylist of ids :)
             ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
         } else {
             ds.printResult(true);
