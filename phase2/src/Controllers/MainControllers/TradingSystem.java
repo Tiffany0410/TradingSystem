@@ -4,6 +4,7 @@ import Controllers.AccountCreator;
 import Controllers.LoginValidator;
 import Controllers.RegularUserSubController.RegularUserThresholdController;
 import Gateway.FilesReaderWriter;
+import Managers.FeedbackManager.FeedbackManager;
 import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
@@ -32,6 +33,7 @@ public class TradingSystem {
    private RegularUserThresholdController tc;
    private SystemMessage sm;
    private ItemManager itemManager;
+   private FeedbackManager feedbackManager;
 
    /**
     * constructor of trading system
@@ -39,7 +41,7 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, DisplaySystem displaySystem,
-                        AccountCreator accountCreator, ItemManager itemManager)
+                        AccountCreator accountCreator, ItemManager itemManager, FeedbackManager feedbackManager)
            throws IOException, ClassNotFoundException {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
@@ -50,6 +52,7 @@ public class TradingSystem {
       this.sm = new SystemMessage();
       this.itemManager = itemManager;
       this.frw = new FilesReaderWriter();
+      this.feedbackManager = feedbackManager;
    }
 
 
@@ -126,9 +129,11 @@ public class TradingSystem {
 
    private void logOut() throws IOException{
       // serialize all managers before log out
-      frw.saveUserManagerToFile(userManager, "./src/Managers/SerializedUserManager.ser");
-      frw.saveTradeManagerToFile(tradeManager, "./src/Managers/SerializedTradeManager.ser");
-      frw.saveMeetingManagerToFile(meetingManager, "./src/Managers/SerializedMeetingManager.ser");
+      frw.saveManagerToFile(userManager, "./src/managers/userManager/SerializedUserManager.ser");
+      frw.saveManagerToFile(tradeManager, "./src/managers/tradeManager/SerializedTradeManager.ser");
+      frw.saveManagerToFile(meetingManager, "./src/managers/meetingManager/SerializedMeetingManager.ser");
+      frw.saveManagerToFile(itemManager, "./src/managers/itemManager/SerializedMeetingManager.ser");
+      frw.saveManagerToFile(feedbackManager, "./src/managers/feedbackManager/SerializedFeedbackManager.ser");
       this.displaySystem.printOut("Log out success.");
 
    }

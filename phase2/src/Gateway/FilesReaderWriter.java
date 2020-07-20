@@ -254,91 +254,28 @@ public class FilesReaderWriter implements Serializable {
 
 
     /**
-     * Writes the UserManager to file at filePath.
+     * Writes the various Manager to file at filePath.
      *
      * @param filePath the file to write the records to
-     * @param userManager the UserManager
+     * @param manager the different Manager in the Object type
      * @throws IOException all possible input/output errors
      *
-     * @serial serialize UserManager
+     * @serial serialize Manager
      */
-    public void saveUserManagerToFile(UserManager userManager, String filePath) throws IOException {
+    public void saveManagerToFile(Object manager, String filePath) throws IOException {
         //If the file does not exist, throws FileNotFoundException
         File new_file = new File(filePath);
         if (!new_file.exists()) { throw new FileNotFoundException(); }
-        // Serialize ItemManager into the file at filePath
-        ser_writer_helper(userManager,filePath);
+        // Serialize Manager into the file at filePath
+        OutputStream file = new FileOutputStream(filePath);
+        OutputStream buffer = new BufferedOutputStream(file);
+        ObjectOutput output = new ObjectOutputStream(buffer);
+
+        // serialize the object
+        output.writeObject(manager);
+        output.close();
     }
 
-    /**
-     * Writes the TradeManager to file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param tradeManager the TradeManager
-     * @throws IOException all possible input/output errors
-     *
-     * @serial serialize TradeManager
-     */
-    public void saveTradeManagerToFile(TradeManager tradeManager, String filePath) throws IOException {
-        //If the file does not exist, throws FileNotFoundException
-        File new_file = new File(filePath);
-        if (!new_file.exists()) { throw new FileNotFoundException(); }
-        // Serialize ItemManager into the file at filePath
-        ser_writer_helper(tradeManager,filePath);
-    }
-
-    /**
-     * Writes the MeetingManager to file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param meetingManager the UserManager
-     * @throws IOException all possible input/output errors
-     *
-     * @serial serialize MeetingManager
-     */
-    public void saveMeetingManagerToFile(MeetingManager meetingManager, String filePath) throws IOException {
-        // If the file does not exist, throws FileNotFoundException
-        File new_file = new File(filePath);
-        if (!new_file.exists()) { throw new FileNotFoundException(); }
-        // Serialize MeetingManager into the file at filePath
-        ser_writer_helper(meetingManager,filePath);
-    }
-
-
-    /**
-     * Writes the UserManager to file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param feedbackManager the FeedbackManager
-     * @throws IOException all possible input/output errors
-     *
-     * @serial serialize UserManager
-     */
-    public void saveFeedbackManagerToFile(FeedbackManager feedbackManager, String filePath) throws IOException {
-        // If the file does not exist, throws FileNotFoundException
-        File new_file = new File(filePath);
-        if (!new_file.exists()) { throw new FileNotFoundException(); }
-
-        // Serialize FeedbackManager into the file at filePath
-        ser_writer_helper(feedbackManager,filePath);
-    }
-
-    /**
-     * Writes the UserManager to file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param itemManager the ItemManager
-     * @throws IOException all possible input/output errors
-     *
-     * @serial serialize UserManager
-     */
-    public void saveItemManagerToFile(ItemManager itemManager, String filePath) throws IOException {
-        // If the file does not exist, throws FileNotFoundException
-        File new_file = new File(filePath);
-        if (!new_file.exists()) { throw new FileNotFoundException(); }
-        // Serialize ItemManager into the file at filePath
-        ser_writer_helper(itemManager,filePath);
-    }
 
     /**
      * Return the largest menu number of the menu file at filePath.
@@ -371,7 +308,7 @@ public class FilesReaderWriter implements Serializable {
     }
 
     /**
-     * Read the Object from file at filePath.
+     * Check the file at filePath is empty or not.
      *
      * @param filePath the file to write the records to
      * @return True if file is empty and False if file is not empty
@@ -381,6 +318,7 @@ public class FilesReaderWriter implements Serializable {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         return br.readLine() == null;
     }
+
 
     /**
      * Read the Object from file at filePath.
@@ -402,23 +340,4 @@ public class FilesReaderWriter implements Serializable {
         return output;
     }
 
-    /**
-     * Writes the Object to file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @param new_object the Object which to be serialized into file
-     * @throws IOException all possible input/output errors
-     *
-     * @serial serialize Object
-     */
-    private void ser_writer_helper (Object new_object, String filePath) throws IOException {
-
-        OutputStream file = new FileOutputStream(filePath);
-        OutputStream buffer = new BufferedOutputStream(file);
-        ObjectOutput output = new ObjectOutputStream(buffer);
-
-        // serialize the object
-        output.writeObject(new_object);
-        output.close();
-    }
 }

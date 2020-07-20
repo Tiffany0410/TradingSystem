@@ -2,6 +2,7 @@ import Controllers.AccountCreator;
 import Controllers.LoginValidator;
 import Controllers.MainControllers.TradingSystem;
 import Gateway.FilesReaderWriter;
+import Managers.FeedbackManager.FeedbackManager;
 import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
@@ -32,6 +33,7 @@ public class DemoMain {
         String serializedTradeManagerFilePath = "./src/managers/tradeManager/SerializedTradeManager.ser";
         String serializedMeetingManagerFilePath = "./src/managers/meetingManager/SerializedMeetingManager.ser";
         String serializedItemManagerFilePath = "./src/managers/itemManager/SerializedMeetingManager.ser";
+        String serializedFeedbackManagerFilePath = "./src/managers/feedbackManager/SerializedFeedbackManager.ser";
 
 
         // Start trading system
@@ -42,10 +44,16 @@ public class DemoMain {
         try {
             // Create all use classes
             FilesReaderWriter frw = new FilesReaderWriter();
-            UserManager userManager = (UserManager) frw.readManagerFromFile(serializedUserManagerFilePath,"userManager");
-            MeetingManager meetingManager = (MeetingManager) frw.readManagerFromFile(serializedMeetingManagerFilePath, "meetingManager");
-            TradeManager tradeManager = (TradeManager) frw.readManagerFromFile(serializedTradeManagerFilePath, "tradeManager");
-            ItemManager itemManager = (ItemManager) frw.readManagerFromFile(serializedItemManagerFilePath, "itemManager");
+            UserManager userManager = (UserManager)
+                    frw.readManagerFromFile(serializedUserManagerFilePath, "userManager");
+            MeetingManager meetingManager = (MeetingManager)
+                    frw.readManagerFromFile(serializedMeetingManagerFilePath, "meetingManager");
+            TradeManager tradeManager = (TradeManager)
+                    frw.readManagerFromFile(serializedTradeManagerFilePath, "tradeManager");
+            ItemManager itemManager = (ItemManager)
+                    frw.readManagerFromFile(serializedItemManagerFilePath, "itemManager");
+            FeedbackManager feedbackManager = (FeedbackManager)
+                    frw.readManagerFromFile(serializedFeedbackManagerFilePath, "feedbackManager");
             DisplaySystem displaySystem = new DisplaySystem();
             AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, frw);
 
@@ -56,7 +64,7 @@ public class DemoMain {
 
             // Create trading system
             TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
-                    displaySystem, accountCreator, itemManager);
+                    displaySystem, accountCreator, itemManager, feedbackManager);
 
             // Run trading system
             condition = tradingSystem.tradingSystemInital();
