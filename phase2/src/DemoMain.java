@@ -2,8 +2,11 @@ import Controllers.AccountCreator;
 import Controllers.LoginValidator;
 import Controllers.MainControllers.TradingSystem;
 import Gateway.FilesReaderWriter;
+import Managers.ItemManager.Item;
+import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
+import Managers.UserManager.UserManager;
 import Presenter.DisplaySystem;
 
 import java.io.FileNotFoundException;
@@ -22,15 +25,14 @@ public class DemoMain {
         DemoMainManager();
     }
 
-
-
     public static void DemoMainManager() {
         // File path
-        String userAccountInfoFilePath = "./src/Managers/RegularUserUsernameAndPassword.csv";
-        String adminAccountInfoFilePath = "./src/Managers/AdminUserUsernameAndPassword.csv";
-        String serializedUserManagerFilePath = "./src/Managers/SerializedUserManager.ser";
-        String serializedTradeManagerFilePath = "./src/Managers/SerializedTradeManager.ser";
-        String serializedMeetingManagerFilePath = "./src/Managers/SerializedMeetingManager.ser";
+        String userAccountInfoFilePath = "./src/managers/otherFiles/RegularUserUsernameAndPassword.csv";
+        String adminAccountInfoFilePath = "./src/managers/otherFiles/AdminUserUsernameAndPassword.csv";
+        String serializedUserManagerFilePath = "./src/managers/userManager/SerializedUserManager.ser";
+        String serializedTradeManagerFilePath = "./src/managers/tradeManager/SerializedTradeManager.ser";
+        String serializedMeetingManagerFilePath = "./src/managers/meetingManager/SerializedMeetingManager.ser";
+        String serializedItemManagerFilePath = "./src/managers/itemManager/SerializedMeetingManager.ser";
 
 
         // Start trading system
@@ -40,12 +42,13 @@ public class DemoMain {
 
         try {
             // Create all use classes
-            Managers.UserManager.UserManager userManager = FilesReaderWriter.readUserManagerFromFile(serializedUserManagerFilePath);
-            MeetingManager meetingManager = FilesReaderWriter.readMeetingManagerFromFile(serializedMeetingManagerFilePath);
-            FilesReaderWriter filesReaderWriter = new FilesReaderWriter();
-            TradeManager tradeManager = FilesReaderWriter.readTradeManagerFromFile(serializedTradeManagerFilePath);
+            FilesReaderWriter frw = new FilesReaderWriter();
+            UserManager userManager = (UserManager) frw.readManagerFromFile(serializedUserManagerFilePath,"userManager");
+            MeetingManager meetingManager = (MeetingManager) frw.readManagerFromFile(serializedMeetingManagerFilePath, "meetingManager");
+            TradeManager tradeManager = (TradeManager) frw.readManagerFromFile(serializedTradeManagerFilePath, "tradeManager");
+            ItemManager itemManager = (ItemManager) frw.readManagerFromFile(serializedItemManagerFilePath, "itemManager");
             DisplaySystem displaySystem = new DisplaySystem();
-            AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, filesReaderWriter);
+            AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, frw);
 
             // Load accounts data from CSV file to initial login validator
             Map<String, String> userLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
@@ -54,7 +57,7 @@ public class DemoMain {
 
             // Create trading system
             TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
-                    filesReaderWriter, displaySystem, accountCreator);
+                    frw, displaySystem, accountCreator, itemManager);
 
             // Run trading system
             condition = tradingSystem.tradingSystemInital();
@@ -71,5 +74,6 @@ public class DemoMain {
         }
 
     }
+
 
 }
