@@ -1,11 +1,13 @@
 package Controllers.RegularUserSubController;
 
 import Gateway.FilesReaderWriter;
+import Managers.ItemManager.Item;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.Trade;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
+import Managers.ItemManager.ItemManager;
 import Presenter.DisplaySystem;
 import Presenter.SystemMessage;
 import Exception.InvalidIdException;
@@ -31,6 +33,7 @@ public class RegularUserTradingMenuController {
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
+    private ItemManager im;
     private String username;
     private int userId;
 
@@ -42,16 +45,19 @@ public class RegularUserTradingMenuController {
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
+     * @param im       The current state of the ItemManager
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
     public RegularUserTradingMenuController(DisplaySystem ds,
                                             TradeManager tm, MeetingManager mm,
-                                            UserManager um, String username, int userId) {
+                                            UserManager um, ItemManager im,
+                                            String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
+        this.im = im;
         this.username = username;
         this.userId = userId;
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
@@ -129,13 +135,12 @@ public class RegularUserTradingMenuController {
      * outstanding trade requests or if the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @param thisUser The user to respond to the request.
      * @throws InvalidIdException In case the id is invalid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    public void respondToTradeRequests(Managers.UserManager.User thisUser) throws InvalidIdException, FileNotFoundException {
+    public void respondToTradeRequests() throws InvalidIdException, FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
-        if (thisUser.getNumTransactionLeftForTheWeek() == 0) {
+        if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0) {
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, thresholdValues.get(0));
         }
@@ -227,14 +232,14 @@ public class RegularUserTradingMenuController {
      * successfully sent or not. If the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @param thisUser The user who wants to request the trade.
      * @throws FileNotFoundException In case the file cannot be found.
+     * @throws InvalidIdException In case the id is invalid.
      */
-    public void requestTrade(Managers.UserManager.User thisUser) throws FileNotFoundException {
+    public void requestTrade() throws FileNotFoundException, InvalidIdException {
         // read threshold values in from the csv file
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // if the user has no more transactions left
-        if (thisUser.getNumTransactionLeftForTheWeek() == 0){
+        if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0){
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, thresholdValues.get(0));
         }
@@ -254,7 +259,7 @@ public class RegularUserTradingMenuController {
             int userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
             // Get the id for the first item
             ds.printOut("For the first item: ");
-            int itemId = idGetter.getItemID(idGetter.getAllItems(), 1);
+            int itemId = idGetter.getItemID(im.getAllItem(), 1);
             // get the trade id
             int tradeID = determineTradeID();
             // get the trade type (permanent or temporary)
@@ -263,13 +268,13 @@ public class RegularUserTradingMenuController {
             if (numKindOfTrade == 2){
                 // asks for the item id for the second item
                 ds.printOut("For the second item: ");
-                itemId2 = idGetter.getItemID(idGetter.getAllItems(), 1); }
+                itemId2 = idGetter.getItemID(im.getAllItem(), 1); }
             //get the trade object
             trade = getTrade(numKindOfTrade, itemId2, userId1, userId2, itemId, tradeID, tradeType);
             // get the validation from the item side
             ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
             // use all these to determine the result
-            requestResult(thisUser, ok, trade, userId1);
+            requestResult(ok, trade, userId1);
         }
     }
 
@@ -281,7 +286,7 @@ public class RegularUserTradingMenuController {
         return tradeID;
     }
 
-    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
+    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) throws InvalidIdException {
         boolean ok;
         if (numKindOfTrade == 1) {
             // pass in borrower, lender, item
@@ -309,28 +314,32 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private void requestResult(Managers.UserManager.User thisUser, boolean ok, Managers.TradeManager.Trade trade, int userId1) throws FileNotFoundException {
+    private void requestResult(boolean ok, Managers.TradeManager.Trade trade, int userId1) throws FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (tm.validateTrade(trade, um.findUser(userId1), thresholdValues.get(2)) && ok) {
-            requestSuccess(thisUser, trade);
+            requestSuccess(trade);
         }
         else {
-            requestFail(thisUser);
+            requestFail();
         }
     }
 
-    private void requestFail(Managers.UserManager.User thisUser) {
+    private void requestFail() {
         //if the trade request failed
         ds.printResult(false);
         // system auto-freeze
         // user borrow more than lend
+///     TODO: need method from um for this (given an user id and return the user's numBorrowed)
+//      TODO: replace thisUser.getNumBorrowed
+//      TODO: need method from um for this (given an user id and return the user's numLent)
+//      TODO: replace thisUser.getNumLent
         if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
             um.freezeUser(username);
             ds.printOut("You're frozen because you borrowed more than you lend.");
         }
     }
 
-    private void requestSuccess(User thisUser, Trade trade) {
+    private void requestSuccess(Trade trade) {
         // add trade
         tm.addTrade(trade);
         // tell the user it's successful
@@ -338,19 +347,19 @@ public class RegularUserTradingMenuController {
         // set status for the person who requested the trade
         trade.setUserStatus(userId, "Agree");
         // change the threshold value
-        tc.changeNumTradesLeftForTheWeek(thisUser);
+        tc.changeNumTradesLeftForTheWeek();
     }
 
 
-    private boolean validateItems(int borrower, int lender, int itemId){
+    private boolean validateItems(int borrower, int lender, int itemId) throws InvalidIdException {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory
         return um.findUser(borrower).getWishList().contains(itemId) &&
-                um.findUser(lender).getInventory().contains(idGetter.idToItem(itemId));
+                um.findUser(lender).getInventory().contains(im.getItembyId(itemId));
     }
 
 
-    private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2){
+    private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2) throws InvalidIdException {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory for both items
         // to be traded

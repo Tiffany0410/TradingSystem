@@ -44,22 +44,19 @@ public class SystemMessage {
 
     private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username) throws FileNotFoundException {
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
-        User regUser = um.findUser(username);
-//      TODO: need method from um for this (given an username / user id and return if that user is frozen)
-//      TODO: replace thisUser.getIfFrozen()
-        if (!regUser.getIfFrozen()) {
+        if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
-            if (tc.freezeUserOrNot(regUser, thresholdValues.get(1))){
+            if (tc.freezeUserOrNot(thresholdValues.get(1))){
                 ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
             }
         }
         notification.append("Your username is ").append(username).append("\n");
         notification.append("Your userId is ").append(um.usernameToID(username)).append("\n");
-        notification.append("The answer to you're frozen is ").append(regUser.getIfFrozen()).append("\n");
-//      TODO: need method from um for this (given an username / user id and return the user's numBorrowed)
+        notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append("\n");
+//      TODO: need method from um for this (given an user id and return the user's numBorrowed)
 //      TODO: replace thisUser.getNumBorrowed
         notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
-//      TODO: need method from um for this (given an username / user id and return the user's numLent)
+//      TODO: need method from um for this (given an user id and return the user's numLent)
 //      TODO: replace thisUser.getNumLent
         notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");

@@ -10,7 +10,6 @@ import Managers.ItemManager.Item;
 import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
-import Managers.UserManager.User;
 import Managers.UserManager.UserManager;
 import Presenter.SystemMessage;
 import Presenter.DisplaySystem;
@@ -86,22 +85,19 @@ public class RegularUserController implements Controllable {
      */
     @Override
     public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException, InvalidIdException {
-        Managers.UserManager.User thisUser = um.findUser(userId);
         switch (mainMenuOption) {
             case 1:
                 userAccountMenuResponse(subMenuOption);
                 break;
             case 2:
-//              TODO: need method from um for this (given an username / user id and return if that user is frozen)
-//              TODO: replace thisUser.getIfFrozen()
-                if (thisUser.getIfFrozen()){
+                if (um.getFrozenStatus(userId)){
                     ds.printOut("This menu is locked");}
                 else{
                     userTradingMenuResponse(subMenuOption);
                 }
                 break;
             case 3:
-                if (thisUser.getIfFrozen()){
+                if (um.getFrozenStatus(userId)){
                     ds.printOut("This menu is locked");}
                 else{
                     userMeetingMenuResponse(subMenuOption);
@@ -168,17 +164,16 @@ public class RegularUserController implements Controllable {
           7.View transactions that have been cancelled (ok)
          */
         List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
-        User thisUser = um.findUser(userId);
         // reassess it at the first day of the week - only once
         // Thing to note: user has to login on other days (non-Sundays) to re-enable this function for next Sunday (***)
         // and can only reassess it on Sunday (the first day of the week)
-        tc.reassessNumTransactionsLeftForTheWeek(thisUser, thresholdValues.get(0));
+        tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
-                atc.requestTrade(thisUser);
+                atc.requestTrade();
                 break;
             case 2:
-                atc.respondToTradeRequests(thisUser);
+                atc.respondToTradeRequests();
                 break;
             case 3:
                 atc.viewTrades(tm.getOpenTrade(userId));

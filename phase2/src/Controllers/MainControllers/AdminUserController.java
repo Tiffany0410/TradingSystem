@@ -133,8 +133,8 @@ public class AdminUserController implements Controllable {
             im.addItemToAllItemsList(itemSelected);
             //TODO: im needs a method that takes in an item and returns its item id
             //TODO: im needs a method that takes in an item and returns its owner id
-            //TODO: suggestion: maybe can have just one method that takes in
-            // an item and returns an arraylist of ids :)
+            //TODO: ^ suggestion: maybe can have just one method that takes in
+            // an item and returns an arraylist of ids (owner id, item id, ...) :)
             ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
         } else {
             ds.printResult(true);

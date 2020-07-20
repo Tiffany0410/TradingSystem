@@ -55,12 +55,10 @@ public class RegularUserThresholdController {
 
     /**
      * Re-assesses user's number of transactions left for the week.
-     * @param thisUser The user to be re-assessed the number of transactions
-     *                 left for the week for.
      */
-    public void reassessNumTransactionsLeftForTheWeek(Managers.UserManager.User thisUser, int maxNumTransactionAllowedAWeek) {
+    public void reassessNumTransactionsLeftForTheWeek(int maxNumTransactionAllowedAWeek) {
         if (isFirstDayOfTheWeek() && !thresholdReassessed){
-            thisUser.setTransactionLeftForTheWeek(maxNumTransactionAllowedAWeek);
+            um.setThreshold(userId, "TransactionLeftForTheWeek", maxNumTransactionAllowedAWeek);
             thresholdReassessed = true;
         }
         else if (!isFirstDayOfTheWeek()){
@@ -71,19 +69,14 @@ public class RegularUserThresholdController {
     /**
      * Decrements the number of trades left for the week
      * for this user by one.
-     * @param thisUser The user whose number of trade left for
-     *                 the week is to be changed.
      */
-    protected void changeNumTradesLeftForTheWeek(Managers.UserManager.User thisUser){
+    protected void changeNumTradesLeftForTheWeek(){
         /*
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
          */
-//      TODO: need an um method that returns the user's numTransactionLeftForTheWeek given user id or username
-//      TODO: replace getNumTransactionLeftForTheWeek();
-        int currentVal = thisUser.getNumTransactionLeftForTheWeek();
-//      TODO: need an um method that can set user's numTransactionLeftForTheWeek given user id or username and value
-//      TODO: replace setTransactionLeftForTheWeek();
-        thisUser.setTransactionLeftForTheWeek(currentVal-1);
+        int currentVal = um.getThreshold(userId, "TransactionLeftForTheWeek");
+        // deduct the number of transactions left by one
+        um.setThreshold(userId, "TransactionLeftForTheWeek", currentVal-1);
     }
 
 
@@ -100,23 +93,20 @@ public class RegularUserThresholdController {
      * Judges whether the user should be frozen and actually do so
      * based on the maximum uncompleted transactions allowed before
      * the user is frozen threshold.
-     * @param thisUser The user to be determined whether he/she should be frozen or not.
      * @return Whether the user is frozen or not.
      */
-    public boolean freezeUserOrNot(User thisUser, int maxNumTransactionIncomplete){
-//      TODO: need an um method that returns the numFrozen given user id/username
-//      TODO: replace getNumFrozen()
-        int numFrozen = thisUser.getNumFrozen();
+    public boolean freezeUserOrNot(int maxNumTransactionIncomplete){
+        int numFrozen = um.getThreshold(userId, "NumFrozen");
         // find the num of uncompleted transactions
         int numUncompletedTransactions = numUncompletedTransactions();
         // if user went over the threshold
         // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
         int threshold =  maxNumTransactionIncomplete + (numFrozen * maxNumTransactionIncomplete);
-//      TODO: need an um method that adds one to numFrozen given user id/username
-//      TODO: replace addOneToNumFrozen()
-        if (numUncompletedTransactions > threshold || thisUser.getNumFrozen() == 3) {
+        if (numUncompletedTransactions > threshold || numFrozen == 3) {
+            // freeze the user if the limit's passed and the user's been frozen 3 times
             um.freezeUser(username);
-            thisUser.addOneToNumFrozen();
+            // add one to the number of times the user's frozen
+            um.setThreshold(userId, "NumFrozen", numFrozen+1);
             return true;
         }
         return false;
@@ -127,12 +117,14 @@ public class RegularUserThresholdController {
         // will store all the unique trade IDs
         List<Integer> uniqueTradeIDs = new ArrayList<>();
         // get the meetings that are overtime
-        List<Managers.MeetingManager.Meeting> overTimeMeetings = mm.getListOverTime(userId);
+        List<Meeting> overTimeMeetings = mm.getListOverTime(userId);
         /* we get unique # of trades for meetings
         that are overtime and that's how we
         get the number of uncompleted transactions
          */
         for (Meeting meeting : overTimeMeetings){
+//          TODO: need a mm method to check if a meeting's trade id is 0 or not
+//          TODO: replace getTradeId()
             int tradeID = meeting.getTradeId();
             if (!uniqueTradeIDs.contains(tradeID)){
                 uniqueTradeIDs.add(tradeID);

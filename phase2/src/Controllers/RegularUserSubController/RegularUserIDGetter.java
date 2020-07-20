@@ -1,6 +1,7 @@
 package Controllers.RegularUserSubController;
 
 import Managers.ItemManager.Item;
+import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
 import Managers.UserManager.UserManager;
@@ -65,11 +66,10 @@ public class RegularUserIDGetter {
         ArrayList<Integer> potentialIds;
         // depends on the option the user chooses
         if (type == 1) {
+//          TODO: should call im method instead of this
             potentialIds = getItemsIDs(potentialItems);
         } else {
-//      TODO: new um method to return wishlist of user given username or user id
-//      TODO: replace thisUser.getWishList
-            potentialIds = um.findUser(userId).getWishList();
+            potentialIds = um.getUserWishlist(userId);
         }
         Scanner sc = new Scanner(System.in);
         int itemId = 0;
@@ -92,49 +92,17 @@ public class RegularUserIDGetter {
         return itemId;
     }
 
-//   TODO: remove them and use item manager's method instead
+//   TODO: need an im method that takes in a list of items and then return a list of item ids,
+//    in the correct order
+//    So we don't need this method anymore
 
     private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
         ArrayList<Integer> potentialIds = new ArrayList<>();
         //get the id of all the items in the given arraylist
         for (Item item : allOtherItems) {
-//          TODO: need a im method to replace getItemId()
             potentialIds.add(item.getItemId());
         }
         return potentialIds;
-    }
-
-//   TODO: remove them and use item manager's method instead
-    /**
-     * Gets the actual item object with a given item id.
-     * @param id The id of the item.
-     * @return The actual item object with the id.
-     */
-    public Item idToItem(int id) {
-        //Get all the items in the system
-        ArrayList<Item> allOtherItems = getAllItems();
-        //find the item with <id>
-        for (Item item : allOtherItems) {
-            // compare item id with given id
-            if (item.getItemId() == id) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-
-//    TODO: remove them and use item manager's method instead
-    /**
-     * Gets all the items in the system.
-     * @return All the items in the system.
-     */
-    public ArrayList<Item> getAllItems() {
-        ArrayList<Item> allOtherItems = um.allItems(userId);
-//      TODO: new um method to return inventory of user given username or user id
-//      TODO: replace thisUser.getInventory
-        allOtherItems.addAll(um.findUser(userId).getInventory());
-        return allOtherItems;
     }
 
     /**

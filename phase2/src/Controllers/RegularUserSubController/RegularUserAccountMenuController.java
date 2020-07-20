@@ -69,13 +69,9 @@ public class RegularUserAccountMenuController {
         // get user
         User thisUser = um.findUser(userId);
         // get user's wishlist and inventory
-//      TODO: new um method to return wishlist of user given username or user id
-//      TODO: replace thisUser.getWishList
-        ArrayList<Integer> wishlistIDs = thisUser.getWishList();
+        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
         ArrayList<Item> wishlist = new ArrayList<>();
-//      TODO: new um method to return inventory of user given username or user id
-//      TODO: replace thisUser.getInventory
-        ArrayList<Integer> inventoryIDs = thisUser.getInventory();
+        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
         ArrayList<Item> inventory = new ArrayList<>();
         //TODO:  let im have a method that
         // takes in a list of item ids and returns a list of items
@@ -179,7 +175,7 @@ public class RegularUserAccountMenuController {
      */
     public void removeFromWishList(ArrayList<Item> allOtherItems) {
         // remove the item id from wishlist
-        if (um.findUser(userId).getWishList().size() != 0) {
+        if (um.getUserWishlist(userId).size() != 0) {
             ds.printResult(um.removeItemWishlist(idGetter.getItemID(allOtherItems, 0), username));
         }
         else{
