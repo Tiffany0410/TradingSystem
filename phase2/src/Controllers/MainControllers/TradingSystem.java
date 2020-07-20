@@ -28,7 +28,7 @@ public class TradingSystem {
    private MeetingManager meetingManager;
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
-   private FilesReaderWriter filesReaderWriter;
+   private FilesReaderWriter frw;
    private RegularUserThresholdController tc;
    private SystemMessage sm;
    private ItemManager itemManager;
@@ -38,17 +38,18 @@ public class TradingSystem {
     * need demo pass in several things
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
-                        TradeManager tradeManager, FilesReaderWriter filesReaderWriter, DisplaySystem displaySystem,
-                        AccountCreator accountCreator, ItemManager itemManager) {
+                        TradeManager tradeManager, DisplaySystem displaySystem,
+                        AccountCreator accountCreator, ItemManager itemManager)
+           throws IOException, ClassNotFoundException {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
       this.loginValidator = loginValidator;
       this.tradeManager = tradeManager;
-      this.filesReaderWriter = filesReaderWriter;
       this.accountCreator = accountCreator;
       this.sm = new SystemMessage();
       this.itemManager = itemManager;
+      this.frw = new FilesReaderWriter();
    }
 
 
@@ -56,7 +57,7 @@ public class TradingSystem {
     * Initial trading system menu
     * @return false when user exit trading system, true when user not exit the system
     */
-   public boolean tradingSystemInital() throws IOException {
+   public boolean tradingSystemInital() throws IOException, ClassNotFoundException {
       displaySystem.printOut("Welcome to the trading system");
       displaySystem.printOut(" ");
 
@@ -96,7 +97,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void login() throws IOException {
+   private void login() throws IOException, ClassNotFoundException {
       String userName;
       String userPassword;
 
@@ -125,9 +126,9 @@ public class TradingSystem {
 
    private void logOut() throws IOException{
       // serialize all managers before log out
-      FilesReaderWriter.saveUserManagerToFile(userManager, "./src/Managers/SerializedUserManager.ser");
-      FilesReaderWriter.saveTradeManagerToFile(tradeManager, "./src/Managers/SerializedTradeManager.ser");
-      FilesReaderWriter.saveMeetingManagerToFile(meetingManager, "./src/Managers/SerializedMeetingManager.ser");
+      frw.saveUserManagerToFile(userManager, "./src/Managers/SerializedUserManager.ser");
+      frw.saveTradeManagerToFile(tradeManager, "./src/Managers/SerializedTradeManager.ser");
+      frw.saveMeetingManagerToFile(meetingManager, "./src/Managers/SerializedMeetingManager.ser");
       this.displaySystem.printOut("Log out success.");
 
    }
@@ -137,15 +138,15 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   private void regularUserMain(String userName) throws IOException {
+   private void regularUserMain(String userName) throws IOException, ClassNotFoundException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
-              this.filesReaderWriter, this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
+              this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
               userName);
       // Initialize the threshold controller
       tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
               userName, userManager.usernameToID(userName));
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.filesReaderWriter, this.displaySystem,
+      displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.frw, this.displaySystem,
               userName));
 
       int option;
@@ -208,11 +209,11 @@ public class TradingSystem {
     * For admin user menu
     */
 
-   private void adminUserMain() throws IOException {
+   private void adminUserMain() throws IOException, ClassNotFoundException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
-              this.filesReaderWriter, this.userManager, this.itemManager);
+              this.userManager, this.itemManager);
       displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(sm.AdminUserAlerts(filesReaderWriter));
+      displaySystem.printOut(sm.AdminUserAlerts(frw));
 
       int option;
       option = displaySystem.getMenuAnswer("./src/Menus/AdminUserMainMenu.csv");

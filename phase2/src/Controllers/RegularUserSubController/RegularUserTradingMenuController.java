@@ -13,6 +13,7 @@ import Presenter.SystemMessage;
 import Exception.InvalidIdException;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class RegularUserTradingMenuController {
     private ItemManager im;
     private String username;
     private int userId;
+    private FilesReaderWriter frw;
 
     /**
      * Constructs a RegularUserTradingMenuController with a DisplaySystem,
@@ -52,7 +54,7 @@ public class RegularUserTradingMenuController {
     public RegularUserTradingMenuController(DisplaySystem ds,
                                             TradeManager tm, MeetingManager mm,
                                             UserManager um, ItemManager im,
-                                            String username, int userId) {
+                                            String username, int userId) throws IOException, ClassNotFoundException {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -64,6 +66,7 @@ public class RegularUserTradingMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
+        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -139,7 +142,7 @@ public class RegularUserTradingMenuController {
      * @throws FileNotFoundException In case the file cannot be found.
      */
     public void respondToTradeRequests() throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0) {
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, thresholdValues.get(0));
@@ -237,7 +240,7 @@ public class RegularUserTradingMenuController {
      */
     public void requestTrade() throws FileNotFoundException, InvalidIdException {
         // read threshold values in from the csv file
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // if the user has no more transactions left
         if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0){
             // the case with user reaching the max number of transactions for the week
@@ -315,7 +318,7 @@ public class RegularUserTradingMenuController {
     }
 
     private void requestResult(boolean ok, Managers.TradeManager.Trade trade, int userId1) throws FileNotFoundException {
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (tm.validateTrade(trade, um.findUser(userId1), thresholdValues.get(2)) && ok) {
             requestSuccess(trade);
         }

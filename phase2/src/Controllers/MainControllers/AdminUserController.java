@@ -28,22 +28,21 @@ public class AdminUserController implements Controllable {
     private DisplaySystem ds;
     private UserManager um;
     private ItemManager im;
-    private FilesReaderWriter rw;
+    private FilesReaderWriter frw;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
      * FilesReadWriter, an UserManager, an ItemManager and an adminUserId.
      * @param ac The controller class used to create an account.
      * @param ds The presenter class used to print to screen.
-     * @param rw The gateway class used to read or write to file.
      * @param im The current state of the ItemManager
      * @param um The current state of the UserManager.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds,
-                               FilesReaderWriter rw, UserManager um, ItemManager im) {
+                               UserManager um, ItemManager im) throws IOException, ClassNotFoundException {
         this.ac = ac;
         this.ds = ds;
-        this.rw = rw;
+        this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.sm = new SystemMessage();
@@ -148,7 +147,7 @@ public class AdminUserController implements Controllable {
         3.Edit the number of books users must lend before users can borrow
         4.Edit the max Edits per user for meeting’s date + time
          */
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         switch (subMenuOption) {
             case 1:
                 sm.msgForThresholdValue(thresholdValues.get(0),ds);
@@ -171,7 +170,7 @@ public class AdminUserController implements Controllable {
                 thresholdValues.set(3, otherInfoGetter.getThresholdAns());
                 break;
         }
-        rw.saveThresholdValuesToCSVFile(thresholdValues, "./src/Others/ThresholdValues.csv");
+        frw.saveThresholdValuesToCSVFile(thresholdValues, "./src/Others/ThresholdValues.csv");
         ds.printResult(true);
     }
 

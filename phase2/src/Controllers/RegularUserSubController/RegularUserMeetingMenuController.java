@@ -10,6 +10,7 @@ import Presenter.SystemMessage;
 import Exception.InvalidIdException;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +33,11 @@ public class RegularUserMeetingMenuController {
     private UserManager um;
     private String username;
     private int userId;
+    private FilesReaderWriter frw;
 
 
     /**
-     * Constructs a RegularUserMeetingMenuController with a DisplaySystem, a FilesReaderWriter,
+     * Constructs a RegularUserMeetingMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
@@ -45,9 +47,8 @@ public class RegularUserMeetingMenuController {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserMeetingMenuController(DisplaySystem ds,
-                                            TradeManager tm, MeetingManager mm,
-                                            UserManager um, String username, int userId) {
+    public RegularUserMeetingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
+                                            String username, int userId) throws IOException, ClassNotFoundException {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -58,6 +59,7 @@ public class RegularUserMeetingMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
+        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -83,7 +85,7 @@ public class RegularUserMeetingMenuController {
      * @throws FileNotFoundException In case the file cannot be found.
      */
     public void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getUnConfirmMeeting(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
@@ -116,7 +118,7 @@ public class RegularUserMeetingMenuController {
      * @throws FileNotFoundException In case if the file cannot be found.
      */
     public void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
@@ -150,7 +152,7 @@ public class RegularUserMeetingMenuController {
      */
     public void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
         // get the threshold values read from the csv file
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // get the threshold value needed for this method
         int maxMeetingTimePlaceEdits = thresholdValues.get(3);
         // if there're no meetings that need to be confirmed for time and place

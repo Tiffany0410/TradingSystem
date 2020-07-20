@@ -61,7 +61,7 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public static List<Integer> readThresholdValuesFromCSVFile(String filePath) throws FileNotFoundException {
+    public List<Integer> readThresholdValuesFromCSVFile(String filePath) throws FileNotFoundException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
             // FileInputStream can be used for reading raw bytes, like an image.
@@ -179,7 +179,7 @@ public class FilesReaderWriter implements Serializable {
      * @param filePath the path of the data file
      * @throws FileNotFoundException if filePath is not a valid path
      */
-    public static Map<String, String> readUserInfoFromCSVFile(String filePath) throws FileNotFoundException {
+    public Map<String, String> readUserInfoFromCSVFile(String filePath) throws FileNotFoundException {
         File new_file = new File(filePath);
         if (new_file.exists()) {
             // FileInputStream can be used for reading raw bytes, like an image.

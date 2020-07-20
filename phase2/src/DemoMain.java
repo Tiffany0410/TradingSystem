@@ -2,7 +2,6 @@ import Controllers.AccountCreator;
 import Controllers.LoginValidator;
 import Controllers.MainControllers.TradingSystem;
 import Gateway.FilesReaderWriter;
-import Managers.ItemManager.Item;
 import Managers.ItemManager.ItemManager;
 import Managers.MeetingManager.MeetingManager;
 import Managers.TradeManager.TradeManager;
@@ -51,13 +50,13 @@ public class DemoMain {
             AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, frw);
 
             // Load accounts data from CSV file to initial login validator
-            Map<String, String> userLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(userAccountInfoFilePath);
-            Map<String, String> adminUserLoginInfo = FilesReaderWriter.readUserInfoFromCSVFile(adminAccountInfoFilePath);
+            Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
+            Map<String, String> adminUserLoginInfo = frw.readUserInfoFromCSVFile(adminAccountInfoFilePath);
             LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
             // Create trading system
             TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator, tradeManager,
-                    frw, displaySystem, accountCreator, itemManager);
+                    displaySystem, accountCreator, itemManager);
 
             // Run trading system
             condition = tradingSystem.tradingSystemInital();

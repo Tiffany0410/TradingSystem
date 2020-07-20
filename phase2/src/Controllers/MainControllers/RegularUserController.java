@@ -14,6 +14,7 @@ import Managers.UserManager.UserManager;
 import Presenter.SystemMessage;
 import Presenter.DisplaySystem;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class RegularUserController implements Controllable {
     private RegularUserThresholdController tc;
     private SystemMessage sm;
     private DisplaySystem ds;
-    private FilesReaderWriter rw;
+    private FilesReaderWriter frw;
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -45,27 +46,25 @@ public class RegularUserController implements Controllable {
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
-     * @param rw       The gateway class used to read or write to file.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
      */
-    public RegularUserController(DisplaySystem ds, FilesReaderWriter rw,
-                                 TradeManager tm, MeetingManager mm,
-                                 UserManager um, ItemManager im, String username) {
+    public RegularUserController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
+                                 ItemManager im, String username) throws IOException, ClassNotFoundException {
         this.ds = ds;
-        this.rw = rw;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.username = username;
         this.userId = um.usernameToID(username);
+        this.frw = new FilesReaderWriter();
         // for other controllers / presenters
         this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, username, userId);
-        this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, username, userId);
+        this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, im, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
@@ -163,7 +162,7 @@ public class RegularUserController implements Controllable {
           6.See top three most frequent trading partners (ok)
           7.View transactions that have been cancelled (ok)
          */
-        List<Integer> thresholdValues = FilesReaderWriter.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
         // reassess it at the first day of the week - only once
         // Thing to note: user has to login on other days (non-Sundays) to re-enable this function for next Sunday (***)
         // and can only reassess it on Sunday (the first day of the week)
