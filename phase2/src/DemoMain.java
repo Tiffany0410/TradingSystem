@@ -55,7 +55,7 @@ public class DemoMain {
             FeedbackManager feedbackManager = (FeedbackManager)
                     frw.readManagerFromFile(serializedFeedbackManagerFilePath, "feedbackManager");
             DisplaySystem displaySystem = new DisplaySystem();
-            AccountCreator accountCreator = new AccountCreator(userManager, displaySystem, frw);
+            AccountCreator accountCreator = new AccountCreator(userManager, displaySystem);
 
             // Load accounts data from CSV file to initial login validator
             Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
