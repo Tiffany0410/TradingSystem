@@ -81,11 +81,12 @@ public class RegularUserMeetingMenuController {
      * get user's input of the meeting information and let the user
      * confirm the meeting. Else, print to let user know that there
      * aren't any.
+     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    public void confirmMeetingTookPlace() throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+    public void confirmMeetingTookPlace(String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         if (mm.getUnConfirmMeeting(userId).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
@@ -114,11 +115,12 @@ public class RegularUserMeetingMenuController {
      * get user's input of the meeting information and let the user
      * confirm the meeting. Else, print to let user know that there
      * aren't any.
+     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case if the file cannot be found.
      */
-    public void confirmMeetingTandP() throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+    public void confirmMeetingTandP(String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
         } else {
@@ -147,12 +149,13 @@ public class RegularUserMeetingMenuController {
      * and place, let the user input the input of the meeting information
      * and let the user edit the time and place. Else, print to
      * let the user know that there aren't any.
+     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws InvalidIdException In case if the id is not valid.
      * @throws FileNotFoundException In case the file cannot be found.
      */
-    public void EditMeetingTandP() throws InvalidIdException, FileNotFoundException {
+    public void EditMeetingTandP(String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
         // get the threshold values read from the csv file
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         // get the threshold value needed for this method
         int maxMeetingTimePlaceEdits = thresholdValues.get(3);
         // if there're no meetings that need to be confirmed for time and place

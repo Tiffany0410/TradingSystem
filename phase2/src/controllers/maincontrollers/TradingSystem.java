@@ -152,7 +152,7 @@ public class TradingSystem {
               userName, userManager.usernameToID(userName));
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.frw, this.displaySystem,
-              userName));
+              userName, "./src/others/ThresholdValues.csv"));
 
       int option;
       option = displaySystem.getMenuAnswer("./menus/RegularUserMainMenu.csv");
@@ -172,7 +172,7 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption);
+                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
                }
             }
             this.regularUserMain(userName);
@@ -186,7 +186,7 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption);
+                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
                }
             }
             this.regularUserMain(userName);
@@ -200,7 +200,7 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption);
+                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
                }
             }
             this.regularUserMain(userName);
@@ -234,7 +234,7 @@ public class TradingSystem {
          while(condition) {
             int suboption = displaySystem.getMenuAnswer("./menus/AdminUserManageUsersSubMenu.csv");
             if (suboption == 0) { condition = false; }
-            else{adminUserController.actionResponse(option, suboption);}
+            else{adminUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
          }
          this.adminUserMain();
       }
@@ -245,7 +245,7 @@ public class TradingSystem {
          while(condition) {
             int suboption = displaySystem.getMenuAnswer("./menus/AdminUserEditThresholdsSubMenu.csv");
             if (suboption == 0) { condition = false; }
-            else{adminUserController.actionResponse(option, suboption);}
+            else{adminUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
          }
          this.adminUserMain();
       }
@@ -256,7 +256,7 @@ public class TradingSystem {
          while(condition) {
             int suboption = displaySystem.getMenuAnswer("./menus/AdminUserOtherSubMenu.csv");
             if (suboption == 0) { condition = false; }
-            else{adminUserController.actionResponse(option, suboption);}
+            else{adminUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
          }
          this.adminUserMain();
 

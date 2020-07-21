@@ -78,12 +78,13 @@ public class RegularUserController implements Controllable {
      *
      * @param mainMenuOption The main menu option chosen by the regular user.
      * @param subMenuOption  The sub menu option for a particular sub menu chosen by the regular user.
+     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws InvalidIdException In case the id is invalid.
      * @throws FileNotFoundException In case the file cannot be found.
      *
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) throws FileNotFoundException, InvalidIdException {
+    public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) throws FileNotFoundException, InvalidIdException {
         switch (mainMenuOption) {
             case 1:
                 userAccountMenuResponse(subMenuOption);
@@ -92,14 +93,14 @@ public class RegularUserController implements Controllable {
                 if (um.getFrozenStatus(userId)){
                     ds.printOut("This menu is locked");}
                 else{
-                    userTradingMenuResponse(subMenuOption);
+                    userTradingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
                 break;
             case 3:
                 if (um.getFrozenStatus(userId)){
                     ds.printOut("This menu is locked");}
                 else{
-                    userMeetingMenuResponse(subMenuOption);
+                    userMeetingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
                 break;
         }
@@ -152,7 +153,7 @@ public class RegularUserController implements Controllable {
     }
 
 
-    private void userTradingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
+    private void userTradingMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
         /*
           1.Request a trade (lend / borrow / two-way) (tried)
           2.Respond to trade requests (agree / disagree) - first meeting is set up by system (should be ok)
@@ -162,17 +163,17 @@ public class RegularUserController implements Controllable {
           6.See top three most frequent trading partners (ok)
           7.View transactions that have been cancelled (ok)
          */
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         // reassess it at the first day of the week - only once
         // Thing to note: user has to login on other days (non-Sundays) to re-enable this function for next Sunday (***)
         // and can only reassess it on Sunday (the first day of the week)
         tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
-                atc.requestTrade();
+                atc.requestTrade(thresholdValuesFilePath);
                 break;
             case 2:
-                atc.respondToTradeRequests();
+                atc.respondToTradeRequests(thresholdValuesFilePath);
                 break;
             case 3:
                 atc.viewTrades(tm.getOpenTrade(userId));
@@ -194,7 +195,7 @@ public class RegularUserController implements Controllable {
     }
 
 
-    private void userMeetingMenuResponse(int subMenuOption) throws InvalidIdException, FileNotFoundException {
+    private void userMeetingMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
        /*
     1.Suggest/edit time and place for meetings (tried)
     2.Confirm time and place for meetings (**)
@@ -207,13 +208,13 @@ public class RegularUserController implements Controllable {
             case 1:
                 // show user a list of potential meetings to edit the time and place for
                 // and then let him/her edit it
-                mmc.EditMeetingTandP();
+                mmc.EditMeetingTandP(thresholdValuesFilePath);
                 break;
             case 2:
-                mmc.confirmMeetingTandP();
+                mmc.confirmMeetingTandP(thresholdValuesFilePath);
                 break;
             case 3:
-                mmc.confirmMeetingTookPlace();
+                mmc.confirmMeetingTookPlace(thresholdValuesFilePath);
                 break;
             case 4:
                 mmc.seeMeetings(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");

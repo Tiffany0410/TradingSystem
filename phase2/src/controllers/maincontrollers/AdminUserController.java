@@ -56,16 +56,17 @@ public class AdminUserController implements Controllable {
      * and calls on the relevant presenter class method.
      * @param mainMenuOption The main menu option chosen by the admin user.
      * @param subMenuOption The sub menu option for a particular sub menu chosen by the admin user.
+     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws IOException In case the file can't be found.
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption) throws IOException {
+    public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) throws IOException {
         switch(mainMenuOption){
             case 1:
                 adminManageUsersMenuResponse(subMenuOption);
                 break;
             case 2:
-                adminEditThresholdMenuResponse(subMenuOption);
+                adminEditThresholdMenuResponse(subMenuOption, thresholdValuesFilePath);
                 break;
             case 3:
                 adminOthersMenuResponse(subMenuOption);
@@ -140,14 +141,14 @@ public class AdminUserController implements Controllable {
         }
     }
 
-    private void adminEditThresholdMenuResponse(int subMenuOption) throws IOException {
+    private void adminEditThresholdMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws IOException {
         /*
         1.Edit the max number of transactions allowed a week
         2.Edit the max number of transactions that can be incomplete before the account is frozen
         3.Edit the number of books users must lend before users can borrow
         4.Edit the max Edits per user for meeting’s date + time
          */
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         switch (subMenuOption) {
             case 1:
                 sm.msgForThresholdValue(thresholdValues.get(0),ds);
@@ -170,7 +171,7 @@ public class AdminUserController implements Controllable {
                 thresholdValues.set(3, otherInfoGetter.getThresholdAns());
                 break;
         }
-        frw.saveThresholdValuesToCSVFile(thresholdValues, "./src/others/ThresholdValues.csv");
+        frw.saveThresholdValuesToCSVFile(thresholdValues, thresholdValuesFilePath);
         ds.printResult(true);
     }
 
