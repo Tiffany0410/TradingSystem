@@ -304,15 +304,15 @@ public class RegularUserTradingMenuController {
 
 
     private managers.trademanager.Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
-        managers.trademanager.Trade trade;
+        Trade trade;
 //      TODO: replace them with createTrade instead - can't just call the constructor
         if (numKindOfTrade == 1) {
             // new one-way-trade
-            trade = new managers.trademanager.Trade(userId1, userId2, itemId, tradeType, true, tradeID);
+            trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
         }
         else {
             // new two-way-trade
-            trade = new managers.trademanager.Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
+            trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
         }
         return trade;
     }
@@ -332,11 +332,7 @@ public class RegularUserTradingMenuController {
         ds.printResult(false);
         // system auto-freeze
         // user borrow more than lend
-///     TODO: need method from um for this (given an user id and return the user's numBorrowed)
-//      TODO: replace thisUser.getNumBorrowed
-//      TODO: need method from um for this (given an user id and return the user's numLent)
-//      TODO: replace thisUser.getNumLent
-        if (thisUser.getNumBorrowed() > thisUser.getNumLent()){
+        if (um.getThreshold(username, "NumBorrowed") > um.getThreshold(username, "NumLent")){
             um.freezeUser(username);
             ds.printOut("You're frozen because you borrowed more than you lend.");
         }

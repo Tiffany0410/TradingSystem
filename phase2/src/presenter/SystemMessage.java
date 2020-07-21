@@ -53,12 +53,8 @@ public class SystemMessage {
         notification.append("Your username is ").append(username).append("\n");
         notification.append("Your userId is ").append(um.usernameToID(username)).append("\n");
         notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append("\n");
-//      TODO: need method from um for this (given an user id and return the user's numBorrowed)
-//      TODO: replace thisUser.getNumBorrowed
-        notification.append("You have borrowed:").append(regUser.getNumBorrowed()).append("\n");
-//      TODO: need method from um for this (given an user id and return the user's numLent)
-//      TODO: replace thisUser.getNumLent
-        notification.append("You have lent:").append(regUser.getNumLent()).append("\n");
+        notification.append("You have borrowed:").append(um.getThreshold(username, "NumBorrowed")).append("\n");
+        notification.append("You have lent:").append(um.getThreshold(username, "NumLent")).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
         notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append("\n");
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append("\n");

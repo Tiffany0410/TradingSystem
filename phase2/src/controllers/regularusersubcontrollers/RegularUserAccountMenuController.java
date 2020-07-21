@@ -191,7 +191,7 @@ public class RegularUserAccountMenuController {
         // print all the items being searched for
         String name = otherInfoGetter.getItemName();
 //      TODO: use im's searchItem method
-        ArrayList<Item> matchItems = um.searchItem(name);
+        ArrayList<Item> matchItems = im.searchItem(name);
         if (matchItems.size() == 0){
             sm.msgForNothing("that matches your input", ds);
         }
