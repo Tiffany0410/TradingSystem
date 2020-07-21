@@ -1,3 +1,5 @@
+package demomanager;
+
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.maincontrollers.TradingSystem;
