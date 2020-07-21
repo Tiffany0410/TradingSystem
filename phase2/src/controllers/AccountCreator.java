@@ -16,17 +16,17 @@ import java.util.HashMap;
 public class AccountCreator {
     private UserManager um;
     private DisplaySystem ds;
-    private FilesReaderWriter fr;
+    private FilesReaderWriter frw;
 
     /**
      * Constructs an AccountCreator with the given UserManager and DisplaySystem
      * @param um The initial UserManager
      * @param ds The initial Display system
      */
-    public AccountCreator(UserManager um, DisplaySystem ds, FilesReaderWriter fr){
+    public AccountCreator(UserManager um, DisplaySystem ds) throws IOException, ClassNotFoundException {
         this.um = um;
         this.ds = ds;
-        this.fr = fr;
+        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -58,8 +58,9 @@ public class AccountCreator {
                 um.addUser(username, password, email);
                 out = true;
                 //Write the UserManger into ser file in order to save the data
-                FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
-                fr.saveUserInfoToCSVFile("./src/Managers/RegularUserUsernameAndPassword.csv", username, password, email);
+                frw.saveManagerToFile(um, "./src/managers/usermanager/SerializedUserManager.ser");
+                frw.saveUserInfoToCSVFile("./src/managers/otherfiles/RegularUserUsernameAndPassword.csv",
+                        username, password, email);
             }
         }
 
@@ -68,8 +69,9 @@ public class AccountCreator {
                um.addAdmin(username, password, email);
                out = true;
                //Write the UserManger into ser file in order to save the data
-               FilesReaderWriter.saveUserManagerToFile(um, "./src/Managers/SerializedUserManager.ser");
-               fr.saveUserInfoToCSVFile("./src/Managers/AdminUserUsernameAndPassword.csv", username, password, email);
+               frw.saveManagerToFile(um, "./src/managers/usermanager/SerializedUserManager.ser");
+               frw.saveUserInfoToCSVFile("./src/managers/otherfiles/AdminUserUsernameAndPassword.csv",
+                       username, password, email);
             }
         }
 

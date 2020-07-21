@@ -162,7 +162,7 @@ public class RegularUserController implements Controllable {
           6.See top three most frequent trading partners (ok)
           7.View transactions that have been cancelled (ok)
          */
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/others/ThresholdValues.csv");
         // reassess it at the first day of the week - only once
         // Thing to note: user has to login on other days (non-Sundays) to re-enable this function for next Sunday (***)
         // and can only reassess it on Sunday (the first day of the week)

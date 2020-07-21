@@ -27,13 +27,13 @@ public class DemoMain {
 
     public static void DemoMainManager() {
         // File path
-        String userAccountInfoFilePath = "./src/managers/otherFiles/RegularUserUsernameAndPassword.csv";
-        String adminAccountInfoFilePath = "./src/managers/otherFiles/AdminUserUsernameAndPassword.csv";
-        String serializedUserManagerFilePath = "./src/managers/userManager/SerializedUserManager.ser";
-        String serializedTradeManagerFilePath = "./src/managers/tradeManager/SerializedTradeManager.ser";
-        String serializedMeetingManagerFilePath = "./src/managers/meetingManager/SerializedMeetingManager.ser";
-        String serializedItemManagerFilePath = "./src/managers/itemManager/SerializedMeetingManager.ser";
-        String serializedFeedbackManagerFilePath = "./src/managers/feedbackManager/SerializedFeedbackManager.ser";
+        String userAccountInfoFilePath = "./src/managers/otherfiles/RegularUserUsernameAndPassword.csv";
+        String adminAccountInfoFilePath = "./src/managers/otherfiles/AdminUserUsernameAndPassword.csv";
+        String serializedUserManagerFilePath = "./src/managers/usermanager/SerializedUserManager.ser";
+        String serializedTradeManagerFilePath = "./src/managers/trademanager/SerializedTradeManager.ser";
+        String serializedMeetingManagerFilePath = "./src/managers/meetingmanager/SerializedMeetingManager.ser";
+        String serializedItemManagerFilePath = "./src/managers/itemmanager/SerializedMeetingManager.ser";
+        String serializedFeedbackManagerFilePath = "./src/managers/feedbackmanager/SerializedFeedbackManager.ser";
 
 
         // Start trading system

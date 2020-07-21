@@ -147,7 +147,7 @@ public class AdminUserController implements Controllable {
         3.Edit the number of books users must lend before users can borrow
         4.Edit the max Edits per user for meeting’s date + time
          */
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/Others/ThresholdValues.csv");
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile("./src/others/ThresholdValues.csv");
         switch (subMenuOption) {
             case 1:
                 sm.msgForThresholdValue(thresholdValues.get(0),ds);
@@ -170,7 +170,7 @@ public class AdminUserController implements Controllable {
                 thresholdValues.set(3, otherInfoGetter.getThresholdAns());
                 break;
         }
-        frw.saveThresholdValuesToCSVFile(thresholdValues, "./src/Others/ThresholdValues.csv");
+        frw.saveThresholdValuesToCSVFile(thresholdValues, "./src/others/ThresholdValues.csv");
         ds.printResult(true);
     }
 
