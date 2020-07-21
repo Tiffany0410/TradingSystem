@@ -16,9 +16,6 @@ public class UserManager implements Serializable {
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
-    //TODO: I think the two attributes below can be deleted
-    private ArrayList<Item> listItemToAdd;
-    private ArrayList<Item> listAllItems;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -27,8 +24,6 @@ public class UserManager implements Serializable {
         this.listUser = new ArrayList<>();
         this.listAdmin = new ArrayList<>();
         this.listUnfreezeRequest = new ArrayList<>();
-        this.listItemToAdd = new ArrayList<>();
-        this.listAllItems = new ArrayList<>();
     }
 
     /**
@@ -40,15 +35,6 @@ public class UserManager implements Serializable {
         this.listUser = users;
         this.listAdmin = admins;
         this.listUnfreezeRequest = new ArrayList<>();
-        this.listItemToAdd = new ArrayList<>();
-    }
-
-    /**
-     * Gets the list of AdminUser
-     * @return List of AdminUser
-     */
-    public ArrayList<AdminUser> getListAdmin() {
-        return listAdmin;
     }
 
     /**
@@ -67,13 +53,6 @@ public class UserManager implements Serializable {
         return listUnfreezeRequest;
     }
 
-    /**
-     * Get the list of Items to be added
-     * @return The list of Items
-     */
-    public ArrayList<Item> getListItemToAdd() {
-        return listItemToAdd;
-    }
 
     /**
      * Searches for an Item in all the Users' inventories
@@ -81,10 +60,12 @@ public class UserManager implements Serializable {
      * @return A list of all the Items with the prefix in their name same as item
      */
     //TODO: I think this should probably be moved to the item manager
-    public ArrayList<Item> searchItem(String item){
-        ArrayList<Item> out = new ArrayList<>();
+    /*
+    public ArrayList<Integer> searchItem(String item){
+        ArrayList<Integer> out = new ArrayList<>();
         for (User person: listUser){
-            for (Item thing: person.getInventory()){
+            for (Integer thing: person.getInventory()){
+                //Change this condition accordingly
                 if (thing.getName().contains(item)){
                     out.add(thing);
                 }
@@ -92,6 +73,7 @@ public class UserManager implements Serializable {
         }
         return out;
     }
+    */
 
     /**
      * Freezes a User
@@ -243,6 +225,7 @@ public class UserManager implements Serializable {
      * @param username The username of the User to add the item into their inventory
      * @return true if the item was added successfully, false otherwise
      */
+    //TODO remove from listItemtoAdd somehow
     public boolean addItemInventory(int item, String username){
         boolean out = false;
         User person = findUser(username);
@@ -252,9 +235,6 @@ public class UserManager implements Serializable {
                 temp.add(item);
                 out = true;
                 person.setInventory(temp);
-                if (listItemToAdd.contains(item)) {
-                    listItemToAdd.remove(item);
-                }
             }
         }
         return out;
@@ -364,8 +344,8 @@ public class UserManager implements Serializable {
      * @return A list of all the Items of all the Users' inventories except the one with the given username
      */
     //TODO Refactor this or move to ItemManager
-    public ArrayList<Item> allItems(String username){
-        ArrayList<Item> out = new ArrayList<>();
+    public ArrayList<Integer> allItems(String username){
+        ArrayList<Integer> out = new ArrayList<>();
         for (User person: listUser){
             if (!person.getUsername().equals(username)){
                 out.addAll(person.getInventory());
@@ -380,7 +360,8 @@ public class UserManager implements Serializable {
      * @return A list of all the Items in all the Users' inventories except the one with the given ID
      */
     //TODO Refactor this or move to ItemManager
-    public ArrayList<Item> allItems(int ID){
+    /*
+    public ArrayList<Item> allTradableItems(int ID){
         ArrayList<Item> out = new ArrayList<>();
         for (User person: listUser){
             if (person.getId() != (ID)){
@@ -389,6 +370,7 @@ public class UserManager implements Serializable {
         }
         return out;
     }
+    */
 
     /**
      * Sends a request to unfreeze a User
@@ -413,46 +395,6 @@ public class UserManager implements Serializable {
         listUnfreezeRequest.add(toAdd);
         return true;
     }
-
-    /**
-     * Sends a request for an Item to be added
-     * @param name The name of the Item
-     * @param description The description of the Item
-     * @param ownerID The ID of the User who owns the Item
-     */
-    public void requestAddItem(String name, String description, int ownerID){
-        int temp_itemID;
-        //the id of the first item wait for add is 1
-        if (listAllItems.isEmpty() && listItemToAdd.isEmpty()) {temp_itemID = 1;}
-        //when list of items which already been add is empty
-        else if (listAllItems.isEmpty()) {temp_itemID = listItemToAdd.get(listItemToAdd.size() - 1).getItemId() + 1;}
-        //when list of items wait for add is empty
-        else if (listItemToAdd.isEmpty()) {temp_itemID = listAllItems.get(listAllItems.size() - 1).getItemId() + 1;}
-        //find the max ids in the list of items which already been add and the list of items wait for add
-        //then use the (largest id + 1) as the new item id
-        else {
-            //max ids in the list of items wait for add
-            int temp_itemID1 = listItemToAdd.get(listItemToAdd.size() - 1).getItemId();
-            //max id in the list of items which already been add
-            int temp_itemID2 = listAllItems.get(listAllItems.size() - 1).getItemId();
-            if (temp_itemID1 >= temp_itemID2) {temp_itemID = temp_itemID1 + 1;}
-            else {temp_itemID = temp_itemID2 + 1;}
-        }
-
-
-        Item out = new Item(name, description, ownerID, temp_itemID);
-        listItemToAdd.add(out);
-    }
-
-
-    /**
-     * Add the item into the list which contains all items
-     * @param newItem the item which is allowed to add into specific user inventory
-     */
-    public void addItemToAllItemsList (Item newItem) {
-        listAllItems.add(newItem);
-    }
-
 
     /**
      * Remove item with itemId from the user with userId1 and
@@ -562,6 +504,10 @@ public class UserManager implements Serializable {
                     return person.getNumTransactionLeftForTheWeek();
                 case "NumFrozen":
                     return person.getNumFrozen();
+                case "NumLent":
+                    return person.getNumLent();
+                case "NumBorrowed":
+                    return person.getNumBorrowed();
             }
         }
         return -1;
