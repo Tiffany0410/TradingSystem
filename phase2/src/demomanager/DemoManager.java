@@ -16,8 +16,18 @@ import java.io.IOException;
 import java.util.Map;
 
 public class DemoManager {
+    /**
+     * This is the class that the main class of the whole system will initialize.
+     *
+     * @author  Jiaqi Gong, Chengle Yang
+     * @version IntelliJ IDEA 2020.1.1
+     */
 
-    public static void DemoManager() {
+    public DemoManager(){
+
+    }
+
+    public void run() {
         // File path
         String userAccountInfoFilePath = "./src/managers/otherfiles/RegularUserUsernameAndPassword.csv";
         String adminAccountInfoFilePath = "./src/managers/otherfiles/AdminUserUsernameAndPassword.csv";
