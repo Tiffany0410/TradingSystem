@@ -1,13 +1,13 @@
-import Controllers.AccountCreator;
-import Controllers.LoginValidator;
-import Controllers.MainControllers.TradingSystem;
-import Gateway.FilesReaderWriter;
-import Managers.FeedbackManager.FeedbackManager;
-import Managers.ItemManager.ItemManager;
-import Managers.MeetingManager.MeetingManager;
-import Managers.TradeManager.TradeManager;
-import Managers.UserManager.UserManager;
-import Presenter.DisplaySystem;
+import controllers.AccountCreator;
+import controllers.LoginValidator;
+import controllers.maincontrollers.TradingSystem;
+import gateway.FilesReaderWriter;
+import managers.feedbackmanager.FeedbackManager;
+import managers.itemmanager.ItemManager;
+import managers.meetingmanager.MeetingManager;
+import managers.trademanager.TradeManager;
+import managers.usermanager.UserManager;
+import presenter.DisplaySystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
