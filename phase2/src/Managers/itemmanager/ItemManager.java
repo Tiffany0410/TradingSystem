@@ -6,6 +6,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Stores all the items and manages the items
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1.1
+ */
 public class ItemManager implements Serializable {
 
     private ArrayList<Item> listItem;
