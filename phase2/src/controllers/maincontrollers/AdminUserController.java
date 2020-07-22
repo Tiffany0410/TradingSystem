@@ -98,7 +98,7 @@ public class AdminUserController implements Controllable {
                 ds.printResult(um.unfreezeUser(ds.getUsername()));
                 break;
             case 3:
-//              TODO: im needs a getListItemToAdd method
+//              TODO: im needs a getListItemToAdd method -> ADDED!
                 ArrayList<Item> listItemToAdd = im.getListItemToAdd();
                 int len = listItemToAdd.size();
                 responseToToAddListSize(listItemToAdd, len);
@@ -117,7 +117,7 @@ public class AdminUserController implements Controllable {
             addOrNotAdd(itemSelected);
             //either add or not add - need to remove from to-be-added list
             //need a method to remove item from um's getListItemToAdd (***)
-            //TODO: im needs a removeFromListItemToAdd method
+            //TODO: im needs a removeFromListItemToAdd method -> ADDED
             im.removeFromListItemToAdd(itemSelected);
         }
         else{
@@ -129,12 +129,13 @@ public class AdminUserController implements Controllable {
     private void addOrNotAdd(Item itemSelected) {
         if (otherInfoGetter.getAddOrNot()) {
             //if add
-            //TODO: im needs a addItemToAllItemsList method
+            //TODO: im needs a addItemToAllItemsList method -> ADDED
             im.addItemToAllItemsList(itemSelected);
             //TODO: im needs a method that takes in an item and returns its item id
             //TODO: im needs a method that takes in an item and returns its owner id
             //TODO: ^ suggestion: maybe can have just one method that takes in
-            // an item and returns an arraylist of ids (owner id, item id, ...) :)
+            // an item and returns an arraylist of ids (owner id, item id, ...) :) -> ADDED: getIDFromItem,
+            // return (Item's Id, Owner's Id, Current Holder's ID)
             ds.printResult(um.addItemInventory(itemSelected, um.idToUsername(itemSelected.getOwnerId())));
         } else {
             ds.printResult(true);

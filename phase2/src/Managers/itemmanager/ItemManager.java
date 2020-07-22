@@ -4,6 +4,8 @@ import managers.usermanager.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -140,7 +142,7 @@ public class ItemManager implements Serializable {
      * Add item to listItem
      * @param item The item
      */
-    public void addItem(Item item){
+    public void addItemToAllItemsList(Item item){
         listItem.add(item);
     }
 
@@ -172,6 +174,37 @@ public class ItemManager implements Serializable {
             }
         }
         return allItem;
+    }
+
+    /**
+     * Return all items
+     * @return A list of items
+     */
+    public ArrayList<Item> getListItemToAdd(){
+        return listItemToAdd;
+    }
+
+    /**
+     * Remove item from listItemToAdd
+     * @param item The Item
+     */
+    public void removeFromListItemToAdd(Item item){
+        listItemToAdd.remove(item);
+    }
+
+    /**
+     * Return a list of IDs for a given item
+     * @param item The item object
+     * @return a list of IDs (Item's Id, Owner's Id, Current Holder's ID)
+     */
+    public ArrayList<Integer> getIDFromItem(Item item){
+        ArrayList<Integer> listId = new ArrayList();
+        for (Item item_: listItem){
+            if (item_.getItemId() == item.getItemId()){
+                Collections.addAll(listId, item.getItemId(), item.getOwnerId(), item.getCurrHolderId());
+            }
+        }
+        return listId;
     }
 }
 
