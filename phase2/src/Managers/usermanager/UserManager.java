@@ -59,7 +59,7 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
-    //TODO: I think this should probably be moved to the item manager
+    //TODO: I think this should probably be moved to the item manager -> Moved to item manager
     /*
     public ArrayList<Integer> searchItem(String item){
         ArrayList<Integer> out = new ArrayList<>();
@@ -343,7 +343,7 @@ public class UserManager implements Serializable {
      * @param username The username of the User
      * @return A list of all the Items of all the Users' inventories except the one with the given username
      */
-    //TODO Refactor this or move to ItemManager
+    //TODO Refactor this or move to ItemManager -> Can't move this method to Item Manager since item couldn't get owner's name
     public ArrayList<Integer> allItems(String username){
         ArrayList<Integer> out = new ArrayList<>();
         for (User person: listUser){
@@ -359,7 +359,7 @@ public class UserManager implements Serializable {
      * @param ID ID of the User
      * @return A list of all the Items in all the Users' inventories except the one with the given ID
      */
-    //TODO Refactor this or move to ItemManager
+    //TODO Refactor this or move to ItemManager -> MOVED
     /*
     public ArrayList<Item> allTradableItems(int ID){
         ArrayList<Item> out = new ArrayList<>();
@@ -430,17 +430,15 @@ public class UserManager implements Serializable {
 
     //TODO Write Javadoc for all below
     public boolean getFrozenStatus(String username) {
-        for (User person : listUser){
-            if (person.getUsername().equals(username));
-                return person.getIfFrozen();
+        for (User person : listUser) {
+            if (person.getUsername().equals(username)) { return person.getIfFrozen(); }
         }
         return false;
     }
 
     public boolean getFrozenStatus(int userID) {
-        for (User person : listUser){
-            if (person.getId() == (userID));
-            return person.getIfFrozen();
+        for (User person : listUser) {
+            if (person.getId() == (userID)) { return person.getIfFrozen(); }
         }
         return false;
     }
