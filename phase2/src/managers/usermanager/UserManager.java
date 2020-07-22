@@ -513,8 +513,8 @@ public class UserManager implements Serializable {
         return -1;
     }
 
-    public void getThreshold (String username, String threshold){
+    public int getThreshold (String username, String threshold){
         int num = usernameToID(username);
-        getThreshold(num, threshold);
+        return getThreshold(num, threshold);
     }
 }
