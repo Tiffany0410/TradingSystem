@@ -59,7 +59,7 @@ public class UserManager implements Serializable {
      * @param item The prefix of the name of the Item searched for
      * @return A list of all the Items with the prefix in their name same as item
      */
-    //TODO: I think this should probably be moved to the item manager -> Moved to item manager
+    //TODO: I think this should probably be moved to the item manager
     /*
     public ArrayList<Integer> searchItem(String item){
         ArrayList<Integer> out = new ArrayList<>();
