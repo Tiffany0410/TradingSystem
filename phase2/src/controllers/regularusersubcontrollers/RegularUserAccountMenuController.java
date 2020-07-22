@@ -63,47 +63,58 @@ public class RegularUserAccountMenuController {
 
     /**
      * Let the presenter print user's wishlist and inventory.
+     * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the item id provided is not valid.
      */
-    public void viewWishListInventory() throws InvalidIdException{
-        // get user
-        User thisUser = um.findUser(userId);
-        // get user's wishlist and inventory
-        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
-        ArrayList<Item> wishlist = new ArrayList<>();
-        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
-        ArrayList<Item> inventory = new ArrayList<>();
-        //TODO:  let im have a method that
-        // takes in a list of item ids and returns a list of items -> ADDED AS getItemsByIds
-        //get the real item objects for the wishlist
-        for (int id: wishlistIDs){
-            wishlist.add(im.getItembyId(id));
+    public void viewWishListInventory(boolean asGuest) throws InvalidIdException{
+        if (!asGuest) {
+            // get user
+            User thisUser = um.findUser(userId);
+            // get user's wishlist and inventory
+            ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
+            ArrayList<Item> wishlist = new ArrayList<>();
+            ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
+            ArrayList<Item> inventory = new ArrayList<>();
+            //TODO:  let im have a method that
+            // takes in a list of item ids and returns a list of items -> ADDED AS getItemsByIds
+            //get the real item objects for the wishlist
+            for (int id : wishlistIDs) {
+                wishlist.add(im.getItembyId(id));
+            }
+            // get the real item objects for the inventory
+            for (int id : inventoryIDs) {
+                inventory.add(im.getItembyId(id));
+            }
+            // print user's wishlist and inventory
+            ds.printOut("Your wishlist: ");
+            ds.printResult(new ArrayList<>(wishlist));
+            ds.printOut("\n");
+            ds.printOut("Your inventory: ");
+            ds.printResult(new ArrayList<>(inventory));
+            ds.printOut("\n");
         }
-        // get the real item objects for the inventory
-        for (int id: inventoryIDs){
-            inventory.add(im.getItembyId(id));
+        else{
+            sm.msgForGuest(ds);
         }
-        // print user's wishlist and inventory
-        ds.printOut("Your wishlist: ");
-        ds.printResult(new ArrayList<>(wishlist));
-        ds.printOut("\n");
-        ds.printOut("Your inventory: ");
-        ds.printResult(new ArrayList<>(inventory));
-        ds.printOut("\n");
 
     }
 
     /**
      * Let the user manager add the appropriate item id for the item user wants to add to his/her wish list.
      * @param allOtherItems The potential items user can add to his/her wish list.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void addToWishList(ArrayList<Item> allOtherItems) {
-        // add the id to user's wishlist
-        if (allOtherItems.size() != 0) {
-            ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
+    public void addToWishList(ArrayList<Item> allOtherItems, boolean asGuest) {
+        if (!asGuest) {
+            // add the id to user's wishlist
+            if (allOtherItems.size() != 0) {
+                ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
+            } else {
+                sm.msgForNothing("that can be added to your wishlist for now", ds);
+            }
         }
         else{
-            sm.msgForNothing("that can be added to your wishlist for now", ds);
+            sm.msgForGuest(ds);
         }
 
     }
@@ -111,59 +122,84 @@ public class RegularUserAccountMenuController {
     /**
      * Receives the request to add item to his/her inventory from the user
      * and let the user manager handle it.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void requestAddItem() {
-        im.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
-        ds.printResult("Your add-item request", true);
+    public void requestAddItem(boolean asGuest) {
+        if (!asGuest) {
+            im.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
+            ds.printResult("Your add-item request", true);
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
     }
 
     /**
      * Receives the request to unfreeze from the user
      * and let the user manager handle it.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void RequestToUnfreeze() {
-        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
-        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
+    public void RequestToUnfreeze(boolean asGuest) {
+        if (!asGuest) {
+            ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
+            ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
     }
 
     /**
      * Let the presenter print user's most recent three items traded.
      * If it doesn't apply to the user, an appropriate message will be
      * printed.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void seeMostRecentThreeItems() {
-        try {
-            List<Item> threeItems = new ArrayList<>();
-            List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-            //TODO:  let im have a method that
-            // takes in a list of item ids and returns a list of items -> ADDED
-            for (int id : recentThreeTradedIds) {
-                threeItems.add(im.getItembyId(id));
+    public void seeMostRecentThreeItems(boolean asGuest) {
+        if (!asGuest) {
+            try {
+                List<Item> threeItems = new ArrayList<>();
+                List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+                //TODO:  let im have a method that
+                // takes in a list of item ids and returns a list of items -> ADDED
+                for (int id : recentThreeTradedIds) {
+                    threeItems.add(im.getItembyId(id));
+                }
+                if (threeItems.size() != 0) {
+                    ds.printResult(new ArrayList<>(threeItems));
+                } else {
+                    sm.msgForNothing(ds);
+                }
+            } catch (InvalidIdException ex) {
+                this.ds.printOut("Invalid ID");
             }
-            if (threeItems.size() != 0) {
-                ds.printResult(new ArrayList<>(threeItems));
-            } else {
-                sm.msgForNothing(ds);
-            }
-        } catch (InvalidIdException ex){this.ds.printOut("Invalid ID");}
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
     }
 
     /**
      * Receives user's request to remove item from his/her inventory
      * and let the user manager remove it. If user has nothing to remove,
      * an appropriate message will be printed.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void removeFromInventory() {
-        ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
-        //TODO:  let im have a method that
-        // takes in a list of item ids and returns a list of items -> ADDED!
-        ArrayList<Item> userInventory = im.idsToItems(userInventoryIDs);
-        if (userInventory.size() != 0) {
-            ds.printResult(new ArrayList<>(userInventory));
-            ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
+    public void removeFromInventory(boolean asGuest) {
+        if (!asGuest) {
+            ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
+            //TODO:  let im have a method that
+            // takes in a list of item ids and returns a list of items -> ADDED!
+            ArrayList<Item> userInventory = im.idsToItems(userInventoryIDs);
+            if (userInventory.size() != 0) {
+                ds.printResult(new ArrayList<>(userInventory));
+                ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
+            } else {
+                sm.msgForNothing("in your inventory", ds);
+            }
         }
         else{
-            sm.msgForNothing("in your inventory", ds);
+            sm.msgForGuest(ds);
         }
     }
 
@@ -172,14 +208,19 @@ public class RegularUserAccountMenuController {
      * and let the user manager remove it. If user has nothing to remove,
      * an appropriate message will be printed.
      * @param allOtherItems The list of items that contain user's wishlist items.
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void removeFromWishList(ArrayList<Item> allOtherItems) {
-        // remove the item id from wishlist
-        if (um.getUserWishlist(userId).size() != 0) {
-            ds.printResult(um.removeItemWishlist(idGetter.getItemID(allOtherItems, 0), username));
+    public void removeFromWishList(ArrayList<Item> allOtherItems, boolean asGuest) {
+        if (!asGuest) {
+            // remove the item id from wishlist
+            if (um.getUserWishlist(userId).size() != 0) {
+                ds.printResult(um.removeItemWishlist(idGetter.getItemID(allOtherItems, 0), username));
+            } else {
+                sm.msgForNothing("in your wish list", ds);
+            }
         }
         else{
-            sm.msgForNothing("in your wish list", ds);
+            sm.msgForGuest(ds);
         }
     }
 

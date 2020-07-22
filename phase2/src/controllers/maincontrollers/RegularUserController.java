@@ -40,10 +40,12 @@ public class RegularUserController implements Controllable {
     private ItemManager im;
     private String username;
     private int userId;
+    private boolean asGuest;
 
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
-     * a TradeManager, a MeetingManager, an UserManager, an ItemManager, the regular user's username and userId.
+     * a TradeManager, a MeetingManager, an UserManager, an ItemManager, the regular user's username and userId,
+     * as well as the asGuest boolean attribute.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
@@ -51,9 +53,10 @@ public class RegularUserController implements Controllable {
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
+     * @param asGuest  The determiner of limited access to menu options.
      */
     public RegularUserController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                 ItemManager im, String username) throws IOException, ClassNotFoundException {
+                                 ItemManager im, String username, boolean asGuest) throws IOException, ClassNotFoundException {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -61,6 +64,7 @@ public class RegularUserController implements Controllable {
         this.im = im;
         this.username = username;
         this.userId = um.usernameToID(username);
+        this.asGuest = asGuest;
         this.frw = new FilesReaderWriter();
         // for other controllers / presenters
         this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, username, userId);
@@ -91,14 +95,14 @@ public class RegularUserController implements Controllable {
                 break;
             case 2:
                 if (um.getFrozenStatus(userId)){
-                    ds.printOut("This menu is locked");}
+                    sm.lockMessageForFrozen(ds);}
                 else{
                     userTradingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
                 break;
             case 3:
                 if (um.getFrozenStatus(userId)){
-                    ds.printOut("This menu is locked");}
+                    sm.lockMessageForFrozen(ds);}
                 else{
                     userMeetingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
@@ -127,28 +131,28 @@ public class RegularUserController implements Controllable {
                 amc.browseBooks(allOtherItems);
                 break;
             case 2:
-                amc.addToWishList(allOtherItems);
+                amc.addToWishList(allOtherItems, asGuest);
                 break;
             case 3:
                 amc.searchItem();
                 break;
             case 4:
-                amc.removeFromWishList(allOtherItems);
+                amc.removeFromWishList(allOtherItems, asGuest);
                 break;
             case 5:
-                amc.removeFromInventory();
+                amc.removeFromInventory(asGuest);
                 break;
             case 6:
-                amc.RequestToUnfreeze();
+                amc.RequestToUnfreeze(asGuest);
                 break;
             case 7:
-                amc.requestAddItem();
+                amc.requestAddItem(asGuest);
                 break;
             case 8:
-                amc.seeMostRecentThreeItems();
+                amc.seeMostRecentThreeItems(asGuest);
                 break;
             case 9:
-                amc.viewWishListInventory();
+                amc.viewWishListInventory(asGuest);
         }
     }
 
@@ -232,4 +236,3 @@ public class RegularUserController implements Controllable {
     }
 
 }
-

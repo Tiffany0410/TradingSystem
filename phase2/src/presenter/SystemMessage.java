@@ -128,4 +128,24 @@ public class SystemMessage {
         ds.printOut("The current threshold value is " + currentVal);
     }
 
+
+    /**
+     * Prints the message for the guest that tries to access options
+     * that are meant for users.
+     * @param ds The presenter that prints to screen.
+     */
+    public void msgForGuest(DisplaySystem ds){
+        ds.printOut("Please login, guest account can't do this.");
+    }
+
+    /**
+     * Prints the message for the user that tries to
+     * access menus that can't access because of their
+     * frozen status.
+     * @param ds The presenter that prints to screen.
+     */
+    public void lockMessageForFrozen(DisplaySystem ds){
+        ds.printOut("This menu is locked because you're frozen.");
+    }
+
 }
