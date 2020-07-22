@@ -135,14 +135,6 @@ public class DisplaySystem {
 
 
     /**
-     * When log in fail shows this
-     */
-    public void failLogin(){
-        this.printOut("Wrong username or password, please check again.");
-    }
-
-
-    /**
      * Print out the result of action with boolean type
      * @param result the result of user's operation
      */
@@ -190,5 +182,21 @@ public class DisplaySystem {
             printOut(str + " fails to be sent");
             printOut("\n");
         }
+    }
+
+    /**
+     * Print this when the username does not exist
+     */
+
+    public void printWrongUsername(){
+        this.printOut("This username doesn't exists, please check again or crate one");
+    }
+
+    /**
+     * Print this when the password is not correct
+     */
+
+    public void printWrongPassword(){
+        this.printOut("This password is not correct, please check again");
     }
 }

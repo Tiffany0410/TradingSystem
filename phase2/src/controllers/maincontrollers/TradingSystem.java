@@ -77,8 +77,13 @@ public class TradingSystem {
          this.login();
       }
 
-      // Option 2 is create new account
+      // Option 2 is login as a guest
       if (option == 2){
+         this.regularUserMain("Guest");
+      }
+
+      // Option 3 is create new account
+      if (option == 3){
          boolean condition = false;
 
          while(!condition){
@@ -106,20 +111,24 @@ public class TradingSystem {
 
       // get the type of account
       userName = displaySystem.getUsername();
-      userPassword = displaySystem.getPassword();
-      String userType = loginValidator.verifyLogin(userName, userPassword);
+      if(loginValidator.checkUsername(userName)){
 
-      switch (userType) {
-         case "False":
-            displaySystem.failLogin();
-            break;
-         case "User":
-            this.regularUserMain(userName);
-            break;
-         case "Admin":
-            this.adminUserMain();
-            break;
+         userPassword = displaySystem.getPassword();
+         String userType = loginValidator.checkPassword(userPassword);
+
+         switch (userType) {
+            case "False":
+               displaySystem.printWrongPassword();
+               break;
+            case "User":
+               this.regularUserMain(userName);
+               break;
+            case "Admin":
+               this.adminUserMain();
+               break;
+         }
       }
+      else{displaySystem.printWrongUsername();}
 
    }
 
@@ -147,12 +156,15 @@ public class TradingSystem {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
               userName);
-      // Initialize the threshold controller
-      tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
-              userName, userManager.usernameToID(userName));
-      displaySystem.printOut("######### Notification ########");
-      displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.frw, this.displaySystem,
-              userName, "./src/others/ThresholdValues.csv"));
+
+      if (! userName.equals("Guest")) {
+         // Initialize the threshold controller
+         tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
+                 userName, userManager.usernameToID(userName));
+         displaySystem.printOut("######### Notification ########");
+         displaySystem.printOut(sm.RegUserAlerts(this.userManager, this.tc, this.frw, this.displaySystem,
+                 userName, "./src/others/ThresholdValues.csv"));
+      }
 
       int option;
       option = displaySystem.getMenuAnswer("./menus/RegularUserMainMenu.csv");
@@ -172,7 +184,8 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
+                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
+                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
                }
             }
             this.regularUserMain(userName);
@@ -186,7 +199,8 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
+                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
+                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
                }
             }
             this.regularUserMain(userName);
@@ -200,7 +214,8 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
+                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
+                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
                }
             }
             this.regularUserMain(userName);
