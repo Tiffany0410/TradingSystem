@@ -122,22 +122,20 @@ public class RegularUserController implements Controllable {
         8.See most recent three items traded (add) (assume ok)
         0.Exit menu
          */
-        //TODO: hmm, maybe it needs to be an im method
-        // or return only ids and i use im's method
-        // to turn them into items
-        ArrayList<Item> allOtherItems = um.allItems(userId);
+        // For now ---> all items
+        ArrayList<Item> allItems = im.getAllItem();
         switch (subMenuOption) {
             case 1:
-                amc.browseBooks(allOtherItems);
+                amc.browseBooks(allItems);
                 break;
             case 2:
-                amc.addToWishList(allOtherItems, asGuest);
+                amc.addToWishList(allItems, asGuest);
                 break;
             case 3:
                 amc.searchItem();
                 break;
             case 4:
-                amc.removeFromWishList(allOtherItems, asGuest);
+                amc.removeFromWishList(allItems, asGuest);
                 break;
             case 5:
                 amc.removeFromInventory(asGuest);

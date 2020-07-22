@@ -10,6 +10,7 @@ import presenter.DisplaySystem;
 import presenter.SystemMessage;
 import exception.InvalidIdException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,19 +73,9 @@ public class RegularUserAccountMenuController {
             User thisUser = um.findUser(userId);
             // get user's wishlist and inventory
             ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
-            ArrayList<Item> wishlist = new ArrayList<>();
+            ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
             ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
-            ArrayList<Item> inventory = new ArrayList<>();
-            //TODO:  let im have a method that
-            // takes in a list of item ids and returns a list of items -> ADDED AS getItemsByIds
-            //get the real item objects for the wishlist
-            for (int id : wishlistIDs) {
-                wishlist.add(im.getItembyId(id));
-            }
-            // get the real item objects for the inventory
-            for (int id : inventoryIDs) {
-                inventory.add(im.getItembyId(id));
-            }
+            ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
             // print user's wishlist and inventory
             ds.printOut("Your wishlist: ");
             ds.printResult(new ArrayList<>(wishlist));
@@ -158,13 +149,8 @@ public class RegularUserAccountMenuController {
     public void seeMostRecentThreeItems(boolean asGuest) {
         if (!asGuest) {
             try {
-                List<Item> threeItems = new ArrayList<>();
                 List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-                //TODO:  let im have a method that
-                // takes in a list of item ids and returns a list of items -> ADDED
-                for (int id : recentThreeTradedIds) {
-                    threeItems.add(im.getItembyId(id));
-                }
+                List<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
                 if (threeItems.size() != 0) {
                     ds.printResult(new ArrayList<>(threeItems));
                 } else {
@@ -188,9 +174,7 @@ public class RegularUserAccountMenuController {
     public void removeFromInventory(boolean asGuest) {
         if (!asGuest) {
             ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
-            //TODO:  let im have a method that
-            // takes in a list of item ids and returns a list of items -> ADDED!
-            ArrayList<Item> userInventory = im.idsToItems(userInventoryIDs);
+            ArrayList<Item> userInventory = im.getItemsByIds(userInventoryIDs);
             if (userInventory.size() != 0) {
                 ds.printResult(new ArrayList<>(userInventory));
                 ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
@@ -231,8 +215,8 @@ public class RegularUserAccountMenuController {
     public void searchItem() {
         // print all the items being searched for
         String name = otherInfoGetter.getItemName();
-//      TODO: use im's searchItem method
-        ArrayList<Item> matchItems = im.searchItem(name);
+        // get the items in the system that match the name
+        ArrayList<Item> matchItems = im.getItemsByIds(im.searchItem(name));
         if (matchItems.size() == 0){
             sm.msgForNothing("that matches your input", ds);
         }
