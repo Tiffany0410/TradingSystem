@@ -1,7 +1,5 @@
 package managers.usermanager;
 
-import managers.itemmanager.Item;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
