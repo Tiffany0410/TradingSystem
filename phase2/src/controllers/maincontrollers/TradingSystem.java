@@ -58,6 +58,7 @@ public class TradingSystem {
 
    /**
     * Initial trading system menu
+    *
     * @return false when user exit trading system, true when user not exit the system
     */
    public boolean tradingSystemInital() throws IOException, ClassNotFoundException {
@@ -68,29 +69,30 @@ public class TradingSystem {
       option = displaySystem.getMenuAnswer("./menus/TradingSystemInitMenu.csv");
 
       // Option 0 is exit system
-      if (option == 0){
+      if (option == 0) {
          return false;
       }
 
       // Option 1 is login
-      if (option == 1){
+      if (option == 1) {
          this.login();
       }
 
       // Option 2 is login as a guest
-      if (option == 2){
-         this.regularUserMain("Guest");
+      if (option == 2) {
+         // asGuest = true
+         this.regularUserMain("Guest", true);
       }
 
       // Option 3 is create new account
-      if (option == 3){
+      if (option == 3) {
          boolean condition = false;
 
-         while(!condition){
-            condition = accountCreator.createAccount( "Regular");
+         while (!condition) {
+            condition = accountCreator.createAccount("Regular");
 
             // If fail, give the reason why fail
-            if (!condition){
+            if (!condition) {
                displaySystem.printOut("Username already exist, please try another one.");
             }
             displaySystem.printResult(condition);
@@ -121,7 +123,8 @@ public class TradingSystem {
                displaySystem.printWrongPassword();
                break;
             case "User":
-               this.regularUserMain(userName);
+               // asGuest = false
+               this.regularUserMain(userName, false);
                break;
             case "Admin":
                this.adminUserMain();
@@ -152,12 +155,12 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   private void regularUserMain(String userName) throws IOException, ClassNotFoundException {
+   private void regularUserMain(String userName, boolean asGuest) throws IOException, ClassNotFoundException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
-              userName);
+              userName, asGuest);
 
-      if (! userName.equals("Guest")) {
+      if (!asGuest) {
          // Initialize the threshold controller
          tc = new RegularUserThresholdController(displaySystem, tradeManager, meetingManager, userManager,
                  userName, userManager.usernameToID(userName));
@@ -171,7 +174,7 @@ public class TradingSystem {
 
 
       // Option 0 is log out
-      if (option == 0){
+      if (option == 0) {
          this.logOut();
       }
 
@@ -184,11 +187,10 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
-                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
+                  regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
                }
             }
-            this.regularUserMain(userName);
+            this.regularUserMain(userName, asGuest);
          }
 
          // Option 2 is Trading Info
@@ -199,11 +201,14 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
-                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
+                  if (asGuest) {
+                     sm.msgForGuest(displaySystem);
+                  } else {
+                     regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
+                  }
                }
             }
-            this.regularUserMain(userName);
+            this.regularUserMain(userName, asGuest);
          }
 
          // Option 3 is Meeting Info
@@ -214,13 +219,17 @@ public class TradingSystem {
                if (suboption == 0) {
                   condition = false;
                } else {
-                  if (userName.equals("Guest")){displaySystem.printOut("Please login, guest account can't do this");}
-                  else{regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");}
+                  if (asGuest) {
+                     sm.msgForGuest(displaySystem);
+                  } else {
+                     regularUserController.actionResponse(option, suboption, "./src/others/ThresholdValues.csv");
+                  }
                }
             }
-            this.regularUserMain(userName);
+            this.regularUserMain(userName, asGuest);
          }
-      }catch (InvalidIdException ex){
+      }
+      catch (InvalidIdException ex){
          displaySystem.printOut("This user can not do this, Invalid ID");
       }
    }
