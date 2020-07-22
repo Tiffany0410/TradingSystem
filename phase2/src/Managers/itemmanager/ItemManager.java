@@ -19,12 +19,21 @@ public class ItemManager implements Serializable {
     // private Map<Integer, Integer> waitList;
 
 
+    /**
+     * Constructs A ItemManager
+     */
     public ItemManager(){
         listItem = new ArrayList<>();
         categoryItem = new HashMap<>();
         listItemToAdd = new ArrayList<>();
     }
 
+    /**
+     * Return item name by given item ID
+     * @param itemId The item's ID
+     * @return the item's name
+     * @throws InvalidIdException for invalid ID
+     */
     public String getNamebyId(int itemId) throws InvalidIdException {
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
@@ -34,6 +43,12 @@ public class ItemManager implements Serializable {
         throw new InvalidIdException("Invalid Item ID");
     }
 
+    /**
+     * Return item's information by given item ID
+     * @param itemId The item's ID
+     * @return the information of the item
+     * @throws InvalidIdException for invalid ID
+     */
     public String getInfobyID(int itemId) throws InvalidIdException{
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
@@ -43,6 +58,12 @@ public class ItemManager implements Serializable {
         throw new InvalidIdException("Invalid Item ID");
     }
 
+    /**
+     * Return the item by given item ID
+     * @param itemId The item's ID
+     * @return The corresponding Item
+     * @throws InvalidIdException for invalid ID
+     */
     public Item getItembyId(int itemId) throws InvalidIdException{
         for (Item item: listItem){
             if (item.getItemId() == itemId){
@@ -52,10 +73,20 @@ public class ItemManager implements Serializable {
         throw new InvalidIdException("Invalid Item Id");
     }
 
+    /**
+     * Return all the items
+     * @return A list of all the items
+     */
     public ArrayList<Item> getAllItem(){
         return listItem;
     }
 
+    /**
+     * Set the item's current holder's ID to currHolderId
+     * @param itemId The item's ID
+     * @param currHolderId The current holder's ID
+     * @throws InvalidIdException for invalid ID
+     */
     public void setCurrHolderId(int itemId, int currHolderId) throws InvalidIdException{
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
@@ -78,10 +109,21 @@ public class ItemManager implements Serializable {
     }
     */
 
+    /**
+     * Return all the items in the category
+     * @param category The category of the item
+     * @return A list of all items in the category
+     */
     public ArrayList<Integer> getCategoryItem(String category){
         return categoryItem.get(category);
     }
 
+    /**
+     * Creates new item
+     * @param name The item's name
+     * @param description The item's description
+     * @param ownerId The item's owner's id
+     */
     public void requestAddItem(String name, String description, int ownerId){
         int temp_id;
         if (listItem.isEmpty()){
@@ -94,6 +136,10 @@ public class ItemManager implements Serializable {
         listItemToAdd.add(item);
     }
 
+    /**
+     * Add item to listItem
+     * @param item The item
+     */
     public void addItem(Item item){
         listItem.add(item);
     }
