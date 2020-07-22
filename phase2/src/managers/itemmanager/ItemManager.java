@@ -1,10 +1,10 @@
 package managers.itemmanager;
 import exception.InvalidIdException;
+import managers.usermanager.User;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Stores all the items and manages the items
@@ -74,26 +74,16 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Return all the items
-     * @return A list of all the items
-     */
-    public ArrayList<Item> getAllItem(){
-        return listItem;
-    }
-
-    /**
      * Set the item's current holder's ID to currHolderId
      * @param itemId The item's ID
      * @param currHolderId The current holder's ID
-     * @throws InvalidIdException for invalid ID
      */
-    public void setCurrHolderId(int itemId, int currHolderId) throws InvalidIdException{
+    public void setCurrHolderId(int itemId, int currHolderId){
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
                 item.setCurrHolderId(currHolderId);
             }
         }
-        throw new InvalidIdException("Invalid Item ID");
     }
     /*
      if don't store a map for item category in itemManager:
@@ -126,14 +116,40 @@ public class ItemManager implements Serializable {
      */
     public void requestAddItem(String name, String description, int ownerId){
         int temp_id;
-        if (listItem.isEmpty()){
-            if (listItemToAdd.isEmpty()){ temp_id = 1; }
-            else {temp_id = listItemToAdd.size() + 1; } }
+        ArrayList<Item> a = listItem;
+        ArrayList<Item> b = listItemToAdd;
+        if (a.isEmpty()){
+            if (b.isEmpty()){ temp_id = 1; }
+            else {temp_id = b.get(b.size()-1).getItemId() + 1; } }
         else{
-            if (listItemToAdd.isEmpty()){temp_id = listItem.size() + 1; }
-            else{ temp_id = listItem.size() + listItemToAdd.size() + 1; }}
+            if (b.isEmpty()){temp_id = a.get(a.size()-1).getItemId() + 1; }
+            else{ temp_id = Math.max(a.get(a.size()-1).getItemId(), b.get(b.size()-1).getItemId()) + 1;} }
         Item item = new Item(name, description, ownerId, temp_id);
         listItemToAdd.add(item);
+    }
+
+    /**
+     * Return all items
+     * @return A list of items
+     */
+    public ArrayList<Item> getListItemToAdd(){
+        return listItemToAdd;
+    }
+
+    /**
+     * Remove item from listItemToAdd
+     * @param itemId The Item's ID
+     */
+    public void removeFromListItemToAdd(int itemId){
+        listItemToAdd.removeIf(item -> item.getItemId() == itemId);
+    }
+
+    /**
+     * Return all the items
+     * @return A list of all the items
+     */
+    public ArrayList<Item> getAllItem(){
+        return listItem;
     }
 
     /**
@@ -142,6 +158,14 @@ public class ItemManager implements Serializable {
      */
     public void addItemToAllItemsList(Item item){
         listItem.add(item);
+    }
+
+    /**
+     * Remove item from listItem
+     * @param itemId The Item's ID
+     */
+    public void removeFromListItem(int itemId) {
+        listItem.removeIf(item -> item.getItemId() == itemId);
     }
 
     /**
@@ -175,34 +199,39 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Return all items
-     * @return A list of items
-     */
-    public ArrayList<Item> getListItemToAdd(){
-        return listItemToAdd;
-    }
-
-    /**
-     * Remove item from listItemToAdd
-     * @param item The Item
-     */
-    public void removeFromListItemToAdd(Item item){
-        listItemToAdd.remove(item);
-    }
-
-    /**
      * Return a list of IDs for a given item
      * @param item The item object
      * @return a list of IDs (Item's Id, Owner's Id, Current Holder's ID)
      */
     public ArrayList<Integer> getIDFromItem(Item item){
-        ArrayList<Integer> listId = new ArrayList();
+        ArrayList<Integer> listId = new ArrayList<>();
         for (Item item_: listItem){
             if (item_.getItemId() == item.getItemId()){
                 Collections.addAll(listId, item.getItemId(), item.getOwnerId(), item.getCurrHolderId());
             }
         }
         return listId;
+    }
+
+    /**
+     * Return a list of items in listItem with corresponding Ids
+     * @param listIds A list of items' Ids
+     * @return A list of items with corresponding Ids
+     */
+    public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds){
+        ArrayList<Item> items = new ArrayList<>();
+        Set<Integer> setIds = new HashSet<>(listIds);         // Avoid Duplication
+        ArrayList<Item> a = listItem;
+        for (int n: setIds){
+            for (Item item: a){
+                if (item.getItemId() == n){
+                    items.add(item);
+                    a.remove(item);
+                    break;
+                }
+            }
+        }
+        return items;
     }
 }
 

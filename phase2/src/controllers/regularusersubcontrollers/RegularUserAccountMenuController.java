@@ -74,7 +74,7 @@ public class RegularUserAccountMenuController {
         ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
         ArrayList<Item> inventory = new ArrayList<>();
         //TODO:  let im have a method that
-        // takes in a list of item ids and returns a list of items
+        // takes in a list of item ids and returns a list of items -> ADDED AS getItemsByIds
         //get the real item objects for the wishlist
         for (int id: wishlistIDs){
             wishlist.add(im.getItembyId(id));
@@ -136,7 +136,7 @@ public class RegularUserAccountMenuController {
             List<Item> threeItems = new ArrayList<>();
             List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
             //TODO:  let im have a method that
-            // takes in a list of item ids and returns a list of items
+            // takes in a list of item ids and returns a list of items -> ADDED
             for (int id : recentThreeTradedIds) {
                 threeItems.add(im.getItembyId(id));
             }
@@ -156,7 +156,7 @@ public class RegularUserAccountMenuController {
     public void removeFromInventory() {
         ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
         //TODO:  let im have a method that
-        // takes in a list of item ids and returns a list of items
+        // takes in a list of item ids and returns a list of items -> ADDED!
         ArrayList<Item> userInventory = im.idsToItems(userInventoryIDs);
         if (userInventory.size() != 0) {
             ds.printResult(new ArrayList<>(userInventory));
