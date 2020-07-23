@@ -233,5 +233,18 @@ public class ItemManager implements Serializable {
         }
         return items;
     }
+
+    /**
+     * Return a list of corresponding Ids for items
+     * @param items A list of items
+     * @return a list of ids for items
+     */
+    public ArrayList<Integer> getItemsIDs(ArrayList<Item> items){
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Item item: items){
+            ids.add(item.getItemId());
+        }
+        return ids;
+    }
 }
 
