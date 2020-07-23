@@ -19,10 +19,25 @@ public class MeetingManager implements java.io.Serializable{
         listMeeting = new ArrayList<>();
     }
 
+    /** search the list of meetings by a given userId
+     * @param userId the id of the user
+     * @return a list of meetings for a given user id
+     */
+    public List<Meeting> getMeetingsByUserId(int userId){
+        List<Meeting> listMeeting1 = new ArrayList<>();
+        for (Meeting meeting: listMeeting){
+            if (meeting.getUserId1() == userId || meeting.getUserId2() == userId){
+                listMeeting1.add(meeting);
+            }
+        }listMeeting1.sort(Comparator.comparing(Meeting::getTime));
+        return listMeeting1;
+    }
+
     /** get a list of complete meetings for a given id
      * @param userId the id for a user
      * @return a list of meetings that is completed for a given id
      */
+
     public List<Meeting> getCompleteMeeting(int userId){
         List<Meeting> listCompleteMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
@@ -107,20 +122,32 @@ public class MeetingManager implements java.io.Serializable{
                     .tradeType.equals("Temporary")&&meeting.getMeetingNum() == 1)){
                 Meeting meeting1 = this.addMeeting(meeting.getTradeId(), meeting.getUserId1(),meeting.getUserId2(),
                         2, tradeManager);
-                Calendar time1 = Calendar.getInstance();
-                time1.setTime(meeting.getTime());
-                meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
-                        time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
-                        time1.get(Calendar.SECOND),meeting.getPlace(), maxMeetingTimePlaceEdits);
-                if(meeting.getUserId1() != userId){
-                    meeting1.setTimePlaceConfirm(meeting.getUserId1(), maxMeetingTimePlaceEdits);
-                }else {meeting1.setTimePlaceConfirm(meeting.getUserId2(), maxMeetingTimePlaceEdits);}
-                meeting1.setTimePlaceEdit(new ArrayList<>());
+                setSecondMeeting(meeting, meeting1, userId,maxMeetingTimePlaceEdits);
             }
         }else {
             return false;
         }return true;
         }
+
+    /** set the second meeting with the same location and one month later from the first meeting, and set the time and
+     * place to be confirmed, so users can not change the time and place.
+     * @param meeting the first meeting of a trade
+     * @param meeting1 the coordinate second meeting of the trade
+     * @param userId the id of the user
+     * @param maxMeetingTimePlaceEdits the max number of times that an user can edit the time and place for a meeting
+     */
+    public void setSecondMeeting(Meeting meeting, Meeting meeting1, int userId,
+                                 int maxMeetingTimePlaceEdits){
+        Calendar time1 = Calendar.getInstance();
+        time1.setTime(meeting.getTime());
+        meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
+                time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
+                time1.get(Calendar.SECOND),meeting.getPlace(), maxMeetingTimePlaceEdits);
+        if(meeting.getUserId1() != userId){
+            meeting1.setTimePlaceConfirm(meeting.getUserId1(), maxMeetingTimePlaceEdits);
+        }else {meeting1.setTimePlaceConfirm(meeting.getUserId2(), maxMeetingTimePlaceEdits);}
+        meeting1.setTimePlaceEdit(new ArrayList<>());
+    }
 
     /** check whether or not a meeting is not confirmed by users after one day of the meeting should happen.
      * @return true if the meeting is not confirmed after one day of the real life meeting time.
