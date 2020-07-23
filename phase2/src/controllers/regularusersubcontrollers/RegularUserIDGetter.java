@@ -93,7 +93,7 @@ public class RegularUserIDGetter {
 
 //   TODO: need an im method that takes in a list of items and then return a list of item ids,
 //    in the correct order
-//    So we don't need this method anymore
+//    So we don't need this method anymore -> Added as getItemsIDs in Item Manager
 
     private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
         ArrayList<Integer> potentialIds = new ArrayList<>();
