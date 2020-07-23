@@ -520,7 +520,6 @@ public class UserManager implements Serializable {
         int num = usernameToID(username);
         return getThreshold(num, threshold);
     }
-}
 
     //TODO Not sure if this should return Integers or Users
     public ArrayList<User> getFriends(int userID){
@@ -571,6 +570,24 @@ public class UserManager implements Serializable {
         if (person1 != null && person2 != null){
             Integer id1 = usernameToID(user1);
             Integer id2 = usernameToID(user2);
+            person1.addToFriends(id2);
+            person2.addToFriends(id1);
+            return true;
         }
+        return false;
+    }
+
+    //TODO finish this when friends list is created
+    public boolean removeFriend(String user1, String user2){
+        User person1 = findUser(user1);
+        User person2 = findUser(user2);
+        if (person1 != null && person2 != null){
+            Integer id1 = usernameToID(user1);
+            Integer id2 = usernameToID(user2);
+            person1.removeFromFriends(id2);
+            person2.removeFromFriends(id1);
+            return true;
+        }
+        return true;
     }
 }
