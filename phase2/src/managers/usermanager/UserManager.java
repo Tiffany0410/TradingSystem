@@ -14,6 +14,7 @@ public class UserManager implements Serializable {
     private ArrayList<User> listUser;
     private ArrayList<AdminUser> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
+    private HashMap<String, ArrayList<String[]>> listFriendRequest;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -22,6 +23,7 @@ public class UserManager implements Serializable {
         this.listUser = new ArrayList<>();
         this.listAdmin = new ArrayList<>();
         this.listUnfreezeRequest = new ArrayList<>();
+        this.listFriendRequest = new HashMap<>();
     }
 
     /**
@@ -33,6 +35,7 @@ public class UserManager implements Serializable {
         this.listUser = users;
         this.listAdmin = admins;
         this.listUnfreezeRequest = new ArrayList<>();
+        this.listFriendRequest = new HashMap<>();
     }
 
     /**
@@ -429,16 +432,18 @@ public class UserManager implements Serializable {
     //TODO Write Javadoc for all below
     public boolean getFrozenStatus(String username) {
         for (User person : listUser){
-            if (person.getUsername().equals(username));
+            if (person.getUsername().equals(username)) {
                 return person.getIfFrozen();
+            }
         }
         return false;
     }
 
     public boolean getFrozenStatus(int userID) {
         for (User person : listUser){
-            if (person.getId() == (userID));
-            return person.getIfFrozen();
+            if (person.getId() == (userID)) {
+                return person.getIfFrozen();
+            }
         }
         return false;
     }
@@ -514,5 +519,58 @@ public class UserManager implements Serializable {
     public int getThreshold (String username, String threshold){
         int num = usernameToID(username);
         return getThreshold(num, threshold);
+    }
+}
+
+    //TODO Not sure if this should return Integers or Users
+    public ArrayList<User> getFriends(int userID){
+        User person = findUser(userID);
+        ArrayList<User> out = new ArrayList<>();
+        if (person != null){
+            ArrayList<Integer> temp = person.getFriend();
+            for (int num: temp){
+                User friend = findUser(num);
+                if (friend != null){
+                    out.add(friend);
+                }
+            }
+
+        }
+        return out;
+    }
+
+    public boolean requestFriend(String message, String userTo, String userFrom){
+        boolean out = false;
+        if (checkUser(userTo)) {
+            if (!listFriendRequest.containsKey(userTo)){
+                ArrayList<String[]> toAdd = new ArrayList<>();
+                String[] request = {message, userFrom};
+                toAdd.add(request);
+                listFriendRequest.put(userTo, toAdd);
+                out = true;
+            } else {
+                ArrayList<String[]> temp = listFriendRequest.get(userTo);
+                for (String[] request: temp){
+                    if (request[0].equals(userFrom)){
+                        return false;
+                    }
+                }
+                String[] request = {message, userFrom};
+                temp.add(request);
+                listFriendRequest.put(userTo, temp);
+                out = true;
+            }
+        }
+        return out;
+    }
+
+    //TODO finish this when friends list is created
+    public boolean addFriend(String user1, String user2){
+        User person1 = findUser(user1);
+        User person2 = findUser(user2);
+        if (person1 != null && person2 != null){
+            Integer id1 = usernameToID(user1);
+            Integer id2 = usernameToID(user2);
+        }
     }
 }
