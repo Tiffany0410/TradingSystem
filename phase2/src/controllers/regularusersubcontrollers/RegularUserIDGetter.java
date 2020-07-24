@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import managers.itemmanager.Item;
+import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
@@ -22,26 +23,29 @@ public class RegularUserIDGetter {
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
+    private ItemManager im;
     private String username;
     private int userId;
 
     /**
      * Constructs a RegularUserIDGetter with a DisplaySystem, a TradeManager,
-     * a MeetingManager, a UserManager, the regular user's username and userId.
+     * a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
+     * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
     public RegularUserIDGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
-                               UserManager um, String username, int userId) {
+                               UserManager um, ItemManager im, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
+        this.im = im;
         this.username = username;
         this.userId = userId;
     }
@@ -65,8 +69,7 @@ public class RegularUserIDGetter {
         ArrayList<Integer> potentialIds;
         // depends on the option the user chooses
         if (type == 1) {
-//          TODO: should call im method instead of this
-            potentialIds = getItemsIDs(potentialItems);
+            potentialIds = im.getItemsIDs(potentialItems);
         } else {
             potentialIds = um.getUserWishlist(userId);
         }
@@ -89,19 +92,6 @@ public class RegularUserIDGetter {
             }
         } while (!okInput);
         return itemId;
-    }
-
-//   TODO: need an im method that takes in a list of items and then return a list of item ids,
-//    in the correct order
-//    So we don't need this method anymore -> Added as getItemsIDs in Item Manager
-
-    private ArrayList<Integer> getItemsIDs(ArrayList<Item> allOtherItems) {
-        ArrayList<Integer> potentialIds = new ArrayList<>();
-        //get the id of all the items in the given arraylist
-        for (Item item : allOtherItems) {
-            potentialIds.add(item.getItemId());
-        }
-        return potentialIds;
     }
 
     /**
