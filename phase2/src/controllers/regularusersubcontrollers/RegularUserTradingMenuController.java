@@ -35,7 +35,6 @@ public class RegularUserTradingMenuController {
     private ItemManager im;
     private String username;
     private int userId;
-    private FilesReaderWriter frw;
 
     /**
      * Constructs a RegularUserTradingMenuController with a DisplaySystem,
@@ -52,7 +51,7 @@ public class RegularUserTradingMenuController {
     public RegularUserTradingMenuController(DisplaySystem ds,
                                             TradeManager tm, MeetingManager mm,
                                             UserManager um, ItemManager im,
-                                            String username, int userId) throws IOException, ClassNotFoundException {
+                                            String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -64,7 +63,6 @@ public class RegularUserTradingMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.sm = new SystemMessage();
-        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -136,15 +134,14 @@ public class RegularUserTradingMenuController {
      * outstanding trade requests or if the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
+     * @param maxNumTransactionsAWeek The maximum number of transactions allowed a week.
      * @throws InvalidIdException In case the id is invalid.
-     * @throws FileNotFoundException In case the file cannot be found.
      */
-    public void respondToTradeRequests(String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+    public void respondToTradeRequests(int maxNumTransactionsAWeek) throws InvalidIdException{
         if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0) {
             // the case with user reaching the max number of transactions for the week
-            sm.lockMessageForThreshold(ds, thresholdValues.get(0));
+            // .get(0)
+            sm.lockMessageForThreshold(ds, maxNumTransactionsAWeek);
         }
         else {
             // user haven't reach the max number of transactions a week threshold
@@ -234,17 +231,15 @@ public class RegularUserTradingMenuController {
      * successfully sent or not. If the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
-     * @throws FileNotFoundException In case the file cannot be found.
+     * @param maxNumTransactionsAWeek The maximum number of transactions allowed a week.
+     * @param numLentBeforeBorrow The number of items user must lend before the user can borrow.
      * @throws InvalidIdException In case the id is invalid.
      */
-    public void requestTrade(String thresholdValuesFilePath) throws FileNotFoundException, InvalidIdException {
-        // read threshold values in from the csv file
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+    public void requestTrade(int maxNumTransactionsAWeek, int numLentBeforeBorrow) throws InvalidIdException {
         // if the user has no more transactions left
         if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0){
             // the case with user reaching the max number of transactions for the week
-            sm.lockMessageForThreshold(ds, thresholdValues.get(0));
+            sm.lockMessageForThreshold(ds, maxNumTransactionsAWeek);
         }
         else {
             // get whether it is one-way-trade or two-way-trade
@@ -277,7 +272,7 @@ public class RegularUserTradingMenuController {
             // get the validation from the item side
             ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
             // use all these to determine the result
-            requestResult(ok, trade, userId1, thresholdValuesFilePath);
+            requestResult(ok, trade, userId1, numLentBeforeBorrow);
         }
     }
 
@@ -316,9 +311,8 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private void requestResult(boolean ok, Trade trade, int userId1, String thresholdValuesFilePath) throws FileNotFoundException {
-        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
-        if (tm.validateTrade(trade, um.findUser(userId1), thresholdValues.get(2)) && ok) {
+    private void requestResult(boolean ok, Trade trade, int userId1, int numLendBeforeBorrow){
+        if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             requestSuccess(trade);
         }
         else {

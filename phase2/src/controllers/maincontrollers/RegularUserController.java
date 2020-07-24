@@ -69,7 +69,7 @@ public class RegularUserController implements Controllable {
         // for other controllers / presenters
         this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, username, userId);
         this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, im, username, userId);
-        this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, username, userId);
+        this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, im, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
@@ -172,10 +172,10 @@ public class RegularUserController implements Controllable {
         tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
-                atc.requestTrade(thresholdValuesFilePath);
+                atc.requestTrade(thresholdValues.get(0), thresholdValues.get(2));
                 break;
             case 2:
-                atc.respondToTradeRequests(thresholdValuesFilePath);
+                atc.respondToTradeRequests(thresholdValues.get(0));
                 break;
             case 3:
                 atc.viewTrades(tm.getOpenTrade(userId));
@@ -206,17 +206,18 @@ public class RegularUserController implements Controllable {
     5.See the list of meetings that have been confirmed (that have taken place) (ok)
     6.See the list of meetings with time and place that need to be confirmed (ok)
         */
+        List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         switch (subMenuOption) {
             case 1:
                 // show user a list of potential meetings to edit the time and place for
                 // and then let him/her edit it
-                mmc.EditMeetingTandP(thresholdValuesFilePath);
+                mmc.EditMeetingTandP(thresholdValues.get(3));
                 break;
             case 2:
-                mmc.confirmMeetingTandP(thresholdValuesFilePath);
+                mmc.confirmMeetingTandP(thresholdValues.get(3));
                 break;
             case 3:
-                mmc.confirmMeetingTookPlace(thresholdValuesFilePath);
+                mmc.confirmMeetingTookPlace(thresholdValues.get(3));
                 break;
             case 4:
                 mmc.seeMeetings(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
