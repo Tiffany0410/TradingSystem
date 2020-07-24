@@ -48,11 +48,12 @@ public class AccountCreator {
         username = ds.getUsername();
         password = ds.getPassword();
         email = ds.getEmail();
+        //home = ds.gethomecity
 
         if (username.toLowerCase().equals("guest")){
             return out;
         }
-
+        //TODO add home city when all User and ds have implemented
         if (type.equals("Regular")) {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email);
