@@ -58,7 +58,7 @@ public class RegularUserAccountMenuController {
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
 

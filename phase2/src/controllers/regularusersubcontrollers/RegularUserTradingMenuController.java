@@ -62,7 +62,7 @@ public class RegularUserTradingMenuController {
         this.userId = userId;
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.sm = new SystemMessage();
         this.frw = new FilesReaderWriter();
     }
@@ -305,14 +305,13 @@ public class RegularUserTradingMenuController {
 
     private managers.trademanager.Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Trade trade;
-//      TODO: replace them with createTrade instead - can't just call the constructor
         if (numKindOfTrade == 1) {
             // new one-way-trade
-            trade = new Trade(userId1, userId2, itemId, tradeType, true, tradeID);
+            trade = tm.createTrade(userId1, userId2, itemId, tradeType, true, tradeID);
         }
         else {
             // new two-way-trade
-            trade = new Trade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
+            trade = tm.createTrade(userId1, userId2, itemId, itemId2, tradeType, false, tradeID);
         }
         return trade;
     }

@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import gateway.FilesReaderWriter;
+import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
@@ -31,6 +32,7 @@ public class RegularUserMeetingMenuController {
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
+    private ItemManager im;
     private String username;
     private int userId;
     private FilesReaderWriter frw;
@@ -38,24 +40,26 @@ public class RegularUserMeetingMenuController {
 
     /**
      * Constructs a RegularUserMeetingMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * a TradeManager, a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
+     * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
     public RegularUserMeetingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                            String username, int userId) throws IOException, ClassNotFoundException {
+                                            ItemManager im, String username, int userId) throws IOException, ClassNotFoundException {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
+        this.im = im;
         this.username = username;
         this.userId = userId;
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
