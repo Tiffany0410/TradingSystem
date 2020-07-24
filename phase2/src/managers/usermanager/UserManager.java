@@ -511,6 +511,8 @@ public class UserManager implements Serializable {
                     return person.getNumLent();
                 case "NumBorrowed":
                     return person.getNumBorrowed();
+                case "Vacation":
+                    return person.getOnVacation();
             }
         }
         return -1;
@@ -589,5 +591,77 @@ public class UserManager implements Serializable {
             return true;
         }
         return true;
+    }
+
+    public boolean goOnVacation(int userID){
+        User person = findUser(userID);
+        if (person != null){
+            if (person.getOnVacation()){
+                return false;
+            } else {
+                person.setOnVacation(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean comeFromVacation(int userID){
+        User person = findUser(userID);
+        if (person != null){
+            if (!person.getOnVacation()){
+                return false;
+            } else {
+                person.setOnVacation(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<User> sameCity (int userID){
+        ArrayList<User> out = new ArrayList<>();
+        User homosapien = findUser(userID);
+        if (homosapien == null){
+            return out;
+        }
+        for (User person: listUser){
+            if (person.getHome().equals(homosapien.getHome())){
+                out.add(person);
+            }
+        }
+        return out;
+    }
+
+    public ArrayList<Integer> wantedItems (int wantUser, int haveUser){
+        ArrayList<Integer> out = new ArrayList<>();
+        User person1 = findUser(wantUser);
+        User person2 = findUser(haveUser);
+        if (person1 == null && person2 == null){
+            return out;
+        }
+        ArrayList<Integer> wantList = person1.getWishList();
+        ArrayList<Integer> haveList = person2.getInventory();
+        for (int thing: wantList){
+            if (haveList.contains(thing)){
+                out.add(thing);
+            }
+        }
+        return out;
+    }
+
+    public String getHome(int userID){
+        User person = findUser(userID);
+        if(person != null){
+            return person.getHome();
+        }
+        return "";
+    }
+
+    public void changeHome(int userID){
+        User person = findUser(userID);
+        if(person != null){
+            person.setHome();
+        }
     }
 }
