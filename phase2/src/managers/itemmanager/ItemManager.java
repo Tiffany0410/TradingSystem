@@ -15,7 +15,7 @@ public class ItemManager implements Serializable {
     private ArrayList<Item> listItem;
     private ArrayList<Item> listItemToAdd;
     private HashMap<String, ArrayList<Integer>> categoryItem;
-    // private Map<Integer, Integer> waitList;
+    private ArrayList<Item> listDeletedItem;
 
 
     /**
@@ -25,6 +25,7 @@ public class ItemManager implements Serializable {
         listItem = new ArrayList<>();
         categoryItem = new HashMap<>();
         listItemToAdd = new ArrayList<>();
+        listDeletedItem = new ArrayList<>();
     }
 
     /**
@@ -71,6 +72,37 @@ public class ItemManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Item Id");
     }
+
+
+    /**
+     * Return the item ID by given item name
+     * @param itemName The item's name
+     * @return The corresponding Item
+     * @throws InvalidIdException for invalid ID
+     */
+    public Integer getRequestItemIDByName(String itemName) throws InvalidIdException{
+        for (Item item: listItemToAdd){
+            if (item.getName() == itemName){ return item.getItemId(); }
+        }
+        throw new InvalidIdException("Invalid Item Id");
+    }
+
+
+    /**
+     * Return the item by given item ID
+     * @param itemId The item's ID
+     * @return The corresponding Item
+     * @throws InvalidIdException for invalid ID
+     */
+    public Item getDeletedItemById(int itemId) throws InvalidIdException{
+        for (Item item: listDeletedItem){
+            if (item.getItemId() == itemId){
+                return item;
+            }
+        }
+        throw new InvalidIdException("Invalid Item Id");
+    }
+
 
     /**
      * Set the item's current holder's ID to currHolderId
@@ -182,6 +214,7 @@ public class ItemManager implements Serializable {
         return allItem;
     }
 
+
     /**
      * Return all Items except the ones that the owner's ID matches userID
      * @param userID The id of the user
@@ -264,5 +297,14 @@ public class ItemManager implements Serializable {
         }
         return items;
     }
+
+    public void addItemToListDeletedItem(Item item) {listDeletedItem.add(item);}
+
+    public void removeItemFromListDeletedItem(int itemID) {
+        for (Item item: listDeletedItem) {
+            if (item.getItemId() == itemID) {listDeletedItem.remove(item);}
+        }
+    }
+
 }
 
