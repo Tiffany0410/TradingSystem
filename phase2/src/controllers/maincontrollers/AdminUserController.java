@@ -77,9 +77,11 @@ public class AdminUserController implements Controllable {
                 adminEditThresholdMenuResponse(subMenuOption, thresholdValuesFilePath);
                 break;
             case 3:
+
+                break;
+            case 4:
                 adminOthersMenuResponse(subMenuOption);
                 break;
-
         }
 
     }
@@ -100,9 +102,6 @@ public class AdminUserController implements Controllable {
                 break;
             case 3:
                 muc.confirmInventoryAdd();
-                break;
-            case 4:
-
                 break;
         }
     }

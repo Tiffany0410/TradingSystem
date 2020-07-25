@@ -209,75 +209,9 @@ public class DisplaySystem {
             String menuOption = action.getMenuOption();
             switch (userType) {
                 case "regularUser":
-                    switch (menuOption) {
-                        // 1.1: Browse all tradable items in the system
-                        case "1.1":
-                            this.printOut(helper_regular_action_prefix(action) + "browse all tradable items in the system");
-                            break;
-                        // 1.2: Add to own Wish List
-                        case "1.2":
-                            this.printOut(helper_regular_action_prefix(action) + "add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
-                            break;
-                        // 1.3: Search item
-                        case "1.3":
-                            this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
-                            break;
-                        // 1.4: Remove from own Wish List
-                        case "1.4":
-                            this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
-                            break;
-                        // 1.5: Remove from own Inventory
-                        case "1.5":
-                            this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
-                            break;
-                        // 1.6: Request to unfreeze account
-                        case "1.6":
-                            this.printOut(helper_regular_action_prefix(action) + "request to unfreeze account" + "\n");
-                            break;
-                        // 1.7: Request to add item to your inventory
-                        case "1.7":
-                            this.printOut(helper_regular_action_prefix(action) + "request to add Item #" + action.getAdjustableInt() + "\n");
-                            break;
-                        // 1.8: See most recent three items traded
-                        case "1.8":
-                            this.printOut(helper_regular_action_prefix(action) + "check most recent three items traded" + "\n");
-                            break;
-                        // 1.9: View your wishlist and inventory
-                        case "1.9":
-                            this.printOut(helper_regular_action_prefix(action) + "view own wishlist and inventory" + "\n");
-                            break;
-                        // 1.10: Set your on-vacation status
-                        case "1.10":
-                            this.printOut(helper_regular_action_prefix(action) + "set own on-vacation status into " + action.getAdjustableStr() + "\n");
-                            break;
-                        // 1.11: Change tradable status for an inventory item
-                        case "1.11":
-                            this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
-                                    + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
-                            break;
-                        // 2.1: Request a trade
-                        case "2.1":
-                            this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
-                            break;
-                        //
-                        //
-                        //
-                        //
-                        //
-                        // 2.5: Confirm that a trade has been completed
-                        case "2.5":
-                            this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
-                            break;
-                        // 3.2: Confirm time and place for meetings
-                        case "3.2":
-                            this.printOut(helper_regular_action_prefix(action) + "confirm time and place for meetings" + "\n");
-                            break;
-                        // 3.3: Confirm the meeting took place
-                        case "3.3":
-                            this.printOut(helper_regular_action_prefix(action) + "confirm the meeting took place" + "\n");
-                            break;
-            }
+                    this.regularUserAction(action);
                 case "adminUser":
+
                     switch (menuOption) {
                         case "1.1":
                             break;
@@ -292,6 +226,184 @@ public class DisplaySystem {
 
     }
 
+    private void regularUserAction(Action action) {
+        String[] menuOption = action.getMenuOption().split(".");
+        int mainMenuOption = Integer.parseInt(menuOption[0]);
+        int subMenuOption = Integer.parseInt(menuOption[1]);
+
+        switch (mainMenuOption) {
+            // MainMenuOption <1>  corresponding to RegularUserAccountMenu.csv
+            case 1:
+                regularUserAccountAction(action, subMenuOption);
+                break;
+            // MainMenuOption <2>  corresponding to RegularUserTradingMenu.csv
+            case 2:
+                regularUserTradeAction(action, subMenuOption);
+                break;
+            // MainMenuOption <3>  corresponding to RegularUserMeetingMenu.csv
+            case 3:
+                regularUserMeetingAction(action, subMenuOption);
+
+        }
+    }
+
+    private void regularUserAccountAction(Action action, int subMenuOption) {
+        switch (subMenuOption){
+            // 1.1: Browse all tradable items in the system
+            case 1:
+                this.printOut(helper_regular_action_prefix(action) + "browse all tradable items in the system");
+                break;
+            // 1.2: Add to own Wish List
+            case 2:
+                this.printOut(helper_regular_action_prefix(action) + "add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
+                break;
+            // 1.3: Search item
+            case 3:
+                this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.4: Remove from own Wish List
+            case 4:
+                this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
+                break;
+            // 1.5: Remove from own Inventory
+            case 5:
+                this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
+                break;
+            // 1.6: Request to unfreeze account
+            case 6:
+                this.printOut(helper_regular_action_prefix(action) + "request to unfreeze account" + "\n");
+                break;
+            // 1.7: Request to add item to your inventory
+            case 7:
+                this.printOut(helper_regular_action_prefix(action) + "request to add Item #" + action.getAdjustableInt() + "\n");
+                break;
+            // 1.8: See most recent three items traded
+            case 8:
+                this.printOut(helper_regular_action_prefix(action) + "check most recent three items traded" + "\n");
+                break;
+            // 1.9: View your wishlist and inventory
+            case 9:
+                this.printOut(helper_regular_action_prefix(action) + "view own wishlist and inventory" + "\n");
+                break;
+            // 1.10: Set your on-vacation status
+            case 10:
+                this.printOut(helper_regular_action_prefix(action) + "set own on-vacation status into " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.11: Change tradable status for an inventory item
+            case 11:
+                this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
+                        + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.12: See users in your home city
+            case 12:
+                break;
+            // 1.13: Change your home city
+            case 13:
+                break;
+            // 1.14: Get suggestions for item(s) that you can lend to a given user
+            case 14:
+                break;
+        }
+    }
+
+    private void regularUserTradeAction(Action action, int subMenuOption) {
+        switch (subMenuOption) {
+            // 2.1: Request a trade
+            case 1:
+                this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
+                break;
+            // 2.2: Respond to trade requests
+            case 2:
+
+                break;
+            // 2.3: View open trades
+            case 3:
+
+                break;
+            // 2.4: View closed trades
+            case 4:
+
+                break;
+            // 2.5: Confirm that a trade has been completed
+            case 5:
+                this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
+                break;
+            // 2.6: See top three most frequent trading partners
+            case 6:
+
+                break;
+            // 2.7: View transactions that have been cancelled
+            case 7:
+
+                break;
+            // 2.8: Suggestion for the most reasonable trade
+            case 8:
+
+                break;
+        }
+    }
+
+
+    private void regularUserMeetingAction(Action action, int subMenuOption) {
+        switch (subMenuOption) {
+            // 3.1: Suggest/edit time and place for meetings
+            case 1:
+                this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
+                break;
+            // 3.2: Confirm time and place for meetings
+            case 2:
+                this.printOut(helper_regular_action_prefix(action) + "confirm time and place for meetings" + "\n");
+                break;
+            // 3.3: Confirm the meeting took place
+            case 3:
+                this.printOut(helper_regular_action_prefix(action) + "confirm the meeting took place" + "\n");
+                break;
+            // 3.4: See the list of meetings need to be confirmed that it took place
+            case 4:
+
+                break;
+            // 3.5: See the list of meetings that have been confirmed
+            case 5:
+                this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
+                break;
+            // 3.6: See the list of meetings with time and place that need to be confirmed
+            case 6:
+
+                break;
+        }
+    }
+
+
+    private void adminUserAction(Action action) {
+        String[] menuOption = action.getMenuOption().split(".");
+        int mainMenuOption = Integer.parseInt(menuOption[0]);
+        int subMenuOption = Integer.parseInt(menuOption[1]);
+
+        switch (mainMenuOption) {
+            // MainMenuOption <1>  corresponding to AdminUserManageUsersSubMenu.csv
+            case 1:
+                adminUserManageUsersAction(action, subMenuOption);
+                break;
+            // MainMenuOption <2>  corresponding to AdminUserEditThresholdsSubMenu.csv
+            case 2:
+                adminUserEditThresholdsAction(action, subMenuOption);
+                break;
+            // MainMenuOption <3>  corresponding to AdminUserActionSubMenu.csv
+            case 3:
+                adminUserActionAction(action, subMenuOption);
+            // MainMenuOption <4>  corresponding to AdminUserOtherSubMenu.csv
+            case 4:
+                adminUserOtherAction(action, subMenuOption);
+        }
+    }
+
+    private void adminUserManageUsersAction(Action action, int subMenuOption) { }
+
+    private void adminUserEditThresholdsAction(Action action, int subMenuOption) {}
+
+    private void adminUserActionAction(Action action, int subMenuOption) {}
+
+    private void adminUserOtherAction(Action action, int subMenuOption) {}
 
     private String helper_regular_action_prefix(Action action) {
         return "Action #" + action.getActionID() + ": RegularUser #" + action.getActionOwnerID() + " ";
