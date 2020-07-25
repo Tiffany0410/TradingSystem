@@ -327,6 +327,38 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+    public boolean checkOneWayTrade(int tradeId) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                return t.getIsOneWayTrade();
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
+    public void cancelTrade(int tradeId) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                t.cancelTrade();
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
+    public void openTrade(int tradeId) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                t.openTrade();
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
+    public int getId(int tradeId, int index) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                return t.getIds().get(index);
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
 
     /** Validate trade
      * @param trade trade we want to validate
