@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -30,6 +31,7 @@ public class RegularUserAccountMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
+    private ActionManager am;
     private String username;
     private int userId;
 
@@ -46,14 +48,14 @@ public class RegularUserAccountMenuController {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserAccountMenuController(DisplaySystem ds,
-                                            TradeManager tm, MeetingManager mm,
-                                            UserManager um, ItemManager im, String username, int userId) {
+    public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
+                                            ItemManager im, ActionManager am, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
+        this.am = am;
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
@@ -94,11 +96,13 @@ public class RegularUserAccountMenuController {
      * @param allOtherItems The potential items user can add to his/her wish list.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void addToWishList(ArrayList<Item> allOtherItems, boolean asGuest) {
+    public void addToWishList(ArrayList<Item> allOtherItems, boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
             // add the id to user's wishlist
             if (allOtherItems.size() != 0) {
-                ds.printResult(um.addItemWishlist(idGetter.getItemID(allOtherItems, 1), username));
+                int tempItemID = idGetter.getItemID(allOtherItems, 1);
+                ds.printResult(um.addItemWishlist(tempItemID, username));
+                am.addAction(userId, "1.2", tempItemID);
             } else {
                 sm.msgForNothing("that can be added to your wishlist for now", ds);
             }
@@ -114,10 +118,12 @@ public class RegularUserAccountMenuController {
      * and let the user manager handle it.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void requestAddItem(boolean asGuest) {
+    public void requestAddItem(boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
-            im.requestAddItem(otherInfoGetter.getItemName(), otherInfoGetter.getMessage("Enter the description of the item"), userId);
+            String tempItemName = otherInfoGetter.getItemName();
+            im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId);
             ds.printResult("Your add-item request", true);
+            am.addAction(userId, "1.7", im.getRequestItemIDByName(tempItemName));
         }
         else{
             sm.msgForGuest(ds);
@@ -177,7 +183,10 @@ public class RegularUserAccountMenuController {
             ArrayList<Item> userInventory = im.getItemsByIds(userInventoryIDs);
             if (userInventory.size() != 0) {
                 ds.printResult(new ArrayList<>(userInventory));
-                ds.printResult(um.removeItemInventory(idGetter.getItemID(userInventory, 1), username));
+                int tempItemID = idGetter.getItemID(userInventory, 1);
+                ds.printResult(um.removeItemInventory(tempItemID, username));
+                im.addItemToListDeletedItem(im.getItembyId(tempItemID));
+                am.addAction(userId, "1.5", tempItemID);
             } else {
                 sm.msgForNothing("in your inventory", ds);
             }
@@ -194,11 +203,14 @@ public class RegularUserAccountMenuController {
      * @param allOtherItems The list of items that contain user's wishlist items.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void removeFromWishList(ArrayList<Item> allOtherItems, boolean asGuest) {
+    public void removeFromWishList(ArrayList<Item> allOtherItems, boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
             // remove the item id from wishlist
             if (um.getUserWishlist(userId).size() != 0) {
-                ds.printResult(um.removeItemWishlist(idGetter.getItemID(allOtherItems, 0), username));
+                int tempItemID = idGetter.getItemID(allOtherItems, 0);
+                ds.printResult(um.removeItemWishlist(tempItemID, username));
+                im.addItemToListDeletedItem(im.getItembyId(tempItemID));
+                am.addAction(userId, "1.4", tempItemID);
             } else {
                 sm.msgForNothing("in your wish list", ds);
             }
