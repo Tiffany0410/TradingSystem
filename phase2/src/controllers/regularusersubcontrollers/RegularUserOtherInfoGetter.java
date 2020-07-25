@@ -163,12 +163,11 @@ public class RegularUserOtherInfoGetter {
     }
 
     /**
-     * Gets user's input of the kind of trade.
-     * For now, there are one-way-trade and
-     * two-way-trade.
-     * @return User's input of the kind of trade.
+     * Gets and returns user's input of
+     * the option number.
+     * @return User's input of the option number.
      */
-    protected int getNumKindOfTrade(){
+    protected int getNumKindOfResponse(String option1, String option2){
         /*
          * Based on code by Yassine.b from
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -178,7 +177,7 @@ public class RegularUserOtherInfoGetter {
 
         boolean okInput = false;
         do {
-            ds.printOut("Please enter an integer (1 - one-way-trade, 2 - two-way-trade)" + ": ");
+            ds.printOut("Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ");
             // if the input is int
             if (sc.hasNextInt()) {
                 num = sc.nextInt();
@@ -195,5 +194,4 @@ public class RegularUserOtherInfoGetter {
         } while (!okInput);
         return num;
     }
-
 }

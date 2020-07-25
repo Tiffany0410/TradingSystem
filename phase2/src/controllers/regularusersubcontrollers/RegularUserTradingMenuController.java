@@ -232,7 +232,7 @@ public class RegularUserTradingMenuController {
         }
         else {
             // get whether it is one-way-trade or two-way-trade
-            int numKindOfTrade = otherInfoGetter.getNumKindOfTrade();
+            int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
             // will store the validation value
             boolean ok;
             // will store the trade object

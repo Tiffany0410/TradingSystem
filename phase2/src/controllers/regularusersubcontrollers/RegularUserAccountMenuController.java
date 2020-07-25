@@ -240,9 +240,25 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Receive user's input of set his/her on-vacation status
-     * @param asGuest
+     * Receive user's input and set his/her on-vacation status
+     * @param asGuest The determiner of access to this menu option.
      */
-    public void setOnVacationStatus(boolean asGuest) {
+    public void setOnVacationStatus(boolean asGuest) throws InvalidIdException {
+        if (!asGuest) {
+            ArrayList<Item> inventory = im.getItemsByIds(um.getUserInventory(userId));
+            // get user's response and set the status likewise
+            if (otherInfoGetter.getNumKindOfResponse("set to true", "set to false") == 1) {
+                um.goOnVacation(userId);
+                //pass the list to im’s method to set all these items tradable status to false
+            } else {
+                um.comeFromVacation(userId);
+                //pass the list to im’s method to set all these items tradable status to true
+            }
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
+
     }
+
 }
