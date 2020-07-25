@@ -23,10 +23,8 @@ public class FilesReaderWriter implements Serializable {
     /**
      * Constructor of the FilesReaderWriter
      *
-     * @throws IOException            all possible input/output errors
-     * @throws ClassNotFoundException the specified class cannot be found
      */
-    public FilesReaderWriter() throws ClassNotFoundException, IOException {
+    public FilesReaderWriter() {
     }
 
 

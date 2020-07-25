@@ -41,8 +41,7 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, DisplaySystem displaySystem,
-                        AccountCreator accountCreator, ItemManager itemManager, FeedbackManager feedbackManager)
-           throws IOException, ClassNotFoundException {
+                        AccountCreator accountCreator, ItemManager itemManager, FeedbackManager feedbackManager) {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
@@ -155,7 +154,7 @@ public class TradingSystem {
     * For regular user menu
     */
 
-   private void regularUserMain(String userName, boolean asGuest) throws IOException, ClassNotFoundException {
+   private void regularUserMain(String userName, boolean asGuest) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
               userName, asGuest);
@@ -238,7 +237,7 @@ public class TradingSystem {
     * For admin user menu
     */
 
-   private void adminUserMain() throws IOException, ClassNotFoundException {
+   private void adminUserMain() throws IOException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
               this.userManager, this.itemManager);
       displaySystem.printOut("######### Notification ########");

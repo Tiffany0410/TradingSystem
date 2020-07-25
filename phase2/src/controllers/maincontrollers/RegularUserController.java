@@ -56,7 +56,7 @@ public class RegularUserController implements Controllable {
      * @param asGuest  The determiner of limited access to menu options.
      */
     public RegularUserController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                 ItemManager im, String username, boolean asGuest) throws IOException, ClassNotFoundException {
+                                 ItemManager im, String username, boolean asGuest) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
