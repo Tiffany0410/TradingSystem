@@ -99,7 +99,7 @@ public class RegularUserMeetingMenuController {
             // if the meeting exists
 //          TODO: need a mm method to check if a meeting's trade id is 0 or not
 //          TODO: replace getTradeId()
-            if (meeting3.getTradeId() != 0) {
+            if (mm.checkMeeting(meeting3)) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
             } else {
                 // if the meeting DNE
@@ -129,7 +129,7 @@ public class RegularUserMeetingMenuController {
             if (meeting2.getTradeId() != 0) {
 //          TODO: need a mm method to set time place confirm for a meeting
 //          TODO: replace setTimePlaceConfirm()
-                Boolean confirmSuccess = meeting2.setTimePlaceConfirm(userId, maxMeetingTimePlaceEdits);
+                Boolean confirmSuccess = mm.confirmTimePlace(meeting2,userId,maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
@@ -166,7 +166,7 @@ public class RegularUserMeetingMenuController {
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
 //          TODO: need a mm method to set time place edit for a meeting
 //          TODO: replace setTimePlaceEdit()
-                boolean editSuccess= meeting.setTimePlaceEdit(userId, list.get(0), list.get(1), list.get(2),
+                boolean editSuccess= mm.EditTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 // if the user did not edit it successfully

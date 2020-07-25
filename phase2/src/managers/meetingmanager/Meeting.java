@@ -153,6 +153,7 @@ public class Meeting implements java.io.Serializable{
      * @param hour the hour for the meeting(24 hours)
      * @param min the minute for the meeting
      * @param sec the second for the meeting
+     * @param maxMeetingTimePlaceEdits the max number of times that a user can edit the time and place.
      * @return true if the change to the TimePlaceEdit happen
      */
     public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,

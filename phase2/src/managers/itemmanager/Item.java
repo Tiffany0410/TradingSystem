@@ -15,6 +15,7 @@ public class Item implements Serializable {
     private int itemId;
     private int ownerId;
     private int currHolderId;
+    private boolean tradable;
 
     /** Constructor of item.
      * Set this name with name, set this description with description, set this ownerId with ownerId, set this
@@ -29,6 +30,22 @@ public class Item implements Serializable {
         this.ownerId = ownerId;
         currHolderId = ownerId;
         this.itemId = itemID;
+    }
+    /**
+     * Set the flag indicates whether the item is tradable
+     *
+     * @param tradable the flag indicates whether the item is tradable
+     */
+    public void setTradable(boolean tradable) {
+        this.tradable = tradable;
+    }
+    /**
+     * Get the flag indicates whether the item is tradable
+     *
+     * @return tradable the flag indicates whether the item is tradable
+     */
+    public boolean getTradable(boolean tradable){
+       return this.tradable;
     }
 
     /** Get the name of this item

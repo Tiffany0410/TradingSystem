@@ -43,30 +43,6 @@ public class TradableUser extends User implements Serializable{
     }
 
     /**
-     * Getter for this user's password.
-     * @return This user's password.
-     */
-    public String getPassword() { return password;}
-
-    /**
-     * Get the user's email.
-     *
-     * @return the email.
-     */
-    public String getEmail() {
-        return this.email;
-    }
-
-    /**
-     * Get the user's username.
-     *
-     * @return username.
-     */
-    public String getUsername() {
-        return this.username;
-    }
-
-    /**
      * Sets user's wishlist to a new one.
      * @param newWishList The new wishlist.
      */
