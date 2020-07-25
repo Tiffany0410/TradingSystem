@@ -163,6 +163,7 @@ public class RegularUserController implements Controllable {
         11.Change tradable status for an inventory item
         12.See users in your home city
         13.Change your home city
+        14.Get suggestions for item(s) that you can lend to a given user
          */
         switch (subMenuOption) {
             case 8:
@@ -178,6 +179,8 @@ public class RegularUserController implements Controllable {
                 amc.seeUsersInSameHC(asGuest);
             case 13:
                 amc.changeUserHC(asGuest);
+            case 14:
+                amc.suggestItemToLend(asGuest);
         }
     }
 
