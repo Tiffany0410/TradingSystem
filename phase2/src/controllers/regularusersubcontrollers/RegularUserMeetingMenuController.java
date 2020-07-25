@@ -19,7 +19,7 @@ import java.util.List;
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the meeting menu part.
  *
- * @author Yu Xin Yan
+ * @author Yu Xin Yan, Jianhong Guo
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserMeetingMenuController {
@@ -97,8 +97,7 @@ public class RegularUserMeetingMenuController {
             // get the meeting
             Meeting meeting3 = getMeeting();
             // if the meeting exists
-//          TODO: need a mm method to check if a meeting's trade id is 0 or not
-//          TODO: replace getTradeId()
+            // check meeting method returns true if the trade id is not 0.
             if (mm.checkMeeting(meeting3)) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
             } else {
@@ -126,10 +125,8 @@ public class RegularUserMeetingMenuController {
             // and then ask the user for the meeting info
             Meeting meeting2 = getMeeting();
             // if the meeting exists in the system
-            if (meeting2.getTradeId() != 0) {
-//          TODO: need a mm method to set time place confirm for a meeting
-//          TODO: replace setTimePlaceConfirm()
-                Boolean confirmSuccess = mm.confirmTimePlace(meeting2,userId,maxMeetingTimePlaceEdits);
+            if (mm.checkMeeting(meeting2)) {
+                Boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
@@ -159,13 +156,11 @@ public class RegularUserMeetingMenuController {
             // get the meeting info from the user
             Meeting meeting = getMeeting();
             // if the meeting exists and the threshold is not reached yet
-            if (meeting.getTradeId() != 0 && mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
+            if (mm.checkMeeting(meeting) && mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
                 //asks the user for the date and place
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-//          TODO: need a mm method to set time place edit for a meeting
-//          TODO: replace setTimePlaceEdit()
                 boolean editSuccess= mm.EditTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
@@ -174,13 +169,13 @@ public class RegularUserMeetingMenuController {
                     ds.printOut("It's not your turn.");
                 }
                 // record that it's confirmed by this user
-                meeting.setTimePlaceConfirm(userId, maxMeetingTimePlaceEdits);
+                mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
                 // for the edit threshold
                 ds.printOut(mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits));
             } else {
                 // print a helpful messages to let user know why failed
                 // if the meeting DNE
-                if (meeting.getTradeId() == 0) {
+                if (!mm.checkMeeting(meeting)) {
                     sm.msgForMeetingDNE(ds);
                 }
                 // if the threshold is reached

@@ -17,7 +17,7 @@ import java.util.List;
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the trade menu part.
  *
- * @author Yu Xin Yan
+ * @author Yu Xin Yan, Yuanze Bao
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserTradingMenuController {
