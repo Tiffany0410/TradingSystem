@@ -187,10 +187,10 @@ public class ItemManager implements Serializable {
      * @param userID The id of the user
      * @return A list of all the Items except the ones that the owner's ID matches userID
      */
-    public ArrayList<Item> allTradableItems(int userID){
+    public ArrayList<Item> allTradableItemsFromOtherUser(int userID){
         ArrayList<Item> allItem = new ArrayList<>();
         for (Item item: listItem){
-            if (item.getOwnerId() != userID){
+            if (item.getOwnerId() != userID && item.getTradable()){
                 allItem.add(item);
             }
         }
@@ -217,18 +217,11 @@ public class ItemManager implements Serializable {
      * @param listIds A list of items' Ids
      * @return A list of items with corresponding Ids
      */
-    public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds){
+    public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds) throws InvalidIdException {
         ArrayList<Item> items = new ArrayList<>();
-        Set<Integer> setIds = new HashSet<>(listIds);         // Avoid Duplication
-        ArrayList<Item> a = listItem;
-        for (int n: setIds){
-            for (Item item: a){
-                if (item.getItemId() == n){
-                    items.add(item);
-                    a.remove(item);
-                    break;
-                }
-            }
+        Set<Integer> setIds = new HashSet<>(listIds);
+        for (Integer id : setIds) {
+            items.add(getItembyId(id));
         }
         return items;
     }
@@ -244,6 +237,32 @@ public class ItemManager implements Serializable {
             ids.add(item.getItemId());
         }
         return ids;
+    }
+
+    public boolean getTradable(int itemId) throws InvalidIdException{
+        for (Item item: listItem){
+            if (item.getItemId() == itemId){
+                return item.getTradable();
+            }
+        }
+        throw new InvalidIdException("Invalid Item Id");
+    }
+
+    public void setTradable(ArrayList<Integer> listIds, boolean tradable) throws InvalidIdException {
+        Set<Integer> setIds = new HashSet<>(listIds);
+        for (Integer id: setIds){
+            this.getItembyId(id).setTradable(tradable);
+        }
+    }
+
+    public ArrayList<Item> getAllTradableItems(){
+        ArrayList<Item> items = new ArrayList<>();
+        for (Item item: listItem){
+            if (item.getTradable()){
+                items.add(item);
+            }
+        }
+        return items;
     }
 }
 

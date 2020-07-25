@@ -30,7 +30,9 @@ public class Item implements Serializable {
         this.ownerId = ownerId;
         currHolderId = ownerId;
         this.itemId = itemID;
+        this.tradable = true;
     }
+
     /**
      * Set the flag indicates whether the item is tradable
      *
@@ -44,7 +46,7 @@ public class Item implements Serializable {
      *
      * @return tradable the flag indicates whether the item is tradable
      */
-    public boolean getTradable(boolean tradable){
+    public boolean getTradable(){
        return this.tradable;
     }
 
