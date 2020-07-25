@@ -10,25 +10,41 @@ import java.util.Map;
  * @version IntelliJ IDEA 2020.1
  */
 public class ActionManager {
-    private ArrayList<Action> listOfActions;
+    private ArrayList<Action> listOfAllActions;
+    private ArrayList<Action> listOfRevocableActions;
 
 
     // Constructor
     public ActionManager() {
-        this.listOfActions = new ArrayList<>();
+        this.listOfAllActions = new ArrayList<>();
+        this.listOfRevocableActions = new ArrayList<>();
     }
 
-    // getter for all actions
-    public ArrayList<Action> getListOfActions() {return this.listOfActions;}
+    // getter for all Actions
+    public ArrayList<Action> getListOfAllActions() {return this.listOfAllActions;}
+
+    //getter for all Revocable Actions
+    public ArrayList<Action> getListOfRevocableActions() {return this.listOfRevocableActions;}
 
 
     // setter
-    public void addAction(int actionOwnerID, String menuNumber, int adjustableInt) {
+    public void addActionToListAllActions(int actionOwnerID, String userType, String menuNumber,
+                                          int adjustableInt, String adjustableStr) {
         int actionID;
-        if (listOfActions.isEmpty()) {actionID = 1;}
-        else {actionID = this.helper_max_ID(this.getAllActionID()) + 1;}
-        Action new_action = new Action(actionID, actionOwnerID, menuNumber, adjustableInt);
-        listOfActions.add(new_action);
+        if (listOfAllActions.isEmpty()) {actionID = 1;}
+        else {actionID = helper_max_ID(this.getAllActionID(listOfAllActions)) + 1;}
+        Action new_action = new Action(actionID, userType, actionOwnerID, menuNumber, adjustableInt, adjustableStr);
+        listOfAllActions.add(new_action);
+    }
+
+    // setter
+    public void addActionToListRevocableActions(int actionOwnerID, String userType, String menuNumber,
+                                                int adjustableInt, String adjustableStr) {
+        int actionID;
+        if (listOfRevocableActions.isEmpty()) {actionID = 1;}
+        else {actionID = helper_max_ID(this.getAllActionID(listOfRevocableActions)) + 1;}
+        Action new_action = new Action(actionID, userType, actionOwnerID, menuNumber, adjustableInt, adjustableStr);
+        listOfRevocableActions.add(new_action);
     }
 
     // remove the action from list
@@ -36,8 +52,8 @@ public class ActionManager {
         // Used to track Action index in listOfActions
         int acc = 0;
         // find the index of action in the listOfActions
-        while (acc < listOfActions.size()) {
-            if (listOfActions.get(acc).getActionID() == actionID) { listOfActions.remove(acc); }
+        while (acc < listOfAllActions.size()) {
+            if (listOfAllActions.get(acc).getActionID() == actionID) { listOfAllActions.remove(acc); }
             acc ++;
         }
     }
@@ -52,21 +68,21 @@ public class ActionManager {
     }
 
     // return the list that contain all ActionID in the listOfActions
-    public List<Integer> getAllActionID() {
+    public List<Integer> getAllActionID(ArrayList<Action> listOfAction) {
         List<Integer> allID = new ArrayList<>();
         // Used to track Action index in listOfActions
         int acc = 0;
         // find the index of action in the listOfActions
-        while (acc < listOfActions.size()) {
-            allID.add(listOfActions.get(acc).getActionID());
+        while (acc < listOfAction.size()) {
+            allID.add(listOfAction.get(acc).getActionID());
             acc ++;
         }
         return allID;
     }
 
-    // get the Action by actionID
+    // get the Action by actionID from list of Revocable Actions
     public Action findActionByID(int actionID) {
-        for (Action action: listOfActions) {
+        for (Action action: listOfAllActions) {
             if (action.getActionID() == actionID) {return action;}
         }
         return null;

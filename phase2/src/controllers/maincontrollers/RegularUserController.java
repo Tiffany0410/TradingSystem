@@ -132,7 +132,7 @@ public class RegularUserController implements Controllable {
         ArrayList<Item> allItems = im.getAllItem();
         switch (subMenuOption) {
             case 1:
-                amc.browseBooks(im.getAllTradableItems());
+                amc.browseItems(im.getAllTradableItems());
                 break;
             case 2:
                 amc.addToWishList(allItems, asGuest);

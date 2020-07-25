@@ -205,51 +205,100 @@ public class DisplaySystem {
      */
     public void printHistoricalActions(ArrayList<Action> listOfAction) {
         for (Action action: listOfAction) {
+            String userType = action.getUserType();
             String menuOption = action.getMenuOption();
-            switch (menuOption) {
-                // 1.2: Add to own Wish List
-                case "1.2":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " Add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
-                    break;
-                // 1.4: Remove from own Wish List
-                case "1.4":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " Remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
-                    break;
-                // 1.5: Remove from own Inventory
-                case "1.5":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " Remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
-                    break;
-                // 1.7: Request to add item to your inventory
-                case "1.7":
-                    this.printOut("Action #" + action.getActionID() + ": User #"+ action.getActionOwnerID()
-                            + " request to add Item #" + action.getAdjustableInt() + "\n");
-                    break;
-                // 2.1: Request a trade
-                case "2.1":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " request a trade" + "\n");
-                    break;
-                // 2.5: Confirm that a trade has been completed
-                case "2.5":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " confirm that a trade has been completed" + "\n");
-                    break;
-                // 3.2: Confirm time and place for meetings
-                case "3.2":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " confirm time and place for meetings" + "\n");
-                    break;
-                // 3.3: Confirm the meeting took place
-                case "3.3":
-                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
-                            + " confirm the meeting took place" + "\n");
-                    break;
+            switch (userType) {
+                case "regularUser":
+                    switch (menuOption) {
+                        // 1.1: Browse all tradable items in the system
+                        case "1.1":
+                            this.printOut(helper_regular_action_prefix(action) + "browse all tradable items in the system");
+                            break;
+                        // 1.2: Add to own Wish List
+                        case "1.2":
+                            this.printOut(helper_regular_action_prefix(action) + "add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
+                            break;
+                        // 1.3: Search item
+                        case "1.3":
+                            this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
+                            break;
+                        // 1.4: Remove from own Wish List
+                        case "1.4":
+                            this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
+                            break;
+                        // 1.5: Remove from own Inventory
+                        case "1.5":
+                            this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
+                            break;
+                        // 1.6: Request to unfreeze account
+                        case "1.6":
+                            this.printOut(helper_regular_action_prefix(action) + "request to unfreeze account" + "\n");
+                            break;
+                        // 1.7: Request to add item to your inventory
+                        case "1.7":
+                            this.printOut(helper_regular_action_prefix(action) + "request to add Item #" + action.getAdjustableInt() + "\n");
+                            break;
+                        // 1.8: See most recent three items traded
+                        case "1.8":
+                            this.printOut(helper_regular_action_prefix(action) + "check most recent three items traded" + "\n");
+                            break;
+                        // 1.9: View your wishlist and inventory
+                        case "1.9":
+                            this.printOut(helper_regular_action_prefix(action) + "view own wishlist and inventory" + "\n");
+                            break;
+                        // 1.10: Set your on-vacation status
+                        case "1.10":
+                            this.printOut(helper_regular_action_prefix(action) + "set own on-vacation status into " + action.getAdjustableStr() + "\n");
+                            break;
+                        // 1.11: Change tradable status for an inventory item
+                        case "1.11":
+                            this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
+                                    + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
+                            break;
+                        // 2.1: Request a trade
+                        case "2.1":
+                            this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
+                            break;
+                        //
+                        //
+                        //
+                        //
+                        //
+                        // 2.5: Confirm that a trade has been completed
+                        case "2.5":
+                            this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
+                            break;
+                        // 3.2: Confirm time and place for meetings
+                        case "3.2":
+                            this.printOut(helper_regular_action_prefix(action) + "confirm time and place for meetings" + "\n");
+                            break;
+                        // 3.3: Confirm the meeting took place
+                        case "3.3":
+                            this.printOut(helper_regular_action_prefix(action) + "confirm the meeting took place" + "\n");
+                            break;
+            }
+                case "adminUser":
+                    switch (menuOption) {
+                        case "1.1":
+                            break;
+                        case "1.2":
+                            break;
+                        case "1.3":
+                            break;
+                    }
+
             }
         }
 
+    }
+
+
+    private String helper_regular_action_prefix(Action action) {
+        return "Action #" + action.getActionID() + ": RegularUser #" + action.getActionOwnerID() + " ";
+    }
+
+    private String helper_admin_action_prefix(Action action) {
+        return "Action #" + action.getActionID() + ": AdminrUser #" + action.getActionOwnerID() + " ";
     }
 
     /**
