@@ -132,6 +132,6 @@ public class AdminUserManagerUsersController {
             case "3.3":
                 break;
 
+        }
     }
-
 }
