@@ -4,6 +4,7 @@ import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -29,6 +30,7 @@ public class TradingSystem {
    private MeetingManager meetingManager;
    private LoginValidator loginValidator;
    private AccountCreator accountCreator;
+   private ActionManager actionManager;
    private FilesReaderWriter frw;
    private RegularUserThresholdController tc;
    private SystemMessage sm;
@@ -41,13 +43,15 @@ public class TradingSystem {
     */
    public TradingSystem(UserManager userManager, MeetingManager meetingManager, LoginValidator loginValidator,
                         TradeManager tradeManager, DisplaySystem displaySystem,
-                        AccountCreator accountCreator, ItemManager itemManager, FeedbackManager feedbackManager) {
+                        AccountCreator accountCreator, ItemManager itemManager, ActionManager actionManager,
+                        FeedbackManager feedbackManager) {
       this.userManager = userManager;
       this.displaySystem = displaySystem;
       this.meetingManager = meetingManager;
       this.loginValidator = loginValidator;
       this.tradeManager = tradeManager;
       this.accountCreator = accountCreator;
+      this.actionManager = actionManager;
       this.sm = new SystemMessage();
       this.itemManager = itemManager;
       this.frw = new FilesReaderWriter();
@@ -60,7 +64,7 @@ public class TradingSystem {
     *
     * @return false when user exit trading system, true when user not exit the system
     */
-   public boolean tradingSystemInital() throws IOException, ClassNotFoundException {
+   public boolean tradingSystemInital() throws IOException{
       displaySystem.printOut("Welcome to the trading system");
       displaySystem.printOut(" ");
 
@@ -106,7 +110,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void login() throws IOException, ClassNotFoundException {
+   private void login() throws IOException {
       String userName;
       String userPassword;
 
@@ -156,7 +160,7 @@ public class TradingSystem {
 
    private void regularUserMain(String userName, boolean asGuest) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
-              this.tradeManager, this.meetingManager, this.userManager, this.itemManager,
+              this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.actionManager,
               userName, asGuest);
 
       if (!asGuest) {
