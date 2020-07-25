@@ -41,6 +41,9 @@ public class User implements Serializable {
         this.onVacation = false;
         friend = new ArrayList<>();
         friendRequests = new ArrayList<>();
+        followers = new ArrayList<>();
+        userFollowed = new ArrayList<>();
+        itemFollowed = new ArrayList<>();
 
     }
     /**
