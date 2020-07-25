@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Store all the actions done by regularUser and adminUser
+ * Store all the actions which can be cancelled
  * @author Chengle Yang
  * @version IntelliJ IDEA 2020.1
  */
