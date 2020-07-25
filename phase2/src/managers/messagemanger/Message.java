@@ -1,5 +1,7 @@
 package managers.messagemanger;
 
+import java.util.ArrayList;
+
 public class Message {
     //basic
     private Integer senderId;
@@ -46,4 +48,8 @@ public class Message {
         return message;
     }
 
+
 }
+
+
+

@@ -18,9 +18,12 @@ public class User implements Serializable {
     //friends related
     private ArrayList<Integer> friend;
     private ArrayList<String[]> friendRequests;
-    //vacation related
+    //Vacation related
     private String homeCity;
     private boolean onVacation;
+    //Follow
+    private ArrayList<Integer> followers;
+    private ArrayList<Integer> followings;
 
     /**
      * Construct an User.
@@ -117,4 +120,53 @@ public class User implements Serializable {
     public void removeFromFriends(Integer id) {
         friend.remove(id);
     }
+
+
+    /**
+     * Get the list of user's Followers.
+     * @return A list of this user's Followers.
+     */
+
+    public ArrayList<Integer> getFollowers() {
+        return followers;
+    }
+    /**
+     * Add a follower to the user's  Followers list by id
+     * @param id the followers's id
+     */
+    public void addFollowers(Integer id) {
+        followers.add(id);
+    }
+    /**
+     * Remove a follower from the user's followers list by id
+     * @param id the followers's id
+     */
+    public void removeFollowers(Integer id) {
+        followers.remove(id);
+    }
+
+    /**
+     * Get the list of user's Followings.
+     * @return A list of users that this user Following.
+     */
+
+    public ArrayList<Integer> getFollowings() {
+        return followings;
+    }
+
+    /**
+     * Add a user to the user's Followings list by id
+     * @param id the Followings's id
+     */
+    public void follow(Integer id) {
+        followings.add(id);
+    }
+    /**
+     * Remove a user from the user's Followings list by id
+     * @param id the user id that this user want to unfollow
+     */
+    public void unfollow(Integer id) {
+        followings.remove(id);
+    }
+
 }
