@@ -1,17 +1,15 @@
 package controllers.regularusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
+import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
 import exception.InvalidIdException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +73,7 @@ public class RegularUserTradingMenuController {
     public void seeTopThreePartners() throws InvalidIdException {
         if (tm.getTradeHistory(userId).size() != 0){
             List<Integer> topThreeIDS= tm.topThreePartners(userId);
-            List<managers.usermanager.User> topThree = new ArrayList<>();
+            List<TradableUser> topThree = new ArrayList<>();
             for (int id : topThreeIDS) {
                 topThree.add(um.findUser(id));
                 ds.printResult(new ArrayList<>(topThree));

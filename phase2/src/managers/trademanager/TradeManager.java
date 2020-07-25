@@ -1,6 +1,6 @@
 package managers.trademanager;
 
-import managers.usermanager.User;
+import managers.usermanager.TradableUser;
 import exception.InvalidIdException;
 
 import java.io.Serializable;
@@ -390,7 +390,7 @@ public class TradeManager implements Serializable {
      * @return true if borrower numlent = num lendBeforeBorrow and borrower numlent >= borrower numborrowed, false if it
      * is two way trade and otherwise false.
      */
-    public boolean validateTrade(Trade trade, User borrower, int numLendBeforeBorrow) {
+    public boolean validateTrade(Trade trade, TradableUser borrower, int numLendBeforeBorrow) {
         if (!(trade.getIsOneWayTrade())) {
             //if two way trade
             return true;

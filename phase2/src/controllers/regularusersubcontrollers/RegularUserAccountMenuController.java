@@ -4,13 +4,12 @@ import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
-import managers.usermanager.User;
+import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
 import exception.InvalidIdException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class RegularUserAccountMenuController {
     public void viewWishListInventory(boolean asGuest) throws InvalidIdException{
         if (!asGuest) {
             // get user
-            User thisUser = um.findUser(userId);
+            TradableUser thisTradableUser = um.findUser(userId);
             // get user's wishlist and inventory
             ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
             ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);

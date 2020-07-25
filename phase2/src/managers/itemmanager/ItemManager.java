@@ -1,6 +1,5 @@
 package managers.itemmanager;
 import exception.InvalidIdException;
-import managers.usermanager.User;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;

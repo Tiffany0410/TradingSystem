@@ -5,9 +5,9 @@
 
     About:
 
-    This trading system will allow users to create a new account, login in and look for items to trade.
+    This trading system will allow tradableUsers to create a new account, login in and look for items to trade.
     Users can make a one-way trade, where they lend someone item or borrow an item.
-    Users can also make a two-way trade where both users borrow and lend an item.
+    Users can also make a two-way trade where both tradableUsers borrow and lend an item.
     Each trade can be permanent or temporary. With a permanent trade, only one meeting will be created
     where the user gives away an item or borrows an item permanently. With a temporary trade, two meetings
     will be created where the second exchange will happen exactly one month after the first meeting in the
@@ -55,13 +55,13 @@
 
         2. the max number of transactions that can be incomplete before the account is frozen
 
-        3. the number of books users must lend before users can borrow
+        3. the number of books tradableUsers must lend before tradableUsers can borrow
 
         4. the max edits per user for meeting’s date + time
 
 
     >>Key features of AdminUserOtherSubMenu
-        1.Add subsequent admin users:
+        1.Add subsequent admin tradableUsers:
         Create a new AdminUser by entering the username, password and email address.
         (the info of this new AdminUser will be saved into AdminUserUsernameAndPassword.csv
         and as part of UserManager be serialized into SerializedUserManager.ser)
@@ -84,8 +84,8 @@
 
 
     >>Key features of RegularUserAccountMenu
-        1.Browse all the items in other users inventories:
-        Prints a list of all the items in all the other users’ inventories.
+        1.Browse all the items in other tradableUsers inventories:
+        Prints a list of all the items in all the other tradableUsers’ inventories.
 
         2.Add to own Wish List
         Enter the id of the item you want to add. The item will be added to your wishlist if it is not already there.
@@ -116,7 +116,7 @@
     >>Key features of RegularUserTradingMenu:
         1.Request a trade:
         You can request a trade to another user, first step you need to choose what kind of trade you wanna do ( input 1 is one way trade and 2 is two way trade)
-        Next enter the user id(input user1/(borrower) id first and user2 next)
+        Next enter the user id(input tradableUser1/(borrower) id first and tradableUser2 next)
         Next enter the id of the item you want to trade.
 
         2.Respond to trade requests:
@@ -142,7 +142,7 @@
 
     >>Key features of RegularUserMeetingMenu:
 
-        The first meeting of the trade is created by the system automatically if both users agree to the trade.
+        The first meeting of the trade is created by the system automatically if both tradableUsers agree to the trade.
         The second meeting is created by the system if the trade is “Temporary”, and the first meeting is complete.
         The second meeting is one month after the first meeting and in the same location. Users can not edit and
         confirm the time and place for the second meeting, but they have to confirm the completeness of the meeting.
@@ -189,7 +189,7 @@
       and corresponds to one user: username, password, email
 
     - You can create a regular user by going to the main menu create account option.
-      See “RegularUserUsernameAndPassword.csv” for the users that already exist in the system and
+      See “RegularUserUsernameAndPassword.csv” for the tradableUsers that already exist in the system and
       for the username, password, and email information about the user you created
 
     - you can add an admin user to the system by logging in as an admin user (see “AdminUserUsernameAndPassword.csv”)
@@ -200,8 +200,8 @@
       user's account menu and then log in as an admin user and then add it in the manage user menu.
 
     - you can add an item to a regular user's wishlist by going to the add item to wishlist option. However,
-      I suggest you to browse the items in other users inventories first because adding an item to the wishlist
-      asks for that item's id. And if you browse the items in other users inventories first, when you're adding
+      I suggest you to browse the items in other tradableUsers inventories first because adding an item to the wishlist
+      asks for that item's id. And if you browse the items in other tradableUsers inventories first, when you're adding
       an item to your wishlist, you can easily scroll up to see the items (with their ids) that you can add.
 
     - A trade is created if you requested it successfully.
@@ -209,7 +209,7 @@
     - In some places of our program that asks for input(ex. associates with ids or other information), it will only stop
       until you enter the correct/valid input. We will improve on that for phase 2. But for now, please bear with it.
 
-    - Our system auto-freezes users but admin can still freeze / unfreeze users.
+    - Our system auto-freezes tradableUsers but admin can still freeze / unfreeze tradableUsers.
 
  Section 2:
 
@@ -224,7 +224,7 @@
  	  can also edit its time and place. Also, the trade status will be changed to "open". If the user disagrees
  	  to the trade, the trade is cancelled.
 
-    - You can see your user ID and username after you logged in. And in the browse other users inventory option,
+    - You can see your user ID and username after you logged in. And in the browse other tradableUsers inventory option,
       you can not only see the items and their IDs but also their owner IDs so you can use that when you
       request for a trade.
 
@@ -234,7 +234,7 @@
     - When you request for a trade in general, remember that the lender must have the item to be traded
       in his/her inventory and the borrower must have the item to traded in his/her wishlist.
 
-    - We serialize when we create new users/admin users and when user/admin user logs out. So, if you force
+    - We serialize when we create new tradableUsers/admin tradableUsers and when user/admin user logs out. So, if you force
       the program to stop, your progress will not be saved. So, you might want to immediately log out after you
       have done something major (ex. request for a trade) and then log in to proceed with the next functionality
       to test.
@@ -251,7 +251,7 @@
     - About the maxNumTransactionsAWeek threshold, we understood it as the max number of transactions a user can request a week,
       but if the limit is reached, the user can’t request nor accept any trade requests and can only make changes to ones already there.
 
-      This is to prevent users from getting strategies to go behind this and use our program for other purposes (ex. a business
+      This is to prevent tradableUsers from getting strategies to go behind this and use our program for other purposes (ex. a business
       can use this to arrange meetings between its customers).
 
       We keep track of the number of each user individually,

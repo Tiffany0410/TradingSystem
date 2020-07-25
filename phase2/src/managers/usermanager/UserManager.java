@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class UserManager implements Serializable {
 
-    private ArrayList<User> listUser;
-    private ArrayList<AdminUser> listAdmin;
+    private ArrayList<TradableUser> listTradableUser;
+    private ArrayList<User> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
     private HashMap<String, ArrayList<String[]>> listFriendRequest;
 
@@ -20,7 +20,7 @@ public class UserManager implements Serializable {
      * Constructs a UserManager with no Users or AdminUsers
      */
     public UserManager(){
-        this.listUser = new ArrayList<>();
+        this.listTradableUser = new ArrayList<>();
         this.listAdmin = new ArrayList<>();
         this.listUnfreezeRequest = new ArrayList<>();
         this.listFriendRequest = new HashMap<>();
@@ -28,11 +28,11 @@ public class UserManager implements Serializable {
 
     /**
      * Constructs a UserManager with the given Users and AdminUsers
-     * @param users The initial Users
+     * @param tradableUsers The initial Users
      * @param admins The initial AdminUsers
      */
-    public UserManager(ArrayList<User> users, ArrayList<AdminUser> admins){
-        this.listUser = users;
+    public UserManager(ArrayList<TradableUser> tradableUsers, ArrayList<User> admins){
+        this.listTradableUser = tradableUsers;
         this.listAdmin = admins;
         this.listUnfreezeRequest = new ArrayList<>();
         this.listFriendRequest = new HashMap<>();
@@ -42,8 +42,8 @@ public class UserManager implements Serializable {
      * Gets the list of User
      * @return List of User
      */
-    public ArrayList<User> getListUser() {
-        return listUser;
+    public ArrayList<TradableUser> getListTradableUser() {
+        return listTradableUser;
     }
 
     /**
@@ -83,7 +83,7 @@ public class UserManager implements Serializable {
      */
     public boolean freezeUser(String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             if (!person.getIfFrozen()){
                 person.setIfFrozen(true);
@@ -100,7 +100,7 @@ public class UserManager implements Serializable {
      */
     public boolean unfreezeUser(String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             if (person.getIfFrozen()){
                 person.setIfFrozen(false);
@@ -124,7 +124,7 @@ public class UserManager implements Serializable {
      * @return true if the user exists, false otherwise
      */
     public boolean checkUser(String username){
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             if (person.getUsername().equals(username)){
                 return true;
             }
@@ -139,11 +139,11 @@ public class UserManager implements Serializable {
      */
     public void addUser(String username, String password, String email){
         int userID;
-        if (listUser.size() != 0) {userID = listUser.size() + 1;}
+        if (listTradableUser.size() != 0) {userID = listTradableUser.size() + 1;}
         else {userID = 1;}
 
-        User toAdd = new User(username, password, email, userID);
-        this.listUser.add(toAdd);
+        TradableUser toAdd = new TradableUser(username, password, email, userID);
+        this.listTradableUser.add(toAdd);
     }
 
     /**
@@ -156,7 +156,7 @@ public class UserManager implements Serializable {
         int adminID;
         if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
         else {adminID = 1;}
-        AdminUser toAdd = new AdminUser(username, password, email, adminID);
+        User toAdd = new User(username, password, email, adminID);
         this.listAdmin.add(toAdd);
     }
 
@@ -168,7 +168,7 @@ public class UserManager implements Serializable {
      */
     public boolean removeItemWishlist(Integer itemID, String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             ArrayList<Integer> temp = person.getWishList();
             if (temp.contains(itemID)){
@@ -188,7 +188,7 @@ public class UserManager implements Serializable {
      */
     public boolean removeItemInventory(int itemID, String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             ArrayList<Integer> temp = person.getInventory();
             if (temp.contains(itemID)){
@@ -208,7 +208,7 @@ public class UserManager implements Serializable {
      */
     public boolean addItemWishlist(int itemID, String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             ArrayList<Integer> temp = person.getWishList();
             if (!temp.contains(itemID)){
@@ -229,7 +229,7 @@ public class UserManager implements Serializable {
     //TODO remove from listItemtoAdd somehow
     public boolean addItemInventory(int item, String username){
         boolean out = false;
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             ArrayList<Integer> temp = person.getInventory();
             if (!temp.contains(item)) {
@@ -247,7 +247,7 @@ public class UserManager implements Serializable {
      */
     public HashMap<String, String> userPasswords(){
         HashMap<String, String> out = new HashMap<>();
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             String name = person.getUsername();
             String pass = person.getPassword();
             out.put(name, pass);
@@ -261,7 +261,7 @@ public class UserManager implements Serializable {
      */
     public HashMap<String, String> adminPasswords(){
         HashMap<String, String> out = new HashMap<>();
-        for (AdminUser person: listAdmin){
+        for (User person: listAdmin){
             String name = person.getUsername();
             String pass = person.getPassword();
             out.put(name, pass);
@@ -274,9 +274,9 @@ public class UserManager implements Serializable {
      * @param username The username of the User being searched for
      * @return The User that is being searched for
      */
-    public User findUser(String username){
-        User out = null;
-        for (User person : listUser) {
+    public TradableUser findUser(String username){
+        TradableUser out = null;
+        for (TradableUser person : listTradableUser) {
             if (person.getUsername().equals(username)) {
                 out = person;
             }
@@ -289,9 +289,9 @@ public class UserManager implements Serializable {
      * @param ID The ID of the User being searched for
      * @return The User that is being searched for
      */
-    public User findUser(int ID){
-        User out = null;
-        for (User person : listUser) {
+    public TradableUser findUser(int ID){
+        TradableUser out = null;
+        for (TradableUser person : listTradableUser) {
             if (person.getId() == ID) {
                 out = person;
             }
@@ -306,12 +306,12 @@ public class UserManager implements Serializable {
      */
     public String idToUsername(int ID){
         String out = null;
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             if (person.getId() == ID){
                 out = person.getUsername();
             }
         }
-        for (AdminUser person: listAdmin){
+        for (User person: listAdmin){
             if (person.getId() == ID){
                 out = person.getUsername();
             }
@@ -326,12 +326,12 @@ public class UserManager implements Serializable {
      */
     public int usernameToID(String username){
         int out = 0;
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             if (person.getUsername().equals(username)){
                 out = person.getId();
             }
         }
-        for (AdminUser person: listAdmin){
+        for (User person: listAdmin){
             if (person.getUsername().equals(username)){
                 out = person.getId();
             }
@@ -347,7 +347,7 @@ public class UserManager implements Serializable {
     //TODO Refactor this or move to ItemManager
     public ArrayList<Integer> allItems(String username){
         ArrayList<Integer> out = new ArrayList<>();
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             if (!person.getUsername().equals(username)){
                 out.addAll(person.getInventory());
             }
@@ -380,7 +380,7 @@ public class UserManager implements Serializable {
      * @return true if the request was successful, false otherwise
      */
     public boolean requestUnfreeze(String username, String message){
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person == null){
             return false;
         }
@@ -405,33 +405,33 @@ public class UserManager implements Serializable {
      * @param itemId The id of the item to be removed.
      */
     public void removeItemFromUsers(int userId1, int userId2, int itemId) {
-        User user1 = findUser(userId1);
-        User user2 = findUser(userId2);
-        if (user1.getWishList().contains(itemId)) {
+        TradableUser tradableUser1 = findUser(userId1);
+        TradableUser tradableUser2 = findUser(userId2);
+        if (tradableUser1.getWishList().contains(itemId)) {
             //user1 = borrower
-            removeItemWishlist(itemId, user1.getUsername());
+            removeItemWishlist(itemId, tradableUser1.getUsername());
             // record the borrow
-            user1.addOneToNumBorrowed();
+            tradableUser1.addOneToNumBorrowed();
             //remove the item from user2's inventory
-            removeItemInventory(itemId, user2.getUsername());
+            removeItemInventory(itemId, tradableUser2.getUsername());
             // record the lend
-            user2.addOneToNumLent();
+            tradableUser2.addOneToNumLent();
         } else {
             //user2 = borrower
-            removeItemWishlist(itemId, user2.getUsername());
+            removeItemWishlist(itemId, tradableUser2.getUsername());
             // record the borrow
-            user2.addOneToNumBorrowed();
+            tradableUser2.addOneToNumBorrowed();
             //remove item from user1's inventory
-            removeItemInventory(itemId, user1.getUsername());
+            removeItemInventory(itemId, tradableUser1.getUsername());
             // record the lend
-            user1.addOneToNumLent();
+            tradableUser1.addOneToNumLent();
 
         }
     }
 
     //TODO Write Javadoc for all below
     public boolean getFrozenStatus(String username) {
-        for (User person : listUser){
+        for (TradableUser person : listTradableUser){
             if (person.getUsername().equals(username)) {
                 return person.getIfFrozen();
             }
@@ -440,7 +440,7 @@ public class UserManager implements Serializable {
     }
 
     public boolean getFrozenStatus(int userID) {
-        for (User person : listUser){
+        for (TradableUser person : listTradableUser){
             if (person.getId() == (userID)) {
                 return person.getIfFrozen();
             }
@@ -449,7 +449,7 @@ public class UserManager implements Serializable {
     }
 
     public ArrayList<Integer> getUserInventory(String username){
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             return person.getInventory();
         }
@@ -457,7 +457,7 @@ public class UserManager implements Serializable {
     }
 
     public ArrayList<Integer> getUserInventory(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             return person.getInventory();
         }
@@ -465,7 +465,7 @@ public class UserManager implements Serializable {
     }
 
     public ArrayList<Integer> getUserWishlist(String username){
-        User person = findUser(username);
+        TradableUser person = findUser(username);
         if (person != null){
             return person.getWishList();
         }
@@ -473,7 +473,7 @@ public class UserManager implements Serializable {
     }
 
     public ArrayList<Integer> getUserWishlist(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             return person.getWishList();
         }
@@ -481,7 +481,7 @@ public class UserManager implements Serializable {
     }
 
     public void setThreshold (int userID, String threshold, int change){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             switch (threshold){
                 case "TransactionLeftForTheWeek":
@@ -500,7 +500,7 @@ public class UserManager implements Serializable {
     }
 
     public int getThreshold (int userID, String threshold){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             switch (threshold){
                 case "TransactionLeftForTheWeek":
@@ -524,13 +524,13 @@ public class UserManager implements Serializable {
     }
 
     //TODO Not sure if this should return Integers or Users
-    public ArrayList<User> getFriends(int userID){
-        User person = findUser(userID);
-        ArrayList<User> out = new ArrayList<>();
+    public ArrayList<TradableUser> getFriends(int userID){
+        TradableUser person = findUser(userID);
+        ArrayList<TradableUser> out = new ArrayList<>();
         if (person != null){
             ArrayList<Integer> temp = person.getFriend();
             for (int num: temp){
-                User friend = findUser(num);
+                TradableUser friend = findUser(num);
                 if (friend != null){
                     out.add(friend);
                 }
@@ -567,8 +567,8 @@ public class UserManager implements Serializable {
 
     //TODO finish this when friends list is created
     public boolean addFriend(String user1, String user2){
-        User person1 = findUser(user1);
-        User person2 = findUser(user2);
+        TradableUser person1 = findUser(user1);
+        TradableUser person2 = findUser(user2);
         if (person1 != null && person2 != null){
             Integer id1 = usernameToID(user1);
             Integer id2 = usernameToID(user2);
@@ -581,8 +581,8 @@ public class UserManager implements Serializable {
 
     //TODO finish this when friends list is created
     public boolean removeFriend(String user1, String user2){
-        User person1 = findUser(user1);
-        User person2 = findUser(user2);
+        TradableUser person1 = findUser(user1);
+        TradableUser person2 = findUser(user2);
         if (person1 != null && person2 != null){
             Integer id1 = usernameToID(user1);
             Integer id2 = usernameToID(user2);
@@ -594,7 +594,7 @@ public class UserManager implements Serializable {
     }
 
     public boolean goOnVacation(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             if (person.getOnVacation()){
                 return false;
@@ -607,7 +607,7 @@ public class UserManager implements Serializable {
     }
 
     public boolean comeFromVacation(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if (person != null){
             if (!person.getOnVacation()){
                 return false;
@@ -619,13 +619,13 @@ public class UserManager implements Serializable {
         return false;
     }
 
-    public ArrayList<User> sameCity (int userID){
-        ArrayList<User> out = new ArrayList<>();
-        User homosapien = findUser(userID);
+    public ArrayList<TradableUser> sameCity (int userID){
+        ArrayList<TradableUser> out = new ArrayList<>();
+        TradableUser homosapien = findUser(userID);
         if (homosapien == null){
             return out;
         }
-        for (User person: listUser){
+        for (TradableUser person: listTradableUser){
             if (person.getHome().equals(homosapien.getHome())){
                 out.add(person);
             }
@@ -635,8 +635,8 @@ public class UserManager implements Serializable {
 
     public ArrayList<Integer> wantedItems (int wantUser, int haveUser){
         ArrayList<Integer> out = new ArrayList<>();
-        User person1 = findUser(wantUser);
-        User person2 = findUser(haveUser);
+        TradableUser person1 = findUser(wantUser);
+        TradableUser person2 = findUser(haveUser);
         if (person1 == null && person2 == null){
             return out;
         }
@@ -651,7 +651,7 @@ public class UserManager implements Serializable {
     }
 
     public String getHome(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if(person != null){
             return person.getHome();
         }
@@ -659,7 +659,7 @@ public class UserManager implements Serializable {
     }
 
     public void changeHome(int userID){
-        User person = findUser(userID);
+        TradableUser person = findUser(userID);
         if(person != null){
             person.setHome();
         }

@@ -1,6 +1,7 @@
 package controllers;
 
 import gateway.FilesReaderWriter;
+import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
@@ -38,7 +39,7 @@ public class AccountCreator {
         boolean out = false;
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
-        ArrayList<managers.usermanager.User> listPeople = um.getListUser();
+        ArrayList<TradableUser> listPeople = um.getListTradableUser();
 
         String username;
         String password;
