@@ -383,6 +383,21 @@ public class TradeManager implements Serializable {
         throw new InvalidIdException("Invalid Id");
     }
 
+    /** set user status
+     * @param tradeId trade id
+     * @param userId user id
+     * @param status status
+     * @throws InvalidIdException
+     */
+    public void setUserStatus(int tradeId, int userId, String status) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                t.setUserStatus(userId, status);
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
+
     /** Validate trade
      * @param trade trade we want to validate
      * @param borrower User borrower

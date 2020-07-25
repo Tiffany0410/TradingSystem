@@ -238,4 +238,11 @@ public class RegularUserAccountMenuController {
             sm.msgForNothing(ds);
         }
     }
+
+    /**
+     * Receive user's input of set his/her on-vacation status
+     * @param asGuest
+     */
+    public void setOnVacationStatus(boolean asGuest) {
+    }
 }

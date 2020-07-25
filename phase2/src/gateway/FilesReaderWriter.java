@@ -23,10 +23,8 @@ public class FilesReaderWriter implements Serializable {
     /**
      * Constructor of the FilesReaderWriter
      *
-     * @throws IOException            all possible input/output errors
-     * @throws ClassNotFoundException the specified class cannot be found
      */
-    public FilesReaderWriter() throws ClassNotFoundException, IOException {
+    public FilesReaderWriter() {
     }
 
 
@@ -199,57 +197,18 @@ public class FilesReaderWriter implements Serializable {
     }
 
     /**
-     * Read the various Managers from the file at path filePath.
+     * Read the Object from the file at path filePath.
      *
      * @param filePath    the path of the data file
-     * @param managerType the type of the Manager
      * @return return the manager which read from file
      * @throws IOException all possible input/output errors
      */
-    public Object readManagerFromFile(String filePath, String managerType)
+    public Object readManagerFromFile(String filePath)
             throws IOException, ClassNotFoundException {
         //check if the file at filePath exist or not
         File new_file = new File(filePath);
-        if (new_file.exists()) {
-            //check if the file is empty or not, if empty, return an new UserManager
-            if (helper_check_file_empty_or_not(filePath)) {
-                switch (managerType) {
-                    case "userManager":
-                        return new UserManager();
-                    case "meetingManger":
-                        return new MeetingManager();
-                    case "tradeManager":
-                        return new TradeManager();
-                    case "itemManager":
-                        return new ItemManager();
-                    case "feedbackManager":
-                        return new FeedbackManager();
-                }
-            }
-            switch (managerType) {
-                case "userManager":
-                    // read the object from the file and cast the object to UserManager by helper function
-                    UserManager usermanager = (UserManager) ser_reader_helper(filePath);
-                    return usermanager;
-                case "meetingManger":
-                    // read the object from the file and cast the object to MeetingManager by helper function
-                    MeetingManager meetingmanager = (MeetingManager) ser_reader_helper(filePath);
-                    return meetingmanager;
-                case "tradeManager":
-                    // read the object from the file and cast the object to TradeManager by helper function
-                    TradeManager trademanager = (TradeManager) ser_reader_helper(filePath);
-                    return trademanager;
-                case "itemManager":
-                    // read the object from the file and cast the object to ItemManager by helper function
-                    ItemManager itemManager = (ItemManager) ser_reader_helper(filePath);
-                    return itemManager;
-                case "feedbackManager":
-                    // read the object from the file and cast the object to FeedbackManager by helper function
-                    FeedbackManager feedbackManager = (FeedbackManager) ser_reader_helper(filePath);
-                    return feedbackManager;
-            }
+        if (new_file.exists()) { return ser_reader_helper(filePath);
         } else { throw new FileNotFoundException(); }
-        return null;
     }
 
 
@@ -314,7 +273,7 @@ public class FilesReaderWriter implements Serializable {
      * @return True if file is empty and False if file is not empty
      * @throws IOException all possible input/output errors
      */
-    private boolean helper_check_file_empty_or_not(String filePath) throws IOException {
+    public boolean check_file_empty_or_not(String filePath) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         return br.readLine() == null;
     }

@@ -39,7 +39,7 @@ public class AdminUserController implements Controllable {
      * @param um The current state of the UserManager.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds,
-                               UserManager um, ItemManager im) throws IOException, ClassNotFoundException {
+                               UserManager um, ItemManager im) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
