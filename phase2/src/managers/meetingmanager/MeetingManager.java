@@ -96,6 +96,39 @@ public class MeetingManager implements java.io.Serializable{
             }}return new Meeting(0,0,0,0);
     }
 
+    /** check if a meeting has id 0
+     * @param meeting the meeting of a trade
+     * @return true if the meeting id is not 0.
+     */
+    public Boolean checkMeeting(Meeting meeting){
+        return meeting.getTradeId()!=0;
+    }
+
+    /** confirm the time and place of the meeting by user.
+     * @param meeting the meeting for a trade
+     * @param userId the id of a user to confirm the meeting
+     * @param maxMeetingTimePlaceEdits the max number of times an user can edit the time and place.
+     * @return true if the user confirm the time and place successfully.
+     */
+    public Boolean confirmTimePlace(Meeting meeting, int userId, int maxMeetingTimePlaceEdits){
+        return meeting.setTimePlaceConfirm(userId, maxMeetingTimePlaceEdits);
+    }
+    /** edit the time and place of a meeting
+     * @param meeting the meeting of a trade
+     * @param userId the id for whom to edit the meeting time and place
+     * @param year the year for the meeting
+     * @param month the month for the meeting(from 1 to 12)
+     * @param day the date for the meeting
+     * @param hour the hour for the meeting(24 hours)
+     * @param min the minute for the meeting
+     * @param sec the second for the meeting
+     * @param maxMeetingTimePlaceEdits the max number of times that a user can edit the time and place.
+     * @return true if the change to the TimePlaceEdit happen
+     */
+    public boolean EditTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
+                                 String place, int maxMeetingTimePlaceEdits){
+        return meeting.setTimePlaceEdit(userId,year,month,day,hour,min,sec,place,maxMeetingTimePlaceEdits);
+    }
     /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
      * Permanent or is the second meeting, then close the trade. If the meeting is confirmed by both user, but the
      * trade is temporary and the meeting is the first meeting, then remains the trade open and create the second
