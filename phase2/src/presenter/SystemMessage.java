@@ -148,4 +148,17 @@ public class SystemMessage {
         ds.printOut("This menu is locked because you're frozen.");
     }
 
+
+    /**
+     * Prints the message for the user that tries
+     * to set the tradable status for an item that is
+     * already in the status that he/she is trying to
+     * set it in.
+     * @param ds The presenter that prints to screen.
+     * @param tradableStatus The current tradable status of the item.
+     */
+    public void msgNoNeedToSetTradableStatus(DisplaySystem ds, boolean tradableStatus){
+        ds.printOut("The tradable status for this item is already " + tradableStatus + ". ");
+    }
+
 }

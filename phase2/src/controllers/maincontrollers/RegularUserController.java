@@ -152,6 +152,8 @@ public class RegularUserController implements Controllable {
                 amc.viewWishListInventory(asGuest);
             case 10:
                 amc.setOnVacationStatus(asGuest);
+            case 11:
+                amc.setTradableStatusForItem(asGuest);
         }
     }
 

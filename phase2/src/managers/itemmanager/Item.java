@@ -111,6 +111,7 @@ public class Item implements Serializable {
      */
     public String toString(){
         return "This " + name + " with ID " + itemId + " is: " + description + ".\n" +
-                "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + ".";
+                "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + "."
+                + " Tradable = " + getTradable() + ". ";
     }
 }
