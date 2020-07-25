@@ -191,8 +191,8 @@ public class RegularUserTradingMenuController {
 
     private void respondResult(int tradeID, managers.trademanager.Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         String tradeStatus = otherInfoGetter.getAgreeOrNot();
-        //TODO
-        trade.setUserStatus(userId, tradeStatus);
+        // set user's status for the trade (agree / disagree)
+        tm.setUserStatus(tradeID, userId, tradeStatus);
         //remove items -- if agree
         if (tradeStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
@@ -263,7 +263,7 @@ public class RegularUserTradingMenuController {
             // get the validation from the item side
             ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
             // use all these to determine the result
-            requestResult(ok, trade, userId1, numLentBeforeBorrow);
+            requestResult(ok, trade, tradeID, userId1, numLentBeforeBorrow);
         }
     }
 
@@ -302,9 +302,9 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private void requestResult(boolean ok, Trade trade, int userId1, int numLendBeforeBorrow){
+    private void requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
-            requestSuccess(trade);
+            requestSuccess(trade, tradeId);
         }
         else {
             requestFail();
@@ -322,16 +322,13 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    private void requestSuccess(Trade trade) {
+    private void requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
         // add trade
         tm.addTrade(trade);
         // tell the user it's successful
         ds.printResult(true);
         // set status for the person who requested the trade
-        //TODO: a tm method that takes in trade id, user id, and status
-        // and sets the user status with that user id in the trade to the status param.
-        // search for setUserStatus and then F&R
-        trade.setUserStatus(userId, "Agree");
+        tm.setUserStatus(tradeId, userId, "Agree");
         // change the threshold value
         tc.changeNumTradesLeftForTheWeek();
     }
