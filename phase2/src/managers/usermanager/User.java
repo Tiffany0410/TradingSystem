@@ -23,7 +23,8 @@ public class User implements Serializable {
     private boolean onVacation;
     //Follow
     private ArrayList<Integer> followers;
-    private ArrayList<Integer> followings;
+    private ArrayList<Integer> userFollowed;
+    private ArrayList<Integer> itemFollowed;
 
     /**
      * Construct an User.
@@ -132,17 +133,17 @@ public class User implements Serializable {
     }
     /**
      * Add a follower to the user's  Followers list by id
-     * @param id the followers's id
+     * @param userId the followers's id
      */
-    public void addFollowers(Integer id) {
+    public void addFollowers(Integer userId) {
         followers.add(id);
     }
     /**
      * Remove a follower from the user's followers list by id
-     * @param id the followers's id
+     * @param userId the followers's id
      */
-    public void removeFollowers(Integer id) {
-        followers.remove(id);
+    public void removeFollowers(Integer userId) {
+        followers.remove(userId);
     }
 
     /**
@@ -150,23 +151,37 @@ public class User implements Serializable {
      * @return A list of users that this user Following.
      */
 
-    public ArrayList<Integer> getFollowings() {
-        return followings;
+    public ArrayList<Integer> getUserFollowed() {
+        return userFollowed;
     }
 
     /**
      * Add a user to the user's Followings list by id
-     * @param id the Followings's id
+     * @param userId the Followings's id
      */
-    public void follow(Integer id) {
-        followings.add(id);
+    public void followUser(Integer userId) {
+        userFollowed.add(userId);
     }
     /**
-     * Remove a user from the user's Followings list by id
-     * @param id the user id that this user want to unfollow
+     * Remove a item from the user's Followings list by id
+     * @param userId the item id that this user want to unfollow
      */
-    public void unfollow(Integer id) {
-        followings.remove(id);
+    public void unfollowUser(Integer userId) {
+        userFollowed.remove(userId);
     }
 
+    /**
+     * Add a item to the user's Followings list by id
+     * @param itemId the Followings's id
+     */
+    public void followItem(Integer itemId) {
+        itemFollowed.add(itemId);
+    }
+    /**
+     * Remove a item from the user's Followings list by id
+     * @param itemId the item id that this user want to unfollow
+     */
+    public void unfollowItem(Integer itemId) {
+        itemFollowed.remove(itemId);
+    }
 }
