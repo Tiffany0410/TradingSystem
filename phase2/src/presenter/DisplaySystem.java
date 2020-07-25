@@ -1,6 +1,9 @@
 package presenter;
 
 import gateway.FilesReaderWriter;
+import managers.actionmanager.Action;
+import managers.usermanager.TradableUser;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,6 +138,18 @@ public class DisplaySystem {
 
 
     /**
+     * Print out the list of username of the Regular Users
+     *
+     * @param listOfUser the list of Regular Users
+     */
+    public void printListUser(ArrayList<TradableUser> listOfUser) {
+        for (TradableUser user: listOfUser) {
+            this.printOut("#" + user.getId() + ". " + user.getUsername() + "\n");
+        }
+    }
+
+
+    /**
      * Print out the result of action with boolean type
      * @param result the result of user's operation
      */
@@ -182,6 +197,59 @@ public class DisplaySystem {
             printOut(str + " fails to be sent");
             printOut("\n");
         }
+    }
+
+
+    /**
+     * Print out all historical Action which can be cancelled
+     */
+    public void printHistoricalActions(ArrayList<Action> listOfAction) {
+        for (Action action: listOfAction) {
+            String menuOption = action.getMenuOption();
+            switch (menuOption) {
+                // 1.2: Add to own Wish List
+                case "1.2":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " Add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
+                    break;
+                // 1.4: Remove from own Wish List
+                case "1.4":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " Remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
+                    break;
+                // 1.5: Remove from own Inventory
+                case "1.5":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " Remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
+                    break;
+                // 1.7: Request to add item to your inventory
+                case "1.7":
+                    this.printOut("Action #" + action.getActionID() + ": User #"+ action.getActionOwnerID()
+                            + " request to add Item #" + action.getAdjustableInt() + "\n");
+                    break;
+                // 2.1: Request a trade
+                case "2.1":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " request a trade" + "\n");
+                    break;
+                // 2.5: Confirm that a trade has been completed
+                case "2.5":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " confirm that a trade has been completed" + "\n");
+                    break;
+                // 3.2: Confirm time and place for meetings
+                case "3.2":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " confirm time and place for meetings" + "\n");
+                    break;
+                // 3.3: Confirm the meeting took place
+                case "3.3":
+                    this.printOut("Action #" + action.getActionID() + ": User #" + action.getActionOwnerID()
+                            + " confirm the meeting took place" + "\n");
+                    break;
+            }
+        }
+
     }
 
     /**

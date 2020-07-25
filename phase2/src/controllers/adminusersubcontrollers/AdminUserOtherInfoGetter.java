@@ -1,5 +1,6 @@
 package controllers.adminusersubcontrollers;
 
+import managers.actionmanager.ActionManager;
 import presenter.DisplaySystem;
 
 import java.util.Scanner;
@@ -14,13 +15,15 @@ import java.util.Scanner;
 public class AdminUserOtherInfoGetter {
 
     private DisplaySystem ds;
+    private ActionManager am;
 
     /**
      * Constructs the AdminUserOtherInfoGetter with a DisplaySystem
      * @param ds The presenter class used to print to screen.
      */
-    public AdminUserOtherInfoGetter(DisplaySystem ds){
+    public AdminUserOtherInfoGetter(DisplaySystem ds, ActionManager am){
         this.ds = ds;
+        this.am = am;
     }
 
     /**
@@ -115,4 +118,34 @@ public class AdminUserOtherInfoGetter {
 
     }
 
+    /**
+     * Gets the ActionID from the admin user.
+     * @return The ActionID entered by admin user.
+     */
+    public int getActionID() {
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        int actionID = 0;
+        do{
+            ds.printOut("Enter the number of action that you want to cancel");
+            if(sc.hasNextInt()){
+                actionID = sc.nextInt();
+                if (am.getAllActionID().contains(actionID)) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper action number, please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        }while(!okInput);
+        return actionID;
+    }
 }

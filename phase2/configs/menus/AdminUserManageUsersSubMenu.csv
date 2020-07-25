@@ -1,4 +1,5 @@
 1.Freeze tradableUsers
 2.Unfreeze tradableUsers
-3.Confirm and add item to user’s inventory
+3.Confirm and add item to tradableUser’s inventory
+4.Cancel the historical action of tradableUser
 0.Exit menu

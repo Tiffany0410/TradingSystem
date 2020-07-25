@@ -1,8 +1,11 @@
 package controllers.maincontrollers;
 
 import controllers.AccountCreator;
+import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoGetter;
 import gateway.FilesReaderWriter;
+import managers.actionmanager.Action;
+import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.UserManager;
@@ -28,6 +31,8 @@ public class AdminUserController implements Controllable {
     private DisplaySystem ds;
     private UserManager um;
     private ItemManager im;
+    private ActionManager am;
+    private AdminUserManagerUsersController muc;
     private FilesReaderWriter frw;
 
     /**
@@ -35,16 +40,19 @@ public class AdminUserController implements Controllable {
      * FilesReadWriter, an UserManager, an ItemManager and an adminUserId.
      * @param ac The controller class used to create an account.
      * @param ds The presenter class used to print to screen.
-     * @param im The current state of the ItemManager
+     * @param im The current state of the ItemManager.
      * @param um The current state of the UserManager.
+     * @param am The current state of the ActionManager.
      */
-    public AdminUserController(AccountCreator ac, DisplaySystem ds,
-                               UserManager um, ItemManager im) {
+    public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, ActionManager am,
+                               AdminUserManagerUsersController muc) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
+        this.am = am;
+        this.muc = muc;
         this.sm = new SystemMessage();
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
@@ -80,61 +88,25 @@ public class AdminUserController implements Controllable {
         /*1. Freeze a user
           2. Unfreeze users
           3. Confirm and add item to user’s inventory
+          4. Cancel the historical action of tradableUser
          */
 
         switch (subMenuOption) {
             case 1:
-//              asks the admin for the username of the user TO FREEZE
-                ds.printOut("Please enter the username of the user to FREEZE");
-//              let presenter print the msg of successful or not
-                ds.printResult(um.freezeUser(ds.getUsername()));
+                muc.freezeUser();
                 break;
             case 2:
-                ds.printOut("Here's the list of user who request to be unfrozen:");
-                ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
-//              asks the admin for the username of the user to UNFREEZE
-                ds.printOut("Please enter the username of the user to UNFREEZE");
-//              let presenter print the msg of successful or not
-                ds.printResult(um.unfreezeUser(ds.getUsername()));
+                muc.unfreezeUser();
                 break;
             case 3:
-                ArrayList<Item> listItemToAdd = im.getListItemToAdd();
-                int len = listItemToAdd.size();
-                responseToToAddListSize(listItemToAdd, len);
+                muc.confirmInventoryAdd();
                 break;
+            case 4:
 
-
+                break;
         }
     }
 
-    // create another class and move them for phase 2
-    private void responseToToAddListSize(ArrayList<Item> listItemToAdd, int len) {
-        if (len != 0) {
-            // get the list of item to be added to inventories
-            ds.printResult(new ArrayList<>(listItemToAdd));
-            Item itemSelected = listItemToAdd.get(otherInfoGetter.getItem(len) - 1);
-            addOrNotAdd(itemSelected);
-            //either add or not add - need to remove from to-be-added list
-            //need a method to remove item from um's getListItemToAdd (***)
-            // item id = im.getIDFromItem(itemSelected).get(0)
-            im.removeFromListItemToAdd(im.getIDFromItem(itemSelected).get(0));
-        }
-        else{
-            // print systemMessage's there's nothing here method
-            sm.msgForNothing(ds);
-        }
-    }
-
-    private void addOrNotAdd(Item itemSelected) {
-        if (otherInfoGetter.getAddOrNot()) {
-            //if add
-            im.addItemToAllItemsList(itemSelected);
-            // item id = im.getIDFromItem(itemSelected).get(0)
-            ds.printResult(um.addItemInventory(im.getIDFromItem(itemSelected).get(0), um.idToUsername(itemSelected.getOwnerId())));
-        } else {
-            ds.printResult(true);
-        }
-    }
 
     private void adminEditThresholdMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws IOException {
         /*
