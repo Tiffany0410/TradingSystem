@@ -164,18 +164,12 @@ public class RegularUserTradingMenuController {
                 int itemid22 = 0;
                 // if it's one-way-trade
                 // only need borrower id, lender id, and the item id
-//              TODO: tm need to have a method such that when given the trade id and the index,
-//              TODO: it can return the right id
-//              TODO: replace trade.getIds()
-                int userId11 = trade.getIds().get(1);
-                int userId22 = trade.getIds().get(2);
-                int itemId11 = trade.getIds().get(3);
-//              TODO: tm need to have a method such that when given the trade id
-//              TODO: it can return whether it's one way or two way trade
-//              TODO: replace trade.getIsOneWayTrade()
-                if (!trade.getIsOneWayTrade()) {
+                int userId11 = tm.getId(tradeID, 1);
+                int userId22 = tm.getId(tradeID, 2);
+                int itemId11 = tm.getId(tradeID, 3);
+                if (!tm.checkOneWayTrade(tradeID)) {
                     // two-way-trade - need one more item id
-                    itemid22 = trade.getIds().get(4);
+                    itemid22 = tm.getId(tradeID, 4);
                 }
                 // the result of the response
                 respondResult(tradeID, trade, itemid22, userId11, userId22, itemId11);
@@ -197,15 +191,14 @@ public class RegularUserTradingMenuController {
 
     private void respondResult(int tradeID, managers.trademanager.Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         String tradeStatus = otherInfoGetter.getAgreeOrNot();
+        //TODO
         trade.setUserStatus(userId, tradeStatus);
         //remove items -- if agree
         if (tradeStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
         } else {
-//          TODO: need a tm method that cancels the trade with the given trade id
-//          TODO: replace trade.cancelTrade()
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
-            trade.cancelTrade();
+            tm.cancelTrade(tradeID);
         }
         ds.printResult("Your response to this trade request", true);
     }
@@ -213,15 +206,13 @@ public class RegularUserTradingMenuController {
     private void respondAgree(int tradeID, managers.trademanager.Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
-        if (!trade.getIsOneWayTrade()) {
+        if (!tm.checkOneWayTrade(tradeID)) {
             // remove + record the borrowing/lending
             um.removeItemFromUsers(userId11, userId22, itemid22);
         }
         // change the status to open
         // so it won't be among the list of trade requests again
-//      TODO: need a tm method that opens the trade with the given trade id
-//      TODO: replace trade.openTrade()
-        trade.openTrade();
+        tm.openTrade(tradeID);
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
 
@@ -337,6 +328,9 @@ public class RegularUserTradingMenuController {
         // tell the user it's successful
         ds.printResult(true);
         // set status for the person who requested the trade
+        //TODO: a tm method that takes in trade id, user id, and status
+        // and sets the user status with that user id in the trade to the status param.
+        // search for setUserStatus and then F&R
         trade.setUserStatus(userId, "Agree");
         // change the threshold value
         tc.changeNumTradesLeftForTheWeek();
