@@ -1,6 +1,7 @@
 package bookTradeSystem;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * An instance of this class represents an item in the system.
@@ -15,6 +16,7 @@ public class Item implements Serializable {
     private int itemId;
     private int ownerId;
     private int currHolderId;
+    private ArrayList<Integer> followers;
 
     /** Constructor of item.
      * Set this name with name, set this description with description, set this ownerId with ownerId, set this
@@ -29,6 +31,7 @@ public class Item implements Serializable {
         this.ownerId = ownerId;
         currHolderId = ownerId;
         this.itemId = itemID;
+        followers = new ArrayList<>();
     }
 
     /** Get the name of this item
@@ -80,6 +83,14 @@ public class Item implements Serializable {
         return currHolderId;
     }
 
+    /**
+     * Get the list of users that follow this item.
+     * @return A list of  users that follow this item.
+     */
+
+    public ArrayList<Integer> getFollowers() {
+        return followers;
+    }
     /** Set the current holder's ID of this item
      * @param currHolderId The current holder's ID of this item
      */
