@@ -46,18 +46,36 @@ public class DemoManager {
             try {
                 // Create all use classes
                 FilesReaderWriter frw = new FilesReaderWriter();
-                UserManager userManager = (UserManager)
-                        frw.readManagerFromFile(serializedUserManagerFilePath, "userManager");
-                MeetingManager meetingManager = (MeetingManager)
-                        frw.readManagerFromFile(serializedMeetingManagerFilePath, "meetingManager");
-                TradeManager tradeManager = (TradeManager)
-                        frw.readManagerFromFile(serializedTradeManagerFilePath, "tradeManager");
-                ItemManager itemManager = (ItemManager)
-                        frw.readManagerFromFile(serializedItemManagerFilePath, "itemManager");
-                FeedbackManager feedbackManager = (FeedbackManager)
-                        frw.readManagerFromFile(serializedFeedbackManagerFilePath, "feedbackManager");
-                DisplaySystem displaySystem = new DisplaySystem();
-                AccountCreator accountCreator = new AccountCreator(userManager, displaySystem);
+                // Create the new UserManager or Read it from file
+                UserManager um;
+                if (frw.check_file_empty_or_not(serializedUserManagerFilePath)) { um = new UserManager();}
+                else { um = (UserManager) frw.readManagerFromFile(serializedUserManagerFilePath);}
+
+                // Create the new MeetingManager or Read it from file
+                MeetingManager mm;
+                if (frw.check_file_empty_or_not(serializedMeetingManagerFilePath)) { mm = new MeetingManager();}
+                else {mm = (MeetingManager) frw.readManagerFromFile(serializedMeetingManagerFilePath);}
+
+                // Create the new TradeManager or Read it from file
+                TradeManager tm;
+                if (frw.check_file_empty_or_not(serializedTradeManagerFilePath)) {tm = new TradeManager();}
+                else {tm = (TradeManager) frw.readManagerFromFile(serializedTradeManagerFilePath);}
+
+                // Create the new ItemManager or Read it from file
+                ItemManager im;
+                if (frw.check_file_empty_or_not(serializedItemManagerFilePath)) {im = new ItemManager();}
+                else {im = (ItemManager) frw.readManagerFromFile(serializedItemManagerFilePath);}
+
+                // Create the new FeedbackManager or Read it from file
+                FeedbackManager fm;
+                if (frw.check_file_empty_or_not(serializedFeedbackManagerFilePath)) {fm = new FeedbackManager();}
+                else {fm = (FeedbackManager) frw.readManagerFromFile(serializedFeedbackManagerFilePath);}
+
+                // Create the new DisplaySystem
+                DisplaySystem ds = new DisplaySystem();
+
+                //Create the new AccountCreator
+                AccountCreator ac = new AccountCreator(um, ds);
 
                 // Load accounts data from CSV file to initial login validator
                 Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
@@ -65,8 +83,7 @@ public class DemoManager {
                 LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
                 // Create trading system
-                TradingSystem tradingSystem = new TradingSystem(userManager, meetingManager, loginValidator,
-                        tradeManager, displaySystem, accountCreator, itemManager, feedbackManager);
+                TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
 
                 // Run trading system
                 condition = tradingSystem.tradingSystemInital();
