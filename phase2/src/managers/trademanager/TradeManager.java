@@ -327,6 +327,12 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+
+    /** check if a trade is one way trade
+     * @param tradeId trade id
+     * @return true if it is one way trade, other wise false
+     * @throws InvalidIdException
+     */
     public boolean checkOneWayTrade(int tradeId) throws InvalidIdException{
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
@@ -335,6 +341,11 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+
+    /** Change a trade status to cancel
+     * @param tradeId trade id
+     * @throws InvalidIdException
+     */
     public void cancelTrade(int tradeId) throws InvalidIdException{
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
@@ -343,6 +354,11 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+
+    /** Change a trade status to open
+     * @param tradeId trade id
+     * @throws InvalidIdException
+     */
     public void openTrade(int tradeId) throws InvalidIdException{
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
@@ -351,6 +367,13 @@ public class TradeManager implements Serializable {
         }
         throw new InvalidIdException("Invalid Id");
     }
+
+    /** return id we want to find
+     * @param tradeId trade id
+     * @param index index of id
+     * @return id
+     * @throws InvalidIdException
+     */
     public int getId(int tradeId, int index) throws InvalidIdException{
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
