@@ -658,10 +658,10 @@ public class UserManager implements Serializable {
         return "";
     }
 
-    public void changeHome(int userID){
+    public void changeHome(int userID, String newHome){
         TradableUser person = findUser(userID);
         if(person != null){
-            person.setHome();
+            person.setHome(newHome);
         }
     }
 }

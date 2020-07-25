@@ -45,16 +45,6 @@ public class RegularUserOtherInfoGetter {
         this.userId = userId;
     }
 
-    /**
-     * Gets the name of the item from the user.
-     * @return The name of the item.
-     */
-    public String getItemName() {
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the name of the item: ");
-        return sc.nextLine();
-    }
-
 
     /**
      * Gets user's message, which can be in any length.
@@ -116,18 +106,34 @@ public class RegularUserOtherInfoGetter {
         return response;
     }
 
+    /**
+     * Gets the name of the item from the user.
+     * @return The name of the item.
+     */
+    public String getItemName() {
+        return getName("item name");
+    }
 
     /**
      * Gets user's input of the place.
      * @return User's input of the place.
      */
     public String getPlace(){
+       return getName("place");
+    }
+
+    /**
+     * Gets user's input of the home city.
+     * @return User's input of the home city.
+     */
+    public String getHomeCity(){
+        return getName("home city");
+    }
+
+    private String getName(String type){
         Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the name of the place: ");
-        String place;
-        //read the first line
-        place = sc.nextLine();
-        return place;
+        ds.printOut("Please enter the name of the + " + type + ": ");
+        return sc.nextLine();
     }
 
     /**

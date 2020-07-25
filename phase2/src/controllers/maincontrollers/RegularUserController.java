@@ -154,6 +154,10 @@ public class RegularUserController implements Controllable {
                 amc.setOnVacationStatus(asGuest);
             case 11:
                 amc.setTradableStatusForItem(asGuest);
+            case 12:
+                amc.seeUsersInSameHC(asGuest);
+            case 13:
+                amc.changeUserHC(asGuest);
         }
     }
 

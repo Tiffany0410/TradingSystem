@@ -256,6 +256,7 @@ public class RegularUserAccountMenuController {
                 um.comeFromVacation(userId);
                 im.setTradable(um.getUserInventory(userId), true);
             }
+            ds.printResult(true);
         }
         else{
             sm.msgForGuest(ds);
@@ -267,7 +268,7 @@ public class RegularUserAccountMenuController {
      * Let the presenter print the tradable status for each of
      * inventory items of the user and let the user change the
      * tradable status for an item.
-     * @param asGuest he determiner of access to this menu option.
+     * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is invalid.
      */
     public void setTradableStatusForItem(boolean asGuest) throws InvalidIdException{
@@ -292,21 +293,40 @@ public class RegularUserAccountMenuController {
 
     private void setTradableBasedOnResponse(ArrayList<Integer> itemIDs, int optionN) throws InvalidIdException {
         if (optionN == 1){
-            if (im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(ds, true);
-            }
-            else{
-                im.setTradable(itemIDs, true);
-            }
+            if (im.getTradable(itemIDs.get(0))) { sm.msgNoNeedToSetTradableStatus(ds, true); }
+            else{ im.setTradable(itemIDs, true); ds.printResult(true);}
         }
         else{
-            if (!im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(ds, false);
-            }
-            else{
-                im.setTradable(itemIDs, false);
-            }
+            if (!im.getTradable(itemIDs.get(0))) { sm.msgNoNeedToSetTradableStatus(ds, false); }
+            else{ im.setTradable(itemIDs, false); ds.printResult(true);}
         }
     }
 
+    /**
+     * Let the presenter print a list of users in the same
+     * city as this user.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void seeUsersInSameHC(boolean asGuest) {
+        if (!asGuest) {
+            //get user's home city
+            String homeCity = um.getHome(userId);
+            // print all users in the same city as this user.
+            ds.printResult(new ArrayList<>(um.sameCity(userId)));
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
+    }
+
+    /**
+     * Get user's input of the new home city and then
+     * change user's home city.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void changeUserHC(boolean asGuest) {
+        String newHC = otherInfoGetter.getHomeCity();
+        um.changeHome(userId, newHC);
+        ds.printResult(true);
+    }
 }
