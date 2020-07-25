@@ -122,11 +122,10 @@ public class RegularUserController implements Controllable {
         8.See most recent three items traded (add) (assume ok)
         0.Exit menu
          */
-        // For now ---> all items
         ArrayList<Item> allItems = im.getAllItem();
         switch (subMenuOption) {
             case 1:
-                amc.browseBooks(allItems);
+                amc.browseBooks(im.getAllTradableItems());
                 break;
             case 2:
                 amc.addToWishList(allItems, asGuest);

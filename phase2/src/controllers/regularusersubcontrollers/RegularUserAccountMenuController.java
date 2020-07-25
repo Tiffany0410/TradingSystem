@@ -170,7 +170,7 @@ public class RegularUserAccountMenuController {
      * an appropriate message will be printed.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void removeFromInventory(boolean asGuest) {
+    public void removeFromInventory(boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
             ArrayList<Integer> userInventoryIDs = um.getUserInventory(userId);
             ArrayList<Item> userInventory = im.getItemsByIds(userInventoryIDs);
@@ -211,7 +211,7 @@ public class RegularUserAccountMenuController {
      * Gets the item name from the user and let the user manager search for it
      * in the system.
      */
-    public void searchItem() {
+    public void searchItem() throws InvalidIdException {
         // print all the items being searched for
         String name = otherInfoGetter.getItemName();
         // get the items in the system that match the name
@@ -225,13 +225,13 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print the items that should be displayed
+     * Let the presenter print all the tradable items in the system
      * for the user to browse through.
      * @param allOtherItems The items that will be displayed to the user.
      */
     public void browseBooks(ArrayList<Item> allOtherItems) {
         if (allOtherItems.size() != 0) {
-            // print items in all users inventory except this user
+            // print all items that are tradable
             ds.printResult(new ArrayList<>(allOtherItems));
         }
         else{
@@ -245,14 +245,13 @@ public class RegularUserAccountMenuController {
      */
     public void setOnVacationStatus(boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
-            ArrayList<Item> inventory = im.getItemsByIds(um.getUserInventory(userId));
             // get user's response and set the status likewise
             if (otherInfoGetter.getNumKindOfResponse("set to true", "set to false") == 1) {
                 um.goOnVacation(userId);
-                //pass the list to im’s method to set all these items tradable status to false
+                im.setTradable(um.getUserInventory(userId), false);
             } else {
                 um.comeFromVacation(userId);
-                //pass the list to im’s method to set all these items tradable status to true
+                im.setTradable(um.getUserInventory(userId), true);
             }
         }
         else{
