@@ -1,5 +1,8 @@
 package managers.usermanager;
 
+import managers.itemmanager.Item;
+import managers.trademanager.Trade;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -641,7 +644,7 @@ public class UserManager implements Serializable {
         ArrayList<Integer> out = new ArrayList<>();
         TradableUser person1 = findUser(wantUser);
         TradableUser person2 = findUser(haveUser);
-        if (person1 == null && person2 == null){
+        if (person1 == null || person2 == null){
             return out;
         }
         ArrayList<Integer> wantList = person1.getWishList();
@@ -667,5 +670,33 @@ public class UserManager implements Serializable {
         if(person != null){
             person.setHome(newHome);
         }
+    }
+
+    //TODO Add observable
+    public boolean userFollow(int userID, int toFollow){
+        TradableUser person = findUser(userID);
+        TradableUser following = findUser(userID);
+        if (person == null || following == null){
+            return false;
+        }
+        if (person.getFollowers().contains(toFollow)){
+            return false;
+        }
+        person.followUser(toFollow);
+        following.addFollowers(userID);
+        return true;
+    }
+
+    //TODO Add observable
+    public boolean itemFollow(int userID, int toFollow){
+        TradableUser person = findUser(userID);
+        if (person == null){
+            return false;
+        }
+        if (person.getItemFollowed().contains(toFollow)){
+            return false;
+        }
+        person.followItem(toFollow);
+        return true;
     }
 }
