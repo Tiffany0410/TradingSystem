@@ -103,15 +103,25 @@ public class RegularUserController implements Controllable {
                 }
                 break;
             case 2:
+                // if user is frozen
                 if (um.getFrozenStatus(userId)){
                     sm.lockMessageForFrozen(ds);}
+                // if user's on vacation
+                else if (um.getInfo(userId, "Vacation") == 1){
+                    sm.lockMessageForVacation(ds);
+                }
                 else{
                     userTradingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
                 break;
             case 3:
+                // if user is frozen
                 if (um.getFrozenStatus(userId)){
                     sm.lockMessageForFrozen(ds);}
+                // if user's on vacation
+                else if (um.getInfo(userId, "Vacation") == 1){
+                    sm.lockMessageForVacation(ds);
+                }
                 else{
                     userMeetingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }

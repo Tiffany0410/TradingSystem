@@ -161,4 +161,8 @@ public class SystemMessage {
         ds.printOut("The tradable status for this item is already " + tradableStatus + ". ");
     }
 
+    public void lockMessageForVacation(DisplaySystem ds) {
+        ds.printOut("Because you're on vacation, you can't be involved in trade/meeting.");
+        ds.printOut("If you're back from vacation, please change your on-vacation status in the Account Menu.");
+    }
 }
