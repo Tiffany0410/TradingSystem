@@ -172,7 +172,7 @@ public class AdminUserController implements Controllable {
         if (subMenuOption == 1){
             ds.printResult(this.ac.createAccount("Admin"));
             int newUserID = um.getListAdminUser().get(-1).getId();
-            am.addActionToListAllActions(userId, "adminUser", "4.1", newUserID, "")
+            am.addActionToListAllActions(userId, "adminUser", "4.1", newUserID, "");
         }
 
     }

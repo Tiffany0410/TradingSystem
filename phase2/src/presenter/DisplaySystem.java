@@ -405,11 +405,11 @@ public class DisplaySystem {
                 break;
             // 1.2: Unfreeze tradableUsers
             case 2:
-
+                this.printOut(helper_admin_action_prefix(action) + "unfreeze tradableUser #" + action.getAdjustableInt() + "\n");
                 break;
             // 1.3: Confirm and add item to tradableUser’s inventory
             case 3:
-
+                this.printOut(helper_admin_action_prefix(action) + "confirm and add item #" + action.getAdjustableInt() + " into inventory of User " + action.getAdjustableStr() + "\n");
                 break;
         }
     }
@@ -418,19 +418,19 @@ public class DisplaySystem {
             switch (subMenuOption) {
                 // 2.1: Edit the max number of transactions allowed a week
                 case 1:
-
+                    this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions allowed a week> into " + action.getAdjustableInt() + "\n");
                     break;
                 // 2.2: Edit the max number of transactions that can be incomplete before the account is frozen
                 case 2:
-
+                    this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions that can be incomplete before the account is frozen> into " + action.getAdjustableInt() + "\n");
                     break;
                 // 2.3: Edit the number of books tradableUsers must lend before tradableUsers can borrow
                 case 3:
-
+                    this.printOut(helper_admin_action_prefix(action) + "edit <the number of books tradableUsers must lend before tradableUsers can borrow> into " + action.getAdjustableInt() + "\n");
                     break;
                 // 2.4: Edit the max Edits per user for meeting’s date + time
                 case 4:
-
+                    this.printOut(helper_admin_action_prefix(action) + "edit <the max Edits per user for meeting’s date + time> into " + action.getAdjustableInt() + "\n");
                     break;}
     }
 
