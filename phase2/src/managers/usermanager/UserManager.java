@@ -50,6 +50,15 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Gets the list of AdminUser
+     * @return List of Adminser
+     */
+    public ArrayList<User> getListAdminUser() {
+        return listAdmin;
+    }
+
+
+    /**
      * Get the list of usernames and messages of User that request to be unfrozen
      * @return The list of usernames and messages
      */

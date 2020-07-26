@@ -1,19 +1,17 @@
 package controllers.maincontrollers;
 
 import controllers.AccountCreator;
+import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoGetter;
 import gateway.FilesReaderWriter;
-import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
-import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +31,9 @@ public class AdminUserController implements Controllable {
     private ItemManager im;
     private ActionManager am;
     private AdminUserManagerUsersController muc;
+    private AdminUserHistoricalActionController hac;
     private FilesReaderWriter frw;
+    private int userId;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
@@ -43,9 +43,11 @@ public class AdminUserController implements Controllable {
      * @param im The current state of the ItemManager.
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
+     * @param username The username of the Admin user.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, ActionManager am,
-                               AdminUserManagerUsersController muc) {
+                               AdminUserManagerUsersController muc, AdminUserHistoricalActionController hac,
+                               String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
@@ -53,8 +55,10 @@ public class AdminUserController implements Controllable {
         this.im = im;
         this.am = am;
         this.muc = muc;
+        this.hac = hac;
+        this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
-        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
+        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am);
     }
 
 
@@ -77,7 +81,7 @@ public class AdminUserController implements Controllable {
                 adminEditThresholdMenuResponse(subMenuOption, thresholdValuesFilePath);
                 break;
             case 3:
-
+                adminUserActionResponse(subMenuOption);
                 break;
             case 4:
                 adminOthersMenuResponse(subMenuOption);
@@ -117,28 +121,55 @@ public class AdminUserController implements Controllable {
         List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         switch (subMenuOption) {
             case 1:
-                sm.msgForThresholdValue(thresholdValues.get(0),ds);
+                int currentValue1 = thresholdValues.get(0);
+                sm.msgForThresholdValue(currentValue1, ds);
+                int futureValue1 = otherInfoGetter.getThresholdAns();
                 // editMaxNumTransactionsAllowedAWeek
-                thresholdValues.set(0, otherInfoGetter.getThresholdAns());
+                thresholdValues.set(0, futureValue1);
+                am.addActionToListAllActions(this.userId, "adminUser", "2.1", currentValue1, String.valueOf(futureValue1));
                 break;
             case 2:
-                sm.msgForThresholdValue(thresholdValues.get(1),ds);
+                int currentValue2 = thresholdValues.get(1);
+                sm.msgForThresholdValue(currentValue2,ds);
+                int futureValue2 = otherInfoGetter.getThresholdAns();
                 // editMaxNumTransactionIncomplete
-                thresholdValues.set(1, otherInfoGetter.getThresholdAns());
+                thresholdValues.set(1, futureValue2);
+                am.addActionToListAllActions(this.userId, "adminUser", "2.2", currentValue2, String.valueOf(futureValue2));
                 break;
             case 3:
-                sm.msgForThresholdValue(thresholdValues.get(2),ds);
+                int currentValue3 = thresholdValues.get(2);
+                sm.msgForThresholdValue(currentValue3,ds);
+                int futureValue3 = otherInfoGetter.getThresholdAns();
                 // editNumLendBeforeBorrow
-                thresholdValues.set(2, otherInfoGetter.getThresholdAns());
+                thresholdValues.set(2, futureValue3);
+                am.addActionToListAllActions(this.userId, "adminUser", "2.3", currentValue3, String.valueOf(futureValue3));
                 break;
             case 4:
-                sm.msgForThresholdValue(thresholdValues.get(3),ds);
+                int currentValue4 = thresholdValues.get(3);
+                sm.msgForThresholdValue(currentValue4,ds);
+                int futureValue4 = otherInfoGetter.getThresholdAns();
                 //editMaxMeetingDateTimeEdits
-                thresholdValues.set(3, otherInfoGetter.getThresholdAns());
+                thresholdValues.set(3, futureValue4);
+                am.addActionToListAllActions(this.userId, "adminUser", "2.4", currentValue4, String.valueOf(futureValue4));
                 break;
         }
         frw.saveThresholdValuesToCSVFile(thresholdValues, thresholdValuesFilePath);
         ds.printResult(true);
+    }
+
+    private void adminUserActionResponse(int subMenuOption) {
+        /*
+        1.List all the historical actions in the system
+        2.Cancel the revocable historical actions of tradableUser
+         */
+        switch (subMenuOption) {
+            case 1:
+                hac.printOutAllHistorialAction();
+                break;
+            case 2:
+                hac.cancelRevocableAction();
+                break;
+        }
     }
 
     private void adminOthersMenuResponse(int subMenuOption) throws IOException {
@@ -147,6 +178,8 @@ public class AdminUserController implements Controllable {
          */
         if (subMenuOption == 1){
             ds.printResult(this.ac.createAccount("Admin"));
+            int newUserID = um.getListAdminUser().get(-1).getId();
+            am.addActionToListAllActions(userId, "adminUser", "4.1", newUserID, "");
         }
 
     }

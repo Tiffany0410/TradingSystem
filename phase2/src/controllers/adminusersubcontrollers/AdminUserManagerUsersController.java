@@ -2,7 +2,6 @@ package controllers.adminusersubcontrollers;
 
 import controllers.AccountCreator;
 import gateway.FilesReaderWriter;
-import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter.
  *
- * @author Yu Xin Yan, Chengle Yang
+ * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserManagerUsersController {
@@ -28,17 +27,20 @@ public class AdminUserManagerUsersController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private String username;
+    private int userID;
     private FilesReaderWriter frw;
 
     // constructor
-    public AdminUserManagerUsersController(AccountCreator ac, DisplaySystem ds,
-                                           UserManager um, ItemManager im, ActionManager am) {
+    public AdminUserManagerUsersController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im,
+                                           ActionManager am, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
+        this.userID = um.usernameToID(username);
         this.sm = new SystemMessage();
     }
 
@@ -48,8 +50,15 @@ public class AdminUserManagerUsersController {
         ds.printListUser(um.getListTradableUser());
         // Asks the admin for the username of the user TO FREEZE
         ds.printOut("Please enter the username of the user to FREEZE");
+        // Record the username, userID and if successfully freeze user
+        String regularUsername = ds.getUsername();
+        int regularUserID = um.usernameToID(regularUsername);
+        boolean freezeOrNot = um.freezeUser(regularUsername);
         // let presenter print the msg of successful or not
-        ds.printResult(um.freezeUser(ds.getUsername()));
+        ds.printResult(freezeOrNot);
+        if (freezeOrNot) {
+            am.addActionToListAllActions(this.userID, "adminUser", "1.1", regularUserID, regularUsername);
+        }
     }
 
     public void unfreezeUser() {
@@ -57,8 +66,15 @@ public class AdminUserManagerUsersController {
         ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
         //asks the admin for the username of the user to UNFREEZE
         ds.printOut("Please enter the username of the user to UNFREEZE");
+        // Record the username, userID and if successfully freeze user
+        String regularUsername = ds.getUsername();
+        int regularUserID = um.usernameToID(regularUsername);
+        boolean unfreezeOrNot = um.unfreezeUser(regularUsername);
         //let presenter print the msg of successful or not
-        ds.printResult(um.unfreezeUser(ds.getUsername()));
+        ds.printResult(unfreezeOrNot);
+        if (unfreezeOrNot) {
+            am.addActionToListAllActions(this.userID, "adminUser", "1.2", regularUserID, regularUsername);
+        }
     }
 
     public void confirmInventoryAdd() {
@@ -89,49 +105,13 @@ public class AdminUserManagerUsersController {
         if (otherInfoGetter.getAddOrNot()) {
             //if add
             im.addItemToAllItemsList(itemSelected);
-            // item id = im.getIDFromItem(itemSelected).get(0)
-            ds.printResult(um.addItemInventory(im.getIDFromItem(itemSelected).get(0), um.idToUsername(itemSelected.getOwnerId())));
+            int itemId = im.getIDFromItem(itemSelected).get(0);
+            int itemOwnerId = itemSelected.getOwnerId();
+            ds.printResult(um.addItemInventory(itemId, um.idToUsername(itemOwnerId)));
+            am.addActionToListAllActions(this.userID, "adminUser", "1.3", itemId, String.valueOf(itemOwnerId));
         } else {
             ds.printResult(true);
         }
     }
 
-    public void cancelHistoricalAction() {
-        // Print all the Historical Actions which can be cancelled
-        ds.printOut("Here are all the Historical Actions which can be cancelled");
-        ds.printHistoricalActions(am.getListOfActions());
-        helper_cancelHistoricalAction(otherInfoGetter.getActionID());
-    }
-
-    private void helper_cancelHistoricalAction(int actionID) {
-        Action targetAction = am.findActionByID(actionID);
-        String menuOption = targetAction.getMenuOption();
-        switch (menuOption) {
-            // 1.2: Add to own Wish List
-            case "1.2":
-                break;
-            // 1.4: Remove from own Wish List
-            case "1.4":
-                break;
-            // 1.5: Remove from own Inventory
-            case "1.5":
-                break;
-            // 1.7: Request to add item to your inventory
-            case "1.7":
-                break;
-            // 2.1: Request a trade
-            case "2.1":
-                break;
-            // 2.5: Confirm that a trade has been completed
-            case "2.5":
-                break;
-            // 3.2: Confirm time and place for meetings
-            case "3.2":
-                break;
-            // 3.3: Confirm the meeting took place
-            case "3.3":
-                break;
-
-        }
-    }
 }

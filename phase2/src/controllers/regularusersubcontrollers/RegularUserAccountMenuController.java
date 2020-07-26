@@ -13,6 +13,7 @@ import exception.InvalidIdException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * An instance of this class represents the communication system between the regular user,
@@ -38,15 +39,16 @@ public class RegularUserAccountMenuController {
     /**
      * Constructs a RegularUserAccountMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
-     * the regular user's username and userId.
+     * an ActionManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
+     * @param am       The current state of the AccountManager.
      * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
+     * @param userId   The user id of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
                                             ItemManager im, ActionManager am, String username, int userId) {
@@ -97,7 +99,7 @@ public class RegularUserAccountMenuController {
      * @param allOtherItems The potential items user can add to his/her wish list.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void addToWishList(ArrayList<Item> allOtherItems, boolean asGuest) throws InvalidIdException {
+    public void addToWishList(ArrayList<Item> allOtherItems, boolean asGuest) {
         if (!asGuest) {
             // add the id to user's wishlist
             if (allOtherItems.size() != 0) {
@@ -292,7 +294,7 @@ public class RegularUserAccountMenuController {
      * Let the presenter print the tradable status for each of
      * inventory items of the user and let the user change the
      * tradable status for an item.
-     * @param asGuest he determiner of access to this menu option.
+     * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is invalid.
      */
     public void setTradableStatusForItem(boolean asGuest) throws InvalidIdException{
@@ -338,4 +340,75 @@ public class RegularUserAccountMenuController {
         }
     }
 
-}
+    /**
+     * Let the presenter print a list of users in the same
+     * city as this user.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void seeUsersInSameHC(boolean asGuest) {
+        if (!asGuest) {
+            // print all users in the same city as this user.
+            ds.printResult(new ArrayList<>(um.sameCity(userId)));
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
+    }
+
+    /**
+     * Get user's input of the new home city and then
+     * change user's home city.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void changeUserHC(boolean asGuest) {
+        if (!asGuest) {
+            String newHC = otherInfoGetter.getHomeCity();
+            um.changeHome(userId, newHC);
+            ds.printResult(true);
+        }
+        else{
+            sm.msgForGuest(ds);
+        }
+    }
+
+
+    /**
+     * Let presenter print the items this user
+     * can lend to a given user. The random number
+     * part is Based on code by Bill the Lizard from:
+     * @link https://stackoverflow.com/questions/363681
+     * /how-do-i-generate-random-integers-within-a-specific-range-in-java
+     * @param asGuest The determiner of access to this menu option.
+     * @throws InvalidIdException In case the id is invalid.
+     *
+     */
+    public void suggestItemToLend(boolean asGuest) throws InvalidIdException {
+        if (!asGuest) {
+            Random r = new Random();
+            //Asks the user for the user id of the user this user wants to lend to
+            int lendToUserId = idGetter.getUserID("user you want to lend item(s) to");
+            //Calls um’s method with the user id of the person who wants to lend(2) and
+            // of the person to lend to(1) and the method returns the item that (2) can lend to (1) in return
+            ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
+            //use ds to print the list of actual items (converted using im’s method)
+            if (itemsCanLend.size() != 0) {
+                ds.printOut("Below are suggestions of items you can lend to that user: \\n");
+                ds.printResult(new ArrayList<>(im.getItemsByIds(um.wantedItems(lendToUserId, userId))));
+            }
+            // If the list is empty -- return an appropriate message + print a random one
+            else {
+                ds.printOut("No good suggestions available... \\n");
+                int range = um.getUserInventory(userId).size() + 1;
+                int randInt = r.nextInt(range);
+                ds.printOut("Here's a randomly generated one:");
+                itemsCanLend.add(um.getUserInventory(userId).get(randInt));
+                ds.printResult(new ArrayList<>(im.getItemsByIds(itemsCanLend)));
+            }
+
+        } else {
+            sm.msgForGuest(ds);
+        }
+
+    }
+
+    }
