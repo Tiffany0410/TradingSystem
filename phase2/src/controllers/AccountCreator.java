@@ -44,20 +44,21 @@ public class AccountCreator {
         String username;
         String password;
         String email;
+        String home;
 
 
         username = ds.getUsername();
         password = ds.getPassword();
         email = ds.getEmail();
-        //home = ds.gethomecity
+        home = "";//ds.gethomecity();
 
         if (username.toLowerCase().equals("guest")){
             return out;
         }
-        //TODO add home city when all User and ds have implemented
+        //TODO get home city from ds
         if (type.equals("Regular")) {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
-                um.addUser(username, password, email);
+                um.addUser(username, password, email, home);
                 out = true;
                 //Write the UserManger into ser file in order to save the data
                 frw.saveManagerToFile(um, "./src/managers/usermanager/SerializedUserManager.ser");

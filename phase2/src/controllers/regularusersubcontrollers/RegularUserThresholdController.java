@@ -73,7 +73,7 @@ public class RegularUserThresholdController {
         /*
         Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
          */
-        int currentVal = um.getThreshold(userId, "TransactionLeftForTheWeek");
+        int currentVal = um.getInfo(userId, "TransactionLeftForTheWeek");
         // deduct the number of transactions left by one
         um.setThreshold(userId, "TransactionLeftForTheWeek", currentVal-1);
     }
@@ -95,7 +95,7 @@ public class RegularUserThresholdController {
      * @return Whether the user is frozen or not.
      */
     public boolean freezeUserOrNot(int maxNumTransactionIncomplete){
-        int numFrozen = um.getThreshold(userId, "NumFrozen");
+        int numFrozen = um.getInfo(userId, "NumFrozen");
         // find the num of uncompleted transactions
         int numUncompletedTransactions = numUncompletedTransactions();
         // if user went over the threshold

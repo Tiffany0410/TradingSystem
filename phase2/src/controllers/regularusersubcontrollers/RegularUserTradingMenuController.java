@@ -136,7 +136,7 @@ public class RegularUserTradingMenuController {
      * @throws InvalidIdException In case the id is invalid.
      */
     public void respondToTradeRequests(int maxNumTransactionsAWeek) throws InvalidIdException{
-        if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0) {
+        if (um.getInfo(userId, "TransactionLeftForTheWeek") == 0) {
             // the case with user reaching the max number of transactions for the week
             // .get(0)
             sm.lockMessageForThreshold(ds, maxNumTransactionsAWeek);
@@ -226,7 +226,7 @@ public class RegularUserTradingMenuController {
      */
     public void requestTrade(int maxNumTransactionsAWeek, int numLentBeforeBorrow) throws InvalidIdException {
         // if the user has no more transactions left
-        if (um.getThreshold(userId, "TransactionLeftForTheWeek") == 0){
+        if (um.getInfo(userId, "TransactionLeftForTheWeek") == 0){
             // the case with user reaching the max number of transactions for the week
             sm.lockMessageForThreshold(ds, maxNumTransactionsAWeek);
         }
@@ -314,7 +314,7 @@ public class RegularUserTradingMenuController {
         ds.printResult(false);
         // system auto-freeze
         // user borrow more than lend
-        if (um.getThreshold(username, "NumBorrowed") > um.getThreshold(username, "NumLent")){
+        if (um.getInfo(username, "NumBorrowed") > um.getInfo(username, "NumLent")){
             um.freezeUser(username);
             ds.printOut("You're frozen because you borrowed more than you lend.");
         }

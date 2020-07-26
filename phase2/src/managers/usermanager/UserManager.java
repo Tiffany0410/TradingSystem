@@ -137,12 +137,13 @@ public class UserManager implements Serializable {
      * @param password Password of the new User
      * @param email Email of the new AdminUser
      */
-    public void addUser(String username, String password, String email){
+    public void addUser(String username, String password, String email, String home){
         int userID;
         if (listTradableUser.size() != 0) {userID = listTradableUser.size() + 1;}
         else {userID = 1;}
 
         TradableUser toAdd = new TradableUser(username, password, email, userID);
+        toAdd.setHome(home);
         this.listTradableUser.add(toAdd);
     }
 
@@ -499,7 +500,7 @@ public class UserManager implements Serializable {
         setThreshold(num, threshold, change);
     }
 
-    public int getThreshold (int userID, String threshold){
+    public int getInfo(int userID, String threshold){
         TradableUser person = findUser(userID);
         if (person != null){
             switch (threshold){
@@ -512,15 +513,20 @@ public class UserManager implements Serializable {
                 case "NumBorrowed":
                     return person.getNumBorrowed();
                 case "Vacation":
-                    return person.getOnVacation();
+                    boolean convert = person.getOnVacation();
+                    if (convert){
+                        return 1;
+                    } else {
+                        return 0;
+                    }
             }
         }
         return -1;
     }
 
-    public int getThreshold (String username, String threshold){
+    public int getInfo(String username, String threshold){
         int num = usernameToID(username);
-        return getThreshold(num, threshold);
+        return getInfo(num, threshold);
     }
 
     //TODO Not sure if this should return Integers or Users
@@ -565,7 +571,6 @@ public class UserManager implements Serializable {
         return out;
     }
 
-    //TODO finish this when friends list is created
     public boolean addFriend(String user1, String user2){
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
@@ -579,7 +584,6 @@ public class UserManager implements Serializable {
         return false;
     }
 
-    //TODO finish this when friends list is created
     public boolean removeFriend(String user1, String user2){
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
