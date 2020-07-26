@@ -48,7 +48,7 @@ public class RegularUserAccountMenuController {
      * @param im       The current state of the ItemManager.
      * @param am       The current state of the AccountManager.
      * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
+     * @param userId   The user id of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
                                             ItemManager im, ActionManager am, String username, int userId) {
@@ -294,7 +294,7 @@ public class RegularUserAccountMenuController {
      * Let the presenter print the tradable status for each of
      * inventory items of the user and let the user change the
      * tradable status for an item.
-     * @param asGuest he determiner of access to this menu option.
+     * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is invalid.
      */
     public void setTradableStatusForItem(boolean asGuest) throws InvalidIdException{
