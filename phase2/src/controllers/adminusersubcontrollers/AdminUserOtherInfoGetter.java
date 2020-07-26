@@ -20,6 +20,7 @@ public class AdminUserOtherInfoGetter {
     /**
      * Constructs the AdminUserOtherInfoGetter with a DisplaySystem
      * @param ds The presenter class used to print to screen.
+     * @param am The use case class ActionManager which used to record all action
      */
     public AdminUserOtherInfoGetter(DisplaySystem ds, ActionManager am){
         this.ds = ds;
@@ -135,7 +136,7 @@ public class AdminUserOtherInfoGetter {
             ds.printOut("Enter the number of action that you want to cancel");
             if(sc.hasNextInt()){
                 actionID = sc.nextInt();
-                if (am.getAllActionID().contains(actionID)) {
+                if (am.getAllActionID(am.getListOfRevocableActions()).contains(actionID)) {
                     okInput = true;
                 }
                 else{

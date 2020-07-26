@@ -27,17 +27,20 @@ public class AdminUserManagerUsersController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private String username;
+    private int userID;
     private FilesReaderWriter frw;
 
     // constructor
-    public AdminUserManagerUsersController(AccountCreator ac, DisplaySystem ds,
-                                           UserManager um, ItemManager im, ActionManager am) {
+    public AdminUserManagerUsersController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im,
+                                           ActionManager am, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
+        this.userID = um.usernameToID(username);
         this.sm = new SystemMessage();
     }
 
@@ -47,8 +50,15 @@ public class AdminUserManagerUsersController {
         ds.printListUser(um.getListTradableUser());
         // Asks the admin for the username of the user TO FREEZE
         ds.printOut("Please enter the username of the user to FREEZE");
+        // Record the username, userID and if successfully freeze user
+        String regularUsername = ds.getUsername();
+        int regularUserID = um.usernameToID(regularUsername);
+        boolean freezeOrNot = um.freezeUser(regularUsername);
         // let presenter print the msg of successful or not
-        ds.printResult(um.freezeUser(ds.getUsername()));
+        ds.printResult(freezeOrNot);
+        if (freezeOrNot) {
+            am.addActionToListAllActions(this.userID, "adminUser", "1.1", regularUserID, regularUsername);
+        }
     }
 
     public void unfreezeUser() {
@@ -56,8 +66,15 @@ public class AdminUserManagerUsersController {
         ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
         //asks the admin for the username of the user to UNFREEZE
         ds.printOut("Please enter the username of the user to UNFREEZE");
+        // Record the username, userID and if successfully freeze user
+        String regularUsername = ds.getUsername();
+        int regularUserID = um.usernameToID(regularUsername);
+        boolean unfreezeOrNot = um.unfreezeUser(regularUsername);
         //let presenter print the msg of successful or not
-        ds.printResult(um.unfreezeUser(ds.getUsername()));
+        ds.printResult(unfreezeOrNot);
+        if (unfreezeOrNot) {
+            am.addActionToListAllActions(this.userID, "adminUser", "1.2", regularUserID, regularUsername);
+        }
     }
 
     public void confirmInventoryAdd() {
@@ -88,8 +105,10 @@ public class AdminUserManagerUsersController {
         if (otherInfoGetter.getAddOrNot()) {
             //if add
             im.addItemToAllItemsList(itemSelected);
-            // item id = im.getIDFromItem(itemSelected).get(0)
-            ds.printResult(um.addItemInventory(im.getIDFromItem(itemSelected).get(0), um.idToUsername(itemSelected.getOwnerId())));
+            int itemId = im.getIDFromItem(itemSelected).get(0);
+            int itemOwnerId = itemSelected.getOwnerId();
+            ds.printResult(um.addItemInventory(itemId, um.idToUsername(itemOwnerId)));
+            am.addActionToListAllActions(this.userID, "adminUser", "1.3", itemId, String.valueOf(itemOwnerId));
         } else {
             ds.printResult(true);
         }

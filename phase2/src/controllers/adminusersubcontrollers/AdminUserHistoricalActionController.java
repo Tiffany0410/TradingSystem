@@ -13,7 +13,7 @@ import presenter.SystemMessage;
 import java.util.ArrayList;
 import managers.actionmanager.Action;
 
-public class AdminUserActionController {
+public class AdminUserHistoricalActionController {
 
     private AdminUserOtherInfoGetter otherInfoGetter;
     private SystemMessage sm;
@@ -22,26 +22,27 @@ public class AdminUserActionController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private String username;
+    private Integer userId;
     private FilesReaderWriter frw;
 
     // Constructor
-    public AdminUserActionController(AccountCreator ac, DisplaySystem ds,
-                                     UserManager um, ItemManager im, ActionManager am) {
+    public AdminUserHistoricalActionController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, 
+                                               ActionManager am, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
+        this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
-    }}
-
-
-
+    }
 
 
     public void printOutAllHistorialAction() {
-
+        ds.printHistoricalActions(am.getListOfAllActions());
+        am.addActionToListAllActions(userId, "adminUser", "3.1", 0, "");
     }
 
     public void cancelRevocableAction() {
@@ -49,6 +50,15 @@ public class AdminUserActionController {
         ds.printOut("Here are all the Historical Actions which can be cancelled");
         ds.printHistoricalActions(am.getListOfAllActions());
         helper_cancelHistoricalAction(otherInfoGetter.getActionID());
+        
+        //TODO: interact with admin user,
+        // 1)provide am.addActionToListRevocableActions();
+        // 2)get the number select by adminuser
+        // 3)call method in AdminUserActionController
+        // 4)return success if undo the action
+
+        int actionID = 0;
+        am.addActionToListAllActions(userId, "adminUser", "3.2", actionID, "");
     }
 
     private void helper_cancelHistoricalAction(int actionID) {
@@ -81,4 +91,5 @@ public class AdminUserActionController {
                 break;
 
         }
+    }
 }
