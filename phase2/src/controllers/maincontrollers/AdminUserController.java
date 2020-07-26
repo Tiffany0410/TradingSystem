@@ -34,6 +34,7 @@ public class AdminUserController implements Controllable {
     private ActionManager am;
     private AdminUserManagerUsersController muc;
     private FilesReaderWriter frw;
+    private int userId;
 
     /**
      * Constructs the AdminUserController with a AccountCreator, DisplaySystem,
@@ -43,9 +44,10 @@ public class AdminUserController implements Controllable {
      * @param im The current state of the ItemManager.
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
+     * @param username The username of the Admin user.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, ActionManager am,
-                               AdminUserManagerUsersController muc) {
+                               AdminUserManagerUsersController muc, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
@@ -53,6 +55,7 @@ public class AdminUserController implements Controllable {
         this.im = im;
         this.am = am;
         this.muc = muc;
+        this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds);
     }
@@ -77,7 +80,7 @@ public class AdminUserController implements Controllable {
                 adminEditThresholdMenuResponse(subMenuOption, thresholdValuesFilePath);
                 break;
             case 3:
-
+                adminUserActionResponse(subMenuOption);
                 break;
             case 4:
                 adminOthersMenuResponse(subMenuOption);
@@ -141,12 +144,35 @@ public class AdminUserController implements Controllable {
         ds.printResult(true);
     }
 
+    private void adminUserActionResponse(int subMenuOption) {
+        /*
+        1.List all the historical actions in the system
+        2.Cancel the revocable historical actions of tradableUser
+         */
+        if (subMenuOption == 1) {
+            ds.printHistoricalActions(am.getListOfAllActions());
+            am.addActionToListAllActions(userId, "adminUser", "3.1", 0, "");
+        }
+        else {
+            //TODO: interact with admin user,
+            // 1)provide am.addActionToListRevocableActions();
+            // 2)get the number select by adminuser
+            // 3)call method in AdminUserActionController
+            // 4)return success if undo the action
+
+            int actionID;
+            am.addActionToListAllActions(userId, "adminUser", "3.2", actionID, "");
+        }
+    }
+
     private void adminOthersMenuResponse(int subMenuOption) throws IOException {
         /*
         1. Add subsequent admin users
          */
         if (subMenuOption == 1){
             ds.printResult(this.ac.createAccount("Admin"));
+            int newUserID = um.getListAdminUser().get(-1).getId();
+            am.addActionToListAllActions(userId, "adminUser", "4.1", newUserID, "")
         }
 
     }

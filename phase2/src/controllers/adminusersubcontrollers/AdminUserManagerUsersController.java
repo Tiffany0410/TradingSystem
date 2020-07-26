@@ -2,7 +2,6 @@ package controllers.adminusersubcontrollers;
 
 import controllers.AccountCreator;
 import gateway.FilesReaderWriter;
-import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter.
  *
- * @author Yu Xin Yan, Chengle Yang
+ * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserManagerUsersController {
@@ -96,42 +95,4 @@ public class AdminUserManagerUsersController {
         }
     }
 
-    public void cancelHistoricalAction() {
-        // Print all the Historical Actions which can be cancelled
-        ds.printOut("Here are all the Historical Actions which can be cancelled");
-        ds.printHistoricalActions(am.getListOfActions());
-        helper_cancelHistoricalAction(otherInfoGetter.getActionID());
-    }
-
-    private void helper_cancelHistoricalAction(int actionID) {
-        Action targetAction = am.findActionByID(actionID);
-        String menuOption = targetAction.getMenuOption();
-        switch (menuOption) {
-            // 1.2: Add to own Wish List
-            case "1.2":
-                break;
-            // 1.4: Remove from own Wish List
-            case "1.4":
-                break;
-            // 1.5: Remove from own Inventory
-            case "1.5":
-                break;
-            // 1.7: Request to add item to your inventory
-            case "1.7":
-                break;
-            // 2.1: Request a trade
-            case "2.1":
-                break;
-            // 2.5: Confirm that a trade has been completed
-            case "2.5":
-                break;
-            // 3.2: Confirm time and place for meetings
-            case "3.2":
-                break;
-            // 3.3: Confirm the meeting took place
-            case "3.3":
-                break;
-
-        }
-    }
 }

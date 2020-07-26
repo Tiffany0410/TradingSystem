@@ -397,20 +397,71 @@ public class DisplaySystem {
         }
     }
 
-    private void adminUserManageUsersAction(Action action, int subMenuOption) { }
+    private void adminUserManageUsersAction(Action action, int subMenuOption) {
+        switch (subMenuOption) {
+            // 1.1: Freeze tradableUsers
+            case 1:
+                this.printOut(helper_admin_action_prefix(action) + "freeze tradableUser #"+ action.getAdjustableInt() + "\n");
+                break;
+            // 1.2: Unfreeze tradableUsers
+            case 2:
 
-    private void adminUserEditThresholdsAction(Action action, int subMenuOption) {}
+                break;
+            // 1.3: Confirm and add item to tradableUser’s inventory
+            case 3:
 
-    private void adminUserActionAction(Action action, int subMenuOption) {}
+                break;
+        }
+    }
 
-    private void adminUserOtherAction(Action action, int subMenuOption) {}
+    private void adminUserEditThresholdsAction(Action action, int subMenuOption) {
+            switch (subMenuOption) {
+                // 2.1: Edit the max number of transactions allowed a week
+                case 1:
+
+                    break;
+                // 2.2: Edit the max number of transactions that can be incomplete before the account is frozen
+                case 2:
+
+                    break;
+                // 2.3: Edit the number of books tradableUsers must lend before tradableUsers can borrow
+                case 3:
+
+                    break;
+                // 2.4: Edit the max Edits per user for meeting’s date + time
+                case 4:
+
+                    break;}
+    }
+
+    private void adminUserActionAction(Action action, int subMenuOption) {
+            switch (subMenuOption) {
+                // 3.1: List all the historical actions in the system
+                case 1:
+                    this.printOut(helper_admin_action_prefix(action) + "list all the historical actions in the system" + "\n");
+                    break;
+                // 3.2: Cancel the revocable historical actions of tradableUser
+                case 2:
+                    this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #"+ action.getAdjustableInt() + "\n");
+                    break;
+            }
+    }
+
+    private void adminUserOtherAction(Action action, int subMenuOption) {
+            switch (subMenuOption) {
+                // 4.1: Add subsequent admin Users
+                case 1:
+                    this.printOut(helper_admin_action_prefix(action) + "add subsequent Admin Users #" + action.getAdjustableInt() + "\n");
+                    break;
+               }
+    }
 
     private String helper_regular_action_prefix(Action action) {
         return "Action #" + action.getActionID() + ": RegularUser #" + action.getActionOwnerID() + " ";
     }
 
     private String helper_admin_action_prefix(Action action) {
-        return "Action #" + action.getActionID() + ": AdminrUser #" + action.getActionOwnerID() + " ";
+        return "Action #" + action.getActionID() + ": AdminUser #" + action.getActionOwnerID() + " ";
     }
 
     /**
