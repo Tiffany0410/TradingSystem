@@ -61,8 +61,8 @@ public class AccountCreator {
                 um.addUser(username, password, email, home);
                 out = true;
                 //Write the UserManger into ser file in order to save the data
-                frw.saveManagerToFile(um, "./src/managers/usermanager/SerializedUserManager.ser");
-                frw.saveUserInfoToCSVFile("./src/managers/otherfiles/RegularUserUsernameAndPassword.csv",
+                frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+                frw.saveUserInfoToCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv",
                         username, password, email);
             }
         }
@@ -72,8 +72,8 @@ public class AccountCreator {
                um.addAdmin(username, password, email);
                out = true;
                //Write the UserManger into ser file in order to save the data
-               frw.saveManagerToFile(um, "./src/managers/usermanager/SerializedUserManager.ser");
-               frw.saveUserInfoToCSVFile("./src/managers/otherfiles/AdminUserUsernameAndPassword.csv",
+               frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+               frw.saveUserInfoToCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv",
                        username, password, email);
             }
         }
