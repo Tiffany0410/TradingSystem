@@ -21,7 +21,7 @@ public class DisplaySystem {
     private FilesReaderWriter fileReader;
     private int option;
 
-    public DisplaySystem() throws IOException, ClassNotFoundException {
+    public DisplaySystem(){
         fileReader = new FilesReaderWriter();
     }
 
@@ -136,6 +136,17 @@ public class DisplaySystem {
         return emailAddress;
     }
 
+    /**
+     * Get home city user typed in
+     */
+
+    public String getHomeCity(){
+        String city;
+        Scanner sc = new Scanner(System.in);
+        this.printOut("Please enter your email address");
+        city = sc.nextLine();  // get city user typed in
+        return city;
+    }
 
     /**
      * Print out the list of username of the Regular Users
