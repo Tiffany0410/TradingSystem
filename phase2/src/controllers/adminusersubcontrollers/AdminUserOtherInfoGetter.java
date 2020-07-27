@@ -136,11 +136,11 @@ public class AdminUserOtherInfoGetter {
             ds.printOut("Enter the number of action that you want to cancel");
             if(sc.hasNextInt()){
                 actionID = sc.nextInt();
-                if (am.getAllActionID(am.getListOfRevocableActions()).contains(actionID)) {
+                if (am.getAllActionID(am.getListOfCurrentRevocableActions()).contains(actionID)) {
                     okInput = true;
                 }
                 else{
-                    ds.printOut("Enter a proper action number, please");
+                    ds.printOut("Enter a proper action number please");
                 }
             }else{
                 sc.nextLine();

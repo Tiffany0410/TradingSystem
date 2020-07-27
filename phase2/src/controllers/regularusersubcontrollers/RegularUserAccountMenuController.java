@@ -86,7 +86,7 @@ public class RegularUserAccountMenuController {
             ds.printOut("Your inventory: ");
             ds.printResult(new ArrayList<>(inventory));
             ds.printOut("\n");
-            am.addActionToListAllActions(userId, "regularUser", "1.9", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.9", 0, "");
         }
         else{
             sm.msgForGuest(ds);
@@ -105,8 +105,8 @@ public class RegularUserAccountMenuController {
             if (allOtherItems.size() != 0) {
                 int tempItemID = idGetter.getItemID(allOtherItems, 1);
                 ds.printResult(um.addItemWishlist(tempItemID, username));
-                am.addActionToListRevocableActions(userId, "regularUser", "1.2", tempItemID, "");
-                am.addActionToListAllActions(userId, "regularUser", "1.2", tempItemID, "");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.2", tempItemID, "");
+                am.addActionToAllActionsList(userId, "regularUser", "1.2", tempItemID, "");
             } else {
                 sm.msgForNothing("that can be added to your wishlist for now", ds);
             }
@@ -127,8 +127,8 @@ public class RegularUserAccountMenuController {
             String tempItemName = otherInfoGetter.getItemName();
             im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId);
             ds.printResult("Your add-item request", true);
-            am.addActionToListRevocableActions(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
-            am.addActionToListAllActions(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
+            am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
+            am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
         }
         else{
             sm.msgForGuest(ds);
@@ -144,7 +144,7 @@ public class RegularUserAccountMenuController {
         if (!asGuest) {
             ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
             ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
-            am.addActionToListAllActions(userId, "regularUser", "1.6", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.6", 0, "");
         }
         else{
             sm.msgForGuest(ds);
@@ -164,7 +164,7 @@ public class RegularUserAccountMenuController {
                 List<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
                 if (threeItems.size() != 0) {
                     ds.printResult(new ArrayList<>(threeItems));
-                    am.addActionToListAllActions(userId, "regularUser", "1.8", 0, "");
+                    am.addActionToAllActionsList(userId, "regularUser", "1.8", 0, "");
                 } else {
                     sm.msgForNothing(ds);
                 }
@@ -193,8 +193,8 @@ public class RegularUserAccountMenuController {
                 int tempItemID = idGetter.getItemID(userInventory, 1);
                 ds.printResult(um.removeItemInventory(tempItemID, username));
                 im.addItemToListDeletedItem(im.getItembyId(tempItemID));
-                am.addActionToListRevocableActions(userId, "regularUser", "1.5", tempItemID, "");
-                am.addActionToListAllActions(userId, "regularUser", "1.5", tempItemID, "");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.5", tempItemID, "");
+                am.addActionToAllActionsList(userId, "regularUser", "1.5", tempItemID, "");
             } else {
                 sm.msgForNothing("in your inventory", ds);
             }
@@ -218,8 +218,8 @@ public class RegularUserAccountMenuController {
                 int tempItemID = idGetter.getItemID(allOtherItems, 0);
                 ds.printResult(um.removeItemWishlist(tempItemID, username));
                 im.addItemToListDeletedItem(im.getItembyId(tempItemID));
-                am.addActionToListRevocableActions(userId, "regularUser", "1.4", tempItemID, "");
-                am.addActionToListAllActions(userId, "regularUser", "1.4", tempItemID, "");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.4", tempItemID, "");
+                am.addActionToAllActionsList(userId, "regularUser", "1.4", tempItemID, "");
             } else {
                 sm.msgForNothing("in your wish list", ds);
             }
@@ -239,7 +239,7 @@ public class RegularUserAccountMenuController {
         String name = otherInfoGetter.getItemName();
         // get the items in the system that match the name
         ArrayList<Item> matchItems = im.getItemsByIds(im.searchItem(name));
-        am.addActionToListAllActions(userId, "regularUser", "1.3", 0, "name");
+        am.addActionToAllActionsList(userId, "regularUser", "1.3", 0, "name");
         if (matchItems.size() == 0){
             sm.msgForNothing("that matches your input", ds);
         }
@@ -257,7 +257,7 @@ public class RegularUserAccountMenuController {
         if (allOtherItems.size() != 0) {
             // print all items that are tradable
             ds.printResult(new ArrayList<>(allOtherItems));
-            am.addActionToListAllActions(userId, "regularUser", "1.1", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.1", 0, "");
         }
         else{
             sm.msgForNothing(ds);
@@ -275,13 +275,13 @@ public class RegularUserAccountMenuController {
             if (otherInfoGetter.getNumKindOfResponse("set to true", "set to false") == 1) {
                 um.goOnVacation(userId);
                 im.setTradable(um.getUserInventory(userId), false);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.10", 0, "go on vacation");
-                am.addActionToListAllActions(userId, "regularUser", "1.10", 0, "go on vacation");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
+                am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
             } else {
                 um.comeFromVacation(userId);
                 im.setTradable(um.getUserInventory(userId), true);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.10", 0, "come from vacation");
-                am.addActionToListAllActions(userId, "regularUser", "1.10", 0, "come from vacation");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
+                am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
             }
         }
         else{
@@ -325,8 +325,8 @@ public class RegularUserAccountMenuController {
             else{
                 im.setTradable(itemIDs, true);
                 int itemID = itemIDs.get(0);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.11", itemID, "tradable");
-                am.addActionToListAllActions(userId, "regularUser", "1.11", itemID, "tradable");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "tradable");
+                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "tradable");
             }
         }
         else{
@@ -336,8 +336,8 @@ public class RegularUserAccountMenuController {
             else{
                 im.setTradable(itemIDs, false);
                 int itemID = itemIDs.get(0);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.11", itemID, "non-tradable");
-                am.addActionToListAllActions(userId, "regularUser", "1.11", itemID, "non-tradable");
+                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "non-tradable");
+                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "non-tradable");
             }
         }
     }
@@ -351,7 +351,7 @@ public class RegularUserAccountMenuController {
         if (!asGuest) {
             // print all users in the same city as this user.
             ds.printResult(new ArrayList<>(um.sameCity(userId)));
-            am.addActionToListAllActions(userId, "regularUser", "1.12", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.12", 0, "");
         }
         else{
             sm.msgForGuest(ds);
@@ -368,7 +368,7 @@ public class RegularUserAccountMenuController {
             String newHC = otherInfoGetter.getHomeCity();
             um.changeHome(userId, newHC);
             ds.printResult(true);
-            am.addActionToListAllActions(userId, "regularUser", "1.13", 0, newHC);
+            am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
         }
         else{
             sm.msgForGuest(ds);
@@ -398,7 +398,7 @@ public class RegularUserAccountMenuController {
             if (itemsCanLend.size() != 0) {
                 ds.printOut("Below are suggestions of items you can lend to that user: \\n");
                 ds.printResult(new ArrayList<>(im.getItemsByIds(um.wantedItems(lendToUserId, userId))));
-                am.addActionToListAllActions(userId, "regularUser", "1.14", 0, "");
+                am.addActionToAllActionsList(userId, "regularUser", "1.14", 0, "");
             }
             // If the list is empty -- return an appropriate message + print a random one
             else {

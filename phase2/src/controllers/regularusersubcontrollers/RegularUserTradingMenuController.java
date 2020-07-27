@@ -81,7 +81,7 @@ public class RegularUserTradingMenuController {
                 topThree.add(um.findUser(id));
                 ds.printResult(new ArrayList<>(topThree));
             }
-            am.addActionToListAllActions(userId, "regularUser", "2.6", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "2.6", 0, "");
         }
         else{
             // because the user do not have any trade
@@ -101,7 +101,7 @@ public class RegularUserTradingMenuController {
         if (tm.getOpenTrade(userId).size() != 0) {
             ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
             int tradeId = idGetter.getTradeID();
-            am.addActionToListAllActions(userId, "regularUser", "2.5", tradeId, "");
+            am.addActionToAllActionsList(userId, "regularUser", "2.5", tradeId, "");
 //           let user enter trade id and we use it to confirm complete
             if (tm.confirmComplete(tradeId)){
                 ds.printOut("This trade is completed.");
@@ -125,7 +125,7 @@ public class RegularUserTradingMenuController {
     public void viewTrades(List<Trade> trades) {
         if (trades.size() != 0) {
             ds.printResult(new ArrayList<>(trades));
-            am.addActionToListAllActions(userId, "regularUser", "2.7", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         } else {
             sm.msgForNothing(ds);
         }
@@ -200,7 +200,7 @@ public class RegularUserTradingMenuController {
         //remove items -- if agree
         if (tradeStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
-            am.addActionToListAllActions(userId, "regularUser", "2.2", tradeID, "");
+            am.addActionToAllActionsList(userId, "regularUser", "2.2", tradeID, "");
         } else {
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
             tm.cancelTrade(tradeID);
@@ -311,11 +311,11 @@ public class RegularUserTradingMenuController {
     private void requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             requestSuccess(trade, tradeId);
-            am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, " and succeed");
+            am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
         }
         else {
             requestFail();
-            am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, " but fail");
+            am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " but fail");
         }
     }
 
@@ -333,8 +333,8 @@ public class RegularUserTradingMenuController {
     private void requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
         // add trade
         tm.addTrade(trade);
-        am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, "");
-        am.addActionToListRevocableActions(userId, "regularUser", "2.1", tradeId, "");
+        am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, "");
+        am.addActionToCurrentRevocableList(userId, "regularUser", "2.1", tradeId, "");
         // tell the user it's successful
         ds.printResult(true);
         // set status for the person who requested the trade

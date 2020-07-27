@@ -1,8 +1,6 @@
 package managers.actionmanager;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Store all the actions which can be cancelled
@@ -11,24 +9,25 @@ import java.util.Map;
  */
 public class ActionManager {
     private ArrayList<Action> listOfAllActions;
-    private ArrayList<Action> listOfRevocableActions;
+    private ArrayList<Action> listOfCurrentRevocableActions;
+    private ArrayList<Action> listOfDeletedRevocableActions;
 
 
     // Constructor
     public ActionManager() {
         this.listOfAllActions = new ArrayList<>();
-        this.listOfRevocableActions = new ArrayList<>();
+        this.listOfCurrentRevocableActions = new ArrayList<>();
     }
 
     // getter for all Actions
     public ArrayList<Action> getListOfAllActions() {return this.listOfAllActions;}
 
-    //getter for all Revocable Actions
-    public ArrayList<Action> getListOfRevocableActions() {return this.listOfRevocableActions;}
+    //getter for all current Revocable Actions
+    public ArrayList<Action> getListOfCurrentRevocableActions() {return this.listOfCurrentRevocableActions;}
 
 
     // setter
-    public void addActionToListAllActions(int actionOwnerID, String userType, String menuNumber,
+    public void addActionToAllActionsList(int actionOwnerID, String userType, String menuNumber,
                                           int adjustableInt, String adjustableStr) {
         int actionID;
         if (listOfAllActions.isEmpty()) {actionID = 1;}
@@ -38,25 +37,18 @@ public class ActionManager {
     }
 
     // setter
-    public void addActionToListRevocableActions(int actionOwnerID, String userType, String menuNumber,
+    public void addActionToCurrentRevocableList(int actionOwnerID, String userType, String menuNumber,
                                                 int adjustableInt, String adjustableStr) {
         int actionID;
-        if (listOfRevocableActions.isEmpty()) {actionID = 1;}
-        else {actionID = helper_max_ID(this.getAllActionID(listOfRevocableActions)) + 1;}
+        if (listOfCurrentRevocableActions.isEmpty()) {actionID = 1;}
+        else {actionID = helper_max_ID(this.getAllActionID(listOfCurrentRevocableActions)) + 1;}
         Action new_action = new Action(actionID, userType, actionOwnerID, menuNumber, adjustableInt, adjustableStr);
-        listOfRevocableActions.add(new_action);
+        listOfCurrentRevocableActions.add(new_action);
     }
 
-    // remove the action from list
-    public void deleteAction(int actionID) {
-        // Used to track Action index in listOfActions
-        int acc = 0;
-        // find the index of action in the listOfActions
-        while (acc < listOfAllActions.size()) {
-            if (listOfAllActions.get(acc).getActionID() == actionID) { listOfAllActions.remove(acc); }
-            acc ++;
-        }
-    }
+
+    // Setter: add action into the list of deleted Revocable Action
+    public void addActionToDeletedRevocableList(Action action) {listOfDeletedRevocableActions.add(action);}
 
     // helper for max action ID in the list
     private int helper_max_ID(List<Integer> listOfAllID) {
@@ -66,6 +58,19 @@ public class ActionManager {
         }
         return max_ID;
     }
+
+
+    // remove the action from current Revocable Action list
+    public void deleteAction(int actionID) {
+        // Used to track Action index in listOfActions
+        int acc = 0;
+        // find the index of action in the listOfActions
+        while (acc < listOfCurrentRevocableActions.size()) {
+            if (listOfCurrentRevocableActions.get(acc).getActionID() == actionID) { listOfCurrentRevocableActions.remove(acc); }
+            acc ++;
+        }
+    }
+
 
     // return the list that contain all ActionID in the listOfActions
     public List<Integer> getAllActionID(ArrayList<Action> listOfAction) {
@@ -80,12 +85,19 @@ public class ActionManager {
         return allID;
     }
 
-    // get the Action by actionID from list of Revocable Actions
+    // get the Action by actionID from list of current Revocable Actions
     public Action findActionByID(int actionID) {
-        for (Action action: listOfAllActions) {
+        for (Action action: listOfCurrentRevocableActions) {
             if (action.getActionID() == actionID) {return action;}
         }
         return null;
     }
 
+
+    // search all revocable action of specific user by provided ID
+    public ArrayList<Action> searchRevocableActionByID(int userID) {
+        ArrayList<Action> tempList = new ArrayList<>();
+        for (Action action: listOfCurrentRevocableActions) { if (action.getActionOwnerID() == userID) {tempList.add(action);} }
+        return tempList;
+    }
 }

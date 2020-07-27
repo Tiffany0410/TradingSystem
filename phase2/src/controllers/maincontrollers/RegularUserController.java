@@ -219,11 +219,11 @@ public class RegularUserController implements Controllable {
                 break;
             case 3:
                 atc.viewTrades(tm.getOpenTrade(userId));
-                am.addActionToListAllActions(userId, "regularUser", "2.3", 0, "");
+                am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
                 break;
             case 4:
                 atc.viewTrades(tm.getClosedTrade(userId));
-                am.addActionToListAllActions(userId, "regularUser", "2.4", 0, "");
+                am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
                 break;
             case 5:
                 atc.confirmTradeComplete();
@@ -236,7 +236,7 @@ public class RegularUserController implements Controllable {
                 break;
             case 8:
                 //TODO:
-                //add am.addActionToListAllActions(userId, "regularUser", "2.8", 0, ""); into the method
+                //add am.addActionToAllActionsList();(userId, "regularUser", "2.8", 0, ""); into the method
                 break;
         }
     }
@@ -266,11 +266,11 @@ public class RegularUserController implements Controllable {
                 break;
             case 4:
                 mmc.seeMeetings(mm.getUnConfirmMeeting(userId), "that needs to be confirmed");
-                am.addActionToListAllActions(userId, "regularUser", "3.4", 0, "");
+                am.addActionToAllActionsList(userId, "regularUser", "3.4", 0, "");
                 break;
             case 5:
                 mmc.seeMeetings(mm.getCompleteMeeting(userId), " that have been confirmed");
-                am.addActionToListAllActions(userId, "regularUser", "3.5", 0, "");
+                am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
                 break;
             case 6:
                 // See the list of meetings that has not yet been confirmed for time and place

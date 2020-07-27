@@ -106,7 +106,7 @@ public class RegularUserMeetingMenuController {
             if (mm.checkMeeting(meeting3)) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
                 // add the action
-                am.addActionToListAllActions(userId, "regularUser", "3.3", meeting3.getMeetingNum(), "");
+                am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting3.getMeetingNum(), "");
             } else {
                 // if the meeting DNE
                 sm.msgForMeetingDNE(ds);
@@ -136,7 +136,7 @@ public class RegularUserMeetingMenuController {
                 Boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
                 // if successfully confirmed it, add the action
-                am.addActionToListAllActions(userId, "regularUser", "3.2", meeting2.getMeetingNum(), "");
+                am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting2.getMeetingNum(), "");
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
                 }
@@ -174,7 +174,7 @@ public class RegularUserMeetingMenuController {
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 // if user edit it successfully, add the action
-                if (editSuccess) {am.addActionToListAllActions(userId, "regularUser", "3.1", meeting.getMeetingNum(), "");}
+                if (editSuccess) {am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), "");}
                 // if the user did not edit it successfully
                 if (!editSuccess){
                     ds.printOut("It's not your turn.");
@@ -211,7 +211,7 @@ public class RegularUserMeetingMenuController {
         // if there're meeting with unconfirmed time and place
         ds.printOut("Here's a list of meeting(s) with unconfirmed time and place:");
         ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
-        am.addActionToListAllActions(userId, "regularUser", "3.6", 0, "");
+        am.addActionToAllActionsList(userId, "regularUser", "3.6", 0, "");
     }
 
     /**
