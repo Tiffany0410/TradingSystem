@@ -58,7 +58,7 @@ public class AdminUserController implements Controllable {
         this.hac = hac;
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
-        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am);
+        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 
 
@@ -126,7 +126,7 @@ public class AdminUserController implements Controllable {
                 int futureValue1 = otherInfoGetter.getThresholdAns();
                 // editMaxNumTransactionsAllowedAWeek
                 thresholdValues.set(0, futureValue1);
-                am.addActionToListAllActions(this.userId, "adminUser", "2.1", currentValue1, String.valueOf(futureValue1));
+                am.addActionToAllActionsList(this.userId, "adminUser", "2.1", currentValue1, String.valueOf(futureValue1));
                 break;
             case 2:
                 int currentValue2 = thresholdValues.get(1);
@@ -134,7 +134,7 @@ public class AdminUserController implements Controllable {
                 int futureValue2 = otherInfoGetter.getThresholdAns();
                 // editMaxNumTransactionIncomplete
                 thresholdValues.set(1, futureValue2);
-                am.addActionToListAllActions(this.userId, "adminUser", "2.2", currentValue2, String.valueOf(futureValue2));
+                am.addActionToAllActionsList(this.userId, "adminUser", "2.2", currentValue2, String.valueOf(futureValue2));
                 break;
             case 3:
                 int currentValue3 = thresholdValues.get(2);
@@ -142,7 +142,7 @@ public class AdminUserController implements Controllable {
                 int futureValue3 = otherInfoGetter.getThresholdAns();
                 // editNumLendBeforeBorrow
                 thresholdValues.set(2, futureValue3);
-                am.addActionToListAllActions(this.userId, "adminUser", "2.3", currentValue3, String.valueOf(futureValue3));
+                am.addActionToAllActionsList(this.userId, "adminUser", "2.3", currentValue3, String.valueOf(futureValue3));
                 break;
             case 4:
                 int currentValue4 = thresholdValues.get(3);
@@ -150,7 +150,7 @@ public class AdminUserController implements Controllable {
                 int futureValue4 = otherInfoGetter.getThresholdAns();
                 //editMaxMeetingDateTimeEdits
                 thresholdValues.set(3, futureValue4);
-                am.addActionToListAllActions(this.userId, "adminUser", "2.4", currentValue4, String.valueOf(futureValue4));
+                am.addActionToAllActionsList(this.userId, "adminUser", "2.4", currentValue4, String.valueOf(futureValue4));
                 break;
         }
         frw.saveThresholdValuesToCSVFile(thresholdValues, thresholdValuesFilePath);
@@ -161,6 +161,7 @@ public class AdminUserController implements Controllable {
         /*
         1.List all the historical actions in the system
         2.Cancel the revocable historical actions of tradableUser
+        3.Find all the revocable historical actions of specific tradableUser
          */
         switch (subMenuOption) {
             case 1:
@@ -168,6 +169,9 @@ public class AdminUserController implements Controllable {
                 break;
             case 2:
                 hac.cancelRevocableAction();
+                break;
+            case 3:
+                hac.searchRevocableActionByUserID();
                 break;
         }
     }
@@ -179,7 +183,7 @@ public class AdminUserController implements Controllable {
         if (subMenuOption == 1){
             ds.printResult(this.ac.createAccount("Admin"));
             int newUserID = um.getListAdminUser().get(-1).getId();
-            am.addActionToListAllActions(userId, "adminUser", "4.1", newUserID, "");
+            am.addActionToAllActionsList(userId, "adminUser", "4.1", newUserID, "");
         }
 
     }

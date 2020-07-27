@@ -1,6 +1,8 @@
 package controllers.adminusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
+import managers.usermanager.User;
+import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
 import java.util.Scanner;
@@ -16,15 +18,18 @@ public class AdminUserOtherInfoGetter {
 
     private DisplaySystem ds;
     private ActionManager am;
+    private UserManager um;
 
     /**
      * Constructs the AdminUserOtherInfoGetter with a DisplaySystem
      * @param ds The presenter class used to print to screen.
-     * @param am The use case class ActionManager which used to record all action
+     * @param am The current ActionManager which used to record all action
+     * @param um The current UserManager which used to record all AdminUser and RegularUser
      */
-    public AdminUserOtherInfoGetter(DisplaySystem ds, ActionManager am){
+    public AdminUserOtherInfoGetter(DisplaySystem ds, ActionManager am, UserManager um){
         this.ds = ds;
         this.am = am;
+        this.um = um;
     }
 
     /**
@@ -148,5 +153,36 @@ public class AdminUserOtherInfoGetter {
             }
         }while(!okInput);
         return actionID;
+    }
+
+    /**
+     * Gets the RegularUserID from the admin user.
+     * @return The RegularUserID entered by admin user.
+     */
+    public int getRegularUserID() {
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        int userID = 0;
+        do{
+            ds.printOut("Enter the Id of tradableUser that you want to search");
+            if(sc.hasNextInt()){
+                userID = sc.nextInt();
+                if (um.getListTradableUser().contains(userID)) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper tradableUser Id please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid Integer value please");
+            }
+        }while(!okInput);
+        return userID;
     }
 }

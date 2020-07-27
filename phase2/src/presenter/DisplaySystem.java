@@ -450,8 +450,11 @@ public class DisplaySystem {
                     break;
                 // 3.2: Cancel the revocable historical actions of tradableUser
                 case 2:
-                    this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #"+ action.getAdjustableInt() + "\n");
+                    this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #" + action.getAdjustableInt() + "\n");
                     break;
+                // 3.3: Find all the revocable historical actions of specific tradableUser
+                case 3:
+                    this.printOut(helper_admin_action_prefix(action) + "search all the revocable historical actions of tradableUser #" + action.getAdjustableInt() + "\n");
             }
     }
 

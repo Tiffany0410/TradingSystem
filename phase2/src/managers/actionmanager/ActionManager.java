@@ -17,6 +17,7 @@ public class ActionManager {
     public ActionManager() {
         this.listOfAllActions = new ArrayList<>();
         this.listOfCurrentRevocableActions = new ArrayList<>();
+        this.listOfDeletedRevocableActions = new ArrayList<>();
     }
 
     // getter for all Actions
@@ -30,9 +31,12 @@ public class ActionManager {
     public void addActionToAllActionsList(int actionOwnerID, String userType, String menuNumber,
                                           int adjustableInt, String adjustableStr) {
         int actionID;
+        // Provide an appropriate Action ID
         if (listOfAllActions.isEmpty()) {actionID = 1;}
-        else {actionID = helper_max_ID(this.getAllActionID(listOfAllActions)) + 1;}
+        else {actionID = helper_maxAllID() + 1;}
+        // Create a new Action
         Action new_action = new Action(actionID, userType, actionOwnerID, menuNumber, adjustableInt, adjustableStr);
+        // Add Action into the list
         listOfAllActions.add(new_action);
     }
 
@@ -40,9 +44,12 @@ public class ActionManager {
     public void addActionToCurrentRevocableList(int actionOwnerID, String userType, String menuNumber,
                                                 int adjustableInt, String adjustableStr) {
         int actionID;
+        // Provide an appropriate Action ID
         if (listOfCurrentRevocableActions.isEmpty()) {actionID = 1;}
-        else {actionID = helper_max_ID(this.getAllActionID(listOfCurrentRevocableActions)) + 1;}
+        else {actionID = helper_maxRevocableID() + 1;}
+        // Create a new Action
         Action new_action = new Action(actionID, userType, actionOwnerID, menuNumber, adjustableInt, adjustableStr);
+        // Add Action into the list
         listOfCurrentRevocableActions.add(new_action);
     }
 
@@ -50,13 +57,32 @@ public class ActionManager {
     // Setter: add action into the list of deleted Revocable Action
     public void addActionToDeletedRevocableList(Action action) {listOfDeletedRevocableActions.add(action);}
 
-    // helper for max action ID in the list
-    private int helper_max_ID(List<Integer> listOfAllID) {
+    // helper for max action ID in All Action List
+    private int helper_maxAllID() {
+        // Find the max ID in All Action List
         int max_ID = 1;
-        for (int id: listOfAllID) {
-            if (id > max_ID) {max_ID = id;}
+        for (Action action : listOfAllActions) {
+            if (action.getActionID() > max_ID) {
+                max_ID = action.getActionID();
+            }
         }
         return max_ID;
+    }
+
+    // helper for max action ID in two Revocable Action List
+    private int helper_maxRevocableID() {
+        // Find the max ID in Current Revocable Action List
+        int max_current_ID = 1;
+        for (Action action: listOfCurrentRevocableActions) {
+            if (action.getActionID() > max_current_ID) {max_current_ID = action.getActionID();}
+        }
+        // Find the max ID in Deleted Revocable Action List
+        int max_deleted_ID = 1;
+        for (Action action: listOfCurrentRevocableActions) {
+            if (action.getActionID() > max_deleted_ID) { max_deleted_ID = action.getActionID(); }
+        }
+        // Return the maximum Action ID in two Revocable Action List
+        return Math.max(max_current_ID, max_deleted_ID);
     }
 
 

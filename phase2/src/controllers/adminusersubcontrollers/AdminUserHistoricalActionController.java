@@ -37,13 +37,22 @@ public class AdminUserHistoricalActionController {
         this.am = am;
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
-        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am);
+        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 
 
     public void printOutAllHistorialAction() {
+        ds.printOut("Here are all the Historical Actions: \n");
         ds.printHistoricalActions(am.getListOfAllActions());
         am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
+    }
+
+    public void searchRevocableActionByUserID() {
+        ds.printOut("Here are all the TradableUser Id: \n");
+        ds.printListUser(um.getListTradableUser());
+        int regularUserID = otherInfoGetter.getRegularUserID();
+        am.searchRevocableActionByID(regularUserID);
+        am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
     }
 
     public void cancelRevocableAction() {
@@ -91,32 +100,35 @@ public class AdminUserHistoricalActionController {
 
     private void helper_cancelAccountMenu(Action targetAction, int subOption){
         switch (subOption) {
-            // 1.2: Add to own Wish List
+            // TODO:1.2: Add to own Wish List
             case 2:
                 break;
-            // 1.4: Remove from own Wish List
+            // TODO:1.4: Remove from own Wish List
             case 4:
                 break;
-            // 1.5: Remove from own Inventory
+            // TODO:1.5: Remove from own Inventory
             case 5:
                 break;
-            // 1.7: Request to add item to your inventory
+            // TODO:1.7: Request to add item to your inventory
             case 7:
                 break;
-            // 1.10: Set your on-vacation status
+            // TODO:1.10: Set your on-vacation status
             case 10:
                 break;
-            // 1.11: Change tradable status for an inventory item
+            // TODO:1.11: Change tradable status for an inventory item
             case 11:
         }
     }
 
     private void helper_cancelTradeMenu(Action targetAction, int subOption) {
         switch (subOption) {
-            // 2.1: Request a trade
+            // TODO:2.1: Request a trade
             case 1:
                 break;
-            // 2.5: Confirm that a trade has been completed
+            // TODO:2.2: Respond to trade requests
+            case 2:
+                break;
+            // TODO:2.5: Confirm that a trade has been completed
             case 5:
                 break;
         }
@@ -124,10 +136,13 @@ public class AdminUserHistoricalActionController {
 
     private void helper_cancelMeetingMenu(Action targetAction, int subOption) {
         switch (subOption) {
-            // 3.2: Confirm time and place for meetings
+            // TODO:3.1: Suggest/edit time and place for meetings
+            case 1:
+                break;
+            // TODO:3.2: Confirm time and place for meetings
             case 2:
                 break;
-            // 3.3: Confirm the meeting took place
+            // TODO:3.3: Confirm the meeting took place
             case 3:
                 break;
         }
