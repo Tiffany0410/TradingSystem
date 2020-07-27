@@ -1,6 +1,8 @@
 package controllers.regularusersubcontrollers;
 
 import gateway.FilesReaderWriter;
+import managers.actionmanager.Action;
+import managers.actionmanager.ActionManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
@@ -33,6 +35,7 @@ public class RegularUserMeetingMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
+    private ActionManager am;
     private String username;
     private int userId;
 
@@ -45,16 +48,18 @@ public class RegularUserMeetingMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
+     * @param am       The current state of the ActionManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
     public RegularUserMeetingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                            ItemManager im, String username, int userId) {
+                                            ItemManager im, ActionManager am, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
+        this.am = am;
         this.username = username;
         this.userId = userId;
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
@@ -100,6 +105,8 @@ public class RegularUserMeetingMenuController {
             // check meeting method returns true if the trade id is not 0.
             if (mm.checkMeeting(meeting3)) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
+                // add the action
+                am.addActionToListAllActions(userId, "regularUser", "3.3", meeting3.getMeetingNum(), "");
             } else {
                 // if the meeting DNE
                 sm.msgForMeetingDNE(ds);
@@ -128,6 +135,8 @@ public class RegularUserMeetingMenuController {
             if (mm.checkMeeting(meeting2)) {
                 Boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
+                // if successfully confirmed it, add the action
+                am.addActionToListAllActions(userId, "regularUser", "3.2", meeting2.getMeetingNum(), "");
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
                 }
@@ -164,6 +173,8 @@ public class RegularUserMeetingMenuController {
                 boolean editSuccess= mm.EditTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
+                // if user edit it successfully, add the action
+                if (editSuccess) {am.addActionToListAllActions(userId, "regularUser", "3.1", meeting.getMeetingNum(), "");}
                 // if the user did not edit it successfully
                 if (!editSuccess){
                     ds.printOut("It's not your turn.");
@@ -200,6 +211,7 @@ public class RegularUserMeetingMenuController {
         // if there're meeting with unconfirmed time and place
         ds.printOut("Here's a list of meeting(s) with unconfirmed time and place:");
         ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
+        am.addActionToListAllActions(userId, "regularUser", "3.6", 0, "");
     }
 
     /**

@@ -324,8 +324,9 @@ public class RegularUserAccountMenuController {
             }
             else{
                 im.setTradable(itemIDs, true);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.11", 0, "tradable");
-                am.addActionToListAllActions(userId, "regularUser", "1.11", 0, "tradable");
+                int itemID = itemIDs.get(0);
+                am.addActionToListRevocableActions(userId, "regularUser", "1.11", itemID, "tradable");
+                am.addActionToListAllActions(userId, "regularUser", "1.11", itemID, "tradable");
             }
         }
         else{
@@ -334,8 +335,9 @@ public class RegularUserAccountMenuController {
             }
             else{
                 im.setTradable(itemIDs, false);
-                am.addActionToListRevocableActions(userId, "regularUser", "1.11", 0, "non-tradable");
-                am.addActionToListAllActions(userId, "regularUser", "1.11", 0, "non-tradable");
+                int itemID = itemIDs.get(0);
+                am.addActionToListRevocableActions(userId, "regularUser", "1.11", itemID, "non-tradable");
+                am.addActionToListAllActions(userId, "regularUser", "1.11", itemID, "non-tradable");
             }
         }
     }
@@ -349,6 +351,7 @@ public class RegularUserAccountMenuController {
         if (!asGuest) {
             // print all users in the same city as this user.
             ds.printResult(new ArrayList<>(um.sameCity(userId)));
+            am.addActionToListAllActions(userId, "regularUser", "1.12", 0, "");
         }
         else{
             sm.msgForGuest(ds);
@@ -365,6 +368,7 @@ public class RegularUserAccountMenuController {
             String newHC = otherInfoGetter.getHomeCity();
             um.changeHome(userId, newHC);
             ds.printResult(true);
+            am.addActionToListAllActions(userId, "regularUser", "1.13", 0, newHC);
         }
         else{
             sm.msgForGuest(ds);
@@ -394,6 +398,7 @@ public class RegularUserAccountMenuController {
             if (itemsCanLend.size() != 0) {
                 ds.printOut("Below are suggestions of items you can lend to that user: \\n");
                 ds.printResult(new ArrayList<>(im.getItemsByIds(um.wantedItems(lendToUserId, userId))));
+                am.addActionToListAllActions(userId, "regularUser", "1.14", 0, "");
             }
             // If the list is empty -- return an appropriate message + print a random one
             else {

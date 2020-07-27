@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import managers.actionmanager.ActionManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
@@ -31,6 +32,7 @@ public class RegularUserTradingMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
+    private ActionManager am;
     private String username;
     private int userId;
 
@@ -43,18 +45,19 @@ public class RegularUserTradingMenuController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager
+     * @param am       The current state of the ActionManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserTradingMenuController(DisplaySystem ds,
-                                            TradeManager tm, MeetingManager mm,
-                                            UserManager um, ItemManager im,
+    public RegularUserTradingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+                                            UserManager um, ItemManager im, ActionManager am,
                                             String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
+        this.am = am;
         this.username = username;
         this.userId = userId;
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
@@ -78,6 +81,7 @@ public class RegularUserTradingMenuController {
                 topThree.add(um.findUser(id));
                 ds.printResult(new ArrayList<>(topThree));
             }
+            am.addActionToListAllActions(userId, "regularUser", "2.6", 0, "");
         }
         else{
             // because the user do not have any trade
@@ -97,6 +101,7 @@ public class RegularUserTradingMenuController {
         if (tm.getOpenTrade(userId).size() != 0) {
             ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
             int tradeId = idGetter.getTradeID();
+            am.addActionToListAllActions(userId, "regularUser", "2.5", tradeId, "");
 //           let user enter trade id and we use it to confirm complete
             if (tm.confirmComplete(tradeId)){
                 ds.printOut("This trade is completed.");
@@ -117,9 +122,10 @@ public class RegularUserTradingMenuController {
      * an appropriate message.
      * @param trades The list of <trades></trades>.
      */
-    public void viewTrades(List<managers.trademanager.Trade> trades) {
+    public void viewTrades(List<Trade> trades) {
         if (trades.size() != 0) {
             ds.printResult(new ArrayList<>(trades));
+            am.addActionToListAllActions(userId, "regularUser", "2.7", 0, "");
         } else {
             sm.msgForNothing(ds);
         }
@@ -157,7 +163,7 @@ public class RegularUserTradingMenuController {
                 // asks for trade id
                 int tradeID = idGetter.getTradeID();
                 // get the actual trade object
-                managers.trademanager.Trade trade = tm.getTradeById(tradeID);
+                Trade trade = tm.getTradeById(tradeID);
                 // will be used if two-way-trade
                 int itemid22 = 0;
                 // if it's one-way-trade
@@ -175,7 +181,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    private List<managers.trademanager.Trade> tradeRequestsToRespond() throws InvalidIdException {
+    private List<Trade> tradeRequestsToRespond() throws InvalidIdException {
         //assume wait-to-be-opened = wait for the other user's response
         List<managers.trademanager.Trade> requests = new ArrayList<>();
         // only print ones that user haven't agree on
@@ -187,21 +193,23 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
-    private void respondResult(int tradeID, managers.trademanager.Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         String tradeStatus = otherInfoGetter.getAgreeOrNot();
         // set user's status for the trade (agree / disagree)
         tm.setUserStatus(tradeID, userId, tradeStatus);
         //remove items -- if agree
         if (tradeStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
+            am.addActionToListAllActions(userId, "regularUser", "2.2", tradeID, "");
         } else {
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
             tm.cancelTrade(tradeID);
+
         }
         ds.printResult("Your response to this trade request", true);
     }
 
-    private void respondAgree(int tradeID, managers.trademanager.Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
         if (!tm.checkOneWayTrade(tradeID)) {
@@ -236,7 +244,7 @@ public class RegularUserTradingMenuController {
             // will store the validation value
             boolean ok;
             // will store the trade object
-            managers.trademanager.Trade trade;
+            Trade trade;
             // will store the second item id if it's two-way-trade
             int itemId2 = 0;
             //get info for trade
@@ -287,7 +295,7 @@ public class RegularUserTradingMenuController {
     }
 
 
-    private managers.trademanager.Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
+    private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Trade trade;
         if (numKindOfTrade == 1) {
             // new one-way-trade
@@ -303,9 +311,11 @@ public class RegularUserTradingMenuController {
     private void requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             requestSuccess(trade, tradeId);
+            am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, " and succeed");
         }
         else {
             requestFail();
+            am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, " but fail");
         }
     }
 
@@ -323,6 +333,8 @@ public class RegularUserTradingMenuController {
     private void requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
         // add trade
         tm.addTrade(trade);
+        am.addActionToListAllActions(userId, "regularUser", "2.1", tradeId, "");
+        am.addActionToListRevocableActions(userId, "regularUser", "2.1", tradeId, "");
         // tell the user it's successful
         ds.printResult(true);
         // set status for the person who requested the trade

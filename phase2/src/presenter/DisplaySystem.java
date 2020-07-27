@@ -210,24 +210,18 @@ public class DisplaySystem {
             switch (userType) {
                 case "regularUser":
                     this.regularUserAction(action);
+                     break;
                 case "adminUser":
-
-                    switch (menuOption) {
-                        case "1.1":
-                            break;
-                        case "1.2":
-                            break;
-                        case "1.3":
-                            break;
-                    }
-
+                    this.adminUserAction(action);
+                    break;
             }
-        }
 
+        }
     }
 
+
     private void regularUserAction(Action action) {
-        String[] menuOption = action.getMenuOption().split(".");
+        String[] menuOption = action.getMenuOption().split("\\.");
         int mainMenuOption = Integer.parseInt(menuOption[0]);
         int subMenuOption = Integer.parseInt(menuOption[1]);
 
@@ -296,12 +290,15 @@ public class DisplaySystem {
                 break;
             // 1.12: See users in your home city
             case 12:
+                this.printOut(helper_regular_action_prefix(action) + "check the users in his/her home city" + "\n");
                 break;
             // 1.13: Change your home city
             case 13:
+                this.printOut(helper_regular_action_prefix(action) + "change home city to " + action.getAdjustableStr() + "\n");
                 break;
             // 1.14: Get suggestions for item(s) that you can lend to a given user
             case 14:
+                this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
                 break;
         }
     }
@@ -310,35 +307,35 @@ public class DisplaySystem {
         switch (subMenuOption) {
             // 2.1: Request a trade
             case 1:
-                this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + " request a trade #" + action.getAdjustableInt() + action.getAdjustableStr() + "\n");
                 break;
             // 2.2: Respond to trade requests
             case 2:
-
+                this.printOut(helper_regular_action_prefix(action) + "respond to trade requests with Trade #" + action.getAdjustableInt() + "\n");
                 break;
             // 2.3: View open trades
             case 3:
-
+                this.printOut(helper_regular_action_prefix(action) + "view open trades" + "\n");
                 break;
             // 2.4: View closed trades
             case 4:
-
+                this.printOut(helper_regular_action_prefix(action) + "view closed trades" + "\n");
                 break;
             // 2.5: Confirm that a trade has been completed
             case 5:
-                this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
+                this.printOut(helper_regular_action_prefix(action)  + "check if the trade #" + action.getAdjustableInt() + " is completed or not" + "\n");
                 break;
             // 2.6: See top three most frequent trading partners
             case 6:
-
+                this.printOut(helper_regular_action_prefix(action)  + "check the top three most frequent trading partners" + "\n");
                 break;
             // 2.7: View transactions that have been cancelled
             case 7:
-
+                this.printOut(helper_regular_action_prefix(action)  + "view transactions that have been cancelled" + "\n");
                 break;
             // 2.8: Suggestion for the most reasonable trade
             case 8:
-
+                this.printOut(helper_regular_action_prefix(action) + "get the suggestion for the most reasonable trade" + "\n");
                 break;
         }
     }
@@ -348,34 +345,34 @@ public class DisplaySystem {
         switch (subMenuOption) {
             // 3.1: Suggest/edit time and place for meetings
             case 1:
-                this.printOut(helper_regular_action_prefix(action) + " request a trade" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "successfully edit the time and place for meeting #" + action.getAdjustableInt() + "\n");
                 break;
             // 3.2: Confirm time and place for meetings
             case 2:
-                this.printOut(helper_regular_action_prefix(action) + "confirm time and place for meetings" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "successfully confirm time and place for meeting #" + action.getAdjustableInt() + "\n");
                 break;
             // 3.3: Confirm the meeting took place
             case 3:
-                this.printOut(helper_regular_action_prefix(action) + "confirm the meeting took place" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "confirm the meeting #" + action.getAdjustableInt() + "took place" + "\n");
                 break;
             // 3.4: See the list of meetings need to be confirmed that it took place
             case 4:
-
+                this.printOut(helper_regular_action_prefix(action) + "see the list of meetings need to be confirmed that it took place" + "\n");
                 break;
             // 3.5: See the list of meetings that have been confirmed
             case 5:
-                this.printOut(helper_regular_action_prefix(action)  + " confirm that a trade has been completed" + "\n");
+                this.printOut(helper_regular_action_prefix(action)  + "see the list of meetings that have been confirmed" + "\n");
                 break;
             // 3.6: See the list of meetings with time and place that need to be confirmed
             case 6:
-
+                this.printOut(helper_regular_action_prefix(action)  + "see the list of meetings with time and place that need to be confirmed" + "\n");
                 break;
         }
     }
 
 
     private void adminUserAction(Action action) {
-        String[] menuOption = action.getMenuOption().split(".");
+        String[] menuOption = action.getMenuOption().split("\\.");
         int mainMenuOption = Integer.parseInt(menuOption[0]);
         int subMenuOption = Integer.parseInt(menuOption[1]);
 
