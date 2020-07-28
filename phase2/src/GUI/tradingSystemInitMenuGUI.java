@@ -15,6 +15,17 @@ public class tradingSystemInitMenuGUI {
     private JTextArea welcomeToTradingSystemTextArea;
     private TradingSystem tradingSystem;
 
+
+
+    public void run(TradingSystem tradingSystem) {
+        JFrame frame = new JFrame("Trading System");
+        frame.setContentPane(new tradingSystemInitMenuGUI().panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        this.tradingSystem = tradingSystem;
+    }
+
     public tradingSystemInitMenuGUI(TradingSystem tradingSystem){
 
         a1LoginButton.addActionListener(new ActionListener() {
@@ -25,7 +36,7 @@ public class tradingSystemInitMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystem.tradingSystemInital(1);
+                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(1);
             }
         });
 
@@ -37,7 +48,7 @@ public class tradingSystemInitMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystem.tradingSystemInital(2);
+                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(2);
             }
         });
         a3CreateAccountButton.addActionListener(new ActionListener() {
@@ -48,7 +59,7 @@ public class tradingSystemInitMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystem.tradingSystemInital(3);
+                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(3);
             }
         });
         exitButton.addActionListener(new ActionListener() {
@@ -59,7 +70,7 @@ public class tradingSystemInitMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystem.tradingSystemInital(0);
+                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(0);
             }
         });
 

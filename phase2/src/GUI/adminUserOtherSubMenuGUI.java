@@ -3,12 +3,12 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class regularUserAccountMenuGUI extends JDialog {
+public class adminUserOtherSubMenuGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public regularUserAccountMenuGUI() {
+    public adminUserOtherSubMenuGUI() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -52,7 +52,7 @@ public class regularUserAccountMenuGUI extends JDialog {
     }
 
     public static void main(String[] args) {
-        regularUserAccountMenuGUI dialog = new regularUserAccountMenuGUI();
+        adminUserOtherSubMenuGUI dialog = new adminUserOtherSubMenuGUI();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

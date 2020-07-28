@@ -3,21 +3,15 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class regularUserAccountMenuGUI extends JDialog {
+public class adminUserMainMenuGUI extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
     private JButton buttonCancel;
 
-    public regularUserAccountMenuGUI() {
+    public adminUserMainMenuGUI() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(buttonCancel);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -41,10 +35,6 @@ public class regularUserAccountMenuGUI extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
 
     private void onCancel() {
         // add your code here if necessary
@@ -52,7 +42,7 @@ public class regularUserAccountMenuGUI extends JDialog {
     }
 
     public static void main(String[] args) {
-        regularUserAccountMenuGUI dialog = new regularUserAccountMenuGUI();
+        adminUserMainMenuGUI dialog = new adminUserMainMenuGUI();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
