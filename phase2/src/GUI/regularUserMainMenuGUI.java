@@ -5,6 +5,11 @@ import java.awt.event.*;
 
 public class regularUserMainMenuGUI extends JDialog {
     private JPanel contentPane;
+    private JTextArea hiWelcomeToTheTextArea;
+    private JButton accountInfoButton;
+    private JButton tradingInfoButton;
+    private JButton meetingInfoButton;
+    private JButton searchingInfoButton;
     private JButton buttonBack;
 
     public regularUserMainMenuGUI() {
@@ -33,6 +38,39 @@ public class regularUserMainMenuGUI extends JDialog {
                 onBack();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        accountInfoButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        tradingInfoButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        meetingInfoButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
     }
 
 

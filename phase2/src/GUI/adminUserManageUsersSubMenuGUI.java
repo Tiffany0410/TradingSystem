@@ -73,7 +73,6 @@ public class adminUserManageUsersSubMenuGUI extends JDialog {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                
             }
         });
     }
