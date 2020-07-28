@@ -68,7 +68,7 @@ public class regularUserMainMenuGUI extends JDialog {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
     }

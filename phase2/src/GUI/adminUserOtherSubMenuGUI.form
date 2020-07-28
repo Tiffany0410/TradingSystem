@@ -70,7 +70,7 @@
             <properties>
               <background color="-16524327"/>
               <foreground color="-16711423"/>
-              <text value="Hi, welcome to Administrative User Others Menu."/>
+              <text value=" Hi, welcome to Administrative User Others Menu."/>
             </properties>
           </component>
           <component id="e5a69" class="javax.swing.JButton" binding="addSubsequentAdminUsersButton" default-binding="true">
