@@ -91,7 +91,7 @@ public class DemoManager {
                 //condition = tradingSystem.tradingSystemInital();
 
                 // Run trading system
-                tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI(tradingSystem);
+                tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {
                 System.out.println("Can not find file, Please check the root of the program and README file.");
