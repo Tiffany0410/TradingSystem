@@ -355,13 +355,37 @@ public class TradeManager implements Serializable {
         throw new InvalidIdException("Invalid Id");
     }
 
+
+    /** change a trade status to close
+     * @param tradeId trade id
+     * @throws InvalidIdException
+     */
+    public void closeTrade(int tradeId, managers.itemmanager.ItemManager im) throws InvalidIdException{
+        for (managers.trademanager.Trade t : listTrade) {
+            if (t.getIds().get(0) == tradeId) {
+                ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
+                if (!t.getIsOneWayTrade()) {
+                    lst.add(t.getIds().get(4));
+                }
+                im.setTradable(lst,true);
+                t.closedTrade();
+            }
+        }
+        throw new InvalidIdException("Invalid Id");
+    }
+
     /** Change a trade status to open
      * @param tradeId trade id
      * @throws InvalidIdException
      */
-    public void openTrade(int tradeId) throws InvalidIdException{
+    public void openTrade(int tradeId, managers.itemmanager.ItemManager im) throws InvalidIdException{
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
+                ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
+                if (!t.getIsOneWayTrade()) {
+                    lst.add(t.getIds().get(4));
+                }
+                im.setTradable(lst,false);
                 t.openTrade();
             }
         }
