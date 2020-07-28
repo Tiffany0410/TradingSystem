@@ -7,6 +7,7 @@ public class regularUserSearchingMenuGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextArea hiWelcomeToTheTextArea;
 
     public regularUserSearchingMenuGUI() {
         setContentPane(contentPane);
