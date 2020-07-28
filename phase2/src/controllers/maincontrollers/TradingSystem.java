@@ -36,6 +36,7 @@ public class TradingSystem {
    private SystemMessage sm;
    private ItemManager itemManager;
    private FeedbackManager feedbackManager;
+   private int option;
 
    /**
     * constructor of trading system
@@ -64,43 +65,48 @@ public class TradingSystem {
     *
     * @return false when user exit trading system, true when user not exit the system
     */
-   public boolean tradingSystemInital() throws IOException{
-      displaySystem.printOut("Welcome to the trading system");
-      displaySystem.printOut(" ");
+   public boolean tradingSystemInital(int option){
+      //displaySystem.printOut("Welcome to the trading system");
+      //displaySystem.printOut(" ");
 
-      int option;
-      option = displaySystem.getMenuAnswer("./menus/TradingSystemInitMenu.csv");
+      //int option;
+      //option = displaySystem.getMenuAnswer("./menus/TradingSystemInitMenu.csv");
 
-      // Option 0 is exit system
-      if (option == 0) {
-         return false;
-      }
+      try {
 
-      // Option 1 is login
-      if (option == 1) {
-         this.login();
-      }
-
-      // Option 2 is login as a guest
-      if (option == 2) {
-         // asGuest = true
-         this.regularUserMain("Guest", true);
-      }
-
-      // Option 3 is create new account
-      if (option == 3) {
-         boolean condition = false;
-
-         while (!condition) {
-            condition = accountCreator.createAccount("Regular");
-
-            // If fail, give the reason why fail
-            if (!condition) {
-               displaySystem.printOut("Username already exist, please try another one.");
-            }
-            displaySystem.printResult(condition);
-
+         // Option 0 is exit system
+         if (option == 0) {
+            return false;
          }
+
+         // Option 1 is login
+         if (option == 1) {
+            this.login();
+         }
+
+         // Option 2 is login as a guest
+         if (option == 2) {
+            // asGuest = true
+            this.regularUserMain("Guest", true);
+         }
+
+         // Option 3 is create new account
+         if (option == 3) {
+            boolean condition = false;
+
+            while (!condition) {
+               condition = accountCreator.createAccount("Regular");
+
+               // If fail, give the reason why fail
+               if (!condition) {
+                  displaySystem.printOut("Username already exist, please try another one.");
+               }
+               displaySystem.printResult(condition);
+
+            }
+         }
+      } catch (IOException ex){
+         displaySystem.printOut("Please try to clean the content of the files in Managers folder");
       }
 
       return true;
