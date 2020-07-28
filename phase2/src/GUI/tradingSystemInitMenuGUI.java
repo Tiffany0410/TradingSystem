@@ -18,12 +18,12 @@ public class tradingSystemInitMenuGUI {
 
 
     public void run(TradingSystem tradingSystem) {
+        this.tradingSystem = tradingSystem;
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new tradingSystemInitMenuGUI().panel1);
+        frame.setContentPane(new tradingSystemInitMenuGUI(tradingSystem).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        this.tradingSystem = tradingSystem;
     }
 
     public tradingSystemInitMenuGUI(TradingSystem tradingSystem){
