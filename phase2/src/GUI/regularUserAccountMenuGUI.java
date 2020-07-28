@@ -7,9 +7,32 @@ public class regularUserAccountMenuGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextArea hiWelcomeToTheTextArea;
+    private JButton browseAllTradableItemsButton;
+    private JButton addToOwnWishButton;
+    private JButton searchItemButton;
+    private JButton removeFromOwnWishButton;
+    private JButton removeFromOwnInventoryButton;
+    private JButton requestToUnfreezeAccountButton;
+    private JButton requestThatAnItemButton;
+    private JButton seeMostRecentThreeButton;
+    private JButton viewYourWishlistAndButton;
+    private JButton setYourOnVacationButton;
+    private JButton changeTradableStatusForButton;
+    private JButton seeUsersInYourButton;
+    private JButton changeYourHomeCityButton;
+    private JButton getSuggestionsForItemButton;
 
     public regularUserAccountMenuGUI() {
         setContentPane(contentPane);
+        //
+        contentPane.setLayout(null);
+        JButton button = new JButton("Testbutton!");
+        contentPane.add(hiWelcomeToTheTextArea);
+        hiWelcomeToTheTextArea.setBounds(10, 10 , 10, 10);
+        contentPane.add(button);
+        button.setBounds(10,10,40,40);
+        //
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
@@ -56,5 +79,9 @@ public class regularUserAccountMenuGUI extends JDialog {
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
