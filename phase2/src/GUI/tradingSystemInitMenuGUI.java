@@ -13,10 +13,11 @@ public class tradingSystemInitMenuGUI {
     private JButton a3CreateAccountButton;
     private JButton exitButton;
     private JTextArea welcomeToTradingSystemTextArea;
+    private TradingSystem tradingSystem;
 
     public tradingSystemInitMenuGUI(){}
 
-    public void tradingSystemInitMenu() {
+    public void tradingSystemInitMenu(TradingSystem tradingSystem) {
         a1LoginButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -25,7 +26,7 @@ public class tradingSystemInitMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                TradingSystem.tradingSystemInital(1);
+                tradingSystem.tradingSystemInital(1);
             }
         });
     }

@@ -10,6 +10,7 @@ import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
+import GUI.tradingSystemInitMenuGUI;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -87,7 +88,12 @@ public class DemoManager {
                 TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
 
                 // Run trading system
-                condition = tradingSystem.tradingSystemInital();
+                //condition = tradingSystem.tradingSystemInital();
+
+                // Run trading system
+                tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
+                tradingSystemInitMenuGUI.tradingSystemInitMenu(tradingSystem);
+
             } catch (FileNotFoundException ex) {
                 System.out.println("Can not find file, Please check the root of the program and README file.");
                 break;
