@@ -68,7 +68,7 @@
             <properties>
               <background color="-16524327"/>
               <foreground color="-16777216"/>
-              <text value="Hi, welcome to the administrative user's Main Menu."/>
+              <text value="Hi, welcome to the Administrative User Main Menu."/>
             </properties>
           </component>
           <component id="2173" class="javax.swing.JButton" binding="manageUsersButton" default-binding="true">

@@ -7,6 +7,10 @@ public class adminUserManageUsersSubMenuGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextArea hiWelcomeToTheTextArea;
+    private JButton freezeTradableUsersButton;
+    private JButton unfreezeTradableUsersButton;
+    private JButton confirmAndAddItemButton;
 
     public adminUserManageUsersSubMenuGUI() {
         setContentPane(contentPane);
@@ -39,6 +43,39 @@ public class adminUserManageUsersSubMenuGUI extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        freezeTradableUsersButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        unfreezeTradableUsersButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        confirmAndAddItemButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
     }
 
     private void onOK() {
