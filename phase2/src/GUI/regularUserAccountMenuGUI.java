@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class regularUserAccountMenuGUI extends JDialog {
+public class regularUserAccountMenuGUI extends JDialog implements GUIrunable{
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -224,7 +224,7 @@ public class regularUserAccountMenuGUI extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public void run() {
         regularUserAccountMenuGUI dialog = new regularUserAccountMenuGUI();
         dialog.pack();
         dialog.setVisible(true);

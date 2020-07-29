@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import controllers.maincontrollers.TradingSystem;
 
-public class tradingSystemInitMenuGUI {
+public class tradingSystemInitMenuGUI implements GUIrunable{
     private JButton a1LoginButton;
     private JPanel panel1;
     private JButton a2LoginAsGuestButton;
@@ -17,16 +17,15 @@ public class tradingSystemInitMenuGUI {
 
 
 
-    public void run(TradingSystem tradingSystem) {
-        this.tradingSystem = tradingSystem;
+    public void run() {
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new tradingSystemInitMenuGUI(tradingSystem).panel1);
+        frame.setContentPane(new tradingSystemInitMenuGUI().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public tradingSystemInitMenuGUI(TradingSystem tradingSystem){
+    public tradingSystemInitMenuGUI(){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**

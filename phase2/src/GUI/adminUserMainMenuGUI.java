@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class adminUserMainMenuGUI extends JDialog {
+public class adminUserMainMenuGUI extends JDialog implements GUIrunable{
     private JPanel contentPane;
     private JButton buttonCancel;
     private JTextField hiWelcomeToTheTextField;
@@ -90,7 +90,7 @@ public class adminUserMainMenuGUI extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public void run() {
         adminUserMainMenuGUI dialog = new adminUserMainMenuGUI();
         dialog.pack();
         dialog.setVisible(true);
