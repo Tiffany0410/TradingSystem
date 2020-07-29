@@ -16,6 +16,7 @@ public class Item implements Serializable {
     private int ownerId;
     private int currHolderId;
     private boolean tradable;
+    private Category category;
 
     /** Constructor of item.
      * Set this name with name, set this description with description, set this ownerId with ownerId, set this
@@ -24,12 +25,13 @@ public class Item implements Serializable {
      * @param description The description of this item
      * @param ownerId The owner's id of this item
      */
-    public Item(String name, String description, int ownerId, int itemID) {
+    public Item(String name, String description, int ownerId, int itemID, Category category) {
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
         currHolderId = ownerId;
         this.itemId = itemID;
+        this.category = category;
         this.tradable = true;
     }
 
@@ -67,6 +69,11 @@ public class Item implements Serializable {
     /** Get the description of this item
      * @return the description of this item
      */
+
+    public void setCategory(Category category){this.category = category;}
+
+    public Category getCategory(){return this.category;}
+
     public String getDescription(){
         return description;
     }

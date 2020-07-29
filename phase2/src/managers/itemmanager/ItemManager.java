@@ -145,7 +145,7 @@ public class ItemManager implements Serializable {
      * @param description The item's description
      * @param ownerId The item's owner's id
      */
-    public void requestAddItem(String name, String description, int ownerId){
+    public void requestAddItem(String name, String description, int ownerId, Category category){
         int temp_id;
         ArrayList<Item> a = listItem;
         ArrayList<Item> b = listItemToAdd;
@@ -155,7 +155,7 @@ public class ItemManager implements Serializable {
         else{
             if (b.isEmpty()){temp_id = a.get(a.size()-1).getItemId() + 1; }
             else{ temp_id = Math.max(a.get(a.size()-1).getItemId(), b.get(b.size()-1).getItemId()) + 1;} }
-        Item item = new Item(name, description, ownerId, temp_id);
+        Item item = new Item(name, description, ownerId, temp_id, category);
         listItemToAdd.add(item);
     }
 
