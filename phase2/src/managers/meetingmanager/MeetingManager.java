@@ -32,7 +32,23 @@ public class MeetingManager implements java.io.Serializable{
         }listMeeting1.sort(Comparator.comparing(Meeting::getTime));
         return listMeeting1;
     }
-
+    /** get a list of not complete meetings for a given user id
+     * @param userId the id for a user
+     * @param tradeManager the list of trades
+     * @return a list of meetings that is not completed for a given id
+     * @throws InvalidIdException an instance of this class throws the invalid trade id
+     */
+    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager) throws InvalidIdException {
+        List<Meeting> listUnCompleteMeeting = new ArrayList<>();
+        for (Meeting meeting: listMeeting){
+            if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !(meeting.getMeetingConfirm().
+                    get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2()))&& !tradeManager
+                    .getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
+                listUnCompleteMeeting.add(meeting);
+            }
+        }listUnCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
+        return listUnCompleteMeeting;
+    }
     /** get a list of complete meetings for a given id
      * @param userId the id for a user
      * @return a list of meetings that is completed for a given id
