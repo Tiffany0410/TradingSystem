@@ -130,7 +130,7 @@ public class RegularUserAccountMenuController {
     public void requestAddItem(boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
             String tempItemName = otherInfoGetter.getItemName();
-            im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId);
+            im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId, otherInfoGetter.getItemType());
             ds.printResult("Your add-item request", true);
             am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
             am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");

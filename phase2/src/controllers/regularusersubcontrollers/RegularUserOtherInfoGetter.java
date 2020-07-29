@@ -1,10 +1,12 @@
 package controllers.regularusersubcontrollers;
 
+import managers.itemmanager.Category;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -199,5 +201,26 @@ public class RegularUserOtherInfoGetter {
             }
         } while (!okInput);
         return num;
+    }
+
+    /**
+     * Gets and returns user's input of
+     * the type of the item
+     * @return User's input of the type of the item.
+     */
+    protected Category getItemType(){
+        ArrayList<String> categories = new ArrayList<>();
+        String cateG;
+        for (Category category : Category.values()){
+            categories.add(category.name());
+        }
+        Scanner sc = new Scanner(System.in);
+        ds.printOut("Please enter the type of the item: ");
+        ds.printOut("It must be in one of the categories below (all UPPERCASE)!");
+        ds.printResult(new ArrayList<>(categories));
+        do {
+           cateG = sc.nextLine();
+        } while(!categories.contains(cateG));
+        return Category.valueOf(cateG);
     }
 }
