@@ -29,7 +29,7 @@ public class MeetingManager implements java.io.Serializable{
             if (meeting.getUserId1() == userId || meeting.getUserId2() == userId){
                 listMeeting1.add(meeting);
             }
-        }listMeeting1.sort(Comparator.comparing(Meeting::getTime));
+        }
         return listMeeting1;
     }
     /** get a list of not complete meetings for a given user id
@@ -46,7 +46,7 @@ public class MeetingManager implements java.io.Serializable{
                     .getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnCompleteMeeting.add(meeting);
             }
-        }listUnCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
+        }
         return listUnCompleteMeeting;
     }
     /** get a list of complete meetings for a given id
@@ -61,7 +61,7 @@ public class MeetingManager implements java.io.Serializable{
                     get(meeting.getUserId1()) && meeting.getMeetingConfirm().get(meeting.getUserId2())){
                 listCompleteMeeting.add(meeting);
             }
-        }listCompleteMeeting.sort(Comparator.comparing(Meeting::getTime));
+        }
         return listCompleteMeeting;
     }
 
@@ -78,7 +78,7 @@ public class MeetingManager implements java.io.Serializable{
             &&!tradeManager.getTradeById(meeting.getTradeId()).tradeStatus.equals("Cancelled")){
                 listUnConfirmMeeting.add(meeting);
             }
-        }listUnConfirmMeeting.sort(Comparator.comparing(Meeting::getTime));
+        }
         return listUnConfirmMeeting;
     }
 
@@ -95,7 +95,7 @@ public class MeetingManager implements java.io.Serializable{
                             get(meeting.getUserId2()))){
                 listUnConfirmMeeting.add(meeting);
             }
-        }listUnConfirmMeeting.sort(Comparator.comparing(Meeting::getTime));
+        }
         return listUnConfirmMeeting;
     }
 
@@ -263,6 +263,27 @@ public class MeetingManager implements java.io.Serializable{
             return "You have edited too many times";
         }return "";
         }
+
+    /** get a string that describe the list of meeting
+     * @param meetings the list of meetings
+     * @return a strng that describe the list of meetings
+     */
+     public String stringForListMeeting(List<Meeting> meetings){
+         StringBuilder string1 = new StringBuilder();
+         for(Meeting meeting: meetings){
+             string1.append(meeting.toString());
+             string1.append("\n");
+         }return string1.toString();
+     }
+
+    /** sort the meetings by date
+     * @param meetings the list of meetings
+     * @return a list of meeting that is sorted by date.
+     */
+     public List<Meeting> sortByDate(List<Meeting> meetings){
+         meetings.sort(Comparator.comparing(Meeting::getTime));
+         return meetings;
+     }
 
     /** override the toString method to describe a list of meetings
      * @return a string show the detailed information about the meetings in the MeetingManager
