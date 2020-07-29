@@ -319,6 +319,18 @@ public class DisplaySystem {
             case 14:
                 this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
                 break;
+            // 1.15: Write a review for an user
+            case 15:
+                this.printOut(helper_regular_action_prefix(action) + "rate user #" + action.getAdjustableInt() + " with rating score: " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.16: Report an user
+            case 16:
+                this.printOut(helper_regular_action_prefix(action) + "report user #" + action.getAdjustableInt() + " with reason: " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.17: Find the rating for a given user
+            case 17:
+                this.printOut(helper_regular_action_prefix(action) + "search the rate of user #" + action.getAdjustableInt() + "\n");
+                break;
         }
     }
 

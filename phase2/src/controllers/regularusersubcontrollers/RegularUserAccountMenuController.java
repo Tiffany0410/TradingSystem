@@ -432,7 +432,8 @@ public class RegularUserAccountMenuController {
         int rating = otherInfoGetter.getNumRating();
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
         ds.printResult(fm.setReview(userToReview, userId, rating, reason));
-
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
+        am.addActionToAllActionsList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
     }
 
     /**
@@ -443,6 +444,8 @@ public class RegularUserAccountMenuController {
         int userToReport = idGetter.getUserID("user you want to report");
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
         ds.printResult(fm.updateReport(userToReport, userId, reason));
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.16", userToReport, reason);
+        am.addActionToAllActionsList(userId, "regularUser", "1.16", userToReport, reason);
     }
 
     /**
@@ -452,6 +455,8 @@ public class RegularUserAccountMenuController {
     public void findRatingForUser() {
         int user = idGetter.getUserID("user who you want to find out what his/her rating is");
         ds.printOut("The rating of this user is:" + fm.calculateRate(user));
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.17", user, "");
+        am.addActionToAllActionsList(userId, "regularUser", "1.17", user, "");
 
     }
 }

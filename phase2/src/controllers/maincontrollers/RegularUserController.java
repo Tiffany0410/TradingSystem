@@ -183,6 +183,9 @@ public class RegularUserController implements Controllable {
         12.See users in your home city
         13.Change your home city
         14.Get suggestions for item(s) that you can lend to a given user
+        15.Write a review for an user
+        16.Report an user
+        17.Find the rating for a given user
          */
         switch (subMenuOption) {
             case 8:
@@ -205,6 +208,15 @@ public class RegularUserController implements Controllable {
                 break;
             case 14:
                 amc.suggestItemToLend(asGuest);
+                break;
+            case 15:
+                amc.reviewUser();
+                break;
+            case 16:
+                amc.reportUser();
+                break;
+            case 17:
+                amc.findRatingForUser();
                 break;
         }
     }
