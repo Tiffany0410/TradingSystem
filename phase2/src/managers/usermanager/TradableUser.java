@@ -1,7 +1,10 @@
 package managers.usermanager;
 
+import java.awt.image.ImageObserver;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * An instance of this class represents a regular user in our system.
@@ -9,7 +12,7 @@ import java.util.ArrayList;
  * @author Hao Du, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
-public class TradableUser extends User implements Serializable{
+public class TradableUser extends User implements  Serializable{
 
     //basic info
     private String username;
@@ -35,6 +38,7 @@ public class TradableUser extends User implements Serializable{
     private ArrayList<Integer> followers;
     private ArrayList<Integer> userFollowed;
     private ArrayList<Integer> itemFollowed;
+
 
     /**
      * Construct an User.

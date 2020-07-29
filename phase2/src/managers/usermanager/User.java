@@ -2,6 +2,8 @@ package managers.usermanager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * An instance of this class represents an admin user in this system.
@@ -9,12 +11,14 @@ import java.util.ArrayList;
  * @author Hao Du
  * @version IntelliJ IDEA 2020.1
  */
-public class User implements Serializable {
+public class User extends Observable implements Observer, Serializable {
 
     private String username;
     private String password;
     private String email;
     private int id;
+    private ArrayList<String> userFollowingLogs;
+    private ArrayList<String> itemFollowingLogs;
 
     /**
      * Construct an User.
@@ -54,5 +58,28 @@ public class User implements Serializable {
      * @return this user's password
      */
     public String getPassword() {return password;}
+
+    /**
+     * Update accordingly after subject calls notifyObservers()
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof User){
+            userFollowingLogs.add(arg.toString());
+        }
+        else{
+            itemFollowingLogs.add(arg.toString());
+        }
+
+    }
+    /**
+     * Set change for Item
+     */
+    public void setChanged(){
+    }
+
+    public void notifyObserver(String itemChanged){
+
+    }
 
 }
