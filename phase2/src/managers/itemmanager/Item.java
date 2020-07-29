@@ -1,6 +1,11 @@
 package managers.itemmanager;
 
+import managers.usermanager.User;
+
+import java.io.ObjectStreamClass;
 import java.io.Serializable;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * An instance of this class represents an item in the system.
@@ -9,7 +14,7 @@ import java.io.Serializable;
  * @author Shi Tang
  * @version IntelliJ IDEA 2020.1.1
  */
-public class Item implements Serializable {
+public class Item extends Observable implements  Serializable, Observer {
     private String name;
     private String description;
     private int itemId;
@@ -125,5 +130,25 @@ public class Item implements Serializable {
         return "This " + name + " with ID " + itemId + " is: " + description + ".\n" +
                 "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + "."
                 + " Tradable = " + getTradable() + ". ";
+    }
+
+    /**
+     * Update accordingly after subject calls notifyObservers()
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+    /**
+     * Set change for Item
+     */
+    public void setChanged(){
+    }
+
+    /**
+     * Notify the observer about this item's trading status
+     */
+    public void notifyObserver(boolean tradeStatus){
+
     }
 }
