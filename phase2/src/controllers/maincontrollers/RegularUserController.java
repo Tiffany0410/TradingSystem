@@ -209,15 +209,6 @@ public class RegularUserController implements Controllable {
             case 14:
                 amc.suggestItemToLend(asGuest);
                 break;
-            case 15:
-                amc.reviewUser();
-                break;
-            case 16:
-                amc.reportUser();
-                break;
-            case 17:
-                amc.findRatingForUser();
-                break;
         }
     }
 
