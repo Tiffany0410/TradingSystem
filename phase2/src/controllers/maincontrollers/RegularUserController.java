@@ -7,6 +7,7 @@ import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -40,6 +41,7 @@ public class RegularUserController implements Controllable {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private String username;
     private int userId;
     private boolean asGuest;
@@ -47,7 +49,8 @@ public class RegularUserController implements Controllable {
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager, an ActionManager,
-     * the regular user's username and userId, as well as the asGuest boolean attribute.
+     * a FeedbackManager, the regular user's username and userId,
+     * as well as the asGuest boolean attribute.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
@@ -55,23 +58,26 @@ public class RegularUserController implements Controllable {
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param am       The current state of the ActionManager.
+     * @param fm       The current state of the FeedbackManager.
      * @param username The username of the regular user.
      * @param asGuest  The determiner of limited access to menu options.
      */
     public RegularUserController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                 ItemManager im, ActionManager am, String username, boolean asGuest) {
+                                 ItemManager im, ActionManager am, FeedbackManager fm,
+                                 String username, boolean asGuest) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
+        this.fm = fm;
         this.username = username;
         this.userId = um.usernameToID(username);
         this.asGuest = asGuest;
         this.frw = new FilesReaderWriter();
         // for other controllers / presenters
-        this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, username, userId);
+        this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, fm, username, userId);
         this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
@@ -98,8 +104,11 @@ public class RegularUserController implements Controllable {
                 if (subMenuOption <= 7) {
                     userAccountMenuResponse1(subMenuOption);
                 }
-                else{
+                else if (7 < subMenuOption && subMenuOption <= 14){
                     userAccountMenuResponse2(subMenuOption);
+                }
+                else {
+                    userAccountMenuResponse3(subMenuOption);
                 }
                 break;
             case 2:
@@ -174,6 +183,9 @@ public class RegularUserController implements Controllable {
         12.See users in your home city
         13.Change your home city
         14.Get suggestions for item(s) that you can lend to a given user
+        15.Write a review for an user
+        16.Report an user
+        17.Find the rating for a given user
          */
         switch (subMenuOption) {
             case 8:
@@ -181,19 +193,45 @@ public class RegularUserController implements Controllable {
                 break;
             case 9:
                 amc.viewWishListInventory(asGuest);
+                break;
             case 10:
                 amc.setOnVacationStatus(asGuest);
+                break;
             case 11:
                 amc.setTradableStatusForItem(asGuest);
+                break;
             case 12:
                 amc.seeUsersInSameHC(asGuest);
+                break;
             case 13:
                 amc.changeUserHC(asGuest);
+                break;
             case 14:
                 amc.suggestItemToLend(asGuest);
+                break;
         }
     }
 
+    private void userAccountMenuResponse3 (int subMenuOption){
+        /*
+        15.Write a review for an user
+        16.Report an user
+        17.Find the rating for a given user
+         */
+        switch (subMenuOption) {
+            case 15:
+                amc.reviewUser();
+                break;
+            case 16:
+                amc.reportUser();
+                break;
+            case 17:
+                amc.findRatingForUser();
+                break;
+        }
+
+
+    }
 
     private void userTradingMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
         /*

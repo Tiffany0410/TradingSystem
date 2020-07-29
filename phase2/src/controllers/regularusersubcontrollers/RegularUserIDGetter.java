@@ -51,7 +51,8 @@ public class RegularUserIDGetter {
     }
 
     /**
-     * Gets the item id from the user.
+     * Gets the item id from the user. Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @param potentialItems The list of potential items
      *                       that should contain item with the item id
      *                       input by the user.
@@ -95,15 +96,12 @@ public class RegularUserIDGetter {
     }
 
     /**
-     * Gets the user id from the user.
+     * Gets the user id from the user. Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @param type The type of user the system wants the id from.
      * @return A valid user id for the type of user.
      */
     protected int getUserID(String type){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
         Scanner sc = new Scanner(System.in);
         int userId = 0;
         boolean okInput = false;
@@ -127,14 +125,11 @@ public class RegularUserIDGetter {
     }
 
     /**
-     * Asks the user for the trade id.
+     * Asks the user for the trade id. Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @return A valid trade id input by the user.
      */
     protected int getTradeID() {
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
         Scanner sc = new Scanner(System.in);
         int tradeId = 0;
         boolean okInput = false;

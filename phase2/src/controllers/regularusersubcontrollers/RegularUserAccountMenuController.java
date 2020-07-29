@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -33,31 +34,35 @@ public class RegularUserAccountMenuController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private String username;
     private int userId;
 
     /**
      * Constructs a RegularUserAccountMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
-     * an ActionManager, the regular user's username and userId.
+     * an ActionManager, a FeedbackManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
-     * @param am       The current state of the AccountManager.
+     * @param am       The current state of the ActionManager.
+     * @param fm       The current state of the FeedbackManager.
      * @param username The username of the regular user.
      * @param userId   The user id of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                            ItemManager im, ActionManager am, String username, int userId) {
+                                            ItemManager im, ActionManager am, FeedbackManager fm,
+                                            String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
+        this.fm = fm;
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
@@ -125,7 +130,7 @@ public class RegularUserAccountMenuController {
     public void requestAddItem(boolean asGuest) throws InvalidIdException {
         if (!asGuest) {
             String tempItemName = otherInfoGetter.getItemName();
-            im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId);
+            im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId, otherInfoGetter.getItemType());
             ds.printResult("Your add-item request", true);
             am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
             am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
@@ -249,7 +254,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print all the tradable items in the system
+     * Lets the presenter print all the tradable items in the system
      * for the user to browse through.
      * @param allOtherItems The items that will be displayed to the user.
      */
@@ -265,7 +270,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Receive user's input and set his/her on-vacation status
+     * Receives user's input and set his/her on-vacation status
      * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is not valid.
      */
@@ -291,7 +296,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print the tradable status for each of
+     * Lets the presenter print the tradable status for each of
      * inventory items of the user and let the user change the
      * tradable status for an item.
      * @param asGuest The determiner of access to this menu option.
@@ -343,7 +348,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print a list of users in the same
+     * Lets the presenter print a list of users in the same
      * city as this user.
      * @param asGuest The determiner of access to this menu option.
      */
@@ -359,7 +364,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Get user's input of the new home city and then
+     * Gets user's input of the new home city and then
      * change user's home city.
      * @param asGuest The determiner of access to this menu option.
      */
@@ -377,7 +382,7 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Let presenter print the items this user
+     * Lets presenter print the items this user
      * can lend to a given user. The random number
      * part is Based on code by Bill the Lizard from:
      * @link https://stackoverflow.com/questions/363681
@@ -416,4 +421,42 @@ public class RegularUserAccountMenuController {
 
     }
 
+    /**
+     * Gets user's input of the id of the user to be reviewed, the rating to give,
+     * as well as a message explaining the reason and uses them to update the review
+     * system.
+     */
+    public void reviewUser() {
+        int userToReview = idGetter.getUserID("user you want to review");
+        // Asks the user for an integer input x --> must satisfy 1 <= x <= 10
+        int rating = otherInfoGetter.getNumRating();
+        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
+        ds.printResult(fm.setReview(userToReview, userId, rating, reason));
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
+        am.addActionToAllActionsList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
     }
+
+    /**
+     * Gets user's input of the id of the user to be reported as well as a message explaining the reason
+     * and uses them to update the report system.
+     */
+    public void reportUser() {
+        int userToReport = idGetter.getUserID("user you want to report");
+        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
+        ds.printResult(fm.updateReport(userToReport, userId, reason));
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.16", userToReport, reason);
+        am.addActionToAllActionsList(userId, "regularUser", "1.16", userToReport, reason);
+    }
+
+    /**
+     * Gets user's input of the id of the user to be searched for the rating for
+     * and uses it to find the rating, which is printed by the printer.
+     */
+    public void findRatingForUser() {
+        int user = idGetter.getUserID("user who you want to find out what his/her rating is");
+        ds.printOut("The rating of this user is:" + fm.calculateRate(user));
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.17", user, "");
+        am.addActionToAllActionsList(userId, "regularUser", "1.17", user, "");
+
+    }
+}

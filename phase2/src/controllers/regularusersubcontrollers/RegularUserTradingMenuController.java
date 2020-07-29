@@ -280,13 +280,13 @@ public class RegularUserTradingMenuController {
             }
         }
         if (suggestion.size() == 0) {
-            sm.msgForNothing("No recommend suggestion", ds);
+            sm.msgForNothing("recommend suggestion", ds);
         } else {
             ArrayList<Integer> person = new ArrayList<>();
             for (managers.usermanager.TradableUser t : suggestion) {
                 person.add(t.getId());
             }
-            ds.printResult(person);
+            ds.printResult(new ArrayList<>(person));
         }
     }
     private int determineTradeID() {
