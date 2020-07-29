@@ -21,22 +21,24 @@ public class DisplaySystem {
     private FilesReaderWriter fileReader;
     private int option;
 
-    public DisplaySystem(){
+    public DisplaySystem() {
         fileReader = new FilesReaderWriter();
     }
 
     /**
      * print the put in sentence to the screen
      * convinces to change from txt to window
+     *
      * @param str the string need to be print out
      */
-    public void printOut(String str){
+    public void printOut(String str) {
         System.out.println(str);
     }
 
 
     /**
      * Print menu and get the option user put in
+     *
      * @param filePath the path of file need to be read
      * @return option
      */
@@ -58,10 +60,9 @@ public class DisplaySystem {
 
                 // check the number user typed in
                 int menuLength = getMenuLength(filePath);
-                if (0 <=option && option <= menuLength){
+                if (0 <= option && option <= menuLength) {
                     break;
-                }
-                else{
+                } else {
                     this.printOut("Please enter a number provide in the menu");
                 }
             } catch (Exception InputMismatchException) {
@@ -76,6 +77,7 @@ public class DisplaySystem {
 
     /**
      * Get the number of options
+     *
      * @param filePath the path of file need to be read
      * @return int the length of menu
      */
@@ -89,6 +91,7 @@ public class DisplaySystem {
      * Show the menu on the screen by taking the file name and show the options in the file
      * to the screen
      * In the future, this will change to another UI not just text
+     *
      * @param filePath the path of file need to be read
      */
 
@@ -99,10 +102,11 @@ public class DisplaySystem {
 
     /**
      * Get the username user put in
+     *
      * @return username
      */
 
-    public String getUsername(){
+    public String getUsername() {
         String userName;
         Scanner sc = new Scanner(System.in);
         this.printOut("Please enter user name");
@@ -113,10 +117,11 @@ public class DisplaySystem {
 
     /**
      * Get the password user put in
+     *
      * @return password
      */
 
-    public String getPassword(){
+    public String getPassword() {
         String password;
         Scanner sc = new Scanner(System.in);
         this.printOut("Please enter password");
@@ -128,7 +133,7 @@ public class DisplaySystem {
      * Get email address user put in
      */
 
-    public String getEmail(){
+    public String getEmail() {
         String emailAddress;
         Scanner sc = new Scanner(System.in);
         this.printOut("Please enter your email address");
@@ -140,7 +145,7 @@ public class DisplaySystem {
      * Get home city user typed in
      */
 
-    public String getHomeCity(){
+    public String getHomeCity() {
         String city;
         Scanner sc = new Scanner(System.in);
         this.printOut("Please enter your email address");
@@ -154,7 +159,7 @@ public class DisplaySystem {
      * @param listOfUser the list of Regular Users
      */
     public void printListUser(ArrayList<TradableUser> listOfUser) {
-        for (TradableUser user: listOfUser) {
+        for (TradableUser user : listOfUser) {
             this.printOut("#" + user.getId() + ". " + user.getUsername() + "\n");
         }
     }
@@ -162,12 +167,13 @@ public class DisplaySystem {
 
     /**
      * Print out the result of action with boolean type
+     *
      * @param result the result of user's operation
      */
-    public void printResult(boolean result){
-        if (result){
+    public void printResult(boolean result) {
+        if (result) {
             printOut("Success");
-        }else{
+        } else {
             printOut("Fail");
         }
         printOut("\n");
@@ -175,6 +181,7 @@ public class DisplaySystem {
 
     /**
      * print out the result of action with object type
+     *
      * @param obj the list of objects need to be printed
      */
     public void printResult(ArrayList<Object> obj) {
@@ -186,7 +193,7 @@ public class DisplaySystem {
             }
             // if o is a string[]
             else {
-                String[] strings = (String[])o;
+                String[] strings = (String[]) o;
                 this.printOut("#" + count + ". " + "\n" + "Username: " + strings[0]);
                 this.printOut("Message: " + strings[1] + "\n");
             }
@@ -196,15 +203,16 @@ public class DisplaySystem {
 
     /**
      * print out the result of action with string and boolean type
-     * @param str the sentence want to present
+     *
+     * @param str    the sentence want to present
      * @param result the result of the action
      */
 
-    public void printResult(String str, boolean result){
-        if (result){
+    public void printResult(String str, boolean result) {
+        if (result) {
             printOut(str + " is sent successfully");
             printOut("\n");
-        }else{
+        } else {
             printOut(str + " fails to be sent");
             printOut("\n");
         }
@@ -215,13 +223,13 @@ public class DisplaySystem {
      * Print out all historical Action which can be cancelled
      */
     public void printHistoricalActions(ArrayList<Action> listOfAction) {
-        for (Action action: listOfAction) {
+        for (Action action : listOfAction) {
             String userType = action.getUserType();
             String menuOption = action.getMenuOption();
             switch (userType) {
                 case "regularUser":
                     this.regularUserAction(action);
-                     break;
+                    break;
                 case "adminUser":
                     this.adminUserAction(action);
                     break;
@@ -253,7 +261,7 @@ public class DisplaySystem {
     }
 
     private void regularUserAccountAction(Action action, int subMenuOption) {
-        switch (subMenuOption){
+        switch (subMenuOption) {
             // 1.1: Browse all tradable items in the system
             case 1:
                 this.printOut(helper_regular_action_prefix(action) + "browse all tradable items in the system");
@@ -334,15 +342,15 @@ public class DisplaySystem {
                 break;
             // 2.5: Confirm that a trade has been completed
             case 5:
-                this.printOut(helper_regular_action_prefix(action)  + "check if the trade #" + action.getAdjustableInt() + " is completed or not" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "check if the trade #" + action.getAdjustableInt() + " is completed or not" + "\n");
                 break;
             // 2.6: See top three most frequent trading partners
             case 6:
-                this.printOut(helper_regular_action_prefix(action)  + "check the top three most frequent trading partners" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "check the top three most frequent trading partners" + "\n");
                 break;
             // 2.7: View transactions that have been cancelled
             case 7:
-                this.printOut(helper_regular_action_prefix(action)  + "view transactions that have been cancelled" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "view transactions that have been cancelled" + "\n");
                 break;
             // 2.8: Suggestion for the most reasonable trade
             case 8:
@@ -372,11 +380,11 @@ public class DisplaySystem {
                 break;
             // 3.5: See the list of meetings that have been confirmed
             case 5:
-                this.printOut(helper_regular_action_prefix(action)  + "see the list of meetings that have been confirmed" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "see the list of meetings that have been confirmed" + "\n");
                 break;
             // 3.6: See the list of meetings with time and place that need to be confirmed
             case 6:
-                this.printOut(helper_regular_action_prefix(action)  + "see the list of meetings with time and place that need to be confirmed" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "see the list of meetings with time and place that need to be confirmed" + "\n");
                 break;
         }
     }
@@ -399,7 +407,7 @@ public class DisplaySystem {
             // MainMenuOption <3>  corresponding to AdminUserActionSubMenu.csv
             case 3:
                 adminUserActionAction(action, subMenuOption);
-            // MainMenuOption <4>  corresponding to AdminUserOtherSubMenu.csv
+                // MainMenuOption <4>  corresponding to AdminUserOtherSubMenu.csv
             case 4:
                 adminUserOtherAction(action, subMenuOption);
         }
@@ -409,7 +417,7 @@ public class DisplaySystem {
         switch (subMenuOption) {
             // 1.1: Freeze tradableUsers
             case 1:
-                this.printOut(helper_admin_action_prefix(action) + "freeze tradableUser #"+ action.getAdjustableInt() + " with username: " + action.getAdjustableStr() + "\n");
+                this.printOut(helper_admin_action_prefix(action) + "freeze tradableUser #" + action.getAdjustableInt() + " with username: " + action.getAdjustableStr() + "\n");
                 break;
             // 1.2: Unfreeze tradableUsers
             case 2:
@@ -423,48 +431,49 @@ public class DisplaySystem {
     }
 
     private void adminUserEditThresholdsAction(Action action, int subMenuOption) {
-            switch (subMenuOption) {
-                // 2.1: Edit the max number of transactions allowed a week
-                case 1:
-                    this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions allowed a week> from " + action.getAdjustableInt() + " to " + Integer.parseInt(action.getAdjustableStr())+ "\n");
-                    break;
-                // 2.2: Edit the max number of transactions that can be incomplete before the account is frozen
-                case 2:
-                    this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions that can be incomplete before the account is frozen> from " + action.getAdjustableInt()  + " to " + Integer.parseInt(action.getAdjustableStr())+ "\n");
-                    break;
-                // 2.3: Edit the number of books tradableUsers must lend before tradableUsers can borrow
-                case 3:
-                    this.printOut(helper_admin_action_prefix(action) + "edit <the number of books tradableUsers must lend before tradableUsers can borrow> from " + action.getAdjustableInt()  + " to " + Integer.parseInt(action.getAdjustableStr())+ "\n");
-                    break;
-                // 2.4: Edit the max Edits per user for meeting’s date + time
-                case 4:
-                    this.printOut(helper_admin_action_prefix(action) + "edit <the max Edits per user for meeting’s date + time> from " + action.getAdjustableInt()  + " to " + Integer.parseInt(action.getAdjustableStr())+ "\n");
-                    break;}
+        switch (subMenuOption) {
+            // 2.1: Edit the max number of transactions allowed a week
+            case 1:
+                this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions allowed a week> from " + action.getAdjustableInt() + " to " + Integer.parseInt(action.getAdjustableStr()) + "\n");
+                break;
+            // 2.2: Edit the max number of transactions that can be incomplete before the account is frozen
+            case 2:
+                this.printOut(helper_admin_action_prefix(action) + "edit <the max number of transactions that can be incomplete before the account is frozen> from " + action.getAdjustableInt() + " to " + Integer.parseInt(action.getAdjustableStr()) + "\n");
+                break;
+            // 2.3: Edit the number of books tradableUsers must lend before tradableUsers can borrow
+            case 3:
+                this.printOut(helper_admin_action_prefix(action) + "edit <the number of books tradableUsers must lend before tradableUsers can borrow> from " + action.getAdjustableInt() + " to " + Integer.parseInt(action.getAdjustableStr()) + "\n");
+                break;
+            // 2.4: Edit the max Edits per user for meeting’s date + time
+            case 4:
+                this.printOut(helper_admin_action_prefix(action) + "edit <the max Edits per user for meeting’s date + time> from " + action.getAdjustableInt() + " to " + Integer.parseInt(action.getAdjustableStr()) + "\n");
+                break;
+        }
     }
 
     private void adminUserActionAction(Action action, int subMenuOption) {
-            switch (subMenuOption) {
-                // 3.1: List all the historical actions in the system
-                case 1:
-                    this.printOut(helper_admin_action_prefix(action) + "list all the historical actions in the system" + "\n");
-                    break;
-                // 3.2: Cancel the revocable historical actions of tradableUser
-                case 2:
-                    this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #" + action.getAdjustableInt() + "\n");
-                    break;
-                // 3.3: Find all the revocable historical actions of specific tradableUser
-                case 3:
-                    this.printOut(helper_admin_action_prefix(action) + "search all the revocable historical actions of tradableUser #" + action.getAdjustableInt() + "\n");
-            }
+        switch (subMenuOption) {
+            // 3.1: List all the historical actions in the system
+            case 1:
+                this.printOut(helper_admin_action_prefix(action) + "list all the historical actions in the system" + "\n");
+                break;
+            // 3.2: Cancel the revocable historical actions of tradableUser
+            case 2:
+                this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #" + action.getAdjustableInt() + "\n");
+                break;
+            // 3.3: Find all the revocable historical actions of specific tradableUser
+            case 3:
+                this.printOut(helper_admin_action_prefix(action) + "search all the revocable historical actions of tradableUser #" + action.getAdjustableInt() + "\n");
+        }
     }
 
     private void adminUserOtherAction(Action action, int subMenuOption) {
-            switch (subMenuOption) {
-                // 4.1: Add subsequent admin Users
-                case 1:
-                    this.printOut(helper_admin_action_prefix(action) + "add subsequent Admin Users #" + action.getAdjustableInt() + "\n");
-                    break;
-               }
+        switch (subMenuOption) {
+            // 4.1: Add subsequent admin Users
+            case 1:
+                this.printOut(helper_admin_action_prefix(action) + "add subsequent Admin Users #" + action.getAdjustableInt() + "\n");
+                break;
+        }
     }
 
     private String helper_regular_action_prefix(Action action) {
@@ -479,7 +488,7 @@ public class DisplaySystem {
      * Print this when the username does not exist
      */
 
-    public void printWrongUsername(){
+    public void printWrongUsername() {
         this.printOut("This username doesn't exists, please check again or crate one");
     }
 
@@ -487,7 +496,7 @@ public class DisplaySystem {
      * Print this when the password is not correct
      */
 
-    public void printWrongPassword(){
+    public void printWrongPassword() {
         this.printOut("This password is not correct, please check again");
     }
 }

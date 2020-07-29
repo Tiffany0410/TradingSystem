@@ -130,7 +130,6 @@ public class RegularUserTradingMenuController {
             sm.msgForNothing(ds);
         }
     }
-
     /**
      * Gets from user the information about the trade the user
      * wants to respond to and determine whether the
@@ -218,7 +217,7 @@ public class RegularUserTradingMenuController {
         }
         // change the status to open
         // so it won't be among the list of trade requests again
-        tm.openTrade(tradeID);
+        tm.openTrade(tradeID, im);
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
 
@@ -272,7 +271,24 @@ public class RegularUserTradingMenuController {
             requestResult(ok, trade, tradeID, userId1, numLentBeforeBorrow);
         }
     }
-
+    public void tradeSuggestion(int itemId) {
+        ArrayList<managers.usermanager.TradableUser> suggestion = new ArrayList<>();
+        ArrayList<managers.usermanager.TradableUser> sameCity = um.sameCity(this.userId);
+        for (managers.usermanager.TradableUser t : sameCity) {
+            if (t.getInventory().contains(itemId)) {
+                suggestion.add(t);
+            }
+        }
+        if (suggestion.size() == 0) {
+            sm.msgForNothing("No recommend suggestion", ds);
+        } else {
+            ArrayList<Integer> person = new ArrayList<>();
+            for (managers.usermanager.TradableUser t : suggestion) {
+                person.add(t.getId());
+            }
+            ds.printResult(new ArrayList<>(person));
+        }
+    }
     private int determineTradeID() {
         int tradeID;
         //add the trade id so that there're no duplicates
@@ -359,5 +375,4 @@ public class RegularUserTradingMenuController {
         return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
-
 }
