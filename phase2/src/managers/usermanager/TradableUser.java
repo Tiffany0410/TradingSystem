@@ -12,7 +12,7 @@ import java.util.Observer;
  * @author Hao Du, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
-public class TradableUser extends User implements  Serializable{
+public class TradableUser extends User implements Serializable {
 
     //basic info
     private String username;
@@ -48,7 +48,7 @@ public class TradableUser extends User implements  Serializable{
      * @param email    user's email
      */
     public TradableUser(String username, String password, String email, Integer userID) {
-        super(username,password,email,userID);
+        super(username, password, email, userID);
         wishList = new ArrayList<>();
         inventory = new ArrayList<>();
         numLent = 0;
@@ -65,10 +65,13 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Sets user's wishlist to a new one.
+     *
      * @param newWishList The new wishlist.
      */
-    public void setWishList(ArrayList<Integer> newWishList){
+    public void setWishList(ArrayList<Integer> newWishList) {
         wishList = newWishList;
+        setChanged();
+        notifyObserver("Update the wish list to" + newWishList + ".");
     }
 
 
@@ -83,10 +86,14 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Sets user's inventory to a new one.
+     *
      * @param newInventory The new inventory.
      */
-    public void setInventory(ArrayList<Integer> newInventory){
+    public void setInventory(ArrayList<Integer> newInventory) {
+
         inventory = newInventory;
+        setChanged();
+        notifyObserver("Update the inventory to" + newInventory + ".");
     }
 
     /**
@@ -113,15 +120,15 @@ public class TradableUser extends User implements  Serializable{
      *
      * @return The number of items lent by the user.
      */
-    public int getNumLent(){
+    public int getNumLent() {
         return numLent;
     }
 
     /**
      * Increment the number of items lent by the user by one.
      */
-    public void addOneToNumLent(){
-        numLent ++;
+    public void addOneToNumLent() {
+        numLent++;
     }
 
     /**
@@ -129,60 +136,65 @@ public class TradableUser extends User implements  Serializable{
      *
      * @return The number of items borrowed by the user.
      */
-    public int getNumBorrowed(){
+    public int getNumBorrowed() {
         return numBorrowed;
     }
 
     /**
      * Increment the number of items borrowed by the user by one.
      */
-    public void addOneToNumBorrowed(){
-        numBorrowed ++;
+    public void addOneToNumBorrowed() {
+        numBorrowed++;
     }
 
     /**
      * Get user's status (frozen or unfrozen).
+     *
      * @return Whether this user is frozen.
      */
-    public boolean getIfFrozen(){
+    public boolean getIfFrozen() {
         return isFrozen;
     }
 
     /**
      * Set user's status (to frozen or unfrozen)
+     *
      * @param newStatus The new status to be assigned.
      */
-    public void setIfFrozen(boolean newStatus){
+    public void setIfFrozen(boolean newStatus) {
         isFrozen = newStatus;
     }
 
     /**
      * Getter for the number of transactions left
      * for this week.
+     *
      * @return the number of transactions left for
      * this week.
      */
-    public int getNumTransactionLeftForTheWeek(){
+    public int getNumTransactionLeftForTheWeek() {
         return transactionsLeftForTheWeek;
     }
 
     /**
      * Setter for the number of transactions left
      * for this week
+     *
      * @param newVal The new number of transactions
      *               left for the week.
      */
-    public void setTransactionLeftForTheWeek(int newVal){
+    public void setTransactionLeftForTheWeek(int newVal) {
         transactionsLeftForTheWeek = newVal;
     }
 
     /**
      * Getter for the number of times the user
      * has been frozen.
+     *
      * @return the number of times the user has
      * been frozen
      */
-    public int getNumFrozen(){
+    public int getNumFrozen() {
         return numFrozen;
     }
 
@@ -190,8 +202,8 @@ public class TradableUser extends User implements  Serializable{
      * Increments the number of times
      * the user has been frozen by one.
      */
-    public void addOneToNumFrozen(){
-        numFrozen ++;
+    public void addOneToNumFrozen() {
+        numFrozen++;
     }
 
     /**
@@ -201,7 +213,10 @@ public class TradableUser extends User implements  Serializable{
      */
     public void setHome(String homeCity) {
         this.homeCity = homeCity;
+        setChanged();
+        notifyObserver("Update the user's home to " + homeCity + ".");
     }
+
     /**
      * Set the flag indicates whether the user is on vacation
      *
@@ -209,7 +224,10 @@ public class TradableUser extends User implements  Serializable{
      */
     public void setOnVacation(boolean onVacation) {
         this.onVacation = onVacation;
+        setChanged();
+        notifyObserver("Update the user's vacation status to " + onVacation + ".");
     }
+
     /**
      * Get the user's homeCity
      *
@@ -218,6 +236,7 @@ public class TradableUser extends User implements  Serializable{
     public String getHome() {
         return homeCity;
     }
+
     /**
      * Get the flag indicates whether the user is on vacation
      *
@@ -226,8 +245,10 @@ public class TradableUser extends User implements  Serializable{
     public boolean getOnVacation() {
         return onVacation;
     }
+
     /**
      * Get the list of user's friends.
+     *
      * @return friend A list of this user's friends.
      */
     public ArrayList<Integer> getFriend() {
@@ -236,13 +257,16 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Add a friend to friends list by id
+     *
      * @param id the friend's id
      */
     public void addToFriends(Integer id) {
         friend.add(id);
     }
+
     /**
      * Remove a friend from the friends list by id
+     *
      * @param id the friend's id
      */
     public void removeFromFriends(Integer id) {
@@ -252,21 +276,26 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Get the list of user's Followers.
+     *
      * @return A list of this user's Followers.
      */
 
     public ArrayList<Integer> getFollowers() {
         return followers;
     }
+
     /**
      * Add a follower to the user's  Followers list by id
+     *
      * @param userId the followers's id
      */
     public void addFollowers(Integer userId) {
         followers.add(id);
     }
+
     /**
      * Remove a follower from the user's followers list by id
+     *
      * @param userId the followers's id
      */
     public void removeFollowers(Integer userId) {
@@ -275,6 +304,7 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Get the list of user's Followings.
+     *
      * @return A list of users that this user Following.
      */
 
@@ -284,13 +314,16 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Add a user to the user's Followings list by id
+     *
      * @param userId the Followings's id
      */
     public void followUser(Integer userId) {
         userFollowed.add(userId);
     }
+
     /**
      * Remove a item from the user's Followings list by id
+     *
      * @param userId the item id that this user want to unfollow
      */
     public void unfollowUser(Integer userId) {
@@ -299,13 +332,16 @@ public class TradableUser extends User implements  Serializable{
 
     /**
      * Add a item to the user's Followings list by id
+     *
      * @param itemId the Followings's id
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
     }
+
     /**
      * Remove a item from the user's Followings list by id
+     *
      * @param itemId the item id that this user want to unfollow
      */
     public void unfollowItem(Integer itemId) {
@@ -313,11 +349,13 @@ public class TradableUser extends User implements  Serializable{
     }
 
 
-    /** Override the to string to describe the user
+    /**
+     * Override the to string to describe the user
+     *
      * @return A string description of this user
      */
     @Override
-    public String toString(){
+    public String toString() {
         return "This user has" + "username: " + this.username + ", id: " + this.id + ", email: " + this.email
                 + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
                 "The answer to whether he/she is frozen is " + isFrozen;

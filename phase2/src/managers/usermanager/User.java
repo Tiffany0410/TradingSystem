@@ -22,7 +22,7 @@ public class User extends Observable implements Observer, Serializable {
 
     /**
      * Construct an User.
-     * 
+     *
      * @param username user's username.
      * @param password user's password.
      * @param email    user's email
@@ -37,7 +37,7 @@ public class User extends Observable implements Observer, Serializable {
 
     /**
      * Get the user's username.
-     * 
+     *
      * @return user's username.
      */
     public String getUsername() {
@@ -46,7 +46,7 @@ public class User extends Observable implements Observer, Serializable {
 
     /**
      * Get the user's id.
-     * 
+     *
      * @return user's id.
      */
     public int getId() {
@@ -55,31 +55,40 @@ public class User extends Observable implements Observer, Serializable {
 
     /**
      * Getter for user's password
+     *
      * @return this user's password
      */
-    public String getPassword() {return password;}
+    public String getPassword() {
+        return password;
+    }
 
     /**
      * Update accordingly after subject calls notifyObservers()
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof User){
+        if (o instanceof User) {
             userFollowingLogs.add(arg.toString());
-        }
-        else{
+        } else {
             itemFollowingLogs.add(arg.toString());
         }
 
     }
+
     /**
      * Set change for Item
      */
-    public void setChanged(){
+    public void setChanged() {
     }
 
-    public void notifyObserver(String itemChanged){
-
+    /**
+     * Notify the user for any observable changed
+     *
+     * @param actionChanged the string that contains the description
+     *                      for the item added/removed in the method we want to observe
+     */
+    public void notifyObserver(String actionChanged) {
+        update(this, actionChanged);
     }
 
 }
