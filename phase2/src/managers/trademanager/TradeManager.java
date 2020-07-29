@@ -109,7 +109,6 @@ public class TradeManager implements Serializable {
         }
         return list1;
     }
-
     /**
      * returen list of recent three trade item ids
      *
