@@ -159,8 +159,12 @@ public class ItemManager implements Serializable {
      * Remove item from listItemToAdd
      * @param itemId The Item's ID
      */
-    public void removeFromListItemToAdd(int itemId){
-        listItemToAdd.removeIf(item -> item.getItemId() == itemId);
+    public boolean removeFromListItemToAdd(int itemId){
+        if (getItemsIDs(listItemToAdd).contains(itemId)){
+            listItemToAdd.removeIf(item -> item.getItemId() == itemId);
+            return true;
+        }
+        return false;
     }
 
     /**
