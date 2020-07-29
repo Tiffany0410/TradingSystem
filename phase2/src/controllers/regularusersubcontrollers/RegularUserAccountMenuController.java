@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -33,31 +34,35 @@ public class RegularUserAccountMenuController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private String username;
     private int userId;
 
     /**
      * Constructs a RegularUserAccountMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
-     * an ActionManager, the regular user's username and userId.
+     * an ActionManager, a FeedbackManager, the regular user's username and userId.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
-     * @param am       The current state of the AccountManager.
+     * @param am       The current state of the ActionManager.
+     * @param fm       The current state of the FeedbackManager.
      * @param username The username of the regular user.
      * @param userId   The user id of the regular user.
      */
     public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                            ItemManager im, ActionManager am, String username, int userId) {
+                                            ItemManager im, ActionManager am, FeedbackManager fm,
+                                            String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
+        this.fm = fm;
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
@@ -426,7 +431,7 @@ public class RegularUserAccountMenuController {
         // Asks the user for an integer input x --> must satisfy 1 <= x <= 10
         int rating = 0;
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
-        ds.printResult(rrm.setReview(userToReview, userId, rating, reason));
+        ds.printResult(fm.setReview(userToReview, userId, rating, reason));
 
     }
 
@@ -437,7 +442,7 @@ public class RegularUserAccountMenuController {
     public void reportUser() {
         int userToReport = idGetter.getUserID("user you want to report");
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
-        ds.printResult(rrm.updateReport(userToReport, userId, reason));
+        ds.printResult(fm.updateReport(userToReport, userId, reason));
     }
 
     /**
@@ -446,7 +451,7 @@ public class RegularUserAccountMenuController {
      */
     public void findRatingForUser() {
         int user = idGetter.getUserID("user who you want to find out what his/her rating is");
-        ds.printOut("The rating of this user is:" + rrm.calculateRate(user));
+        ds.printOut("The rating of this user is:" + fm.calculateRate(user));
 
     }
 }

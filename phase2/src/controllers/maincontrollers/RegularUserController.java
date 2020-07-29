@@ -7,6 +7,7 @@ import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -40,6 +41,7 @@ public class RegularUserController implements Controllable {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private String username;
     private int userId;
     private boolean asGuest;
@@ -47,7 +49,8 @@ public class RegularUserController implements Controllable {
     /**
      * Constructs a RegularUserController with a DisplaySystem, a FilesReaderWriter,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager, an ActionManager,
-     * the regular user's username and userId, as well as the asGuest boolean attribute.
+     * a FeedbackManager, the regular user's username and userId,
+     * as well as the asGuest boolean attribute.
      *
      * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
@@ -55,23 +58,26 @@ public class RegularUserController implements Controllable {
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param am       The current state of the ActionManager.
+     * @param fm       The current state of the FeedbackManager.
      * @param username The username of the regular user.
      * @param asGuest  The determiner of limited access to menu options.
      */
     public RegularUserController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                 ItemManager im, ActionManager am, String username, boolean asGuest) {
+                                 ItemManager im, ActionManager am, FeedbackManager fm,
+                                 String username, boolean asGuest) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
+        this.fm = fm;
         this.username = username;
         this.userId = um.usernameToID(username);
         this.asGuest = asGuest;
         this.frw = new FilesReaderWriter();
         // for other controllers / presenters
-        this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, username, userId);
+        this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, fm, username, userId);
         this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);

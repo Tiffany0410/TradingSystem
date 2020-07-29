@@ -167,7 +167,7 @@ public class TradingSystem {
    private void regularUserMain(String userName, boolean asGuest) throws IOException {
       RegularUserController regularUserController = new RegularUserController(this.displaySystem,
               this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.actionManager,
-              userName, asGuest);
+              this.feedbackManager, userName, asGuest);
 
       if (!asGuest) {
          // Initialize the threshold controller
