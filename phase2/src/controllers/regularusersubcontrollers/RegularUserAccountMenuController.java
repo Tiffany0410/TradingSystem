@@ -249,7 +249,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print all the tradable items in the system
+     * Lets the presenter print all the tradable items in the system
      * for the user to browse through.
      * @param allOtherItems The items that will be displayed to the user.
      */
@@ -265,7 +265,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Receive user's input and set his/her on-vacation status
+     * Receives user's input and set his/her on-vacation status
      * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is not valid.
      */
@@ -291,7 +291,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print the tradable status for each of
+     * Lets the presenter print the tradable status for each of
      * inventory items of the user and let the user change the
      * tradable status for an item.
      * @param asGuest The determiner of access to this menu option.
@@ -343,7 +343,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Let the presenter print a list of users in the same
+     * Lets the presenter print a list of users in the same
      * city as this user.
      * @param asGuest The determiner of access to this menu option.
      */
@@ -359,7 +359,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Get user's input of the new home city and then
+     * Gets user's input of the new home city and then
      * change user's home city.
      * @param asGuest The determiner of access to this menu option.
      */
@@ -377,7 +377,7 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Let presenter print the items this user
+     * Lets presenter print the items this user
      * can lend to a given user. The random number
      * part is Based on code by Bill the Lizard from:
      * @link https://stackoverflow.com/questions/363681
@@ -416,12 +416,37 @@ public class RegularUserAccountMenuController {
 
     }
 
+    /**
+     * Gets user's input of the id of the user to be reviewed, the rating to give,
+     * as well as a message explaining the reason and uses them to update the review
+     * system.
+     */
     public void reviewUser() {
+        int userToReview = idGetter.getUserID("user you want to review");
+        // Asks the user for an integer input x --> must satisfy 1 <= x <= 10
+        int rating = 0;
+        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
+        ds.printResult(rrm.setReview(userToReview, userId, rating, reason));
+
     }
 
+    /**
+     * Gets user's input of the id of the user to be reported as well as a message explaining the reason
+     * and uses them to update the report system.
+     */
     public void reportUser() {
+        int userToReport = idGetter.getUserID("user you want to report");
+        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
+        ds.printResult(rrm.updateReport(userToReport, userId, reason));
     }
 
+    /**
+     * Gets user's input of the id of the user to be searched for the rating for
+     * and uses it to find the rating, which is printed by the printer.
+     */
     public void findRatingForUser() {
+        int user = idGetter.getUserID("user who you want to find out what his/her rating is");
+        ds.printOut("The rating of this user is:" + rrm.calculateRate(user));
+
     }
 }
