@@ -286,7 +286,7 @@ public class RegularUserTradingMenuController {
             for (managers.usermanager.TradableUser t : suggestion) {
                 person.add(t.getId());
             }
-            ds.printResult(person);
+            ds.printResult(new ArrayList<>(person));
         }
     }
     private int determineTradeID() {
