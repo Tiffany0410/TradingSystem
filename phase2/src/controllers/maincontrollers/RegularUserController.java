@@ -98,8 +98,11 @@ public class RegularUserController implements Controllable {
                 if (subMenuOption <= 7) {
                     userAccountMenuResponse1(subMenuOption);
                 }
-                else{
+                else if (7 < subMenuOption && subMenuOption <= 14){
                     userAccountMenuResponse2(subMenuOption);
+                }
+                else {
+                    userAccountMenuResponse3(subMenuOption);
                 }
                 break;
             case 2:
@@ -181,19 +184,45 @@ public class RegularUserController implements Controllable {
                 break;
             case 9:
                 amc.viewWishListInventory(asGuest);
+                break;
             case 10:
                 amc.setOnVacationStatus(asGuest);
+                break;
             case 11:
                 amc.setTradableStatusForItem(asGuest);
+                break;
             case 12:
                 amc.seeUsersInSameHC(asGuest);
+                break;
             case 13:
                 amc.changeUserHC(asGuest);
+                break;
             case 14:
                 amc.suggestItemToLend(asGuest);
+                break;
         }
     }
 
+    private void userAccountMenuResponse3 (int subMenuOption){
+        /*
+        15.Write a review for an user
+        16.Report an user
+        17.Find the rating for a given user
+         */
+        switch (subMenuOption) {
+            case 15:
+                amc.reviewUser();
+                break;
+            case 16:
+                amc.reportUser();
+                break;
+            case 17:
+                amc.findRatingForUser();
+                break;
+        }
+
+
+    }
 
     private void userTradingMenuResponse(int subMenuOption, String thresholdValuesFilePath) throws InvalidIdException, FileNotFoundException {
         /*

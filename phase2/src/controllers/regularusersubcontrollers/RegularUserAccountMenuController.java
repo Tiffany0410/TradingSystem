@@ -416,4 +416,12 @@ public class RegularUserAccountMenuController {
 
     }
 
+    public void reviewUser() {
     }
+
+    public void reportUser() {
+    }
+
+    public void findRatingForUser() {
+    }
+}
