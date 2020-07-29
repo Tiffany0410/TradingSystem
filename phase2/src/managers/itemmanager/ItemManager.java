@@ -14,16 +14,13 @@ public class ItemManager implements Serializable {
 
     private ArrayList<Item> listItem;
     private ArrayList<Item> listItemToAdd;
-    private HashMap<String, ArrayList<Integer>> categoryItem;
     private ArrayList<Item> listDeletedItem;
-
 
     /**
      * Constructs A ItemManager
      */
     public ItemManager(){
         listItem = new ArrayList<>();
-        categoryItem = new HashMap<>();
         listItemToAdd = new ArrayList<>();
         listDeletedItem = new ArrayList<>();
     }
@@ -129,15 +126,6 @@ public class ItemManager implements Serializable {
         return itemList;
     }
     */
-
-    /**
-     * Return all the items in the category
-     * @param category The category of the item
-     * @return A list of all items in the category
-     */
-    public ArrayList<Integer> getCategoryItem(String category){
-        return categoryItem.get(category);
-    }
 
     /**
      * Creates new item
@@ -301,10 +289,34 @@ public class ItemManager implements Serializable {
     public void addItemToListDeletedItem(Item item) {listDeletedItem.add(item);}
 
     public void removeItemFromListDeletedItem(int itemID) {
-        for (Item item: listDeletedItem) {
-            if (item.getItemId() == itemID) {listDeletedItem.remove(item);}
-        }
+        listDeletedItem.removeIf(item -> item.getItemId() == itemID);
     }
+
+    public HashMap<Category, ArrayList<Integer>> getAllCategoryItem(){
+        HashMap<Category, ArrayList<Integer>> category = new HashMap<>();
+        for (Category cat: Category.values()){
+            category.put(cat, getCategoryItem(cat));
+        }
+        return category;
+    }
+
+    /**
+     * Return all the items in the category
+     * @param category The category of the item
+     * @return A list of all item IDS in the category
+     */
+    public ArrayList<Integer> getCategoryItem(Category category){
+        ArrayList<Integer> lst = new ArrayList<>();
+        for (Item item: listItem){
+            if (item.getCategory().equals(category)){
+                lst.add(item.getItemId());
+            }
+        }
+        return lst;
+
+    }
+
+
 
 }
 

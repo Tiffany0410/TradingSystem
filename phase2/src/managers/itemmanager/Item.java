@@ -69,11 +69,6 @@ public class Item implements Serializable {
     /** Get the description of this item
      * @return the description of this item
      */
-
-    public void setCategory(Category category){this.category = category;}
-
-    public Category getCategory(){return this.category;}
-
     public String getDescription(){
         return description;
     }
@@ -84,6 +79,16 @@ public class Item implements Serializable {
     public void setDescription(String description){
         this.description = description;
     }
+
+    /** Get the category of this item
+     * @return the category of item
+     */
+    public Category getCategory(){return this.category;}
+
+    /** Return the description of the item
+     * @return the description of this item
+     */
+    public void setCategory(Category category){this.category = category;}
 
     /** Get the ID of this item
      * @return The ID of this item
