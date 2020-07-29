@@ -8,8 +8,6 @@ public class loginGUI extends JDialog implements GUIrunable{
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField textField1;
-    private JTextArea usernameTextArea;
-    private JTextArea passwordTextArea;
     private JPasswordField passwordField1;
 
     public loginGUI() {
