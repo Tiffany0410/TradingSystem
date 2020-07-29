@@ -140,13 +140,11 @@ public class RegularUserOtherInfoGetter {
 
     /**
      * Gets user's input of the meeting number.
+     * Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @return User's valid input of the meeting number.
      */
     public int getNumMeeting(){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
         Scanner sc = new Scanner(System.in);
         int num = 0;
         boolean okInput = false;
@@ -172,14 +170,11 @@ public class RegularUserOtherInfoGetter {
 
     /**
      * Gets and returns user's input of
-     * the option number.
+     * the option number. Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @return User's input of the option number.
      */
     protected int getNumKindOfResponse(String option1, String option2){
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
         Scanner sc = new Scanner(System.in);
         int num = 0;
 
@@ -222,5 +217,36 @@ public class RegularUserOtherInfoGetter {
            cateG = sc.nextLine();
         } while(!categories.contains(cateG));
         return Category.valueOf(cateG);
+    }
+
+    /**
+     * Gets and returns user's input of
+     * the rating. Based on code by Yassine.b from:
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+     * @return User's input of the rating.
+     */
+    protected int getNumRating(){
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+
+        boolean okInput = false;
+        do {
+            ds.printOut("Please enter the rating (1-10).");
+            // if the input is int
+            if (sc.hasNextInt()) {
+                num = sc.nextInt();
+                // if the input is valid
+                if (1 <= num && num <= 10) {
+                    okInput = true;
+                } else {
+                    ds.printOut("Please enter a valid integer!");
+                }
+            } else {
+                sc.nextLine();
+                ds.printOut("Enter a valid rating please");
+            }
+        } while (!okInput);
+        return num;
+
     }
 }

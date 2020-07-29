@@ -429,7 +429,7 @@ public class RegularUserAccountMenuController {
     public void reviewUser() {
         int userToReview = idGetter.getUserID("user you want to review");
         // Asks the user for an integer input x --> must satisfy 1 <= x <= 10
-        int rating = 0;
+        int rating = otherInfoGetter.getNumRating();
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
         ds.printResult(fm.setReview(userToReview, userId, rating, reason));
 
