@@ -1,9 +1,11 @@
 package controllers.adminusersubcontrollers;
 
 import controllers.AccountCreator;
+import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.UserManager;
@@ -11,7 +13,11 @@ import presenter.DisplaySystem;
 import presenter.SystemMessage;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import managers.actionmanager.Action;
+
+import javax.swing.*;
 
 public class AdminUserHistoricalActionController {
 
@@ -22,19 +28,21 @@ public class AdminUserHistoricalActionController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private String username;
     private Integer userId;
     private FilesReaderWriter frw;
 
     // Constructor
     public AdminUserHistoricalActionController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, 
-                                               ActionManager am, String username) {
+                                               ActionManager am, FeedbackManager fm, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
+        this.fm = fm;
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
@@ -55,18 +63,17 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
     }
 
-    public void cancelRevocableAction() {
+    public void cancelRevocableAction() throws InvalidIdException {
 
         ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
         // Print all the Historical Actions which can be cancelled
         ds.printHistoricalActions(am.getListOfAllActions());
         ds.printOut("Please enter the ID of action that you want to cancel: \n");
-        // get the number select by adminuser
+        // get the number select by adminUser
         int actionID = otherInfoGetter.getActionID();
-        // call helper function to cancel different action
-        helper_cancelHistoricalAction(otherInfoGetter.getActionID());
-        // tell admin user that action has been cancelled
-        ds.printOut("\n Success");
+        // call helper function to cancel different action and tell admin user that action has been cancelled
+        ds.printResult(helper_cancelHistoricalAction(actionID));
+
         Action temp = am.findActionByID(actionID);
         // delete action from current Revocable Action List in ActionManager
         am.deleteAction(actionID);
@@ -76,7 +83,8 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.2", actionID, "");
     }
 
-    private void helper_cancelHistoricalAction(int actionID) {
+
+    private boolean helper_cancelHistoricalAction(int actionID) throws InvalidIdException {
         Action targetAction = am.findActionByID(actionID);
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
@@ -95,32 +103,75 @@ public class AdminUserHistoricalActionController {
                 helper_cancelMeetingMenu(targetAction, subOption);
                 break;
         }
+        return false;
     }
 
 
-    private void helper_cancelAccountMenu(Action targetAction, int subOption){
+    private boolean helper_cancelAccountMenu(Action targetAction, int subOption) throws InvalidIdException {
+        // get the id of item from action
+        int itemID = targetAction.getAdjustableInt();
+        // get the id of other user from action for action 1.15/1.16
+        int targetUserID = targetAction.getAdjustableInt();
+        // get the status of item from action for action 1.11
+        String tradable = targetAction.getAdjustableStr();
+        // get the status of on-vacation status from action for action 1.10
+        String vacationStatus = targetAction.getAdjustableStr();
+        // get the action owner id from the action
+        int actionOwnerID = targetAction.getActionOwnerID();
+        // translate userID into username
+        String username = um.idToUsername(actionOwnerID);
+
         switch (subOption) {
-            // TODO:1.2: Add to own Wish List
+            // 1.2: Add to own Wish List
             case 2:
-                break;
-            // TODO:1.4: Remove from own Wish List
+                // call UserManager to remove the item from Wish List
+                return um.removeItemWishlist(itemID, username);
+            // 1.4: Remove from own Wish List
             case 4:
-                break;
-            // TODO:1.5: Remove from own Inventory
+                // call UserManager to add the item into Wish List
+                return um.addItemWishlist(itemID, username);
+            // 1.5: Remove from own Inventory
             case 5:
-                break;
-            // TODO:1.7: Request to add item to your inventory
+                // call UserManager to remove the item from Inventory
+                return um.addItemInventory(itemID, username);
+            // 1.7: Request to add item to your inventory
             case 7:
-                break;
-            // TODO:1.10: Set your on-vacation status
+                return im.removeFromListItemToAdd(itemID);
+            // 1.10: Set your on-vacation status
             case 10:
-                break;
-            // TODO:1.11: Change tradable status for an inventory item
+                // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
+                if (vacationStatus.equals("go on vacation")) {
+                    um.comeFromVacation(userId);
+                    im.setTradable(um.getUserInventory(userId), true);
+                }
+                // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
+                else {
+                    um.goOnVacation(userId);
+                    im.setTradable(um.getUserInventory(userId), false);
+                }
+                return true;
+            // 1.11: Change tradable status for an inventory item
             case 11:
+                ArrayList<Integer> temp = new ArrayList<>();
+                temp.add(itemID);
+                // if user set item status into tradable, then change it into non-tradable
+                // if user set item status into non-tradable, then change it into tradable
+                im.setTradable(temp, !tradable.equals("tradable"));
+                return true;
+            // 1.15: Write a review for an user
+            case 15:
+                // call FeedbackManager to delete the review for an user
+                return fm.deleteReview(targetUserID, userId);
+            // 1.16: Report an user
+            case 16:
+                // call FeedbackManager to delete the report for an user
+                return fm.deleteReport(targetUserID, userId);
         }
+        return false;
     }
 
-    private void helper_cancelTradeMenu(Action targetAction, int subOption) {
+
+    private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:2.1: Request a trade
             case 1:
@@ -132,9 +183,11 @@ public class AdminUserHistoricalActionController {
             case 5:
                 break;
         }
+        return false;
     }
 
-    private void helper_cancelMeetingMenu(Action targetAction, int subOption) {
+
+    private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:3.1: Suggest/edit time and place for meetings
             case 1:
@@ -146,5 +199,6 @@ public class AdminUserHistoricalActionController {
             case 3:
                 break;
         }
+        return false;
     }
 }

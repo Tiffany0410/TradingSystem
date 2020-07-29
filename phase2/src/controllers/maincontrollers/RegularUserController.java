@@ -183,9 +183,6 @@ public class RegularUserController implements Controllable {
         12.See users in your home city
         13.Change your home city
         14.Get suggestions for item(s) that you can lend to a given user
-        15.Write a review for an user
-        16.Report an user
-        17.Find the rating for a given user
          */
         switch (subMenuOption) {
             case 8:

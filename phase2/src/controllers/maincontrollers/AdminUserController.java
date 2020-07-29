@@ -4,6 +4,7 @@ import controllers.AccountCreator;
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoGetter;
+import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.ItemManager;
@@ -72,7 +73,7 @@ public class AdminUserController implements Controllable {
      * @throws IOException In case the file can't be found.
      */
     @Override
-    public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) throws IOException {
+    public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) throws IOException, InvalidIdException {
         switch(mainMenuOption){
             case 1:
                 adminManageUsersMenuResponse(subMenuOption);
@@ -157,7 +158,7 @@ public class AdminUserController implements Controllable {
         ds.printResult(true);
     }
 
-    private void adminUserActionResponse(int subMenuOption) {
+    private void adminUserActionResponse(int subMenuOption) throws InvalidIdException {
         /*
         1.List all the historical actions in the system
         2.Cancel the revocable historical actions of tradableUser
