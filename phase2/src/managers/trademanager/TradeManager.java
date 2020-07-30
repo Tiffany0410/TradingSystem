@@ -91,7 +91,27 @@ public class TradeManager implements Serializable {
         return new Trade(userId1, userId2, itemId, itemId1, tradeType, isOneWayTrade, tradeID);
     }
 
-
+    /** Recent three trade user id
+     * @param userId user Id
+     * @return list of recent three partner id
+     * @throws InvalidIdException
+     */
+    public List<Integer> recentThreePartners(int userId) throws InvalidIdException {
+        List<managers.trademanager.Trade> list = this.filterHistory(userId);
+        List<Integer> list1 = new ArrayList<>();
+        if (list.size() >= 3) {
+            list1.add(list.get(list.size() - 1).getIds().get(2));
+            list1.add(list.get(list.size() - 2).getIds().get(2));
+            list1.add(list.get(list.size() - 3).getIds().get(2));
+        } else if (list.size() == 2) {
+            list1.add(list.get(list.size() - 1).getIds().get(2));
+            list1.add(list.get(list.size() - 2).getIds().get(2));
+        }
+        if (list.size() == 1) {
+            list1.add(list.get(list.size() - 1).getIds().get(2));
+        }
+        return list1;
+    }
     /**
      * Filter the user history by which his trade status is Closed
      *
@@ -160,6 +180,39 @@ public class TradeManager implements Serializable {
         }
         return list1;
     }
+
+    /**
+     * return a list of all partners id（finding the way to solve by comparing values
+     * in the following website
+     * @link https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
+     * @param userId user id
+     * @return list of top three partners id (Most is at index 0 and least at last index)
+     * @throws InvalidIdException In case the id is invalid.
+     */
+    public List<Integer> allPartners(int userId) throws InvalidIdException {
+        Map<Integer, Integer> numTrade = new HashMap<>();
+        List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
+        for (managers.trademanager.Trade t : list) {
+            if (numTrade.containsKey(t.getIds().get(2))) {
+                numTrade.put(t.getIds().get(2), numTrade.get(t.getIds().get(2)) + 1);
+            } else {
+                numTrade.put(t.getIds().get(2), 1);
+            }
+        }
+        Stream<Map.Entry<Integer,Integer>> sorted =
+                numTrade.entrySet().stream()
+                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+        Map<Integer,Integer> top =
+                numTrade.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .limit(1000)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        return new ArrayList<Integer>(top.keySet());
+        // finding the way to solve by comparing values
+        // in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
+    }
+
 
     /**
      * return a list of top three partners id（finding the way to solve by comparing values
