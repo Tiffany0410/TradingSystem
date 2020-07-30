@@ -1,67 +1,37 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class adminUserManageUsersSubMenuGUI extends JDialog implements GUIrunable{
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private JTextArea hiWelcomeToTheTextArea;
-    private JButton freezeTradableUsersButton;
-    private JButton unfreezeTradableUsersButton;
+public class adminUserManageUsersSubMenuGUI {
+    private JPanel rootPanel;
+    private JButton freezeUsersButton;
+    private JButton unfreezeUsersButton;
     private JButton confirmAndAddItemButton;
+    private JButton backButton;
 
     public adminUserManageUsersSubMenuGUI() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        freezeTradableUsersButton.addActionListener(new ActionListener() {
+        freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO: Call Freeze Users window and close this window
             }
         });
-        unfreezeTradableUsersButton.addActionListener(new ActionListener() {
+        unfreezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Unfreeze Users window and close this window
 
             }
         });
@@ -69,28 +39,33 @@ public class adminUserManageUsersSubMenuGUI extends JDialog implements GUIrunabl
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Confirm Item and Add Item window and close this window
+
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Admin User Main Menu and close this window
+
             }
         });
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
     public void run() {
-        adminUserManageUsersSubMenuGUI dialog = new adminUserManageUsersSubMenuGUI();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
+        frame.setContentPane(new adminUserManageUsersSubMenuGUI().rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
