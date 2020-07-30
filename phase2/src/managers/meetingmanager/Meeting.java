@@ -112,7 +112,7 @@ public class Meeting implements java.io.Serializable{
 
     /** confirm the time and place for a meeting
      */
-    public void setTimePlaceConfirm(){ timePlaceConfirm = true; }
+    public void setTimePlaceConfirm(boolean trueOrFalse){ timePlaceConfirm = trueOrFalse; }
 
     /** get whether or not the completeness of the meeting is confirmed by two users
      * @return true iff the completeness of the meeting is confirmed by
