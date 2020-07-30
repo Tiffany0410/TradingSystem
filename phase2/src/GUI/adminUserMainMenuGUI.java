@@ -1,51 +1,28 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class adminUserMainMenuGUI extends JDialog implements GUIrunable{
-    private JPanel contentPane;
-    private JButton buttonCancel;
-    private JTextField hiWelcomeToTheTextField;
-    private JButton manageUsersButton;
+public class adminUserMainMenuGUI {
+    private JPanel rootPanel;
+    private JLabel topLabel;
+    private JButton manageUserButton;
     private JButton editThresholdsButton;
-    private JButton manageHistoricalActionsButton;
+    private JButton manageHistroicalActionsButton;
     private JButton othersButton;
+    private JButton logoutButton;
 
     public adminUserMainMenuGUI() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonCancel);
-
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        manageUsersButton.addActionListener(new ActionListener() {
+        manageUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO: Call Admin Manage User Sub Menu and close this menu
 
             }
         });
@@ -53,21 +30,23 @@ public class adminUserMainMenuGUI extends JDialog implements GUIrunable{
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Admin Edit Thresholds Sub Menu and close this menu
 
             }
         });
-        manageHistoricalActionsButton.addActionListener(new ActionListener() {
+        manageHistroicalActionsButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Admin Manage Histroical Action Sub Menu and close this window
 
             }
         });
@@ -75,25 +54,34 @@ public class adminUserMainMenuGUI extends JDialog implements GUIrunable{
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Admin Other Sub Menu and close this window
+
+            }
+        });
+        logoutButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Return to Trading System Init Menu and close this Menu
 
             }
         });
     }
 
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
     public void run() {
-        adminUserMainMenuGUI dialog = new adminUserMainMenuGUI();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        JFrame frame = new JFrame("adminUserMainMenuGUI");
+        frame.setContentPane(new adminUserMainMenuGUI().rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
+
 }
