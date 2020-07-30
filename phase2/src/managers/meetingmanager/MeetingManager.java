@@ -120,16 +120,7 @@ public class MeetingManager implements java.io.Serializable{
         return meeting.getTradeId()!=0;
     }
 
-    /** confirm the time and place of the meeting by user.
-     * @param meeting the meeting for a trade
-     * @param userId the id of a user to confirm the meeting
-     * @param maxMeetingTimePlaceEdits the max number of times an user can edit the time and place.
-     * @return true if the user confirm the time and place successfully.
-     */
-    public Boolean confirmTimePlace(Meeting meeting, int userId, int maxMeetingTimePlaceEdits){
-        return meeting.setTimePlaceConfirm(userId, maxMeetingTimePlaceEdits);
-    }
-    /** edit the time and place of a meeting
+    /** edit the time and place for a meeting
      * @param meeting the meeting of a trade
      * @param userId the id for whom to edit the meeting time and place
      * @param year the year for the meeting
@@ -143,7 +134,29 @@ public class MeetingManager implements java.io.Serializable{
      */
     public boolean EditTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
                                  String place, int maxMeetingTimePlaceEdits){
-        return meeting.setTimePlaceEdit(userId,year,month,day,hour,min,sec,place,maxMeetingTimePlaceEdits);
+        if (!meeting.getTimePlaceConfirm() &&(userId == meeting.getUserId1() ||userId == meeting.getUserId2())&&
+                (meeting.getTimePlaceEdit().isEmpty() || (meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().
+                        size()-1) != userId && meeting.getTimePlaceEdit().size()< 2 * maxMeetingTimePlaceEdits))){
+            meeting.setTime(year, month, day, hour, min,sec);
+            meeting.setPlace(place);
+            meeting.getTimePlaceEdit().add(userId);
+            return true;
+        }return false;
+    }
+    /** confirm the time and place of the meeting by user.
+     * @param meeting the meeting for a trade
+     * @param userId the id of a user to confirm the meeting
+     * @param maxMeetingTimePlaceEdits the max number of times an user can edit the time and place.
+     * @return true if the user confirm the time and place successfully.
+     */
+    public Boolean confirmTimePlace(Meeting meeting, int userId, int maxMeetingTimePlaceEdits){
+        if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() < 2 * maxMeetingTimePlaceEdits && !
+                meeting.getTimePlaceEdit().isEmpty() && meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().
+                size()-1)!=userId &&(userId==meeting.getUserId1()||userId==meeting.getUserId2())){
+            meeting.setTimePlaceConfirm();
+            meeting.getTimePlaceEdit().add(userId);
+            return true;
+        }return false;
     }
     /** set to confirm the completeness of a meeting, if the meeting is confirmed by both user, and the trade is
      * Permanent or is the second meeting, then close the trade. If the meeting is confirmed by both user, but the
@@ -152,9 +165,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param tradeManager the list of trade
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
-     * @return true if confirm is successful(the confirm is
-     * successful if the meeting is for the user and the user has not
-     * confirmed yet)
+     * @return true if confirm is successful
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
     public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
@@ -189,13 +200,29 @@ public class MeetingManager implements java.io.Serializable{
                                  int maxMeetingTimePlaceEdits){
         Calendar time1 = Calendar.getInstance();
         time1.setTime(meeting.getTime());
-        meeting1.setTimePlaceEdit(userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
+        EditTimePlace(meeting1, userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
                 time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
                 time1.get(Calendar.SECOND),meeting.getPlace(), maxMeetingTimePlaceEdits);
         if(meeting.getUserId1() != userId){
-            meeting1.setTimePlaceConfirm(meeting.getUserId1(), maxMeetingTimePlaceEdits);
-        }else {meeting1.setTimePlaceConfirm(meeting.getUserId2(), maxMeetingTimePlaceEdits);}
+            confirmTimePlace(meeting1,meeting.getUserId1(), maxMeetingTimePlaceEdits);
+        }else {confirmTimePlace(meeting1,meeting.getUserId2(), maxMeetingTimePlaceEdits);}
         meeting1.setTimePlaceEdit(new ArrayList<>());
+    }
+    /** create and add a meeting to the MeetingManager, once a meeting is created, the trade is open.
+     * @param tradeId the id for a trade
+     * @param userId1 the id for the user1
+     * @param userId2 the id for the user2
+     * @param meetingNum the order of the meeting for the trade
+     * @param tradeManager a list of trades
+     * @return the new created meeting
+     * @throws InvalidIdException an instance of this class throws the invalid trade id
+     */
+    public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager)
+            throws InvalidIdException {
+        Meeting meeting1 = new Meeting(tradeId, userId1, userId2, meetingNum);
+        listMeeting.add(meeting1);
+        tradeManager.getTradeById(tradeId).openTrade();
+        return meeting1;
     }
 
     /** check whether or not a meeting is not confirmed by users after one day of the meeting should happen.
@@ -224,23 +251,6 @@ public class MeetingManager implements java.io.Serializable{
         }return listOverTime;
     }
 
-    /** create and add a meeting to the MeetingManager, once a meeting is created, the trade is open.
-     * @param tradeId the id for a trade
-     * @param userId1 the id for the user1
-     * @param userId2 the id for the user2
-     * @param meetingNum the order of the meeting for the trade
-     * @param tradeManager a list of trades
-     * @return the new created meeting
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
-     */
-    public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager)
-            throws InvalidIdException {
-        Meeting meeting1 = new Meeting(tradeId, userId1, userId2, meetingNum);
-        listMeeting.add(meeting1);
-        tradeManager.getTradeById(tradeId).openTrade();
-        return meeting1;
-    }
-
     /** If a meeting is edited more than the maximum meeting datetime edits times by both users without confirmation,
      * and if it's a first meeting,change the trade status to cancelled with returning string that the transaction
      * is cancelled.
@@ -264,18 +274,6 @@ public class MeetingManager implements java.io.Serializable{
         }return "";
         }
 
-    /** get a string that describe the list of meeting
-     * @param meetings the list of meetings
-     * @return a strng that describe the list of meetings
-     */
-     public String stringForListMeeting(List<Meeting> meetings){
-         StringBuilder string1 = new StringBuilder();
-         for(Meeting meeting: meetings){
-             string1.append(meeting.toString());
-             string1.append("\n");
-         }return string1.toString();
-     }
-
     /** sort the meetings by date
      * @param meetings the list of meetings
      * @return a list of meeting that is sorted by date.
@@ -284,6 +282,18 @@ public class MeetingManager implements java.io.Serializable{
          meetings.sort(Comparator.comparing(Meeting::getTime));
          return meetings;
      }
+
+    /** get a string that describe the list of meeting
+     * @param meetings the list of meetings
+     * @return a string that describe the list of meetings
+     */
+    public String stringForListMeeting(List<Meeting> meetings){
+        StringBuilder string1 = new StringBuilder();
+        for(Meeting meeting: meetings){
+            string1.append(meeting.toString());
+            string1.append("\n");
+        }return string1.toString();
+    }
 
     /** override the toString method to describe a list of meetings
      * @return a string show the detailed information about the meetings in the MeetingManager
