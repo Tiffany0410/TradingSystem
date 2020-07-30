@@ -9,9 +9,10 @@ import managers.itemmanager.ItemManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
 import exception.InvalidIdException;
-
+import managers.itemmanager.Category;
 import java.util.ArrayList;
 import java.util.List;
+import managers.itemmanager.Item;
 
 public class RegularUserSearchingMenuController {
     private SystemMessage sm;
@@ -23,7 +24,8 @@ public class RegularUserSearchingMenuController {
     private ActionManager am;
     private String username;
     private int userId;
-
+    private RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserIDGetter idGetter;
     public RegularUserSearchingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm,
                                               UserManager um, ItemManager im, ActionManager am,
                                               String username, int userId) {
@@ -36,8 +38,9 @@ public class RegularUserSearchingMenuController {
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
+        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
     }
-
     public void recentThreePartner() throws InvalidIdException{
         List<Integer> filter = tm.recentThreePartners(userId);
         if (filter.size() == 0) {
@@ -118,6 +121,25 @@ public class RegularUserSearchingMenuController {
             ds.printResult(new ArrayList<>(m));
         }
     }
-
-}
+    public void filterByCategory(){
+        ArrayList<Integer> c = im.getCategoryItem(otherInfoGetter.getItemType());
+        if (c.size() == 0) {
+            sm.msgForNothing(ds);
+        } else {
+            ds.printResult(new ArrayList<>(c));
+        }
+    }
+    public void searchItemByName() {
+        ArrayList<Integer> c = im.searchItem(otherInfoGetter.getItemName());
+        if (c.size() == 0) {
+            sm.msgForNothing(ds);
+        } else {
+            ds.printResult(new ArrayList<>(c));
+        }
+    }
+    public void getItemById() throws InvalidIdException {
+        Item c = im.getItembyId(idGetter.getItemID());
+        ds.printOut(c.getDescription());
+        }
+    }
 

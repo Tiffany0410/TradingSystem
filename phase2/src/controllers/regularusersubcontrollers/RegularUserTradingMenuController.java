@@ -273,10 +273,9 @@ public class RegularUserTradingMenuController {
     }
 
     /**Print the most suggest item for user to trade.
-     * @param itemId item id
      * @throws InvalidIdException
      */
-    public void tradeSuggestion(int itemId) throws InvalidIdException {
+    public void tradeSuggestion() throws InvalidIdException {
         ArrayList<Integer> p = im.getMostMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
         if (p.size() == 0) {
             sm.msgForNothing("recommend suggestion", ds);
