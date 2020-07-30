@@ -235,11 +235,25 @@ public class RegularUserTradingMenuController {
         // if the user has no more transactions left
         if (um.getInfo(userId, "TransactionLeftForTheWeek") == 0){
             // the case with user reaching the max number of transactions for the week
+
+            //before GUI
             sm.lockMessageForThreshold(maxNumTransactionsAWeek);
+
+            //after GUI
+            InterfaceName lockMessageForThreshold = new lockMessageForThreshold(maxNumTransactionsAWeek);
+            lockMessageForThreshold.run();
+
         }
         else {
             // get whether it is one-way-trade or two-way-trade
+
+            //before GUI
             int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
+
+            //after GUI
+            InterfaceName lockMessageForThreshold = new lockMessageForThreshold(maxNumTransactionsAWeek);
+            lockMessageForThreshold.run();
+
             // will store the validation value
             boolean ok;
             // will store the trade object
