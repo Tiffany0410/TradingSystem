@@ -1,73 +1,47 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class adminUserOtherSubMenuGUI extends JDialog implements GUIrunable{
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private JTextArea hiWelcomeToAdministrativeTextArea;
-    private JButton addSubsequentAdminUsersButton;
+public class adminUserOtherSubMenuGUI {
+    private JPanel rootPanel;
+    private JButton addNewAdminUserButton;
+    private JButton backButton;
 
     public adminUserOtherSubMenuGUI() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        addSubsequentAdminUsersButton.addActionListener(new ActionListener() {
+        addNewAdminUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: Call Admin User Create Account and close this window
 
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Back to Admin User Main Menu and close this window
             }
         });
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
     public void run() {
-        adminUserOtherSubMenuGUI dialog = new adminUserOtherSubMenuGUI();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        JFrame frame = new JFrame("adminUserOtherSubMenuGUI");
+        frame.setContentPane(new adminUserOtherSubMenuGUI().rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
+
+
 }

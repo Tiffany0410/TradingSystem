@@ -3,27 +3,18 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class createAccountGUI extends JDialog implements GUIrunable{
+public class notification extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JLabel Label;
 
-    public createAccountGUI() {
+    public notification(String string) {
+        Label.setText(string);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -39,20 +30,28 @@ public class createAccountGUI extends JDialog implements GUIrunable{
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        buttonCancel.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Closet this window
+                dispose();
+            }
+        });
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
-    public void run() {
-        createAccountGUI dialog = new createAccountGUI();
+    public void run(String string) {
+        notification dialog = new notification(string);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
