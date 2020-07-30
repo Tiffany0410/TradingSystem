@@ -6,7 +6,6 @@ import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
-import managers.usermanager.User;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
@@ -64,8 +63,8 @@ public class RegularUserCommunityMenuController {
         int rating = otherInfoGetter.getNumRating();
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
         ds.printResult(fm.setReview(userToReview, userId, rating, reason));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
-        am.addActionToAllActionsList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.1", userToReview, rating + " and reason: " + reason);
+        am.addActionToAllActionsList(userId, "regularUser", "5.1", userToReview, rating + " and reason: " + reason);
     }
 
     /**
@@ -76,8 +75,8 @@ public class RegularUserCommunityMenuController {
         int userToReport = idGetter.getUserID("user you want to report");
         String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
         ds.printResult(fm.updateReport(userToReport, userId, reason));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.16", userToReport, reason);
-        am.addActionToAllActionsList(userId, "regularUser", "1.16", userToReport, reason);
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.2", userToReport, reason);
+        am.addActionToAllActionsList(userId, "regularUser", "5.2", userToReport, reason);
     }
 
     /**
@@ -87,8 +86,8 @@ public class RegularUserCommunityMenuController {
     public void findRatingForUser() {
         int user = idGetter.getUserID("user who you want to find out what his/her rating is");
         ds.printOut("The rating of this user is:" + fm.calculateRate(user));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.17", user, "");
-        am.addActionToAllActionsList(userId, "regularUser", "1.17", user, "");
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.3", user, "");
+        am.addActionToAllActionsList(userId, "regularUser", "5.3", user, "");
 
     }
 
@@ -101,7 +100,7 @@ public class RegularUserCommunityMenuController {
         if (!asGuest) {
             // print all users in the same city as this user.
             ds.printResult(new ArrayList<>(um.sameCity(userId)));
-            am.addActionToAllActionsList(userId, "regularUser", "1.12", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "5.4", 0, "");
         }
         else{
             sm.msgForGuest(ds);
@@ -123,7 +122,7 @@ public class RegularUserCommunityMenuController {
             else{
             ds.printOut("Your list of friends: ");
             ds.printResult(new ArrayList<>(friends));
-            am.addActionToAllActionsList(userId, "regularUser", "1.18", 0, "");
+            am.addActionToAllActionsList(userId, "regularUser", "5.5", 0, "");
             }
         }
         else{

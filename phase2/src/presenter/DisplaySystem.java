@@ -419,7 +419,8 @@ public class DisplaySystem {
                 break;
             // 5.5: View your list of friends
             case 5:
-                //TODO
+                this.printOut(helper_regular_action_prefix(action) + "view his/her own friends list" + "\n");
+                break;
             // 5.6: Send a friend request for a given user
             case 6:
                 //TODO
