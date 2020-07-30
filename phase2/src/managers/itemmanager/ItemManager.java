@@ -3,6 +3,7 @@ import exception.InvalidIdException;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -79,7 +80,7 @@ public class ItemManager implements Serializable {
      */
     public Integer getRequestItemIDByName(String itemName) throws InvalidIdException{
         for (Item item: listItemToAdd){
-            if (item.getName() == itemName){ return item.getItemId(); }
+            if (item.getName().equals(itemName)){ return item.getItemId(); }
         }
         throw new InvalidIdException("Invalid Item Id");
     }
@@ -304,6 +305,16 @@ public class ItemManager implements Serializable {
         return category;
     }
 
+    public HashMap<Category, ArrayList<Integer>> getAllCategoryItem(ArrayList<Item> items){
+        HashMap<Category, ArrayList<Integer>> category = new HashMap<>();
+        for (Category cat: Category.values()){
+            if (!getCategoryItem(cat, items).isEmpty()){
+                category.put(cat, getCategoryItem(cat, items));
+            }
+        }
+        return category;
+    }
+
     /**
      * Return all the items in the category
      * @param category The category of the item
@@ -317,7 +328,61 @@ public class ItemManager implements Serializable {
             }
         }
         return lst;
+    }
 
+    public ArrayList<Integer> getCategoryItem(Category category, ArrayList<Item> items){
+        ArrayList<Integer> lst = new ArrayList<>();
+        for (Item item: items){
+            if (item.getCategory().equals(category)){
+                lst.add(item.getItemId());
+            }
+        }
+        return lst;
+    }
+
+    public ArrayList<Category> getSortedCategory(HashMap<Category, ArrayList<Integer>> category){
+        ArrayList<Category> out = new ArrayList<>();
+        while (!category.isEmpty()){
+            Category most = null;
+            for (Category c: category.keySet()){
+                if (most == null || category.get(c).size() > category.get(most).size()){
+                    most = c;
+                }
+            }
+            out.add(most);
+            category.remove(most);
+        }
+        return out;
+    }
+
+    public ArrayList<Integer> getMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+        ArrayList<Integer> ids = new ArrayList<>();
+        HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
+        for (Category c: getSortedCategory(category)){
+            for (int id: category.get(c)){
+                if (getItembyId(id).getTradable()){
+                    Collections.addAll(ids, id, getItembyId(id).getOwnerId());
+                    return ids;
+                }
+            }
+        }
+        return getMostMatchItem(wishlist);      // If all of the items in wishlist are not tradable
+    }
+
+    public ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+        ArrayList<Integer> ids = new ArrayList<>();
+        int ownerId = wishlist.get(0).getOwnerId();
+        HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
+        for (Category c : getSortedCategory(category)) {
+            for (int id : getCategoryItem(c)){
+                Item item = getItembyId(id);
+                if (item.getTradable() && item.getOwnerId()!= ownerId){
+                    Collections.addAll(ids, item.getItemId(), item.getOwnerId());
+                    return ids;
+                }
+            }
+        }
+        return ids;  // No suggestion
     }
 
 
