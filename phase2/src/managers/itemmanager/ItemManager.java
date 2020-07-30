@@ -1,5 +1,6 @@
 package managers.itemmanager;
 import exception.InvalidIdException;
+import managers.usermanager.UserManager;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;
@@ -412,7 +413,7 @@ public class ItemManager implements Serializable {
      * @return A list of ids for the suggested item (item's id, item owner's id)
      * @throws InvalidIdException for invalid item id
      */
-    public ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+    private ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
         ArrayList<Integer> ids = new ArrayList<>();
         int ownerId = wishlist.get(0).getOwnerId();
         HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
@@ -428,6 +429,60 @@ public class ItemManager implements Serializable {
         return ids;  // No suggestion
     }
 
+    /**
+     * Return the a list of items that sorted by number of follows
+     * @param um Using dependency injection for UserManager
+     * @return a list of items that sorted by number of follows
+     * @throws InvalidIdException for invalid item id
+     */
+    public ArrayList<Item> getSortedItemByFollows(UserManager um) throws InvalidIdException {
+        ArrayList<Item> sortedItems = new ArrayList<>();
+        HashMap<Integer, ArrayList<Integer>> map = getUsersByItemsFollowed(um);
+        while (!map.isEmpty()) {
+            int most = 0;
+            for (int itemid: map.keySet()) {
+                if (most == 0 || map.get(itemid).size() > map.get(most).size()) {
+                    most = itemid;
+                }
+            }
+            sortedItems.add(getItembyId(most));
+            map.remove(most);
+        }
+        return sortedItems;
+    }
+
+    /**
+     * Helper method for getSortedItemByFollows
+     * @param um Using dependency injection for UserManager
+     * @return A Map that maps item's id to a list of followers (user' id)
+     */
+    private HashMap<Integer, ArrayList<Integer>> getUsersByItemsFollowed(UserManager um){
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        for (int itemid: getItemsIDs(listItem)){
+            ArrayList<Integer> lstUsers = getUsersByItem(um, itemid);
+            map.put(itemid, lstUsers);
+        }
+        return map;
+
+    }
+
+    /**
+     * Helper for getUsersByItemsFollowed
+     * @param um Using dependency injection for UserManager
+     * @param itemId The item's id
+     * @return a list of users' ids that followed this item
+     */
+    private ArrayList<Integer> getUsersByItem(UserManager um, int itemId){
+        ArrayList<Integer> listUserids = new ArrayList<>();
+        HashMap<Integer, ArrayList<Integer>> itemsFollowed = new HashMap<>(); //TODO: To be changed! need user manager to finish implementation first.
+        for (int userId: itemsFollowed.keySet()){
+            if (itemsFollowed.get(userId).contains(itemId)){    // if this user follows this item
+                listUserids.add(userId);
+                }
+            }
+        return listUserids;
+        }
+    }
 
 
 }
