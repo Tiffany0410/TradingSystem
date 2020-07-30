@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class adminCreateAccountGUI {
+public class adminUserCreateAccountGUI {
     private JPanel rootPanel;
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
@@ -14,7 +14,7 @@ public class adminCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public adminCreateAccountGUI(AccountCreator accountCreator) {
+    public adminUserCreateAccountGUI(AccountCreator accountCreator) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -46,7 +46,7 @@ public class adminCreateAccountGUI {
 
     public void run(AccountCreator accountCreator) {
         JFrame frame = new JFrame("createAccountGUI");
-        frame.setContentPane(new adminCreateAccountGUI(accountCreator).rootPanel);
+        frame.setContentPane(new adminUserCreateAccountGUI(accountCreator).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
