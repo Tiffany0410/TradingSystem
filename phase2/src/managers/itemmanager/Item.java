@@ -2,6 +2,9 @@ package managers.itemmanager;
 
 import managers.usermanager.User;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.ObjectStreamClass;
 import java.io.Serializable;
 import java.util.Observable;
@@ -13,7 +16,7 @@ import java.util.Observer;
  * @author Shi Tang
  * @version IntelliJ IDEA 2020.1.1
  */
-public class Item extends Observable implements Serializable, Observer {
+public class Item extends Observable implements PropertyChangeListener, Serializable {
     private String name;
     private String description;
     private int itemId;
@@ -21,6 +24,8 @@ public class Item extends Observable implements Serializable, Observer {
     private int currHolderId;
     private boolean tradable;
     private Category category;
+    //PropertyChangeListener
+    private PropertyChangeSupport support;
 
     /**
      * Constructor of item.
@@ -39,6 +44,8 @@ public class Item extends Observable implements Serializable, Observer {
         this.itemId = itemID;
         this.category = category;
         this.tradable = true;
+        //property support
+        support = new PropertyChangeSupport(this);
     }
 
     /**
@@ -47,9 +54,8 @@ public class Item extends Observable implements Serializable, Observer {
      * @param tradable the flag indicates whether the item is tradable
      */
     public void setTradable(boolean tradable) {
+        support.firePropertyChange("Tradable Status of the item", this.tradable, tradable);
         this.tradable = tradable;
-        setChanged();
-        notifyObserver("Update the item's tradable status to " + tradable + ".");
     }
 
     /**
@@ -163,25 +169,27 @@ public class Item extends Observable implements Serializable, Observer {
     }
 
     /**
-     * Update accordingly after subject calls notifyObservers()
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
-
-    /**
-     * Set change for Item
-     */
-    public void setChanged() {
-    }
-
-    /**
-     * Notify the observer about this item's trading status
+     * Add PropertyChangeListener to support
      *
-     * @param tradeStatus new tradable status of this item
+     * @param pcl PropertyChangeListener that needs to be added
      */
-    public void notifyObserver(String tradeStatus) {
-        update(this, tradeStatus);
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
     }
+
+    /**
+     * Remove PropertyChangeListener to support
+     *
+     * @param pcl PropertyChangeListener that needs to be removed
+     */
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        this.setTradable((boolean) evt.getNewValue());
+    }
+
+
 }

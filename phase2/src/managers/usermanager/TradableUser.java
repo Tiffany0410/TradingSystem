@@ -291,6 +291,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void addFollowers(Integer userId) {
         followers.add(id);
+        userFollowingLogs.add(("User" + this.username + "followed a new user with id" + id +"."));
     }
 
     /**
@@ -328,6 +329,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
+        userFollowingLogs.add(("User" + this.username + "unfollowed a user with id" + id +"."));
     }
 
     /**
@@ -337,6 +339,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
+        userFollowingLogs.add(("User" + this.username + "followed an item with id" + id +"."));
     }
 
     /**
@@ -346,6 +349,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
+        userFollowingLogs.add(("User" + this.username + "unfollowed an item with id" + id +"."));
     }
 
 
@@ -360,5 +364,28 @@ public class TradableUser extends User implements  Serializable {
                 + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
                 "The answer to whether he/she is frozen is " + isFrozen;
     }
-
+    /**
+     * Get a list of item  that this user followed
+     *
+     * @return A list of item that this user followed
+     */
+    public ArrayList<Integer> getItemFollowed() {
+        return itemFollowed;
+    }
+    /**
+     * Get a list of user following log
+     *
+     * @return A list of string records user following log
+     */
+    public ArrayList<String> getUserFollowingLogs() {
+        return userFollowingLogs;
+    }
+    /**
+     * Get a list of item following log
+     *
+     * @return A list of string records item following log
+     */
+    public ArrayList<String> getItemFollowingLogs() {
+        return itemFollowingLogs;
+    }
 }
