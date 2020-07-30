@@ -251,6 +251,10 @@ public class RegularUserOtherInfoGetter {
 
     }
 
+    /**
+     * Gets the tradableUser's Id from the user.
+     * @return The tradableUser'd Id entered by user.
+     */
     protected int getTradableUserId(){
         Scanner sc = new Scanner(System.in);
         int response = 0;
