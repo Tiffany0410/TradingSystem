@@ -1,62 +1,68 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import controllers.LoginValidator;
 
-public class loginGUI extends JDialog implements GUIrunable{
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private JTextField textField1;
-    private JPasswordField passwordField1;
+public class loginGUI implements GUIrunable {
+    private JPanel rootPanel;
+    private JLabel usernameLabel;
+    private JTextField usernameText;
+    private JLabel passwordLabel;
+    private JPasswordField passwordText;
+    private JButton loginButton;
+    private JButton cancelButton;
 
-    public loginGUI() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+    public void run(LoginValidator loginValidator) {
+        JFrame frame = new JFrame("loginGUI");
+        frame.setContentPane(new loginGUI(loginValidator).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
+    public loginGUI(LoginValidator loginValidator) {
+        loginButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e action user did
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Login");
+                if (loginValidator.checkUsername(usernameText.getName())){
+                    String type;
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
+                    type = loginValidator.checkPassword(new String(passwordText.getPassword()));
 
-    public void run() {
-        loginGUI dialog = new loginGUI();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+                    if (type.equals("False")){
+                        // TODO: Give a JDialog window said wrong password
+                    } else if(type.equals("Admin")){
+                        // TODO: Call admin user main menu and close this window
+                    }
+                    else if (type.equals("User")){
+                        // TODO: Call regular user main menu and close this window
+                    }
+
+                } else{
+                    // TODO: Give a JDialog window said wrong username
+                }
+
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e action user did
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Return to trading system init menu and close this window
+            }
+        });
     }
 }
