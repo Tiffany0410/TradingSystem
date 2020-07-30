@@ -3,6 +3,7 @@ import exception.InvalidIdException;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -79,7 +80,7 @@ public class ItemManager implements Serializable {
      */
     public Integer getRequestItemIDByName(String itemName) throws InvalidIdException{
         for (Item item: listItemToAdd){
-            if (item.getName() == itemName){ return item.getItemId(); }
+            if (item.getName().equals(itemName)){ return item.getItemId(); }
         }
         throw new InvalidIdException("Invalid Item Id");
     }
@@ -113,19 +114,6 @@ public class ItemManager implements Serializable {
             }
         }
     }
-    /*
-     if don't store a map for item category in itemManager:
-
-     public ArrayList<Integer> getCategoryItem(String category){
-        ArrayList<Integer> itemList = new ArrayList<>();
-        for (Item item: listItem){
-            if (item.category.equals(category)){
-                itemList.add(item.getItemId());
-            }
-        }
-        return itemList;
-    }
-    */
 
     /**
      * Creates new item
@@ -264,6 +252,12 @@ public class ItemManager implements Serializable {
         return ids;
     }
 
+    /**
+     * Get tradable status for item
+     * @param itemId The item's id
+     * @return true if item is tradable
+     * @throws InvalidIdException for invalid item id
+     */
     public boolean getTradable(int itemId) throws InvalidIdException{
         for (Item item: listItem){
             if (item.getItemId() == itemId){
@@ -273,6 +267,12 @@ public class ItemManager implements Serializable {
         throw new InvalidIdException("Invalid Item Id");
     }
 
+    /**
+     * Set the list of items to tradable
+     * @param listIds The list of items' ids
+     * @param tradable The tradable status
+     * @throws InvalidIdException for invalid item id
+     */
     public void setTradable(ArrayList<Integer> listIds, boolean tradable) throws InvalidIdException {
         Set<Integer> setIds = new HashSet<>(listIds);
         for (Integer id: setIds){
@@ -280,6 +280,10 @@ public class ItemManager implements Serializable {
         }
     }
 
+    /**
+     * Return a list of tradable items
+     * @return a list of tradable items
+     */
     public ArrayList<Item> getAllTradableItems(){
         ArrayList<Item> items = new ArrayList<>();
         for (Item item: listItem){
@@ -290,12 +294,24 @@ public class ItemManager implements Serializable {
         return items;
     }
 
+    /**
+     * Add item to listDeletedItem
+     * @param item The item
+     */
     public void addItemToListDeletedItem(Item item) {listDeletedItem.add(item);}
 
+    /**
+     * Remove item from listDeletedItem
+     * @param itemID The item's id
+     */
     public void removeItemFromListDeletedItem(int itemID) {
         listDeletedItem.removeIf(item -> item.getItemId() == itemID);
     }
 
+    /**
+     * Return a map that maps categories to the corresponding list of items' ids for all items
+     * @return A map that maps categories to the corresponding list of items' ids
+     */
     public HashMap<Category, ArrayList<Integer>> getAllCategoryItem(){
         HashMap<Category, ArrayList<Integer>> category = new HashMap<>();
         for (Category cat: Category.values()){
@@ -305,9 +321,24 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Return all the items in the category
+     * Return a map that maps categories to the corresponding list of items' ids for the list of items
+     * @param items A list of items
+     * @return A map that maps categories to the corresponding list of items' ids for the list of items
+     */
+    public HashMap<Category, ArrayList<Integer>> getAllCategoryItem(ArrayList<Item> items){
+        HashMap<Category, ArrayList<Integer>> category = new HashMap<>();
+        for (Category cat: Category.values()){
+            if (!getCategoryItem(cat, items).isEmpty()){
+                category.put(cat, getCategoryItem(cat, items));
+            }
+        }
+        return category;
+    }
+
+    /**
+     * Return all the items in this category for all items
      * @param category The category of the item
-     * @return A list of all item IDS in the category
+     * @return A list of all item ids in this category for all items
      */
     public ArrayList<Integer> getCategoryItem(Category category){
         ArrayList<Integer> lst = new ArrayList<>();
@@ -317,7 +348,84 @@ public class ItemManager implements Serializable {
             }
         }
         return lst;
+    }
 
+    /**
+     * Return a list of all item ids in this category for items
+     * @param category The item's category
+     * @param items A list of items
+     * @return A list of all item ids in this category for items
+     */
+    public ArrayList<Integer> getCategoryItem(Category category, ArrayList<Item> items){
+        ArrayList<Integer> lst = new ArrayList<>();
+        for (Item item: items){
+            if (item.getCategory().equals(category)){
+                lst.add(item.getItemId());
+            }
+        }
+        return lst;
+    }
+
+    /**
+     * Return a list of sorted category by most to least number of items in the category
+     * @param category The item's category
+     * @return A list of sorted category
+     */
+    public ArrayList<Category> getSortedCategory(HashMap<Category, ArrayList<Integer>> category){
+        ArrayList<Category> out = new ArrayList<>();
+        while (!category.isEmpty()){
+            Category most = null;
+            for (Category c: category.keySet()){
+                if (most == null || category.get(c).size() > category.get(most).size()){
+                    most = c;
+                }
+            }
+            out.add(most);
+            category.remove(most);
+        }
+        return out;
+    }
+
+    /**
+     * Return the suggested item
+     * @param wishlist The user's wishlist
+     * @return A list of ids for the suggested item (item's id, item owner's id)
+     * @throws InvalidIdException for invalid item id
+     */
+    public ArrayList<Integer> getMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+        ArrayList<Integer> ids = new ArrayList<>();
+        HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
+        for (Category c: getSortedCategory(category)){
+            for (int id: category.get(c)){
+                if (getItembyId(id).getTradable()){
+                    Collections.addAll(ids, id, getItembyId(id).getOwnerId());
+                    return ids;
+                }
+            }
+        }
+        return getMostMatchItem(wishlist);      // If all of the items in wishlist are not tradable
+    }
+
+    /**
+     * Helper method for getMatchItem
+     * @param wishlist The user's wishlist
+     * @return A list of ids for the suggested item (item's id, item owner's id)
+     * @throws InvalidIdException for invalid item id
+     */
+    public ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+        ArrayList<Integer> ids = new ArrayList<>();
+        int ownerId = wishlist.get(0).getOwnerId();
+        HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
+        for (Category c : getSortedCategory(category)) {
+            for (int id : getCategoryItem(c)){
+                Item item = getItembyId(id);
+                if (item.getTradable() && item.getOwnerId()!= ownerId){
+                    Collections.addAll(ids, item.getItemId(), item.getOwnerId());
+                    return ids;
+                }
+            }
+        }
+        return ids;  // No suggestion
     }
 
 

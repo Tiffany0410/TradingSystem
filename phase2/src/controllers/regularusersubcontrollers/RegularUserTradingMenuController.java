@@ -271,24 +271,21 @@ public class RegularUserTradingMenuController {
             requestResult(ok, trade, tradeID, userId1, numLentBeforeBorrow);
         }
     }
-    public void tradeSuggestion(int itemId) {
-        ArrayList<managers.usermanager.TradableUser> suggestion = new ArrayList<>();
-        ArrayList<managers.usermanager.TradableUser> sameCity = um.sameCity(this.userId);
-        for (managers.usermanager.TradableUser t : sameCity) {
-            if (t.getInventory().contains(itemId)) {
-                suggestion.add(t);
-            }
-        }
-        if (suggestion.size() == 0) {
+
+    /**Print the most suggest item for user to trade.
+     * @param itemId item id
+     * @throws InvalidIdException
+     */
+    public void tradeSuggestion(int itemId) throws InvalidIdException {
+        ArrayList<Integer> p = im.getMostMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
+        if (p.size() == 0) {
             sm.msgForNothing("recommend suggestion", ds);
         } else {
-            ArrayList<Integer> person = new ArrayList<>();
-            for (managers.usermanager.TradableUser t : suggestion) {
-                person.add(t.getId());
-            }
-            ds.printResult(new ArrayList<>(person));
+            ds.printResult(new ArrayList<>(p));
         }
     }
+
+
     private int determineTradeID() {
         int tradeID;
         //add the trade id so that there're no duplicates
