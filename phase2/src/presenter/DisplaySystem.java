@@ -256,7 +256,15 @@ public class DisplaySystem {
             // MainMenuOption <3>  corresponding to RegularUserMeetingMenu.csv
             case 3:
                 regularUserMeetingAction(action, subMenuOption);
-
+                break;
+            // MainMenuOption <4>  corresponding to RegularUserSearchingMenu.csv
+            case 4:
+                regularUserSearchingAction(action, subMenuOption);
+                break;
+            // MainMenuOption <5>  corresponding to RegularUserCommunityMenu.csv
+            case 5:
+                regularUserCommunityAction(action, subMenuOption);
+                break;
         }
     }
 
@@ -307,10 +315,6 @@ public class DisplaySystem {
                 this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
                         + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
                 break;
-            // 1.12: See users in your home city
-            case 12:
-                this.printOut(helper_regular_action_prefix(action) + "check the users in his/her home city" + "\n");
-                break;
             // 1.13: Change your home city
             case 13:
                 this.printOut(helper_regular_action_prefix(action) + "change home city to " + action.getAdjustableStr() + "\n");
@@ -319,21 +323,6 @@ public class DisplaySystem {
             case 14:
                 this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
                 break;
-            // 1.15: Write a review for an user
-            case 15:
-                this.printOut(helper_regular_action_prefix(action) + "rate user #" + action.getAdjustableInt() + " with rating score: " + action.getAdjustableStr() + "\n");
-                break;
-            // 1.16: Report an user
-            case 16:
-                this.printOut(helper_regular_action_prefix(action) + "report user #" + action.getAdjustableInt() + " with reason: " + action.getAdjustableStr() + "\n");
-                break;
-            // 1.17: Find the rating for a given user
-            case 17:
-                this.printOut(helper_regular_action_prefix(action) + "search the rate of user #" + action.getAdjustableInt() + "\n");
-                break;
-            // TODO: 1.18: View your list of friends
-            // TODO: 1.19: Send a friend request for a given user
-            // TODO: 1.20: Respond to friend requests
         }
     }
 
@@ -404,6 +393,42 @@ public class DisplaySystem {
         }
     }
 
+    private void regularUserSearchingAction(Action action, int subMenuOption) {
+        switch (subMenuOption) {
+
+        }
+    }
+
+    private void regularUserCommunityAction(Action action, int subMenuOption) {
+        switch (subMenuOption) {
+            // 5.1: Write a review for an user
+            case 1:
+                this.printOut(helper_regular_action_prefix(action) + "rate user #" + action.getAdjustableInt() + " with rating score: " + action.getAdjustableStr() + "\n");
+                break;
+            // 5.2: Report an user
+            case 2:
+                this.printOut(helper_regular_action_prefix(action) + "report user #" + action.getAdjustableInt() + " with reason: " + action.getAdjustableStr() + "\n");
+                break;
+            // 5.3: Find the rating for a given user
+            case 3:
+                this.printOut(helper_regular_action_prefix(action) + "search the rate of user #" + action.getAdjustableInt() + "\n");
+                break;
+            // 5.4: See users in your home city
+            case 4:
+                this.printOut(helper_regular_action_prefix(action) + "check the users in his/her home city" + "\n");
+                break;
+            // 5.5: View your list of friends
+            case 5:
+                //TODO
+            // 5.6: Send a friend request for a given user
+            case 6:
+                //TODO
+            // 5.7: Respond to friend requests
+            case 7:
+                //TODO
+        }
+    }
+
 
     private void adminUserAction(Action action) {
         String[] menuOption = action.getMenuOption().split("\\.");
@@ -422,9 +447,11 @@ public class DisplaySystem {
             // MainMenuOption <3>  corresponding to AdminUserActionSubMenu.csv
             case 3:
                 adminUserActionAction(action, subMenuOption);
-                // MainMenuOption <4>  corresponding to AdminUserOtherSubMenu.csv
+                break;
+            // MainMenuOption <4>  corresponding to AdminUserOtherSubMenu.csv
             case 4:
                 adminUserOtherAction(action, subMenuOption);
+                break;
         }
     }
 
