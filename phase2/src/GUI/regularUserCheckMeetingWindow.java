@@ -3,12 +3,15 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class adminUserActionSubMenu extends JDialog implements GUIrunable{
+public class regularUserCheckMeetingWindow extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JButton editButton;
+    private JButton cancelButton;
+    private JLabel JLable;
 
-    public adminUserActionSubMenu() {
+    public regularUserCheckMeetingWindow() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -51,8 +54,8 @@ public class adminUserActionSubMenu extends JDialog implements GUIrunable{
         dispose();
     }
 
-    public void run() {
-        adminUserActionSubMenu dialog = new adminUserActionSubMenu();
+    public static void main(String[] args) {
+        regularUserCheckMeetingWindow dialog = new regularUserCheckMeetingWindow();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
