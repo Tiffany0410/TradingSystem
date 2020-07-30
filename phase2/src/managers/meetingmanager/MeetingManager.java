@@ -116,7 +116,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param meeting the meeting of a trade
      * @return true if the meeting id is not 0.
      */
-    public Boolean checkMeeting(Meeting meeting){
+    public boolean checkMeeting(Meeting meeting){
         return meeting.getTradeId()!=0;
     }
 
@@ -132,7 +132,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param maxMeetingTimePlaceEdits the max number of times that a user can edit the time and place.
      * @return true if the change to the TimePlaceEdit happen
      */
-    public boolean EditTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
+    public boolean editTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
                                  String place, int maxMeetingTimePlaceEdits){
         if (!meeting.getTimePlaceConfirm() &&(userId == meeting.getUserId1() ||userId == meeting.getUserId2())&&
                 (meeting.getTimePlaceEdit().isEmpty() || (meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().
@@ -149,7 +149,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param maxMeetingTimePlaceEdits the max number of times an user can edit the time and place.
      * @return true if the user confirm the time and place successfully.
      */
-    public Boolean confirmTimePlace(Meeting meeting, int userId, int maxMeetingTimePlaceEdits){
+    public boolean confirmTimePlace(Meeting meeting, int userId, int maxMeetingTimePlaceEdits){
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() < 2 * maxMeetingTimePlaceEdits && !
                 meeting.getTimePlaceEdit().isEmpty() && meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().
                 size()-1)!=userId &&(userId==meeting.getUserId1()||userId==meeting.getUserId2())){
@@ -168,7 +168,7 @@ public class MeetingManager implements java.io.Serializable{
      * @return true if confirm is successful
      * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public Boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
+    public boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
                                      int maxMeetingTimePlaceEdits) throws InvalidIdException {
         if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
                 get(userId) ){
@@ -200,7 +200,7 @@ public class MeetingManager implements java.io.Serializable{
                                  int maxMeetingTimePlaceEdits){
         Calendar time1 = Calendar.getInstance();
         time1.setTime(meeting.getTime());
-        EditTimePlace(meeting1, userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
+        editTimePlace(meeting1, userId,time1.get(Calendar.YEAR),time1.get(Calendar.MONTH)+2,
                 time1.get(Calendar.DAY_OF_MONTH), time1.get(Calendar.HOUR_OF_DAY),time1.get(Calendar.MINUTE),
                 time1.get(Calendar.SECOND),meeting.getPlace(), maxMeetingTimePlaceEdits);
         if(meeting.getUserId1() != userId){
@@ -228,7 +228,7 @@ public class MeetingManager implements java.io.Serializable{
     /** check whether or not a meeting is not confirmed by users after one day of the meeting should happen.
      * @return true if the meeting is not confirmed after one day of the real life meeting time.
      */
-    public Boolean getOverTime(Meeting meeting){
+    public boolean getOverTime(Meeting meeting){
         Calendar time1 = Calendar.getInstance();
         time1.setTime(meeting.getTime());
         time1.add(Calendar.DATE,1);
