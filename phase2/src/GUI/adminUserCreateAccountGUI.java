@@ -10,11 +10,10 @@ public class adminUserCreateAccountGUI {
     private JPanel rootPanel;
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
-    private JPasswordField passwordField2;
     private JButton createButton;
     private JButton cancelButton;
 
-    public adminUserCreateAccountGUI(AccountCreator accountCreator) {
+    public adminUserCreateAccountGUI(AccountCreator accountCreator, GUI gui) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -23,12 +22,8 @@ public class adminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!new String(passwordField1.getPassword()).equals(new String(passwordField2.getPassword()))){
-                    //TODO: Show a JDialog said two password are not same, check again
-
-                } else {
-                    //TODO: Call Account Creator to create an admin account
-                }
+                accountCreator.createAccount("Admin", usernameTextField.getText(),
+                        new String(passwordField1.getPassword()), "None", "None");
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -39,14 +34,15 @@ public class adminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Back to Admin Main Menu and close this window
+                //TODO: Back to Admin User Main Menu
+
             }
         });
     }
 
-    public void run(AccountCreator accountCreator) {
+    public void run(AccountCreator accountCreator, GUI gui) {
         JFrame frame = new JFrame("createAccountGUI");
-        frame.setContentPane(new adminUserCreateAccountGUI(accountCreator).rootPanel);
+        frame.setContentPane(new adminUserCreateAccountGUI(accountCreator, gui).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

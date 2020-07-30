@@ -14,19 +14,19 @@ public class tradingSystemInitMenuGUI{
     private JButton a2LoginAsGuestButton;
     private JButton a3CreateAccountButton;
     private JButton exitButton;
-    private TradingSystem tradingSystem;
 
 
 
-    public void run(AccountCreator accountCreator, LoginValidator loginValidator) {
+
+    public void run(GUI gui) {
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new tradingSystemInitMenuGUI(accountCreator, loginValidator).panel1);
+        frame.setContentPane(new tradingSystemInitMenuGUI(gui).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public tradingSystemInitMenuGUI(AccountCreator accountCreator, LoginValidator loginValidator){
+    public tradingSystemInitMenuGUI(GUI gui){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**
@@ -37,8 +37,7 @@ public class tradingSystemInitMenuGUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //login
-                loginGUI login = new loginGUI(loginValidator);
-                login.run(loginValidator);
+                gui.runLogin();
             }
         });
 
@@ -64,8 +63,7 @@ public class tradingSystemInitMenuGUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Create account
-                regularUserCreateAccountGUI createAccount = new regularUserCreateAccountGUI(accountCreator);
-                createAccount.run(accountCreator);
+                gui.runRegularUserCreateAccount();
             }
         });
         exitButton.addActionListener(new ActionListener() {

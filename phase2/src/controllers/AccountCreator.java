@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import gateway.FilesReaderWriter;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
@@ -24,7 +25,7 @@ public class AccountCreator {
      * @param um The initial UserManager
      * @param ds The initial Display system
      */
-    public AccountCreator(UserManager um, DisplaySystem ds) throws IOException, ClassNotFoundException {
+    public AccountCreator(UserManager um, DisplaySystem ds){
         this.um = um;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
@@ -35,22 +36,13 @@ public class AccountCreator {
      * @param type The type of account: normal user or admin
      * @return true if the User was successfully added, false otherwise
      */
-    public boolean createAccount(String type) throws IOException {
+    public boolean createAccount(String type, String username, String password, String email, String home){
         boolean out = false;
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
         ArrayList<TradableUser> listPeople = um.getListTradableUser();
 
-        String username;
-        String password;
-        String email;
-        String home;
 
-
-        username = ds.getUsername();
-        password = ds.getPassword();
-        email = ds.getEmail();
-        home = "";//ds.gethomecity();
 
         if (username.toLowerCase().equals("guest")){
             return out;
@@ -60,22 +52,32 @@ public class AccountCreator {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email, home);
                 out = true;
-                //Write the UserManger into ser file in order to save the data
-                frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-                frw.saveUserInfoToCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv",
-                        username, password, email);
+
+                try {
+                    //Write the UserManger into ser file in order to save the data
+                    frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+                    frw.saveUserInfoToCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv",
+                            username, password, email);
+                } catch (IOException e){
+                    System.out.println("Please check regular user information files");
+                }
             }
         }
 
        else if (type.equals("Admin")) {
-           if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)){
+           if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                um.addAdmin(username, password, email);
                out = true;
-               //Write the UserManger into ser file in order to save the data
-               frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-               frw.saveUserInfoToCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv",
-                       username, password, email);
-            }
+
+               try {
+                   //Write the UserManger into ser file in order to save the data
+                   frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+                   frw.saveUserInfoToCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv",
+                           username, password, email);
+               } catch (IOException e){
+                   System.out.println("Please check admin user information files");
+               }
+           }
         }
 
         return out;

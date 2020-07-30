@@ -1,5 +1,6 @@
 package demomanager;
 
+import GUI.GUI;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.maincontrollers.TradingSystem;
@@ -41,8 +42,7 @@ public class DemoManager {
 
 
         // Start trading system
-        boolean condition = true;
-        while (condition){
+        while (true){
 
 
             try {
@@ -82,16 +82,20 @@ public class DemoManager {
                 // Load accounts data from CSV file to initial login validator
                 Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
                 Map<String, String> adminUserLoginInfo = frw.readUserInfoFromCSVFile(adminAccountInfoFilePath);
-                LoginValidator loginValidator = new LoginValidator(userLoginInfo, adminUserLoginInfo);
+                LoginValidator lv = new LoginValidator(userLoginInfo, adminUserLoginInfo);
 
                 // Create trading system
-                TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
+                //TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
 
                 // Run trading system
                 //condition = tradingSystem.tradingSystemInital();
 
                 // Run trading system
-                tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
+                //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
+
+                // Run GUI
+                GUI gui = new GUI(um, mm, tm, im, fm, ds, ac, lv);
+                gui.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {
                 System.out.println("Can not find file, Please check the root of the program and README file.");

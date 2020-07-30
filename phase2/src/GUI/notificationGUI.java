@@ -3,13 +3,13 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class notification extends JDialog {
+public class notificationGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JLabel Label;
 
-    public notification(String string) {
+    public notificationGUI(String string) {
         Label.setText(string);
         setContentPane(contentPane);
         setModal(true);
@@ -51,7 +51,7 @@ public class notification extends JDialog {
     }
 
     public void run(String string) {
-        notification dialog = new notification(string);
+        notificationGUI dialog = new notificationGUI(string);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

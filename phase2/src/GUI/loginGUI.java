@@ -38,17 +38,21 @@ public class loginGUI {
 
                     type = loginValidator.checkPassword(new String(passwordText.getPassword()));
 
-                    if (type.equals("False")){
-                        // TODO: Give a JDialog window said wrong password
-                    } else if(type.equals("Admin")){
-                        // TODO: Call admin user main menu and close this window
-                    }
-                    else if (type.equals("User")){
-                        // TODO: Call regular user main menu and close this window
+                    switch (type) {
+                        case "False":
+                            notificationGUI notificationGUI = new notificationGUI("Wrong password, please check again");
+
+                            break;
+                        case "Admin":
+                            // TODO: Call admin user main menu and close this window
+                            break;
+                        case "User":
+                            // TODO: Call regular user main menu and close this window
+                            break;
                     }
 
                 } else{
-                    // TODO: Give a JDialog window said wrong username
+                    notificationGUI notificationGUI = new notificationGUI("Uername does not exist, please check again");
                 }
 
             }

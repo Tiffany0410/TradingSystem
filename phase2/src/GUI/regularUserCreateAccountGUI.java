@@ -10,13 +10,12 @@ public class regularUserCreateAccountGUI {
     private JPanel rootPanel;
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
-    private JPasswordField passwordField2;
     private JTextField emailTextField;
     private JTextField cityTextField;
     private JButton createButton;
     private JButton cancelButton;
 
-    public regularUserCreateAccountGUI(AccountCreator accountCreator) {
+    public regularUserCreateAccountGUI(AccountCreator accountCreator, GUI gui) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -25,8 +24,8 @@ public class regularUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Account creator to create a regular user account and close this window
-
+                accountCreator.createAccount("Regular", usernameTextField.getText(),
+                        new String(passwordField1.getPassword()), emailTextField.getText(), cityTextField.getText());
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -37,14 +36,14 @@ public class regularUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: return to Trading System Init Meun and close this window
+                gui.runTradingSystemInitMenuGUI();
             }
         });
     }
 
-    public void run(AccountCreator accountCreator) {
+    public void run(AccountCreator accountCreator, GUI gui) {
         JFrame frame = new JFrame("regularUserCreateAccount");
-        frame.setContentPane(new regularUserCreateAccountGUI(accountCreator).rootPanel);
+        frame.setContentPane(new regularUserCreateAccountGUI(accountCreator, gui).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
