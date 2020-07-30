@@ -331,6 +331,9 @@ public class DisplaySystem {
             case 17:
                 this.printOut(helper_regular_action_prefix(action) + "search the rate of user #" + action.getAdjustableInt() + "\n");
                 break;
+            // TODO: 1.18: View your list of friends
+            // TODO: 1.19: Send a friend request for a given user
+            // TODO: 1.20: Respond to friend requests
         }
     }
 
