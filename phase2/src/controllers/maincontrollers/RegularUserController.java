@@ -1,9 +1,6 @@
 package controllers.maincontrollers;
 
-import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
-import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import controllers.regularusersubcontrollers.RegularUserThresholdController;
-import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import controllers.regularusersubcontrollers.*;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
@@ -30,8 +27,9 @@ import java.util.List;
 public class RegularUserController implements Controllable {
 
     private RegularUserAccountMenuController amc;
-    private RegularUserTradingMenuController atc;
+    private RegularUserTradingMenuController tmc;
     private RegularUserMeetingMenuController mmc;
+    private RegularUserCommunityMenuController cmc;
     private RegularUserThresholdController tc;
     private SystemMessage sm;
     private DisplaySystem ds;
@@ -78,8 +76,9 @@ public class RegularUserController implements Controllable {
         this.frw = new FilesReaderWriter();
         // for other controllers / presenters
         this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, fm, username, userId);
-        this.atc = new RegularUserTradingMenuController(ds, tm, mm, um, im, am, username, userId);
+        this.tmc = new RegularUserTradingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, im, am, username, userId);
+        this.cmc = new RegularUserCommunityMenuController(ds, um, am, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
@@ -103,12 +102,8 @@ public class RegularUserController implements Controllable {
             case 1:
                 if (subMenuOption <= 7) {
                     userAccountMenuResponse1(subMenuOption);
-                }
-                else if (7 < subMenuOption && subMenuOption <= 14){
+                } else if (7 < subMenuOption && subMenuOption <= 14) {
                     userAccountMenuResponse2(subMenuOption);
-                }
-                else {
-                    userAccountMenuResponse3(subMenuOption);
                 }
                 break;
             case 2:
@@ -180,7 +175,6 @@ public class RegularUserController implements Controllable {
         9.View your wishlist and inventory
         10.Set your on-vacation status
         11.Change tradable status for an inventory item
-        12.See users in your home city
         13.Change your home city
         14.Get suggestions for item(s) that you can lend to a given user
          */
@@ -209,21 +203,32 @@ public class RegularUserController implements Controllable {
         }
     }
 
-    private void userAccountMenuResponse3 (int subMenuOption){
+    private void userCommunityMenuResponse3 (int subMenuOption){
         /*
-        15.Write a review for an user
-        16.Report an user
-        17.Find the rating for a given user
+        1.Write a review for an user
+        2.Report an user
+        3.Find the rating for a given user
+        4.See users in your home city
+        5.View your list of friends
+        6.Send a friend request for a given user
+        7.Respond to friend requests
          */
         switch (subMenuOption) {
-            case 15:
-                amc.reviewUser();
+            case 1:
+                cmc.reviewUser();
                 break;
-            case 16:
-                amc.reportUser();
+            case 2:
+                cmc.reportUser();
                 break;
-            case 17:
-                amc.findRatingForUser();
+            case 3:
+                cmc.findRatingForUser();
+                break;
+            case 4:
+                cmc.seeUsersInSameHC(asGuest);
+                break;
+            case 5:
+                break;
+            case 6:
                 break;
         }
 
@@ -247,27 +252,27 @@ public class RegularUserController implements Controllable {
         tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         switch (subMenuOption) {
             case 1:
-                atc.requestTrade(thresholdValues.get(0), thresholdValues.get(2));
+                tmc.requestTrade(thresholdValues.get(0), thresholdValues.get(2));
                 break;
             case 2:
-                atc.respondToTradeRequests(thresholdValues.get(0));
+                tmc.respondToTradeRequests(thresholdValues.get(0));
                 break;
             case 3:
-                atc.viewTrades(tm.getOpenTrade(userId));
+                tmc.viewTrades(tm.getOpenTrade(userId));
                 am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
                 break;
             case 4:
-                atc.viewTrades(tm.getClosedTrade(userId));
+                tmc.viewTrades(tm.getClosedTrade(userId));
                 am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
                 break;
             case 5:
-                atc.confirmTradeComplete();
+                tmc.confirmTradeComplete();
                 break;
             case 6:
-                atc.seeTopThreePartners();
+                tmc.seeTopThreePartners();
                 break;
             case 7:
-                atc.viewTrades(tm.getCancelledTrade(userId));
+                tmc.viewTrades(tm.getCancelledTrade(userId));
                 break;
             case 8:
                 //TODO:

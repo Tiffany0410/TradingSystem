@@ -347,21 +347,6 @@ public class RegularUserAccountMenuController {
         }
     }
 
-    /**
-     * Lets the presenter print a list of users in the same
-     * city as this user.
-     * @param asGuest The determiner of access to this menu option.
-     */
-    public void seeUsersInSameHC(boolean asGuest) {
-        if (!asGuest) {
-            // print all users in the same city as this user.
-            ds.printResult(new ArrayList<>(um.sameCity(userId)));
-            am.addActionToAllActionsList(userId, "regularUser", "1.12", 0, "");
-        }
-        else{
-            sm.msgForGuest(ds);
-        }
-    }
 
     /**
      * Gets user's input of the new home city and then
@@ -418,45 +403,6 @@ public class RegularUserAccountMenuController {
         } else {
             sm.msgForGuest(ds);
         }
-
-    }
-
-    /**
-     * Gets user's input of the id of the user to be reviewed, the rating to give,
-     * as well as a message explaining the reason and uses them to update the review
-     * system.
-     */
-    public void reviewUser() {
-        int userToReview = idGetter.getUserID("user you want to review");
-        // Asks the user for an integer input x --> must satisfy 1 <= x <= 10
-        int rating = otherInfoGetter.getNumRating();
-        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you gave this review");
-        ds.printResult(fm.setReview(userToReview, userId, rating, reason));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
-        am.addActionToAllActionsList(userId, "regularUser", "1.15", userToReview, rating + " and reason: " + reason);
-    }
-
-    /**
-     * Gets user's input of the id of the user to be reported as well as a message explaining the reason
-     * and uses them to update the report system.
-     */
-    public void reportUser() {
-        int userToReport = idGetter.getUserID("user you want to report");
-        String reason = otherInfoGetter.getMessage("Enter the reason(s) why you report this user");
-        ds.printResult(fm.updateReport(userToReport, userId, reason));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.16", userToReport, reason);
-        am.addActionToAllActionsList(userId, "regularUser", "1.16", userToReport, reason);
-    }
-
-    /**
-     * Gets user's input of the id of the user to be searched for the rating for
-     * and uses it to find the rating, which is printed by the printer.
-     */
-    public void findRatingForUser() {
-        int user = idGetter.getUserID("user who you want to find out what his/her rating is");
-        ds.printOut("The rating of this user is:" + fm.calculateRate(user));
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.17", user, "");
-        am.addActionToAllActionsList(userId, "regularUser", "1.17", user, "");
 
     }
 }
