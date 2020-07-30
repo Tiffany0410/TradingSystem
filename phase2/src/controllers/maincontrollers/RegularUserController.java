@@ -78,7 +78,7 @@ public class RegularUserController implements Controllable {
         this.amc = new RegularUserAccountMenuController(ds, tm, mm, um, im, am, fm, username, userId);
         this.tmc = new RegularUserTradingMenuController(ds, tm, mm, um, im, am, username, userId);
         this.mmc = new RegularUserMeetingMenuController(ds, tm, mm, um, im, am, username, userId);
-        this.cmc = new RegularUserCommunityMenuController(ds, um, am, userId);
+        this.cmc = new RegularUserCommunityMenuController(ds, tm, mm, um, im, am, fm, username, userId);
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.sm = new SystemMessage();
     }
@@ -130,6 +130,12 @@ public class RegularUserController implements Controllable {
                     userMeetingMenuResponse(subMenuOption, thresholdValuesFilePath);
                 }
                 break;
+            case 4:
+                //TODO:SearchingInfo response
+                break;
+            case 5:
+                userCommunityMenuResponse(subMenuOption);
+                break;
         }
 
     }
@@ -175,8 +181,8 @@ public class RegularUserController implements Controllable {
         9.View your wishlist and inventory
         10.Set your on-vacation status
         11.Change tradable status for an inventory item
-        13.Change your home city
-        14.Get suggestions for item(s) that you can lend to a given user
+        12.Change your home city
+        13.Get suggestions for item(s) that you can lend to a given user
          */
         switch (subMenuOption) {
             case 8:
@@ -192,18 +198,15 @@ public class RegularUserController implements Controllable {
                 amc.setTradableStatusForItem(asGuest);
                 break;
             case 12:
-                amc.seeUsersInSameHC(asGuest);
-                break;
-            case 13:
                 amc.changeUserHC(asGuest);
                 break;
-            case 14:
+            case 13:
                 amc.suggestItemToLend(asGuest);
                 break;
         }
     }
 
-    private void userCommunityMenuResponse3 (int subMenuOption){
+    private void userCommunityMenuResponse(int subMenuOption){
         /*
         1.Write a review for an user
         2.Report an user
@@ -227,9 +230,10 @@ public class RegularUserController implements Controllable {
                 cmc.seeUsersInSameHC(asGuest);
                 break;
             case 5:
-                break;
+
             case 6:
-                break;
+
+            case 7:
         }
 
 

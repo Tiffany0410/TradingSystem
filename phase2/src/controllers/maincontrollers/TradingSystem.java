@@ -105,7 +105,7 @@ public class TradingSystem {
 
             }
          }
-      } catch (IOException ex){
+      } catch (IOException | InvalidIdException ex){
          displaySystem.printOut("Please try to clean the content of the files in Managers folder");
       }
 
@@ -116,7 +116,7 @@ public class TradingSystem {
     * Login to the trade system
     */
 
-   private void login() throws IOException {
+   private void login() throws IOException, InvalidIdException {
       String userName;
       String userPassword;
 
@@ -136,7 +136,7 @@ public class TradingSystem {
                this.regularUserMain(userName, false);
                break;
             case "Admin":
-               this.adminUserMain();
+               this.adminUserMain(userName);
                break;
          }
       }
@@ -237,6 +237,42 @@ public class TradingSystem {
             }
             this.regularUserMain(userName, asGuest);
          }
+
+         // Option 4 Searching Info
+         else if (option == 4) {
+            boolean condition = true;
+            while (condition) {
+               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserSearchingMenu.csv");
+               if (suboption == 0) {
+                  condition = false;
+               } else {
+                  if (asGuest) {
+                     sm.msgForGuest(displaySystem);
+                  } else {
+                     regularUserController.actionResponse(option, suboption, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+                  }
+               }
+            }
+            this.regularUserMain(userName, asGuest);
+         }
+
+         // Option 5 Community Info
+         else if (option == 5) {
+            boolean condition = true;
+            while (condition) {
+               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserCommunityMenu.csv");
+               if (suboption == 0) {
+                  condition = false;
+               } else {
+                  if (asGuest) {
+                     sm.msgForGuest(displaySystem);
+                  } else {
+                     regularUserController.actionResponse(option, suboption, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+                  }
+               }
+            }
+            this.regularUserMain(userName, asGuest);
+         }
       }
       catch (InvalidIdException ex){
          displaySystem.printOut("This user can not do this, Invalid ID");
@@ -247,9 +283,9 @@ public class TradingSystem {
     * For admin user menu
     */
 
-   private void adminUserMain() throws IOException {
+   private void adminUserMain(String userName) throws IOException, InvalidIdException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
-              this.userManager, this.itemManager);
+              this.userManager, this.itemManager, this.actionManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(sm.AdminUserAlerts(frw));
 
@@ -269,7 +305,7 @@ public class TradingSystem {
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption, "./configs/thresholdvaluesfile/ThresholdValues.csv");}
          }
-         this.adminUserMain();
+         this.adminUserMain(userName);
       }
 
       // Option 2 is Edit Thresholds
@@ -280,7 +316,7 @@ public class TradingSystem {
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption, "./configs/thresholdvaluesfile/ThresholdValues.csv");}
          }
-         this.adminUserMain();
+         this.adminUserMain(userName);
       }
 
       // Option 3 is other
@@ -291,7 +327,7 @@ public class TradingSystem {
             if (suboption == 0) { condition = false; }
             else{adminUserController.actionResponse(option, suboption, "./configs/thresholdvaluesfile/ThresholdValues.csv");}
          }
-         this.adminUserMain();
+         this.adminUserMain(userName);
 
       }
 

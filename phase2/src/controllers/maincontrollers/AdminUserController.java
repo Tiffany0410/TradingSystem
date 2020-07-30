@@ -47,7 +47,6 @@ public class AdminUserController implements Controllable {
      * @param username The username of the Admin user.
      */
     public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, ActionManager am,
-                               AdminUserManagerUsersController muc, AdminUserHistoricalActionController hac,
                                String username) {
         this.ac = ac;
         this.ds = ds;
@@ -59,6 +58,8 @@ public class AdminUserController implements Controllable {
         this.hac = hac;
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
+        this.muc = new AdminUserManagerUsersController();
+        this.hac = new AdminUserHistoricalActionController()
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 
