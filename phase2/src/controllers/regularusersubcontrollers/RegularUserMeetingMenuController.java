@@ -133,7 +133,7 @@ public class RegularUserMeetingMenuController {
             Meeting meeting2 = getMeeting();
             // if the meeting exists in the system
             if (mm.checkMeeting(meeting2)) {
-                Boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
+                boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
                 // if successfully confirmed it, add the action
                 am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting2.getMeetingNum(), "");
@@ -170,7 +170,7 @@ public class RegularUserMeetingMenuController {
                 List<Integer> list = this.dateTimeGetter.getValidDate(ds);
                 String place = otherInfoGetter.getPlace();
                 //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                boolean editSuccess= mm.EditTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
+                boolean editSuccess= mm.editTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 // if user edit it successfully, add the action

@@ -106,7 +106,7 @@ public class Meeting implements java.io.Serializable{
     /** get whether or not the time and the place of the meeting is confirmed.
      * @return true if the meeting time and place is confirmed
      */
-    public Boolean getTimePlaceConfirm(){
+    public boolean getTimePlaceConfirm(){
         return timePlaceConfirm;
     }
 
@@ -155,7 +155,7 @@ public class Meeting implements java.io.Serializable{
      * @return true if this tradeId, userId1, userId2 and meetingNum equals to the meeting's tradeId,
      * userId1, userId2 and meetingNum.
      */
-    public Boolean equals(managers.meetingmanager.Meeting meeting){
+    public boolean equals(managers.meetingmanager.Meeting meeting){
         return this.getTradeId() == meeting.getTradeId() && this.getMeetingNum() == meeting.getMeetingNum()
                 && this.getUserId1() == meeting.getUserId1() && this.getUserId2() == meeting.getUserId2();
     }
