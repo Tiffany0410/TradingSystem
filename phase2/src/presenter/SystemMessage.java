@@ -108,14 +108,14 @@ public class SystemMessage {
 
 
     /**
-     * Prints the message for when the option is locked for the user
+     * Put together the message for when the option is locked for the user
      * due to the threshold.
-     * @param ds The presenter that prints to screen.
+     * @return The message described above.
      */
-    public void lockMessageForThreshold(DisplaySystem ds, int maxNumTransactionAWeek) {
-        ds.printOut("This option is locked");
-        ds.printOut("You have reached the" + maxNumTransactionAWeek + "transactions a week limit");
-        ds.printOut("\n");
+    public String lockMessageForThreshold(int maxNumTransactionAWeek) {
+        return "This option is locked \n" +
+                "You have reached the" + maxNumTransactionAWeek + "transactions a week limit" +
+                "\n";
     }
 
     /**
@@ -150,19 +150,25 @@ public class SystemMessage {
 
 
     /**
-     * Prints the message for the user that tries
+     * Put together the message for the user who tries
      * to set the tradable status for an item that is
      * already in the status that he/she is trying to
      * set it in.
-     * @param ds The presenter that prints to screen.
      * @param tradableStatus The current tradable status of the item.
+     * @return The message described above.
      */
-    public void msgNoNeedToSetTradableStatus(DisplaySystem ds, boolean tradableStatus){
-        ds.printOut("The tradable status for this item is already " + tradableStatus + ". ");
+    public String msgNoNeedToSetTradableStatus(boolean tradableStatus){
+        return "The tradable status for this item is already " + tradableStatus + ". ";
     }
 
-    public void lockMessageForVacation(DisplaySystem ds) {
-        ds.printOut("Because you're on vacation, you can't be involved in trade/meeting.");
-        ds.printOut("If you're back from vacation, please change your on-vacation status in the Account Menu.");
+    /**
+     * Put together the message for the user who tries
+     * to access menus that he/she can't access because
+     * their status is on-vacation.
+     * @return The message described above.
+     */
+    public String lockMessageForVacation() {
+        return"Because you're on vacation, you can't be involved in trade/meeting. \n " +
+                "If you're back from vacation, please change your on-vacation status in the Account Menu.";
     }
 }
