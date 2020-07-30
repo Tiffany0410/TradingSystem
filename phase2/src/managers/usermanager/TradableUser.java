@@ -1,6 +1,9 @@
 package managers.usermanager;
 
 import java.awt.image.ImageObserver;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -12,7 +15,7 @@ import java.util.Observer;
  * @author Hao Du, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
-public class TradableUser extends User implements Serializable {
+public class TradableUser extends User implements  Serializable {
 
     //basic info
     private String username;
@@ -38,6 +41,8 @@ public class TradableUser extends User implements Serializable {
     private ArrayList<Integer> followers;
     private ArrayList<Integer> userFollowed;
     private ArrayList<Integer> itemFollowed;
+    private ArrayList<String> userFollowingLogs;
+    private ArrayList<String> itemFollowingLogs;
 
 
     /**
@@ -61,6 +66,7 @@ public class TradableUser extends User implements Serializable {
         userFollowed = new ArrayList<>();
         itemFollowed = new ArrayList<>();
 
+
     }
 
     /**
@@ -70,8 +76,7 @@ public class TradableUser extends User implements Serializable {
      */
     public void setWishList(ArrayList<Integer> newWishList) {
         wishList = newWishList;
-        setChanged();
-        notifyObserver("Update the wish list to" + newWishList + ".");
+
     }
 
 
@@ -92,8 +97,7 @@ public class TradableUser extends User implements Serializable {
     public void setInventory(ArrayList<Integer> newInventory) {
 
         inventory = newInventory;
-        setChanged();
-        notifyObserver("Update the inventory to" + newInventory + ".");
+
     }
 
     /**
@@ -213,8 +217,6 @@ public class TradableUser extends User implements Serializable {
      */
     public void setHome(String homeCity) {
         this.homeCity = homeCity;
-        setChanged();
-        notifyObserver("Update the user's home to " + homeCity + ".");
     }
 
     /**
@@ -224,8 +226,6 @@ public class TradableUser extends User implements Serializable {
      */
     public void setOnVacation(boolean onVacation) {
         this.onVacation = onVacation;
-        setChanged();
-        notifyObserver("Update the user's vacation status to " + onVacation + ".");
     }
 
     /**

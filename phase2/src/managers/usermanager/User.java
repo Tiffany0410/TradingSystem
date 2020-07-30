@@ -11,14 +11,12 @@ import java.util.Observer;
  * @author Hao Du
  * @version IntelliJ IDEA 2020.1
  */
-public class User extends Observable implements Observer, Serializable {
+public class User  implements  Serializable {
 
     private String username;
     private String password;
     private String email;
     private int id;
-    private ArrayList<String> userFollowingLogs;
-    private ArrayList<String> itemFollowingLogs;
 
     /**
      * Construct an User.
@@ -62,33 +60,8 @@ public class User extends Observable implements Observer, Serializable {
         return password;
     }
 
-    /**
-     * Update accordingly after subject calls notifyObservers()
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof User) {
-            userFollowingLogs.add(arg.toString());
-        } else {
-            itemFollowingLogs.add(arg.toString());
-        }
 
-    }
 
-    /**
-     * Set change for Item
-     */
-    public void setChanged() {
-    }
 
-    /**
-     * Notify the user for any observable changed
-     *
-     * @param actionChanged the string that contains the description
-     *                      for the item added/removed in the method we want to observe
-     */
-    public void notifyObserver(String actionChanged) {
-        update(this, actionChanged);
-    }
 
 }
