@@ -153,7 +153,7 @@ public class MeetingManager implements java.io.Serializable{
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() < 2 * maxMeetingTimePlaceEdits && !
                 meeting.getTimePlaceEdit().isEmpty() && meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().
                 size()-1)!=userId &&(userId==meeting.getUserId1()||userId==meeting.getUserId2())){
-            meeting.setTimePlaceConfirm();
+            meeting.setTimePlaceConfirm(true);
             meeting.getTimePlaceEdit().add(userId);
             return true;
         }return false;
