@@ -32,7 +32,7 @@ public class AdminUserManagerUsersController {
     private FilesReaderWriter frw;
 
     // constructor
-    public AdminUserManagerUsersController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im,
+    public AdminUserManagerUsersController(DisplaySystem ds, AccountCreator ac, UserManager um, ItemManager im,
                                            ActionManager am, String username) {
         this.ac = ac;
         this.ds = ds;
@@ -57,7 +57,7 @@ public class AdminUserManagerUsersController {
         // let presenter print the msg of successful or not
         ds.printResult(freezeOrNot);
         if (freezeOrNot) {
-            am.addActionToListAllActions(this.userID, "adminUser", "1.1", regularUserID, regularUsername);
+            am.addActionToAllActionsList(this.userID, "adminUser", "1.1", regularUserID, regularUsername);
         }
     }
 
@@ -73,7 +73,7 @@ public class AdminUserManagerUsersController {
         //let presenter print the msg of successful or not
         ds.printResult(unfreezeOrNot);
         if (unfreezeOrNot) {
-            am.addActionToListAllActions(this.userID, "adminUser", "1.2", regularUserID, regularUsername);
+            am.addActionToAllActionsList(this.userID, "adminUser", "1.2", regularUserID, regularUsername);
         }
     }
 
@@ -108,7 +108,7 @@ public class AdminUserManagerUsersController {
             int itemId = im.getIDFromItem(itemSelected).get(0);
             int itemOwnerId = itemSelected.getOwnerId();
             ds.printResult(um.addItemInventory(itemId, um.idToUsername(itemOwnerId)));
-            am.addActionToListAllActions(this.userID, "adminUser", "1.3", itemId, String.valueOf(itemOwnerId));
+            am.addActionToAllActionsList(this.userID, "adminUser", "1.3", itemId, String.valueOf(itemOwnerId));
         } else {
             ds.printResult(true);
         }

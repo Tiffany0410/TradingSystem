@@ -7,6 +7,7 @@ import controllers.adminusersubcontrollers.AdminUserOtherInfoGetter;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
+import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
@@ -31,6 +32,7 @@ public class AdminUserController implements Controllable {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
+    private FeedbackManager fm;
     private AdminUserManagerUsersController muc;
     private AdminUserHistoricalActionController hac;
     private FilesReaderWriter frw;
@@ -46,20 +48,19 @@ public class AdminUserController implements Controllable {
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, ActionManager am,
-                               String username) {
+    public AdminUserController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, FeedbackManager fm,
+                               ActionManager am, String username) {
         this.ac = ac;
         this.ds = ds;
         this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
-        this.muc = muc;
-        this.hac = hac;
+        this.fm = fm;
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
-        this.muc = new AdminUserManagerUsersController();
-        this.hac = new AdminUserHistoricalActionController()
+        this.muc = new AdminUserManagerUsersController(ds, ac, um, im, am, username);
+        this.hac = new AdminUserHistoricalActionController(ds,ac,um, im, am, fm, username);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 

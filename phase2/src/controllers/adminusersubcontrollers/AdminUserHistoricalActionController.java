@@ -17,13 +17,10 @@ import java.util.List;
 
 import managers.actionmanager.Action;
 
-import javax.swing.*;
 
 public class AdminUserHistoricalActionController {
 
     private AdminUserOtherInfoGetter otherInfoGetter;
-    private SystemMessage sm;
-    private AccountCreator ac;
     private DisplaySystem ds;
     private UserManager um;
     private ItemManager im;
@@ -31,20 +28,16 @@ public class AdminUserHistoricalActionController {
     private FeedbackManager fm;
     private String username;
     private Integer userId;
-    private FilesReaderWriter frw;
 
     // Constructor
-    public AdminUserHistoricalActionController(AccountCreator ac, DisplaySystem ds, UserManager um, ItemManager im, 
+    public AdminUserHistoricalActionController(DisplaySystem ds, AccountCreator ac, UserManager um, ItemManager im,
                                                ActionManager am, FeedbackManager fm, String username) {
-        this.ac = ac;
         this.ds = ds;
-        this.frw = new FilesReaderWriter();
         this.um = um;
         this.im = im;
         this.am = am;
         this.fm = fm;
         this.userId = um.usernameToID(username);
-        this.sm = new SystemMessage();
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 
