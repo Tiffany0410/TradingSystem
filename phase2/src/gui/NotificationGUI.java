@@ -1,4 +1,4 @@
-package gui.tradingSystemInitMenuGUI;
+package gui;
 
 import javax.swing.*;
 import java.awt.event.*;

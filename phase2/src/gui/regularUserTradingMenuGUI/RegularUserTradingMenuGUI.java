@@ -4,6 +4,20 @@ import javax.swing.*;
 
 public class RegularUserTradingMenuGUI {
     private JPanel rootPanel;
+    private JButton requestATradeButton;
+    private JButton respondToTradeRequestsButton;
+    private JButton viewOpenTradesButton;
+    private JButton viewClosedTradesButton;
+    private JButton confirmThatATradeButton;
+    private JButton seeTopThreeMostButton;
+    private JButton viewTransactionsThatHaveButton;
+    private JButton suggestionForTheMostButton;
+    private JButton backButton;
+
+    public RegularUserTradingMenuGUI(){
+
+
+    }
 
     public void run() {
         JFrame frame = new JFrame("regularUserTradingMenuGUI");
@@ -13,13 +27,4 @@ public class RegularUserTradingMenuGUI {
         frame.setVisible(true);
     }
 
-    private JButton requestATradeButton;
-    private JButton respondeToTheTradeButton;
-    private JButton viewOpenTradesButton;
-    private JButton viewClosedTradesButton;
-    private JButton confirmACompletedTradeButton;
-    private JButton topThreeFrequentTradeButton;
-    private JButton viewCancelledTransactionsButton;
-    private JButton resonableTradeSuggestButton;
-    private JButton backButton;
 }

@@ -26,7 +26,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Feed Back"/>
+          <text value="Community"/>
         </properties>
       </component>
       <component id="3a98d" class="javax.swing.JButton" binding="manageItemButton" default-binding="true">
@@ -34,7 +34,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Manage Item"/>
+          <text value="Manage Items"/>
         </properties>
       </component>
       <component id="8c517" class="javax.swing.JButton" binding="accountSettingButton" default-binding="true">
