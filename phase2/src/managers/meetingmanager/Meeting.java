@@ -110,18 +110,9 @@ public class Meeting implements java.io.Serializable{
         return timePlaceConfirm;
     }
 
-    /** confirm the time and place of the meeting
-     * @param  userId the id of a user
-     * @return true if the meeting time and place is confirmed successfully.
+    /** confirm the time and place for a meeting
      */
-    public Boolean setTimePlaceConfirm(int userId, int maxMeetingTimePlaceEdits){
-        if (!timePlaceConfirm && timePlaceEdit.size() < 2 * maxMeetingTimePlaceEdits && ! timePlaceEdit.
-                isEmpty() && timePlaceEdit.get(timePlaceEdit.size()-1)!=userId &&(userId==userId1||userId==userId2)){
-            timePlaceConfirm = true;
-            timePlaceEdit.add(userId);
-            return true;
-        }return false;
-    }
+    public void setTimePlaceConfirm(){ timePlaceConfirm = true; }
 
     /** get whether or not the completeness of the meeting is confirmed by two users
      * @return true iff the completeness of the meeting is confirmed by
@@ -143,29 +134,6 @@ public class Meeting implements java.io.Serializable{
      */
     public void setTimePlaceEdit(List<Integer> listId){
         timePlaceEdit = listId;
-    }
-
-    /** edit the time and place of a meeting
-     * @param userId the id for whom to edit the meeting time and place
-     * @param year the year for the meeting
-     * @param month the month for the meeting(from 1 to 12)
-     * @param day the date for the meeting
-     * @param hour the hour for the meeting(24 hours)
-     * @param min the minute for the meeting
-     * @param sec the second for the meeting
-     * @param maxMeetingTimePlaceEdits the max number of times that a user can edit the time and place.
-     * @return true if the change to the TimePlaceEdit happen
-     */
-    public Boolean setTimePlaceEdit(int userId, int year, int month, int day, int hour, int min, int sec,
-                                    String place, int maxMeetingTimePlaceEdits){
-    if (!timePlaceConfirm &&(userId == userId1 ||userId == userId2)&&(timePlaceEdit.isEmpty()
-            || (timePlaceEdit.get(timePlaceEdit.size()-1) != userId && timePlaceEdit.size()<
-            2 * maxMeetingTimePlaceEdits))){
-        this.setTime(year, month, day, hour, min,sec);
-        this.setPlace(place);
-        timePlaceEdit.add(userId);
-        return true;
-    }else{return false;}
     }
 
     /** override the to string to describe the meeting
