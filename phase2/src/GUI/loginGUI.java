@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controllers.LoginValidator;
 
-public class loginGUI implements GUIrunable {
+public class loginGUI {
     private JPanel rootPanel;
     private JLabel usernameLabel;
     private JTextField usernameText;
