@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class regularUserMainMenuGUI implements GUIrunable{
+public class regularUserMainMenuGUI {
     private JPanel rootPanel;
     private JButton accountInformationButton;
     private JButton tradingInformationButton;

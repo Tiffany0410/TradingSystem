@@ -4,28 +4,29 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import controllers.AccountCreator;
+import controllers.LoginValidator;
 import controllers.maincontrollers.TradingSystem;
 
-public class tradingSystemInitMenuGUI implements GUIrunable{
+public class tradingSystemInitMenuGUI{
     private JButton a1LoginButton;
     private JPanel panel1;
     private JButton a2LoginAsGuestButton;
     private JButton a3CreateAccountButton;
     private JButton exitButton;
-    private JTextArea welcomeToTradingSystemTextArea;
     private TradingSystem tradingSystem;
 
 
 
-    public void run() {
+    public void run(AccountCreator accountCreator, LoginValidator loginValidator) {
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new tradingSystemInitMenuGUI().panel1);
+        frame.setContentPane(new tradingSystemInitMenuGUI(accountCreator, loginValidator).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public tradingSystemInitMenuGUI(){
+    public tradingSystemInitMenuGUI(AccountCreator accountCreator, LoginValidator loginValidator){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**
@@ -35,7 +36,9 @@ public class tradingSystemInitMenuGUI implements GUIrunable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(1);
+                //login
+                loginGUI login = new loginGUI(loginValidator);
+                login.run(loginValidator);
             }
         });
 
@@ -47,7 +50,9 @@ public class tradingSystemInitMenuGUI implements GUIrunable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(2);
+                //login as guest
+                //TODO: Implement login as guest
+
             }
         });
         a3CreateAccountButton.addActionListener(new ActionListener() {
@@ -58,7 +63,9 @@ public class tradingSystemInitMenuGUI implements GUIrunable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(3);
+                //Create account
+                regularUserCreateAccountGUI createAccount = new regularUserCreateAccountGUI(accountCreator);
+                createAccount.run(accountCreator);
             }
         });
         exitButton.addActionListener(new ActionListener() {
@@ -69,7 +76,8 @@ public class tradingSystemInitMenuGUI implements GUIrunable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradingSystemInitMenuGUI.this.tradingSystem.tradingSystemInital(0);
+                // Exit system
+                System.exit(0);
             }
         });
 
