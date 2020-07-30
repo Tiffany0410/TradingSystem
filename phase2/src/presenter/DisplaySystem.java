@@ -423,7 +423,7 @@ public class DisplaySystem {
                 break;
             // 5.6: Send a friend request for a given user
             case 6:
-                //TODO
+                this.printOut(helper_regular_action_prefix(action) + "send friend request to other user" + "\n");
             // 5.7: Respond to friend requests
             case 7:
                 //TODO

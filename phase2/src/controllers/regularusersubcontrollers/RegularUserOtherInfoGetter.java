@@ -5,6 +5,7 @@ import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
+import presenter.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -249,4 +250,28 @@ public class RegularUserOtherInfoGetter {
         return num;
 
     }
+
+    protected int getTradableUserId(){
+        Scanner sc = new Scanner(System.in);
+        int response = 0;
+        boolean validResponse = false;
+        do {
+            ds.printOut("Please enter the Id of the user that you want to send friend request to or enter 0 to exit.");
+            if (sc.hasNextInt()){
+                response = sc.nextInt();
+                if (response == 0 || um.getListTradableUser().contains(response)){
+                    validResponse = true;
+                }
+                else {
+                    ds.printOut("Enter a proper tradableUser Id please.");
+                }
+            }
+            else {
+                sc.nextLine();
+                ds.printOut("Enter a valid integer for tradableUser Id please.");
+            }
+        } while (!validResponse);
+        return response;
+    }
+
 }

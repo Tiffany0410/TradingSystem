@@ -130,7 +130,35 @@ public class RegularUserCommunityMenuController {
         }
     }
 
-    // TODO: Send friend request
+    /**
+     * Receives user's request to send friend request to other user.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void sendFriendRequest(boolean asGuest){
+        if (!asGuest){
+            String userFrom = um.idToUsername(userId);
+            int userToId = otherInfoGetter.getTradableUserId();   // Get other user'id
+            if (userId != 0){
+                String userTo = um.idToUsername(userToId);
+                String message = otherInfoGetter.getMessage("Please leave a message for " + userTo);
+                if (um.requestFriend(message, userTo,userFrom)){
+                    ds.printOut("Your friend request has been sent to " + userTo + " successfully.");
+                    am.addActionToCurrentRevocableList(userId, "regularUser", "5.6", userToId, "");
+                    am.addActionToAllActionsList(userId, "regularUser", "5.6", userToId, "");
+                }
+                else {
+                    ds.printOut("Failed to send friend request to " + userTo + ".\n" +
+                            "It seems that you are trying to send friend request twice to " + userTo +
+                            " or " + userTo + " is already in your list of friends.");
+                }
+            }
+        }
+        else {
+            sm.msgForGuest(ds);
+        }
+    }
+
+
     // TODO: Respond to friend requests
     // TODO: Send a message to a selected friend
     // TODO: View messages sent by a friend
