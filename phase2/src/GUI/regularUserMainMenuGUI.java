@@ -1,88 +1,100 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class regularUserMainMenuGUI extends JDialog implements GUIrunable{
-    private JPanel contentPane;
-    private JTextArea hiWelcomeToTheTextArea;
-    private JButton accountInfoButton;
-    private JButton tradingInfoButton;
-    private JButton meetingInfoButton;
-    private JButton searchingInfoButton;
-    private JButton buttonBack;
-
-    public regularUserMainMenuGUI() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonBack);
-
-
-        buttonBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onBack();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onBack();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onBack();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        accountInfoButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        tradingInfoButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        meetingInfoButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-    }
-
-
-    private void onBack() {
-        // add your code here if necessary
-        dispose();
-    }
+public class regularUserMainMenuGUI implements GUIrunable{
+    private JPanel rootPanel;
+    private JButton accountInformationButton;
+    private JButton tradingInformationButton;
+    private JButton notificationButton;
+    private JButton meetingInformationButton;
+    private JButton searchingInformationButton;
+    private JButton logoutButton;
 
     public void run() {
-        regularUserMainMenuGUI dialog = new regularUserMainMenuGUI();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        JFrame frame = new JFrame("regularUserMainMenuGUI");
+        frame.setContentPane(new regularUserMainMenuGUI().rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+
+        //TODO: Call Notification which should be a JDialog
+
+    }
+
+    public regularUserMainMenuGUI() {
+        notificationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Notification which should be a JDialog
+
+            }
+        });
+        accountInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Account Info Menu and close this window
+
+            }
+        });
+        tradingInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Trading Info Menu and close this window
+            }
+        });
+        meetingInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Meeting Info Menu and close this window
+
+            }
+        });
+        searchingInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Searching Info Menu and close this window
+
+            }
+        });
+        logoutButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Call Trading System Init Menu and close this window
+
+            }
+        });
     }
 }
