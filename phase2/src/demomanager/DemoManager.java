@@ -1,9 +1,8 @@
 package demomanager;
 
-import GUI.GUI;
+import gui.GUI;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
-import controllers.maincontrollers.TradingSystem;
 import gateway.FilesReaderWriter;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
@@ -11,7 +10,6 @@ import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
-import GUI.tradingSystemInitMenuGUI;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
