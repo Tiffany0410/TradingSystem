@@ -138,8 +138,19 @@ public class RegularUserSearchingMenuController {
         }
     }
     public void getItemById() throws InvalidIdException {
-        Item c = im.getItembyId(idGetter.getItemID());
+        Item c = im.getItembyId(idGetter.getItemID(im.getAllItem(), 1));
         ds.printOut(c.getDescription());
         }
+
+    public void sortItemByFollows() throws InvalidIdException {
+        ArrayList<Item> c = im.getSortedItemByFollows(um);
+        if (c.size() == 0) {
+            sm.msgForNothing(ds);
+        } else {
+            for (Item i: c){
+                ds.printOut(i.getName());
+            }
+        }
+    }
     }
 

@@ -15,11 +15,10 @@ public class Message {
      * @param receiverId The id of the message receiver
      * @param message The message itself
      */
-    public Message(Integer senderId,Integer receiverId, String message){
+    public Message(int senderId, int receiverId, String message){
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
-
     }
 
     /**
@@ -48,7 +47,13 @@ public class Message {
         return message;
     }
 
-
+    /**
+     * Override the to string to describe the item
+     * @return A string representation for message
+     */
+    public String toString(){
+        return "A message from user " + senderId + " to user " + receiverId + ": " + message;
+    }
 }
 
 
