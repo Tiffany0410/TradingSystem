@@ -60,7 +60,7 @@ public class AdminUserController implements Controllable {
         this.userId = um.usernameToID(username);
         this.sm = new SystemMessage();
         this.muc = new AdminUserManagerUsersController(ds, ac, um, im, am, username);
-        this.hac = new AdminUserHistoricalActionController(ds,ac,um, im, am, fm, username);
+        this.hac = new AdminUserHistoricalActionController(ds,um, im, am, fm, username);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
     }
 
@@ -168,7 +168,7 @@ public class AdminUserController implements Controllable {
          */
         switch (subMenuOption) {
             case 1:
-                hac.printOutAllHistorialAction();
+                hac.printOutAllHistoricalAction();
                 break;
             case 2:
                 hac.cancelRevocableAction();
