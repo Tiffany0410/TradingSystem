@@ -52,6 +52,7 @@ public class MessageManager implements Serializable {
         StringBuilder stringMessages = new StringBuilder();
         for(Message message: messages){
             stringMessages.append(message.toString());
+            stringMessages.append("\n");
         }return stringMessages.toString();
     }
 
