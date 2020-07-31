@@ -2,7 +2,7 @@ package gui.trading_system_init_menu_gui;
 
 import controllers.AccountCreator;
 import gui.GUI;
-import gui.GUIController;
+import gui.GUIDemo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ public class RegularUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIController gui) {
+    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo gui) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -43,7 +43,7 @@ public class RegularUserCreateAccountGUI {
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIController gui) {
+    public void run(AccountCreator accountCreator, GUIDemo gui) {
         JFrame frame = new JFrame("regularUserCreateAccount");
         frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, gui).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

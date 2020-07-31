@@ -1,6 +1,6 @@
 package gui.adminuser_menus_gui;
 
-import gui.GUIController;
+import gui.GUIDemo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ public class AdminUserOtherSubMenuGUI {
     private JButton addNewAdminUserButton;
     private JButton backButton;
 
-    public AdminUserOtherSubMenuGUI(GUIController guiController) {
+    public AdminUserOtherSubMenuGUI(GUIDemo guiController) {
         addNewAdminUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -41,7 +41,7 @@ public class AdminUserOtherSubMenuGUI {
         });
     }
 
-    public void run(GUIController guiController) {
+    public void run(GUIDemo guiController) {
         JFrame frame = new JFrame("adminUserOtherSubMenuGUI");
         frame.setContentPane(new AdminUserOtherSubMenuGUI(guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.AccountCreator;
-import gui.GUIController;
+import gui.GUIDemo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ public class AdminUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIController guiController) {
+    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiController) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -44,7 +44,7 @@ public class AdminUserCreateAccountGUI {
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIController guiController) {
+    public void run(AccountCreator accountCreator, GUIDemo guiController) {
         JFrame frame = new JFrame("createAccountGUI");
         frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
