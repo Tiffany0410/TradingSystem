@@ -283,6 +283,65 @@ public class MeetingManager implements java.io.Serializable{
          return meetings;
      }
 
+    /** undo the confirm of time and place
+     * @param tradeId the trade id
+     * @param meetingNum the meeting number
+     * @return true if the undo successfully.
+     */
+     public boolean undoConfirmTandP(int tradeId, int meetingNum){
+         Meeting meeting = getMeetingByIdNum(tradeId, meetingNum);
+         if (meeting.getTradeId() == 0){
+             return false;
+         }else {
+             meeting.setTimePlaceConfirm(false);
+             if (meeting.getTimePlaceEdit().size() == 0){
+             meeting.getTimePlaceEdit().remove(meeting.getTimePlaceEdit().size()-1);}
+             return true;
+         }
+     }
+
+    /** undo the confirmation of meeting took place
+     * @param tradeId the trade id
+     * @param meetingNum the meeting number
+     * @param userId the user id
+     * @return true if the confirm the meeting took place is undo.
+     */
+     public boolean undoConfirmTookPlace(int tradeId, int meetingNum, int userId){
+         Meeting meeting = getMeetingByIdNum(tradeId, meetingNum);
+         if(meeting.getTradeId()== 0){
+             return false;
+         }else if(meeting.getUserId1()!=userId && meeting.getUserId2() != userId){
+             return false;
+         }else{
+             meeting.getMeetingConfirm().replace(userId,false);
+            return true;
+         } }
+
+    /** undo the edit of time and place
+     * @param meeting the meeting
+     * @param userId the user id
+     * @param year the year
+     * @param month the month
+     * @param day the date
+     * @param hour the hour
+     * @param min the minute
+     * @param sec the second
+     * @param place the place
+     * @return true if undo the edit of time and place successfully.
+     */
+     public boolean undoEditTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
+                                      String place){
+         if((meeting.getUserId1()!=userId && meeting.getUserId2() != userId) ||(meeting.getTradeId()== 0)){
+             return false;
+         }else if (meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().size()-1) != userId){return false;
+         }else {
+             meeting.getTimePlaceEdit().remove(meeting.getTimePlaceEdit().size()-1);
+             meeting.setTime(year,month,day,hour,min,sec);
+             meeting.setPlace(place);
+             return true;
+         }
+     }
+
     /** get a string that describe the list of meeting
      * @param meetings the list of meetings
      * @return a string that describe the list of meetings
