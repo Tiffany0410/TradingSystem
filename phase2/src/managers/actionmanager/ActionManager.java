@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Store all the actions which can be cancelled
+ * Store and manage all the actions which can be cancelled
  * @author Chengle Yang
  * @version IntelliJ IDEA 2020.1
  */
@@ -13,21 +13,41 @@ public class ActionManager {
     private ArrayList<Action> listOfDeletedRevocableActions;
 
 
-    // Constructor
+    /**
+     * Constructs a ActionManager with no Historical Actions
+     */
     public ActionManager() {
         this.listOfAllActions = new ArrayList<>();
         this.listOfCurrentRevocableActions = new ArrayList<>();
         this.listOfDeletedRevocableActions = new ArrayList<>();
     }
 
-    // getter for all Actions
+
+    /**
+     * Getter for all Historical Actions done by AdminUser and RegularUser in system
+     *
+     * @return The ArrayList of all Historical Actions done by AdminUser and RegularUser in system
+     */
     public ArrayList<Action> getListOfAllActions() {return this.listOfAllActions;}
 
-    //getter for all current Revocable Actions
+
+    /**
+     * Getter for all Current Revocable Actions done by RegularUser in system
+     *
+     * @return The ArrayList of all Current Revocable Actions done by RegularUser in system
+     */
     public ArrayList<Action> getListOfCurrentRevocableActions() {return this.listOfCurrentRevocableActions;}
 
 
-    // setter
+    /**
+     * Add new Action into the list contains all Historical Actions done by AdminUser and RegularUser in system
+     *
+     * @param actionOwnerID The Id of AdminUser or RegularUser who did the action
+     * @param userType The type of User: "regularUser" or "adminUser"
+     * @param menuNumber The menu option number click by User
+     * @param adjustableInt The adjustable integer used to store key info of the action
+     * @param adjustableStr  The adjustable string used to store key info of the action
+     */
     public void addActionToAllActionsList(int actionOwnerID, String userType, String menuNumber,
                                           int adjustableInt, String adjustableStr) {
         int actionID;
@@ -40,7 +60,16 @@ public class ActionManager {
         listOfAllActions.add(new_action);
     }
 
-    // setter
+
+    /**
+     * Add new Action into the list contains all Current Revocable Actions done by RegularUser in system
+     *
+     * @param actionOwnerID The Id of RegularUser who did the action
+     * @param userType The type of User: "regularUser" or "adminUser"
+     * @param menuNumber The menu option number click by User
+     * @param adjustableInt The adjustable integer used to store key info of the action
+     * @param adjustableStr  The adjustable string used to store key info of the action
+     */
     public void addActionToCurrentRevocableList(int actionOwnerID, String userType, String menuNumber,
                                                 int adjustableInt, String adjustableStr) {
         int actionID;
@@ -53,11 +82,19 @@ public class ActionManager {
         listOfCurrentRevocableActions.add(new_action);
     }
 
-
-    // Setter: add action into the list of deleted Revocable Action
+    /**
+     * Setter: add action into the list of Deleted Revocable Actions
+     *
+     * @param action The action deleted by AdminUser
+     */
     public void addActionToDeletedRevocableList(Action action) {listOfDeletedRevocableActions.add(action);}
 
-    // helper for max action ID in All Action List
+
+    /**
+     * Helper function used to get maximum action ID in All Action List
+     *
+     * @return the maximum action ID in All Action List
+     */
     private int helper_maxAllID() {
         // Find the max ID in All Action List
         int max_ID = 1;
@@ -69,7 +106,12 @@ public class ActionManager {
         return max_ID;
     }
 
-    // helper for max action ID in two Revocable Action List
+
+    /**
+     * Helper function used to get maximum action ID in two Revocable Action List
+     *
+     * @return the maximum action ID in two Revocable Action List
+     */
     private int helper_maxRevocableID() {
         // Find the max ID in Current Revocable Action List
         int max_current_ID = 1;
@@ -85,8 +127,12 @@ public class ActionManager {
         return Math.max(max_current_ID, max_deleted_ID);
     }
 
-
-    // remove the action from current Revocable Action list
+    /**
+     * Remove the action from current Revocable Action list by provided Action ID
+     *
+     * @param actionID The Action ID provided by AdminUser and used to remove
+     *                 the action from current Revocable Action list
+     */
     public void deleteAction(int actionID) {
         // Used to track Action index in listOfActions
         int acc = 0;
@@ -98,7 +144,12 @@ public class ActionManager {
     }
 
 
-    // return the list that contain all ActionID in the listOfActions
+    /**
+     * Return the list that contain all ActionID in the provided list
+     *
+     * @param listOfAction The List contain Actions
+     * @return The List of id from provided list
+     */
     public List<Integer> getAllActionID(ArrayList<Action> listOfAction) {
         List<Integer> allID = new ArrayList<>();
         // Used to track Action index in listOfActions
@@ -111,7 +162,12 @@ public class ActionManager {
         return allID;
     }
 
-    // get the Action by actionID from list of current Revocable Actions
+    /**
+     * Get the Action from list of current Revocable Actions by provided actionID
+     *
+     * @param actionID The Action ID provided by AdminUser
+     * @return The Action from list of current Revocable Actions by provided actionID
+     */
     public Action findActionByID(int actionID) {
         for (Action action: listOfCurrentRevocableActions) {
             if (action.getActionID() == actionID) {return action;}
@@ -120,7 +176,12 @@ public class ActionManager {
     }
 
 
-    // search all revocable action of specific user by provided ID
+    /**
+     * Return ArrayList of all revocable action of specific user by provided RegularUser ID
+     *
+     * @param userID The RegularUser ID provided by AdminUser
+     * @return The ArrayList of all revocable action of specific user by provided RegularUser ID
+     */
     public ArrayList<Action> searchRevocableActionByID(int userID) {
         ArrayList<Action> tempList = new ArrayList<>();
         for (Action action: listOfCurrentRevocableActions) { if (action.getActionOwnerID() == userID) {tempList.add(action);} }
