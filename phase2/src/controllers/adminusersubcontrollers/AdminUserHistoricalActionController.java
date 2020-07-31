@@ -1,26 +1,42 @@
 package controllers.adminusersubcontrollers;
 
 import exception.InvalidIdException;
+import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
+import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-
+/**
+ * An instance of this class represents the communication system between the admin user,
+ * the use cases, and the presenter, for the historical actions part.
+ *
+ * @author Chengle Yang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class AdminUserHistoricalActionController {
 
     private AdminUserOtherInfoGetter otherInfoGetter;
     private DisplaySystem ds;
     private UserManager um;
+    private TradeManager tm;
     private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
     private String username;
     private Integer userId;
+    private FilesReaderWriter frw;
+    private String thresholdValuesFilePath;
 
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
@@ -28,19 +44,23 @@ public class AdminUserHistoricalActionController {
      * @param ds The presenter class used to print to screen.
      * @param im The current state of the ItemManager.
      * @param um The current state of the UserManager.
+     * @param tm The current state of the TradeManager
      * @param am The current state of the ActionManager.
      * @param fm The current state of the FeedbackManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im,
+    public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im, TradeManager tm,
                                                ActionManager am, FeedbackManager fm, String username) {
         this.ds = ds;
         this.um = um;
         this.im = im;
+        this.tm = tm;
         this.am = am;
         this.fm = fm;
         this.userId = um.usernameToID(username);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
+        this.frw = new FilesReaderWriter();
+        String thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv";
     }
 
 
@@ -70,7 +90,7 @@ public class AdminUserHistoricalActionController {
      * Lets the presenter print out all the revocable actions and cancel the revocable actions done by RegularUser
      * in the system
      */
-    public void cancelRevocableAction() throws InvalidIdException {
+    public void cancelRevocableAction() throws InvalidIdException, FileNotFoundException, ParseException {
 
         ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
         // Print all the Historical Actions which can be cancelled
@@ -94,7 +114,7 @@ public class AdminUserHistoricalActionController {
      * Helper Function used to do the cancel part for revocable actions and classify the different action
      * into different helper functions.
      */
-    private boolean helper_cancelHistoricalAction(int actionID) throws InvalidIdException {
+    private boolean helper_cancelHistoricalAction(int actionID) throws InvalidIdException, FileNotFoundException, ParseException {
         Action targetAction = am.findActionByID(actionID);
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
@@ -190,16 +210,11 @@ public class AdminUserHistoricalActionController {
      * @param  subOption The menu option number in Trading Menu
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
+    private boolean helper_cancelTradeMenu(Action targetAction, int subOption) throws InvalidIdException {
         switch (subOption) {
             // TODO:2.1: Request a trade
             case 1:
-                break;
-            // TODO:2.2: Respond to trade requests
-            case 2:
-                break;
-            // TODO:2.5: Confirm that a trade has been completed
-            case 5:
+                tm.removeTrade(targetAction.getAdjustableInt());
                 break;
         }
         return false;
@@ -212,10 +227,19 @@ public class AdminUserHistoricalActionController {
      * @param subOption The menu option number in Meeting Menu
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
+    private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) throws FileNotFoundException, ParseException {
         switch (subOption) {
             // TODO:3.1: Suggest/edit time and place for meetings
             case 1:
+                List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+                int maxMeetingTimePlaceEdits = thresholdValues.get(3);
+                String[] temp = targetAction.getAdjustableStr().split("\\.");
+                int targetUserID = Integer.parseInt(temp[0]);
+                /*
+                 * Based on code by Sedalb from
+                 * https://stackoverflow.com/questions/9431927/how-to-convert-date-tostring-back-to-date
+                 */
+                Date previousDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(temp[1]);
                 break;
             // TODO:3.2: Confirm time and place for meetings
             case 2:
@@ -264,9 +288,10 @@ public class AdminUserHistoricalActionController {
             case 2:
                 // call FeedbackManager to delete the report for an user
                 return fm.deleteReport(targetUserID, actionOwnerID);
-            // TODO: 5.8: Delete friend
+            // 5.8: Unfriend a user
             case 8:
-                //TODO
+                // call UserManager to remove friend
+                return um.removeFriend(targetUserID, actionOwnerID);
         }
         return false;
     }

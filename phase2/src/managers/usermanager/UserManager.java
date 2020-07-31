@@ -158,21 +158,6 @@ public class UserManager implements Serializable {
         }
         return false;
     }
-
-    /**
-     * Checks if the User exists
-     * @param userID The ID of the User being searched for
-     * @return true if the user exists, false otherwise
-     */
-    public boolean checkUser(int userID){
-        for (TradableUser person: listTradableUser){
-            if (person.getId() == (userID)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Creates a new User
      * @param username Username of the new User
@@ -249,7 +234,7 @@ public class UserManager implements Serializable {
      * @param username The username of the User to add the item into their wishlist
      * @return true if the item was added successfully, false otherwise
      */
-    public boolean addItemWishlist(Integer itemID, String username){
+    public boolean addItemWishlist(int itemID, String username){
         boolean out = false;
         TradableUser person = findUser(username);
         if (person != null){
@@ -258,14 +243,6 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setWishList(temp);
-            }
-            ArrayList<Integer> usersFollowing = usersFollowingUser(username);
-            for (int id: usersFollowing){
-                TradableUser human = findUser(id);
-                if (human != null){
-                    String[] log = {username, "wishlist", itemID.toString()};
-                    human.logUserActivity(log);
-                }
             }
         }
         return out;
@@ -278,7 +255,7 @@ public class UserManager implements Serializable {
      * @return true if the item was added successfully, false otherwise
      */
     //TODO remove from listItemtoAdd somehow
-    public boolean addItemInventory(Integer item, String username){
+    public boolean addItemInventory(int item, String username){
         boolean out = false;
         TradableUser person = findUser(username);
         if (person != null){
@@ -287,14 +264,6 @@ public class UserManager implements Serializable {
                 temp.add(item);
                 out = true;
                 person.setInventory(temp);
-            }
-            ArrayList<Integer> usersFollowing = usersFollowingUser(username);
-            for (int id: usersFollowing){
-                TradableUser human = findUser(id);
-                if (human != null){
-                    String[] log = {username, "inventory", itemID.toString()};
-                    human.logUserActivity(log);
-                }
             }
         }
         return out;
@@ -587,6 +556,7 @@ public class UserManager implements Serializable {
         return getInfo(num, threshold);
     }
 
+    //TODO Not sure if this should return Integers or Users
     public ArrayList<TradableUser> getFriends(int userID){
         TradableUser person = findUser(userID);
         ArrayList<TradableUser> out = new ArrayList<>();
@@ -619,45 +589,16 @@ public class UserManager implements Serializable {
     }
 
     public boolean addFriend(String user1, String user2){
-        if (!checkUser(user1) || ! checkUser(user2)){
-            return false;
-        }
-        int id1 = usernameToID(user1);
-        int id2 = usernameToID(user2);
-        return addFriend(id1, id2);
-    }
-
-    public boolean addFriend(int user1, int user2){
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
         if (person1 != null && person2 != null){
-            person1.addToFriends(user2);
-            person2.addToFriends(user1);
+            Integer id1 = usernameToID(user1);
+            Integer id2 = usernameToID(user2);
+            person1.addToFriends(id2);
+            person2.addToFriends(id1);
             return true;
         }
-        String[] toRemove = {};
-        for (String[] request: listFriendRequest){
-            int id1 = usernameToID(request[0]);
-            int id2 = usernameToID(request[1]);
-            if ((user1 == id1 && user2 == id2) || (user1 == id2 && user2 == id1)){
-                toRemove = request;
-            }
-        }
-        if (toRemove.length != 0) {
-            listFriendRequest.remove(toRemove);
-        }
         return false;
-    }
-
-
-
-    public boolean removeFriend(String user1, String user2){
-        if (!checkUser(user1) || ! checkUser(user2)){
-            return false;
-        }
-        int id1 = usernameToID(user1);
-        int id2 = usernameToID(user2);
-        return removeFriend(id1, id2);
     }
 
     public boolean removeFriend(int user1, int user2){
@@ -848,61 +789,7 @@ public class UserManager implements Serializable {
     }
 
     public ArrayList<TradableUser> sortRating (){
-        ArrayList<TradableUser> listCopy = new ArrayList<>();
-        for (TradableUser person: listTradableUser) {
-            listCopy.add(person);
-        }
+        ArrayList<TradableUser> listCopy = (ArrayList<TradableUser>) listTradableUser.clone();
         return mergeSort(listCopy);
     }
-
-    public ArrayList<String[]> getListFriendRequest() {
-        return listFriendRequest;
-    }
-
-    public void setListFriendRequest(ArrayList<String[]> listFriendRequest) {
-        this.listFriendRequest = listFriendRequest;
-    }
-
-    public ArrayList<Integer> usersFollowingUser (int userID){
-        ArrayList<Integer> out = new ArrayList<>();
-        if (!checkUser(userID)){
-            return out;
-        }
-        for (TradableUser person: listTradableUser){
-            if (person.getUserFollowed().contains(userID)){
-                out.add(person.getId());
-            }
-        }
-        return out;
-    }
-
-    public ArrayList<Integer> usersFollowingUser (String username){
-        if (!checkUser(username)){
-            return new ArrayList<>();
-        }
-        int id = usernameToID(username);
-        return usersFollowingUser(id);
-    }
-
-    public ArrayList<Integer> usersFollowingItem (int itemID){
-        ArrayList<Integer> out = new ArrayList<>();
-        if (!checkUser(itemID)){
-            return out;
-        }
-        for (TradableUser person: listTradableUser){
-            if (person.getItemFollowed().contains(itemID)){
-                out.add(person.getId());
-            }
-        }
-        return out;
-    }
-
-    public ArrayList<Integer> usersFollowingItem (String username){
-        if (!checkUser(username)){
-            return new ArrayList<>();
-        }
-        int id = usernameToID(username);
-        return usersFollowingItem(id);
-    }
-
 }

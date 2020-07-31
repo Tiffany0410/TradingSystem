@@ -221,33 +221,70 @@ public class RegularUserTradingMenuController {
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
 
-    public boolean lockThresholdOrNot(){
+    /**
+     * Gets from user the information about the trade the user
+     * request and determine whether the request is sent
+     * successfully sent or not. If the user has reached
+     * the maximum number of transactions
+     * for a week threshold, print an appropriate message.
+     * @param maxNumTransactionsAWeek The maximum number of transactions allowed a week.
+     * @param numLentBeforeBorrow The number of items user must lend before the user can borrow.
+     * @throws InvalidIdException In case the id is invalid.
+     */
+    public void requestTrade(int maxNumTransactionsAWeek, int numLentBeforeBorrow) throws InvalidIdException {
         // if the user has no more transactions left
-        return um.getInfo(userId, "TransactionLeftForTheWeek") == 0;
+        if (um.getInfo(userId, "TransactionLeftForTheWeek") == 0){
+            // the case with user reaching the max number of transactions for the week
 
+            //before GUI
+            sm.lockMessageForThreshold(maxNumTransactionsAWeek);
+
+            //after GUI
+            InterfaceName lockMessageForThreshold = new lockMessageForThreshold(maxNumTransactionsAWeek);
+            lockMessageForThreshold.run();
+
+        }
+        else {
+            // get whether it is one-way-trade or two-way-trade
+
+            //before GUI
+            int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
+
+            //after GUI
+            InterfaceName lockMessageForThreshold = new lockMessageForThreshold(maxNumTransactionsAWeek);
+            lockMessageForThreshold.run();
+
+            // will store the validation value
+            boolean ok;
+            // will store the trade object
+            Trade trade;
+            // will store the second item id if it's two-way-trade
+            int itemId2 = 0;
+            //get info for trade
+            // get borrower1lender2's user Id
+            int userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
+            // get borrower2lender1's user Id
+            int userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
+            // Get the id for the first item
+            ds.printOut("For the first item: ");
+            int itemId = idGetter.getItemID(im.getAllItem(), 1);
+            // get the trade id
+            int tradeID = determineTradeID();
+            // get the trade type (permanent or temporary)
+            String tradeType = otherInfoGetter.getTradeType();
+            // if two-way-trade
+            if (numKindOfTrade == 2){
+                // asks for the item id for the second item
+                ds.printOut("For the second item: ");
+                itemId2 = idGetter.getItemID(im.getAllItem(), 1); }
+            //get the trade object
+            trade = getTrade(numKindOfTrade, itemId2, userId1, userId2, itemId, tradeID, tradeType);
+            // get the validation from the item side
+            ok = getValidationForItems(numKindOfTrade, itemId2, userId1, userId2, itemId);
+            // use all these to determine the result
+            requestResult(ok, trade, tradeID, userId1, numLentBeforeBorrow);
+        }
     }
-
-    public String requestTrade(int numKindOfTrade, int borrowerOrborrower1lender2, int lenderOrlender1borrower2,
-                                   int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) throws InvalidIdException {
-        // get whether it is one-way-trade or two-way-trade
-        //TODO: int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
-        //TODO: userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
-        //TODO: userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
-        //TODO: int itemId = idGetter.getItemID(im.getAllItem(), 1);
-        //TODO: int itemId2 = idGetter.getItemID(im.getAllItem(), 1);
-        // get the trade type (permanent or temporary)
-        // TODO: String tradeType = otherInfoGetter.getTradeType();
-        // get the trade id
-        int tradeID = determineTradeID();
-        //get the trade object
-        Trade trade = getTrade(numKindOfTrade, itemId2, borrowerOrborrower1lender2, lenderOrlender1borrower2, itemId1, tradeID, tradeType);
-        // get the validation from the item side
-        boolean ok = getValidationForItems(numKindOfTrade, itemId2, borrowerOrborrower1lender2, lenderOrlender1borrower2, itemId1);
-        // use all these to determine the result
-        return requestResult(ok, trade, tradeID, borrowerOrborrower1lender2, numLentBeforeBorrow);
-
-    }
-
 
     /**Print the most suggest item for user to trade.
      * @throws InvalidIdException
@@ -301,40 +338,39 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
+    private void requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
+            requestSuccess(trade, tradeId);
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
-            return requestSuccess(trade, tradeId);
         }
         else {
+            requestFail();
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " but fail");
-            return requestFail();
         }
     }
 
-    private String requestFail() {
+    private void requestFail() {
         //if the trade request failed
+        ds.printResult(false);
         // system auto-freeze
         // user borrow more than lend
         if (um.getInfo(username, "NumBorrowed") > um.getInfo(username, "NumLent")){
             um.freezeUser(username);
-            //TODO: new system message method - "fail"
-            //TODO: new system message method - "You're frozen because you borrowed more than you lend"
-            return sm.failRequest() + "\n" + sm.failMessageForFrozen();
+            ds.printOut("You're frozen because you borrowed more than you lend.");
         }
-        return sm.failRequest();
     }
 
-    private String requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
+    private void requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
         // add trade
         tm.addTrade(trade);
         am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, "");
         am.addActionToCurrentRevocableList(userId, "regularUser", "2.1", tradeId, "");
+        // tell the user it's successful
+        ds.printResult(true);
         // set status for the person who requested the trade
         tm.setUserStatus(tradeId, userId, "Agree");
         // change the threshold value
         tc.changeNumTradesLeftForTheWeek();
-        return sm.successfulRequest();
     }
 
 

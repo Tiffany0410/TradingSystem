@@ -4,6 +4,7 @@ import exception.InvalidIdException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +29,7 @@ public interface Controllable {
      * @throws InvalidIdException In case the id is invalid.
      */
     void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath)
-            throws IOException, InvalidIdException;
+            throws IOException, InvalidIdException, ParseException;
 
 
 }

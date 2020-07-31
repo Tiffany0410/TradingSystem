@@ -1,7 +1,6 @@
 package controllers.regularusersubcontrollers;
 
-import gateway.FilesReaderWriter;
-import managers.actionmanager.Action;
+import exception.InvalidIdException;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
@@ -10,10 +9,7 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
-import exception.InvalidIdException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,7 +170,9 @@ public class RegularUserMeetingMenuController {
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 // if user edit it successfully, add the action
-                if (editSuccess) {am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), "");}
+
+                String iDAndPreviousTimeAndPlace = userId + "." + meeting.getTime().toString() + "." + meeting.getPlace();
+                if (editSuccess) {am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), iDAndPreviousTimeAndPlace);}
                 // if the user did not edit it successfully
                 if (!editSuccess){
                     ds.printOut("It's not your turn.");
