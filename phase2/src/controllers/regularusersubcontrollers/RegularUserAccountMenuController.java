@@ -234,24 +234,6 @@ public class RegularUserAccountMenuController {
         }
     }
 
-    /**
-     * Gets the item name from the user and let the user manager search for it
-     * in the system.
-     * @throws InvalidIdException In case the id is not valid.
-     */
-    public void searchItem() throws InvalidIdException {
-        // print all the items being searched for
-        String name = otherInfoGetter.getItemName();
-        // get the items in the system that match the name
-        ArrayList<Item> matchItems = im.getItemsByIds(im.searchItem(name));
-        am.addActionToAllActionsList(userId, "regularUser", "1.3", 0, "name");
-        if (matchItems.size() == 0){
-            sm.msgForNothing("that matches your input", ds);
-        }
-        else{
-            ds.printResult(new ArrayList<>(matchItems));
-        }
-    }
 
     /**
      * Lets the presenter print all the tradable items in the system
