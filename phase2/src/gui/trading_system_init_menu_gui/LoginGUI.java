@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controllers.LoginValidator;
-import gui.GUIController;
+import gui.GUIDemo;
 import gui.NotificationGUI;
 
 public class LoginGUI {
@@ -16,7 +16,7 @@ public class LoginGUI {
     private JButton loginButton;
     private JButton cancelButton;
 
-    public void run(LoginValidator loginValidator, GUIController guiController) {
+    public void run(LoginValidator loginValidator, GUIDemo guiController) {
         JFrame frame = new JFrame("loginGUI");
         frame.setContentPane(new LoginGUI(loginValidator, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +25,7 @@ public class LoginGUI {
 
     }
 
-    public LoginGUI(LoginValidator loginValidator, GUIController guiController) {
+    public LoginGUI(LoginValidator loginValidator, GUIDemo guiController) {
         loginButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

@@ -12,7 +12,7 @@ public class UserInputGUI {
     private JButton cancelButton;
     private JTextArea textArea;
 
-    public UserInputGUI(String string, GUIController guiController) {
+    public UserInputGUI(String string, GUIDemo guiController) {
         textArea.setText(string);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -45,7 +45,7 @@ public class UserInputGUI {
         });
     }
 
-    public void run(String string, GUIController guiController) {
+    public void run(String string, GUIDemo guiController) {
         JFrame frame = new JFrame("userInputGUI");
         frame.setContentPane(new UserInputGUI(string, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
