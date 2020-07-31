@@ -5,6 +5,8 @@ import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
+import managers.messagemanger.Message;
+import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
@@ -25,6 +27,7 @@ public class RegularUserCommunityMenuController {
     private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
+    private MessageManager messageManager;
     private String username;
     private int userId;
 
@@ -36,7 +39,7 @@ public class RegularUserCommunityMenuController {
      * @param userId The user id of the regular user.
      */
     public RegularUserCommunityMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                              ItemManager im, ActionManager am, FeedbackManager fm,
+                                              ItemManager im, ActionManager am, FeedbackManager fm,MessageManager messageManager,
                                               String username, int userId){
         this.ds = ds;
         this.tm = tm;
@@ -48,6 +51,7 @@ public class RegularUserCommunityMenuController {
         this.username = username;
         this.userId = userId;
         this.sm = new SystemMessage();
+        this.messageManager = messageManager;
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
@@ -110,11 +114,10 @@ public class RegularUserCommunityMenuController {
 
 
     /**
-     * @return
+     * @return a list of friends for this user
      */
     public ArrayList<TradableUser> getFriends(){
-        ArrayList<TradableUser> friends = um.getFriends(userId);
-        return friends;
+        return  um.getFriends(userId);
     }
 
     /**
@@ -126,7 +129,7 @@ public class RegularUserCommunityMenuController {
     public boolean sendFriendRequest(int userToId, String msg){
             String userFrom = um.idToUsername(userId);
             String userTo = um.idToUsername(userToId);
-            Boolean requestOrNot = um.requestFriend(msg, userTo,userFrom);
+            boolean requestOrNot = um.requestFriend(msg, userTo,userFrom);
             if (requestOrNot){
                 am.addActionToCurrentRevocableList(userId, "regularUser", "5.6", userToId, "");
                 am.addActionToAllActionsList(userId, "regularUser", "5.6", userToId, "");
@@ -190,11 +193,10 @@ public class RegularUserCommunityMenuController {
         String[] strings = new String[2];
         strings[0] = userTo;
         strings[1] = userFrom;
-        if(um.getlistFriendRequest.contains(strings)){
-        um.getlistFriendRequest.remove();
+        if(um.getListFriendRequest().contains(strings)){
+        um.getListFriendRequest().remove(strings);
         return true;}return false;
     }
-
 
     public boolean unfriendUser(String username){
         int userId = um.usernameToID(username);
@@ -205,7 +207,33 @@ public class RegularUserCommunityMenuController {
         return unfriendOrNot;
     }
 
-    // TODO: Send a message to a selected friend
-    // TODO: View messages sent by a friend
+    /** check if this user is a friend of the user with userId1
+     * @param userId1 the user id
+     * @return true if this user is a friend of the user with the userId1
+     */
+    public boolean checkIsFriend(int userId1){
+        ArrayList<TradableUser> friends = getFriends();
+        TradableUser user = um.findUser(userId1);
+        return friends.contains(user);
+    }
+
+    /** send a message to the receiver
+     * @param receiverId the id of the receiver
+     * @param message the message
+     * @return true if the message is send to the receiver
+     */
+    public boolean sendMessage(int receiverId, String message){
+        if (checkIsFriend(receiverId)){
+            messageManager.createNewMessage(userId,receiverId,message);
+            return true;
+        }return false;
+    }
+
+    /** get a list of messages for this user
+     * @return a list of messages that this user receive
+     */
+    public ArrayList<Message> getAllMessages(){
+        return messageManager.getMessageFor(userId);
+    }
 
 }
