@@ -635,6 +635,17 @@ public class UserManager implements Serializable {
             person2.addToFriends(user1);
             return true;
         }
+        String[] toRemove = {};
+        for (String[] request: listFriendRequest){
+            int id1 = usernameToID(request[0]);
+            int id2 = usernameToID(request[1]);
+            if ((user1 == id1 && user2 == id2) || (user1 == id2 && user2 == id1)){
+                toRemove = request;
+            }
+        }
+        if (toRemove.length != 0) {
+            listFriendRequest.remove(toRemove);
+        }
         return false;
     }
 

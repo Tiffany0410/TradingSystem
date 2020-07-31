@@ -110,73 +110,28 @@ public class RegularUserCommunityMenuController {
 
 
     /**
-     * Let the presenter print user's list of friends
-     * @param asGuest The determiner of access to this menu option.
-     */
-    public void viewListFriends(boolean asGuest){
-        if (!asGuest){
-            TradableUser user = um.findUser(userId);
-            ArrayList<TradableUser> friends = um.getFriends(userId);
-            if (friends.isEmpty()){
-                ds.printOut("Your list of friends is empty.");
-            }
-            else{
-            ds.printOut("Your list of friends: ");
-            ds.printResult(new ArrayList<>(friends));
-            am.addActionToAllActionsList(userId, "regularUser", "5.5", 0, "");
-            }
-        }
-        else{
-            sm.msgForGuest(ds);
-        }
-    }
-
-    /** 改良版
      * @return
      */
-    public String viewListFriends(){
+    public ArrayList<TradableUser> getFriends(){
         ArrayList<TradableUser> friends = um.getFriends(userId);
-        String title = "Here's your list of friends:";
-        StringBuilder body = new StringBuilder();
-
-        int count = 1;
-        for (TradableUser user: friends){
-            body.append("#").append(count).append(". ").append(user.toString()).append("\n");
-            count ++;
-        }
-        if (friends.isEmpty()){
-            return "Your list of friends is empty.";}
-        else{
-            return title + body.toString();
-        }
+        return friends;
     }
 
     /**
      * Receives user's request to send friend request to other user.
-     * @param asGuest The determiner of access to this menu option.
+     * @param userToId The receiver's id
+     * @param msg Message for receiver
+     * @return true iff friend request sent successfully
      */
-    public void sendFriendRequest(boolean asGuest){
-        if (!asGuest){
+    public boolean sendFriendRequest(int userToId, String msg){
             String userFrom = um.idToUsername(userId);
-            int userToId = otherInfoGetter.getTradableUserId();   // Get other user'id
-            if (userId != 0){
-                String userTo = um.idToUsername(userToId);
-                String message = otherInfoGetter.getMessage("Please leave a message for " + userTo);
-                if (um.requestFriend(message, userTo,userFrom)){
-                    ds.printOut("Your friend request has been sent to " + userTo + " successfully.");
-                    am.addActionToCurrentRevocableList(userId, "regularUser", "5.6", userToId, "");
-                    am.addActionToAllActionsList(userId, "regularUser", "5.6", userToId, "");
-                }
-                else {
-                    ds.printOut("Failed to send friend request to " + userTo + ".\n" +
-                            "It seems that you are trying to send friend request twice to " + userTo +
-                            " or " + userTo + " is already in your list of friends.");
-                }
+            String userTo = um.idToUsername(userToId);
+            Boolean requestOrNot = um.requestFriend(msg, userTo,userFrom);
+            if (requestOrNot){
+                am.addActionToCurrentRevocableList(userId, "regularUser", "5.6", userToId, "");
+                am.addActionToAllActionsList(userId, "regularUser", "5.6", userToId, "");
             }
-        }
-        else {
-            sm.msgForGuest(ds);
-        }
+            return requestOrNot;
     }
 
     /** check if there has friend request for the user
@@ -241,17 +196,13 @@ public class RegularUserCommunityMenuController {
     }
 
 
-    public String unfriendUser(String username){
+    public boolean unfriendUser(String username){
         int userId = um.usernameToID(username);
-        boolean unfriendOrNot = false; // um.unfriend(userId);
-
+        boolean unfriendOrNot = um.removeFriend(this.userId, userId);
         if (unfriendOrNot){
             am.addActionToAllActionsList(this.userId, "regularUser", "5.8", userId, username);
-            return "Success";
         }
-        else{
-            return "Fail";
-        }
+        return unfriendOrNot;
     }
 
     // TODO: Send a message to a selected friend
