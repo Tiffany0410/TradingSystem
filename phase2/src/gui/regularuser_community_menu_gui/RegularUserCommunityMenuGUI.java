@@ -1,4 +1,4 @@
-package gui.regularuser_account_menus_gui;
+package gui.regularuser_community_menu_gui;
 
 import javax.swing.*;
 

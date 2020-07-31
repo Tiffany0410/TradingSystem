@@ -12,6 +12,7 @@ public class RegularUserMainMenuGUI {
     private JButton meetingInformationButton;
     private JButton searchingInformationButton;
     private JButton logoutButton;
+    private JButton communityInformationButton;
 
     public void run() {
         JFrame frame = new JFrame("regularUserMainMenuGUI");
