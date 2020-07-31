@@ -7,8 +7,6 @@ import managers.itemmanager.ItemManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Stores all the Users and AdminUsers. Manages the Users and the actions that they can make.
@@ -54,11 +52,25 @@ public class UserManager implements Serializable {
 
     /**
      * Gets the list of AdminUser
-     * @return List of Adminser
+     * @return List of AdminUser
      */
     public ArrayList<User> getListAdminUser() {
         return listAdmin;
     }
+
+
+    /**
+     * Gets the list of AdminUser username
+     * @return List of AdminUser username
+     */
+    public ArrayList<String> getListAdminUserName() {
+        ArrayList<String> usernameList = new ArrayList<>();
+        for (User adminUser: listAdmin) {
+            usernameList.add(adminUser.getUsername());
+        }
+        return usernameList;
+    }
+
 
 
     /**

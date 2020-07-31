@@ -1,21 +1,14 @@
 package controllers.adminusersubcontrollers;
 
-import controllers.AccountCreator;
 import exception.InvalidIdException;
-import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
-import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
-import presenter.SystemMessage;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import managers.actionmanager.Action;
 
 
 public class AdminUserHistoricalActionController {
@@ -29,8 +22,17 @@ public class AdminUserHistoricalActionController {
     private String username;
     private Integer userId;
 
-    // Constructor
-    public AdminUserHistoricalActionController(DisplaySystem ds, AccountCreator ac, UserManager um, ItemManager im,
+    /**
+     * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
+     * an UserManager, an ItemManager and an adminUserId.
+     * @param ds The presenter class used to print to screen.
+     * @param im The current state of the ItemManager.
+     * @param um The current state of the UserManager.
+     * @param am The current state of the ActionManager.
+     * @param fm The current state of the FeedbackManager.
+     * @param username The username of the Admin user.
+     */
+    public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im,
                                                ActionManager am, FeedbackManager fm, String username) {
         this.ds = ds;
         this.um = um;
@@ -42,12 +44,20 @@ public class AdminUserHistoricalActionController {
     }
 
 
-    public void printOutAllHistorialAction() {
+    /**
+     * Lets the presenter print out all the actions done by RegularUser and AdminUser in the system
+     */
+    public void printOutAllHistoricalAction() {
         ds.printOut("Here are all the Historical Actions: \n");
         ds.printHistoricalActions(am.getListOfAllActions());
         am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
     }
 
+
+    /**
+     * Lets the presenter print out all the revocable actions done by RegularUser in the system
+     * by the RegularUser id provided by AdminUser
+     */
     public void searchRevocableActionByUserID() {
         ds.printOut("Here are all the TradableUser Id: \n");
         ds.printListUser(um.getListTradableUser());
@@ -56,6 +66,10 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
     }
 
+    /**
+     * Lets the presenter print out all the revocable actions and cancel the revocable actions done by RegularUser
+     * in the system
+     */
     public void cancelRevocableAction() throws InvalidIdException {
 
         ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
@@ -76,7 +90,10 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.2", actionID, "");
     }
 
-
+    /**
+     * Helper Function used to do the cancel part for revocable actions and classify the different action
+     * into different helper functions.
+     */
     private boolean helper_cancelHistoricalAction(int actionID) throws InvalidIdException {
         Action targetAction = am.findActionByID(actionID);
         String[] menuOption = targetAction.getMenuOption().split("\\.");
@@ -95,16 +112,27 @@ public class AdminUserHistoricalActionController {
             case 3:
                 helper_cancelMeetingMenu(targetAction, subOption);
                 break;
+            // call helper function to cancel the Revocable Action in RegularUserSearchingMenu.csv
+            case 4:
+                helper_cancelSearchingMenu(targetAction, subOption);
+                break;
+            // call helper function to cancel the Revocable Action in RegularUserCommunityMenu.csv
+            case 5:
+                helper_cancelCommunityMenu(targetAction, subOption);
+                break;
         }
         return false;
     }
 
-
+    /**
+     * Helper Function used to do the cancel part for revocable actions in Account Menu
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subOption The menu option number in Account Menu
+     * @return Return true if cancel action successfully, vice versa
+     */
     private boolean helper_cancelAccountMenu(Action targetAction, int subOption) throws InvalidIdException {
         // get the id of item from action
         int itemID = targetAction.getAdjustableInt();
-        // get the id of other user from action for action 1.15/1.16
-        int targetUserID = targetAction.getAdjustableInt();
         // get the status of item from action for action 1.11
         String tradable = targetAction.getAdjustableStr();
         // get the status of on-vacation status from action for action 1.10
@@ -134,13 +162,13 @@ public class AdminUserHistoricalActionController {
             case 10:
                 // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
                 if (vacationStatus.equals("go on vacation")) {
-                    um.comeFromVacation(userId);
-                    im.setTradable(um.getUserInventory(userId), true);
+                    um.comeFromVacation(actionOwnerID);
+                    im.setTradable(um.getUserInventory(actionOwnerID), true);
                 }
                 // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
                 else {
-                    um.goOnVacation(userId);
-                    im.setTradable(um.getUserInventory(userId), false);
+                    um.goOnVacation(actionOwnerID);
+                    im.setTradable(um.getUserInventory(actionOwnerID), false);
                 }
                 return true;
             // 1.11: Change tradable status for an inventory item
@@ -151,19 +179,17 @@ public class AdminUserHistoricalActionController {
                 // if user set item status into non-tradable, then change it into tradable
                 im.setTradable(temp, !tradable.equals("tradable"));
                 return true;
-            // 1.15: Write a review for an user
-            case 15:
-                // call FeedbackManager to delete the review for an user
-                return fm.deleteReview(targetUserID, userId);
-            // 1.16: Report an user
-            case 16:
-                // call FeedbackManager to delete the report for an user
-                return fm.deleteReport(targetUserID, userId);
         }
         return false;
     }
 
 
+    /**
+     * Helper Function used to do the cancel part for revocable actions in Trading Menu
+     * @param targetAction The action which AdminUser want to cancel
+     * @param  subOption The menu option number in Trading Menu
+     * @return Return true if cancel action successfully, vice versa
+     */
     private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:2.1: Request a trade
@@ -180,6 +206,12 @@ public class AdminUserHistoricalActionController {
     }
 
 
+    /**
+     * Helper Function used to do the cancel part for revocable actions in Meeting Menu
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subOption The menu option number in Meeting Menu
+     * @return Return true if cancel action successfully, vice versa
+     */
     private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:3.1: Suggest/edit time and place for meetings
@@ -191,6 +223,50 @@ public class AdminUserHistoricalActionController {
             // TODO:3.3: Confirm the meeting took place
             case 3:
                 break;
+        }
+        return false;
+    }
+
+
+    /**
+     * Helper Function used to do the cancel part for revocable actions in Searching Menu
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subOption The menu option number in Searching Menu
+     * @return Return true if cancel action successfully, vice versa
+     */
+    private boolean helper_cancelSearchingMenu(Action targetAction, int subOption) {
+        switch (subOption) {
+            //TODO
+
+        }
+        return false;
+    }
+
+
+    /**
+     * Helper Function used to do the cancel part for revocable actions in Community Menu
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subOption The menu option number in Community Menu
+     * @return Return true if cancel action successfully, vice versa
+     */
+    private boolean helper_cancelCommunityMenu(Action targetAction, int subOption) {
+        // get the id of other user from action for action 5.1/5.2
+        int targetUserID = targetAction.getAdjustableInt();
+        // get the action owner id from the action
+        int actionOwnerID = targetAction.getActionOwnerID();
+
+        switch (subOption) {
+            // 5.1: Write a review for an user
+            case 1:
+                // call FeedbackManager to delete the review for an user
+                return fm.deleteReview(targetUserID, actionOwnerID);
+            // 5.2: Report an user
+            case 2:
+                // call FeedbackManager to delete the report for an user
+                return fm.deleteReport(targetUserID, actionOwnerID);
+            // TODO: 5.8: Delete friend
+            case 8:
+                //TODO
         }
         return false;
     }

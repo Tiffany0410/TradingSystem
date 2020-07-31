@@ -1,7 +1,6 @@
 package controllers.adminusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
-import managers.usermanager.User;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
@@ -185,4 +184,70 @@ public class AdminUserOtherInfoGetter {
         }while(!okInput);
         return userID;
     }
+
+
+    /**
+     * Gets the new AdminUser username from the admin user.
+     * @return The new AdminUser username entered by admin user.
+     */
+    public String getNewAdminUserName() {
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        String userName = null;
+        do{
+            ds.printOut("Enter the name of new AdminUser that you want to add");
+            if(sc.hasNextLine()){
+                userName = sc.nextLine();
+                if (!um.getListAdminUserName().contains(userName)) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper AdminUser username please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid username please");
+            }
+        }while(!okInput);
+        return userName;
+    }
+
+
+    /**
+     * Gets the new AdminUser password from the admin user.
+     * @return The new AdminUser password entered by admin user.
+     */
+    public String getNewAdminUserPassword() {
+        /*
+         * Referenced the code in the first answer in
+         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+         * by answerer Yassine.b
+         */
+        boolean okInput = false;
+        Scanner sc = new Scanner(System.in);
+        String pw = null;
+        do{
+            ds.printOut("Enter the password of new AdminUser that you want to add");
+            if(sc.hasNextLine()){
+                pw = sc.nextLine();
+                if (pw != null) {
+                    okInput = true;
+                }
+                else{
+                    ds.printOut("Enter a proper AdminUser password please");
+                }
+            }else{
+                sc.nextLine();
+                ds.printOut("Enter a valid password please");
+            }
+        }while(!okInput);
+        return pw;
+    }
+
+
 }

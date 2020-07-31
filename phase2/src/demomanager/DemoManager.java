@@ -1,6 +1,6 @@
 package demomanager;
 
-import gui.GUI;
+import gui.GUIController;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import gateway.FilesReaderWriter;
@@ -92,8 +92,8 @@ public class DemoManager {
                 //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
 
                 // Run GUI
-                GUI gui = new GUI(um, mm, tm, im, fm, ds, ac, lv);
-                gui.runTradingSystemInitMenuGUI();
+                GUIController guiController = new GUIController(um, mm, tm, im, fm, ds, ac, lv);
+                guiController.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {
                 System.out.println("Can not find file, Please check the root of the program and README file.");

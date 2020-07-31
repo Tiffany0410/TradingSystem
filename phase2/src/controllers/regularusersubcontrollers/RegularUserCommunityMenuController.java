@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import controllers.maincontrollers.RegularUserController;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
@@ -158,8 +159,38 @@ public class RegularUserCommunityMenuController {
         }
     }
 
+    /** add a user to be a friend.
+     * @param asGuest The determiner of access to this menu option.
+     */
+    public void respondFriendRequest(boolean asGuest){
+        if (!asGuest){
+            String userTo = um.idToUsername(userId);
+            boolean okInput = false;
+            ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
+            ArrayList<TradableUser> friends = new ArrayList<>();
+            ArrayList<Integer> idFriends = new ArrayList<>();
+            for(String[] strings: requestFriends){
+                String friendName = strings[1];
+                idFriends.add(um.usernameToID(friendName));
+                friends.add(um.findUser(friendName));
+            }
+            if (idFriends.isEmpty()) {
+                sm.msgForNothing("that needs to be confirmed", ds);}
+            else{
+                ds.printListUser(friends);
+                do{int id1 = idGetter.getUserID("a friend that you want to add");
+            if(idFriends.contains(id1)){
+                String userFrom = um.idToUsername(id1);
+                um.addFriend(userFrom, userTo);
+                am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, "");
+                am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, "");
+                okInput = true;
+            }else{ds.printOut("Please enter the id that is in the list of requirement.");
+            }}while(!okInput);
+        }
+    }else{ sm.msgForGuest(ds);}}
 
-    // TODO: Respond to friend requests
+
     // TODO: Send a message to a selected friend
     // TODO: View messages sent by a friend
 

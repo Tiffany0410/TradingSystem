@@ -44,7 +44,17 @@ public class AdminUserManagerUsersController {
         this.sm = new SystemMessage();
     }
 
-    public void freezeUser() {
+
+    public String getAllUnfreezedUser() {
+        //TODO: Follow below to modify this method
+    }
+
+
+
+
+    public String freezeUser(String regularUsername) {
+        //TODO: Follow below to modify this method
+
         // Print out all the Regular Users' usernames
         ds.printOut("Here are the all Regular Users in the System");
         ds.printListUser(um.getListTradableUser());
@@ -61,20 +71,59 @@ public class AdminUserManagerUsersController {
         }
     }
 
-    public void unfreezeUser() {
-        ds.printOut("Here's the list of user who request to be unfrozen:");
-        ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
+    public String getWantUnfreezeUser(){
+        String title = "Here's the list of user who request to be unfrozen:";
+        StringBuilder body = new StringBuilder();
+
+        int count = 1;
+        for (Object o : um.getListUnfreezeRequest()) {
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                body.append("#").append(count).append(". ").append(o.toString()).append("\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[]) o;
+                body.append("#").append(count).append(". ").append("\n").append("Username: ").append(strings[0]);
+                body.append("Message: ").append(strings[1]).append("\n");
+            }
+            count++;
+        }
+
+        return title + body.toString() +"\n" +"Please enter the username of the user to UNFREEZE";
+    }
+
+
+
+    public String unfreezeUser(String regularUsername) {
+      //////////////////////////////This part goes to above:   getWantUnfreezeUser()/////////////////////
+      ///////////////////////////// Move related method out from displaySystem//////////////////////////
+        //ds.printOut("Here's the list of user who request to be unfrozen:");
+        //ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
+
         //asks the admin for the username of the user to UNFREEZE
-        ds.printOut("Please enter the username of the user to UNFREEZE");
+        //ds.printOut("Please enter the username of the user to UNFREEZE");
+
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      ////////////////////////////////////// Rest part adjust to return success or not/////////////////////
+        // Move related method out from displaySystem, let others pass in regular username when call this method//////////////////////////
+
         // Record the username, userID and if successfully freeze user
-        String regularUsername = ds.getUsername();
+        //String regularUsername = ds.getUsername();
+
         int regularUserID = um.usernameToID(regularUsername);
         boolean unfreezeOrNot = um.unfreezeUser(regularUsername);
         //let presenter print the msg of successful or not
-        ds.printResult(unfreezeOrNot);
+
         if (unfreezeOrNot) {
             am.addActionToAllActionsList(this.userID, "adminUser", "1.2", regularUserID, regularUsername);
+            return "Success";
+        }else{
+            return "Fail";
         }
+
     }
 
     public void confirmInventoryAdd() {
@@ -113,5 +162,6 @@ public class AdminUserManagerUsersController {
             ds.printResult(true);
         }
     }
+
 
 }
