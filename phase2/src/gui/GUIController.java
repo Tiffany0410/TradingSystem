@@ -83,7 +83,14 @@ public class GUIController {
     }
 
     public void runAdminUserOtherSubMenu() {
-        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI();
-        adminUserOtherSubMenuGUI.run();
+        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this);
+        adminUserOtherSubMenuGUI.run(this);
+    }
+
+    public void runAdminUserCreateAccount() {
+        AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(accountCreator, this);
+        adminUserCreateAccountGUI.run(accountCreator, this);
+
+
     }
 }

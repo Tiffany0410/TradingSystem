@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.AccountCreator;
-import gui.GUI;
+import gui.GUIController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ public class AdminUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUI gui) {
+    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIController guiController) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -25,6 +25,8 @@ public class AdminUserCreateAccountGUI {
             public void actionPerformed(ActionEvent e) {
                 accountCreator.createAccount("Admin", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), "None", "None");
+                // TODO: Need method to close this window
+
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -35,15 +37,16 @@ public class AdminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Back to Admin User Main Menu
+                guiController.runAdminUserOtherSubMenu();
+                // TODO: Need method to close this window
 
             }
         });
     }
 
-    public void run(AccountCreator accountCreator, GUI gui) {
+    public void run(AccountCreator accountCreator, GUIController guiController) {
         JFrame frame = new JFrame("createAccountGUI");
-        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, gui).rootPanel);
+        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
