@@ -44,4 +44,15 @@ public class MessageManager implements Serializable {
         listMessages.add(msg);
     }
 
+    /** get a string to describe the messages.
+     * @param messages The message
+     * @return a string that describe the list of messages
+     */
+    public String printMessages(ArrayList<Message> messages){
+        StringBuilder stringMessages = new StringBuilder();
+        for(Message message: messages){
+            stringMessages.append(message.toString());
+        }return stringMessages.toString();
+    }
+
 }
