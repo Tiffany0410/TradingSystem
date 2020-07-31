@@ -171,4 +171,30 @@ public class SystemMessage {
         return"Because you're on vacation, you can't be involved in trade/meeting. \n " +
                 "If you're back from vacation, please change your on-vacation status in the Account Menu.";
     }
+
+    public String msgForResult(boolean validator){
+        if (validator){
+            return "Success";
+        }
+        else {
+            return "Fail";
+        }
+    }
+
+    public String msgForFriendRequest(boolean validator, String userTo){
+        if (validator){
+            return "Your friend request has been sent to " + userTo + " successfully.";
+        }
+        else {
+            return "Failed to send friend request to " + userTo + ".\n" +
+                    "It seems that you are trying to send friend request twice to " + userTo +
+                    " or " + userTo + " is already in your list of friends.";
+        }
+    }
+
+    public String msgForMessage(String userTo){
+        return "Please leave a message for " + userTo + ".";
+    }
+
+
 }
