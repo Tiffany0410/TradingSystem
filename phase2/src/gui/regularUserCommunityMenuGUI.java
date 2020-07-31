@@ -1,0 +1,27 @@
+package gui;
+
+import javax.swing.*;
+
+public class regularUserCommunityMenuGUI {
+    private JPanel rootPanel;
+    private JButton writeAReviewForButton;
+    private JButton reportAUserButton;
+    private JButton findTheRatingForButton;
+    private JButton seeUsersInYourButton;
+    private JButton viewYourListOfButton;
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("regularUserCommunityMenuGUI");
+        frame.setContentPane(new regularUserCommunityMenuGUI().rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private JButton sendAFriendRequestButton;
+    private JButton respondToFriendsRequestButton;
+    private JButton unfriendAUserButton;
+    private JButton sendMessageToFriendsButton;
+    private JButton viewAllMessageButton;
+    private JButton backButton;
+}
