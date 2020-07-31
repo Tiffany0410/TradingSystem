@@ -325,7 +325,7 @@ public class RegularUserAccountMenuController {
     private void setTradableBasedOnResponse(ArrayList<Integer> itemIDs, int optionN) throws InvalidIdException {
         if (optionN == 1){
             if (im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(ds, true);
+                sm.msgNoNeedToSetTradableStatus(true);
             }
             else{
                 im.setTradable(itemIDs, true);
@@ -336,7 +336,7 @@ public class RegularUserAccountMenuController {
         }
         else{
             if (!im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(ds, false);
+                sm.msgNoNeedToSetTradableStatus(false);
             }
             else{
                 im.setTradable(itemIDs, false);
