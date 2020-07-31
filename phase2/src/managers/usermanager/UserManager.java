@@ -696,15 +696,12 @@ public class UserManager implements Serializable {
             return false;
         }
         person.followUser(toFollow);
-        //TODO change this to new design
         following.addFollowers(userID);
         return true;
     }
 
-    //TODO change this to the new design
-    public boolean itemFollow(int userID, int toFollow, ItemManager im) throws InvalidIdException {
+    public boolean itemFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
-        Item thing = im.getItembyId(toFollow);
         if (person == null){
             return false;
         }
@@ -732,5 +729,69 @@ public class UserManager implements Serializable {
             }
         }
         return out;
+    }
+
+    public ArrayList<String> getUserFollowingLogs (int userID){
+        TradableUser person = findUser(userID);
+        ArrayList<String> out = new ArrayList<>();
+        if (person == null){
+            return out;
+        }
+        out = person.getUserFollowingLogs();
+        return out;
+    }
+
+    public ArrayList<String> getItemFollowingLogs (int userID){
+        TradableUser person = findUser(userID);
+        ArrayList<String> out = new ArrayList<>();
+        if (person == null){
+            return out;
+        }
+        out = person.getItemFollowingLogs();
+        return out;
+    }
+
+    private ArrayList<TradableUser> merge (ArrayList<TradableUser> lst1, ArrayList<TradableUser> lst2) {
+        int i = 0;
+        int j = 0;
+        ArrayList<TradableUser> out = new ArrayList<>();
+        while (i != lst1.size() && j != lst2.size()){
+            if (lst1.get(i).getRating() < lst2.get(j).getRating()){
+                out.add(lst1.get(i));
+                i++;
+            } else {
+                out.add(lst2.get(j));
+                j++;
+            }
+
+            while (i != lst1.size()){
+                out.add(lst1.get(i));
+                i++;
+            }
+
+            while (j != lst2.size()){
+                out.add(lst2.get(j));
+                j++;
+            }
+        }
+        return out;
+    }
+
+    private ArrayList<TradableUser> mergeSort (ArrayList<TradableUser> lst){
+        if (lst.size() < 2){
+            return lst;
+        } else {
+            int mid_i = lst.size()/2;
+            ArrayList<TradableUser> left = new ArrayList<>(lst.subList(0, mid_i));
+            ArrayList<TradableUser> right = new ArrayList<>(lst.subList(mid_i, lst.size()));
+            ArrayList<TradableUser> sortedL = mergeSort(left);
+            ArrayList<TradableUser> sortedR = mergeSort(right);
+            return merge(sortedL, sortedR);
+        }
+    }
+
+    public ArrayList<TradableUser> sortRating (){
+        ArrayList<TradableUser> listCopy = (ArrayList<TradableUser>) listTradableUser.clone();
+        return mergeSort(listCopy);
     }
 }

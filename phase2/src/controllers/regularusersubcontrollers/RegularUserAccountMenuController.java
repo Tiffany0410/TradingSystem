@@ -403,6 +403,54 @@ public class RegularUserAccountMenuController {
         } else {
             sm.msgForGuest(ds);
         }
+    }
+
+    /**
+     * Uses this user's input of the user id of the user
+     * to follow to let this user follow the other user
+     * in the system.
+     * @param userToFollowUserId  User's input of the user id of the user to follow.
+     * @return Whether this action succeeded or failed.
+     */
+    public String followAnUser (int userToFollowUserId){
+        //output msg = "please enter the user id of the user you want to follow"
+        boolean result = um.userFollow(userId, userToFollowUserId);
+        if (result) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    /**
+     * Uses this user's input of the user id of the item
+     * to follow to let this user follow the item
+     * in the system.
+     * @param itemToFollowId User's input of the item id of the item to follow.
+     * @return Whether this action succeeded or failed.
+     * @throws InvalidIdException In case if the id this user entered is invalid.
+     */
+    public String followAnItem ( int itemToFollowId) throws InvalidIdException {
+        //output msg = "please enter the user id of the item you want to follow"
+        boolean result = um.itemFollow(userId, itemToFollowId);
+        if (result) {
+            return "success";
+        }
+        return "fail";
+
 
     }
+
+    public ArrayList<String> seeRecentStatusOfFollowedUser () {
+        return um.getUserFollowingLogs(userId);
+    }
+
+    public ArrayList<String> seeRecentStatusOfFollowedItem () {
+        return um.getItemFollowingLogs(userId);
+    }
+
+
+
+    }
+
+
 }

@@ -4,14 +4,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegularUserAccountMenuGUI {
+public class RegularUserAccountMainMenuGUI {
     private JPanel rootPanel;
     private JButton feedBackButton;
     private JButton manageItemButton;
     private JButton accountSettingButton;
     private JButton backButton;
+    private JButton followOthersItemsButton;
 
-    public RegularUserAccountMenuGUI() {
+    public RegularUserAccountMainMenuGUI() {
         feedBackButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -62,7 +63,7 @@ public class RegularUserAccountMenuGUI {
 
     public void run() {
         JFrame frame = new JFrame("regularUserAccountMenuGUI");
-        frame.setContentPane(new RegularUserAccountMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserAccountMainMenuGUI().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

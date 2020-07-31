@@ -1,16 +1,22 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class NotificationGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JLabel Label;
+    private JTextArea textArea;
+
 
     public NotificationGUI(String string) {
-        Label.setText(string);
+        textArea.setText(string);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setBackground(new Color(242,242,242));
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);

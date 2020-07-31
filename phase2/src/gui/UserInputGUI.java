@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,10 +10,14 @@ public class UserInputGUI {
     private JTextField textField1;
     private JButton OKButton;
     private JButton cancelButton;
-    private javax.swing.JLabel JLabel;
+    private JTextArea textArea;
 
     public UserInputGUI(String string, GUIController guiController) {
-        JLabel.setText(string);
+        textArea.setText(string);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setBackground(new Color(242,242,242));
+
         OKButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

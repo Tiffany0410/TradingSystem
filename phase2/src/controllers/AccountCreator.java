@@ -16,7 +16,6 @@ import java.util.HashMap;
  */
 public class AccountCreator {
     private UserManager um;
-    private DisplaySystem ds;
     private FilesReaderWriter frw;
 
     /**
@@ -26,7 +25,6 @@ public class AccountCreator {
      */
     public AccountCreator(UserManager um, DisplaySystem ds){
         this.um = um;
-        this.ds = ds;
         this.frw = new FilesReaderWriter();
     }
 
@@ -43,10 +41,9 @@ public class AccountCreator {
 
 
 
-        if (username.toLowerCase().equals("guest")){
+        if (username.toLowerCase().equals("guest")) {
             return out;
         }
-        //TODO get home city from ds
         if (type.equals("Regular")) {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email, home);
