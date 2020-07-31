@@ -85,6 +85,17 @@ public class RegularUserMainMenuGUI {
 
             }
         });
+        communityInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Call Community Info Menu and colse this window
+            }
+        });
         logoutButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
