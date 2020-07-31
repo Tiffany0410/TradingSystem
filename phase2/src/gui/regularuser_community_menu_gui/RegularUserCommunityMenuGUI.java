@@ -1,5 +1,7 @@
 package gui.regularuser_community_menu_gui;
 
+import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
+
 import javax.swing.*;
 import javax.xml.bind.Marshaller;
 import java.awt.event.ActionEvent;
@@ -12,6 +14,13 @@ public class RegularUserCommunityMenuGUI {
     private JButton findTheRatingForButton;
     private JButton seeUsersInYourButton;
     private JButton viewYourListOfButton;
+    private JButton sendAFriendRequestButton;
+    private JButton respondToFriendsRequestButton;
+    private JButton unfriendAUserButton;
+    private JButton sendMessageToFriendsButton;
+    private JButton viewAllMessageButton;
+    private JButton backButton;
+    private RegularUserMainMenuGUI mainMenu;
 
     public void run() {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
@@ -21,12 +30,6 @@ public class RegularUserCommunityMenuGUI {
         frame.setVisible(true);
     }
 
-    private JButton sendAFriendRequestButton;
-    private JButton respondToFriendsRequestButton;
-    private JButton unfriendAUserButton;
-    private JButton sendMessageToFriendsButton;
-    private JButton viewAllMessageButton;
-    private JButton backButton;
 
     public RegularUserCommunityMenuGUI(){
         writeAReviewForButton.addActionListener(new ActionListener() {
@@ -96,6 +99,14 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: view all message
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Return to RegularUser Main Menu
+                mainMenu.run();
             }
         });
     }
