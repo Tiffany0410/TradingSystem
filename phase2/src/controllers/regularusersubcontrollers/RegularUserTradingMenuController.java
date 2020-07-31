@@ -290,7 +290,7 @@ public class RegularUserTradingMenuController {
      * @throws InvalidIdException
      */
     public void tradeSuggestion() throws InvalidIdException {
-        ArrayList<Integer> p = im.getMostMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
+        ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
         if (p.size() == 0) {
             sm.msgForNothing("recommend suggestion", ds);
         } else {

@@ -474,9 +474,9 @@ public class ItemManager implements Serializable {
      */
     private ArrayList<Integer> getUsersByItem(UserManager um, int itemId){
         ArrayList<Integer> listUserids = new ArrayList<>();
-        HashMap<Integer, ArrayList<Integer>> itemsFollowed = new HashMap<>(); //TODO: To be changed! need user manager to finish implementation first.
+        HashMap<Integer, ArrayList<Integer>> itemsFollowed = um.itemsFollowed();
         for (int userId: itemsFollowed.keySet()){
-            if (itemsFollowed.get(userId).contains(itemId)){    // if this user follows this item
+            if (itemsFollowed.get(userId).contains(itemId)){
                 listUserids.add(userId);
                 }
             }
