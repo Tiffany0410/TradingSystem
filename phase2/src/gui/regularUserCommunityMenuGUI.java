@@ -10,7 +10,7 @@ public class regularUserCommunityMenuGUI {
     private JButton seeUsersInYourButton;
     private JButton viewYourListOfButton;
 
-    public static void main(String[] args) {
+    public void run() {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
         frame.setContentPane(new regularUserCommunityMenuGUI().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
