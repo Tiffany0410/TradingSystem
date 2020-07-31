@@ -10,6 +10,7 @@ public class RegularUserAccountMenuGUI {
     private JButton manageItemButton;
     private JButton accountSettingButton;
     private JButton backButton;
+    private JButton followOthersItemsButton;
 
     public RegularUserAccountMenuGUI() {
         feedBackButton.addActionListener(new ActionListener() {
