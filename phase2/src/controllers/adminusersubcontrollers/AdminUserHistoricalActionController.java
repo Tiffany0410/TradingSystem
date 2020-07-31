@@ -133,8 +133,6 @@ public class AdminUserHistoricalActionController {
     private boolean helper_cancelAccountMenu(Action targetAction, int subOption) throws InvalidIdException {
         // get the id of item from action
         int itemID = targetAction.getAdjustableInt();
-        // get the id of other user from action for action 1.15/1.16
-        int targetUserID = targetAction.getAdjustableInt();
         // get the status of item from action for action 1.11
         String tradable = targetAction.getAdjustableStr();
         // get the status of on-vacation status from action for action 1.10
@@ -164,13 +162,13 @@ public class AdminUserHistoricalActionController {
             case 10:
                 // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
                 if (vacationStatus.equals("go on vacation")) {
-                    um.comeFromVacation(userId);
-                    im.setTradable(um.getUserInventory(userId), true);
+                    um.comeFromVacation(actionOwnerID);
+                    im.setTradable(um.getUserInventory(actionOwnerID), true);
                 }
                 // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
                 else {
-                    um.goOnVacation(userId);
-                    im.setTradable(um.getUserInventory(userId), false);
+                    um.goOnVacation(actionOwnerID);
+                    im.setTradable(um.getUserInventory(actionOwnerID), false);
                 }
                 return true;
             // 1.11: Change tradable status for an inventory item
@@ -181,14 +179,6 @@ public class AdminUserHistoricalActionController {
                 // if user set item status into non-tradable, then change it into tradable
                 im.setTradable(temp, !tradable.equals("tradable"));
                 return true;
-            // 1.15: Write a review for an user
-            case 15:
-                // call FeedbackManager to delete the review for an user
-                return fm.deleteReview(targetUserID, userId);
-            // 1.16: Report an user
-            case 16:
-                // call FeedbackManager to delete the report for an user
-                return fm.deleteReport(targetUserID, userId);
         }
         return false;
     }
@@ -246,6 +236,7 @@ public class AdminUserHistoricalActionController {
      */
     private boolean helper_cancelSearchingMenu(Action targetAction, int subOption) {
         switch (subOption) {
+            //TODO
 
         }
         return false;
@@ -259,8 +250,23 @@ public class AdminUserHistoricalActionController {
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelCommunityMenu(Action targetAction, int subOption) {
-        switch (subOption) {
+        // get the id of other user from action for action 5.1/5.2
+        int targetUserID = targetAction.getAdjustableInt();
+        // get the action owner id from the action
+        int actionOwnerID = targetAction.getActionOwnerID();
 
+        switch (subOption) {
+            // 5.1: Write a review for an user
+            case 1:
+                // call FeedbackManager to delete the review for an user
+                return fm.deleteReview(targetUserID, actionOwnerID);
+            // 5.2: Report an user
+            case 2:
+                // call FeedbackManager to delete the report for an user
+                return fm.deleteReport(targetUserID, actionOwnerID);
+            // TODO: 5.8: Delete friend
+            case 8:
+                //TODO
         }
         return false;
     }
