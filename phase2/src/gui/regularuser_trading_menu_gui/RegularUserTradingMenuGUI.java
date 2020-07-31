@@ -1,5 +1,11 @@
 package gui.regularuser_trading_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import gui.GUIDemo;
+import gui.NotificationGUI;
+import gui.UserInputGUI;
+import presenter.SystemMessage;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +22,8 @@ public class RegularUserTradingMenuGUI {
     private JButton suggestionForTheMostButton;
     private JButton backButton;
 
-    public RegularUserTradingMenuGUI(){
+    public RegularUserTradingMenuGUI(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
+                                     int numLentBeforeBorrow){
 
         requestATradeButton.addActionListener(new ActionListener() {
             /**
@@ -26,7 +33,15 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: create a JDialog to ask for
+                if (atc.lockThresholdOrNot()) {
+                    String lockMsg = sm.lockMessageForThreshold(maxNumTransactionAWeek)
+                    NotificationGUI msgGUI = new NotificationGUI(lockMsg);
+                    msgGUI.run(lockMsg);
+                }
+                else{
+                    //TODO: new SystemMessage method for "Please enter your trade type"
+                    UserInputGUI getTradeTypeGUI = new UserInputGUI("Please enter your trade type", guiD);
+                }
             }
         });
 
