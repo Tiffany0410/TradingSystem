@@ -2,10 +2,10 @@ package gui;
 
 import controllers.AccountCreator;
 import controllers.LoginValidator;
-import gui.adminUserMenusGUI.AdminUserMainMenuGUI;
-import gui.tradingSystemInitMenuGUI.LoginGUI;
-import gui.tradingSystemInitMenuGUI.RegularUserCreateAccountGUI;
-import gui.tradingSystemInitMenuGUI.TradingSystemInitMenuGUI;
+import gui.adminusermenusgui.AdminUserMainMenuGUI;
+import gui.tradingsysteminitmenugui.LoginGUI;
+import gui.tradingsysteminitmenugui.RegularUserCreateAccountGUI;
+import gui.tradingsysteminitmenugui.TradingSystemInitMenuGUI;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
