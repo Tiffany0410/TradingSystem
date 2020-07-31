@@ -184,7 +184,9 @@ public class AdminUserController implements Controllable {
         1. Add subsequent admin users
          */
         if (subMenuOption == 1){
-            ds.printResult(this.ac.createAccount("Admin"));
+            String username = otherInfoGetter.getNewAdminUserName();
+            String pw = otherInfoGetter.getNewAdminUserPassword();
+            ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
             int newUserID = um.getListAdminUser().get(-1).getId();
             am.addActionToAllActionsList(userId, "adminUser", "4.1", newUserID, "");
         }

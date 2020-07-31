@@ -285,7 +285,7 @@ public class TradingSystem {
 
    private void adminUserMain(String userName) throws IOException, InvalidIdException {
       AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.displaySystem,
-              this.userManager, this.itemManager, this.actionManager, userName);
+              this.userManager, this.itemManager, this.feedbackManager, this.actionManager, userName);
       displaySystem.printOut("######### Notification ########");
       displaySystem.printOut(sm.AdminUserAlerts(frw));
 
