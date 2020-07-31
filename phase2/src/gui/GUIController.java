@@ -2,7 +2,7 @@ package gui;
 
 import controllers.AccountCreator;
 import controllers.LoginValidator;
-import gui.adminuser_menus_gui.AdminUserMainMenuGUI;
+import gui.adminuser_menus_gui.*;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
@@ -56,8 +56,8 @@ public class GUIController {
     }
 
     public void runAdminUserMainMenu() {
-        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI();
-        adminUserMainMenuGUI.run();
+        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
+        adminUserMainMenuGUI.run(this);
     }
 
     public void runRegularUserMainMenu(Boolean guest) {
@@ -66,4 +66,24 @@ public class GUIController {
     }
 
 
+    public void runAdminUserManageUsersSubMenu() {
+        AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI();
+        adminUserManageUsersSubMenuGUI.run();
+    }
+
+    public void runAdminUserEditThresholdsSubMenu() {
+        AdminUserEditThresholdsSubMenu adminUserEditThresholdsSubMenu = new AdminUserEditThresholdsSubMenu();
+        adminUserEditThresholdsSubMenu.run();
+
+    }
+
+    public void runAdminUserHistoricalActionsSubMenu() {
+        AdminUserHistroicalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistroicalActionsSubMenu(this);
+        adminUserHistroicalActionsSubMenu.run(this);
+    }
+
+    public void runAdminUserOtherSubMenu() {
+        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI();
+        adminUserOtherSubMenuGUI.run();
+    }
 }

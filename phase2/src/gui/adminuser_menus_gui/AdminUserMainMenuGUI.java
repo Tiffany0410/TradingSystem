@@ -1,5 +1,7 @@
 package gui.adminuser_menus_gui;
 
+import gui.GUIController;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +15,7 @@ public class AdminUserMainMenuGUI {
     private JButton othersButton;
     private JButton logoutButton;
 
-    public AdminUserMainMenuGUI() {
+    public AdminUserMainMenuGUI(GUIController guiController) {
         manageUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -22,7 +24,9 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Call Admin Manage User Sub Menu and close this menu
+                guiController.runAdminUserManageUsersSubMenu();
+                // TODO: Need method to close this window
+
 
             }
         });
@@ -34,7 +38,9 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Admin Edit Thresholds Sub Menu and close this menu
+                    guiController.runAdminUserEditThresholdsSubMenu();
+                // TODO: Need method to close this window
+
 
             }
         });
@@ -46,7 +52,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Admin Manage Histroical Action Sub Menu and close this window
+                guiController.runAdminUserHistoricalActionsSubMenu();
+
+                // TODO: Need method to close this window
+
 
             }
         });
@@ -58,7 +67,12 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Admin Other Sub Menu and close this window
+                guiController.runAdminUserOtherSubMenu();
+
+                // TODO: Need method to close this window
+
+
+
 
             }
         });
@@ -70,15 +84,18 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Return to Trading System Init Menu and close this Menu
+                guiController.runTradingSystemInitMenuGUI();
+
+                // TODO: Need method to close this window
+
 
             }
         });
     }
 
-    public void run() {
+    public void run(GUIController guiController) {
         JFrame frame = new JFrame("adminUserMainMenuGUI");
-        frame.setContentPane(new AdminUserMainMenuGUI().rootPanel);
+        frame.setContentPane(new AdminUserMainMenuGUI(guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

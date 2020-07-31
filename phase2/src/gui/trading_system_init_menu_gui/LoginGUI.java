@@ -34,7 +34,6 @@ public class LoginGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Login");
                 if (loginValidator.checkUsername(usernameText.getName())){
                     String type;
 
@@ -56,11 +55,12 @@ public class LoginGUI {
                     }
 
                 } else{
-                    String string = "Uername does not exist, please check again";
+                    String string = "Username does not exist, please check again";
                     NotificationGUI notificationGUI = new NotificationGUI(string);
                     notificationGUI.run(string);
                 }
 
+                // TODO: Need method to close this window
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -71,7 +71,10 @@ public class LoginGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Return to trading system init menu and close this window
+                guiController.runTradingSystemInitMenuGUI();
+                // TODO: Need method to close this window
+
+
             }
         });
     }
