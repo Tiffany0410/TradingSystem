@@ -178,30 +178,25 @@ public class RegularUserCommunityMenuController {
             sm.msgForGuest(ds);
         }
     }
-    /** get aa string for a list of friend request
-     * @param asGuest The determiner of access to this menu option.
+
+    /** check if there has friend request for the user
+     * @return true if there is no friend request
      */
-    public String respondFriendRequest(boolean asGuest){
-        if (!asGuest){
-            String userTo = um.idToUsername(userId);
-            ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
-            ArrayList<TradableUser> friends = new ArrayList<>();
-            for(String[] strings: requestFriends){
-                String friendName = strings[1];
-                friends.add(um.findUser(friendName));
-            }
-            if (friends.isEmpty()) {
-                return "There is no friend request.\n";}
-            else{
-                StringBuilder string = new StringBuilder(new String("You get friend requests from the " +
-                        "following users: \n"));
-                for (TradableUser user : friends) {
-                    string.append("#").append(user.getId()).append(". ").append(user.getUsername()).append("\n");
-                }
-                string.append("Please enter an id of the friend that you want to add. \n");
-                return String.valueOf(string);
-        }
-    }else{ return "Please sign in to add friends. \n";}}
+    public boolean checkEmptyFR(){
+        return getFriendRequest().isEmpty();
+    }
+
+    /** get a list of user who send a friend request to the user.
+     * @return a list of user who send a friend request to the user.
+     */
+    public ArrayList<TradableUser> getFriendRequest(){
+        ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
+        ArrayList<TradableUser> friends = new ArrayList<>();
+        for(String[] strings: requestFriends){
+            String friendName = strings[1];
+            friends.add(um.findUser(friendName));
+        }return friends;
+    }
 
     /** check if a user in the friend request or not.
      * @param userId1 the id of user
