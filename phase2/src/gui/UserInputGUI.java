@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class userInputGUI {
+public class UserInputGUI {
     private JPanel rootPanel;
     private JTextField textField1;
     private JButton OKButton;
     private JButton cancelButton;
     private javax.swing.JLabel JLabel;
 
-    public userInputGUI(String string) {
+    public UserInputGUI(String string, GUIController guiController) {
         JLabel.setText(string);
         OKButton.addActionListener(new ActionListener() {
             /**
@@ -21,14 +21,28 @@ public class userInputGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO：Need a method to return the value user put in the text area.
+                guiController.tempSaveUserInput(textField1.getText());
+
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Need method to close this window
 
             }
         });
     }
 
-    public void run(String string) {
+    public void run(String string, GUIController guiController) {
         JFrame frame = new JFrame("userInputGUI");
-        frame.setContentPane(new userInputGUI(string).rootPanel);
+        frame.setContentPane(new UserInputGUI(string, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

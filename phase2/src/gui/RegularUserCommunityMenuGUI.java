@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.*;
 
-public class regularUserCommunityMenuGUI {
+public class RegularUserCommunityMenuGUI {
     private JPanel rootPanel;
     private JButton writeAReviewForButton;
     private JButton reportAUserButton;
@@ -12,7 +12,7 @@ public class regularUserCommunityMenuGUI {
 
     public void run() {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new regularUserCommunityMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserCommunityMenuGUI().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

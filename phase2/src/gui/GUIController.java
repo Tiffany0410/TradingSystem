@@ -2,11 +2,14 @@ package gui;
 
 import controllers.AccountCreator;
 import controllers.LoginValidator;
+import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
+import controllers.maincontrollers.AdminUserController;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
 import gui.trading_system_init_menu_gui.TradingSystemInitMenuGUI;
+import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -23,11 +26,16 @@ public class GUIController {
     private DisplaySystem displaySystem;
     private AccountCreator accountCreator;
     private LoginValidator loginValidator;
+    private AdminUserController adminUserController;
+    private ActionManager actionManager;
+    private String tempUserInput;
+    private String tempUsername;
+    private AdminUserManagerUsersController adminUserManagerUsersController;
 
 
     public GUIController(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                ItemManager itemManager, FeedbackManager feedbackManager, DisplaySystem displaySystem,
-               AccountCreator accountCreator, LoginValidator loginValidator){
+               AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager){
 
         this.userManager = userManager;
         this.meetingManager = meetingManager;
@@ -37,6 +45,8 @@ public class GUIController {
         this.displaySystem = displaySystem;
         this.accountCreator = accountCreator;
         this.loginValidator = loginValidator;
+        this.actionManager = actionManager;
+        this.tempUserInput = "";
     }
 
     public void runTradingSystemInitMenuGUI(){
@@ -45,8 +55,8 @@ public class GUIController {
     }
 
     public void runLogin(){
-        LoginGUI login = new LoginGUI(loginValidator, this);
-        login.run(loginValidator,this);
+        LoginGUI login = new LoginGUI(this.loginValidator, this);
+        login.run(this.loginValidator,this);
     }
 
 
@@ -58,6 +68,10 @@ public class GUIController {
     public void runAdminUserMainMenu() {
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
         adminUserMainMenuGUI.run(this);
+        this.adminUserController = new AdminUserController(this.accountCreator, this.displaySystem, this.userManager,
+                this.itemManager, this.feedbackManager, this.actionManager, this.getTempUsername() );
+        this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.displaySystem, this.accountCreator,
+                this.userManager, this.itemManager, this.actionManager, this.getTempUsername());
     }
 
     public void runRegularUserMainMenu(Boolean guest) {
@@ -67,8 +81,9 @@ public class GUIController {
 
 
     public void runAdminUserManageUsersSubMenu() {
-        AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI();
-        adminUserManageUsersSubMenuGUI.run();
+        AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
+                this.adminUserManagerUsersController, this);
+        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this);
     }
 
     public void runAdminUserEditThresholdsSubMenu() {
@@ -92,5 +107,21 @@ public class GUIController {
         adminUserCreateAccountGUI.run(accountCreator, this);
 
 
+    }
+
+    public void tempSaveUserInput(String text) {
+        this.tempUserInput = text;
+    }
+
+    public String getTempUserInput(){
+        return this.tempUserInput;
+    }
+
+    public void setTempUsername(String username){
+        this.tempUsername = username;
+    }
+
+    public String getTempUsername(){
+        return this.tempUsername;
     }
 }

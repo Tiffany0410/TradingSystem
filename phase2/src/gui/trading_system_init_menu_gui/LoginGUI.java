@@ -34,22 +34,24 @@ public class LoginGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (loginValidator.checkUsername(usernameText.getName())){
+                if (loginValidator.checkUsername(usernameText.getText())){
                     String type;
 
                     type = loginValidator.checkPassword(new String(passwordText.getPassword()));
+
 
                     switch (type) {
                         case "False":
                             String string = "Wrong password, please check again";
                             NotificationGUI notificationGUI = new NotificationGUI(string);
                             notificationGUI.run(string);
-
                             break;
                         case "Admin":
+                            guiController.setTempUsername(usernameText.getText());
                             guiController.runAdminUserMainMenu();
                             break;
                         case "User":
+                            guiController.setTempUsername(usernameText.getText());
                             guiController.runRegularUserMainMenu(false);
                             break;
                     }

@@ -171,7 +171,7 @@ public class DisplaySystem {
         }
     }
 
-
+    // Replaced by GUI
     /**
      * Print out the result of action with boolean type
      *
@@ -186,6 +186,7 @@ public class DisplaySystem {
         printOut("\n");
     }
 
+    //Replaced by GUI
     /**
      * print out the result of action with object type
      *

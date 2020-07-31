@@ -1,5 +1,10 @@
 package gui.adminuser_menus_gui;
 
+import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
+import gui.GUIController;
+import gui.NotificationGUI;
+import gui.UserInputGUI;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +16,7 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI() {
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIController guiController) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -20,7 +25,17 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Freeze Users window and close this window
+                String string = adminUserManagerUsersController.getAllUnfreezedUser();
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiController);
+                userInputGUI.run(string, guiController);
+
+                String result = adminUserManagerUsersController.freezeUser(guiController.getTempUserInput());
+                NotificationGUI notificationGUI = new NotificationGUI(result);
+                notificationGUI.run(result);
+
+
+                // TODO: Need method to close this window
+
             }
         });
         unfreezeUsersButton.addActionListener(new ActionListener() {
@@ -31,7 +46,16 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Unfreeze Users window and close this window
+                String string = adminUserManagerUsersController.getWantUnfreezeUser();
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiController);
+                userInputGUI.run(string, guiController);
+
+                String result = adminUserManagerUsersController.unfreezeUser(guiController.getTempUserInput());
+                NotificationGUI notificationGUI = new NotificationGUI(result);
+                notificationGUI.run(result);
+
+                // TODO: Need method to close this window
+
 
             }
         });
@@ -45,6 +69,9 @@ public class AdminUserManageUsersSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call Confirm Item and Add Item window and close this window
 
+                // TODO: Need method to close this window
+
+
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -55,15 +82,17 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Admin User Main Menu and close this window
+                guiController.runAdminUserMainMenu();
+                // TODO: Need method to close this window
+
 
             }
         });
     }
 
-    public void run() {
+    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIController guiController) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
-        frame.setContentPane(new AdminUserManageUsersSubMenuGUI().rootPanel);
+        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
