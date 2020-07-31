@@ -253,7 +253,7 @@ public class DisplaySystem {
         int subMenuOption = Integer.parseInt(menuOption[1]);
 
         switch (mainMenuOption) {
-            // MainMenuOption <1>  corresponding to RegularUserAccountMenu.csv
+            // MainMenuOption <1>  corresponding to RegularUserAccountMainMenu.csv
             case 1:
                 regularUserAccountAction(action, subMenuOption);
                 break;
