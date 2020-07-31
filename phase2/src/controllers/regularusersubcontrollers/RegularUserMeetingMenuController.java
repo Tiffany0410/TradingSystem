@@ -102,7 +102,8 @@ public class RegularUserMeetingMenuController {
             if (mm.checkMeeting(meeting3)) {
                 ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
                 // add the action
-                am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting3.getMeetingNum(), "");
+                String tradeID3 = String.valueOf(meeting3.getTradeId());
+                am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting3.getMeetingNum(), tradeID3);
             } else {
                 // if the meeting DNE
                 sm.msgForMeetingDNE(ds);
@@ -132,7 +133,8 @@ public class RegularUserMeetingMenuController {
                 boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
                 ds.printResult(confirmSuccess);
                 // if successfully confirmed it, add the action
-                am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting2.getMeetingNum(), "");
+                String tradeID2 = String.valueOf(meeting2.getTradeId());
+                am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting2.getMeetingNum(), tradeID2);
                 if(!confirmSuccess){
                     ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
                 }
@@ -170,8 +172,9 @@ public class RegularUserMeetingMenuController {
                         list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
                 ds.printResult(editSuccess);
                 // if user edit it successfully, add the action
-
-                String iDAndPreviousTimeAndPlace = userId + "." + meeting.getTime().toString() + "." + meeting.getPlace();
+                int tradeID = meeting.getTradeId();
+                String previousTime = list.get(0) + "." + list.get(1) + "." + list.get(2) + "." + list.get(3) + "." + list.get(4);
+                String iDAndPreviousTimeAndPlace = userId + "." + meeting.getPlace() + "." + tradeID + "." + previousTime;
                 if (editSuccess) {am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), iDAndPreviousTimeAndPlace);}
                 // if the user did not edit it successfully
                 if (!editSuccess){

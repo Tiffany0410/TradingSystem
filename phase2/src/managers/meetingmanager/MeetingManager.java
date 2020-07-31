@@ -329,7 +329,7 @@ public class MeetingManager implements java.io.Serializable{
      * @param place the place
      * @return true if undo the edit of time and place successfully.
      */
-     public boolean undoEditTimePlace(Meeting meeting,int userId, int year, int month, int day, int hour, int min, int sec,
+     public boolean undoEditTimePlace(Meeting meeting, int userId, int year, int month, int day, int hour, int min, int sec,
                                       String place){
          if((meeting.getUserId1()!=userId && meeting.getUserId2() != userId) ||(meeting.getTradeId()== 0)){
              return false;
