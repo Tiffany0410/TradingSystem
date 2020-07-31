@@ -6,16 +6,15 @@ import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
+import managers.meetingmanager.Meeting;
+import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -33,6 +32,7 @@ public class AdminUserHistoricalActionController {
     private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
+    private MeetingManager mm;
     private String username;
     private Integer userId;
     private FilesReaderWriter frw;
@@ -50,6 +50,7 @@ public class AdminUserHistoricalActionController {
      * @param username The username of the Admin user.
      */
     public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im, TradeManager tm,
+                                               MeetingManager mm,
                                                ActionManager am, FeedbackManager fm, String username) {
         this.ds = ds;
         this.um = um;
@@ -57,6 +58,7 @@ public class AdminUserHistoricalActionController {
         this.tm = tm;
         this.am = am;
         this.fm = fm;
+        this.mm = mm;
         this.userId = um.usernameToID(username);
         this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
         this.frw = new FilesReaderWriter();
@@ -231,22 +233,26 @@ public class AdminUserHistoricalActionController {
         switch (subOption) {
             // TODO:3.1: Suggest/edit time and place for meetings
             case 1:
-                List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
-                int maxMeetingTimePlaceEdits = thresholdValues.get(3);
                 String[] temp = targetAction.getAdjustableStr().split("\\.");
                 int targetUserID = Integer.parseInt(temp[0]);
-                /*
-                 * Based on code by Sedalb from
-                 * https://stackoverflow.com/questions/9431927/how-to-convert-date-tostring-back-to-date
-                 */
-                Date previousDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(temp[1]);
-                break;
+                String place = temp[1];
+                int tradeID = Integer.parseInt(temp[2]);
+                //get year, month, day, hour, min, sec
+                int year = Integer.parseInt(temp[3]);
+                int month = Integer.parseInt(temp[4]);
+                int day = Integer.parseInt(temp[5]);
+                int hour = Integer.parseInt(temp[6]);
+                int minute = Integer.parseInt(temp[7]);
+                Meeting meeting = mm.getMeetingByIdNum(tradeID, targetAction.getAdjustableInt());
+                return mm.undoEditTimePlace(meeting, targetUserID, year, month, day, hour, minute, 0, place);
             // TODO:3.2: Confirm time and place for meetings
             case 2:
-                break;
+                int tradeID2 = Integer.parseInt(targetAction.getAdjustableStr());
+                return mm.undoConfirmTandP(tradeID2, targetAction.getAdjustableInt());
             // TODO:3.3: Confirm the meeting took place
             case 3:
-                break;
+                int tradeID3 = Integer.parseInt(targetAction.getAdjustableStr());
+                return mm.undoConfirmTookPlace(tradeID3, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
         }
         return false;
     }
