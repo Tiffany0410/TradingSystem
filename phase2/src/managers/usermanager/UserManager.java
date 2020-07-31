@@ -684,15 +684,12 @@ public class UserManager implements Serializable {
             return false;
         }
         person.followUser(toFollow);
-        //TODO change this to new design
         following.addFollowers(userID);
         return true;
     }
 
-    //TODO change this to the new design
-    public boolean itemFollow(int userID, int toFollow, ItemManager im) throws InvalidIdException {
+    public boolean itemFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
-        Item thing = im.getItembyId(toFollow);
         if (person == null){
             return false;
         }
@@ -719,6 +716,26 @@ public class UserManager implements Serializable {
                 out.add(request);
             }
         }
+        return out;
+    }
+
+    public ArrayList<String> getUserFollowingLogs (int userID){
+        TradableUser person = findUser(userID);
+        ArrayList<String> out = new ArrayList<>();
+        if (person == null){
+            return out;
+        }
+        out = person.getUserFollowingLogs();
+        return out;
+    }
+
+    public ArrayList<String> getItemFollowingLogs (int userID){
+        TradableUser person = findUser(userID);
+        ArrayList<String> out = new ArrayList<>();
+        if (person == null){
+            return out;
+        }
+        out = person.getItemFollowingLogs();
         return out;
     }
 }
