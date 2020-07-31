@@ -316,12 +316,12 @@ public class DisplaySystem {
                 this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
                         + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
                 break;
-            // 1.13: Change your home city
-            case 13:
+            // 1.12: Change your home city
+            case 12:
                 this.printOut(helper_regular_action_prefix(action) + "change home city to " + action.getAdjustableStr() + "\n");
                 break;
-            // 1.14: Get suggestions for item(s) that you can lend to a given user
-            case 14:
+            // 1.13: Get suggestions for item(s) that you can lend to a given user
+            case 13:
                 this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
                 break;
         }
@@ -428,6 +428,9 @@ public class DisplaySystem {
             // 5.7: Respond to friend requests
             case 7:
                 //TODO
+            // TODO:5.8 delete friend
+            case 8:
+                //TODO
         }
     }
 
@@ -446,7 +449,7 @@ public class DisplaySystem {
             case 2:
                 adminUserEditThresholdsAction(action, subMenuOption);
                 break;
-            // MainMenuOption <3>  corresponding to AdminUserActionSubMenu.csv
+            // MainMenuOption <3>  corresponding to AdminUserHistoricalActionSubMenu.csv
             case 3:
                 adminUserActionAction(action, subMenuOption);
                 break;
