@@ -30,6 +30,8 @@ public class NotificationGUI extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
         buttonCancel.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -38,8 +40,7 @@ public class NotificationGUI extends JDialog {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Closet this window
-                dispose();
+                onCancel();
             }
         });
     }

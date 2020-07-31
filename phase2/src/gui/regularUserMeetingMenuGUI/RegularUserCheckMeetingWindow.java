@@ -8,7 +8,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JButton editButton;
-    private JButton cancelButton;
     private JLabel JLable;
 
     public RegularUserCheckMeetingWindow() {

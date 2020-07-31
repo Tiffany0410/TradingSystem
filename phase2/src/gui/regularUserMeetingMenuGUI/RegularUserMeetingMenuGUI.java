@@ -19,6 +19,7 @@ public class RegularUserMeetingMenuGUI {
     private JButton meetingHistoryButton;
     private JButton suggestMeetingButton;
     private JButton backButton;
+    private JButton confirmMeetingButton;
 
     public RegularUserMeetingMenuGUI() {
         suggestMeetingButton.addActionListener(new ActionListener() {
