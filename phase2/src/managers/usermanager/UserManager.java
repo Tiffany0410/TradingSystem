@@ -643,7 +643,9 @@ public class UserManager implements Serializable {
                 toRemove = request;
             }
         }
-        listFriendRequest.remove(toRemove);
+        if (toRemove.length != 0) {
+            listFriendRequest.remove(toRemove);
+        }
         return false;
     }
 
