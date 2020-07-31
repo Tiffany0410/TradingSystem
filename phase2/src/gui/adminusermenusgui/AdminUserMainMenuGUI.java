@@ -9,7 +9,7 @@ public class AdminUserMainMenuGUI {
     private JLabel topLabel;
     private JButton manageUserButton;
     private JButton editThresholdsButton;
-    private JButton manageHistroicalActionsButton;
+    private JButton manageHistoricalActionsButton;
     private JButton othersButton;
     private JButton logoutButton;
 
@@ -38,7 +38,7 @@ public class AdminUserMainMenuGUI {
 
             }
         });
-        manageHistroicalActionsButton.addActionListener(new ActionListener() {
+        manageHistoricalActionsButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
