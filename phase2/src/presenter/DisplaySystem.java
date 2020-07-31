@@ -1,6 +1,7 @@
 package presenter;
 
 import gateway.FilesReaderWriter;
+import gui.NotificationGUI;
 import managers.actionmanager.Action;
 import managers.usermanager.TradableUser;
 
@@ -32,7 +33,7 @@ public class DisplaySystem {
      * @param str the string need to be print out
      */
     public void printOut(String str) {
-        System.out.println(str);
+        NotificationGUI notificationGUI = new NotificationGUI(str);
     }
 
 
@@ -542,4 +543,6 @@ public class DisplaySystem {
     public void printWrongPassword() {
         this.printOut("This password is not correct, please check again");
     }
+
+
 }
