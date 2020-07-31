@@ -13,6 +13,7 @@ import presenter.SystemMessage;
 import exception.InvalidIdException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -403,6 +404,39 @@ public class RegularUserAccountMenuController {
         } else {
             sm.msgForGuest(ds);
         }
+    }
+
+    public String followAnUser (int userToFollowUserId){
+        //output msg = "please enter the user id of the user you want to follow"
+        boolean result = um.userFollow(userId, userToFollowUserId);
+        if (result) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    public String followAnItem ( int itemToFollowId) throws InvalidIdException {
+        //output msg = "please enter the user id of the item you want to follow"
+        boolean result = um.itemFollow(userId, itemToFollowId, im);
+        if (result) {
+            return "success";
+        }
+        return "fail";
+
 
     }
+
+    public void seeRecentStatusOfFollowedUser () {
+        return um.getUserFollowingLog(userId);
+    }
+
+    public void seeRecentStatusOfFollowedItem () {
+        return um.getItemsFollowingLog(userId);
+    }
+
+
+
+    }
+
+
 }
