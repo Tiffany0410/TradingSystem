@@ -23,7 +23,6 @@ public class GUIController {
     private TradeManager tradeManager;
     private ItemManager itemManager;
     private FeedbackManager feedbackManager;
-    private DisplaySystem displaySystem;
     private AccountCreator accountCreator;
     private LoginValidator loginValidator;
     private AdminUserController adminUserController;
@@ -34,7 +33,7 @@ public class GUIController {
 
 
     public GUIController(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
-               ItemManager itemManager, FeedbackManager feedbackManager, DisplaySystem displaySystem,
+               ItemManager itemManager, FeedbackManager feedbackManager,
                AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager){
 
         this.userManager = userManager;
@@ -42,7 +41,6 @@ public class GUIController {
         this.tradeManager = tradeManager;
         this.itemManager = itemManager;
         this.feedbackManager = feedbackManager;
-        this.displaySystem = displaySystem;
         this.accountCreator = accountCreator;
         this.loginValidator = loginValidator;
         this.actionManager = actionManager;
@@ -68,9 +66,9 @@ public class GUIController {
     public void runAdminUserMainMenu() {
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
         adminUserMainMenuGUI.run(this);
-        this.adminUserController = new AdminUserController(this.accountCreator, this.displaySystem, this.userManager,
+        this.adminUserController = new AdminUserController(this.accountCreator,  this.userManager,
                 this.itemManager, this.feedbackManager, this.actionManager, this.getTempUsername() );
-        this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.displaySystem, this.accountCreator,
+        this.adminUserManagerUsersController = new AdminUserManagerUsersController( this.accountCreator,
                 this.userManager, this.itemManager, this.actionManager, this.getTempUsername());
     }
 
