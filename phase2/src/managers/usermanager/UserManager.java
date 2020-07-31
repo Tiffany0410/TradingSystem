@@ -1,11 +1,14 @@
 package managers.usermanager;
 
+import exception.InvalidIdException;
 import managers.itemmanager.Item;
-import managers.trademanager.Trade;
+import managers.itemmanager.ItemManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Stores all the Users and AdminUsers. Manages the Users and the actions that they can make.
@@ -17,7 +20,7 @@ public class UserManager implements Serializable {
     private ArrayList<TradableUser> listTradableUser;
     private ArrayList<User> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
-    private HashMap<String, ArrayList<String[]>> listFriendRequest;
+    private ArrayList<String[]> listFriendRequest;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -26,7 +29,7 @@ public class UserManager implements Serializable {
         this.listTradableUser = new ArrayList<>();
         this.listAdmin = new ArrayList<>();
         this.listUnfreezeRequest = new ArrayList<>();
-        this.listFriendRequest = new HashMap<>();
+        this.listFriendRequest = new ArrayList<>();
     }
 
     /**
@@ -38,7 +41,7 @@ public class UserManager implements Serializable {
         this.listTradableUser = tradableUsers;
         this.listAdmin = admins;
         this.listUnfreezeRequest = new ArrayList<>();
-        this.listFriendRequest = new HashMap<>();
+        this.listFriendRequest = new ArrayList<>();
     }
 
     /**
@@ -560,25 +563,15 @@ public class UserManager implements Serializable {
 
     public boolean requestFriend(String message, String userTo, String userFrom){
         boolean out = false;
-        if (checkUser(userTo)) {
-            if (!listFriendRequest.containsKey(userTo)){
-                ArrayList<String[]> toAdd = new ArrayList<>();
-                String[] request = {message, userFrom};
-                toAdd.add(request);
-                listFriendRequest.put(userTo, toAdd);
-                out = true;
-            } else {
-                ArrayList<String[]> temp = listFriendRequest.get(userTo);
-                for (String[] request: temp){
-                    if (request[0].equals(userFrom)){
-                        return false;
-                    }
+        if (checkUser(userTo) && checkUser(userFrom)) {
+            for (String[] request: listFriendRequest){
+                if (request[0].equals(userTo) && request[1].equals(userFrom)){
+                    return false;
                 }
-                String[] request = {message, userFrom};
-                temp.add(request);
-                listFriendRequest.put(userTo, temp);
-                out = true;
             }
+            String[] request = {userTo, userFrom, message};
+            listFriendRequest.add(request);
+            out = true;
         }
         return out;
     }
@@ -681,7 +674,6 @@ public class UserManager implements Serializable {
         }
     }
 
-    //TODO Add observable
     public boolean userFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
         TradableUser following = findUser(userID);
@@ -692,13 +684,15 @@ public class UserManager implements Serializable {
             return false;
         }
         person.followUser(toFollow);
+        //TODO change this to new design
         following.addFollowers(userID);
         return true;
     }
 
-    //TODO Add observable
-    public boolean itemFollow(int userID, int toFollow){
+    //TODO change this to the new design
+    public boolean itemFollow(int userID, int toFollow, ItemManager im) throws InvalidIdException {
         TradableUser person = findUser(userID);
+        Item thing = im.getItembyId(toFollow);
         if (person == null){
             return false;
         }
@@ -707,5 +701,24 @@ public class UserManager implements Serializable {
         }
         person.followItem(toFollow);
         return true;
+    }
+
+    public HashMap<Integer, ArrayList<Integer>> itemsFollowed(){
+        HashMap<Integer, ArrayList<Integer>> out = new HashMap<>();
+        for (TradableUser person: listTradableUser){
+            out.put(person.getId(), person.getItemFollowed());
+        }
+        return out;
+    }
+
+    public ArrayList<String[]> friendsRequesting(int userID){
+        ArrayList<String[]> out = new ArrayList<>();
+        String username = idToUsername(userID);
+        for (String[] request: listFriendRequest){
+            if (request[0].equals(username)){
+                out.add(request);
+            }
+        }
+        return out;
     }
 }
