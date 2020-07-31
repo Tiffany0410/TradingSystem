@@ -15,7 +15,6 @@ import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
 
 public class GUIController {
     private UserManager userManager;
@@ -91,7 +90,7 @@ public class GUIController {
     }
 
     public void runAdminUserHistoricalActionsSubMenu() {
-        AdminUserHistroicalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistroicalActionsSubMenu(this);
+        AdminUserHistoricalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistoricalActionsSubMenu(this);
         adminUserHistroicalActionsSubMenu.run(this);
     }
 
