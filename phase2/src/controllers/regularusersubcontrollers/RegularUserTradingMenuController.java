@@ -294,7 +294,11 @@ public class RegularUserTradingMenuController {
         if (p.size() == 0) {
             sm.msgForNothing("recommend suggestion", ds);
         } else {
-            ds.printResult(new ArrayList<>(p));
+            StringBuilder msg = new StringBuilder();
+            for (Integer i: p){
+                msg.append(im.getInfobyID(i)).append("\n");
+            }
+            ds.printOut("Suggested item for you:" + msg);
         }
     }
 
