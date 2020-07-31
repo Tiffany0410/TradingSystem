@@ -1,6 +1,6 @@
 package gui.trading_system_init_menu_gui;
 
-import gui.GUI;
+
 import gui.GUIController;
 
 import javax.swing.*;
@@ -17,15 +17,15 @@ public class TradingSystemInitMenuGUI {
 
 
 
-    public void run(GUIController gui) {
+    public void run(GUIController guiController) {
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new TradingSystemInitMenuGUI(gui).panel1);
+        frame.setContentPane(new TradingSystemInitMenuGUI(guiController).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public TradingSystemInitMenuGUI(GUIController gui){
+    public TradingSystemInitMenuGUI(GUIController guiController){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**
@@ -36,7 +36,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //login
-                gui.runLogin();
+                guiController.runLogin();
             }
         });
 
@@ -49,7 +49,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //login as guest
-                //TODO: Implement login as guest
+                guiController.runRegularUserMainMenu(true);
 
             }
         });
@@ -62,7 +62,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Create account
-                gui.runRegularUserCreateAccount();
+                guiController.runRegularUserCreateAccount();
             }
         });
         exitButton.addActionListener(new ActionListener() {

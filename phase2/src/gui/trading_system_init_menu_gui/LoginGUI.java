@@ -51,7 +51,7 @@ public class LoginGUI {
                             guiController.runAdminUserMainMenu();
                             break;
                         case "User":
-                            guiController.runRegularUserMainMenu();
+                            guiController.runRegularUserMainMenu(false);
                             break;
                     }
 

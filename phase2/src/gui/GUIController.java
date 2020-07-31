@@ -3,6 +3,7 @@ package gui;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import gui.adminuser_menus_gui.AdminUserMainMenuGUI;
+import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
 import gui.trading_system_init_menu_gui.TradingSystemInitMenuGUI;
@@ -59,6 +60,10 @@ public class GUIController {
         adminUserMainMenuGUI.run();
     }
 
-    public void runRegularUserMainMenu() {
+    public void runRegularUserMainMenu(Boolean guest) {
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI();
+        regularUserMainMenuGUI.run();
     }
+
+
 }
