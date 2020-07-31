@@ -131,6 +131,26 @@ public class RegularUserCommunityMenuController {
         }
     }
 
+    /** 改良版
+     * @return
+     */
+    public String viewListFriends(){
+        ArrayList<TradableUser> friends = um.getFriends(userId);
+        String title = "Here's your list of friends:";
+        StringBuilder body = new StringBuilder();
+
+        int count = 1;
+        for (TradableUser user: friends){
+            body.append("#").append(count).append(". ").append(user.toString()).append("\n");
+            count ++;
+        }
+        if (friends.isEmpty()){
+            return "Your list of friends is empty.";}
+        else{
+            return title + body.toString();
+        }
+    }
+
     /**
      * Receives user's request to send friend request to other user.
      * @param asGuest The determiner of access to this menu option.
@@ -190,6 +210,18 @@ public class RegularUserCommunityMenuController {
         }
     }else{ sm.msgForGuest(ds);}}
 
+    public String unfriendUser(String username){
+        int userId = um.usernameToID(username);
+        boolean unfriendOrNot = false; // um.unfriend(userId);
+
+        if (unfriendOrNot){
+            am.addActionToAllActionsList(this.userId, "regularUser", "5.8", userId, username);
+            return "Success";
+        }
+        else{
+            return "Fail";
+        }
+    }
 
     // TODO: Send a message to a selected friend
     // TODO: View messages sent by a friend
