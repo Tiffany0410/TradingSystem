@@ -36,7 +36,7 @@ public class DisplaySystem {
         NotificationGUI notificationGUI = new NotificationGUI(str);
     }
 
-
+    //////////////////////  Below method are replaced by GUI /////////////////////////////////////////////
     /**
      * Print menu and get the option user put in
      *
@@ -75,6 +75,7 @@ public class DisplaySystem {
         }
         return option;
     }
+
 
     /**
      * Get the number of options
@@ -153,6 +154,11 @@ public class DisplaySystem {
         city = sc.nextLine();  // get city user typed in
         return city;
     }
+
+
+    //////////////////////////////// Above methods are replaced by GUI ////////////////////////////////////////////////
+
+
 
     /**
      * Print out the list of username of the Regular Users
