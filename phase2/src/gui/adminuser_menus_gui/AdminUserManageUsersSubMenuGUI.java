@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
-import gui.GUIController;
+import gui.GUIDemo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
 
@@ -16,7 +16,7 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIController guiController) {
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiController) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -90,7 +90,7 @@ public class AdminUserManageUsersSubMenuGUI {
         });
     }
 
-    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIController guiController) {
+    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiController) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
         frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -15,9 +15,8 @@ import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
 
-public class GUIController {
+public class GUIDemo {
     private UserManager userManager;
     private MeetingManager meetingManager;
     private TradeManager tradeManager;
@@ -32,9 +31,9 @@ public class GUIController {
     private AdminUserManagerUsersController adminUserManagerUsersController;
 
 
-    public GUIController(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
-               ItemManager itemManager, FeedbackManager feedbackManager,
-               AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager){
+    public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
+                   ItemManager itemManager, FeedbackManager feedbackManager,
+                   AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager){
 
         this.userManager = userManager;
         this.meetingManager = meetingManager;
@@ -91,7 +90,7 @@ public class GUIController {
     }
 
     public void runAdminUserHistoricalActionsSubMenu() {
-        AdminUserHistroicalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistroicalActionsSubMenu(this);
+        AdminUserHistoricalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistoricalActionsSubMenu(this);
         adminUserHistroicalActionsSubMenu.run(this);
     }
 

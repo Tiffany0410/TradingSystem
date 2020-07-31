@@ -131,6 +131,26 @@ public class RegularUserCommunityMenuController {
         }
     }
 
+    /** 改良版
+     * @return
+     */
+    public String viewListFriends(){
+        ArrayList<TradableUser> friends = um.getFriends(userId);
+        String title = "Here's your list of friends:";
+        StringBuilder body = new StringBuilder();
+
+        int count = 1;
+        for (TradableUser user: friends){
+            body.append("#").append(count).append(". ").append(user.toString()).append("\n");
+            count ++;
+        }
+        if (friends.isEmpty()){
+            return "Your list of friends is empty.";}
+        else{
+            return title + body.toString();
+        }
+    }
+
     /**
      * Receives user's request to send friend request to other user.
      * @param asGuest The determiner of access to this menu option.
@@ -158,38 +178,86 @@ public class RegularUserCommunityMenuController {
             sm.msgForGuest(ds);
         }
     }
-
-    /** add a user to be a friend.
+    /** get aa string for a list of friend request
      * @param asGuest The determiner of access to this menu option.
      */
-    public void respondFriendRequest(boolean asGuest){
+    public String respondFriendRequest(boolean asGuest){
         if (!asGuest){
             String userTo = um.idToUsername(userId);
-            boolean okInput = false;
             ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
             ArrayList<TradableUser> friends = new ArrayList<>();
-            ArrayList<Integer> idFriends = new ArrayList<>();
             for(String[] strings: requestFriends){
                 String friendName = strings[1];
-                idFriends.add(um.usernameToID(friendName));
                 friends.add(um.findUser(friendName));
             }
-            if (idFriends.isEmpty()) {
-                sm.msgForNothing("that needs to be confirmed", ds);}
+            if (friends.isEmpty()) {
+                return "There is no friend request.\n";}
             else{
-                ds.printListUser(friends);
-                do{int id1 = idGetter.getUserID("a friend that you want to add");
-            if(idFriends.contains(id1)){
-                String userFrom = um.idToUsername(id1);
-                um.addFriend(userFrom, userTo);
-                am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, "");
-                am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, "");
-                okInput = true;
-            }else{ds.printOut("Please enter the id that is in the list of requirement.");
-            }}while(!okInput);
+                StringBuilder string = new StringBuilder(new String("You get friend requests from the " +
+                        "following users: \n"));
+                for (TradableUser user : friends) {
+                    string.append("#").append(user.getId()).append(". ").append(user.getUsername()).append("\n");
+                }
+                string.append("Please enter an id of the friend that you want to add. \n");
+                return String.valueOf(string);
         }
-    }else{ sm.msgForGuest(ds);}}
+    }else{ return "Please sign in to add friends. \n";}}
 
+    /** check if a user in the friend request or not.
+     * @param userId1 the id of user
+     * @return true if the id in the friend request.
+     */
+    public boolean checkIdInRequest(int userId1){
+        ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
+        for(String[] strings: requestFriends){
+            String friendName = strings[1];
+            if(um.usernameToID(friendName)==userId1){
+            return true;}
+        }return false;
+    }
+
+    /** add user with id1 to be a friend
+     * @param id1 the id of user
+     * @return true if the user with id1 is added to be a friend
+     */
+    public boolean addFriend(int id1){
+        String userTo = um.idToUsername(userId);
+        String userFrom = um.idToUsername(id1);
+        boolean yesOrNo = um.addFriend(userFrom, userTo);
+        if(yesOrNo){
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, "");
+        am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, "");
+        return true;
+    }return false;}
+
+    /** delete a friend request
+     * @param id1 the id of user
+     * @return true if the friend request is deleted
+     */
+    public boolean deleteFriendRequest(int id1){
+        String userTo = um.idToUsername(userId);
+        String userFrom = um.idToUsername(id1);
+        String[] strings = new String[2];
+        strings[0] = userTo;
+        strings[1] = userFrom;
+        if(um.getlistFriendRequest.contains(strings)){
+        um.getlistFriendRequest.remove();
+        return true;}return false;
+    }
+
+
+    public String unfriendUser(String username){
+        int userId = um.usernameToID(username);
+        boolean unfriendOrNot = false; // um.unfriend(userId);
+
+        if (unfriendOrNot){
+            am.addActionToAllActionsList(this.userId, "regularUser", "5.8", userId, username);
+            return "Success";
+        }
+        else{
+            return "Fail";
+        }
+    }
 
     // TODO: Send a message to a selected friend
     // TODO: View messages sent by a friend

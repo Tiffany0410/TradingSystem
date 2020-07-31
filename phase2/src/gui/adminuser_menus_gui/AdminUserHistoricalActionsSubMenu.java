@@ -1,19 +1,19 @@
 package gui.adminuser_menus_gui;
 
-import gui.GUIController;
+import gui.GUIDemo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AdminUserHistroicalActionsSubMenu {
+public class AdminUserHistoricalActionsSubMenu {
     private JPanel rootPanel;
     private JButton listAllTheHistoricalButton;
     private JButton cancelTheRevocableHistoricalButton;
     private JButton findAllTheRevocableButton;
     private JButton backButton;
 
-    public AdminUserHistroicalActionsSubMenu(GUIController guiController) {
+    public AdminUserHistoricalActionsSubMenu(GUIDemo guiController) {
         listAllTheHistoricalButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -60,9 +60,9 @@ public class AdminUserHistroicalActionsSubMenu {
         });
     }
 
-    public void run(GUIController guiController) {
+    public void run(GUIDemo guiController) {
         JFrame frame = new JFrame("AdminUserHistroicalActionsSubMenu");
-        frame.setContentPane(new AdminUserHistroicalActionsSubMenu(guiController).rootPanel);
+        frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

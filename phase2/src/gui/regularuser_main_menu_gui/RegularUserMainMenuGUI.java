@@ -12,6 +12,7 @@ public class RegularUserMainMenuGUI {
     private JButton meetingInformationButton;
     private JButton searchingInformationButton;
     private JButton logoutButton;
+    private JButton communityInformationButton;
 
     public void run() {
         JFrame frame = new JFrame("regularUserMainMenuGUI");
@@ -82,6 +83,17 @@ public class RegularUserMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call Searching Info Menu and close this window
 
+            }
+        });
+        communityInformationButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Call Community Info Menu and colse this window
             }
         });
         logoutButton.addActionListener(new ActionListener() {

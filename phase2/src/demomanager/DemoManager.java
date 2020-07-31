@@ -1,6 +1,6 @@
 package demomanager;
 
-import gui.GUIController;
+import gui.GUIDemo;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import gateway.FilesReaderWriter;
@@ -92,7 +92,7 @@ public class DemoManager {
                 //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
 
                 // Run GUI
-                GUIController guiController = new GUIController(um, mm, tm, im, fm, ds, ac, lv);
+                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ds, ac, lv);
                 guiController.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {

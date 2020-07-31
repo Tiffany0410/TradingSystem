@@ -1,40 +1,38 @@
 package managers.feedbackmanager;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * An instance of this class represents the feedback from users
  * @author Jianhong Guo
  * @version IntelliJ IDEA 2020.1
  */
-public class FeedbackManager {
-    // the key of the outer map is id of user who has been reported, the key of the nested map is the id of the user
-    // who report the user, and the value is the reason.
-    private Map<Integer, Map<Integer, String>> reportMap;
-    // the key of the outer map is the id of the user who is reviewed, the key of the nested map is the id of the user
-    // who review the user. The value is the a list of string, and the first item is point, the second item is reason.
-    private Map<Integer, Map<Integer, String[]>> reviewMap;
+public class FeedbackManager implements Serializable {
+    private ArrayList<Report> listReport;
+    private ArrayList<Review> listReview;
 
     /**
-     * set reportMap and reviewMap to an empty map
+     * construct for new FeedbackManager instance
      */
     public FeedbackManager(){
-        reportMap = new HashMap<>();
-        reviewMap = new HashMap<>();
+        listReport = new ArrayList<>();
+        listReview = new ArrayList<>();
     }
 
-    /** getter for reportMap
-     * @return the reportMap
+    /** getter for list of report
+     * @return the list of report
      */
-    public Map<Integer, Map<Integer, String>> getReportMap(){
-        return reportMap;
+    public ArrayList<Report> getListReport(){
+        return listReport;
     }
 
-    /** getter for reviewMap
-     * @return the reviewMap
+    /** getter for list of review
+     * @return the list of review
      */
-    public Map<Integer, Map<Integer, String[]>> getReviewMap(){
-        return reviewMap;
+    public ArrayList<Review> getListReview(){
+        return listReview;
     }
 
     /** add the new review with the given user ids, the point and the reason.
@@ -45,129 +43,151 @@ public class FeedbackManager {
      */
     // the userId1 is the id of the user who is reviewed
     public boolean setReview(int userId1, int userId2, int point, String reason ){
-        if(reviewMap.containsKey(userId1) && reviewMap.get(userId1).containsKey(userId2)){
+        if(haveReview(userId1, userId2)){
             return false;}
-        else if(reviewMap.containsKey(userId1)){
-            String string = String.valueOf(point);
-            String[] strings = new String[2];
-            strings[0] = string;
-            strings[1] = reason;
-            reviewMap.get(userId1).put(userId2,strings);
-        }else{
-            String string = String.valueOf(point);
-            String[] strings = new String[2];
-            strings[0] = string;
-            strings[1] = reason;
-            HashMap<Integer, String[]> map1 = new HashMap<>();
-            map1.put(userId2, strings);
-            reviewMap.put(userId1,map1);
-        }return true;
+        else{
+           Review review = new Review(userId1, userId2, point, reason);
+           listReview.add(review);
+           return true;
+        }
     }
 
     /** calculate the rate for a given user id
      * @param userId the id of the user
-     * @return a double which is the average rate of the user, return -1 if the user id is not in the reviewMap
+     * @return a double which is the average rate of the user, return -1.0 if the user has not been reviewed
      */
     public double calculateRate(int userId){
-        if (!reviewMap.containsKey(userId)){
+        if(!haveReview(userId)){
             return -1.0;
         }else{
-            Map<Integer, String[]> listReview = reviewMap.get(userId);
-            int sum = 0;
-            for(String[] strings: listReview.values()){
-                int int1 = Integer.parseInt(strings[0]);
-                sum += int1;
-            }
-            return (double) sum / reviewMap.get(userId).size(); }
+            double sum = 0.0;
+            int count = 0;
+        for(Review review: listReview) {
+            if (review.getReviewerId() == userId) {
+                sum += review.getPoint();
+                count += 1;
+            } }
+            return sum / count; }
     }
 
     /** add new report to the reportMap
      * @param userId1 the id of user who has been reported
      * @param userId2 the id of user who report the user with userId1
      * @param reason the reason to report the user
-     * @return true if the report is added to the map successful.
+     * @return true if the report is added to the list successful.
      */
     // userId1 is the id of the user who has been reported, the userId2 is the id of user who report the other user
     public boolean updateReport(int userId1, int userId2, String reason){
-        if (reportMap.containsKey(userId1) && reportMap.get(userId1).containsKey(userId2)){
+        if (haveReport(userId1, userId2)){
             return false;
-        }else if(reportMap.containsKey(userId1)){
-            reportMap.get(userId1).put(userId2,reason);
-            return true;
         }else {
-            HashMap<Integer, String> map1 = new HashMap<>() ;
-            map1.put(userId2, reason);
-            reportMap.put(userId1,map1);
+            Report report = new Report(userId1, userId2, reason);
+            listReport.add(report);
             return true;
         }
     }
-    /** get the map of user id and reason that report the given user
+    /** get a list of reports that report the given user
      * @param userId the id of user who has been reported
-     * @return a map that key is the id of user who report the given id, and the value is the reason if the user is
-     * in the report map. Otherwise, return a map with 0 as key, and empty string as a value
+     * @return the list of reports that receiverId is userId
      */
-    public Map<Integer, String> getReportById(int userId){
-        if (reportMap.containsKey(userId)){
-            return reportMap.get(userId);
-        }else{
-            HashMap<Integer, String> map1 = new HashMap<>();
-            map1.put(0,"");
-            return map1;
+    public ArrayList<Report> getReportById(int userId){
+        ArrayList<Report> reports = new ArrayList<>();
+        for(Report report: listReport){
+        if (report.getReceiverId() == userId){
+            reports.add(report);
         }
-    }
-    /** get a map that key is the id of user who report the given id, and the value is the point and reason.
+    }return reports;}
+    /** get a list of reviews that review the given user
      * @param userId the id of user who has been reviewed
-     * @return a map that key is the id of user who report the given id, and the value is the point and reason
-     * if the user in the review map. Otherwise, return a map with 0 as key, and a list of string with "0" and
-     * empty string as a value.
+     * @return a list of reviews that reviews the user with userId
      */
-    public Map<Integer, String[]> getReviewById(int userId){
-        if (reviewMap.containsKey(userId)){
-            return reviewMap.get(userId);
-        }else{
-            HashMap<Integer, String[]> map1 = new HashMap<>();
-            String[] strings = new String[2];
-            strings[0] ="0";
-            strings[1] = "";
-            map1.put(0,strings);
-            return map1;
-        }
-    }
+    public List<Review> getReviewById(int userId){
+        ArrayList<Review> reviews = new ArrayList<>();
+        for(Review review: listReview){
+            if (review.getReceiverId() == userId){
+                reviews.add(review);
+            }
+        }return reviews;}
 
-    /** delete a report from the reportMap
+    /** delete a report from the listReport
      * @param userId1 the id of user who has been reported
      * @param userId2 the id of user who report the other user
-     * @return true if the report is removed from the map successful
+     * @return true if the report is removed from the list successful
      */
     // userId1 is the id of the user who has been reported, the userId2 is the id of user who report the other user
     public boolean deleteReport(int userId1, int userId2){
-        if (reportMap.containsKey(userId1) && reportMap.get(userId1).containsKey(userId2)){
-            if (reportMap.get(userId1).size() == 1){
-                reportMap.remove(userId1);
-            }
-            else{
-                reportMap.get(userId1).remove(userId2);
-            }
-            return true;
-        }return false;
-    }
+        for(Report report: listReport){
+            if (report.getReceiverId() == userId1 && report.getReporterId() == userId2){
+                listReport.remove(report);
+                return true;
+            }}return false;
+        }
 
-    /** delete a review from the reviewMap
+    /** delete a review from the listReview
      * @param userId1 the id of user who has been reviewed
      * @param userId2 the id of user who reviewed the other user
-     * @return true if the review is removed from the map successful
+     * @return true if the review is removed from the list successful
      */
-    // userId1 is the id of the user who has been reported, the userId2 is the id of user who report the other user
+    // userId1 is the id of the user who has been reviewed, the userId2 is the id of user who review the other user
     public boolean deleteReview(int userId1, int userId2){
-        if (reviewMap.containsKey(userId1) && reviewMap.get(userId1).containsKey(userId2)){
-            if (reviewMap.get(userId1).size() == 1){
-                reviewMap.remove(userId1);
-            }
-            else{
-                reviewMap.get(userId1).remove(userId2);
-            }
-            return true;
-        }return false;
+        for(Review review: listReview){
+            if (review.getReceiverId() == userId1 && review.getReviewerId()== userId2){
+                listReview.remove(review);
+                return true;
+            }}return false;
     }
-}
 
+
+    /** check if a user has been reported by the other user
+     * @param receiverId the id of user is been reported
+     * @param reporterId the reporter id
+     * @return true if has been reported
+     */
+    public boolean haveReport(int receiverId, int reporterId) {
+        for (Report report : listReport) {
+            return report.getReceiverId() == receiverId && report.getReporterId() == reporterId;
+        }return false;
+
+    }
+    /** check if a user has been reviewed by the other user
+     * @param receiverId the id of user is been reviewed
+     * @param reviewerId the reviewer id
+     * @return true if receiverId has been reviewed
+     */
+    public boolean haveReview(int receiverId, int reviewerId) {
+        for (Review review : listReview) {
+            return review.getReceiverId() == receiverId && review.getReviewerId() == reviewerId;
+        }return false;
+
+    }
+    /** check if a user has been reviewed
+     * @param receiverId the id of user is been reviewed
+     * @return true if receiverId has been reviewed
+     */
+    public boolean haveReview(int receiverId) {
+        for (Review review : listReview) {
+            return review.getReceiverId() == receiverId;
+        }return false; }
+
+    /** get a string to describe the list of reviews
+     * @param reviews the list of reviews
+     * @return a string describe the list of reviews
+     */
+     public String printReviews(ArrayList<Review> reviews){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Review review: reviews){
+            stringBuilder.append(review.toString());
+            stringBuilder.append("\n");
+        }return stringBuilder.toString();
+    }
+    /** get a string to describe the list of reports
+     * @param reports the list of reports
+     * @return a string describe the list of reports
+     */
+    public String printReports(ArrayList<Report> reports){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Report report: reports){
+            stringBuilder.append(report.toString());
+            stringBuilder.append("\n");
+        }return stringBuilder.toString();
+}}

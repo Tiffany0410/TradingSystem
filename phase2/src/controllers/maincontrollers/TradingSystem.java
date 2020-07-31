@@ -192,7 +192,7 @@ public class TradingSystem {
          if (option == 1) {
             boolean condition = true;
             while (condition) {
-               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserAccountMenu.csv");
+               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserAccountMainMenu.csv");
                if (suboption == 0) {
                   condition = false;
                } else {

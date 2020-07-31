@@ -100,7 +100,7 @@ public class AdminUserHistoricalActionController {
         int mainOption = Integer.parseInt(menuOption[0]);
         int subOption = Integer.parseInt(menuOption[1]);
         switch (mainOption) {
-            // call helper function to cancel the Revocable Action in RegularUserAccountMenu.csv
+            // call helper function to cancel the Revocable Action in RegularUserAccountMainMenu.csv
             case 1:
                 helper_cancelAccountMenu(targetAction, subOption);
                 break;
