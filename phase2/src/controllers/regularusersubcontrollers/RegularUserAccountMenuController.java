@@ -13,7 +13,6 @@ import presenter.SystemMessage;
 import exception.InvalidIdException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -406,6 +405,13 @@ public class RegularUserAccountMenuController {
         }
     }
 
+    /**
+     * Uses this user's input of the user id of the user
+     * to follow to let this user follow the other user
+     * in the system.
+     * @param userToFollowUserId  User's input of the user id of the user to follow.
+     * @return Whether this action succeeded or failed.
+     */
     public String followAnUser (int userToFollowUserId){
         //output msg = "please enter the user id of the user you want to follow"
         boolean result = um.userFollow(userId, userToFollowUserId);
@@ -415,9 +421,17 @@ public class RegularUserAccountMenuController {
         return "fail";
     }
 
+    /**
+     * Uses this user's input of the user id of the item
+     * to follow to let this user follow the item
+     * in the system.
+     * @param itemToFollowId User's input of the item id of the item to follow.
+     * @return Whether this action succeeded or failed.
+     * @throws InvalidIdException In case if the id this user entered is invalid.
+     */
     public String followAnItem ( int itemToFollowId) throws InvalidIdException {
         //output msg = "please enter the user id of the item you want to follow"
-        boolean result = um.itemFollow(userId, itemToFollowId, im);
+        boolean result = um.itemFollow(userId, itemToFollowId);
         if (result) {
             return "success";
         }
@@ -426,12 +440,12 @@ public class RegularUserAccountMenuController {
 
     }
 
-    public void seeRecentStatusOfFollowedUser () {
-        return um.getUserFollowingLog(userId);
+    public ArrayList<String> seeRecentStatusOfFollowedUser () {
+        return um.getUserFollowingLogs(userId);
     }
 
-    public void seeRecentStatusOfFollowedItem () {
-        return um.getItemsFollowingLog(userId);
+    public ArrayList<String> seeRecentStatusOfFollowedItem () {
+        return um.getItemFollowingLogs(userId);
     }
 
 
