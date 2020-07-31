@@ -2,6 +2,7 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
@@ -198,16 +199,34 @@ public class SystemMessage {
         return "Please leave a message for " + userTo + ".";
     }
 
+    /** get a string to describe that nothing inside
+     * @param string a string to describe the type
+     * @return a string to describe that nothing inside.
+     */
     public String msgForNothing(String string){
         return "There is nothing in " + string + " .";
     }
 
+    /**
+     * Print out the list of username of the Regular Users
+     *
+     * @param listOfUser the list of Regular Users
+     */
     public String printListUser(ArrayList<TradableUser> listOfUser) {
         StringBuilder stringBuilder = new StringBuilder();
         for (TradableUser user : listOfUser) {
             stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
-        }
-        return stringBuilder.toString();
+        } return stringBuilder.toString();
+    }
+
+    /** get a string for the list of users
+     * @param listOfUser a list of tradable user
+     * @return a string to describe the list of users
+     */
+    public String printFriendRequest(ArrayList<TradableUser> listOfUser){
+        return new String("You get friend requests from the " +
+                "following users: \n") + printListUser(listOfUser) +
+                "Please enter an id of the friend that you want to add. \n";
     }
 
 

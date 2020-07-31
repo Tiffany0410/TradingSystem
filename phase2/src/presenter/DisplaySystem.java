@@ -165,35 +165,10 @@ public class DisplaySystem {
      *
      * @param listOfUser the list of Regular Users
      */
-    public String printListUser(ArrayList<TradableUser> listOfUser) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public void printListUser(ArrayList<TradableUser> listOfUser) {
         for (TradableUser user : listOfUser) {
-            stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
-        } return stringBuilder.toString();
-    }
-
-    /** get a string to describe that nothing inside
-     * @param string a string to describe the type
-     * @return a string to describe that nothing inside.
-     */
-    public String nothingInside(String string){
-        return "There is no " + string + ". \n";    }
-
-    /** get a string for the list of users
-     * @param listOfUser a list of tradable user
-     * @return a string to describe the list of users
-     */
-    public String printFriendRequest(ArrayList<TradableUser> listOfUser){
-        return new String("You get friend requests from the " +
-                "following users: \n") + printListUser(listOfUser) +
-                "Please enter an id of the friend that you want to add. \n";
-    }
-
-    /** ask user to sign in.
-     * @return a string ask user to sign in
-     */
-    public String askSignIn(){
-        return "Please sign in to continue.\n";
+            printOut("#"+ user.getId() + ". "+user.getUsername()+ ".\n");
+        }
     }
 
     // Replaced by GUI
