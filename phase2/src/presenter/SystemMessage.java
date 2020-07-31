@@ -2,10 +2,12 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -194,6 +196,18 @@ public class SystemMessage {
 
     public String msgForMessage(String userTo){
         return "Please leave a message for " + userTo + ".";
+    }
+
+    public String msgForNothing(String string){
+        return "There is nothing in " + string + " .";
+    }
+
+    public String printListUser(ArrayList<TradableUser> listOfUser) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (TradableUser user : listOfUser) {
+            stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
 

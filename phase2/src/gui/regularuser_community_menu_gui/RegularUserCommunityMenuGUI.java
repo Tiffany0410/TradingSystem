@@ -1,6 +1,10 @@
 package gui.regularuser_community_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
+import gui.GUIDemo;
+import gui.NotificationGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import javax.xml.bind.Marshaller;
@@ -20,7 +24,6 @@ public class RegularUserCommunityMenuGUI {
     private JButton sendMessageToFriendsButton;
     private JButton viewAllMessageButton;
     private JButton backButton;
-    private RegularUserMainMenuGUI mainMenu;
 
     public void run() {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
@@ -31,7 +34,7 @@ public class RegularUserCommunityMenuGUI {
     }
 
 
-    public RegularUserCommunityMenuGUI(){
+    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm){
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,9 +64,23 @@ public class RegularUserCommunityMenuGUI {
         });
 
         viewYourListOfButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: View list of friends
+                NotificationGUI msgGUI;
+                String string;
+                if (cmc.getFriends().isEmpty()){
+                    string = sm.msgForNothing("in your list of friends.");
+                }
+                else {
+                    string = sm.printListUser(cmc.getFriends());
+                }
+                msgGUI = new NotificationGUI(string);
+                msgGUI.run(string);
             }
         });
 
@@ -106,7 +123,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Return to RegularUser Main Menu
-                mainMenu.run();
+                guidemo.runRegularUserMainMenu(false);
             }
         });
     }
