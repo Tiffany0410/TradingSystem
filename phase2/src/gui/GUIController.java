@@ -13,7 +13,7 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
-public class GUI {
+public class GUIController {
     private UserManager userManager;
     private MeetingManager meetingManager;
     private TradeManager tradeManager;
@@ -24,7 +24,7 @@ public class GUI {
     private LoginValidator loginValidator;
 
 
-    public GUI(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
+    public GUIController(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                ItemManager itemManager, FeedbackManager feedbackManager, DisplaySystem displaySystem,
                AccountCreator accountCreator, LoginValidator loginValidator){
 
@@ -44,8 +44,8 @@ public class GUI {
     }
 
     public void runLogin(){
-        LoginGUI login = new LoginGUI(loginValidator);
-        login.run(loginValidator);
+        LoginGUI login = new LoginGUI(loginValidator, this);
+        login.run(loginValidator,this);
     }
 
 
@@ -57,5 +57,8 @@ public class GUI {
     public void runAdminUserMainMenu() {
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI();
         adminUserMainMenuGUI.run();
+    }
+
+    public void runRegularUserMainMenu() {
     }
 }

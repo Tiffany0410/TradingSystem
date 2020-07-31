@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controllers.LoginValidator;
+import gui.GUIController;
 import gui.NotificationGUI;
 
 public class LoginGUI {
@@ -15,16 +16,16 @@ public class LoginGUI {
     private JButton loginButton;
     private JButton cancelButton;
 
-    public void run(LoginValidator loginValidator) {
+    public void run(LoginValidator loginValidator, GUIController guiController) {
         JFrame frame = new JFrame("loginGUI");
-        frame.setContentPane(new LoginGUI(loginValidator).rootPanel);
+        frame.setContentPane(new LoginGUI(loginValidator, guiController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
     }
 
-    public LoginGUI(LoginValidator loginValidator) {
+    public LoginGUI(LoginValidator loginValidator, GUIController guiController) {
         loginButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -41,19 +42,23 @@ public class LoginGUI {
 
                     switch (type) {
                         case "False":
-                            NotificationGUI notificationGUI = new NotificationGUI("Wrong password, please check again");
+                            String string = "Wrong password, please check again";
+                            NotificationGUI notificationGUI = new NotificationGUI(string);
+                            notificationGUI.run(string);
 
                             break;
                         case "Admin":
-                            // TODO: Call admin user main menu and close this window
+                            guiController.runAdminUserMainMenu();
                             break;
                         case "User":
-                            // TODO: Call regular user main menu and close this window
+                            guiController.runRegularUserMainMenu();
                             break;
                     }
 
                 } else{
-                    NotificationGUI notificationGUI = new NotificationGUI("Uername does not exist, please check again");
+                    String string = "Uername does not exist, please check again";
+                    NotificationGUI notificationGUI = new NotificationGUI(string);
+                    notificationGUI.run(string);
                 }
 
             }

@@ -1,6 +1,7 @@
 package gui.trading_system_init_menu_gui;
 
 import gui.GUI;
+import gui.GUIController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,7 @@ public class TradingSystemInitMenuGUI {
 
 
 
-    public void run(GUI gui) {
+    public void run(GUIController gui) {
         JFrame frame = new JFrame("Trading System");
         frame.setContentPane(new TradingSystemInitMenuGUI(gui).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +25,7 @@ public class TradingSystemInitMenuGUI {
         frame.setVisible(true);
     }
 
-    public TradingSystemInitMenuGUI(GUI gui){
+    public TradingSystemInitMenuGUI(GUIController gui){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**
