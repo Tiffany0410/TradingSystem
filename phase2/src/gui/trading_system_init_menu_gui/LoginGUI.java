@@ -16,16 +16,16 @@ public class LoginGUI {
     private JButton loginButton;
     private JButton cancelButton;
 
-    public void run(LoginValidator loginValidator, GUIDemo guiController) {
+    public void run(LoginValidator loginValidator, GUIDemo guiDemo) {
         JFrame frame = new JFrame("loginGUI");
-        frame.setContentPane(new LoginGUI(loginValidator, guiController).rootPanel);
+        frame.setContentPane(new LoginGUI(loginValidator, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
     }
 
-    public LoginGUI(LoginValidator loginValidator, GUIDemo guiController) {
+    public LoginGUI(LoginValidator loginValidator, GUIDemo guiDemo) {
         loginButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -47,12 +47,12 @@ public class LoginGUI {
                             notificationGUI.run(string);
                             break;
                         case "Admin":
-                            guiController.setTempUsername(usernameText.getText());
-                            guiController.runAdminUserMainMenu();
+                            guiDemo.setTempUsername(usernameText.getText());
+                            guiDemo.runAdminUserMainMenu();
                             break;
                         case "User":
-                            guiController.setTempUsername(usernameText.getText());
-                            guiController.runRegularUserMainMenu(false);
+                            guiDemo.setTempUsername(usernameText.getText());
+                            guiDemo.runRegularUserMainMenu(false);
                             break;
                     }
 
@@ -73,7 +73,7 @@ public class LoginGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runTradingSystemInitMenuGUI();
+                guiDemo.runTradingSystemInitMenuGUI();
                 // TODO: Need method to close this window
 
 

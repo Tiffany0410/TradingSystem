@@ -15,7 +15,7 @@ public class AdminUserMainMenuGUI {
     private JButton othersButton;
     private JButton logoutButton;
 
-    public AdminUserMainMenuGUI(GUIDemo guiController) {
+    public AdminUserMainMenuGUI(GUIDemo guiDemo) {
         manageUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -24,7 +24,7 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserManageUsersSubMenu();
+                guiDemo.runAdminUserManageUsersSubMenu();
                 // TODO: Need method to close this window
 
 
@@ -38,7 +38,7 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                    guiController.runAdminUserEditThresholdsSubMenu();
+                    guiDemo.runAdminUserEditThresholdsSubMenu();
                 // TODO: Need method to close this window
 
 
@@ -52,7 +52,7 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserHistoricalActionsSubMenu();
+                guiDemo.runAdminUserHistoricalActionsSubMenu();
 
                 // TODO: Need method to close this window
 
@@ -67,7 +67,7 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserOtherSubMenu();
+                guiDemo.runAdminUserOtherSubMenu();
 
                 // TODO: Need method to close this window
 
@@ -84,7 +84,7 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runTradingSystemInitMenuGUI();
+                guiDemo.runTradingSystemInitMenuGUI();
 
                 // TODO: Need method to close this window
 
@@ -93,9 +93,9 @@ public class AdminUserMainMenuGUI {
         });
     }
 
-    public void run(GUIDemo guiController) {
+    public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("adminUserMainMenuGUI");
-        frame.setContentPane(new AdminUserMainMenuGUI(guiController).rootPanel);
+        frame.setContentPane(new AdminUserMainMenuGUI(guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

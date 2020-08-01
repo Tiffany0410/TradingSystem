@@ -12,7 +12,7 @@ public class UserInputGUI {
     private JButton cancelButton;
     private JTextArea textArea;
 
-    public UserInputGUI(String string, GUIDemo guiController) {
+    public UserInputGUI(String string, GUIUserInputInfo guiUserInputInfo) {
         textArea.setText(string);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -27,7 +27,7 @@ public class UserInputGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO：Need a method to return the value user put in the text area.
-                guiController.tempSaveUserInput(textField1.getText());
+                guiUserInputInfo.tempSaveUserInput(textField1.getText());
 
             }
         });
@@ -45,9 +45,9 @@ public class UserInputGUI {
         });
     }
 
-    public void run(String string, GUIDemo guiController) {
+    public void run(String string, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo) {
         JFrame frame = new JFrame("userInputGUI");
-        frame.setContentPane(new UserInputGUI(string, guiController).rootPanel);
+        frame.setContentPane(new UserInputGUI(string, guiUserInputInfo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

@@ -11,7 +11,7 @@ public class AdminUserOtherSubMenuGUI {
     private JButton addNewAdminUserButton;
     private JButton backButton;
 
-    public AdminUserOtherSubMenuGUI(GUIDemo guiController) {
+    public AdminUserOtherSubMenuGUI(GUIDemo guiDemo) {
         addNewAdminUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -20,7 +20,7 @@ public class AdminUserOtherSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserCreateAccount();
+                guiDemo.runAdminUserCreateAccount();
                 // TODO: Need method to close this window
 
 
@@ -34,16 +34,16 @@ public class AdminUserOtherSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserMainMenu();
+                guiDemo.runAdminUserMainMenu();
                 // TODO: Need method to close this window
 
             }
         });
     }
 
-    public void run(GUIDemo guiController) {
+    public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("adminUserOtherSubMenuGUI");
-        frame.setContentPane(new AdminUserOtherSubMenuGUI(guiController).rootPanel);
+        frame.setContentPane(new AdminUserOtherSubMenuGUI(guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

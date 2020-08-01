@@ -1,7 +1,6 @@
 package gui.trading_system_init_menu_gui;
 
 import controllers.AccountCreator;
-import gui.GUI;
 import gui.GUIDemo;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ public class RegularUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo gui) {
+    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -38,14 +37,14 @@ public class RegularUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.runTradingSystemInitMenuGUI();
+                guiDemo.runTradingSystemInitMenuGUI();
             }
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIDemo gui) {
+    public void run(AccountCreator accountCreator, GUIDemo guiDemo) {
         JFrame frame = new JFrame("regularUserCreateAccount");
-        frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, gui).rootPanel);
+        frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
