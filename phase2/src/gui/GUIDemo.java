@@ -116,4 +116,6 @@ public class GUIDemo {
     public String getTempUsername(){
         return this.tempUsername;
     }
+
+    public String getUserInput(){return this.guiUserInputInfo.getTempUserInput();}
 }
