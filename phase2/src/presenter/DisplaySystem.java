@@ -553,6 +553,4 @@ public class DisplaySystem {
     public void printWrongPassword() {
         this.printOut("This password is not correct, please check again");
     }
-
-
 }

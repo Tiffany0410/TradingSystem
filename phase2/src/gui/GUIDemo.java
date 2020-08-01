@@ -46,6 +46,13 @@ public class GUIDemo {
         this.tempUserInput = "";
     }
 
+    public UserManager getUserManager() {
+        return userManager;
+    }
+    public FeedbackManager getFeedbackManager(){
+        return feedbackManager;
+    }
+
     public void runTradingSystemInitMenuGUI(){
         TradingSystemInitMenuGUI tradingSystemInitMenuGUI = new TradingSystemInitMenuGUI(this);
         tradingSystemInitMenuGUI.run(this);
