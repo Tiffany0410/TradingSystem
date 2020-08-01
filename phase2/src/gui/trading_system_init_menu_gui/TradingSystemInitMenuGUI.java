@@ -17,15 +17,15 @@ public class TradingSystemInitMenuGUI {
 
 
 
-    public void run(GUIDemo guiController) {
+    public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("Trading System");
-        frame.setContentPane(new TradingSystemInitMenuGUI(guiController).panel1);
+        frame.setContentPane(new TradingSystemInitMenuGUI(guiDemo).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public TradingSystemInitMenuGUI(GUIDemo guiController){
+    public TradingSystemInitMenuGUI(GUIDemo guiDemo){
 
         a1LoginButton.addActionListener(new ActionListener() {
             /**
@@ -36,7 +36,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //login
-                guiController.runLogin();
+                guiDemo.runLogin();
             }
         });
 
@@ -49,7 +49,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //login as guest
-                guiController.runRegularUserMainMenu(true);
+                guiDemo.runRegularUserMainMenu(true);
 
             }
         });
@@ -62,7 +62,7 @@ public class TradingSystemInitMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Create account
-                guiController.runRegularUserCreateAccount();
+                guiDemo.runRegularUserCreateAccount();
             }
         });
         exitButton.addActionListener(new ActionListener() {

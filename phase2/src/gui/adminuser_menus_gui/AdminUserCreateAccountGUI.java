@@ -14,7 +14,7 @@ public class AdminUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiController) {
+    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -37,16 +37,16 @@ public class AdminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserOtherSubMenu();
+                guiDemo.runAdminUserOtherSubMenu();
                 // TODO: Need method to close this window
 
             }
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIDemo guiController) {
+    public void run(AccountCreator accountCreator, GUIDemo guiDemo) {
         JFrame frame = new JFrame("createAccountGUI");
-        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiController).rootPanel);
+        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

@@ -16,7 +16,7 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiController) {
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -26,10 +26,10 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getAllUnfreezedUser();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiController);
-                userInputGUI.run(string, guiController);
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiDemo);
+                userInputGUI.run(string, guiDemo);
 
-                String result = adminUserManagerUsersController.freezeUser(guiController.getTempUserInput());
+                String result = adminUserManagerUsersController.freezeUser(guiDemo.getTempUserInput());
                 NotificationGUI notificationGUI = new NotificationGUI(result);
                 notificationGUI.run(result);
 
@@ -47,10 +47,10 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getWantUnfreezeUser();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiController);
-                userInputGUI.run(string, guiController);
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiDemo);
+                userInputGUI.run(string, guiDemo);
 
-                String result = adminUserManagerUsersController.unfreezeUser(guiController.getTempUserInput());
+                String result = adminUserManagerUsersController.unfreezeUser(guiDemo.getTempUserInput());
                 NotificationGUI notificationGUI = new NotificationGUI(result);
                 notificationGUI.run(result);
 
@@ -82,7 +82,7 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.runAdminUserMainMenu();
+                guiDemo.runAdminUserMainMenu();
                 // TODO: Need method to close this window
 
 
@@ -90,9 +90,9 @@ public class AdminUserManageUsersSubMenuGUI {
         });
     }
 
-    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiController) {
+    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
-        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiController).rootPanel);
+        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

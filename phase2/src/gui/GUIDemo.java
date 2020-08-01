@@ -26,9 +26,10 @@ public class GUIDemo {
     private LoginValidator loginValidator;
     private AdminUserController adminUserController;
     private ActionManager actionManager;
-    private String tempUserInput;
-    private String tempUsername;
     private AdminUserManagerUsersController adminUserManagerUsersController;
+    private GUIUserInputInfo guiUserInputInfo;
+    private String tempUsername;
+
 
 
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
@@ -43,7 +44,8 @@ public class GUIDemo {
         this.accountCreator = accountCreator;
         this.loginValidator = loginValidator;
         this.actionManager = actionManager;
-        this.tempUserInput = "";
+        this.guiUserInputInfo = new GUIUserInputInfo();
+
     }
 
     public UserManager getUserManager() {
@@ -73,9 +75,9 @@ public class GUIDemo {
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
         adminUserMainMenuGUI.run(this);
         this.adminUserController = new AdminUserController(this.accountCreator,  this.userManager,
-                this.itemManager, this.feedbackManager, this.actionManager, this.getTempUsername() );
+                this.itemManager, this.feedbackManager, this.tradeManager,this.actionManager, this.getTempUsername() );
         this.adminUserManagerUsersController = new AdminUserManagerUsersController( this.accountCreator,
-                this.userManager, this.itemManager, this.actionManager, this.getTempUsername());
+                this.userManager, this.itemManager, this.tradeManager,this.actionManager, this.getTempUsername());
     }
 
     public void runRegularUserMainMenu(Boolean guest) {
@@ -113,13 +115,6 @@ public class GUIDemo {
 
     }
 
-    public void tempSaveUserInput(String text) {
-        this.tempUserInput = text;
-    }
-
-    public String getTempUserInput(){
-        return this.tempUserInput;
-    }
 
     public void setTempUsername(String username){
         this.tempUsername = username;
@@ -128,4 +123,6 @@ public class GUIDemo {
     public String getTempUsername(){
         return this.tempUsername;
     }
+
+    public String getUserInput(){return this.guiUserInputInfo.getTempUserInput();}
 }
