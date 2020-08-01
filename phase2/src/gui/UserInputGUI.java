@@ -45,7 +45,7 @@ public class UserInputGUI {
         });
     }
 
-    public void run(String string, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo) {
+    public void run(String string, GUIUserInputInfo guiUserInputInfo) {
         JFrame frame = new JFrame("userInputGUI");
         frame.setContentPane(new UserInputGUI(string, guiUserInputInfo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
