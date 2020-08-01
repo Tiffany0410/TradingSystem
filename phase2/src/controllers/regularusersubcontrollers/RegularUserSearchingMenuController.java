@@ -44,27 +44,27 @@ public class RegularUserSearchingMenuController {
     public void recentThreePartner() throws InvalidIdException{
         List<Integer> filter = tm.recentThreePartners(userId);
         if (filter.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(filter));
+            sm.printResult(new ArrayList<>(filter));
         }
     }
 
     public void sortAllTradedPartner() throws InvalidIdException {
         List<Integer> filter = tm.allPartners(userId);
         if (filter.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(filter));
+            sm.printResult(new ArrayList<>(filter));
         }
     }
 
     public void filterCompleteTrade() throws InvalidIdException {
         List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
         if (filter.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(filter));
+            sm.printResult(new ArrayList<>(filter));
         }
     }
 
@@ -73,9 +73,9 @@ public class RegularUserSearchingMenuController {
         List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
         filter1.addAll(filter2);
         if (filter1.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(filter1));
+            sm.printResult(new ArrayList<>(filter1));
         }
     }
 
@@ -83,72 +83,72 @@ public class RegularUserSearchingMenuController {
     public void allMeetingSortByDate() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
         if (m.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(m));
+            sm.printResult(new ArrayList<>(m));
         }
     }
     public void unCompleteMeetingSortByDate() throws InvalidIdException {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
         if (m.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(m));
+            sm.printResult(new ArrayList<>(m));
         }
     }
     public void completeMeetingSortByDate(){
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
         if (m.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(m));
+            sm.printResult(new ArrayList<>(m));
         }
     }
 
     public void MeetingSortByDate() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
         if (m.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(m));
+            sm.printResult(new ArrayList<>(m));
         }
     }
     public void getCompleteMeeting() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
         if (m.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(m));
+            sm.printResult(new ArrayList<>(m));
         }
     }
-    public void filterByCategory(){
-        ArrayList<Integer> c = im.getCategoryItem(otherInfoGetter.getItemType());
+    public void filterByCategory(Category category){
+        ArrayList<Integer> c = im.getCategoryItem(category);
         if (c.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(c));
+            sm.printResult(new ArrayList<>(c));
         }
     }
-    public void searchItemByName() {
-        ArrayList<Integer> c = im.searchItem(otherInfoGetter.getItemName());
+    public void searchItemByName(String name) {
+        ArrayList<Integer> c = im.searchItem(name);
         if (c.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
-            ds.printResult(new ArrayList<>(c));
+            sm.printResult(new ArrayList<>(c));
         }
     }
-    public void getItemById() throws InvalidIdException {
-        Item c = im.getItembyId(idGetter.getItemID(im.getAllItem(), 1));
+    public void getItemById(int itemId) throws InvalidIdException {
+        Item c = im.getItembyId(itemId);
         ds.printOut(c.getDescription());
         }
 
     public void sortItemByFollows() throws InvalidIdException {
         ArrayList<Item> c = im.getSortedItemByFollows(um);
         if (c.size() == 0) {
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         } else {
             for (Item i: c){
-                ds.printOut(i.getName());
+                sm.printOut(i.getName());
             }
         }
     }

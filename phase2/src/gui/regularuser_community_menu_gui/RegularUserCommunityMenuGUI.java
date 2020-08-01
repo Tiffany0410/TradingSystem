@@ -3,6 +3,7 @@ package gui.regularuser_community_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import gui.GUIDemo;
 import gui.NotificationGUI;
+import gui.UserInputGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import presenter.SystemMessage;
 
@@ -38,7 +39,30 @@ public class RegularUserCommunityMenuGUI {
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Write a review for user
+                // TODO: need code to code the windows
+
+                String string = "Please input an user id for the user you want to review: ";
+                UserInputGUI userInputGUI = new UserInputGUI(string, guidemo);
+                userInputGUI.run(string, guidemo);
+                String sUserId = guidemo.getTempUserInput();
+                String string1 = "Please enter the point for the user(0-10): ";
+                UserInputGUI userInputGUI1 = new UserInputGUI(string1, guidemo);
+                userInputGUI1.run(string1,guidemo);
+                String sPoint = guidemo.getTempUserInput();
+                String string2 = "Please enter the reason why you get the point: ";
+                UserInputGUI userInputGUI2 = new UserInputGUI(string2, guidemo);
+                userInputGUI2.run(string2,guidemo);
+                String reason = guidemo.getTempUserInput();
+                if(sm.checkInt(sUserId) &&  sm.checkInt(sPoint) && guidemo.getUserManager().checkUser(Integer.
+                        parseInt(sUserId)) && (0<=Integer.parseInt(sPoint) && Integer.parseInt(sPoint)<=10)){
+                 boolean yesOrNo =  guidemo.getFeedbackManager().setReview(cmc.getUserId(), Integer.parseInt(sUserId),
+                            Integer.parseInt(sPoint), reason);
+                    NotificationGUI notificationGUI = new NotificationGUI(sm.msgForResult(yesOrNo));
+                    notificationGUI.run(sm.msgForResult(yesOrNo));
+                }else{
+                    NotificationGUI notificationGUI = new NotificationGUI("Please enter the valid information!");
+                    notificationGUI.run("Please enter the valid information!");
+                }
             }
         });
 
@@ -46,6 +70,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Report a user
+
             }
         });
 

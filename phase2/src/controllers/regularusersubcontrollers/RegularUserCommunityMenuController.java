@@ -56,7 +56,12 @@ public class RegularUserCommunityMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
     }
 
-
+    /** getter for user id
+     * @return the user id
+     */
+    public int getUserId(){
+        return userId;
+    }
     /**
      * Gets user's input of the id of the user to be reviewed, the rating to give,
      * as well as a message explaining the reason and uses them to update the review
@@ -235,5 +240,6 @@ public class RegularUserCommunityMenuController {
     public ArrayList<Message> getAllMessages(){
         return messageManager.getMessageFor(userId);
     }
+
 
 }
