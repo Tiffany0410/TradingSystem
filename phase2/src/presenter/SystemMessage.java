@@ -2,6 +2,8 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import gui.GUIDemo;
+import gui.NotificationGUI;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
@@ -20,13 +22,58 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
+    private GUIDemo guiDemo;
 
     /**
      * Constructs a SystemMessage instance.
      */
-    public SystemMessage(){
-
+    public SystemMessage(GUIDemo guiDemo){
+        this.guiDemo = guiDemo;
     }
+
+
+    /**
+     * Prints the message for when there is nothing to be shown.
+     */
+    public void msgForNothing(){
+        String string = "There's nothing here.";
+        guiDemo.printNotification(string);
+    }
+
+    /**
+     * print out the result of action with object type
+     *
+     * @param obj the list of objects need to be printed
+     */
+    public void printResult(ArrayList<Object> obj) {
+        StringBuilder string = new StringBuilder();
+
+        int count = 1;
+        for (Object o : obj) {
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                string.append("#").append(count).append(". ").append(o.toString()).append("\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[]) o;
+                string.append("#").append(count).append(". ").append("\n").append("Username: ").append(strings[0]);
+                string.append("Message: ").append(strings[1]).append("\n");
+            }
+            count++;
+        }
+
+        guiDemo.printNotification(string.toString());
+    }
+
+
+    public void printInvalidID(){
+        String string = "This is invalid ID.";
+        guiDemo.printNotification(string);
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Gathers all the necessary messages
@@ -89,14 +136,7 @@ public class SystemMessage {
     }
 
 
-    /**
-     * Prints the message for when there is nothing to be shown.
-     * @param ds The presenter that prints to screen.
-     */
-    public void msgForNothing(DisplaySystem ds){
-        ds.printOut("There's nothing here.");
-        ds.printOut("\n");
-    }
+
 
 
     /**

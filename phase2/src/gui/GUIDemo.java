@@ -24,7 +24,6 @@ public class GUIDemo {
     private FeedbackManager feedbackManager;
     private AccountCreator accountCreator;
     private LoginValidator loginValidator;
-    private AdminUserController adminUserController;
     private ActionManager actionManager;
     private AdminUserManagerUsersController adminUserManagerUsersController;
     private GUIUserInputInfo guiUserInputInfo;
@@ -72,12 +71,14 @@ public class GUIDemo {
     }
 
     public void runAdminUserMainMenu() {
-        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
-        adminUserMainMenuGUI.run(this);
-        this.adminUserController = new AdminUserController(this.accountCreator,  this.userManager,
-                this.itemManager, this.feedbackManager, this.tradeManager,this.actionManager, this.getTempUsername() );
+
+        AdminUserController adminUserController = new AdminUserController(this.accountCreator, this.userManager,
+                this.itemManager, this.feedbackManager, this.tradeManager, this.actionManager, this.getTempUsername());
         this.adminUserManagerUsersController = new AdminUserManagerUsersController( this.accountCreator,
                 this.userManager, this.itemManager, this.tradeManager,this.actionManager, this.getTempUsername());
+
+        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
+        adminUserMainMenuGUI.run(this);
     }
 
     public void runRegularUserMainMenu(Boolean guest) {
@@ -88,8 +89,8 @@ public class GUIDemo {
 
     public void runAdminUserManageUsersSubMenu() {
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
-                this.adminUserManagerUsersController, this);
-        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this);
+                this.adminUserManagerUsersController, this, this.guiUserInputInfo);
+        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this, this.guiUserInputInfo);
     }
 
     public void runAdminUserEditThresholdsSubMenu() {
@@ -125,4 +126,9 @@ public class GUIDemo {
     }
 
     public String getUserInput(){return this.guiUserInputInfo.getTempUserInput();}
+
+    public void printNotification(String string) {
+        NotificationGUI notificationGUI = new NotificationGUI(string);
+        notificationGUI.run(string);
+    }
 }
