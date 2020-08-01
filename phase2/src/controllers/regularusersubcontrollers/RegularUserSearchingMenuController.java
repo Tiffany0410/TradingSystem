@@ -38,6 +38,15 @@ public class RegularUserSearchingMenuController {
         this.sm = sm;
     }
 
+    public void sortRating(){
+        List<TradableUser> l = um.sortRating();
+        if (l.size() == 0) {
+            sm.msgForNothing();
+        } else {
+            sm.printResult(new ArrayList<>(l));
+        }
+    }
+
     public void recentThreePartner(){
         try{
             List<Integer> filter = tm.recentThreePartners(userId);
