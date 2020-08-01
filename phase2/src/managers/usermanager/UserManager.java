@@ -905,4 +905,26 @@ public class UserManager implements Serializable {
         return usersFollowingItem(id);
     }
 
+    /**
+     * @param userID The user's ID
+     * @return a list of users which are not friend with this user and not in this user's friend requests
+     */
+    public ArrayList<TradableUser> getUsersNotFriends(int userID){
+        ArrayList<TradableUser> out = new ArrayList<>();
+        if (findUser(userID) != null){
+            ArrayList<Integer> friends = findUser(userID).getFriend();
+            for (String[] request: friendsRequesting(userID)){
+                if (request[0].equals(idToUsername(userID))){
+                    friends.add(usernameToID(request[1]));
+                }
+            }
+            for (TradableUser user: listTradableUser ){
+                if (! friends.contains(user.getId())){
+                    out.add(user);
+                }
+            }
+        }
+        return out;
+    }
+
 }

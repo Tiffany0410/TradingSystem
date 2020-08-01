@@ -230,14 +230,14 @@ public class SystemMessage {
         }
     }
 
-    public String msgForFriendRequest(boolean validator, String userTo){
+    public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
-            return "Your friend request has been sent to " + userTo + " successfully.";
+            return "Your friend request has been sent to user id " + userToID + " successfully.";
         }
         else {
-            return "Failed to send friend request to " + userTo + ".\n" +
-                    "It seems that you are trying to send friend request twice to " + userTo +
-                    " or " + userTo + " is already in your list of friends.";
+            return "Failed to send friend request to " + userToID + ".\n" +
+                    "It seems that you are trying to send friend request twice to " + userToID +
+                    " or " + userToID + " is already in your list of friends.";
         }
     }
 
@@ -264,7 +264,6 @@ public class SystemMessage {
             stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
         } return stringBuilder.toString();
     }
-
     /** get a string for the list of users
      * @param listOfUser a list of tradable user
      * @return a string to describe the list of users
@@ -286,6 +285,9 @@ public class SystemMessage {
             return true;
         }catch (NumberFormatException e)
         {return false;
-    }
+    }}
 
-}}
+    public String msgForNo(String string){
+        return "There is no " + string + " .";
+    }
+}

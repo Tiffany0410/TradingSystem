@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import controllers.maincontrollers.RegularUserController;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
@@ -39,7 +38,8 @@ public class RegularUserCommunityMenuController {
      * @param userId The user id of the regular user.
      */
     public RegularUserCommunityMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                              ItemManager im, ActionManager am, FeedbackManager fm,MessageManager messageManager,
+                                              ItemManager im, ActionManager am, FeedbackManager fm,
+                                              MessageManager messageManager,
                                               String username, int userId){
         this.ds = ds;
         this.tm = tm;
@@ -50,7 +50,7 @@ public class RegularUserCommunityMenuController {
         this.fm = fm;
         this.username = username;
         this.userId = userId;
-        this.sm = new SystemMessage();
+        // this.sm = new SystemMessage();
         this.messageManager = messageManager;
         this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
@@ -124,6 +124,8 @@ public class RegularUserCommunityMenuController {
     public ArrayList<TradableUser> getFriends(){
         return  um.getFriends(userId);
     }
+
+    public ArrayList<TradableUser> getNotFriends() { return um.getUsersNotFriends(userId);}
 
     /**
      * Receives user's request to send friend request to other user.

@@ -2,15 +2,18 @@ package gui.regularuser_community_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import gui.GUIDemo;
+import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
+import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import javax.xml.bind.Marshaller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class RegularUserCommunityMenuGUI {
     private JPanel rootPanel;
@@ -35,24 +38,24 @@ public class RegularUserCommunityMenuGUI {
     }
 
 
-    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm){
+    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput){
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: need code to code the windows
 
                 String string = "Please input an user id for the user you want to review: ";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guidemo);
-                userInputGUI.run(string, guidemo);
-                String sUserId = guidemo.getTempUserInput();
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+                userInputGUI.run(string, guiInput);
+                String sUserId = guiInput.getTempUserInput();
                 String string1 = "Please enter the point for the user(0-10): ";
-                UserInputGUI userInputGUI1 = new UserInputGUI(string1, guidemo);
-                userInputGUI1.run(string1,guidemo);
-                String sPoint = guidemo.getTempUserInput();
+                UserInputGUI userInputGUI1 = new UserInputGUI(string1, guiInput);
+                userInputGUI1.run(string1,guiInput);
+                String sPoint = guiInput.getTempUserInput();
                 String string2 = "Please enter the reason why you get the point: ";
-                UserInputGUI userInputGUI2 = new UserInputGUI(string2, guidemo);
-                userInputGUI2.run(string2,guidemo);
-                String reason = guidemo.getTempUserInput();
+                UserInputGUI userInputGUI2 = new UserInputGUI(string2, guiInput);
+                userInputGUI2.run(string2,guiInput);
+                String reason = guiInput.getTempUserInput();
                 if(sm.checkInt(sUserId) &&  sm.checkInt(sPoint) && guidemo.getUserManager().checkUser(Integer.
                         parseInt(sUserId)) && (0<=Integer.parseInt(sPoint) && Integer.parseInt(sPoint)<=10)){
                  boolean yesOrNo =  guidemo.getFeedbackManager().setReview(cmc.getUserId(), Integer.parseInt(sUserId),
@@ -105,15 +108,46 @@ public class RegularUserCommunityMenuGUI {
                     string = sm.printListUser(cmc.getFriends());
                 }
                 msgGUI = new NotificationGUI(string);
+                rootPanel.setVisible(false); // Not sure...
                 msgGUI.run(string);
+                // TODO: close this window;
             }
         });
 
         sendAFriendRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Send A Friend Request
+                ArrayList<TradableUser> notFriends = cmc.getNotFriends();
+                String string;
+                String result;
+                if (notFriends.isEmpty()){  // IF NO AVAILABLE USERS TO ADD
+                    string = sm.msgForNothing("tradable users to be added. Please check your friend requests");
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
+                else{
+                    string = "Here is a list of users you can add:\n" + sm.printListUser(notFriends) +
+                            "\nPlease enter user's Id to send friend request, or enter 0 to go back.";
+                    UserInputGUI userInputGui = new UserInputGUI(string, guiInput);
+                    userInputGui.run(string, guiInput);
+                    result = guiInput.getTempUserInput();
+                    if (sm.checkInt(result)){
+                        int userToID = Integer.parseInt(string);
+                        if (userToID == 0){
+                            guidemo.runRegularUserCommunityMenuController(false); //back to the menu
+                        }
+                        else {
+                            String msg = "Please leave a message for this user: ";
+                            UserInputGUI userInputGUI1 = new UserInputGUI(msg, guiInput);
+                            String msg_result = guiInput.getTempUserInput();
+                            String out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
+                            NotificationGUI msgGUI = new NotificationGUI(out);
+                            msgGUI.run(out);
+                        }
+                    }
+                }
             }
+            // TODO: close this window;
         });
 
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
