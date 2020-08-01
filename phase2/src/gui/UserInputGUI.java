@@ -26,8 +26,8 @@ public class UserInputGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO：Need a method to return the value user put in the text area.
                 guiUserInputInfo.tempSaveUserInput(textField1.getText());
+                // TODO: Need method to close this window
 
             }
         });

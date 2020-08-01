@@ -131,4 +131,7 @@ public class GUIDemo {
         NotificationGUI notificationGUI = new NotificationGUI(string);
         notificationGUI.run(string);
     }
+
+    public void runRegularUserSearchingMenuGUI() {
+    }
 }
