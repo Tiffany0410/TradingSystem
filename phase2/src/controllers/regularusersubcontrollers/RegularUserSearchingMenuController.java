@@ -1,4 +1,5 @@
 package controllers.regularusersubcontrollers;
+import gui.GUIDemo;
 import managers.actionmanager.ActionManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
@@ -14,70 +15,84 @@ import java.util.ArrayList;
 import java.util.List;
 import managers.itemmanager.Item;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
 public class RegularUserSearchingMenuController {
     private SystemMessage sm;
-    private presenter.DisplaySystem ds;
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
-    private String username;
     private int userId;
-    private RegularUserOtherInfoGetter otherInfoGetter;
-    private RegularUserIDGetter idGetter;
-    public RegularUserSearchingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+
+    public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
                                               UserManager um, ItemManager im, ActionManager am,
-                                              String username, int userId) {
-        this.ds = ds;
+                                               SystemMessage sm, int userId) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
-        this.username = username;
         this.userId = userId;
-        this.sm = new SystemMessage();
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
+        this.sm = sm;
     }
-    public void recentThreePartner() throws InvalidIdException{
-        List<Integer> filter = tm.recentThreePartners(userId);
-        if (filter.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(filter));
+
+    public void recentThreePartner(){
+        try{
+            List<Integer> filter = tm.recentThreePartners(userId);
+            if (filter.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(filter));
+            }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
         }
     }
 
-    public void sortAllTradedPartner() throws InvalidIdException {
-        List<Integer> filter = tm.allPartners(userId);
-        if (filter.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(filter));
+
+    public void sortAllTradedPartner() {
+        try {
+            List<Integer> filter = tm.allPartners(userId);
+            if (filter.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(filter));
+            }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
         }
     }
 
-    public void filterCompleteTrade() throws InvalidIdException {
-        List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
-        if (filter.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(filter));
+    public void filterCompleteTrade() {
+        try {
+            List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
+            if (filter.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(filter));
+            }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
         }
     }
 
-    public void filterIncompleteTrade() throws InvalidIdException {
-        List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
-        List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
-        filter1.addAll(filter2);
-        if (filter1.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(filter1));
+    public void filterIncompleteTrade() {
+        try {
+            List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
+            List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
+            filter1.addAll(filter2);
+            if (filter1.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(filter1));
+            }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
         }
     }
+
 
 
     public void allMeetingSortByDate() {
@@ -88,15 +103,23 @@ public class RegularUserSearchingMenuController {
             sm.printResult(new ArrayList<>(m));
         }
     }
-    public void unCompleteMeetingSortByDate() throws InvalidIdException {
-        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
-        if (m.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(m));
+
+    public void unCompleteMeetingSortByDate(){
+        try {
+            List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
+            if (m.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(m));
+            }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
+        } catch (Exception e) {
+            sm.invalidInput();
         }
     }
-    public void completeMeetingSortByDate(){
+
+    public void completeMeetingSortByDate() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
         if (m.size() == 0) {
             sm.msgForNothing();
@@ -113,6 +136,7 @@ public class RegularUserSearchingMenuController {
             sm.printResult(new ArrayList<>(m));
         }
     }
+
     public void getCompleteMeeting() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
         if (m.size() == 0) {
@@ -121,7 +145,8 @@ public class RegularUserSearchingMenuController {
             sm.printResult(new ArrayList<>(m));
         }
     }
-    public void filterByCategory(Category category){
+
+    public void filterByCategory(Category category) {
         ArrayList<Integer> c = im.getCategoryItem(category);
         if (c.size() == 0) {
             sm.msgForNothing();
@@ -129,6 +154,7 @@ public class RegularUserSearchingMenuController {
             sm.printResult(new ArrayList<>(c));
         }
     }
+
     public void searchItemByName(String name) {
         ArrayList<Integer> c = im.searchItem(name);
         if (c.size() == 0) {
@@ -137,20 +163,33 @@ public class RegularUserSearchingMenuController {
             sm.printResult(new ArrayList<>(c));
         }
     }
-    public void getItemById(int itemId) throws InvalidIdException {
-        Item c = im.getItembyId(itemId);
-        ds.printOut(c.getDescription());
+
+    public void getItemById(int itemId) {
+        try {
+            Item c = im.getItembyId(itemId);
+            sm.printOut(c.getDescription());
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
+        } catch (Exception e) {
+            sm.invalidInput();
         }
+    }
 
     public void sortItemByFollows() throws InvalidIdException {
-        ArrayList<Item> c = im.getSortedItemByFollows(um);
-        if (c.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            for (Item i: c){
-                sm.printOut(i.getName());
+        try {
+            ArrayList<Item> c = im.getSortedItemByFollows(um);
+            if (c.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                for (Item i : c) {
+                    sm.printOut(i.getName() + "\n");
+                }
             }
+        } catch (InvalidIdException e) {
+            sm.printInvalidID();
+        } catch (Exception e) {
+            sm.invalidInput();
         }
     }
-    }
+}
 
