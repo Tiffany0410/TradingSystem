@@ -290,4 +290,12 @@ public class SystemMessage {
     public String msgForNo(String string){
         return "There is no " + string + " .";
     }
+
+    public String printAllMessages(ArrayList<Message> messages){
+        StringBuilder out = new StringBuilder();
+        for (Message msg: messages){
+            out.append(msg.toString());
+        }
+        return out.toString();
+    }
 }

@@ -6,6 +6,7 @@ import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
+import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
@@ -126,7 +127,21 @@ public class RegularUserCommunityMenuGUI {
         seeUsersInYourButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: See users in the same home city
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
+                String string;
+                ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
+                if (users.isEmpty()){
+                    string = "There is no users in your home city, please check back later :)";
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
+                else {
+                    string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
             }
         });
 
@@ -182,6 +197,7 @@ public class RegularUserCommunityMenuGUI {
                         else {
                             String msg = "Please leave a message for this user: ";
                             UserInputGUI userInputGUI1 = new UserInputGUI(msg, guiInput);
+                            userInputGUI1.run(msg, guiInput);
                             String msg_result = guiInput.getTempUserInput();
                             String out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
                             NotificationGUI msgGUI = new NotificationGUI(out);
@@ -195,7 +211,32 @@ public class RegularUserCommunityMenuGUI {
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Respond to friends request
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
+                String string;
+                ArrayList<TradableUser> requests = cmc.getFriendRequest();
+                if (requests.isEmpty()){
+                    string = "There is no friend requests.";
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
+                else{
+                    string = "Here is a list of friend requests: \n" + sm.printFriendRequest(requests);
+                    UserInputGUI userInputGUI1 = new UserInputGUI(string, guiInput);
+                    userInputGUI1.run(string, guiInput);
+                    String id_input = guiInput.getTempUserInput();
+                    if (sm.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
+                        String result = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
+                        NotificationGUI notificationGUI = new NotificationGUI(result);
+                        notificationGUI.run(result);
+                    }
+                    else {
+                        String s = "Please enter a valid user id.";
+                        NotificationGUI notificationGUI = new NotificationGUI(s);
+                        notificationGUI.run(s);
+                    }
+                }
             }
         });
 
@@ -243,7 +284,21 @@ public class RegularUserCommunityMenuGUI {
         viewAllMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: view all message
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
+                ArrayList<Message> messages = cmc.getAllMessages();
+                String string;
+                if (messages.isEmpty()){
+                    string = "There is no messages.";
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
+                else{
+                    string = "Here is a list of messages: " + sm.printAllMessages(messages);
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
             }
         });
 

@@ -52,7 +52,7 @@ public class Message {
      * @return A string representation for message
      */
     public String toString(){
-        return "A message from user " + senderId + " to user " + receiverId + ": " + message;
+        return "A message from user " + senderId + " to user " + receiverId + ": " + message + "\n";
     }
 }
 

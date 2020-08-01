@@ -101,17 +101,11 @@ public class RegularUserCommunityMenuController {
     /**
      * Lets the presenter print a list of users in the same
      * city as this user.
-     * @param asGuest The determiner of access to this menu option.
+     *
      */
-    public void seeUsersInSameHC(boolean asGuest) {
-        if (!asGuest) {
-            // print all users in the same city as this user.
-            ds.printResult(new ArrayList<>(um.sameCity(userId)));
-            am.addActionToAllActionsList(userId, "regularUser", "5.4", 0, "");
-        }
-        else{
-            sm.msgForGuest(ds);
-        }
+    public ArrayList<TradableUser> seeUsersInSameHC() {
+        am.addActionToAllActionsList(userId, "regularUser", "5.4", 0, "");
+        return new ArrayList<>(um.sameCity(userId));
     }
 
 
