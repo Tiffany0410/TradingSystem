@@ -4,6 +4,7 @@ import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.maincontrollers.AdminUserController;
+import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
@@ -112,8 +113,6 @@ public class GUIDemo {
     public void runAdminUserCreateAccount() {
         AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(accountCreator, this);
         adminUserCreateAccountGUI.run(accountCreator, this);
-
-
     }
 
 
@@ -133,5 +132,8 @@ public class GUIDemo {
     }
 
     public void runRegularUserSearchingMenuGUI() {
+        RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
+                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.actionManager,
+                this.tempUsername);
     }
 }

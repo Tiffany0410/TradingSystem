@@ -46,7 +46,7 @@ public class RegularUserSearchingItemsSubMenu {
                 UserInputGUI userInputGUI2 = new UserInputGUI(name, guiUserInputInfo);
                 userInputGUI2.run(name, guiUserInputInfo);
 
-                regularUserSearchingMenuController.searchItemByName(guiUserInputInfo.getTempUserInput());
+                regularUserSearchingMenuController.searchItemByName(guiDemo.getUserInput());
 
                 // TODO: Need method to close this window
 
@@ -70,7 +70,7 @@ public class RegularUserSearchingItemsSubMenu {
                 userInputGUI2.run(ID, guiUserInputInfo);
 
                 try{
-                    int id = Integer.parseInt(guiUserInputInfo.getTempUserInput());
+                    int id = Integer.parseInt(guiDemo.getUserInput());
                     regularUserSearchingMenuController.getItemById(id);
                 } catch (NumberFormatException ex){
                     guiDemo.printNotification("Please enter number!");
