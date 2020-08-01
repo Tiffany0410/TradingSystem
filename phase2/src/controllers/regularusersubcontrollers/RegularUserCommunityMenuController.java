@@ -205,9 +205,8 @@ public class RegularUserCommunityMenuController {
         return true;}return false;
     }
 
-    public boolean unfriendUser(String username){
-        int userId = um.usernameToID(username);
-        boolean unfriendOrNot = um.removeFriend(this.userId, userId);
+    public boolean unfriendUser(int id){
+        boolean unfriendOrNot = um.removeFriend(id,userId);
         if (unfriendOrNot){
             am.addActionToAllActionsList(this.userId, "regularUser", "5.8", userId, username);
         }

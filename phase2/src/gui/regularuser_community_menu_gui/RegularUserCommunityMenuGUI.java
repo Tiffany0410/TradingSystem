@@ -119,9 +119,8 @@ public class RegularUserCommunityMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<TradableUser> notFriends = cmc.getNotFriends();
                 String string;
-                String result;
                 if (notFriends.isEmpty()){  // IF NO AVAILABLE USERS TO ADD
-                    string = sm.msgForNothing("tradable users to be added. Please check your friend requests");
+                    string = sm.msgForNo("tradable users to be added. Please check your friend requests");
                     NotificationGUI msgGUI = new NotificationGUI(string);
                     msgGUI.run(string);
                 }
@@ -130,9 +129,9 @@ public class RegularUserCommunityMenuGUI {
                             "\nPlease enter user's Id to send friend request, or enter 0 to go back.";
                     UserInputGUI userInputGui = new UserInputGUI(string, guiInput);
                     userInputGui.run(string, guiInput);
-                    result = guiInput.getTempUserInput();
+                    String result = guiInput.getTempUserInput();
                     if (sm.checkInt(result)){
-                        int userToID = Integer.parseInt(string);
+                        int userToID = Integer.parseInt(result);
                         if (userToID == 0){
                             guidemo.runRegularUserCommunityMenuController(false); //back to the menu
                         }
@@ -153,15 +152,40 @@ public class RegularUserCommunityMenuGUI {
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Respond to friends reqeust
+                // TODO: Respond to friends request
             }
         });
 
         unfriendAUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: unfriend a user
+                ArrayList<TradableUser> friends = cmc.getFriends();
+                String string;
+                if (friends.isEmpty()){
+                    string = sm.msgForNo("tradable users to be unfriended");
+                    NotificationGUI msgGUI = new NotificationGUI(string);
+                    msgGUI.run(string);
+                }
+                else {
+                    string = "Here is your list of friends: \n" + sm.printListUser(friends) +
+                            "\nPlease enter user's Id to unfriend, or enter 0 to go back.";
+                    UserInputGUI userInputGui = new UserInputGUI(string, guiInput);
+                    userInputGui.run(string, guiInput);
+                    String result = guiInput.getTempUserInput();
+                    if (sm.checkInt(result)){
+                        int id = Integer.parseInt(result);
+                        if (id == 0){
+                            guidemo.runRegularUserCommunityMenuController(false); //back to the menu
+                        }
+                        else{
+                            String out = sm.msgForResult(cmc.unfriendUser(id));
+                            NotificationGUI msgGUI = new NotificationGUI(out);
+                            msgGUI.run(out);
+                        }
+                    }
+                }
             }
+            // TODO: close this window;
         });
 
         sendMessageToFriendsButton.addActionListener(new ActionListener() {
