@@ -34,6 +34,7 @@ public class DisplaySystem {
      */
     public void printOut(String str) {
         NotificationGUI notificationGUI = new NotificationGUI(str);
+        notificationGUI.run(str);
     }
 
     //////////////////////  Below method are replaced by GUI /////////////////////////////////////////////
@@ -156,7 +157,7 @@ public class DisplaySystem {
     }
 
 
-    //////////////////////////////// Above methods are replaced by GUI ////////////////////////////////////////////////
+
 
 
 
@@ -208,6 +209,8 @@ public class DisplaySystem {
             count++;
         }
     }
+//////////////////////////////// Above methods are replaced by GUI ////////////////////////////////////////////////
+
 
     /**
      * print out the result of action with string and boolean type

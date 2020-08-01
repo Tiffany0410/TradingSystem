@@ -40,6 +40,13 @@ public class SystemMessage {
         guiDemo.printNotification(string);
     }
 
+
+    public void printInvalidID(){
+        String string = "This is invalid ID.";
+        guiDemo.printNotification(string);
+    }
+
+
     /**
      * print out the result of action with object type
      *
@@ -67,10 +74,9 @@ public class SystemMessage {
     }
 
 
-    public void printInvalidID(){
-        String string = "This is invalid ID.";
-        guiDemo.printNotification(string);
-    }
+
+
+
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

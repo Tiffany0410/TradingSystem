@@ -36,7 +36,7 @@ public class RegularUserSearchingUsersSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call controller frequent user method
+                regularUserSearchingMenuController.sortAllTradedPartner();
                 // TODO: Need method to close this window
 
             }
