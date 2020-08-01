@@ -29,9 +29,9 @@ public class RegularUserCommunityMenuGUI {
     private JButton viewAllMessageButton;
     private JButton backButton;
 
-    public void run() {
+    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput) {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new RegularUserCommunityMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserCommunityMenuGUI(guidemo, cmc, sm, guiInput).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -43,6 +43,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: need code to code the windows
+                rootPanel.setVisible(false); // MAYBE??
 
                 String string = "Please input an user id for the user you want to review: ";
                 UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
@@ -56,10 +57,10 @@ public class RegularUserCommunityMenuGUI {
                 UserInputGUI userInputGUI2 = new UserInputGUI(string2, guiInput);
                 userInputGUI2.run(string2,guiInput);
                 String reason = guiInput.getTempUserInput();
-                if(sm.checkInt(sUserId) &&  sm.checkInt(sPoint) && guidemo.getUserManager().checkUser(Integer.
-                        parseInt(sUserId)) && (0<=Integer.parseInt(sPoint) && Integer.parseInt(sPoint)<=10)){
-                 boolean yesOrNo =  guidemo.getFeedbackManager().setReview(cmc.getUserId(), Integer.parseInt(sUserId),
-                            Integer.parseInt(sPoint), reason);
+                int user_id = Integer.parseInt(sUserId);
+                int point = Integer.parseInt(sPoint);
+                if(sm.checkInt(sUserId) && sm.checkInt(sPoint) && guidemo.getUserManager().checkUser(user_id) && (0<=point && point<=10)){
+                 boolean yesOrNo =  cmc.reviewUser(user_id, point, reason);
                     NotificationGUI notificationGUI = new NotificationGUI(sm.msgForResult(yesOrNo));
                     notificationGUI.run(sm.msgForResult(yesOrNo));
                 }else{
@@ -72,15 +73,53 @@ public class RegularUserCommunityMenuGUI {
         reportAUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Report a user
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
 
+                String get_id = "Please enter the user's id that you want to report.";
+                UserInputGUI userInputGUI = new UserInputGUI(get_id, guiInput);
+                userInputGUI.run(get_id, guiInput);
+                String sUserId = guiInput.getTempUserInput();
+                String get_reason = "Please enter the reason why you report this user.";
+                UserInputGUI userInputGUI2 = new UserInputGUI(get_id, guiInput);
+                userInputGUI2.run(get_reason, guiInput);
+                if (sm.checkInt(sUserId)){
+                    int user_id = Integer.parseInt(sUserId);
+                    String msg = sm.msgForResult(cmc.reportUser(user_id, get_reason));
+                    NotificationGUI notificationGUI = new NotificationGUI(msg);
+                    notificationGUI.run(msg);
+                }
+                else{
+                    String s = "Please enter valid information.";
+                    NotificationGUI notificationGUI = new NotificationGUI(s);
+                    notificationGUI.run(s);
+                }
             }
         });
 
         findTheRatingForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Find the rating for a user
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
+                String get_id = "Please enter the user's id for his/her rating";
+                UserInputGUI userInputGUI = new UserInputGUI(get_id, guiInput);
+                userInputGUI.run(get_id, guiInput);
+                String sUserId = guiInput.getTempUserInput();
+                if (sm.checkInt(sUserId)){
+                    int id = Integer.parseInt(get_id);
+                    if (cmc.checkUserId(id)){
+                        String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
+                        NotificationGUI notificationGUI = new NotificationGUI(msg);
+                        notificationGUI.run(msg);
+                    }
+                }
+                else {
+                    String s = "Please enter a valid user id.";
+                    NotificationGUI notificationGUI = new NotificationGUI(s);
+                    notificationGUI.run(s);
+                }
             }
         });
 
@@ -99,6 +138,9 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
                 NotificationGUI msgGUI;
                 String string;
                 if (cmc.getFriends().isEmpty()){
@@ -110,13 +152,15 @@ public class RegularUserCommunityMenuGUI {
                 msgGUI = new NotificationGUI(string);
                 rootPanel.setVisible(false); // Not sure...
                 msgGUI.run(string);
-                // TODO: close this window;
             }
         });
 
         sendAFriendRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
                 ArrayList<TradableUser> notFriends = cmc.getNotFriends();
                 String string;
                 if (notFriends.isEmpty()){  // IF NO AVAILABLE USERS TO ADD
@@ -146,7 +190,6 @@ public class RegularUserCommunityMenuGUI {
                     }
                 }
             }
-            // TODO: close this window;
         });
 
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
@@ -159,6 +202,9 @@ public class RegularUserCommunityMenuGUI {
         unfriendAUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO: need code for closing the menu first;
+                rootPanel.setVisible(false); // MAYBE??
+
                 ArrayList<TradableUser> friends = cmc.getFriends();
                 String string;
                 if (friends.isEmpty()){
@@ -185,7 +231,6 @@ public class RegularUserCommunityMenuGUI {
                     }
                 }
             }
-            // TODO: close this window;
         });
 
         sendMessageToFriendsButton.addActionListener(new ActionListener() {
