@@ -13,7 +13,7 @@ import java.util.Scanner;
  * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
-public class AdminUserOtherInfoGetter {
+public class AdminUserOtherInfoChecker {
 
     private DisplaySystem ds;
     private ActionManager am;
@@ -25,7 +25,7 @@ public class AdminUserOtherInfoGetter {
      * @param am The current ActionManager which used to record all action
      * @param um The current UserManager which used to record all AdminUser and RegularUser
      */
-    public AdminUserOtherInfoGetter(DisplaySystem ds, ActionManager am, UserManager um){
+    public AdminUserOtherInfoChecker(DisplaySystem ds, ActionManager am, UserManager um){
         this.ds = ds;
         this.am = am;
         this.um = um;

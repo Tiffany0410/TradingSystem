@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @version IntelliJ IDEA 2020.1
  */
 
-public class RegularUserOtherInfoGetter {
+public class RegularUserOtherInfoChecker {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
@@ -38,8 +38,8 @@ public class RegularUserOtherInfoGetter {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserOtherInfoGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
-                                      UserManager um, String username, int userId) {
+    public RegularUserOtherInfoChecker(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+                                       UserManager um, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
