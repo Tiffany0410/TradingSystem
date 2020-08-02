@@ -239,6 +239,10 @@ public class SystemMessage {
         }
     }
 
+    public String msgForTradeRequest(){
+        return "Your response to this trade request is sent successfully";
+    }
+
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
             return "Your friend request has been sent to user id " + userToID + " successfully.";

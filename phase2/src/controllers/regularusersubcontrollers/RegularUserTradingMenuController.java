@@ -130,6 +130,8 @@ public class RegularUserTradingMenuController {
             sm.msgForNothing(ds);
         }
     }
+
+
     /**
      * Gets from user the information about the trade the user
      * wants to respond to and determine whether the
@@ -137,50 +139,28 @@ public class RegularUserTradingMenuController {
      * outstanding trade requests or if the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @param maxNumTransactionsAWeek The maximum number of transactions allowed a week.
      * @throws InvalidIdException In case the id is invalid.
      */
-    public void respondToTradeRequests(int maxNumTransactionsAWeek) throws InvalidIdException{
-        if (um.getInfo(userId, "TransactionLeftForTheWeek") == 0) {
-            // the case with user reaching the max number of transactions for the week
-            // .get(0)
-            sm.lockMessageForThreshold(ds, maxNumTransactionsAWeek);
+    public void respondToTradeRequests(int tradeID, String respondStatus) throws InvalidIdException{
+        // get the actual trade object
+        Trade trade = tm.getTradeById(tradeID);
+        // will be used if two-way-trade
+        int itemid22 = 0;
+        // if it's one-way-trade
+        // only need borrower id, lender id, and the item id
+        int userId11 = tm.getId(tradeID, 1);
+        int userId22 = tm.getId(tradeID, 2);
+        int itemId11 = tm.getId(tradeID, 3);
+        if (!tm.checkOneWayTrade(tradeID)) {
+            // two-way-trade - need one more item id
+            itemid22 = tm.getId(tradeID, 4);
         }
-        else {
-            // user haven't reach the max number of transactions a week threshold
-            // there're no trade request to respond to
-            if (tradeRequestsToRespond().size() == 0){
-                sm.msgForNothing("that you need to respond to here", ds);
-            }
-            // there is trade request to respond to
-            // no need to check if the user agreed before
-            // because they won't be able to agree / disagree for
-            // a second time
-            else {
-                // print the trade requests
-                ds.printResult(new ArrayList<>(tradeRequestsToRespond()));
-                // asks for trade id
-                int tradeID = idGetter.getTradeID();
-                // get the actual trade object
-                Trade trade = tm.getTradeById(tradeID);
-                // will be used if two-way-trade
-                int itemid22 = 0;
-                // if it's one-way-trade
-                // only need borrower id, lender id, and the item id
-                int userId11 = tm.getId(tradeID, 1);
-                int userId22 = tm.getId(tradeID, 2);
-                int itemId11 = tm.getId(tradeID, 3);
-                if (!tm.checkOneWayTrade(tradeID)) {
-                    // two-way-trade - need one more item id
-                    itemid22 = tm.getId(tradeID, 4);
-                }
-                // the result of the response
-                respondResult(tradeID, trade, itemid22, userId11, userId22, itemId11);
-            }
+        // the result of the response
+        respondResult(tradeID, trade, itemid22, userId11, userId22, itemId11, respondStatus);
         }
-    }
 
-    private List<Trade> tradeRequestsToRespond() throws InvalidIdException {
+
+     public List<Trade> tradeRequestsToRespond() throws InvalidIdException {
         //assume wait-to-be-opened = wait for the other user's response
         List<managers.trademanager.Trade> requests = new ArrayList<>();
         // only print ones that user haven't agree on
@@ -192,20 +172,17 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
-    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
-        String tradeStatus = otherInfoGetter.getAgreeOrNot();
+    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11, String respondStatus) throws InvalidIdException {
         // set user's status for the trade (agree / disagree)
-        tm.setUserStatus(tradeID, userId, tradeStatus);
+        tm.setUserStatus(tradeID, userId, respondStatus);
         //remove items -- if agree
-        if (tradeStatus.equals("Agree")) {
+        if (respondStatus.equals("Agree")) {
             respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
             am.addActionToAllActionsList(userId, "regularUser", "2.2", tradeID, "");
         } else {
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
             tm.cancelTrade(tradeID);
-
         }
-        ds.printResult("Your response to this trade request", true);
     }
 
     private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
@@ -229,14 +206,6 @@ public class RegularUserTradingMenuController {
 
     public String requestTrade(int numKindOfTrade, int borrowerOrborrower1lender2, int lenderOrlender1borrower2,
                                int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) throws InvalidIdException {
-        // get whether it is one-way-trade or two-way-trade
-        //TODO: int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
-        //TODO: userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
-        //TODO: userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
-        //TODO: int itemId = idGetter.getItemID(im.getAllItem(), 1);
-        //TODO: int itemId2 = idGetter.getItemID(im.getAllItem(), 1);
-        // get the trade type (permanent or temporary)
-        // TODO: String tradeType = otherInfoGetter.getTradeType();
         // get the trade id
         int tradeID = determineTradeID();
         //get the trade object

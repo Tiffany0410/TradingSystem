@@ -8,11 +8,14 @@ import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
+import managers.trademanager.Trade;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegularUserTradingMenuGUI {
     private JPanel rootPanel;
@@ -96,7 +99,27 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                List<Trade> tradeRequests = new ArrayList<>();
+                if (atc.lockThresholdOrNot()) {
+                    printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
+                }
+                else{
+                    //Or if (atc.tradeRequestsToRespond().size() == 0){printNote(...);}
+                    //TODO: problem with getTradeHistory's exception throwing
+                    //case with no trade requests
+                    try {
+                        tradeRequests = atc.tradeRequestsToRespond();
+                    } catch (InvalidIdException invalidIdException) {
+                        printNote(sm.msgForNothing("that you need to respond to here"));
+                    }
+                    if (tradeRequests.size() != 0){
+                        String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
+                        printNote("Here's a list of trade requests: \n" + strTR);
 
+
+
+                    }
+                }
             }
         });
 
