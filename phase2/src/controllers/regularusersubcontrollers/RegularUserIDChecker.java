@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
@@ -8,13 +7,12 @@ import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * An instance of this class represents the id
- * getter for the RegularUserController class.
+ * checker for the SubController classes for regular user.
  *
  * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
@@ -52,49 +50,22 @@ public class RegularUserIDChecker {
         this.userId = userId;
     }
 
-    /**
-     * Gets the item id from the user. Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-     * @param potentialItems The list of potential items
-     *                       that should contain item with the item id
-     *                       input by the user.
-     * @param type The type of the item id to get from the user. It could
-     *             be from user's wish list or other list of items.
-     * @return The valid item id input by the user.
-     */
-    public int getItemID(ArrayList<Item> potentialItems, int type) {
-        /*
-         * Based on code by Yassine.b from
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         */
-        boolean okInput = false;
+
+    public boolean checkItemID(int itemId, int type) {
         // all possible ids the user can pick from
         ArrayList<Integer> potentialIds;
         // depends on the option the user chooses
         if (type == 1) {
-            potentialIds = im.getItemsIDs(potentialItems);
-        } else {
+            potentialIds = im.getItemsIDs(im.getAllItem());
+        }
+        else if (type == 2){
             potentialIds = um.getUserWishlist(userId);
         }
-        Scanner sc = new Scanner(System.in);
-        int itemId = 0;
-        do {
-            ds.printOut("Please enter the id of the item: ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                itemId = sc.nextInt();
-                // if the input is valid
-                if (potentialIds.contains(itemId)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id for this purpose!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return itemId;
+        else{
+            potentialIds = um.getUserInventory(userId);
+        }
+        return potentialIds.contains(itemId);
+
     }
 
     protected boolean checkInt(String str){
@@ -112,31 +83,9 @@ public class RegularUserIDChecker {
         return um.checkUser(um.idToUsername(userId));
     }
 
-    /**
-     * Asks the user for the trade id. Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-     * @return A valid trade id input by the user.
-     */
-    protected int getTradeID() {
-        Scanner sc = new Scanner(System.in);
-        int tradeId = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the id of the trade : ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                tradeId = sc.nextInt();
-                // if the trade with this tradeId rests in the tradeManager
-                if (tm.checkInManager(tradeId)) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return tradeId;
+
+    protected boolean checkTradeID(int tradeId) {
+        return tm.checkInManager(tradeId);
+
     }
 }
