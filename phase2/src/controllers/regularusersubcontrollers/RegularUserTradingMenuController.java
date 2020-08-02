@@ -73,20 +73,18 @@ public class RegularUserTradingMenuController {
      * of so.
      * @throws InvalidIdException In case the id is invalid.
      */
-    public void seeTopThreePartners() throws InvalidIdException {
-        if (tm.getTradeHistory(userId).size() != 0){
-            List<Integer> topThreeIDS= tm.topThreePartners(userId);
-            List<TradableUser> topThree = new ArrayList<>();
-            for (int id : topThreeIDS) {
-                topThree.add(um.findUser(id));
-                ds.printResult(new ArrayList<>(topThree));
-            }
-            am.addActionToAllActionsList(userId, "regularUser", "2.6", 0, "");
+    public List<TradableUser> seeTopThreePartners() throws InvalidIdException {
+        List<Integer> topThreeIDS= tm.topThreePartners(userId);
+        List<TradableUser> topThree = new ArrayList<>();
+        for (int id : topThreeIDS) {
+            topThree.add(um.findUser(id));
         }
-        else{
-            // because the user do not have any trade
-            sm.msgForNothing(ds);
-        }
+        am.addActionToAllActionsList(userId, "regularUser", "2.6", 0, "");
+        return topThree;
+    }
+
+    public boolean hasTopThreeOrNot() throws InvalidIdException {
+        return tm.getTradeHistory(userId).size() != 0;
     }
 
     /**
@@ -96,23 +94,11 @@ public class RegularUserTradingMenuController {
      * If there're no open trades, print an appropriate
      * message.
      * @throws InvalidIdException In case the id is invalid.
+     * @return
      */
-    public void confirmTradeComplete() throws InvalidIdException {
-        if (tm.getOpenTrade(userId).size() != 0) {
-            ds.printResult(new ArrayList<>(tm.getOpenTrade(userId)));
-            int tradeId = idGetter.getTradeID();
-            am.addActionToAllActionsList(userId, "regularUser", "2.5", tradeId, "");
-//           let user enter trade id and we use it to confirm complete
-            if (tm.confirmComplete(tradeId)){
-                ds.printOut("This trade is completed.");
-            }
-            else{
-                ds.printOut("This trade is Incomplete.");
-            }
-        }
-        else{
-            sm.msgForNothing("that you can confirm whether it's completed for now", ds);
-        }
+    public boolean confirmTradeComplete(int tradeId) throws InvalidIdException {
+        am.addActionToAllActionsList(userId, "regularUser", "2.5", tradeId, "");
+        return tm.confirmComplete(tradeId);
     }
 
 

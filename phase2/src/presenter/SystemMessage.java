@@ -342,5 +342,14 @@ public class SystemMessage {
         return out.toString();
     }
 
+    public String msgFortradeCompletedOrNot(boolean result){
+        if (result){
+            return "This trade is completed.";
+        }
+        else{
+            return "This trade is Incomplete.";
+        }
+    }
+
 
 }
