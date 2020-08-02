@@ -138,23 +138,7 @@ public class RegularUserSearchingMenuController {
         }
     }
 
-    public void MeetingSortByDate() {
-        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
-        if (m.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(m));
-        }
-    }
 
-    public void getCompleteMeeting() {
-        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
-        if (m.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(m));
-        }
-    }
 
     public void filterByCategory(Category category) {
         ArrayList<Integer> c = im.getCategoryItem(category);
@@ -185,7 +169,7 @@ public class RegularUserSearchingMenuController {
         }
     }
 
-    public void sortItemByFollows() throws InvalidIdException {
+    public void sortItemByFollows() {
         try {
             ArrayList<Item> c = im.getSortedItemByFollows(um);
             if (c.size() == 0) {
