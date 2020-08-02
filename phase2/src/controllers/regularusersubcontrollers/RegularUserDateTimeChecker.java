@@ -17,12 +17,12 @@ import java.util.Scanner;
  * @author Yu Xin Yan, Jiaqi Gong
  * @version IntelliJ IDEA 2020.1
  */
-public class RegularUserDateTimeGetter {
+public class RegularUserDateTimeChecker {
 
     /**
      * Constructs for RegularUserDateTimeGetter.
      */
-    public RegularUserDateTimeGetter() {
+    public RegularUserDateTimeChecker() {
 
     }
 

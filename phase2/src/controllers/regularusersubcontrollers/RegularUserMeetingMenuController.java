@@ -23,9 +23,9 @@ import java.util.List;
 public class RegularUserMeetingMenuController {
 
     private SystemMessage sm;
-    private RegularUserIDGetter idGetter;
-    private RegularUserDateTimeGetter dateTimeGetter;
-    private RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserIDChecker idGetter;
+    private RegularUserDateTimeChecker dateTimeGetter;
+    private RegularUserOtherInfoChecker otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
@@ -58,24 +58,10 @@ public class RegularUserMeetingMenuController {
         this.am = am;
         this.username = username;
         this.userId = userId;
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
-        this.dateTimeGetter = new RegularUserDateTimeGetter();
+        this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
+        this.dateTimeGetter = new RegularUserDateTimeChecker();
         this.sm = new SystemMessage();
-    }
-
-    /**
-     * Let the presenter print the list of meetings if there are any,
-     * otherwise, print to let user know that there aren't any.
-     * @param meetings The list of meetings
-     * @param type The type of the meeting.
-     */
-    public void seeMeetings(List<Meeting> meetings, String type) {
-        if (meetings.size() == 0) {
-            sm.msgForNothing(type, ds);
-        } else {
-            ds.printResult(new ArrayList<>(meetings));
-        }
     }
 
     /**
@@ -86,30 +72,26 @@ public class RegularUserMeetingMenuController {
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
      * @throws InvalidIdException In case if the id is not valid.
      */
-    public void confirmMeetingTookPlace(int maxMeetingTimePlaceEdits) throws InvalidIdException {
-        if (mm.getUnConfirmMeeting(userId).size() == 0) {
-            sm.msgForNothing("that needs to be confirmed", ds);
-        } else {
-            // "confirmed" means the meeting haven't take place but time and place are confirmed
-            List<Meeting> listOfUnconfirmedMeeting = mm.getUnConfirmMeeting(userId);
-            // get the list of meetings whose completion are not confirmed
-            ds.printOut("Here's a list of meeting(s) that haven't confirmed as complete:");
-            ds.printResult(new ArrayList<>(listOfUnconfirmedMeeting));
-            // get the meeting
-            Meeting meeting3 = getMeeting();
-            // if the meeting exists
-            // check meeting method returns true if the trade id is not 0.
-            if (mm.checkMeeting(meeting3)) {
-                ds.printResult(mm.setMeetingConfirm(tm, meeting3, userId, maxMeetingTimePlaceEdits));
-                // add the action
-                String tradeID3 = String.valueOf(meeting3.getTradeId());
-                am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting3.getMeetingNum(), tradeID3);
-            } else {
-                // if the meeting DNE
-                sm.msgForMeetingDNE(ds);
-            }
-            }
+
+    public List<Meeting> getUnconfirmedMeeting(){
+        return mm.getUnConfirmMeeting(userId);
     }
+    public boolean isEmpty(ArrayList<Meeting> meetings){
+        return meetings.isEmpty();
+    }
+
+    public boolean confirmMeetingTookPlace(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        if(mm.checkMeeting(meeting)){
+            return false;
+        }
+        boolean yesOrNO= mm.setMeetingConfirm(tm, meeting, userId, maxMeetingTimePlaceEdits);
+        if(yesOrNO) {
+            String tradeID3 = String.valueOf(meeting.getTradeId());
+            am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting.getMeetingNum(), tradeID3);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "3.3", meeting.getMeetingNum(), tradeID3);
+            return true;
+        }return false;}
 
 
     /**
@@ -120,6 +102,9 @@ public class RegularUserMeetingMenuController {
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
      * @throws InvalidIdException In case if the id is not valid.
      */
+    public ArrayList<Meeting> getUnConfirmTimePlace(int userId, TradeManager tm) throws InvalidIdException{
+        return mm.getUnConfirmTimePlace(userId, tm);
+    }
     public void confirmMeetingTandP(int maxMeetingTimePlaceEdits) throws InvalidIdException {
         if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
             sm.msgForNothing("that needs to be confirmed", ds);
@@ -215,14 +200,5 @@ public class RegularUserMeetingMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "3.6", 0, "");
     }
 
-    /**
-     * Asks the user for the meeting information and finds that meeting.
-     * @return The meeting instance that match user's input of the meeting information.
-     */
-    private Meeting getMeeting() {
-//      ask the user to enter the trade id, meetingNum, time and place
-        int tradeId = idGetter.getTradeID();
-        int numMeeting = otherInfoGetter.getNumMeeting();
-        return mm.getMeetingByIdNum(tradeId, numMeeting);
-    }
+
 }

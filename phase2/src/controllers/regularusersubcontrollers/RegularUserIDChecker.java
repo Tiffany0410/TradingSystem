@@ -9,6 +9,8 @@ import presenter.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An instance of this class represents the id
@@ -17,7 +19,7 @@ import java.util.Scanner;
  * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
-public class RegularUserIDGetter {
+public class RegularUserIDChecker {
 
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
@@ -39,8 +41,8 @@ public class RegularUserIDGetter {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserIDGetter(DisplaySystem ds, TradeManager tm, MeetingManager mm,
-                               UserManager um, ItemManager im, String username, int userId) {
+    public RegularUserIDChecker(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+                                UserManager um, ItemManager im, String username, int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -95,33 +97,19 @@ public class RegularUserIDGetter {
         return itemId;
     }
 
-    /**
-     * Gets the user id from the user. Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-     * @param type The type of user the system wants the id from.
-     * @return A valid user id for the type of user.
-     */
-    protected int getUserID(String type){
-        Scanner sc = new Scanner(System.in);
-        int userId = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the userId of the " + type + ": ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                userId = sc.nextInt();
-                // if the input is valid
-                if (um.checkUser(um.idToUsername(userId))) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid id!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return userId;
+    protected boolean checkInt(String str){
+        /* Based on code by Stephen C from:
+         https://stackoverflow.com/questions/47686381/input-validation-for-gui
+         */
+        Pattern p = Pattern.compile("-?[0-9]+");
+        Matcher m = p.matcher(str);
+        return m.matches();
+
+    }
+
+
+    protected boolean checkUserID(int userId){
+        return um.checkUser(um.idToUsername(userId));
     }
 
     /**

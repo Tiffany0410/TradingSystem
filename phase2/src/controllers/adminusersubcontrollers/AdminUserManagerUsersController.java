@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class AdminUserManagerUsersController {
 
-    private AdminUserOtherInfoGetter otherInfoGetter;
+    private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
     private AccountCreator ac;
     private DisplaySystem ds;
