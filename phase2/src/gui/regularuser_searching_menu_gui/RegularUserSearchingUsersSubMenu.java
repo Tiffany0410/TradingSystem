@@ -49,7 +49,7 @@ public class RegularUserSearchingUsersSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call controller sort user by rating method
+                regularUserSearchingMenuController.sortRating();
                 // TODO: Need method to close this window
 
             }
