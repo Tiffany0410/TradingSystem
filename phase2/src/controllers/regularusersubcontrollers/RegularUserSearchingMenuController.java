@@ -141,13 +141,23 @@ public class RegularUserSearchingMenuController {
 
 
     public void filterByCategory(String category) {
-        Category ca = Category.valueOf(category);
-        ArrayList<Integer> c = im.getCategoryItem(ca);
-        if (c.size() == 0) {
-            sm.msgForNothing();
-        } else {
-            sm.printResult(new ArrayList<>(c));
-        }
+        try {
+            Category ca = Category.valueOf(category);
+            ArrayList<Integer> c = im.getCategoryItem(ca);
+            if (c.size() == 0) {
+                sm.msgForNothing();
+            } else {
+                sm.printResult(new ArrayList<>(c));
+            }
+        }catch(Exception e){
+                sm.invalidInput();
+            }
+    }
+
+    public String listCategory(){
+        return "Here is a list of category you can type:" + "\n" +
+                "appliances, clothing, electronics, furniture, beauty, "+ "\n" +
+                "jewellery, books, supplies, toys, others";
     }
 
     public void searchItemByName(String name) {
