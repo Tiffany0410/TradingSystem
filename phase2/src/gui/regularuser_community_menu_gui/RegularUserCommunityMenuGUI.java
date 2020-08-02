@@ -47,26 +47,20 @@ public class RegularUserCommunityMenuGUI {
                 rootPanel.setVisible(false); // MAYBE??
 
                 String string = "Please input an user id for the user you want to review: ";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-                userInputGUI.run(string, guiInput);
-                String sUserId = guiInput.getTempUserInput();
+                String sUserId = getInPut(string, guiInput);
                 String string1 = "Please enter the point for the user(0-10): ";
-                UserInputGUI userInputGUI1 = new UserInputGUI(string1, guiInput);
-                userInputGUI1.run(string1,guiInput);
-                String sPoint = guiInput.getTempUserInput();
+                String sPoint = getInPut(string1, guiInput);
                 String string2 = "Please enter the reason why you get the point: ";
-                UserInputGUI userInputGUI2 = new UserInputGUI(string2, guiInput);
-                userInputGUI2.run(string2,guiInput);
-                String reason = guiInput.getTempUserInput();
-                int user_id = Integer.parseInt(sUserId);
-                int point = Integer.parseInt(sPoint);
-                if(sm.checkInt(sUserId) && sm.checkInt(sPoint) && guidemo.getUserManager().checkUser(user_id) && (0<=point && point<=10)){
-                 boolean yesOrNo =  cmc.reviewUser(user_id, point, reason);
-                    NotificationGUI notificationGUI = new NotificationGUI(sm.msgForResult(yesOrNo));
-                    notificationGUI.run(sm.msgForResult(yesOrNo));
+                String reason = getInPut(string2, guiInput);
+                if(sm.checkInt(sUserId) && sm.checkInt(sPoint)){
+                    int user_id = Integer.parseInt(sUserId);
+                    int point = Integer.parseInt(sPoint);
+                    if(guidemo.getUserManager().checkUser(user_id) && (0<=point && point<=10)) {
+                        boolean yesOrNo =  cmc.reviewUser(user_id, point, reason);
+                        printNote(sm.msgForResult(yesOrNo));
+                    }
                 }else{
-                    NotificationGUI notificationGUI = new NotificationGUI("Please enter the valid information!");
-                    notificationGUI.run("Please enter the valid information!");
+                    printNote("Please enter a valid id and point.");
                 }
             }
         });
@@ -78,22 +72,17 @@ public class RegularUserCommunityMenuGUI {
                 rootPanel.setVisible(false); // MAYBE??
 
                 String get_id = "Please enter the user's id that you want to report.";
-                UserInputGUI userInputGUI = new UserInputGUI(get_id, guiInput);
-                userInputGUI.run(get_id, guiInput);
-                String sUserId = guiInput.getTempUserInput();
+                String sUserId = getInPut(get_id, guiInput);
                 String get_reason = "Please enter the reason why you report this user.";
-                UserInputGUI userInputGUI2 = new UserInputGUI(get_id, guiInput);
-                userInputGUI2.run(get_reason, guiInput);
+                String reason = getInPut(get_reason, guiInput);
                 if (sm.checkInt(sUserId)){
                     int user_id = Integer.parseInt(sUserId);
-                    String msg = sm.msgForResult(cmc.reportUser(user_id, get_reason));
-                    NotificationGUI notificationGUI = new NotificationGUI(msg);
-                    notificationGUI.run(msg);
+                    String msg = sm.msgForResult(cmc.reportUser(user_id, reason));
+                    printNote(msg);
                 }
                 else{
                     String s = "Please enter valid information.";
-                    NotificationGUI notificationGUI = new NotificationGUI(s);
-                    notificationGUI.run(s);
+                    printNote(s);
                 }
             }
         });
@@ -105,9 +94,7 @@ public class RegularUserCommunityMenuGUI {
                 rootPanel.setVisible(false); // MAYBE??
 
                 String get_id = "Please enter the user's id for his/her rating";
-                UserInputGUI userInputGUI = new UserInputGUI(get_id, guiInput);
-                userInputGUI.run(get_id, guiInput);
-                String sUserId = guiInput.getTempUserInput();
+                String sUserId = getInPut(get_id,guiInput);
                 if (sm.checkInt(sUserId)){
                     int id = Integer.parseInt(get_id);
                     if (cmc.checkUserId(id)){
@@ -134,13 +121,11 @@ public class RegularUserCommunityMenuGUI {
                 ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
                 if (users.isEmpty()){
                     string = "There is no users in your home city, please check back later :)";
-                    NotificationGUI msgGUI = new NotificationGUI(string);
-                    msgGUI.run(string);
+                    printNote(string);
                 }
                 else {
                     string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
-                    NotificationGUI msgGUI = new NotificationGUI(string);
-                    msgGUI.run(string);
+                    printNote(string);
                 }
             }
         });
@@ -156,17 +141,16 @@ public class RegularUserCommunityMenuGUI {
                 // TODO: need code for closing the menu first;
                 rootPanel.setVisible(false); // MAYBE??
 
-                NotificationGUI msgGUI;
                 String string;
                 if (cmc.getFriends().isEmpty()){
                     string = sm.msgForNothing("in your list of friends.");
                 }
                 else {
                     string = sm.printListUser(cmc.getFriends());
+
                 }
-                msgGUI = new NotificationGUI(string);
                 rootPanel.setVisible(false); // Not sure...
-                msgGUI.run(string);
+                printNote(string);
             }
         });
 
@@ -180,15 +164,12 @@ public class RegularUserCommunityMenuGUI {
                 String string;
                 if (notFriends.isEmpty()){  // IF NO AVAILABLE USERS TO ADD
                     string = sm.msgForNo("tradable users to be added. Please check your friend requests");
-                    NotificationGUI msgGUI = new NotificationGUI(string);
-                    msgGUI.run(string);
+                    printNote(string);
                 }
                 else{
                     string = "Here is a list of users you can add:\n" + sm.printListUser(notFriends) +
                             "\nPlease enter user's Id to send friend request, or enter 0 to go back.";
-                    UserInputGUI userInputGui = new UserInputGUI(string, guiInput);
-                    userInputGui.run(string, guiInput);
-                    String result = guiInput.getTempUserInput();
+                    String result = getInPut(string,guiInput);
                     if (sm.checkInt(result)){
                         int userToID = Integer.parseInt(result);
                         if (userToID == 0){
@@ -196,12 +177,9 @@ public class RegularUserCommunityMenuGUI {
                         }
                         else {
                             String msg = "Please leave a message for this user: ";
-                            UserInputGUI userInputGUI1 = new UserInputGUI(msg, guiInput);
-                            userInputGUI1.run(msg, guiInput);
-                            String msg_result = guiInput.getTempUserInput();
+                            String msg_result = getInPut(msg,guiInput);
                             String out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
-                            NotificationGUI msgGUI = new NotificationGUI(out);
-                            msgGUI.run(out);
+                            printNote(out);
                         }
                     }
                 }
@@ -218,23 +196,18 @@ public class RegularUserCommunityMenuGUI {
                 ArrayList<TradableUser> requests = cmc.getFriendRequest();
                 if (requests.isEmpty()){
                     string = "There is no friend requests.";
-                    NotificationGUI msgGUI = new NotificationGUI(string);
-                    msgGUI.run(string);
+                    printNote(string);
                 }
                 else{
                     string = "Here is a list of friend requests: \n" + sm.printFriendRequest(requests);
-                    UserInputGUI userInputGUI1 = new UserInputGUI(string, guiInput);
-                    userInputGUI1.run(string, guiInput);
-                    String id_input = guiInput.getTempUserInput();
+                    String id_input = getInPut(string,guiInput);
                     if (sm.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
                         String result = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
-                        NotificationGUI notificationGUI = new NotificationGUI(result);
-                        notificationGUI.run(result);
+                        printNote(result);
                     }
                     else {
                         String s = "Please enter a valid user id.";
-                        NotificationGUI notificationGUI = new NotificationGUI(s);
-                        notificationGUI.run(s);
+                        printNote(s);
                     }
                 }
             }
@@ -250,15 +223,12 @@ public class RegularUserCommunityMenuGUI {
                 String string;
                 if (friends.isEmpty()){
                     string = sm.msgForNo("tradable users to be unfriended");
-                    NotificationGUI msgGUI = new NotificationGUI(string);
-                    msgGUI.run(string);
+                    printNote(string);
                 }
                 else {
                     string = "Here is your list of friends: \n" + sm.printListUser(friends) +
                             "\nPlease enter user's Id to unfriend, or enter 0 to go back.";
-                    UserInputGUI userInputGui = new UserInputGUI(string, guiInput);
-                    userInputGui.run(string, guiInput);
-                    String result = guiInput.getTempUserInput();
+                    String result = getInPut(string,guiInput);
                     if (sm.checkInt(result)){
                         int id = Integer.parseInt(result);
                         if (id == 0){
@@ -277,7 +247,30 @@ public class RegularUserCommunityMenuGUI {
         sendMessageToFriendsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Send message to friends
+                // TODO: close the windows
+                rootPanel.setVisible(false); // MAYBE??
+
+                ArrayList<TradableUser> friends = cmc.getFriends();
+                String string;
+                if (friends.isEmpty()){
+                    string = sm.msgForNo("friends. Please add friends first.");
+                    printNote(string);
+                }else{  string = "Here is your list of friends: \n" + sm.printListUser(friends) +
+                        "\nPlease enter user's ID to send a message.";
+                    String result = getInPut(string, guiInput);
+                    if (sm.checkInt(result)){
+                        int id = Integer.parseInt(result);
+                        if (!cmc.checkIsFriend(id)){
+                            NotificationGUI notificationGUI = new NotificationGUI("Please enter an id of your friend!");
+                            notificationGUI.run("Please enter an id of your friend!");
+                        }
+                        else{
+                            string = "Please write a message: ";
+                            String message = getInPut(string,guiInput);
+                            String string1 = sm.msgForResult(cmc.sendMessage(id, message));
+                            printNote(string1);
+                        }}}
+
             }
         });
 
@@ -309,5 +302,16 @@ public class RegularUserCommunityMenuGUI {
                 guidemo.runRegularUserMainMenu(false);
             }
         });
+    }public String getInPut(String string, GUIUserInputInfo guiInput){
+        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+        userInputGUI.run(string, guiInput);
+        String sUserId = guiInput.getTempUserInput();
+        // TODO: need to close first
+        return string;
+    }
+    public void printNote(String string){
+        NotificationGUI msgGUI = new NotificationGUI(string);
+        msgGUI.run(string);
+        // TODO: need to close first
     }
 }

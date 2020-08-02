@@ -273,19 +273,20 @@ public class SystemMessage {
                 "following users: \n") + printListUser(listOfUser) +
                 "Please enter an id of the friend that you want to add. \n";
     }
-
     /** check if a string can covert to integer ot not
      * @param string a string
      * @return true if it can be convert to an integer
      */
-    // TODO: Write a class for the exception
+
     public boolean checkInt(String string){
         try {
             int num = Integer.parseInt(string);
             return true;
         }catch (NumberFormatException e)
-        {return false;
-    }}
+        {   printInvalidID();
+            return false;
+        }}
+
 
     public String msgForNo(String string){
         return "There is no " + string + " .";
