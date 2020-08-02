@@ -83,7 +83,7 @@ public class ItemManager implements Serializable {
         for (Item item: listItemToAdd){
             if (item.getName().equals(itemName)){ return item.getItemId(); }
         }
-        throw new InvalidIdException("Invalid Item Id");
+        throw new InvalidIdException("Invalid Item name");
     }
 
 
@@ -374,15 +374,17 @@ public class ItemManager implements Serializable {
      */
     public ArrayList<Category> getSortedCategory(HashMap<Category, ArrayList<Integer>> category){
         ArrayList<Category> out = new ArrayList<>();
-        while (!category.isEmpty()){
+        HashMap<Category, ArrayList<Integer>> temp_cat = new HashMap<>();
+        temp_cat.putAll(category);
+        while (!temp_cat.isEmpty()){
             Category most = null;
-            for (Category c: category.keySet()){
-                if (most == null || category.get(c).size() > category.get(most).size()){
+            for (Category c: temp_cat.keySet()){
+                if (most == null || temp_cat.get(c).size() > temp_cat.get(most).size()){
                     most = c;
                 }
             }
             out.add(most);
-            category.remove(most);
+            temp_cat.remove(most);
         }
         return out;
     }
