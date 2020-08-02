@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class AdminUserHistoricalActionController {
 
-    private AdminUserOtherInfoGetter otherInfoGetter;
+    private AdminUserOtherInfoChecker otherInfoGetter;
     private DisplaySystem ds;
     private UserManager um;
     private TradeManager tm;
@@ -60,7 +60,7 @@ public class AdminUserHistoricalActionController {
         this.fm = fm;
         this.mm = mm;
         this.userId = um.usernameToID(username);
-        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
+        this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
         this.frw = new FilesReaderWriter();
         String thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv";
     }

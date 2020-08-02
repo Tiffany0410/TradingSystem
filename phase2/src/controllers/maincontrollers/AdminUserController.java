@@ -3,7 +3,7 @@ package controllers.maincontrollers;
 import controllers.AccountCreator;
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
-import controllers.adminusersubcontrollers.AdminUserOtherInfoGetter;
+import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class AdminUserController implements Controllable {
 
-    private AdminUserOtherInfoGetter otherInfoGetter;
+    private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
     private AccountCreator ac;
     private DisplaySystem ds;
@@ -68,7 +68,7 @@ public class AdminUserController implements Controllable {
         this.sm = new SystemMessage();
         this.muc = new AdminUserManagerUsersController(ds, ac, um, im, am, username);
         this.hac = new AdminUserHistoricalActionController(ds,um, im, tm, am, fm, username);
-        this.otherInfoGetter = new AdminUserOtherInfoGetter(ds, am, um);
+        this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
     }
 
 

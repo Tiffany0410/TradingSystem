@@ -18,7 +18,7 @@ public class RegularUserCommunityMenuController {
 
     private SystemMessage sm;
     private RegularUserIDChecker idGetter;
-    private RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserOtherInfoChecker otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
@@ -53,7 +53,7 @@ public class RegularUserCommunityMenuController {
         // this.sm = new SystemMessage();
         this.messageManager = messageManager;
         this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
     }
 
     /** getter for user id

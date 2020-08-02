@@ -24,7 +24,7 @@ import java.util.List;
 public class RegularUserTradingMenuController {
 
     private RegularUserThresholdController tc;
-    private RegularUserOtherInfoGetter otherInfoGetter;
+    private RegularUserOtherInfoChecker otherInfoGetter;
     private RegularUserIDChecker idGetter;
     private SystemMessage sm;
     private presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
@@ -61,7 +61,7 @@ public class RegularUserTradingMenuController {
         this.username = username;
         this.userId = userId;
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
         this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
         this.sm = new SystemMessage();
     }
