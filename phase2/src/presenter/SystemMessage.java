@@ -248,6 +248,21 @@ public class SystemMessage {
         }
     }
 
+    public String msgForRequestResult(boolean validator){
+        if (validator) {
+            return "Your request is successful.";
+        }
+        else{
+            return "Your request is unsuccessful.";
+        }
+    }
+
+    public String failMessageForFrozen(){
+        return "You're frozen because you borrowed more than you lend";
+    }
+
+
+
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
             return "Your friend request has been sent to user id " + userToID + " successfully.";

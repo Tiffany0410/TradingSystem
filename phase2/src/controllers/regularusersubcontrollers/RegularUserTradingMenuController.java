@@ -287,11 +287,9 @@ public class RegularUserTradingMenuController {
         // user borrow more than lend
         if (um.getInfo(username, "NumBorrowed") > um.getInfo(username, "NumLent")){
             um.freezeUser(username);
-            //TODO: new system message method - "fail"
-            //TODO: new system message method - "You're frozen because you borrowed more than you lend"
-            return sm.failRequest() + "\n" + sm.failMessageForFrozen();
+            return sm.msgForRequestResult(false)+ "\n" + sm.failMessageForFrozen();
         }
-        return sm.failRequest();
+        return sm.msgForRequestResult(false);
     }
 
     private String requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
@@ -303,7 +301,7 @@ public class RegularUserTradingMenuController {
         tm.setUserStatus(tradeId, userId, "Agree");
         // change the threshold value
         tc.changeNumTradesLeftForTheWeek();
-        return sm.successfulRequest();
+        return sm.msgForRequestResult(true);
     }
 
 
