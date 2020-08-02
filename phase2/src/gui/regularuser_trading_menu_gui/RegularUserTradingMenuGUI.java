@@ -99,6 +99,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean ok = true;
                 List<Trade> tradeRequests = new ArrayList<>();
                 if (atc.lockThresholdOrNot()) {
                     printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
@@ -115,9 +116,24 @@ public class RegularUserTradingMenuGUI {
                     if (tradeRequests.size() != 0){
                         String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
                         printNote("Here's a list of trade requests: \n" + strTR);
-
-
-
+                        String askTradeId = "Please enter the trade id of the trade request you wish to respond to.";
+                        String input1 = getInPut(askTradeId, guiUserInputInfo);
+                        String askResponse = "Do you agree or disagree? Please enter the word in all lowercase.";
+                        String response = getInPut(askResponse, guiUserInputInfo);
+                        if (idC.checkInt(input1)){
+                            int tradeId = Integer.parseInt(input1);
+                            if (idC.checkTradeID(tradeId) && oiC.checkAgreeOrNot(response)){
+                                try {
+                                    atc.respondToTradeRequests(tradeId, response);
+                                } catch (InvalidIdException invalidIdException) {
+                                    printNote(sm.msgForTradeRequest(false));
+                                    ok = false;
+                                }
+                                if (ok){
+                                    printNote(sm.msgForTradeRequest(true));
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -132,6 +148,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                
 
             }
         });

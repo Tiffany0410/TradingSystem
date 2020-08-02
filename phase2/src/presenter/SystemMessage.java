@@ -239,8 +239,13 @@ public class SystemMessage {
         }
     }
 
-    public String msgForTradeRequest(){
-        return "Your response to this trade request is sent successfully";
+    public String msgForTradeRequest(boolean validator){
+        if (validator) {
+            return "Your response to this trade request is sent successfully";
+        }
+        else{
+            return "Your response to this trade request is sent unsuccessfully";
+        }
     }
 
     public String msgForFriendRequest(boolean validator, int userToID){
