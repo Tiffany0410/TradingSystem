@@ -139,7 +139,13 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (atc.hasTradeSuggestion()){
+                    String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
+                    printNote("Suggested items for you (most reasonable to trade): \n" + str);
+                }
+                else{
+                    printNote(sm.msgForNo(" recommended suggestion."));
+                }
 
             }
         });
@@ -158,7 +164,7 @@ public class RegularUserTradingMenuGUI {
     }
 
     private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm) throws InvalidIdException {
-        if (atc.hasTopThreeOrNot()){
+        if (atc.hasTopThree()){
             //has top three
             String str = sm.printListObject(new ArrayList<>(atc.seeTopThreePartners()));
             printNote("Here's your list of top three partners: \n" + str);
