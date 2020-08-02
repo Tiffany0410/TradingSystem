@@ -5,7 +5,6 @@ import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
-import presenter.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -55,6 +54,7 @@ public class RegularUserOtherInfoChecker {
      * @return User's message in string format.
      */
     public String getMessage(String TypeOfMessage){
+        //TODO: delete later
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
         StringBuilder fullMsg = new StringBuilder();
@@ -69,104 +69,31 @@ public class RegularUserOtherInfoChecker {
     }
 
     /**
-     * Gets the type of the trade from the user.
+     * Checks the type of the trade input by the user.
      * For now, there're only permanent and temporary.
-     * @return The type of the trade.
+     * @return If the trade type is valid.
      */
-    protected String getTradeType(){
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the type of this trade (Permanent or Temporary) : ");
-        //read the first line
-        String tradeType = sc.nextLine();
-        //read in + append until user enters "OK"
-        while(!tradeType.equals("Permanent") && !tradeType.equals("Temporary")){
-            ds.printOut("Please enter a proper type (the system is case sensitive)");
-            tradeType = sc.nextLine();
-        }
-        return tradeType;
+    protected boolean checkTradeType(String tradeType){
+        return tradeType.equals("Permanent") || tradeType.equals("Temporary");
+
     }
 
 
     /**
-     * Gets the response from the user to
+     * Checks the response from the user to
      * the agree or not question.
-     * @return User's response.
+     * @return If user's response is valid.
      */
-    protected String getAgreeOrNot(){
-        Scanner sc = new Scanner(System.in);
-        boolean ok = false;
-        String response;
-        do {
-            ds.printOut("Agree / Disagree?");
-            response = sc.nextLine();
-            if (!response.equals("Agree") && !response.equals("Disagree")) {
-                ds.printOut("Invalid string (the system is case sensitive)! Please enter again");
-            } else {
-                ok = true;
-            }
-        }
-        while(!ok);
-        return response;
+    protected boolean checkAgreeOrNot(String response){
+        return response.equals("Agree") || response.equals("Disagree");
     }
 
     /**
-     * Gets the name of the item from the user.
-     * @return The name of the item.
+     * Checks user's input of the meeting number.
+     * @return If the meeting number is valid.
      */
-    public String getItemName() {
-        return getName("item name");
-    }
-
-    /**
-     * Gets user's input of the place.
-     * @return User's input of the place.
-     */
-    public String getPlace(){
-       return getName("place");
-    }
-
-    /**
-     * Gets user's input of the home city.
-     * @return User's input of the home city.
-     */
-    public String getHomeCity(){
-        return getName("home city");
-    }
-
-    private String getName(String type){
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the name of the + " + type + ": ");
-        return sc.nextLine();
-    }
-
-    /**
-     * Gets user's input of the meeting number.
-     * Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-     * @return User's valid input of the meeting number.
-     */
-    public int getNumMeeting(){
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the meeting number (1 - first, 2 - second)"  + " : ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                num = sc.nextInt();
-                // if the input is valid
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid meeting number!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return num;
-
+    public boolean checkNumMeeting(int meetingNum){
+        return meetingNum == 1 || meetingNum == 2;
     }
 
     /**
@@ -175,7 +102,8 @@ public class RegularUserOtherInfoChecker {
      * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      * @return User's input of the option number.
      */
-    protected int getNumKindOfResponse(String option1, String option2){
+    protected int getNumKindOfResponse(int userInput, String option1, String option2){
+        //TODO: delete later
         Scanner sc = new Scanner(System.in);
         int num = 0;
 
@@ -199,12 +127,14 @@ public class RegularUserOtherInfoChecker {
         return num;
     }
 
+
     /**
      * Gets and returns user's input of
      * the type of the item
      * @return User's input of the type of the item.
      */
     protected Category getItemType(){
+        //TODO: delete later
         ArrayList<String> categories = new ArrayList<>();
         String cateG;
         for (Category category : Category.values()){
@@ -220,62 +150,37 @@ public class RegularUserOtherInfoChecker {
         return Category.valueOf(cateG);
     }
 
-    /**
-     * Gets and returns user's input of
-     * the rating. Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-     * @return User's input of the rating.
-     */
-    protected int getNumRating(){
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
 
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter the rating (1-10).");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                num = sc.nextInt();
-                // if the input is valid
-                if (1 <= num && num <= 10) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid integer!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid rating please");
-            }
-        } while (!okInput);
-        return num;
+    /**
+     * Checks user's input of the item category
+     * @return If it's a valid category or not.
+     */
+    protected boolean checkItemType(String userInputCategory){
+        ArrayList<String> categories = new ArrayList<>();
+        for (Category category : Category.values()){
+            categories.add(category.name());
+        }
+        return categories.contains(userInputCategory);
+        // use Category.valueOf(cateG) in the gui class and then plug it in to the method
+        // for the param with enum Category
+    }
+
+    /**
+     * Checks user's input of
+     * the rating.
+     * @return If the rating is valid.
+     */
+    protected boolean getNumRating(int rating){
+        return 1 <= rating  && rating <= 10;
+    }
 
     }
 
     /**
-     * Gets the tradableUser's Id from the user.
-     * @return The tradableUser'd Id entered by user.
+     * Checks the tradable user id input by the user.
+     * @return If the id is valid or not.
      */
-    protected int getTradableUserId(){
-        Scanner sc = new Scanner(System.in);
-        int response = 0;
-        boolean validResponse = false;
-        do {
-            ds.printOut("Please enter the Id of the user that you want to send friend request to or enter 0 to exit.");
-            if (sc.hasNextInt()){
-                response = sc.nextInt();
-                if (response == 0 || um.getListTradableUser().contains(response)){
-                    validResponse = true;
-                }
-                else {
-                    ds.printOut("Enter a proper tradableUser Id please.");
-                }
-            }
-            else {
-                sc.nextLine();
-                ds.printOut("Enter a valid integer for tradableUser Id please.");
-            }
-        } while (!validResponse);
-        return response;
-    }
+    protected boolean checkTradableUserId(int tradableUserId){
+        return tradableUserId == 0 || um.getListTradableUser().contains(tradableUserId);
 
 }
