@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
+import managers.itemmanager.Item;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
@@ -83,7 +84,7 @@ public class RegularUserTradingMenuController {
         return topThree;
     }
 
-    public boolean hasTopThreeOrNot() throws InvalidIdException {
+    public boolean hasTopThree() throws InvalidIdException {
         return tm.getTradeHistory(userId).size() != 0;
     }
 
@@ -187,21 +188,16 @@ public class RegularUserTradingMenuController {
 
     }
 
-
+    public boolean hasTradeSuggestion() throws InvalidIdException {
+        return im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId))).size() != 0;
+    }
     /**Print the most suggest item for user to trade.
      * @throws InvalidIdException
      */
-    public void tradeSuggestion() throws InvalidIdException {
+    public ArrayList<Item> mostReasonableTradeSuggestions() throws InvalidIdException {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
-        if (p.size() == 0) {
-            sm.msgForNothing("recommend suggestion", ds);
-        } else {
-            StringBuilder msg = new StringBuilder();
-            for (Integer i: p){
-                msg.append(im.getInfobyID(i)).append("\n");
-            }
-            ds.printOut("Suggested item for you:" + msg);
-        }
+        am.addActionToAllActionsList(userId, "regularUser", "2.8", 0, "");
+        return im.getItemsByIds(p);
     }
 
 

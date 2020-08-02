@@ -14,6 +14,7 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +140,15 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO: this is ... suggestion for the most reasonable trade? a list of items?
+                // maybe just 1 item is enough? since it's "the most reasonable trade".
+                if (atc.hasTradeSuggestion()){
+                    String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
+                    printNote("Suggested items for you (most reasonable to trade): \n" + str);
+                }
+                else{
+                    printNote(sm.msgForNo(" recommended suggestion."));
+                }
 
             }
         });
@@ -158,7 +167,7 @@ public class RegularUserTradingMenuGUI {
     }
 
     private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm) throws InvalidIdException {
-        if (atc.hasTopThreeOrNot()){
+        if (atc.hasTopThree()){
             //has top three
             String str = sm.printListObject(new ArrayList<>(atc.seeTopThreePartners()));
             printNote("Here's your list of top three partners: \n" + str);
@@ -335,9 +344,13 @@ public class RegularUserTradingMenuGUI {
             // TODO: need to close first
     }
 
-    public void run() {
+
+    
+    public void run(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
+                    int numLentBeforeBorrow, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                    RegularUserOtherInfoChecker oiC) {
         JFrame frame = new JFrame("regularUserTradingMenuGUI");
-        frame.setContentPane(new RegularUserTradingMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserTradingMenuGUI(guiD, atc, sm, maxNumTransactionAWeek, numLentBeforeBorrow, guiUserInputInfo, idC, oiC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
