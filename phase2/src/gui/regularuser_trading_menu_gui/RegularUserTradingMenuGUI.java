@@ -139,6 +139,8 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO: this is ... suggestion for the most reasonable trade? a list of items?
+                // maybe just 1 item is enough? since it's "the most reasonable trade".
                 if (atc.hasTradeSuggestion()){
                     String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
                     printNote("Suggested items for you (most reasonable to trade): \n" + str);
