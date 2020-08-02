@@ -103,7 +103,7 @@ public class RegularUserMeetingMenuController {
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
      * @throws InvalidIdException In case if the id is not valid.
      */
-    public ArrayList<Meeting> getUnConfirmTimePlace(int userId, TradeManager tm){
+    public ArrayList<Meeting> getUnConfirmTimePlace(int userId, TradeManager tm) throws InvalidIdException{
         return mm.getUnConfirmTimePlace(userId, tm);
     }
     public void confirmMeetingTandP(int maxMeetingTimePlaceEdits) throws InvalidIdException {

@@ -302,6 +302,7 @@ public class RegularUserCommunityMenuGUI {
                 guidemo.runRegularUserMainMenu(false);
             }
         });
+
     }public String getInPut(String string, GUIUserInputInfo guiInput){
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
