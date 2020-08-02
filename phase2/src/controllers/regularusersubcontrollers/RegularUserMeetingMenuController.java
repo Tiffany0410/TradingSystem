@@ -5,7 +5,6 @@ import managers.actionmanager.ActionManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
-import managers.messagemanger.Message;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
@@ -24,7 +23,7 @@ import java.util.List;
 public class RegularUserMeetingMenuController {
 
     private SystemMessage sm;
-    private RegularUserIDGetter idGetter;
+    private RegularUserIDChecker idGetter;
     private RegularUserDateTimeGetter dateTimeGetter;
     private RegularUserOtherInfoGetter otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
@@ -59,7 +58,7 @@ public class RegularUserMeetingMenuController {
         this.am = am;
         this.username = username;
         this.userId = userId;
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
+        this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
         this.dateTimeGetter = new RegularUserDateTimeGetter();
         this.sm = new SystemMessage();
