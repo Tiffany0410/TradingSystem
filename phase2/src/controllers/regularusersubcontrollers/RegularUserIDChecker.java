@@ -97,6 +97,9 @@ public class RegularUserIDChecker {
         return itemId;
     }
 
+    /* Based on code by Stephen C from:
+    https://stackoverflow.com/questions/47686381/input-validation-for-gui
+    */
     protected boolean checkInt(String str){
         Pattern p = Pattern.compile("-?[0-9]+");
         Matcher m = p.matcher(str);
