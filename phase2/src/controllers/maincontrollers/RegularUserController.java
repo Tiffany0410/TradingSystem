@@ -263,10 +263,12 @@ public class RegularUserController implements Controllable {
                 break;
             case 3:
                 tmc.viewTrades(tm.getOpenTrade(userId));
+                //below moved to tmc
                 am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
                 break;
             case 4:
                 tmc.viewTrades(tm.getClosedTrade(userId));
+                //below moved to tmc
                 am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
                 break;
             case 5:
@@ -277,6 +279,8 @@ public class RegularUserController implements Controllable {
                 break;
             case 7:
                 tmc.viewTrades(tm.getCancelledTrade(userId));
+                //below moved to tmc
+                am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
                 break;
             case 8:
                 //TODO:

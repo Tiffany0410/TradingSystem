@@ -115,22 +115,6 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    /**
-     * Let the presenter to print to screen
-     * <trades></trades>, if there are
-     * any. If there aren't any, print
-     * an appropriate message.
-     * @param trades The list of <trades></trades>.
-     */
-    public void viewTrades(List<Trade> trades) {
-        if (trades.size() != 0) {
-            ds.printResult(new ArrayList<>(trades));
-            am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
-        } else {
-            sm.msgForNothing(ds);
-        }
-    }
-
 
     /**
      * Gets from user the information about the trade the user
@@ -319,5 +303,20 @@ public class RegularUserTradingMenuController {
         // to be traded
         return validateItems(borrower1Lender2, borrower2lender1, itemId1) &&
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
+    }
+
+    public List<Trade> viewOpenTrades() throws InvalidIdException {
+        am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
+        return tm.getOpenTrade(userId);
+    }
+
+    public List<Trade> viewClosedTrades() throws InvalidIdException {
+        am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
+        return tm.getClosedTrade(userId);
+    }
+
+    public List<Trade> viewCancelledTrades() throws InvalidIdException {
+        am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
+        return tm.getCancelledTrade(userId);
     }
 }

@@ -111,7 +111,7 @@ public class RegularUserTradingMenuGUI {
                     try {
                         tradeRequests = atc.tradeRequestsToRespond();
                     } catch (InvalidIdException invalidIdException) {
-                        printNote(sm.msgForNothing("that you need to respond to here"));
+                        printNote(sm.msgForNothing("here."));
                     }
                     if (tradeRequests.size() != 0){
                         String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
@@ -135,6 +135,9 @@ public class RegularUserTradingMenuGUI {
                             }
                         }
                     }
+                    else{
+                        printNote(sm.msgForNothing("that you need to respond to here"));
+                    }
                 }
             }
         });
@@ -148,7 +151,20 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO: refactor to a method - 3 options with similar structure
+                List<Trade> openTrades = new ArrayList<>();
+                try {
+                    openTrades = atc.viewOpenTrades();
+                } catch (InvalidIdException invalidIdException) {
+                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
+                }
+                if (openTrades.size() != 0){
+                    String str = sm.printListObject(new ArrayList<>(openTrades));
+                    printNote("Here's your list of open trades: \n" + str);
+                }
+                else{
+                    printNote(sm.msgForNothing("here."));
+                }
 
             }
         });
@@ -160,7 +176,19 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                List<Trade> closedTrades = new ArrayList<>();
+                try {
+                    closedTrades = atc.viewClosedTrades();
+                } catch (InvalidIdException invalidIdException) {
+                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
+                }
+                if (closedTrades.size() != 0){
+                    String str = sm.printListObject(new ArrayList<>(closedTrades));
+                    printNote("Here's your list of closed trades: \n" + str);
+                }
+                else{
+                    printNote(sm.msgForNothing("here."));
+                }
             }
         });
         confirmThatATradeButton.addActionListener(new ActionListener() {
@@ -193,6 +221,19 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                List<Trade> cancelledTrades = new ArrayList<>();
+                try {
+                    cancelledTrades = atc.viewCancelledTrades();
+                } catch (InvalidIdException invalidIdException) {
+                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
+                }
+                if (cancelledTrades.size() != 0){
+                    String str = sm.printListObject(new ArrayList<>(cancelledTrades));
+                    printNote("Here's your list of cancelled trades: \n" + str);
+                }
+                else{
+                    printNote(sm.msgForNothing("here"));
+                }
 
             }
         });
@@ -215,7 +256,8 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //GO back to main menu
+                guiD.runRegularUserMainMenu(false);
             }
         });
     }
