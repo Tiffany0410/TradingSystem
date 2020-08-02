@@ -14,6 +14,7 @@ import managers.itemmanager.Category;
 import java.util.ArrayList;
 import java.util.List;
 import managers.itemmanager.Item;
+import managers.itemmanager.Category;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
@@ -139,9 +140,9 @@ public class RegularUserSearchingMenuController {
     }
 
 
-
-    public void filterByCategory(Category category) {
-        ArrayList<Integer> c = im.getCategoryItem(category);
+    public void filterByCategory(String category) {
+        Category ca = Category.valueOf(category);
+        ArrayList<Integer> c = im.getCategoryItem(ca);
         if (c.size() == 0) {
             sm.msgForNothing();
         } else {
