@@ -16,6 +16,7 @@ import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
+import presenter.SystemMessage;
 
 public class GUIDemo {
     private UserManager userManager;
@@ -29,6 +30,7 @@ public class GUIDemo {
     private AdminUserManagerUsersController adminUserManagerUsersController;
     private GUIUserInputInfo guiUserInputInfo;
     private String tempUsername;
+    private SystemMessage systemMessage;
 
 
 
@@ -45,6 +47,7 @@ public class GUIDemo {
         this.loginValidator = loginValidator;
         this.actionManager = actionManager;
         this.guiUserInputInfo = new GUIUserInputInfo();
+        this.systemMessage = new SystemMessage(this);
 
     }
 
@@ -134,6 +137,6 @@ public class GUIDemo {
     public void runRegularUserSearchingMenuGUI() {
         RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
                 this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.actionManager,
-                this.tempUsername);
+                this.systemMessage, this.tempUsername);
     }
 }

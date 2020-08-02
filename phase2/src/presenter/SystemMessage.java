@@ -46,6 +46,12 @@ public class SystemMessage {
         guiDemo.printNotification(string);
     }
 
+    public void invalidInput() {
+        String string = "Invalid put in, please type again.";
+        guiDemo.printNotification(string);
+    }
+
+
 
     /**
      * print out the result of action with object type
@@ -73,6 +79,9 @@ public class SystemMessage {
         guiDemo.printNotification(string.toString());
     }
 
+    public void printOut(String description) {
+        guiDemo.printNotification(description);
+    }
 
 
 
@@ -298,4 +307,6 @@ public class SystemMessage {
         }
         return out.toString();
     }
+
+
 }

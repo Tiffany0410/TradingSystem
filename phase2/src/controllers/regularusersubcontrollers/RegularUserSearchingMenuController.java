@@ -28,14 +28,15 @@ public class RegularUserSearchingMenuController {
 
     public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
                                               UserManager um, ItemManager im, ActionManager am,
-                                               SystemMessage sm, int userId) {
+                                               SystemMessage sm, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
-        this.userId = userId;
         this.sm = sm;
+        this.userId = this.um.usernameToID(username);
+
     }
 
     public void sortRating(){
