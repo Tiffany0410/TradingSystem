@@ -22,7 +22,6 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserMeetingMenuController {
-    private RegularUserDateTimeGetter dateTimeGetter;
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -52,9 +51,6 @@ public class RegularUserMeetingMenuController {
         this.am = am;
         this.username = username;
         this.userId = userId;
-
-        // don't know if we need the time getter or not ??
-        this.dateTimeGetter = new RegularUserDateTimeGetter();
     }
 
 
