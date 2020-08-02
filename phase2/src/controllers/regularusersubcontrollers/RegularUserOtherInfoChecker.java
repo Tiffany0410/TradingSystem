@@ -75,7 +75,7 @@ public class RegularUserOtherInfoChecker {
      * @param tradeType User's input of the trade type.
      * @return If the trade type is valid.
      */
-    protected boolean checkTradeType(String tradeType) {
+   public boolean checkTradeType(String tradeType) {
         return tradeType.equals("Permanent") || tradeType.equals("Temporary");
 
     }
@@ -87,7 +87,7 @@ public class RegularUserOtherInfoChecker {
      * @param response User's input of the response.
      * @return If user's response is valid.
      */
-    protected boolean checkAgreeOrNot(String response) {
+    public boolean checkAgreeOrNot(String response) {
         return response.equals("Agree") || response.equals("Disagree");
     }
 
@@ -107,7 +107,7 @@ public class RegularUserOtherInfoChecker {
      * @return User's input of the option number.
      * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      */
-    protected int getNumKindOfResponse(int userInput, String option1, String option2) {
+    public int getNumKindOfResponse(int userInput, String option1, String option2) {
         //TODO: delete later
         Scanner sc = new Scanner(System.in);
         int num = 0;
@@ -139,7 +139,7 @@ public class RegularUserOtherInfoChecker {
      *
      * @return User's input of the type of the item.
      */
-    protected Category getItemType() {
+    public Category getItemType() {
         //TODO: delete later
         ArrayList<String> categories = new ArrayList<>();
         String cateG;
@@ -162,7 +162,7 @@ public class RegularUserOtherInfoChecker {
      * @param userInputCategory User's input of the item category.
      * @return If it's a valid category or not.
      */
-    protected boolean checkItemType(String userInputCategory) {
+    public boolean checkItemType(String userInputCategory) {
         ArrayList<String> categories = new ArrayList<>();
         for (Category category : Category.values()) {
             categories.add(category.name());
@@ -178,7 +178,7 @@ public class RegularUserOtherInfoChecker {
      * @param rating User's input of the rating.
      * @return If the rating is valid.
      */
-    protected boolean getNumRating(int rating) {
+    public boolean getNumRating(int rating) {
         return 1 <= rating && rating <= 10;
     }
 
@@ -188,7 +188,7 @@ public class RegularUserOtherInfoChecker {
      * @param tradableUserId User's input of the tradableUser id.
      * @return If the id is valid or not.
      */
-    protected boolean checkTradableUserId(int tradableUserId) {
+    public boolean checkTradableUserId(int tradableUserId) {
         return tradableUserId == 0 || um.getListTradableUser().contains(tradableUserId);
 
     }

@@ -1,7 +1,11 @@
 package gui.regularuser_trading_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
+import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import exception.InvalidIdException;
 import gui.GUIDemo;
+import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
 import presenter.SystemMessage;
@@ -23,7 +27,8 @@ public class RegularUserTradingMenuGUI {
     private JButton backButton;
 
     public RegularUserTradingMenuGUI(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
-                                     int numLentBeforeBorrow){
+                                     int numLentBeforeBorrow, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                                     RegularUserOtherInfoChecker oiC){
 
         requestATradeButton.addActionListener(new ActionListener() {
             /**
@@ -34,34 +39,50 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (atc.lockThresholdOrNot()) {
-                    String lockMsg = sm.lockMessageForThreshold(maxNumTransactionAWeek);
-                    NotificationGUI msgGUI = new NotificationGUI(lockMsg);
-                    msgGUI.run(lockMsg);
+                    printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
                 }
                 else{
-                    //TODO: ask for input for all of the things below
+                    //asks for input
+                    String askTradeKind = "Please enter the kind of trade - (1 - one-way-trade/2 - two-way-trade).";
+                    String input1 = getInPut(askTradeKind, guiUserInputInfo);
+                    String askUserid1 = "Please enter the user id of the borrower (if one-way-trade) " +
+                            "or borrower for the first item and lender for the second item (if two-way-trade).";
+                    String input2 = getInPut(askUserid1, guiUserInputInfo);
+                    String askUserid2= "Please enter the user id of the lender (if one-way-trade) or lender for the first item " +
+                            "and borrower for the second item (if two-way-trade).";
+                    String input3 = getInPut(askUserid2, guiUserInputInfo);
+                    String askItemid1 = "Please enter the item id of the first item (or the item if it's a one-way-trade).";
+                    String input4 = getInPut(askItemid1, guiUserInputInfo);
+                    String askItemid2 = "Please enter the item id of the second item (or a random number if it's a one-way-trade).";
+                    String input5 = getInPut(askItemid2, guiUserInputInfo);
+                    String askTradeType = "Please enter trade type (permanent / temporary).";
+                    String tradeType = getInPut(askItemid2, guiUserInputInfo);
 
-
-                    //TODO: int numKindOfTrade = otherInfoGetter.getNumKindOfResponse("one way trade", "two way trade");
-                    //TODO: new SystemMessage method for "Please enter your trade type - (1 - one-way-trade/2 - two-way-trade)"
-                    str = sm.enterTradeTypeMsg();
-                    UserInputGUI getTradeTypeGUI = new UserInputGUI(str, guiD);
-                    getTradeTypeGUI.run(str, guiD);
-
-                    //TODO: new SystemMessage method for "Please enter your trade type - (1 - one-way-trade/2 - two-way-trade)"
-
-
-                    //TODO: userId1 = idGetter.getUserID("borrower (if one-way-trade) or borrower for the first item and lender for the second item (if two-way-trade)");
-                    //TODO: userId2 = idGetter.getUserID("lender (if one-way-trade) or lender for the first item and borrower for the second item (if two-way-trade)");
-                    //TODO: int itemId = idGetter.getItemID(im.getAllItem(), 1);
-                    //TODO: int itemId2 = idGetter.getItemID(im.getAllItem(), 1);
-                    // get the trade type (permanent or temporary)
-                    // TODO: String tradeType = otherInfoGetter.getTradeType();
-
-                    //TODO: call requestTrade with the inputs
-
-
-                    //TODO: print the message of success or not
+                    if (idC.checkInt(input1) && idC.checkInt(input2) && idC.checkInt(input3) && idC.checkInt(input4)
+                            && idC.checkInt(input5)){
+                        int tradeKind = Integer.parseInt(input1);
+                        int userId1 = Integer.parseInt(input2);
+                        int userId2 = Integer.parseInt(input3);
+                        int itemid1 = Integer.parseInt(input4);
+                        int itemid2 = Integer.parseInt(input5);
+                        if ((tradeKind == 1 || tradeKind == 2) && idC.checkUserID(userId1) && idC.checkUserID(userId2)
+                            && idC.checkItemID(itemid1, 1) && idC.checkItemID(itemid2, 1)
+                                && oiC.checkTradeType(tradeType)) {
+                            //TODO: try and catch(???) maybe do it as one on the top level? - maybe don't need invalid
+                            // id exception???
+                            try {
+                                printNote(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
+                            } catch (InvalidIdException invalidIdException) {
+                                printNote("Invalid id / id(s) was/were entered...");
+                            }
+                        }
+                         else{
+                             printNote("Please request the trade again, one or more input(s) are invalid");
+                        }
+                    }
+                    else{
+                        printNote("One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered string)");
+                    }
                 }
             }
         });
@@ -157,6 +178,24 @@ public class RegularUserTradingMenuGUI {
 
             }
         });
+    }
+    //TODO: C&P from community menu - maybe can move this method
+    // to somewhere the gui classes all have access to??
+    public String getInPut(String string, GUIUserInputInfo guiInput) {
+        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+        userInputGUI.run(string, guiInput);
+        String UserResponse = guiInput.getTempUserInput();
+        // TODO: need to close first
+        return string;
+
+    }
+
+    //TODO: C&P from community menu - maybe can move this method
+    // to somewhere the gui classes all have access to??
+    public void printNote(String msg){
+            NotificationGUI msgGUI = new NotificationGUI(msg);
+            msgGUI.run(msg);
+            // TODO: need to close first
     }
 
     public void run() {
