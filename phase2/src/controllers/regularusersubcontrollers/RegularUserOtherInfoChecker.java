@@ -72,7 +72,7 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks the type of the trade input by the user.
      * For now, there're only permanent and temporary.
-     *
+     * @param tradeType User's input of the trade type.
      * @return If the trade type is valid.
      */
     protected boolean checkTradeType(String tradeType) {
@@ -84,7 +84,7 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks the response from the user to
      * the agree or not question.
-     *
+     * @param response User's input of the response.
      * @return If user's response is valid.
      */
     protected boolean checkAgreeOrNot(String response) {
@@ -93,7 +93,7 @@ public class RegularUserOtherInfoChecker {
 
     /**
      * Checks user's input of the meeting number.
-     *
+     * @param meetingNum User's input of the meeting number.
      * @return If the meeting number is valid.
      */
     public boolean checkNumMeeting(int meetingNum) {
@@ -159,7 +159,7 @@ public class RegularUserOtherInfoChecker {
 
     /**
      * Checks user's input of the item category
-     *
+     * @param userInputCategory User's input of the item category.
      * @return If it's a valid category or not.
      */
     protected boolean checkItemType(String userInputCategory) {
@@ -175,7 +175,7 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks user's input of
      * the rating.
-     *
+     * @param rating User's input of the rating.
      * @return If the rating is valid.
      */
     protected boolean getNumRating(int rating) {
@@ -185,7 +185,7 @@ public class RegularUserOtherInfoChecker {
 
     /**
      * Checks the tradable user id input by the user.
-     *
+     * @param tradableUserId User's input of the tradableUser id.
      * @return If the id is valid or not.
      */
     protected boolean checkTradableUserId(int tradableUserId) {

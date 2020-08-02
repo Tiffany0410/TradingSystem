@@ -51,6 +51,12 @@ public class RegularUserIDChecker {
     }
 
 
+    /**
+     * Checks if user's input of the item id is valid.
+     * @param itemId User's input of the item id.
+     * @param type The type of the item id.
+     * @return If user's input is valid.
+     */
     public boolean checkItemID(int itemId, int type) {
         // all possible ids the user can pick from
         ArrayList<Integer> potentialIds;
@@ -68,6 +74,11 @@ public class RegularUserIDChecker {
 
     }
 
+    /**
+     * Checks if user's input of the string can be converted to an int.
+     * @param str The input from user.
+     * @return If user's input can be converted to an int.
+     */
     protected boolean checkInt(String str){
         /* Based on code by Stephen C from:
          https://stackoverflow.com/questions/47686381/input-validation-for-gui
@@ -79,11 +90,23 @@ public class RegularUserIDChecker {
     }
 
 
+    /**
+     * Checks if user's input of the user id is a
+     * valid one.
+     * @param userId User's input of the user id.
+     * @return If user's input of the user id is valid.
+     */
     protected boolean checkUserID(int userId){
         return um.checkUser(um.idToUsername(userId));
     }
 
 
+    /**
+     * Checks if user's input of the trade id is a
+     * valid one.
+     * @param tradeId User's input of the trade id.
+     * @return If user's input of the trade id is valid.
+     */
     protected boolean checkTradeID(int tradeId) {
         return tm.checkInManager(tradeId);
 
