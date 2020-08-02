@@ -22,12 +22,7 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserMeetingMenuController {
-
-    private SystemMessage sm;
-    private RegularUserIDGetter idGetter;
     private RegularUserDateTimeGetter dateTimeGetter;
-    private RegularUserOtherInfoGetter otherInfoGetter;
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -40,7 +35,6 @@ public class RegularUserMeetingMenuController {
      * Constructs a RegularUserMeetingMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
@@ -49,9 +43,8 @@ public class RegularUserMeetingMenuController {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserMeetingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
+    public RegularUserMeetingMenuController(TradeManager tm, MeetingManager mm, UserManager um,
                                             ItemManager im, ActionManager am, String username, int userId) {
-        this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
@@ -59,33 +52,46 @@ public class RegularUserMeetingMenuController {
         this.am = am;
         this.username = username;
         this.userId = userId;
-        this.idGetter = new RegularUserIDGetter(ds, tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoGetter(ds, tm, mm, um, username, userId);
+
+        // don't know if we need the time getter or not ??
         this.dateTimeGetter = new RegularUserDateTimeGetter();
-        this.sm = new SystemMessage();
     }
 
-    /**
-     * If there're meetings that need to be confirmed,
-     * get user's input of the meeting information and let the user
-     * confirm the meeting. Else, print to let user know that there
-     * aren't any.
-     * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
-     * @throws InvalidIdException In case if the id is not valid.
-     */
 
+    /**
+     * @return the list of meetings that unconfirmed it took place.
+     */
     public List<Meeting> getUnconfirmedMeeting(){
         return mm.getUnConfirmMeeting(userId);
     }
-    public boolean isEmpty(ArrayList<Meeting> meetings){
+
+    /** check if the list of meeting is empty.
+     * @param meetings the meeting of a trade
+     * @return true if the list of meeting is empty
+     */
+    public boolean isEmpty(List<Meeting> meetings){
         return meetings.isEmpty();
     }
 
+    /** check if a meeting is in a meeting manager or not
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
+     * @return true if the meeting is in the meeting manager
+     */
+    public boolean checkValidMeeting(int tradeId, int numMeeting){
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        return mm.checkMeeting(meeting);
+    }
+
+    /** confirm the meeting took place
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
+     * @param maxMeetingTimePlaceEdits the max number for each user to edit time and place
+     * @return true if the the meeting is successfully confirmed took place
+     * @throws InvalidIdException in case of the id is not valid
+     */
     public boolean confirmMeetingTookPlace(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
-        if(mm.checkMeeting(meeting)){
-            return false;
-        }
         boolean yesOrNO= mm.setMeetingConfirm(tm, meeting, userId, maxMeetingTimePlaceEdits);
         if(yesOrNO) {
             String tradeID3 = String.valueOf(meeting.getTradeId());
@@ -96,110 +102,78 @@ public class RegularUserMeetingMenuController {
 
 
     /**
-     * If there're meetings that need to be confirmed for time and place
-     * get user's input of the meeting information and let the user
-     * confirm the meeting. Else, print to let user know that there
-     * aren't any.
-     * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
-     * @throws InvalidIdException In case if the id is not valid.
+     * @return a list of meeting that the time and place is not confirmed
+     * @throws InvalidIdException in case that the id is invalid
      */
-    public ArrayList<Meeting> getUnConfirmTimePlace(int userId, TradeManager tm) throws InvalidIdException{
-        return mm.getUnConfirmTimePlace(userId, tm);
-    }
-    public void confirmMeetingTandP(int maxMeetingTimePlaceEdits) throws InvalidIdException {
-        if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
-            sm.msgForNothing("that needs to be confirmed", ds);
-        } else {
-            // print the meetings with unconfirmed time and place
-            unconfirmedTandPMeetings();
-            // and then ask the user for the meeting info
-            Meeting meeting2 = getMeeting();
-            // if the meeting exists in the system
-            if (mm.checkMeeting(meeting2)) {
-                boolean confirmSuccess = mm.confirmTimePlace(meeting2, userId, maxMeetingTimePlaceEdits);
-                ds.printResult(confirmSuccess);
-                // if successfully confirmed it, add the action
-                String tradeID2 = String.valueOf(meeting2.getTradeId());
-                am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting2.getMeetingNum(), tradeID2);
-                if(!confirmSuccess){
-                    ds.printOut("It's not your turn, or you haven't suggested the time and place." + "\n");
-                }
-                // if the meeting DNE in the system
-            } else {
-                sm.msgForMeetingDNE(ds);
-            }
-        }
+    public List<Meeting> getUnConfirmTimePlace() throws InvalidIdException{
+        return mm.getUnConfirmTimePlace(userId,tm);
     }
 
     /**
-     * If there're any meetings that need to be edited for time
-     * and place, let the user input the input of the meeting information
-     * and let the user edit the time and place. Else, print to
-     * let the user know that there aren't any.
+     * confirm the time and place of a meeting
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
+     * @return true if the confirmation successful
      * @throws InvalidIdException In case if the id is not valid.
      */
-    public void EditMeetingTandP(int maxMeetingTimePlaceEdits) throws InvalidIdException{
-        // if there're no meetings that need to be confirmed for time and place
-        if (mm.getUnConfirmTimePlace(userId, tm).size() == 0) {
-            sm.msgForNothing("here that requires action", ds);
-        } else {
-            // print the meetings with unconfirmed time and place
-            unconfirmedTandPMeetings();
-            // get the meeting info from the user
-            Meeting meeting = getMeeting();
-            // if the meeting exists and the threshold is not reached yet
-            if (mm.checkMeeting(meeting) && mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
-                //asks the user for the date and place
-                List<Integer> list = this.dateTimeGetter.getValidDate(ds);
-                String place = otherInfoGetter.getPlace();
-                //call the setTimePlaceEdit method to pass in param + edit (*pass time by year, month, day, hour, min, sec)
-                boolean editSuccess= mm.editTimePlace(meeting, userId, list.get(0), list.get(1), list.get(2),
-                        list.get(3), list.get(4), 0, place, maxMeetingTimePlaceEdits);
-                ds.printResult(editSuccess);
-                // if user edit it successfully, add the action
+    public boolean confirmMeetingTandP(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        boolean confirmSuccess = mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
+        if (confirmSuccess) {
+            String tradeID2 = String.valueOf(meeting.getTradeId());
+            am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting.getMeetingNum(), tradeID2);
+            return true;
+            }return false;
+        }
+
+
+    /**
+     * edit the time and place of the meeting
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
+     * @param time a list of integers represents the time
+     * @param place the place
+     * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
+     * @return true if the meeting time and place is edited successfully
+     * @throws InvalidIdException In case if the id is not valid.
+     */
+    public boolean EditMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
+            maxMeetingTimePlaceEdits) throws InvalidIdException{
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        if (mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
+            boolean editSuccess= mm.editTimePlace(meeting, userId, time.get(0), time.get(1), time.get(2),
+                        time.get(3), time.get(4), 0, place, maxMeetingTimePlaceEdits);
+            if (editSuccess) {
                 int tradeID = meeting.getTradeId();
-                String previousTime = list.get(0) + "." + list.get(1) + "." + list.get(2) + "." + list.get(3) + "." + list.get(4);
+                String previousTime = time.get(0) + "." + time.get(1) + "." + time.get(2) + "." + time.get(3) + "." + time.get(4);
                 String iDAndPreviousTimeAndPlace = userId + "." + meeting.getPlace() + "." + tradeID + "." + previousTime;
-                if (editSuccess) {am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), iDAndPreviousTimeAndPlace);}
-                // if the user did not edit it successfully
-                if (!editSuccess){
-                    ds.printOut("It's not your turn.");
-                }
-                // record that it's confirmed by this user
-                mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
-                // for the edit threshold
-                ds.printOut(mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits));
-            } else {
-                // print a helpful messages to let user know why failed
-                // if the meeting DNE
-                if (!mm.checkMeeting(meeting)) {
-                    sm.msgForMeetingDNE(ds);
-                }
-                // if the threshold is reached
-                else {
-                    ds.printOut("You reached the threshold to edit." + "\n");
-                    ds.printOut("And/or, the trade that goes with this meeting is cancelled" + "\n");
-                }
+                    am.addActionToAllActionsList(userId, "regularUser", "3.1",
+                        meeting.getMeetingNum(), iDAndPreviousTimeAndPlace);
+                    return true;}}return false; }
 
-            }
-        }
-    }
-
-    /**
-     * Let the presenter print the list of unconfirmed meetings
-     * with unconfirmed time and place, if there are any.
-     * Else, print to let the user know that there aren't any.
-     * @throws InvalidIdException In case if the id is not valid.
+    /** check if a meeting is edited too many time or not
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
+     * @param maxMeetingTimePlaceEdits the max number of times a user can edit the time and place
+     * @return a string to describe the edit is over time or not
+     * @throws InvalidIdException in case if the id is invalid
      */
-    public void unconfirmedTandPMeetings() throws InvalidIdException {
-        //get the list of meetings with unconfirmed time and place from the meeting manager
-        List<Meeting> listOfUnconfirmedTimePlace = mm.getUnConfirmTimePlace(userId, tm);
-        // if there're meeting with unconfirmed time and place
-        ds.printOut("Here's a list of meeting(s) with unconfirmed time and place:");
-        ds.printResult(new ArrayList<>(listOfUnconfirmedTimePlace));
-        am.addActionToAllActionsList(userId, "regularUser", "3.6", 0, "");
+    public String checkOverEdit(int tradeId, int numMeeting,int maxMeetingTimePlaceEdits)throws InvalidIdException{
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        return mm.getEditOverThreshold(tm,meeting, maxMeetingTimePlaceEdits);
     }
 
+    /** check if the user's turn to edit time and place.
+     * @param tradeId the trade id
+     * @param numMeeting the meeting number
+     * @param userId the user id
+     * @return true if it's this user to edit
+     * @throws InvalidIdException in case if the id is invalid
+     */
+    public boolean checkTurn(int tradeId, int numMeeting, int userId)throws InvalidIdException{
+        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
+        return mm.checkTurn(meeting,userId);
+    }
 
 }
