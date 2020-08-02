@@ -37,6 +37,7 @@ public class AdminUserOtherInfoChecker {
      * @return The number of the item in the list.
      */
     public int getItem(int numItemsToAdd){
+        //TODO: delete later + replace with check
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -70,6 +71,7 @@ public class AdminUserOtherInfoChecker {
      * @return The new threshold value.
      */
     public int getThresholdAns(){
+        //TODO: delete later + replace with check
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -96,6 +98,7 @@ public class AdminUserOtherInfoChecker {
      * @return Admin user's response of whether to add or not.
      */
     public boolean getAddOrNot(){
+        //TODO: delete later + replace with check
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -128,6 +131,7 @@ public class AdminUserOtherInfoChecker {
      * @return The ActionID entered by admin user.
      */
     public int getActionID() {
+        //TODO: delete later
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -154,11 +158,16 @@ public class AdminUserOtherInfoChecker {
         return actionID;
     }
 
+    public boolean checkActionId(int actionID){
+        return am.getAllActionID(am.getListOfCurrentRevocableActions()).contains(actionID);
+    }
+
     /**
      * Gets the RegularUserID from the admin user.
      * @return The RegularUserID entered by admin user.
      */
     public int getRegularUserID() {
+        //TODO: delete later
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -185,12 +194,16 @@ public class AdminUserOtherInfoChecker {
         return userID;
     }
 
+    public boolean checkRegularUserID(int regularUserId){
+        return um.getListTradableUser().contains(regularUserId);
+    }
 
     /**
      * Gets the new AdminUser username from the admin user.
      * @return The new AdminUser username entered by admin user.
      */
     public String getNewAdminUserName() {
+        //TODO: delete later
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -217,12 +230,17 @@ public class AdminUserOtherInfoChecker {
         return userName;
     }
 
+    public boolean checkNewAdminUserName(int newAdminUserName){
+        return !um.getListAdminUserName().contains(newAdminUserName);
+    }
+
 
     /**
      * Gets the new AdminUser password from the admin user.
      * @return The new AdminUser password entered by admin user.
      */
     public String getNewAdminUserPassword() {
+        //TODO: delete later
         /*
          * Referenced the code in the first answer in
          * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
@@ -249,5 +267,9 @@ public class AdminUserOtherInfoChecker {
         return pw;
     }
 
+    public boolean checkNewAdminPassword(String newAdminPassword){
+        //Possible regex thing here (ex. A-Za-z0-9...etc)
+        return newAdminPassword != null;
+    }
 
 }

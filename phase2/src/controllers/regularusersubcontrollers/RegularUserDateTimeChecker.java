@@ -33,7 +33,7 @@ public class RegularUserDateTimeChecker {
      * @return A list containing user's input of the valid datetime.
      */
     public List<Integer> getValidDate(DisplaySystem ds){
-
+        //TODO: delete later
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
         List<Integer> list = new ArrayList<>();
         boolean ok = true;

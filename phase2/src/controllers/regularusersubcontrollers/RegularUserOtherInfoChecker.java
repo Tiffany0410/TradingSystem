@@ -50,10 +50,11 @@ public class RegularUserOtherInfoChecker {
 
     /**
      * Gets user's message, which can be in any length.
+     *
      * @param TypeOfMessage The part of the message that relates to the context.
      * @return User's message in string format.
      */
-    public String getMessage(String TypeOfMessage){
+    public String getMessage(String TypeOfMessage) {
         //TODO: delete later
         Scanner sc = new Scanner(System.in);
         ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
@@ -61,7 +62,7 @@ public class RegularUserOtherInfoChecker {
         //read the first line
         String msg = sc.nextLine();
         //read in + append until user enters "OK"
-        while(!msg.equals("OK")){
+        while (!msg.equals("OK")) {
             fullMsg.append(msg);
             msg = sc.nextLine();
         }
@@ -71,9 +72,10 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks the type of the trade input by the user.
      * For now, there're only permanent and temporary.
+     *
      * @return If the trade type is valid.
      */
-    protected boolean checkTradeType(String tradeType){
+    protected boolean checkTradeType(String tradeType) {
         return tradeType.equals("Permanent") || tradeType.equals("Temporary");
 
     }
@@ -82,27 +84,30 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks the response from the user to
      * the agree or not question.
+     *
      * @return If user's response is valid.
      */
-    protected boolean checkAgreeOrNot(String response){
+    protected boolean checkAgreeOrNot(String response) {
         return response.equals("Agree") || response.equals("Disagree");
     }
 
     /**
      * Checks user's input of the meeting number.
+     *
      * @return If the meeting number is valid.
      */
-    public boolean checkNumMeeting(int meetingNum){
+    public boolean checkNumMeeting(int meetingNum) {
         return meetingNum == 1 || meetingNum == 2;
     }
 
     /**
      * Gets and returns user's input of
      * the option number. Based on code by Yassine.b from:
-     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+     *
      * @return User's input of the option number.
+     * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      */
-    protected int getNumKindOfResponse(int userInput, String option1, String option2){
+    protected int getNumKindOfResponse(int userInput, String option1, String option2) {
         //TODO: delete later
         Scanner sc = new Scanner(System.in);
         int num = 0;
@@ -131,13 +136,14 @@ public class RegularUserOtherInfoChecker {
     /**
      * Gets and returns user's input of
      * the type of the item
+     *
      * @return User's input of the type of the item.
      */
-    protected Category getItemType(){
+    protected Category getItemType() {
         //TODO: delete later
         ArrayList<String> categories = new ArrayList<>();
         String cateG;
-        for (Category category : Category.values()){
+        for (Category category : Category.values()) {
             categories.add(category.name());
         }
         Scanner sc = new Scanner(System.in);
@@ -145,19 +151,20 @@ public class RegularUserOtherInfoChecker {
         ds.printOut("It must be in one of the categories below (all UPPERCASE)!");
         ds.printResult(new ArrayList<>(categories));
         do {
-           cateG = sc.nextLine();
-        } while(!categories.contains(cateG));
+            cateG = sc.nextLine();
+        } while (!categories.contains(cateG));
         return Category.valueOf(cateG);
     }
 
 
     /**
      * Checks user's input of the item category
+     *
      * @return If it's a valid category or not.
      */
-    protected boolean checkItemType(String userInputCategory){
+    protected boolean checkItemType(String userInputCategory) {
         ArrayList<String> categories = new ArrayList<>();
-        for (Category category : Category.values()){
+        for (Category category : Category.values()) {
             categories.add(category.name());
         }
         return categories.contains(userInputCategory);
@@ -168,19 +175,21 @@ public class RegularUserOtherInfoChecker {
     /**
      * Checks user's input of
      * the rating.
+     *
      * @return If the rating is valid.
      */
-    protected boolean getNumRating(int rating){
-        return 1 <= rating  && rating <= 10;
+    protected boolean getNumRating(int rating) {
+        return 1 <= rating && rating <= 10;
     }
 
-    }
 
     /**
      * Checks the tradable user id input by the user.
+     *
      * @return If the id is valid or not.
      */
-    protected boolean checkTradableUserId(int tradableUserId){
+    protected boolean checkTradableUserId(int tradableUserId) {
         return tradableUserId == 0 || um.getListTradableUser().contains(tradableUserId);
 
+    }
 }
