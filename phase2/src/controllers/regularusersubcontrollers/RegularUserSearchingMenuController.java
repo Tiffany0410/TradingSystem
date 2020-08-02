@@ -1,21 +1,16 @@
 package controllers.regularusersubcontrollers;
 import gui.GUIDemo;
-import managers.actionmanager.ActionManager;
 import managers.meetingmanager.MeetingManager;
-import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
-import presenter.DisplaySystem;
 import presenter.SystemMessage;
 import exception.InvalidIdException;
 import managers.itemmanager.Category;
 import java.util.ArrayList;
 import java.util.List;
 import managers.itemmanager.Item;
-import managers.itemmanager.Category;
-
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class RegularUserSearchingMenuController {
@@ -24,22 +19,31 @@ public class RegularUserSearchingMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
-    private ActionManager am;
     private int userId;
 
+    /** Constructor
+     * @param tm trade manager
+     * @param mm meeting manager
+     * @param um user manager
+     * @param im item manager
+     * @param sm system message
+     * @param username user name
+     */
     public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
-                                              UserManager um, ItemManager im, ActionManager am,
+                                              UserManager um, ItemManager im,
                                                SystemMessage sm, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
-        this.am = am;
         this.sm = sm;
         this.userId = this.um.usernameToID(username);
 
     }
 
+    /** Sort user by rating
+     * print the list of user by sorted rating
+     */
     public void sortRating(){
         List<TradableUser> l = um.sortRating();
         if (l.size() == 0) {
@@ -49,6 +53,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** Recent three users traded with this user
+     * print a list of user id (3) that traded with this user
+     */
     public void recentThreePartner(){
         try{
             List<Integer> filter = tm.recentThreePartners(userId);
@@ -63,6 +70,9 @@ public class RegularUserSearchingMenuController {
     }
 
 
+    /** Sort all users that traded with this user by quantity
+     * print a list of users in order
+     */
     public void sortAllTradedPartner() {
         try {
             List<Integer> filter = tm.allPartners(userId);
@@ -76,6 +86,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** filter this user's complete trade
+     * return this user's complete trade
+     */
     public void filterCompleteTrade() {
         try {
             List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
@@ -88,7 +101,9 @@ public class RegularUserSearchingMenuController {
             sm.printInvalidID();
         }
     }
-
+    /** filter this user's incomplete trade
+     * return this user's incomplete trade
+     */
     public void filterIncompleteTrade() {
         try {
             List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
@@ -105,7 +120,9 @@ public class RegularUserSearchingMenuController {
     }
 
 
-
+    /** sort all meetings of this user by date
+     * print all meetings of this user by date
+     */
     public void allMeetingSortByDate() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
         if (m.size() == 0) {
@@ -115,6 +132,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** sort all incomplete meetings of this user by date
+     * print all incomplete meetings of this user by date
+     */
     public void unCompleteMeetingSortByDate(){
         try {
             List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
@@ -130,6 +150,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** sort all complete meetings of this user by date
+     * print all complete meetings of this user by date
+     */
     public void completeMeetingSortByDate() {
         List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
         if (m.size() == 0) {
@@ -140,6 +163,9 @@ public class RegularUserSearchingMenuController {
     }
 
 
+    /** filter user's wanted category
+     * @param category user input category
+     */
     public void filterByCategory(String category) {
         try {
             Category ca = Category.valueOf(category);
@@ -154,12 +180,18 @@ public class RegularUserSearchingMenuController {
             }
     }
 
+    /** helper list  for gui
+     * @return the list of category that user can input
+     */
     public String listCategory(){
         return "Here is a list of category you can type:" + "\n" +
                 "appliances, clothing, electronics, furniture, beauty, "+ "\n" +
                 "jewellery, books, supplies, toys, others";
     }
 
+    /** Search item by name and print it
+     * @param name item name
+     */
     public void searchItemByName(String name) {
         ArrayList<Integer> c = im.searchItem(name);
         if (c.size() == 0) {
@@ -169,6 +201,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** Get an item's description by id
+     * @param itemId item id
+     */
     public void getItemById(int itemId) {
         try {
             Item c = im.getItembyId(itemId);
@@ -180,6 +215,9 @@ public class RegularUserSearchingMenuController {
         }
     }
 
+    /** Print sorted item by follows
+     *
+     */
     public void sortItemByFollows() {
         try {
             ArrayList<Item> c = im.getSortedItemByFollows(um);
