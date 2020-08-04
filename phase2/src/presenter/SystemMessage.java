@@ -329,6 +329,13 @@ public class SystemMessage {
         return out.toString();
     }
 
+    public String tryAgainMsgForWrongInput(){
+       return "Please try again, one or more input(s) are invalid";
+    }
+
+    public String tryAgainMsgForWrongFormatInput(){
+        return "One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)";
+    }
 
     public String msgForNo(String string){
         return "There is no " + string + " .";

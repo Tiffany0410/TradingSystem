@@ -1,35 +1,34 @@
 package gui.regularuser_meeting_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
+import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
+import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
+import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class RegularUserMeetingMenuGUI {
     private JPanel rootPanel;
-
-    public void run() {
-        JFrame frame = new JFrame("regularUserMeetingMenuGUI");
-        frame.setContentPane(new RegularUserMeetingMenuGUI().rootPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private JButton confirmTPMeetingButton;
     private JButton outStandingMeetingButton;
-    private JButton suggestTPMeetingButton;
+    private JButton suggestOrConfirmTPButton;
     private JButton backButton;
     private JButton confirmTheMeetingTookButton;
     private JButton confirmedMeetingsButton;
     private JButton meetingsNeedToConfirmTPButton;
 
-    public RegularUserMeetingMenuGUI() {
+    public RegularUserMeetingMenuGUI(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                                     int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                                     RegularUserOtherInfoChecker oiC) {
 
-        suggestTPMeetingButton.addActionListener(new ActionListener() {
+        suggestOrConfirmTPButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -37,17 +36,37 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-            /*
-            if (mmc.isEmpty(getUnConfirmTimePlace())){
-                sm.msgForNothing("here that requires action", ds);
-             }
-           else{
-             // print the meetings with unconfirmed time and place
-             str = sm.printObjects(mmc.getUnconfirmedTimePlace());
-             printNote("Here's the list of meetings with time and place
-             that need to be confirmed" + str);
-             // asks for user input...
-             == split point ==
+
+                if (mmc.isEmpty(mmc.getUnConfirmTimePlace())) {
+                    printNote(sm.msgForNothing("here that requires action"));
+                } else {
+                    // print the meetings with unconfirmed time and place
+                    String str = sm.printListObject(new ArrayList<>(mmc.getUnConfirmTimePlace()));
+                    printNote("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
+                    // asks for user input for the meeting to edit / confirm
+                    String askTradeId = "Please enter the trade id of the meeting you wish to edit / confirm its time and place.";
+                    String input1 = getInPut(askTradeId, guiUserInputInfo);
+                    String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
+                    String input2 = getInPut(askMeetingNum, guiUserInputInfo);
+                    if (idC.checkInt(input1) && idC.checkInt(input2)) {
+                        int tradeId = Integer.parseInt(input1);
+                        int meetingNum = Integer.parseInt(input2);
+                        if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                            String meetinginfo = mmc.getMeeting(tradeId, meetingNum).toString();
+                            RegularUserSuggestMeetingWindow suggestOrConfirmMeetingTPgui =
+                                    new RegularUserSuggestMeetingWindow(meetinginfo);
+                            suggestOrConfirmMeetingTPgui.run(meetinginfo);
+                        } else {
+                            printNote(sm.tryAgainMsgForWrongInput());
+                        }
+                    } else {
+                        printNote(sm.tryAgainMsgForWrongFormatInput());
+                    }
+             /*
+             edit:
+
+
+             //== split point ==
              // validate the meeting  + check threshold
              // if yes:
                 - call the editMeetingTandP method
@@ -60,43 +79,24 @@ public class RegularUserMeetingMenuGUI {
              }
 		    */
 
-            }
-        });
-        confirmTPMeetingButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                	/*
-		if (mmc.isEmpty(getUnConfirmTimePlace())){
-			sm.msgForNothing("that requires action", ds);
-	     }
-		else{
-			// print the meetings with unconfirmed time and place
-			 str = sm.printObjects(mmc.getUnconfirmedTimePlace());
-			 printNote("Here's the list of meetings with time and place
-			 that need to be confirmed" + str);
+                /*
+                confirm:
 
 
-			 // asks for user input...
-			 == split point ==
+                 == split point ==
 			 // validate the meeting (check valid meeting)
 			 // if yes:
 				- call the confirmMeetingTandP method
 				  - if true = success
 				  - if false = ds.printOut("It's not your turn to confirm." + "\n");
 			// if no:
-			    - msg for meeting DNE		     }
+			    - msg for meeting DNE
+                 */
 
-	    }
-	}
-
-		*/
+                }
             }
         });
+
         confirmTheMeetingTookButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -166,11 +166,21 @@ public class RegularUserMeetingMenuGUI {
                */
             }
         });
+        backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //GO back to main menu
+                guiD.runRegularUserMainMenu(false);
+            }
+        });
     }
 
 
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
     public String getInPut(String string, GUIUserInputInfo guiInput) {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
@@ -180,8 +190,6 @@ public class RegularUserMeetingMenuGUI {
 
     }
 
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
     public void printNote(String msg){
         NotificationGUI msgGUI = new NotificationGUI(msg);
         msgGUI.run(msg);
@@ -189,7 +197,16 @@ public class RegularUserMeetingMenuGUI {
     }
 
 
-
+    public void run(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                    int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                    RegularUserOtherInfoChecker oiC) {
+        JFrame frame = new JFrame("regularUserMeetingMenuGUI");
+        frame.setContentPane(new RegularUserMeetingMenuGUI(guiD, mmc, sm,
+        maxNumTPEdits, guiUserInputInfo, idC, oiC).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 
 
 

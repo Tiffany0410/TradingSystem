@@ -64,7 +64,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public void run () {
         RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow();
         dialog.pack();
         dialog.setVisible(true);

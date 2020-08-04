@@ -1,14 +1,21 @@
 package gui.regularuser_meeting_menu_gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class RegularUserSuggestMeetingWindow extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextArea textArea;
 
-    public RegularUserSuggestMeetingWindow() {
+    public RegularUserSuggestMeetingWindow(String str) {
+        textArea.setText(str);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setBackground(new Color(242,242,242));
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -51,8 +58,8 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow();
+    public void run(String str) {
+        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

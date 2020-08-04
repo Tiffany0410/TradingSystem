@@ -207,11 +207,11 @@ public class RegularUserTradingMenuGUI {
 
                 }
                 else{
-                    printNote("Please try again, one or more input(s) are invalid");
+                    printNote(sm.tryAgainMsgForWrongInput());
                 }
             }
             else{
-                printNote("One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered string)");
+                printNote(sm.tryAgainMsgForWrongFormatInput());
             }
         }
     }
@@ -233,7 +233,7 @@ public class RegularUserTradingMenuGUI {
         }
         else{
             //Or if (atc.tradeRequestsToRespond().size() == 0){printNote(...);}
-            //TODO: problem with getTradeHistory's exception throwing
+            //TODO: problem with getTradeHistory's exception throwing - don't need id exception
             //case with no trade requests
             try {
                 tradeRequests = atc.tradeRequestsToRespond();
@@ -261,13 +261,11 @@ public class RegularUserTradingMenuGUI {
                         }
                     }
                     else{
-                        //TODO: refactor the below to a method
-                        printNote("Please try again, one or more input(s) are invalid");
+                        printNote(sm.tryAgainMsgForWrongInput());
                     }
                 }
                 else {
-                    //TODO: refactor the below to a method
-                    printNote("One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered string)");
+                    printNote(sm.tryAgainMsgForWrongFormatInput());
                 }
             }
             else{
@@ -307,8 +305,6 @@ public class RegularUserTradingMenuGUI {
                 if ((tradeKind == 1 || tradeKind == 2) && idC.checkUserID(userId1) && idC.checkUserID(userId2)
                     && idC.checkItemID(itemid1, 1) && idC.checkItemID(itemid2, 1)
                         && oiC.checkTradeType(tradeType)) {
-                    //TODO: try and catch(???) maybe do it as one on the top level? - maybe don't need invalid
-                    // id exception???
                     try {
                         printNote(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
                     } catch (InvalidIdException invalidIdException) {
@@ -316,11 +312,11 @@ public class RegularUserTradingMenuGUI {
                     }
                 }
                  else{
-                     printNote("Please try again, one or more input(s) are invalid");
+                     printNote(sm.tryAgainMsgForWrongInput());
                 }
             }
             else{
-                printNote("One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered string)");
+                printNote(sm.tryAgainMsgForWrongFormatInput());
             }
         }
     }

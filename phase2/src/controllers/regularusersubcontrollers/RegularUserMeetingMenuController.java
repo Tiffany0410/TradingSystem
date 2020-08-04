@@ -113,7 +113,7 @@ public class RegularUserMeetingMenuController {
      * @return true if the confirmation successful
      * @throws InvalidIdException In case if the id is not valid.
      */
-    public boolean confirmMeetingTandP(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+    public boolean confirmMeetingTandP(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         boolean confirmSuccess = mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
         if (confirmSuccess) {
@@ -165,11 +165,25 @@ public class RegularUserMeetingMenuController {
      * @param numMeeting the meeting number
      * @param userId the user id
      * @return true if it's this user to edit
-     * @throws InvalidIdException in case if the id is invalid
      */
-    public boolean checkTurn(int tradeId, int numMeeting, int userId)throws InvalidIdException{
+    public boolean checkTurn(int tradeId, int numMeeting, int userId){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         return mm.checkTurn(meeting,userId);
+    }
+
+    /**
+     * Gets the meeting based on some information given.
+     * @param tradeId The trade id.
+     * @param numMeeting The meeting number.
+     * @return The meeting that corresponds to the trade id and
+     * the meeting number.
+     */
+    public Meeting getMeeting(int tradeId, int numMeeting){
+        return mm.getMeetingByIdNum(tradeId, numMeeting);
+    }
+
+
+
     }
 
 }
