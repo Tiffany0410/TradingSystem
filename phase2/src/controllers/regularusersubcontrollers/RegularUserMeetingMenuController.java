@@ -61,6 +61,11 @@ public class RegularUserMeetingMenuController {
         return mm.getUnConfirmMeeting(userId);
     }
 
+    /**
+     * @return the list of meetings that are completed.
+     */
+    public List<Meeting> getCompletedMeetings(){return mm.getCompleteMeeting(userId);}
+
     /** check if the list of meeting is empty.
      * @param meetings the meeting of a trade
      * @return true if the list of meeting is empty

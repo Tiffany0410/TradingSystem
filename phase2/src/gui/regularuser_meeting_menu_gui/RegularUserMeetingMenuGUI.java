@@ -8,12 +8,15 @@ import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
+import managers.meetingmanager.Meeting;
+import managers.trademanager.Trade;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RegularUserMeetingMenuGUI {
     private JPanel rootPanel;
@@ -75,26 +78,27 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                		/*
-		if (mmc.isEmpty(getUnconfirmedMeeting){
-			sm.msgForNothing("that needs to be confirmed", ds);
-	    }
-	   else{
-		 //print the list of unconfirmed meeting
-		 // asks for user input...
-		 == split point ==
-		 // validate the meeting (check valid meeting)
-		 // if yes:
-			- call the confirmMeetingTookPlace method
-			  - if true = success
-			  - if false = ds.printOut("fail");
-		// if no:
-		    - msg for meeting DNE		     }
+                if (mmc.isEmpty(mmc.getUnconfirmedMeeting())) {
+                    sm.msgForNothing("that needs to be confirmed");
+                }
+                else {
+                /* //print the list of unconfirmed meeting
+                 // asks for user input...
+                 == split point ==
+                 // validate the meeting (check valid meeting)
+                 // if yes:
+                    - call the confirmMeetingTookPlace method
+                      - if true = success
+                      - if false = ds.printOut("fail");
+                // if no:
+                    - msg for meeting DNE		     }
 
-		*/
+                */
 
+                }
             }
         });
+
         outStandingMeetingButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -104,6 +108,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //print the list of unconfirmed meetings
+                viewMeetings(sm, mmc.getUnconfirmedMeeting(), "unconfirmed");
 
             }
         });
@@ -115,8 +120,9 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //new meeting controller method for get completed meetings
                 //print the list of completed meetings
+                viewMeetings(sm, mmc.getCompletedMeetings(), "completed");
+
             }
         });
         meetingsNeedToConfirmTPButton.addActionListener(new ActionListener() {
@@ -127,12 +133,9 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*
                 // print the meetings with unconfirmed time and place
-                str = sm.printObjects(mmc.getUnconfirmedTimePlace());
-                printNote("Here's the list of meetings with time and place
-                        that need to be confirmed" + str);
-               */
+                viewMeetings(sm, mmc.getUnConfirmTimePlace(), "time and place unconfirmed");
+
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -149,6 +152,14 @@ public class RegularUserMeetingMenuGUI {
         });
     }
 
+    private void viewMeetings(SystemMessage sm, List<Meeting> meetings, String type) {
+        if (meetings.size() != 0) {
+            String str = sm.printListObject(new ArrayList<>(meetings));
+            printNote("Here's your list of " + type + " meetings: \n" + str);
+        } else {
+            printNote(sm.msgForNothing("here."));
+        }
+    }
 
     public String getInPut(String string, GUIUserInputInfo guiInput) {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
