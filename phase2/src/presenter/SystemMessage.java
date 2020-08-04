@@ -4,6 +4,7 @@ import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
 import gui.GUIDemo;
 import gui.NotificationGUI;
+import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
@@ -84,6 +85,26 @@ public class SystemMessage {
     }
 
 
+    public void printItemResult(ArrayList<Item> obj) {
+        StringBuilder string = new StringBuilder();
+
+        int count = 1;
+        for (Object o : obj) {
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                string.append("#").append(count).append(". ").append(o.toString()).append("\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[]) o;
+                string.append("#").append(count).append(". ").append("\n").append("Username: ").append(strings[0]);
+                string.append("Message: ").append(strings[1]).append("\n");
+            }
+            count++;
+        }
+
+        guiDemo.printNotification(string.toString());
+    }
 
 
 
