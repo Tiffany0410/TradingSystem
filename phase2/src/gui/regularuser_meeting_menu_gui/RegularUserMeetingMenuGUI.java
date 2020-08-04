@@ -25,8 +25,7 @@ public class RegularUserMeetingMenuGUI {
     private JButton meetingsNeedToConfirmTPButton;
 
     public RegularUserMeetingMenuGUI(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                                     int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
-                                     RegularUserOtherInfoChecker oiC) {
+                                     int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
 
         suggestOrConfirmTPButton.addActionListener(new ActionListener() {
             /**
@@ -168,11 +167,10 @@ public class RegularUserMeetingMenuGUI {
 
 
     public void run(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                    int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
-                    RegularUserOtherInfoChecker oiC) {
+                    int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
         JFrame frame = new JFrame("regularUserMeetingMenuGUI");
         frame.setContentPane(new RegularUserMeetingMenuGUI(guiD, mmc, sm,
-        maxNumTPEdits, guiUserInputInfo, idC, oiC).rootPanel);
+        maxNumTPEdits, guiUserInputInfo, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

@@ -4,9 +4,13 @@ import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.maincontrollers.AdminUserController;
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
+import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
+import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
+import gui.regularuser_meeting_menu_gui.RegularUserMeetingMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
 import gui.trading_system_init_menu_gui.TradingSystemInitMenuGUI;
@@ -72,6 +76,14 @@ public class GUIDemo {
     public void runRegularUserCreateAccount() {
         RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator, this);
         regularUserCreateAccountGUI.run(this.accountCreator, this);
+    }
+
+    public void runRegularUserMeetingMenu(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                                          int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC){
+        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits,
+                guiUserInputInfo, idC);
+        regularUserMeetingMenuGUI.run(guiD, mmc, sm, maxNumTPEdits,
+                guiUserInputInfo, idC);
     }
 
     public void runAdminUserMainMenu() {

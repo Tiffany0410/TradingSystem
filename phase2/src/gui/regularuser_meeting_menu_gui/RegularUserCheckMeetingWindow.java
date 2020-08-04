@@ -4,6 +4,7 @@ import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
 import exception.InvalidIdException;
+import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
 import gui.UserInputGUI;
@@ -23,7 +24,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     private JButton editButton;
     private JTextArea textArea;
 
-    public RegularUserCheckMeetingWindow(String str, RegularUserMeetingMenuController mmc, int tradeId,
+    public RegularUserCheckMeetingWindow(GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int tradeId,
                                          int meetingNum, int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
                                          RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
         textArea.setText(str);
@@ -43,7 +44,8 @@ public class RegularUserCheckMeetingWindow extends JDialog {
 
         buttonBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                //go back to meeting menu gui
+                onBack();
             }
         });
 
@@ -51,14 +53,14 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                onBack();
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                onBack();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         editButton.addActionListener(new ActionListener() {
@@ -75,7 +77,15 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         });
     }
 
-    private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum, int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc, RegularUserDateTimeChecker dtc, SystemMessage sm) throws InvalidIdException {
+    private void onBack(GUIDemo guiD, RegularUserMeetingMenuController mmc,
+                        int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
+                        RegularUserIDChecker idc){
+        guiD.runRegularUserMeetingMenu(guiD, mmc, sm, maxEditsTP, guiUserInputInfo, idc);
+        dispose();
+    }
+    private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
+                                  int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
+                                  RegularUserDateTimeChecker dtc, SystemMessage sm) throws InvalidIdException {
         if (mmc.checkOverEdit(tradeId, meetingNum, maxEditsTP).equals("")){
             //int year, int month, int day, int hour, int min, int sec, String place,
             //asks for input
@@ -129,10 +139,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         }
     }
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
 
     public String getInPut(String string, GUIUserInputInfo guiInput) {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
