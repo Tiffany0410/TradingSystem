@@ -262,6 +262,9 @@ public class SystemMessage {
     }
 
 
+    public String lockMessageForTPLimit() {
+        return "You can't edit any more because the time and place edits limit" +
+            " is reached.";}
 
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
@@ -335,6 +338,10 @@ public class SystemMessage {
 
     public String tryAgainMsgForWrongFormatInput(){
         return "One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)";
+    }
+
+    public String msgForNotYourTurn(){
+        return "Sorry, it's not your turn to edit/confirm.";
     }
 
     public String msgForNo(String string){

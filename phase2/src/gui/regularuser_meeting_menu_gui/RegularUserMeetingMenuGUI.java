@@ -52,46 +52,16 @@ public class RegularUserMeetingMenuGUI {
                         int tradeId = Integer.parseInt(input1);
                         int meetingNum = Integer.parseInt(input2);
                         if (mmc.checkValidMeeting(tradeId, meetingNum)) {
-                            String meetinginfo = mmc.getMeeting(tradeId, meetingNum).toString();
-                            RegularUserSuggestMeetingWindow suggestOrConfirmMeetingTPgui =
-                                    new RegularUserSuggestMeetingWindow(meetinginfo);
-                            suggestOrConfirmMeetingTPgui.run(meetinginfo);
+                            String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
+                            RegularUserCheckMeetingWindow suggestOrConfirmMeetingTPgui =
+                                    new RegularUserCheckMeetingWindow(meetingInfo);
+                            suggestOrConfirmMeetingTPgui.run(meetingInfo);
                         } else {
                             printNote(sm.tryAgainMsgForWrongInput());
                         }
                     } else {
                         printNote(sm.tryAgainMsgForWrongFormatInput());
                     }
-             /*
-             edit:
-
-
-             //== split point ==
-             // validate the meeting  + check threshold
-             // if yes:
-                - call the editMeetingTandP method
-                - confirm time place
-                - getEditOverThreshold
-                - msg for success / fail
-                    - if fail: "not your turn
-            // if no:
-                - msg for meeting DNE or threshold's reached
-             }
-		    */
-
-                /*
-                confirm:
-
-
-                 == split point ==
-			 // validate the meeting (check valid meeting)
-			 // if yes:
-				- call the confirmMeetingTandP method
-				  - if true = success
-				  - if false = ds.printOut("It's not your turn to confirm." + "\n");
-			// if no:
-			    - msg for meeting DNE
-                 */
 
                 }
             }

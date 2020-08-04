@@ -84,9 +84,9 @@ public class RegularUserDateTimeChecker {
 
     }
 
-    private boolean isValidTime(int hour, int min){return 1 <= hour && hour <= 24 && 0 <= min && min <= 59;}
+    public boolean isValidTime(int hour, int min){return 1 <= hour && hour <= 24 && 0 <= min && min <= 59;}
 
-    private boolean isValidDay(int year, int month, int day){
+    public boolean isValidDay(int year, int month, int day){
         if (year < 2020 || year > 2030){return false;}
 
         if (month < 1 || month > 12){return false;}

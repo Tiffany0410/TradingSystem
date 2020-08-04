@@ -134,7 +134,7 @@ public class RegularUserMeetingMenuController {
      * @return true if the meeting time and place is edited successfully
      * @throws InvalidIdException In case if the id is not valid.
      */
-    public boolean EditMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
+    public boolean editMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
             maxMeetingTimePlaceEdits) throws InvalidIdException{
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         if (mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
@@ -142,6 +142,8 @@ public class RegularUserMeetingMenuController {
                         time.get(3), time.get(4), 0, place, maxMeetingTimePlaceEdits);
             if (editSuccess) {
                 int tradeID = meeting.getTradeId();
+                //by default, this user confirms the time and place.
+                mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
                 String previousTime = time.get(0) + "." + time.get(1) + "." + time.get(2) + "." + time.get(3) + "." + time.get(4);
                 String iDAndPreviousTimeAndPlace = userId + "." + meeting.getPlace() + "." + tradeID + "." + previousTime;
                     am.addActionToAllActionsList(userId, "regularUser", "3.1",
