@@ -1,12 +1,17 @@
 package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
+import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
+import managers.meetingmanager.Meeting;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegularUserSearchingMeetingsSubMenu {
     private JPanel rootPanel;
@@ -15,7 +20,8 @@ public class RegularUserSearchingMeetingsSubMenu {
     private JButton completeMeetingButton;
     private JButton backButton;
 
-    public RegularUserSearchingMeetingsSubMenu(RegularUserSearchingMenuController regularUserSearchingMenuController, GUIDemo guiDemo) {
+    public RegularUserSearchingMeetingsSubMenu(RegularUserSearchingMenuController regularUserSearchingMenuController,
+                                               GUIDemo guiDemo, SystemMessage systemMessage) {
         sortByDateButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -24,7 +30,13 @@ public class RegularUserSearchingMeetingsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                regularUserSearchingMenuController.allMeetingSortByDate();
+
+                List<Meeting> m = regularUserSearchingMenuController.allMeetingSortByDate();
+                if (m.size() == 0) {
+                    systemMessage.msgForNothing();
+                } else {
+                    systemMessage.printResult(new ArrayList<>(m));
+                }
                 // TODO: Need method to close this window
             }
         });
@@ -36,7 +48,19 @@ public class RegularUserSearchingMeetingsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                regularUserSearchingMenuController.unCompleteMeetingSortByDate();
+                try {
+                List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.unCompleteMeetingSortByDate();
+                    if (m.size() == 0) {
+                    systemMessage.msgForNothing();
+                } else {
+                    systemMessage.printResult(new ArrayList<>(m));
+                }
+                } catch (InvalidIdException ex) {
+                    systemMessage.printInvalidID();
+                } catch (Exception ex) {
+                    systemMessage.invalidInput();
+                }
+
                 // TODO: Need method to close this window
             }
         });
@@ -48,7 +72,12 @@ public class RegularUserSearchingMeetingsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                regularUserSearchingMenuController.completeMeetingSortByDate();
+                List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.completeMeetingSortByDate();
+                if (m.size() == 0) {
+                systemMessage.msgForNothing();
+                } else {
+                systemMessage.printResult(new ArrayList<>(m));
+                }
                 // TODO: Need method to close this window
             }
         });
@@ -66,9 +95,10 @@ public class RegularUserSearchingMeetingsSubMenu {
         });
     }
 
-    public void run(RegularUserSearchingMenuController regularUserSearchingMenuController, GUIDemo guiDemo) {
+    public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
+                    GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingMeetingsSubMenu");
-        frame.setContentPane(new RegularUserSearchingMeetingsSubMenu(regularUserSearchingMenuController, guiDemo).rootPanel);
+        frame.setContentPane(new RegularUserSearchingMeetingsSubMenu(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
