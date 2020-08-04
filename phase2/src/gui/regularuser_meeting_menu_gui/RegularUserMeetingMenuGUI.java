@@ -37,6 +37,28 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+            /*
+            if (mmc.isEmpty(getUnConfirmTimePlace())){
+                sm.msgForNothing("here that requires action", ds);
+             }
+           else{
+             // print the meetings with unconfirmed time and place
+             str = sm.printObjects(mmc.getUnconfirmedTimePlace());
+             printNote("Here's the list of meetings with time and place
+             that need to be confirmed" + str);
+             // asks for user input...
+             == split point ==
+             // validate the meeting  + check threshold
+             // if yes:
+                - call the editMeetingTandP method
+                - confirm time place
+                - getEditOverThreshold
+                - msg for success / fail
+                    - if fail: "not your turn
+            // if no:
+                - msg for meeting DNE or threshold's reached
+             }
+		    */
 
             }
         });
@@ -48,7 +70,31 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                	/*
+		if (mmc.isEmpty(getUnConfirmTimePlace())){
+			sm.msgForNothing("that requires action", ds);
+	     }
+		else{
+			// print the meetings with unconfirmed time and place
+			 str = sm.printObjects(mmc.getUnconfirmedTimePlace());
+			 printNote("Here's the list of meetings with time and place
+			 that need to be confirmed" + str);
 
+
+			 // asks for user input...
+			 == split point ==
+			 // validate the meeting (check valid meeting)
+			 // if yes:
+				- call the confirmMeetingTandP method
+				  - if true = success
+				  - if false = ds.printOut("It's not your turn to confirm." + "\n");
+			// if no:
+			    - msg for meeting DNE		     }
+
+	    }
+	}
+
+		*/
             }
         });
         confirmTheMeetingTookButton.addActionListener(new ActionListener() {
@@ -60,6 +106,24 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                		/*
+		if (mmc.isEmpty(getUnconfirmedMeeting){
+			sm.msgForNothing("that needs to be confirmed", ds);
+	    }
+	   else{
+		 //print the list of unconfirmed meeting
+		 // asks for user input...
+		 == split point ==
+		 // validate the meeting (check valid meeting)
+		 // if yes:
+			- call the confirmMeetingTookPlace method
+			  - if true = success
+			  - if false = ds.printOut("fail");
+		// if no:
+		    - msg for meeting DNE		     }
+
+		*/
+
             }
         });
         outStandingMeetingButton.addActionListener(new ActionListener() {
@@ -70,6 +134,7 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //print the list of unconfirmed meetings
 
             }
         });
@@ -81,7 +146,8 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //new meeting controller method for get completed meetings
+                //print the list of completed meetings
             }
         });
         meetingsNeedToConfirmTPButton.addActionListener(new ActionListener() {
@@ -92,7 +158,12 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                /*
+                // print the meetings with unconfirmed time and place
+                str = sm.printObjects(mmc.getUnconfirmedTimePlace());
+                printNote("Here's the list of meetings with time and place
+                        that need to be confirmed" + str);
+               */
             }
         });
     }
