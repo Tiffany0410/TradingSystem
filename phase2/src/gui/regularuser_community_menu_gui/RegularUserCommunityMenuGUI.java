@@ -296,7 +296,7 @@ public class RegularUserCommunityMenuGUI {
         userInputGUI.run(string, guiInput);
         String sUserId = guiInput.getTempUserInput();
         // TODO: need to close first
-        return string;
+        return sUserId;
     }
     public void printNote(String string){
         NotificationGUI msgGUI = new NotificationGUI(string);
