@@ -6,7 +6,6 @@ import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
 import presenter.SystemMessage;
-import exception.InvalidIdException;
 import managers.itemmanager.Category;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,7 @@ public class RegularUserSearchingMenuController {
     /** Recent three users traded with this user
      * print a list of user id (3) that traded with this user
      */
-    public List<Integer> recentThreePartner() throws InvalidIdException {
+    public List<Integer> recentThreePartner(){
 //        try{
             return tm.recentThreePartners(userId);
 //            if (filter.size() == 0) {
@@ -65,7 +64,7 @@ public class RegularUserSearchingMenuController {
     }
 
 
-    public List<Integer> sortAllTradedPartner() throws InvalidIdException {
+    public List<Integer> sortAllTradedPartner(){
         return tm.allPartners(userId);}
 //        try {
 //            List<Integer> filter = tm.allPartners(userId);
@@ -79,7 +78,7 @@ public class RegularUserSearchingMenuController {
 //        }
 //    }
 
-    public List<managers.trademanager.Trade> filterCompleteTrade() throws InvalidIdException {
+    public List<managers.trademanager.Trade> filterCompleteTrade(){
         return tm.filterHistory(userId);}
 //        try {
 //            List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
@@ -93,7 +92,7 @@ public class RegularUserSearchingMenuController {
 //        }
 //    }
 
-    public List<managers.trademanager.Trade> filterIncompleteTrade() throws InvalidIdException {
+    public List<managers.trademanager.Trade> filterIncompleteTrade(){
         List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
         List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
         filter1.addAll(filter2);
@@ -122,7 +121,7 @@ public class RegularUserSearchingMenuController {
 //        }
     }
 
-    public List<managers.meetingmanager.Meeting> unCompleteMeetingSortByDate() throws InvalidIdException {
+    public List<managers.meetingmanager.Meeting> unCompleteMeetingSortByDate(){
         return mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));}
 //        try {
 //            List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
@@ -187,7 +186,7 @@ public class RegularUserSearchingMenuController {
     /** Get an item's description by id
      * @param itemId item id
      */
-    public String getItemById(int itemId) throws InvalidIdException {
+    public String getItemById(int itemId){
         Item c = im.getItembyId(itemId);
         return c.getDescription();
 //        try {
@@ -203,7 +202,7 @@ public class RegularUserSearchingMenuController {
     /** Print sorted item by follows
      *
      */
-    public ArrayList<Item>  sortItemByFollows() throws InvalidIdException {
+    public ArrayList<Item>  sortItemByFollows(){
         return im.getSortedItemByFollows(um);
 //        try {
 //            ArrayList<Item> c = im.getSortedItemByFollows(um);

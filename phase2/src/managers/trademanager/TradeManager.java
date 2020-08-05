@@ -51,13 +51,11 @@ public class TradeManager implements Serializable {
      * @return a list of that user's trade history
      * @throws InvalidIdException In case the id is invalid.
      */
-    public List<managers.trademanager.Trade> getTradeHistory(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> getTradeHistory(int userId) {
         List<managers.trademanager.Trade> list = new ArrayList<>();
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(1) == userId || t.getIds().get(2) == userId) {
                 list.add(t);
-            } else {
-                throw new InvalidIdException("Invalid Id");
             }
         }
         return list;
@@ -94,9 +92,8 @@ public class TradeManager implements Serializable {
     /** Recent three trade user id
      * @param userId user Id
      * @return list of recent three partner id
-     * @throws InvalidIdException
      */
-    public List<Integer> recentThreePartners(int userId) throws InvalidIdException {
+    public List<Integer> recentThreePartners(int userId){
         List<managers.trademanager.Trade> list = this.filterHistory(userId);
         List<Integer> list1 = new ArrayList<>();
         if (list.size() >= 3) {
@@ -117,9 +114,8 @@ public class TradeManager implements Serializable {
      *
      * @param userId user id
      * @return a list of trades which status are closed
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<managers.trademanager.Trade> filterHistory(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> filterHistory(int userId){
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         List<managers.trademanager.Trade> list1 = new ArrayList<>();
         for (managers.trademanager.Trade t : list) {
@@ -134,9 +130,8 @@ public class TradeManager implements Serializable {
      *
      * @param userId user id
      * @return a list of recent three item ids (Latest at index 0)
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<Integer> recentThreeItem(int userId) throws InvalidIdException {
+    public List<Integer> recentThreeItem(int userId){
         List<managers.trademanager.Trade> list = this.filterHistory(userId);
         List<Integer> list1 = new ArrayList<>();
         if (list.size() >= 3) {
@@ -187,9 +182,8 @@ public class TradeManager implements Serializable {
      * @link https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
      * @param userId user id
      * @return list of top three partners id (Most is at index 0 and least at last index)
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<Integer> allPartners(int userId) throws InvalidIdException {
+    public List<Integer> allPartners(int userId){
         Map<Integer, Integer> numTrade = new HashMap<>();
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         for (managers.trademanager.Trade t : list) {
@@ -222,7 +216,7 @@ public class TradeManager implements Serializable {
      * @return list of top three partners id (Most is at index 0 and least at last index)
      * @throws InvalidIdException In case the id is invalid.
      */
-    public List<Integer> topThreePartners(int userId) throws InvalidIdException {
+    public List<Integer> topThreePartners(int userId){
         Map<Integer, Integer> numTrade = new HashMap<>();
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         for (managers.trademanager.Trade t : list) {
@@ -232,16 +226,15 @@ public class TradeManager implements Serializable {
                 numTrade.put(t.getIds().get(2), 1);
             }
         }
-        Stream<Map.Entry<Integer,Integer>> sorted =
-                numTrade.entrySet().stream()
-                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+        numTrade.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
         Map<Integer,Integer> top3 =
                 numTrade.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .limit(3)
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-        return new ArrayList<Integer>(top3.keySet());
+        return new ArrayList<>(top3.keySet());
         // finding the way to solve by comparing values
         // in this website: https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
     }
@@ -251,9 +244,8 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of  user's Trades which its status is open
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<managers.trademanager.Trade> getOpenTrade(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> getOpenTrade(int userId){
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         List<managers.trademanager.Trade> list1 = new ArrayList<>();
         for (managers.trademanager.Trade t : list) {
@@ -269,9 +261,8 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of  user's Trades which its status is closed
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<managers.trademanager.Trade> getClosedTrade(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> getClosedTrade(int userId){
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         List<managers.trademanager.Trade> list1 = new ArrayList<>();
         for (managers.trademanager.Trade t : list) {
@@ -286,9 +277,9 @@ public class TradeManager implements Serializable {
      * Get list of user's cancelled trade
      *
      * @param userId the user we want to look for
-     * @return the list of cancel trade by user, throw InvalidIdException if invalid id
+     * @return the list of cancel trade by user
      */
-    public List<managers.trademanager.Trade> getCancelledTrade(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> getCancelledTrade(int userId){
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         List<managers.trademanager.Trade> list1 = new ArrayList<>();
         for (managers.trademanager.Trade t : list) {
@@ -304,9 +295,8 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return the list of trade which its status is wait to be opened
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<managers.trademanager.Trade> getWaitTrade(int userId) throws InvalidIdException {
+    public List<managers.trademanager.Trade> getWaitTrade(int userId) {
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         List<managers.trademanager.Trade> list1 = new ArrayList<>();
         for (managers.trademanager.Trade t : list) {
@@ -336,16 +326,15 @@ public class TradeManager implements Serializable {
      * get the trade by the given trade id
      *
      * @param tradeId the id of the trade
-     * @return a trade with the given id if the trade is in the TradeManager, otherwise, throw InvalidIdException
+     * @return a trade with the given id if the trade is in the TradeManager
      */
-    public managers.trademanager.Trade getTradeById(int tradeId) throws InvalidIdException {
-        managers.trademanager.Trade trade1 = listTrade.get(0);
+    public managers.trademanager.Trade getTradeById(int tradeId){
         for (managers.trademanager.Trade trade : listTrade) {
             if (trade.getIds().get(0) == tradeId) {
                 return trade;
             }
         }
-        throw new InvalidIdException("Invalid Id");
+        return null;
     }
 
     /**
@@ -354,14 +343,14 @@ public class TradeManager implements Serializable {
      * @param tradeId trade id we want to remove
      * @return the trade we remove
      */
-    public managers.trademanager.Trade removeTrade(int tradeId) throws InvalidIdException {
+    public managers.trademanager.Trade removeTrade(int tradeId) {
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 listTrade.remove(t);
                 return t;
             }
         }
-        throw new InvalidIdException("Invalid Id");
+        return null;
     }
 
 
@@ -371,48 +360,45 @@ public class TradeManager implements Serializable {
      * @param tradeId the id of the trade
      * @return true if is, otherwise false
      */
-    public boolean confirmComplete(int tradeId) throws InvalidIdException {
+    public boolean confirmComplete(int tradeId){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 return t.tradeStatus.equals(CLOSE);
             }
         }
-        throw new InvalidIdException("Invalid Id");
+        return false;
     }
 
     /** check if a trade is one way trade
      * @param tradeId trade id
      * @return true if it is one way trade, other wise false
-     * @throws InvalidIdException
      */
-    public boolean checkOneWayTrade(int tradeId) throws InvalidIdException{
+    public boolean checkOneWayTrade(int tradeId){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 return t.getIsOneWayTrade();
             }
         }
-        throw new InvalidIdException("Invalid Id");
+        return false;
     }
 
     /** Change a trade status to cancel
      * @param tradeId trade id
-     * @throws InvalidIdException
      */
-    public void cancelTrade(int tradeId) throws InvalidIdException{
+    public void cancelTrade(int tradeId) {
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 t.cancelTrade();
             }
+
         }
-        throw new InvalidIdException("Invalid Id");
     }
 
 
     /** change a trade status to close
      * @param tradeId trade id
-     * @throws InvalidIdException
      */
-    public void closeTrade(int tradeId, managers.itemmanager.ItemManager im) throws InvalidIdException{
+    public void closeTrade(int tradeId, managers.itemmanager.ItemManager im){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
@@ -423,14 +409,12 @@ public class TradeManager implements Serializable {
                 t.closedTrade();
             }
         }
-        throw new InvalidIdException("Invalid Id");
     }
 
     /** Change a trade status to open
      * @param tradeId trade id
-     * @throws InvalidIdException
      */
-    public void openTrade(int tradeId, managers.itemmanager.ItemManager im) throws InvalidIdException{
+    public void openTrade(int tradeId, managers.itemmanager.ItemManager im){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
@@ -441,37 +425,33 @@ public class TradeManager implements Serializable {
                 t.openTrade();
             }
         }
-        throw new InvalidIdException("Invalid Id");
     }
 
     /** return id we want to find
      * @param tradeId trade id
      * @param index index of id
      * @return id
-     * @throws InvalidIdException
      */
-    public int getId(int tradeId, int index) throws InvalidIdException{
+    public int getId(int tradeId, int index){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 return t.getIds().get(index);
             }
         }
-        throw new InvalidIdException("Invalid Id");
+        return -1;
     }
 
     /** set user status
      * @param tradeId trade id
      * @param userId user id
      * @param status status
-     * @throws InvalidIdException
      */
-    public void setUserStatus(int tradeId, int userId, String status) throws InvalidIdException{
+    public void setUserStatus(int tradeId, int userId, String status){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
                 t.setUserStatus(userId, status);
             }
         }
-        throw new InvalidIdException("Invalid Id");
     }
 
     /** Validate trade
