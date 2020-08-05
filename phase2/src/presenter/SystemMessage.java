@@ -127,21 +127,22 @@ public class SystemMessage {
      * @return messages as properly formatted strings.
      * @throws IOException In case the file can't be found.
      */
-    public String RegUserAlerts(managers.usermanager.UserManager um, RegularUserThresholdController tc, FilesReaderWriter rw, DisplaySystem ds, String username, String thresholdValuesFilePath) throws IOException {
+    public String RegUserAlerts(UserManager um, RegularUserThresholdController tc, FilesReaderWriter rw, String username, String thresholdValuesFilePath) throws IOException {
         StringBuilder notification;
         notification = new StringBuilder();
         String filepath = "./src/Alerts/UserAlerts.csv";
         notification.append(rw.readFromMenu(filepath)).append("\n");
-        activeAlerts(notification, um, tc, ds, username, rw, thresholdValuesFilePath);
+        // thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv"
+        activeAlerts(notification, um, tc, username, rw, thresholdValuesFilePath);
         return notification.toString();
     }
 
-    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, DisplaySystem ds, String username, FilesReaderWriter rw, String thresholdValuesFilePath) throws FileNotFoundException {
+    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, String username, FilesReaderWriter rw, String thresholdValuesFilePath) throws FileNotFoundException {
         List<Integer> thresholdValues = rw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(thresholdValues.get(1))){
-                ds.printOut("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.");
+                notification.append("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.").append("\n");
             }
         }
         notification.append("Your username is ").append(username).append("\n");
@@ -153,7 +154,7 @@ public class SystemMessage {
         notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append("\n");
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append("\n");
         notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append("\n");
-        notification.append("Max edits per user for meeting’s date + time = ").append(thresholdValues.get(3)).append("\n");
+        notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append("\n");
     }
 
 

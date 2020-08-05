@@ -1,5 +1,8 @@
 package gui.regularuser_main_menu_gui;
 
+import controllers.regularusersubcontrollers.*;
+import gui.GUIDemo;
+import gui.GUIUserInputInfo;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -16,16 +19,25 @@ public class RegularUserMainMenuGUI {
     private JButton logoutButton;
     private JButton communityInformationButton;
 
-    public void run(boolean guest, SystemMessage sm) {
+    public void run((boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
+                    RegularUserMeetingMenuController mmc, RegularUserTradingMenuController atc,
+                    RegularUserIDChecker idChecker, RegularUserDateTimeChecker dateTimeChecker,
+                    RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
+                    int numLentBeforeBorrow, int maxNumTransactionsAWeek, int maxEditsTP, int maxIncompleteTransactionsBeforeFrozen) {
+
         JFrame frame = new JFrame("regularUserMainMenuGUI");
-        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm).rootPanel);
+        frame.setContentPane(new RegularUserMainMenuGUI(guest,sm, guiD, amc, mmc, atc, idChecker, dateTimeChecker,
+                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        //TODO: Call Notification which should be a JDialog
     }
 
-    public RegularUserMainMenuGUI(boolean guest, SystemMessage sm) {
+    public RegularUserMainMenuGUI(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
+                                  RegularUserMeetingMenuController mmc, RegularUserTradingMenuController atc,
+                                  RegularUserIDChecker idChecker, RegularUserDateTimeChecker dateTimeChecker,
+                                  RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
+                                  int numLentBeforeBorrow, int maxNumTransactionsAWeek, int maxEditsTP, int maxIncompleteTransactionsBeforeFrozen) {
         notificationButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -35,6 +47,7 @@ public class RegularUserMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call Notification which should be a JDialog
+                // call RegUserAlerts from sm and pass in the relevant params -> printNote
 
             }
         });
@@ -46,7 +59,8 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Account Info Menu and close this window
+                //Call Account Info Menu and close this window
+                guiD.runRegularUserAccountMenuGUI();
 
             }
         });
@@ -58,7 +72,8 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Trading Info Menu and close this window
+                //Call Trading Info Menu and close this window
+                guiD.runRegularUserTradingMenuGUI();
             }
         });
         meetingInformationButton.addActionListener(new ActionListener() {
@@ -69,7 +84,9 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Meeting Info Menu and close this window
+                //Call Meeting Info Menu and close this window
+                guiD.runRegularUserMeetingMenu(guiD, mmc, sm, maxEditsTP, guiUserInputInfo,
+                        idChecker);
 
             }
         });
@@ -81,8 +98,9 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Searching Info Menu and close this window
-                //TODO:
+                // Call Searching Info Menu and close this window
+                guiD.runRegularUserSearchingMenuGUI();
+
 
             }
         });
@@ -94,7 +112,8 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Call Community Info Menu and close this window
+                // Call Community Info Menu and close this window
+                guiD.runRegularUserCommunityMenuGUI();
             }
         });
         logoutButton.addActionListener(new ActionListener() {
@@ -105,7 +124,8 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Trading System Init Menu and close this window
+                //Call Trading System Init Menu and close this window
+                guiD.runTradingSystemInitMenuGUI();
 
             }
         });
