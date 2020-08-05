@@ -326,9 +326,9 @@ public class RegularUserTradingMenuGUI {
     public String getInPut(String string, GUIUserInputInfo guiInput) {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
-        String UserResponse = guiInput.getTempUserInput();
+        String userResponse = guiInput.getTempUserInput();
         // TODO: need to close first
-        return string;
+        return userResponse;
 
     }
 

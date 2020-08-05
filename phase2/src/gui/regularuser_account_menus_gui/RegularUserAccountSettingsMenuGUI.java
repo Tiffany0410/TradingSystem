@@ -2,10 +2,7 @@ package gui.regularuser_account_menus_gui;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import gui.GUIDemo;
-import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
+import gui.*;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -30,8 +27,9 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: class that allows user to enter long msg - editable text area
-                atc.RequestToUnfreeze();
+                String msg = getLongInput("Please enter a message indicating reasons why you should " +
+                        " be unfrozen", guiUserInputInfo);
+                atc.RequestToUnfreeze(msg);
                 sm.msgForRequestProcess(true);
 
             }
@@ -100,10 +98,18 @@ public class RegularUserAccountSettingsMenuGUI {
     public String getInPut(String string, GUIUserInputInfo guiInput) {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
-        String UserResponse = guiInput.getTempUserInput();
+        String userResponse = guiInput.getTempUserInput();
         // TODO: need to close first
-        return string;
+        return userResponse;
 
+    }
+
+    public String getLongInput(String str, GUIUserInputInfo guiUserInputInfo){
+        UserInputGUI userInputGUI = new UserInputGUI(str, guiUserInputInfo);
+        userInputGUI.run(str, guiUserInputInfo);
+        String userResponse = guiUserInputInfo.getTempUserInput();
+        // TODO: need to close first
+        return userResponse;
     }
 
     public void printNote(String msg){
