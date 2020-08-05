@@ -93,6 +93,18 @@ public class RegularUserAccountMenuController {
 
     }
 
+    public ArrayList<Item> getWishLish(){
+        TradableUser thisTradableUser = um.findUser(userId);
+        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
+        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
+    }
+
+    public ArrayList<Item> getInventory(){
+        TradableUser thisTradableUser = um.findUser(userId);
+        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
+        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
+    }
+
     /**
      * Let the user manager add the appropriate item id for the item user wants to add to his/her wish list.
      */
@@ -210,6 +222,11 @@ public class RegularUserAccountMenuController {
         else{
             sm.msgForNothing(ds);
         }
+    }
+
+    public ArrayList<Item> getTradables(){
+        ArrayList<Item> tradableItems = im.getAllTradableItems();
+        return tradableItems;
     }
 
     /**

@@ -1,10 +1,19 @@
 package gui.regularuser_account_menus_gui;
 
+import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
+import gui.GUIDemo;
+import gui.GUIUserInputInfo;
+import gui.NotificationGUI;
+import gui.UserInputGUI;
+import managers.itemmanager.Item;
+import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class RegularUserManageItemsMenuGUI {
     private JPanel rootPanel;
@@ -19,12 +28,20 @@ public class RegularUserManageItemsMenuGUI {
     private JButton getSuggestionForItemToLendButton;
     private JButton backButton;
 
-    public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm){
+    public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
+                                         RegularUserIDChecker idChecker, RegularUserAccountMenuController amc){
         browseAllTradableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Browse all tradable items in the system
                 // TODO: this option is allowed for both guest + non-guest
+                ArrayList<Item> tradableItems = amc.getTradables();
+                if (tradableItems.isEmpty()){
+                    printNote(sm.msgForNothing("here."));
+                }
+                else{
+                    String str = sm.printListObject(new ArrayList<>(tradableItems));
+                    printNote(str);
+                }
             }
         });
 
@@ -71,8 +88,19 @@ public class RegularUserManageItemsMenuGUI {
         viewWishListInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: View your wishlist and inventory
                 // TODO: print sm.msgForGuest(); if it's a guest
+
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    ArrayList<Item> wishlist = amc.getWishLish();
+                    ArrayList<Item> inventory = amc.getInventory();
+                    String wish_str = "Here is your wishlist: ";
+                    String inv_str = "Here is your inventory: ";
+                    printNote(wish_str + sm.printListObject(new ArrayList<>(wishlist)) + "\n" + inv_str +
+                            sm.printListObject(new ArrayList<>(inventory)) + "\n");
+                }
             }
         });
 
@@ -100,11 +128,28 @@ public class RegularUserManageItemsMenuGUI {
         });
     }
 
-    public void run(boolean isGuest, SystemMessage sm) {
+    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
+                    RegularUserIDChecker idChecker, RegularUserAccountMenuController acm) {
         JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
-        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm).rootPanel);
+        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
+
+    public String getInPut(String string, GUIUserInputInfo guiInput) {
+        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+        userInputGUI.run(string, guiInput);
+        String userResponse = guiInput.getTempUserInput();
+        // TODO: need to close first
+        return userResponse;
+
+    }
+
+    public void printNote(String msg){
+        NotificationGUI msgGUI = new NotificationGUI(msg);
+        msgGUI.run(msg);
+        // TODO: need to close first
+    }
+
 }
