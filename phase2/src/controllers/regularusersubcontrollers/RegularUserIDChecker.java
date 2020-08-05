@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
@@ -75,6 +76,11 @@ public class RegularUserIDChecker {
         }
         return potentialIds.contains(itemId);
 
+    }
+
+    public boolean checkItemID(ArrayList<Item> items, int id){
+        ArrayList<Integer> ids = im.getItemsIDs(items);
+        return ids.contains(id);
     }
 
     /**

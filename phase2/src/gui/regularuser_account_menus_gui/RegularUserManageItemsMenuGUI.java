@@ -50,6 +50,34 @@ public class RegularUserManageItemsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add to own Wish List
                 // TODO: print sm.msgForGuest(); if it's a guest
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else{
+                    ArrayList<Item> tradable = amc.getAllTradableFromOther();
+                    if (tradable.isEmpty()){
+                        printNote(sm.msgForNo("tradable items can be added to wishlist."));
+                    }
+                    else{
+                        String str = "Here is a list of tradable items you can add to wishlist: \n" +
+                                sm.printListObject(new ArrayList<>(tradable)) +
+                                "\nPlease enter the item's id to add to wishlist. ";
+                        String input = getInPut(str, guiInput);
+                        if (idChecker.checkInt(input)){
+                            int itemId = Integer.parseInt(input);
+                            if (idChecker.checkItemID(tradable, itemId)){
+                                boolean result = amc.addToWishList(itemId);
+                                printNote(sm.msgForResult(result));
+                            }
+                            else {
+                                printNote("Invalid item id was entered, please try again.");
+                            }
+                        }
+                        else {
+                            printNote("Please enter an integer.");
+                        }
+                    }
+                }
             }
         });
 
@@ -58,6 +86,13 @@ public class RegularUserManageItemsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Remove from Wish List
                 // TODO: print sm.msgForGuest(); if it's a guest
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    ArrayList<Item> items = amc.getWishList();
+                    removeFrom(amc, sm, guiInput, idChecker, items, "wishlist");
+                }
             }
         });
 
@@ -66,6 +101,13 @@ public class RegularUserManageItemsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Remove from own Inventory
                 // TODO: print sm.msgForGuest(); if it's a guest
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    ArrayList<Item> items = amc.getInventory();
+                    removeFrom(amc, sm, guiInput, idChecker, items, "inventory");
+                }
             }
         });
 
@@ -94,12 +136,12 @@ public class RegularUserManageItemsMenuGUI {
                     printNote(sm.msgForGuest());
                 }
                 else {
-                    ArrayList<Item> wishlist = amc.getWishLish();
+                    ArrayList<Item> wishlist = amc.getWishList();
                     ArrayList<Item> inventory = amc.getInventory();
-                    String wish_str = "Here is your wishlist: ";
-                    String inv_str = "Here is your inventory: ";
-                    printNote(wish_str + sm.printListObject(new ArrayList<>(wishlist)) + "\n" + inv_str +
-                            sm.printListObject(new ArrayList<>(inventory)) + "\n");
+                    String wish_str = "Here is your wishlist: \n";
+                    String inv_str = "Here is your inventory: \n";
+                    printNote(wish_str + sm.printListObject(new ArrayList<>(wishlist)) + "\n" + inv_str
+                            + sm.printListObject(new ArrayList<>(inventory)) + "\n");
                 }
             }
         });
@@ -123,9 +165,32 @@ public class RegularUserManageItemsMenuGUI {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Back to RegularUserAccountMainMenu
+                // guiDemo.RegularUserAccountMainMenuGUI();
             }
         });
+    }
+
+    private void removeFrom(RegularUserAccountMenuController amc, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idChecker, ArrayList<Item> items, String type){
+        if (items.isEmpty()){
+            printNote(sm.msgForNothing("your " + type + " that can be removed"));
+        }
+        else{
+            String str = "Here is your " + type + ": \n" +
+                    sm.printListObject(new ArrayList<>(items)) +
+                    "\nPlease enter the item's id to remove from " + type + ". ";
+            String input = getInPut(str, guiInput);
+            if (idChecker.checkInt(input)){
+                int itemId = Integer.parseInt(input);
+                if (idChecker.checkItemID(items, itemId)){
+                    boolean result;
+                    if (type.equals("wishlist")){
+                        result = amc.removeFromWishlist(itemId); }
+                    else {
+                        result = amc.removeFromInventory(itemId); }
+                    printNote(sm.msgForResult(result)); }
+                else { printNote("Invalid item id was entered, please try again."); } }
+            else { printNote("Please enter an integer."); }
+        }
     }
 
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
