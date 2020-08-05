@@ -148,7 +148,6 @@ public class GUIDemo {
 
     public void runRegularUserSearchingMenuGUI() {
         RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
-                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.actionManager,
-                this.systemMessage, this.tempUsername);
+                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.tempUsername);
     }
 }
