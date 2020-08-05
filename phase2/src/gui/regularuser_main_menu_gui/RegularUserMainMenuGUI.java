@@ -1,5 +1,7 @@
 package gui.regularuser_main_menu_gui;
 
+import presenter.SystemMessage;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,16 +16,16 @@ public class RegularUserMainMenuGUI {
     private JButton logoutButton;
     private JButton communityInformationButton;
 
-    public void run(boolean Guest) {
+    public void run(boolean guest, SystemMessage sm) {
         JFrame frame = new JFrame("regularUserMainMenuGUI");
-        frame.setContentPane(new RegularUserMainMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         //TODO: Call Notification which should be a JDialog
     }
 
-    public RegularUserMainMenuGUI(boolean Guest) {
+    public RegularUserMainMenuGUI(boolean guest, SystemMessage sm) {
         notificationButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -80,6 +82,7 @@ public class RegularUserMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call Searching Info Menu and close this window
+                //TODO:
 
             }
         });
@@ -91,7 +94,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Call Community Info Menu and colse this window
+                // TODO: Call Community Info Menu and close this window
             }
         });
         logoutButton.addActionListener(new ActionListener() {

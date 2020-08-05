@@ -24,6 +24,7 @@ public class RegularUserAccountMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call regular user feed back menu and close this window
+                // guest not allowed
             }
         });
         manageItemButton.addActionListener(new ActionListener() {
@@ -35,6 +36,7 @@ public class RegularUserAccountMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Call manage Item menu and close this window
+                // guest allowed
 
             }
         });
@@ -47,6 +49,7 @@ public class RegularUserAccountMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO; Call account setting menu and close this window
+                // guest not allowed
 
             }
         });

@@ -268,12 +268,12 @@ public class SystemMessage {
         }
     }
 
-    public String msgForTradeRequest(boolean validator){
+    public String msgForRequestProcess(boolean validator){
         if (validator) {
-            return "Your response to this trade request is sent successfully";
+            return "Your response to request is sent successfully";
         }
         else{
-            return "Your response to this trade request is sent unsuccessfully";
+            return "Your response to request is sent unsuccessfully";
         }
     }
 

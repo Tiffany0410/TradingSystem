@@ -253,11 +253,11 @@ public class RegularUserTradingMenuGUI {
                         try {
                             atc.respondToTradeRequests(tradeId, response);
                         } catch (InvalidIdException invalidIdException) {
-                            printNote(sm.msgForTradeRequest(false));
+                            printNote(sm.msgForRequestProcess(false));
                             ok = false;
                         }
                         if (ok){
-                            printNote(sm.msgForTradeRequest(true));
+                            printNote(sm.msgForRequestProcess(true));
                         }
                     }
                     else{

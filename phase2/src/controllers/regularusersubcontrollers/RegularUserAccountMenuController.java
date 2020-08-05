@@ -140,24 +140,14 @@ public class RegularUserAccountMenuController {
         }
     }
 
-    public void isGuestOrNot(){
-        return asGuest;
-    }
-
     /**
      * Receives the request to unfreeze from the user
      * and let the user manager handle it.
-     * @param asGuest The determiner of access to this menu option.
      */
-    public void RequestToUnfreeze(boolean asGuest) {
-        if (!asGuest) {
-            ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
-            ds.printResult("Your unfreeze request", um.requestUnfreeze(username, otherInfoGetter.getMessage("Leave your unfreeze request message")));
-            am.addActionToAllActionsList(userId, "regularUser", "1.6", 0, "");
-        }
-        else{
-            sm.msgForGuest(ds);
-        }
+    public void RequestToUnfreeze(String msg) {
+        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
+        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, msg));
+        am.addActionToAllActionsList(userId, "regularUser", "1.6", 0, "");
     }
 
     /**
@@ -257,26 +247,20 @@ public class RegularUserAccountMenuController {
 
     /**
      * Receives user's input and set his/her on-vacation status
-     * @param asGuest The determiner of access to this menu option.
      * @throws InvalidIdException In case the id is not valid.
      */
-    public void setOnVacationStatus(boolean asGuest) throws InvalidIdException {
-        if (!asGuest) {
-            // get user's response and set the status likewise
-            if (otherInfoGetter.getNumKindOfResponse("set to true", "set to false") == 1) {
-                um.goOnVacation(userId);
-                im.setTradable(um.getUserInventory(userId), false);
-                am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
-                am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
-            } else {
-                um.comeFromVacation(userId);
-                im.setTradable(um.getUserInventory(userId), true);
-                am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
-                am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
-            }
-        }
-        else{
-            sm.msgForGuest(ds);
+    public void setOnVacationStatus(boolean newStatus) throws InvalidIdException {
+        // get user's response and set the status likewise
+        if (newStatus) {
+            um.goOnVacation(userId);
+            im.setTradable(um.getUserInventory(userId), false);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
+        } else {
+            um.comeFromVacation(userId);
+            im.setTradable(um.getUserInventory(userId), true);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
         }
 
     }
@@ -337,18 +321,11 @@ public class RegularUserAccountMenuController {
     /**
      * Gets user's input of the new home city and then
      * change user's home city.
-     * @param asGuest The determiner of access to this menu option.
      */
-    public void changeUserHC(boolean asGuest) {
-        if (!asGuest) {
-            String newHC = otherInfoGetter.getHomeCity();
-            um.changeHome(userId, newHC);
-            ds.printResult(true);
-            am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
-        }
-        else{
-            sm.msgForGuest(ds);
-        }
+    public void changeUserHC(String newHC) {
+        um.changeHome(userId, newHC);
+        ds.printResult(true);
+        am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
     }
 
 
