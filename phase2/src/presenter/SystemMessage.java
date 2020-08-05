@@ -2,8 +2,6 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
-import gui.GUIDemo;
-import gui.NotificationGUI;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
@@ -23,13 +21,12 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
-    private GUIDemo guiDemo;
 
     /**
      * Constructs a SystemMessage instance.
      */
-    public SystemMessage(GUIDemo guiDemo){
-        this.guiDemo = guiDemo;
+    public SystemMessage(){
+
     }
 
 
@@ -84,7 +81,9 @@ public class SystemMessage {
         guiDemo.printNotification(description);
     }
 
-
+    //TODO: I think it'll adhere to the clean architecture more if you
+    // just return String and then in the gui menu class, call the printNotification method
+    // to print the string :)
     public void printItemResult(ArrayList<Item> obj) {
         StringBuilder string = new StringBuilder();
 
@@ -173,25 +172,11 @@ public class SystemMessage {
     }
 
     /**
-     * Prints the message for a meeting that doesn't exist.
+     * Returns the message for a meeting that doesn't exist.
      * @param ds The presenter that prints to screen.
      */
-    public void msgForMeetingDNE(DisplaySystem ds) {
-        ds.printOut("This meeting doesn't exist in the system." + "\n");
-    }
-
-
-
-
-
-    /**
-     * Prints the message for when there is nothing to be shown.
-     * @param nextPart The more specific part of the message that relates to the context.
-     * @param ds The presenter that prints to screen.
-     */
-    public void msgForNothing(String nextPart, DisplaySystem ds){
-        ds.printOut("There's nothing " + nextPart + " .");
-        ds.printOut("\n");
+    public String msgForMeetingDNE(DisplaySystem ds) {
+        return "This meeting doesn't exist in the system." + "\n";
     }
 
 
@@ -209,31 +194,26 @@ public class SystemMessage {
     /**
      * Prints the current threshold value.
      * @param currentVal The current threshold value.
-     * @param ds The presenter that prints to screen.
      */
-    public void msgForThresholdValue(int currentVal, DisplaySystem ds)
+    public String msgForThresholdValue(int currentVal)
     {
-        ds.printOut("The current threshold value is " + currentVal);
+        return "The current threshold value is " + currentVal;
     }
 
 
     /**
      * Prints the message for the guest that tries to access options
      * that are meant for users.
-     * @param ds The presenter that prints to screen.
      */
-    public void msgForGuest(DisplaySystem ds){
-        ds.printOut("Please login, guest account can't do this.");
-    }
+    public String msgForGuest(){return "Please login, guest account can't do this."; }
 
     /**
      * Prints the message for the user that tries to
      * access menus that can't access because of their
      * frozen status.
-     * @param ds The presenter that prints to screen.
      */
-    public void lockMessageForFrozen(DisplaySystem ds){
-        ds.printOut("This menu is locked because you're frozen.");
+    public String lockMessageForFrozen(){
+        return "This menu is locked because you're frozen.";
     }
 
 
@@ -339,19 +319,6 @@ public class SystemMessage {
                 "following users: \n") + printListUser(listOfUser) +
                 "Please enter an id of the friend that you want to add. \n";
     }
-    /** check if a string can covert to integer ot not
-     * @param string a string
-     * @return true if it can be convert to an integer
-     */
-   // TODO: Need a exception class
-    public boolean checkInt(String string){
-        try {
-            int num = Integer.parseInt(string);
-            return true;
-        }catch (NumberFormatException e)
-        {
-            return false;
-        }}
 
 
     public String printListObject(ArrayList<Object> objects){

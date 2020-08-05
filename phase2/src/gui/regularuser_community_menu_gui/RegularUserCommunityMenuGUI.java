@@ -1,6 +1,7 @@
 package gui.regularuser_community_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
@@ -30,16 +31,18 @@ public class RegularUserCommunityMenuGUI {
     private JButton viewAllMessageButton;
     private JButton backButton;
 
-    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput) {
+    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput,
+                    RegularUserIDChecker idC) {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new RegularUserCommunityMenuGUI(guidemo, cmc, sm, guiInput).rootPanel);
+        frame.setContentPane(new RegularUserCommunityMenuGUI(guidemo, cmc, sm, guiInput, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
 
-    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput){
+    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput,
+                                       RegularUserIDChecker idC){
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +55,7 @@ public class RegularUserCommunityMenuGUI {
                 String sPoint = getInPut(string1, guiInput);
                 String string2 = "Please enter the reason why you get the point: ";
                 String reason = getInPut(string2, guiInput);
-                if(sm.checkInt(sUserId) && sm.checkInt(sPoint)){
+                if(idC.checkInt(sUserId) && idC.checkInt(sPoint)){
                     int user_id = Integer.parseInt(sUserId);
                     int point = Integer.parseInt(sPoint);
                     if(guidemo.getUserManager().checkUser(user_id) && (0<=point && point<=10)) {
@@ -76,7 +79,7 @@ public class RegularUserCommunityMenuGUI {
                 String sUserId = getInPut(get_id, guiInput);
                 String get_reason = "Please enter the reason why you report this user.";
                 String reason = getInPut(get_reason, guiInput);
-                if (sm.checkInt(sUserId)){
+                if (idC.checkInt(sUserId)){
                     int user_id = Integer.parseInt(sUserId);
                     result = sm.msgForResult(cmc.reportUser(user_id, reason));
                 }
@@ -95,7 +98,7 @@ public class RegularUserCommunityMenuGUI {
 
                 String get_id = "Please enter the user's id for his/her rating";
                 String sUserId = getInPut(get_id,guiInput);
-                if (sm.checkInt(sUserId)){
+                if (idC.checkInt(sUserId)){
                     int id = Integer.parseInt(get_id);
                     if (cmc.checkUserId(id)){
                         String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
@@ -166,7 +169,7 @@ public class RegularUserCommunityMenuGUI {
                     String string = "Here is a list of users you can add:\n" + sm.printListUser(notFriends) +
                             "\nPlease enter user's Id to send friend request.";
                     String result = getInPut(string, guiInput);
-                    if (sm.checkInt(result)){
+                    if (idC.checkInt(result)){
                         int userToID = Integer.parseInt(result);
                         String msg = "Please leave a message for this user: ";
                         String msg_result = getInPut(msg,guiInput);
@@ -194,7 +197,7 @@ public class RegularUserCommunityMenuGUI {
                 else{
                     String msg = "Here is a list of friend requests: \n" + sm.printFriendRequest(requests);
                     String id_input = getInPut(msg, guiInput);
-                    if (sm.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
+                    if (idC.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
                         string = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
                     }
                     else {
@@ -220,7 +223,7 @@ public class RegularUserCommunityMenuGUI {
                     String msg = "Here is your list of friends: \n" + sm.printListUser(friends) +
                             "\nPlease enter user's Id to unfriend.";
                     String result = getInPut(msg, guiInput);
-                    if (sm.checkInt(result)){
+                    if (idC.checkInt(result)){
                         int id = Integer.parseInt(result);
                         string = sm.msgForResult(cmc.unfriendUser(id));
                         }
@@ -245,7 +248,7 @@ public class RegularUserCommunityMenuGUI {
                 else {
                     String msg = "Here is your list of friends: \n" + sm.printListUser(friends) + "\nPlease enter user's ID to send a message.";
                     String result = getInPut(msg, guiInput);
-                    if (sm.checkInt(result)){
+                    if (idC.checkInt(result)){
                         int id = Integer.parseInt(result);
                         if (!cmc.checkIsFriend(id)){
                             string = "Please enter an id of your friend!"; }
