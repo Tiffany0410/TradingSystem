@@ -2,6 +2,7 @@ package managers.itemmanager;
 import managers.usermanager.UserManager;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -211,6 +212,26 @@ public class ItemManager implements Serializable {
         return ids;
     }
 
+    public ArrayList<Item> getTradableItems(ArrayList<Item> items){
+        ArrayList<Item> out = new ArrayList<>();
+        for (Item item: items){
+            if (item.getTradable()){
+                out.add(item);
+            }
+        }
+        return out;
+    }
+
+    public ArrayList<Item> getNotTradableItems(ArrayList<Item> items){
+        ArrayList<Item> out = new ArrayList<>();
+        for (Item item: items){
+            if (!item.getTradable()){
+                out.add(item);
+            }
+        }
+        return out;
+    }
+
     /**
      * Return a map that maps categories to the corresponding list of items' ids for the list of items
      * @param items A list of items
@@ -242,7 +263,7 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Set the list of items to tradable
+     * Set the list of items' tradable statuses to tradable
      * @param listIds The list of items' ids
      * @param tradable The tradable status
      */
@@ -251,6 +272,26 @@ public class ItemManager implements Serializable {
         for (Integer id: setIds){
             this.getItembyId(id).setTradable(tradable);
         }
+    }
+
+    /**
+     * Set the item's tradable status to tradable
+     * @param item The item
+     * @param tradable The tradable status
+     */
+    public boolean setTradable(Item item, boolean tradable){
+        if (tradable){
+            if (item.getTradable()){
+                return false;
+            }
+        }
+        if (!tradable){
+            if (! item.getTradable()){
+                return false;
+            }
+        }
+        item.setTradable(tradable);
+        return true;
     }
 
     /**

@@ -149,6 +149,32 @@ public class RegularUserManageItemsMenuGUI {
         changeTradableStatusForItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    ArrayList<Item> inventory = amc.getInventory();
+                    ArrayList<Item> tradable = amc.getTradableItems();
+                    ArrayList<Item> notTradable = amc.getNotTradableItems();
+                    if (tradable.isEmpty() && notTradable.isEmpty()){
+                        printNote("There is no tradable items that can be changed.");
+                    }
+                    else {
+                        String itemId_input = getTradableId(guiInput, sm, tradable, notTradable);
+                        String setTradable_input = getStatus(sm, guiInput);
+                        if (idChecker.checkInt(itemId_input) && idChecker.checkInt(setTradable_input)){
+                            int itemId = Integer.parseInt(itemId_input);
+                            int setTradable = Integer.parseInt(setTradable_input);
+                            if (idChecker.checkItemID(inventory, itemId) && (setTradable == 1 | setTradable == 2)){
+                                boolean result = amc.setTradableBasedOnResponse(itemId, setTradable);
+                                printNote(sm.msgForSetTradable(result, setTradable));
+                            }
+                            else{
+                                printNote("Please enter a valid input.");
+                            }
+                        }
+                    }
+                }
                 // TODO: Change tradable status for an inventory item
                 // TODO: print sm.msgForGuest(); if it's a guest
             }
@@ -226,6 +252,19 @@ public class RegularUserManageItemsMenuGUI {
             String str = sm.printListObject(objects);
             printNote(str);
         }
+    }
+
+    private String getTradableId(GUIUserInputInfo guiInput, SystemMessage sm, ArrayList<Item> tradable, ArrayList<Item> nonTradable){
+        String str = "Here's the list of items with tradable status: \n" + sm.printListObject(new ArrayList<>(tradable)) +
+                    "Here's the list of items with non-tradable status: \n" + sm.printListObject(new ArrayList<>(nonTradable)) +
+                    "Enter the item id of the item that you want to change the tradable status of.";
+        return getInPut(str, guiInput);
+    }
+
+    private String getStatus(SystemMessage sm, GUIUserInputInfo guiInput){
+        String str = sm.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
+        String result = getInPut(str, guiInput);
+        return result;
     }
 
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,

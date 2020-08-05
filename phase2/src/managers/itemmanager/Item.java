@@ -165,7 +165,7 @@ public class Item extends Observable implements PropertyChangeListener, Serializ
     public String toString() {
         return "This " + name + " with ID " + itemId + " is: " + description + ".\n" +
                 "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + "."
-                + " Tradable = " + getTradable() + ". ";
+                + " Tradable = " + getTradable() + ".\n";
     }
 
     /**

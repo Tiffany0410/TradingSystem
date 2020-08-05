@@ -372,4 +372,24 @@ public class SystemMessage {
         return str.toString();
     }
 
+
+    public String getNumKindOfResponse(String option1, String option2){
+        String str = "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
+        return str;
+    }
+
+    public String msgForSetTradable(boolean validator, int status){
+        String tradable_status;
+        if (status == 1){
+            tradable_status = "tradable";
+        }
+        else {
+            tradable_status = "non-tradable";
+        }
+        if (validator){
+            return "Set item's tradable status to " + tradable_status + ".";
+        }
+        return "The tradable status for this item is already " + tradable_status + ". ";
+    }
+
 }

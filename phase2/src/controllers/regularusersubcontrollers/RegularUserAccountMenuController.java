@@ -243,6 +243,15 @@ public class RegularUserAccountMenuController {
         return inventory;
     }
 
+    public ArrayList<Item> getTradableItems(){
+        ArrayList<Item> inventory = getInventory();
+        return im.getTradableItems(inventory);
+    }
+
+    public ArrayList<Item> getNotTradableItems(){
+        ArrayList<Item> inventory = getInventory();
+        return im.getNotTradableItems(inventory);
+    }
 
     /**
      * Lets the presenter print the tradable status for each of
@@ -250,22 +259,22 @@ public class RegularUserAccountMenuController {
      * tradable status for an item.
      * @param asGuest The determiner of access to this menu option.
      */
-    public void setTradableStatusForItem(boolean asGuest, int itemId, int optionN) {
-        //calling this method means user is not a guest
-        //print out user's items
-        ArrayList<Item> inventory = im.getItemsByIds(um.getUserInventory(userId));
-        ArrayList<Integer> itemIDs = new ArrayList<>();
-        ds.printOut("Here's the list of items that you can change the tradable status of: \\n");
-        ds.printResult(new ArrayList<>(inventory));
-        ds.printOut("Find the item id of the item that you want to change the tradable status of. ");
-        //asks user for the item id
-        //note: the itemId below must be in user's inventory
-        itemIDs.add(itemId);
-        //asks user for what to do with this item
-        //int optionN = otherInfoGetter.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
-        //set the status appropriately / print out a message
-        setTradableBasedOnResponse(itemIDs, optionN);
-    }
+//    public void setTradableStatusForItem(boolean asGuest, int itemId, int optionN) {
+//        //calling this method means user is not a guest
+//        //print out user's items
+//        ArrayList<Item> inventory = im.getItemsByIds(um.getUserInventory(userId));
+//        ArrayList<Integer> itemIDs = new ArrayList<>();
+//        ds.printOut("Here's the list of items that you can change the tradable status of: \\n");
+//        ds.printResult(new ArrayList<>(inventory));
+//        ds.printOut("Find the item id of the item that you want to change the tradable status of. ");
+//        //asks user for the item id
+//        //note: the itemId below must be in user's inventory
+//        itemIDs.add(itemId);
+//        //asks user for what to do with this item
+//        //int optionN = otherInfoGetter.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
+//        //set the status appropriately / print out a message
+//        setTradableBasedOnResponse(itemIDs, optionN);
+//    }
 
     private void setTradableBasedOnResponse(ArrayList<Integer> itemIDs, int optionN) {
         if (optionN == 1){
@@ -290,6 +299,13 @@ public class RegularUserAccountMenuController {
                 am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "non-tradable");
             }
         }
+    }
+
+    public boolean setTradableBasedOnResponse(int itemId, int option){
+        if (option == 1){
+            return im.setTradable(im.getItembyId(itemId), true);
+        }
+        return im.setTradable(im.getItembyId(itemId), false);
     }
 
 
