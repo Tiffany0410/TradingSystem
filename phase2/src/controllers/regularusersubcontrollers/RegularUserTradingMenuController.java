@@ -178,6 +178,7 @@ public class RegularUserTradingMenuController {
         // get the validation from the item side
         boolean ok = getValidationForItems(numKindOfTrade, itemId2, borrowerOrborrower1lender2, lenderOrlender1borrower2, itemId1);
         // use all these to determine the result
+
         return requestResult(ok, trade, tradeID, borrowerOrborrower1lender2, numLentBeforeBorrow);
 
     }
@@ -232,6 +233,7 @@ public class RegularUserTradingMenuController {
     private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
+            am.addActionToCurrentRevocableList(userId, "regularUser", "2.1", tradeId, " and succeed");
             return requestSuccess(trade, tradeId);
         }
         else {
@@ -254,8 +256,6 @@ public class RegularUserTradingMenuController {
     private String requestSuccess(Trade trade, int tradeId) {
         // add trade
         tm.addTrade(trade);
-        am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, "");
-        am.addActionToCurrentRevocableList(userId, "regularUser", "2.1", tradeId, "");
         // set status for the person who requested the trade
         tm.setUserStatus(tradeId, userId, "Agree");
         // change the threshold value

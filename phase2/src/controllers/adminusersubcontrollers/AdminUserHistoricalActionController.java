@@ -132,10 +132,6 @@ public class AdminUserHistoricalActionController {
             case 3:
                 helper_cancelMeetingMenu(targetAction, subOption);
                 break;
-            // call helper function to cancel the Revocable Action in RegularUserSearchingMainMenu.csv
-            case 4:
-                helper_cancelSearchingMenu(targetAction, subOption);
-                break;
             // call helper function to cancel the Revocable Action in RegularUserCommunityMenu.csv
             case 5:
                 helper_cancelCommunityMenu(targetAction, subOption);
@@ -214,7 +210,10 @@ public class AdminUserHistoricalActionController {
         switch (subOption) {
             // TODO:2.1: Request a trade
             case 1:
-                tm.removeTrade(targetAction.getAdjustableInt());
+                if (targetAction.getAdjustableStr() == " and succeed") {
+                    tm.removeTrade(targetAction.getAdjustableInt());
+                    return true;
+                }
                 break;
         }
         return false;
