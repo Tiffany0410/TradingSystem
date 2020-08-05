@@ -10,8 +10,6 @@ import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
-import exception.InvalidIdException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -245,7 +243,7 @@ public class RegularUserAccountMenuController {
             am.addActionToAllActionsList(userId, "regularUser", "1.1", 0, "");
         }
         else{
-            sm.msgForNothing(ds);
+            sm.msgForNothing();
         }
     }
 
@@ -279,7 +277,6 @@ public class RegularUserAccountMenuController {
      * inventory items of the user and let the user change the
      * tradable status for an item.
      * @param asGuest The determiner of access to this menu option.
-     * @throws InvalidIdException In case the id is invalid.
      */
     public void setTradableStatusForItem(boolean asGuest, int itemId, int optionN) {
         //calling this method means user is not a guest
@@ -342,7 +339,6 @@ public class RegularUserAccountMenuController {
      * part is Based on code by Bill the Lizard from:
      * @link https://stackoverflow.com/questions/363681
      * /how-do-i-generate-random-integers-within-a-specific-range-in-java
-     * @throws InvalidIdException In case the id is invalid.
      *
      */
     public void suggestItemToLend(int lendToUserId) {

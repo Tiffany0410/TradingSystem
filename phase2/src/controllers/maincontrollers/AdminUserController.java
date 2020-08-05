@@ -24,7 +24,7 @@ import java.util.List;
  * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
-public class AdminUserController implements Controllable {
+public class AdminUserController {
 
     private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
@@ -83,7 +83,6 @@ public class AdminUserController implements Controllable {
      * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @throws IOException In case the file can't be found.
      */
-    @Override
     public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) throws IOException, InvalidIdException, ParseException {
         switch(mainMenuOption){
             case 1:

@@ -24,7 +24,7 @@ import java.util.List;
  *  @author Yu Xin Yan
  *  @version IntelliJ IDEA 2020.1
  */
-public class RegularUserController implements Controllable {
+public class RegularUserController {
 
     private RegularUserAccountMenuController amc;
     private RegularUserTradingMenuController tmc;
@@ -94,7 +94,6 @@ public class RegularUserController implements Controllable {
      * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      *
      */
-    @Override
     public void actionResponse(int mainMenuOption, int subMenuOption, String thresholdValuesFilePath) {
         //TODO: leave this as a template for now --> the exact structure will be applied again
         // to the RegUserMainMenuGUI
