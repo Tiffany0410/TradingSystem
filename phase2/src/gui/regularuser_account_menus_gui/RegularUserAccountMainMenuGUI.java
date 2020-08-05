@@ -1,5 +1,7 @@
 package gui.regularuser_account_menus_gui;
 
+import presenter.SystemMessage;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +14,7 @@ public class RegularUserAccountMainMenuGUI {
     private JButton backButton;
     private JButton followOthersItemsButton;
 
-    public RegularUserAccountMainMenuGUI() {
+    public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm) {
         feedBackButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -61,9 +63,9 @@ public class RegularUserAccountMainMenuGUI {
         });
     }
 
-    public void run() {
+    public void run(Boolean isGuest, SystemMessage sm) {
         JFrame frame = new JFrame("regularUserAccountMenuGUI");
-        frame.setContentPane(new RegularUserAccountMainMenuGUI().rootPanel);
+        frame.setContentPane(new RegularUserAccountMainMenuGUI(isGuest, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

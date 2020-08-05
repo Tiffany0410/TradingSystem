@@ -140,6 +140,10 @@ public class RegularUserAccountMenuController {
         }
     }
 
+    public void isGuestOrNot(){
+        return asGuest;
+    }
+
     /**
      * Receives the request to unfreeze from the user
      * and let the user manager handle it.

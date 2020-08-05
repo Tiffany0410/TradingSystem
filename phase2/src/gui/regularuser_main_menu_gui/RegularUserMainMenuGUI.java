@@ -14,18 +14,16 @@ public class RegularUserMainMenuGUI {
     private JButton logoutButton;
     private JButton communityInformationButton;
 
-    public void run() {
+    public void run(boolean Guest) {
         JFrame frame = new JFrame("regularUserMainMenuGUI");
         frame.setContentPane(new RegularUserMainMenuGUI().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
         //TODO: Call Notification which should be a JDialog
-
     }
 
-    public RegularUserMainMenuGUI() {
+    public RegularUserMainMenuGUI(boolean Guest) {
         notificationButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

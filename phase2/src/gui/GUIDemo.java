@@ -98,8 +98,8 @@ public class GUIDemo {
     }
 
     public void runRegularUserMainMenu(Boolean guest) {
-        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI();
-        regularUserMainMenuGUI.run();
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest);
+        regularUserMainMenuGUI.run(guest);
     }
 
 
