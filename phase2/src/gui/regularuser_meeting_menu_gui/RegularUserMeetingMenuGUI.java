@@ -4,6 +4,7 @@ import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
@@ -39,33 +40,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (mmc.isEmpty(mmc.getUnConfirmTimePlace())) {
-                    printNote(sm.msgForNothing("here that requires action"));
-                } else {
-                    // print the meetings with unconfirmed time and place
-                    String str = sm.printListObject(new ArrayList<>(mmc.getUnConfirmTimePlace()));
-                    printNote("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
-                    // asks for user input for the meeting to edit / confirm
-                    String askTradeId = "Please enter the trade id of the meeting you wish to edit / confirm its time and place.";
-                    String input1 = getInPut(askTradeId, guiUserInputInfo);
-                    String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
-                    String input2 = getInPut(askMeetingNum, guiUserInputInfo);
-                    if (idC.checkInt(input1) && idC.checkInt(input2)) {
-                        int tradeId = Integer.parseInt(input1);
-                        int meetingNum = Integer.parseInt(input2);
-                        if (mmc.checkValidMeeting(tradeId, meetingNum)) {
-                            String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
-                            RegularUserCheckMeetingWindow suggestOrConfirmMeetingTPgui =
-                                    new RegularUserCheckMeetingWindow(meetingInfo);
-                            suggestOrConfirmMeetingTPgui.run(meetingInfo);
-                        } else {
-                            printNote(sm.tryAgainMsgForWrongInput());
-                        }
-                    } else {
-                        printNote(sm.tryAgainMsgForWrongFormatInput());
-                    }
-
-                }
+                editAndConfirmMeetingTP(mmc, sm, guiUserInputInfo, idC);
             }
         });
 
@@ -78,29 +53,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (mmc.isEmpty(mmc.getUnconfirmedMeeting())) {
-                    sm.msgForNothing("that needs to be confirmed");
-                }
-                else {
-                // print the meetings with unconfirmed meeting
-                String str = sm.printListObject(new ArrayList<>(mmc.getUnconfirmedMeeting()));
-                printNote("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
-                //asks for user input
-
-                /*
-                 // asks for user input...
-                 == split point ==
-                 // validate the meeting (check valid meeting)
-                 // if yes:
-                    - call the confirmMeetingTookPlace method
-                      - if true = success
-                      - if false = ds.printOut("fail");
-                // if no:
-                    - msg for meeting DNE		     }
-
-                */
-
-                }
+                confirmMeetingTookPlace(mmc, sm, guiUserInputInfo, idC, maxNumTPEdits);
             }
         });
 
@@ -155,6 +108,66 @@ public class RegularUserMeetingMenuGUI {
                 guiD.runRegularUserMainMenu(false);
             }
         });
+    }
+
+    private void editAndConfirmMeetingTP(RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) throws InvalidIdException {
+        if (mmc.isEmpty(mmc.getUnConfirmTimePlace())) {
+            printNote(sm.msgForNothing("here that requires action"));
+        } else {
+            // print the meetings with unconfirmed time and place
+            String str = sm.printListObject(new ArrayList<>(mmc.getUnConfirmTimePlace()));
+            printNote("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
+            // asks for user input for the meeting to edit / confirm
+            String askTradeId = "Please enter the trade id of the meeting you wish to edit / confirm its time and place.";
+            String input1 = getInPut(askTradeId, guiUserInputInfo);
+            String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
+            String input2 = getInPut(askMeetingNum, guiUserInputInfo);
+            if (idC.checkInt(input1) && idC.checkInt(input2)) {
+                int tradeId = Integer.parseInt(input1);
+                int meetingNum = Integer.parseInt(input2);
+                if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                    String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
+                    RegularUserCheckMeetingWindow suggestOrConfirmMeetingTPgui =
+                            new RegularUserCheckMeetingWindow(meetingInfo);
+                    suggestOrConfirmMeetingTPgui.run(meetingInfo);
+                } else {
+                    printNote(sm.tryAgainMsgForWrongInput());
+                }
+            } else {
+                printNote(sm.tryAgainMsgForWrongFormatInput());
+            }
+
+        }
+    }
+
+    private void confirmMeetingTookPlace(RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, int maxNumTPEdits) {
+        if (mmc.isEmpty(mmc.getUnconfirmedMeeting())) {
+            sm.msgForNothing("that needs to be confirmed");
+        }
+        else {
+        // print the meetings with unconfirmed meeting
+        String str = sm.printListObject(new ArrayList<>(mmc.getUnconfirmedMeeting()));
+        printNote("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
+        //asks for user input
+        String askTradeId = "Please enter the trade id of the meeting that you wish to confirm that it took place.";
+        String input1 = getInPut(askTradeId, guiUserInputInfo);
+        String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
+        String input2 = getInPut(askMeetingNum, guiUserInputInfo);
+        if (idC.checkInt(input1) && idC.checkInt(input2)) {
+            int tradeId = Integer.parseInt(input1);
+            int meetingNum = Integer.parseInt(input2);
+            if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
+                RegularUserSuggestMeetingWindow confirmMeetingGui =
+                        new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
+                confirmMeetingGui.run(meetingInfo);
+            } else {
+                printNote(sm.tryAgainMsgForWrongInput());
+            }
+        } else {
+            printNote(sm.tryAgainMsgForWrongFormatInput());
+        }
+        }
     }
 
     private void viewMeetings(SystemMessage sm, List<Meeting> meetings, String type) {

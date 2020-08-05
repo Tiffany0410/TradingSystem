@@ -1,5 +1,8 @@
 package gui.regularuser_meeting_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
+import presenter.SystemMessage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +13,8 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
     private JButton buttonCancel;
     private JTextArea textArea;
 
-    public RegularUserSuggestMeetingWindow(String str) {
+    public RegularUserSuggestMeetingWindow(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
+                                           int meetingNum, int maxEditsTP) {
         textArea.setText(str);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -22,7 +26,7 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(mmc, sm, tradeId, meetingNum, maxEditsTP);
             }
         });
 
@@ -48,8 +52,10 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
+    private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
+                      int meetingNum, int maxEditsTP) {
+        boolean ok = mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP);
+        sm.msgForResult(ok);
         dispose();
     }
 
