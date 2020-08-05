@@ -41,6 +41,11 @@ public class AdminUserOtherActionsController {
 
     }
 
+
+    /**
+     * Add new subsequent admin users
+     *
+     */
     public void addNewAdmin() {
             String username = otherInfoGetter.getNewAdminUserName();
             String pw = otherInfoGetter.getNewAdminUserPassword();
