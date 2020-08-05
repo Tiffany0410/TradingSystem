@@ -144,7 +144,7 @@ public class RegularUserTradingMenuGUI {
                 // maybe just 1 item is enough? since it's "the most reasonable trade".
                 if (atc.hasTradeSuggestion()){
                     String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
-                    printNote("Suggested items for you (most reasonable to trade): \n" + str);
+                    printNote("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
                 }
                 else{
                     printNote(sm.msgForNo(" recommended suggestion."));

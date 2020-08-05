@@ -194,10 +194,10 @@ public class RegularUserTradingMenuController {
     /**Print the most suggest item for user to trade.
      * @throws InvalidIdException
      */
-    public ArrayList<Item> mostReasonableTradeSuggestions() throws InvalidIdException {
+    public ArrayList<Integer> mostReasonableTradeSuggestions() throws InvalidIdException {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
         am.addActionToAllActionsList(userId, "regularUser", "2.8", 0, "");
-        return im.getItemsByIds(p);
+        return p;
     }
 
 

@@ -82,7 +82,12 @@ public class RegularUserMeetingMenuGUI {
                     sm.msgForNothing("that needs to be confirmed");
                 }
                 else {
-                /* //print the list of unconfirmed meeting
+                // print the meetings with unconfirmed meeting
+                String str = sm.printListObject(new ArrayList<>(mmc.getUnconfirmedMeeting()));
+                printNote("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
+                //asks for user input
+
+                /*
                  // asks for user input...
                  == split point ==
                  // validate the meeting (check valid meeting)
