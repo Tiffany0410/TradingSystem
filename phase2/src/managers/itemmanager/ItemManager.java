@@ -1,10 +1,7 @@
 package managers.itemmanager;
-import exception.InvalidIdException;
 import managers.usermanager.UserManager;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -77,75 +74,70 @@ public class ItemManager implements Serializable {
      * Return item name by given item ID
      * @param itemId The item's ID
      * @return the item's name
-     * @throws InvalidIdException for invalid ID
      */
-    public String getNamebyId(int itemId) throws InvalidIdException {
+    public String getNamebyId(int itemId) {
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
                 return item.getName();
             }
         }
-        throw new InvalidIdException("Invalid Item ID");
+        return "Item not found.";
     }
 
     /**
      * Return item's information by given item ID
      * @param itemId The item's ID
      * @return the information of the item
-     * @throws InvalidIdException for invalid ID
      */
-    public String getInfobyID(int itemId) throws InvalidIdException{
+    public String getInfobyID(int itemId){
         for (Item item: listItem){
             if (item.getItemId() == itemId) {
                 return item.toString();
             }
         }
-        throw new InvalidIdException("Invalid Item ID");
+        return "Item not found.";
     }
 
     /**
      * Return the item by given item ID
      * @param itemId The item's ID
      * @return The corresponding Item
-     * @throws InvalidIdException for invalid ID
      */
-    public Item getItembyId(int itemId) throws InvalidIdException{
+    public Item getItembyId(int itemId){
         for (Item item: listItem){
             if (item.getItemId() == itemId){
                 return item;
             }
         }
-        throw new InvalidIdException("Invalid Item Id");
+        return null;
     }
 
     /**
      * Get tradable status for item
      * @param itemId The item's id
      * @return true if item is tradable
-     * @throws InvalidIdException for invalid item id
      */
-    public boolean getTradable(int itemId) throws InvalidIdException{
+    public boolean getTradable(int itemId){
         for (Item item: listItem){
             if (item.getItemId() == itemId){
                 return item.getTradable();
             }
         }
-        throw new InvalidIdException("Invalid Item Id");
+        return false;
     }
 
     /**
      * Return the item by given item ID
      * @param itemId The item's ID
      * @return The corresponding Item
-     * @throws InvalidIdException for invalid ID
      */
-    public Item getDeletedItemById(int itemId) throws InvalidIdException{
+    public Item getDeletedItemById(int itemId){
         for (Item item: listDeletedItem){
             if (item.getItemId() == itemId){
                 return item;
             }
         }
-        throw new InvalidIdException("Invalid Item Id");
+        return null;
     }
 
     /**
@@ -168,7 +160,7 @@ public class ItemManager implements Serializable {
      * @param listIds A list of items' Ids
      * @return A list of items with corresponding Ids
      */
-    public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds) throws InvalidIdException {
+    public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds){
         ArrayList<Item> items = new ArrayList<>();
         Set<Integer> setIds = new HashSet<>(listIds);
         for (Integer id : setIds) {
@@ -183,13 +175,12 @@ public class ItemManager implements Serializable {
      * Return the item ID by given item name
      * @param itemName The item's name
      * @return The corresponding Item
-     * @throws InvalidIdException for invalid ID
      */
-    public Integer getRequestItemIDByName(String itemName) throws InvalidIdException{
+    public Integer getRequestItemIDByName(String itemName){
         for (Item item: listItemToAdd){
             if (item.getName().equals(itemName)){ return item.getItemId(); }
         }
-        throw new InvalidIdException("Invalid Item name");
+        return -1;
     }
 
     /**
@@ -254,9 +245,8 @@ public class ItemManager implements Serializable {
      * Set the list of items to tradable
      * @param listIds The list of items' ids
      * @param tradable The tradable status
-     * @throws InvalidIdException for invalid item id
      */
-    public void setTradable(ArrayList<Integer> listIds, boolean tradable) throws InvalidIdException {
+    public void setTradable(ArrayList<Integer> listIds, boolean tradable){
         Set<Integer> setIds = new HashSet<>(listIds);
         for (Integer id: setIds){
             this.getItembyId(id).setTradable(tradable);
@@ -403,9 +393,8 @@ public class ItemManager implements Serializable {
      * Return the suggested item
      * @param wishlist The user's wishlist
      * @return A list of ids for the suggested item (item's id, item owner's id)
-     * @throws InvalidIdException for invalid item id
      */
-    public ArrayList<Integer> getMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+    public ArrayList<Integer> getMatchItem(ArrayList<Item> wishlist){
         ArrayList<Integer> ids = new ArrayList<>();
         HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
         for (Category c: getSortedCategory(category)){
@@ -423,9 +412,8 @@ public class ItemManager implements Serializable {
      * Helper method for getMatchItem
      * @param wishlist The user's wishlist
      * @return A list of ids for the suggested item (item's id, item owner's id)
-     * @throws InvalidIdException for invalid item id
      */
-    private ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) throws InvalidIdException {
+    private ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) {
         ArrayList<Integer> ids = new ArrayList<>();
         int ownerId = wishlist.get(0).getOwnerId();
         HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
@@ -447,9 +435,8 @@ public class ItemManager implements Serializable {
      * Return the a list of items that sorted by number of follows
      * @param um Using dependency injection for UserManager
      * @return a list of items that sorted by number of follows
-     * @throws InvalidIdException for invalid item id
      */
-    public ArrayList<Item> getSortedItemByFollows(UserManager um) throws InvalidIdException {
+    public ArrayList<Item> getSortedItemByFollows(UserManager um){
         ArrayList<Item> sortedItems = new ArrayList<>();
         HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         map.putAll(getUsersByItemsFollowed(um));
