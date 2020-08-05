@@ -44,27 +44,24 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 String askResponse = "Please enter a number (1 - set on-vacation status to true, 2 - set on-vacation status to false)";
                 String input1 = getInPut(askResponse, guiUserInputInfo);
-                if (idc.checkInt(input1)){
+                if (idc.checkInt(input1)) {
                     int response = Integer.parseInt(input1);
                     if (response == 1) {
                         atc.setOnVacationStatus(true);
                         printNote(sm.msgForResult(true));
-                    }
-                    else if (response == 2){
+                    } else if (response == 2) {
                         atc.setOnVacationStatus(false);
                         printNote(sm.msgForResult(true));
-                        }
-                    else{
+                    } else {
                         printNote(sm.tryAgainMsgForWrongInput());
-                        }
                     }
-                }
-                else{
+                } else {
                     printNote(sm.tryAgainMsgForWrongFormatInput());
                 }
-                }
+            }
 
-        );
+
+        });
         changeYourHomeCityButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -88,7 +85,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserMainMenu(false);
+                guiD.runRegularUserAccountMainMenu(false);
             }
 
 

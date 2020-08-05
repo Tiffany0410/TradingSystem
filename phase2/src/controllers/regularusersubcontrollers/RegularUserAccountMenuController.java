@@ -246,10 +246,9 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Receives user's input and set his/her on-vacation status
-     * @throws InvalidIdException In case the id is not valid.
+     * Receives user's input and set his/her on-vacation status.
      */
-    public void setOnVacationStatus(boolean newStatus) throws InvalidIdException {
+    public void setOnVacationStatus(boolean newStatus) {
         // get user's response and set the status likewise
         if (newStatus) {
             um.goOnVacation(userId);
@@ -375,13 +374,9 @@ public class RegularUserAccountMenuController {
      * @param userToFollowUserId  User's input of the user id of the user to follow.
      * @return Whether this action succeeded or failed.
      */
-    public String followAnUser (int userToFollowUserId){
+    public boolean followAnUser (int userToFollowUserId){
         //output msg = "please enter the user id of the user you want to follow"
-        boolean result = um.userFollow(userId, userToFollowUserId);
-        if (result) {
-            return "success";
-        }
-        return "fail";
+        return um.userFollow(userId, userToFollowUserId);
     }
 
     /**
@@ -390,16 +385,10 @@ public class RegularUserAccountMenuController {
      * in the system.
      * @param itemToFollowId User's input of the item id of the item to follow.
      * @return Whether this action succeeded or failed.
-     * @throws InvalidIdException In case if the id this user entered is invalid.
      */
-    public String followAnItem ( int itemToFollowId) throws InvalidIdException {
+    public boolean followAnItem (int itemToFollowId){
         //output msg = "please enter the user id of the item you want to follow"
-        boolean result = um.itemFollow(userId, itemToFollowId);
-        if (result) {
-            return "success";
-        }
-        return "fail";
-
+        return um.itemFollow(userId, itemToFollowId);
 
     }
 

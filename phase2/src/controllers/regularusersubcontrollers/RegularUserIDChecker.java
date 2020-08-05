@@ -61,12 +61,15 @@ public class RegularUserIDChecker {
         // all possible ids the user can pick from
         ArrayList<Integer> potentialIds;
         // depends on the option the user chooses
+        //check if the item is in the system
         if (type == 1) {
             potentialIds = im.getItemsIDs(im.getAllItem());
         }
+        //check if the item is in user's wishlist
         else if (type == 2){
             potentialIds = um.getUserWishlist(userId);
         }
+        //check if the item is in user's inventory
         else{
             potentialIds = um.getUserInventory(userId);
         }
