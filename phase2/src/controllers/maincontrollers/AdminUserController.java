@@ -1,9 +1,7 @@
 package controllers.maincontrollers;
 
 import controllers.AccountCreator;
-import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
-import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
-import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
+import controllers.adminusersubcontrollers.*;
 import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
@@ -39,6 +37,8 @@ public class AdminUserController implements Controllable {
     private FeedbackManager fm;
     private AdminUserManagerUsersController muc;
     private AdminUserHistoricalActionController hac;
+    private AdminUserOtherActionsController oac;
+    private AdminUserEditThresholdsController etc;
     private FilesReaderWriter frw;
     private int userId;
 
@@ -68,6 +68,8 @@ public class AdminUserController implements Controllable {
         this.sm = new SystemMessage();
         this.muc = new AdminUserManagerUsersController(ds, ac, um, im, am, username);
         this.hac = new AdminUserHistoricalActionController(ds,um, im, tm, am, fm, username);
+        this.oac = new AdminUserOtherActionsController(ac, ds, um, am, username);
+        this.etc = new AdminUserEditThresholdsController(ds, um, am, username);
         this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
     }
 
@@ -104,7 +106,6 @@ public class AdminUserController implements Controllable {
         /*1. Freeze a user
           2. Unfreeze users
           3. Confirm and add item to user’s inventory
-          4. Cancel the historical action of tradableUser
          */
 
         switch (subMenuOption) {
@@ -131,36 +132,16 @@ public class AdminUserController implements Controllable {
         List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         switch (subMenuOption) {
             case 1:
-                int currentValue1 = thresholdValues.get(0);
-                sm.msgForThresholdValue(currentValue1, ds);
-                int futureValue1 = otherInfoGetter.getThresholdAns();
-                // editMaxNumTransactionsAllowedAWeek
-                thresholdValues.set(0, futureValue1);
-                am.addActionToAllActionsList(this.userId, "adminUser", "2.1", currentValue1, String.valueOf(futureValue1));
+                etc.editMaxTransactions1(thresholdValuesFilePath);
                 break;
             case 2:
-                int currentValue2 = thresholdValues.get(1);
-                sm.msgForThresholdValue(currentValue2,ds);
-                int futureValue2 = otherInfoGetter.getThresholdAns();
-                // editMaxNumTransactionIncomplete
-                thresholdValues.set(1, futureValue2);
-                am.addActionToAllActionsList(this.userId, "adminUser", "2.2", currentValue2, String.valueOf(futureValue2));
+                etc.editMaxTransactions2(thresholdValuesFilePath);
                 break;
             case 3:
-                int currentValue3 = thresholdValues.get(2);
-                sm.msgForThresholdValue(currentValue3,ds);
-                int futureValue3 = otherInfoGetter.getThresholdAns();
-                // editNumLendBeforeBorrow
-                thresholdValues.set(2, futureValue3);
-                am.addActionToAllActionsList(this.userId, "adminUser", "2.3", currentValue3, String.valueOf(futureValue3));
-                break;
+               etc.editBookNumber(thresholdValuesFilePath);
+               break;
             case 4:
-                int currentValue4 = thresholdValues.get(3);
-                sm.msgForThresholdValue(currentValue4,ds);
-                int futureValue4 = otherInfoGetter.getThresholdAns();
-                //editMaxMeetingDateTimeEdits
-                thresholdValues.set(3, futureValue4);
-                am.addActionToAllActionsList(this.userId, "adminUser", "2.4", currentValue4, String.valueOf(futureValue4));
+                etc.editMaxEdits(thresholdValuesFilePath);
                 break;
         }
         frw.saveThresholdValuesToCSVFile(thresholdValues, thresholdValuesFilePath);
@@ -190,12 +171,8 @@ public class AdminUserController implements Controllable {
         /*
         1. Add subsequent admin users
          */
-        if (subMenuOption == 1){
-            String username = otherInfoGetter.getNewAdminUserName();
-            String pw = otherInfoGetter.getNewAdminUserPassword();
-            ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
-            int newUserID = um.getListAdminUser().get(-1).getId();
-            am.addActionToAllActionsList(userId, "adminUser", "4.1", newUserID, "");
+        if (subMenuOption == 1) {
+            oac.addNewAdmin();
         }
 
     }
