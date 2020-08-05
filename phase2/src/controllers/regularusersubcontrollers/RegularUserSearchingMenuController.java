@@ -14,7 +14,7 @@ import managers.itemmanager.Item;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class RegularUserSearchingMenuController {
-    private SystemMessage sm;
+
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -26,17 +26,14 @@ public class RegularUserSearchingMenuController {
      * @param mm meeting manager
      * @param um user manager
      * @param im item manager
-     * @param sm system message
      * @param username user name
      */
     public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
-                                              UserManager um, ItemManager im,
-                                               SystemMessage sm, String username) {
+                                              UserManager um, ItemManager im, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
-        this.sm = sm;
         this.userId = this.um.usernameToID(username);
 
     }

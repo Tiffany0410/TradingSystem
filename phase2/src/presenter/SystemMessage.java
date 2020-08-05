@@ -106,6 +106,14 @@ public class SystemMessage {
         guiDemo.printNotification(string.toString());
     }
 
+    public void printResult(boolean result){
+        if (result){
+            printOut("Success");
+        }else{
+            printOut("Fail");
+        }
+        printOut("\n");
+    }
 
 
 
