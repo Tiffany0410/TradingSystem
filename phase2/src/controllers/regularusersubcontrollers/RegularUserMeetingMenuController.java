@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import exception.InvalidIdException;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
@@ -89,9 +88,8 @@ public class RegularUserMeetingMenuController {
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits the max number for each user to edit time and place
      * @return true if the the meeting is successfully confirmed took place
-     * @throws InvalidIdException in case of the id is not valid
      */
-    public boolean confirmMeetingTookPlace(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) throws InvalidIdException {
+    public boolean confirmMeetingTookPlace(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits)  {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         boolean yesOrNO= mm.setMeetingConfirm(tm, meeting, userId, maxMeetingTimePlaceEdits);
         if(yesOrNO) {
@@ -104,9 +102,8 @@ public class RegularUserMeetingMenuController {
 
     /**
      * @return a list of meeting that the time and place is not confirmed
-     * @throws InvalidIdException in case that the id is invalid
      */
-    public List<Meeting> getUnConfirmTimePlace() throws InvalidIdException{
+    public List<Meeting> getUnConfirmTimePlace(){
         return mm.getUnConfirmTimePlace(userId,tm);
     }
 
@@ -116,7 +113,6 @@ public class RegularUserMeetingMenuController {
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
      * @return true if the confirmation successful
-     * @throws InvalidIdException In case if the id is not valid.
      */
     public boolean confirmMeetingTandP(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
@@ -137,10 +133,9 @@ public class RegularUserMeetingMenuController {
      * @param place the place
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
      * @return true if the meeting time and place is edited successfully
-     * @throws InvalidIdException In case if the id is not valid.
      */
     public boolean editMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
-            maxMeetingTimePlaceEdits) throws InvalidIdException{
+            maxMeetingTimePlaceEdits){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         if (mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
             boolean editSuccess= mm.editTimePlace(meeting, userId, time.get(0), time.get(1), time.get(2),
@@ -160,9 +155,8 @@ public class RegularUserMeetingMenuController {
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits the max number of times a user can edit the time and place
      * @return a string to describe the edit is over time or not
-     * @throws InvalidIdException in case if the id is invalid
      */
-    public String checkOverEdit(int tradeId, int numMeeting,int maxMeetingTimePlaceEdits)throws InvalidIdException{
+    public String checkOverEdit(int tradeId, int numMeeting,int maxMeetingTimePlaceEdits){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         return mm.getEditOverThreshold(tm,meeting, maxMeetingTimePlaceEdits);
     }
@@ -193,4 +187,3 @@ public class RegularUserMeetingMenuController {
 
     }
 
-}

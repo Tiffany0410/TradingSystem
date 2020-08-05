@@ -1,7 +1,6 @@
 package managers.meetingmanager;
 
 import managers.trademanager.TradeManager;
-import exception.InvalidIdException;
 
 import java.util.*;
 
@@ -164,10 +163,9 @@ public class MeetingManager implements java.io.Serializable{
      * @param meeting the meeting for a specific trade
      * @param userId the id for whom is going to confirm te completeness of the meeting
      * @return true if confirm is successful
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
     public boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
-                                     int maxMeetingTimePlaceEdits) throws InvalidIdException {
+                                     int maxMeetingTimePlaceEdits){
         if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
                 get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
