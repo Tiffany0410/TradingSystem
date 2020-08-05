@@ -2,6 +2,7 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
@@ -362,5 +363,13 @@ public class SystemMessage {
         }
     }
 
+    public String msgForCategory(){
+        ArrayList<String> categories = new ArrayList<>();
+        StringBuilder str = new StringBuilder();
+        for (Category category : Category.values()) {
+            str.append(category.name() + "\n");
+        }
+        return str.toString();
+    }
 
 }

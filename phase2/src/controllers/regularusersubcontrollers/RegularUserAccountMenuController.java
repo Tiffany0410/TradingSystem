@@ -2,6 +2,7 @@ package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
+import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
@@ -11,6 +12,7 @@ import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -75,16 +77,16 @@ public class RegularUserAccountMenuController {
      * for the user to browse through.
      * @param allOtherItems The items that will be displayed to the user.
      */
-    public void browseItems(ArrayList<Item> allOtherItems) {
-        //calling this method means user can be a guest/non-guest
-        if (allOtherItems.size() != 0) {
-            // print all items that are tradable
-            ds.printResult(new ArrayList<>(allOtherItems));
-        }
-        else{
-            sm.msgForNothing();
-        }
-    }
+//    public void browseItems(ArrayList<Item> allOtherItems) {
+//        //calling this method means user can be a guest/non-guest
+//        if (allOtherItems.size() != 0) {
+//            // print all items that are tradable
+//            ds.printResult(new ArrayList<>(allOtherItems));
+//        }
+//        else{
+//            sm.msgForNothing();
+//        }
+//    }
 
     public ArrayList<Item> getTradables(){
         ArrayList<Item> tradableItems = im.getAllTradableItems();
@@ -114,6 +116,7 @@ public class RegularUserAccountMenuController {
 //            sm.msgForNothing("that can be added to your wishlist for now", ds);
 //        }
 //    }
+
     public boolean addToWishList(int tempItemID){
         boolean result = um.addItemWishlist(tempItemID, username);
         am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.2", tempItemID, "");
@@ -182,12 +185,10 @@ public class RegularUserAccountMenuController {
      * Receives the request to add item to his/her inventory from the user
      * and let the user manager handle it.
      */
-    public void requestAddItem(String tempItemName) {
-        //calling this method means user is not a guest
-        im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId, otherInfoGetter.getItemType());
-        ds.printResult("Your add-item request", true);
-        am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
-        am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
+    public void requestAddItem(String itemName, String description, Category category){
+        im.requestAddItem(itemName, description, userId, category);
+        am.addActionToCurrentRevocableList(userId, "regular","1.1.5", im.getRequestItemIDByName(itemName), "");
+        am.addActionToAllActionsList(userId, "regular","1.1.5", im.getRequestItemIDByName(itemName), "");
     }
 
 
@@ -196,15 +197,12 @@ public class RegularUserAccountMenuController {
      * If it doesn't apply to the user, an appropriate message will be
      * printed.
      */
-    public void seeMostRecentThreeItems() {
+    public ArrayList<Item> seeMostRecentThreeItems() {
         //calling this method means user is not a guest
         List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-        List<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
-        if (threeItems.size() != 0) {
-            ds.printResult(new ArrayList<>(threeItems));
-        } else {
-            sm.msgForNothing();
-        }
+        ArrayList<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
+        am.addActionToAllActionsList(userId, "regularUser", "1.1.6", 0, "");
+        return threeItems;
     }
 
 
