@@ -363,19 +363,19 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 1.3.1: Follow an user
             case 1:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "follow user #" + action.getAdjustableInt() + "\n");
                 break;
             // 1.3.2: Follow an item
             case 2:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "follow item #" + action.getAdjustableInt() + "\n");
                 break;
             // 1.3.3: See recent status of user(s) you're following
             case 3:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "check recent status of user(s) he/she follows" + "\n");
                 break;
             // 1.3.4: See recent status of item(s) you're following
             case 4:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "check recent status of item(s) he/she follows" + "\n");
                 break;
         }
     }

@@ -356,13 +356,13 @@ public class RegularUserAccountMenuController {
         if (newStatus) {
             um.goOnVacation(userId);
             im.setTradable(um.getUserInventory(userId), false);
-            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
-            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.2.2", 0, "go on vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.2.2", 0, "go on vacation");
         } else {
             um.comeFromVacation(userId);
             im.setTradable(um.getUserInventory(userId), true);
-            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
-            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.2.2", 0, "come from vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.2.2", 0, "come from vacation");
         }
 
     }
@@ -376,7 +376,7 @@ public class RegularUserAccountMenuController {
         //calling this method means user is not a guest
         um.changeHome(userId, newHC);
         ds.printResult(true);
-        am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
+        am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
     }
 
 
@@ -393,6 +393,7 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnUser (int userToFollowUserId){
         //calling this method means user is not a guest
+        am.addActionToAllActionsList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
         return um.userFollow(userId, userToFollowUserId);
     }
 
@@ -405,17 +406,20 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnItem (int itemToFollowId){
         //calling this method means user is not a guest
+        am.addActionToAllActionsList(userId, "regularUser", "1.3.2", itemToFollowId, "");
         return um.itemFollow(userId, itemToFollowId);
 
     }
 
     public ArrayList<String> seeRecentStatusOfFollowedUser () {
         //calling this method means user is not a guest
+        am.addActionToAllActionsList(userId, "regularUser", "1.3.3", 0, "");
         return um.getUserFollowingLogs(userId);
     }
 
     public ArrayList<String> seeRecentStatusOfFollowedItem () {
         //calling this method means user is not a guest
+        am.addActionToAllActionsList(userId, "regularUser", "1.3.4", 0, "");
         return um.getItemFollowingLogs(userId);
     }
 
