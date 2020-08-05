@@ -56,7 +56,7 @@ public class AdminUserEditThresholdsController {
     public void editMaxTransactions1(String thresholdValuesFilePath) throws FileNotFoundException {
         List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         int currentValue1 = thresholdValues.get(0);
-        sm.msgForThresholdValue(currentValue1, ds);
+        sm.msgForThresholdValue(currentValue1);
         int futureValue1 = otherInfoGetter.getThresholdAns();
         // editMaxNumTransactionsAllowedAWeek
         thresholdValues.set(0, futureValue1);
@@ -72,7 +72,7 @@ public class AdminUserEditThresholdsController {
     public void editMaxTransactions2(String thresholdValuesFilePath) throws FileNotFoundException {
         List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         int currentValue = thresholdValues.get(1);
-        sm.msgForThresholdValue(currentValue,ds);
+        sm.msgForThresholdValue(currentValue);
         int futureValue = otherInfoGetter.getThresholdAns();
         // editMaxNumTransactionIncomplete
         thresholdValues.set(1, futureValue);
@@ -88,7 +88,7 @@ public class AdminUserEditThresholdsController {
     public void editBookNumber(String thresholdValuesFilePath) throws FileNotFoundException {
         List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
         int currentValue = thresholdValues.get(2);
-        sm.msgForThresholdValue(currentValue,ds);
+        sm.msgForThresholdValue(currentValue);
         int futureValue = otherInfoGetter.getThresholdAns();
         // editNumLendBeforeBorrow
         thresholdValues.set(2, futureValue);

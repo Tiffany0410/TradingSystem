@@ -10,6 +10,7 @@ import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,45 +69,34 @@ public class RegularUserAccountMenuController {
         this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
     }
 
+
     /**
-     * Let the presenter print user's wishlist and inventory.
+     * Lets the presenter print all the tradable items in the system
+     * for the user to browse through.
+     * @param allOtherItems The items that will be displayed to the user.
      */
-//    public void viewWishListInventory(){
-//        //calling this method means user is not a guest
-//        // get user
-//        TradableUser thisTradableUser = um.findUser(userId);
-//        // get user's wishlist and inventory
-//        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
-//        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
-//        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
-//        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
-//        // print user's wishlist and inventory
-//        ds.printOut("Your wishlist: ");
-//        ds.printResult(new ArrayList<>(wishlist));
-//        ds.printOut("\n");
-//        ds.printOut("Your inventory: ");
-//        ds.printResult(new ArrayList<>(inventory));
-//        ds.printOut("\n");
-//        am.addActionToAllActionsList(userId, "regularUser", "1.9", 0, "");
-//    }
-
-    public ArrayList<Item> getWishList(){
-        TradableUser thisTradableUser = um.findUser(userId);
-        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
-        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
-        return wishlist;
+    public void browseItems(ArrayList<Item> allOtherItems) {
+        //calling this method means user can be a guest/non-guest
+        if (allOtherItems.size() != 0) {
+            // print all items that are tradable
+            ds.printResult(new ArrayList<>(allOtherItems));
+        }
+        else{
+            sm.msgForNothing();
+        }
     }
 
-    public ArrayList<Item> getInventory(){
-        TradableUser thisTradableUser = um.findUser(userId);
-        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
-        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
-        return inventory;
+    public ArrayList<Item> getTradables(){
+        ArrayList<Item> tradableItems = im.getAllTradableItems();
+        am.addActionToAllActionsList(userId, "regularUser", "1.1.1", 0, "");
+        return tradableItems;
     }
+
 
     public ArrayList<Item> getAllTradableFromOther(){
         return im.allTradableItemsFromOtherUser(userId);
     }
+
 
     /**
      * Let the user manager add the appropriate item id for the item user wants to add to his/her wish list.
@@ -124,7 +114,6 @@ public class RegularUserAccountMenuController {
 //            sm.msgForNothing("that can be added to your wishlist for now", ds);
 //        }
 //    }
-
     public boolean addToWishList(int tempItemID){
         boolean result = um.addItemWishlist(tempItemID, username);
         am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.2", tempItemID, "");
@@ -132,45 +121,33 @@ public class RegularUserAccountMenuController {
         return result;
     }
 
-    /**
-     * Receives the request to add item to his/her inventory from the user
-     * and let the user manager handle it.
-     */
-    public void requestAddItem(String tempItemName) {
-        //calling this method means user is not a guest
-        im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId, otherInfoGetter.getItemType());
-        ds.printResult("Your add-item request", true);
-        am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
-        am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
-    }
 
     /**
-     * Receives the request to unfreeze from the user
-     * and let the user manager handle it.
+     * Receives user's request to remove item from his/her WishList
+     * and let the user manager remove it. If user has nothing to remove,
+     * an appropriate message will be printed.
      */
-    public void RequestToUnfreeze(String msg) {
-        //calling this method means user is not a guest
-        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
-        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, msg));
-        am.addActionToAllActionsList(userId, "regularUser", "1.6", 0, "");
+//    public void removeFromWishList(int tempItemID)  {
+//        //calling this method means user is not a guest
+//        // remove the item id from wishlist
+//        if (um.getUserWishlist(userId).size() != 0) {
+//            //this item id must be in user's wishlist
+//            //int tempItemID = idGetter.getItemID(...);
+//            ds.printResult(um.removeItemWishlist(tempItemID, username));
+//            im.addItemToListDeletedItem(im.getItembyId(tempItemID));
+//            am.addActionToCurrentRevocableList(userId, "regularUser", "1.4", tempItemID, "");
+//            am.addActionToAllActionsList(userId, "regularUser", "1.4", tempItemID, "");
+//        } else {
+//            sm.msgForNothing("in your wish list", ds);
+//        }
+//    }
+    public boolean removeFromWishlist(int tempItemID){
+        boolean result = um.removeItemWishlist(tempItemID, username);
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.3", tempItemID, "");
+        am.addActionToAllActionsList(userId, "regularUser", "1.1.3", tempItemID, "");
+        return result;
     }
 
-    /**
-     * Let the presenter print user's most recent three items traded.
-     * If it doesn't apply to the user, an appropriate message will be
-     * printed.
-     */
-    public void seeMostRecentThreeItems() {
-        //calling this method means user is not a guest
-        List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
-        List<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
-        if (threeItems.size() != 0) {
-            ds.printResult(new ArrayList<>(threeItems));
-            am.addActionToAllActionsList(userId, "regularUser", "1.8", 0, "");
-        } else {
-            sm.msgForNothing();
-        }
-    }
 
     /**
      * Receives user's request to remove item from his/her inventory
@@ -192,14 +169,6 @@ public class RegularUserAccountMenuController {
 //            sm.msgForNothing("in your inventory", ds);
 //        }
 //    }
-
-    public boolean removeFromWishlist(int tempItemID){
-        boolean result = um.removeItemWishlist(tempItemID, username);
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.3", tempItemID, "");
-        am.addActionToAllActionsList(userId, "regularUser", "1.1.3", tempItemID, "");
-        return result;
-    }
-
     public boolean removeFromInventory(int tempItemID){
         boolean result = um.removeItemInventory(tempItemID, username);
         im.addItemToListDeletedItem(im.getItembyId(tempItemID));
@@ -208,69 +177,74 @@ public class RegularUserAccountMenuController {
         return  result;
     }
 
-    /**
-     * Receives user's request to remove item from his/her inventory
-     * and let the user manager remove it. If user has nothing to remove,
-     * an appropriate message will be printed.
-     */
-//    public void removeFromWishList(int tempItemID)  {
-//        //calling this method means user is not a guest
-//        // remove the item id from wishlist
-//        if (um.getUserWishlist(userId).size() != 0) {
-//            //this item id must be in user's wishlist
-//            //int tempItemID = idGetter.getItemID(...);
-//            ds.printResult(um.removeItemWishlist(tempItemID, username));
-//            im.addItemToListDeletedItem(im.getItembyId(tempItemID));
-//            am.addActionToCurrentRevocableList(userId, "regularUser", "1.4", tempItemID, "");
-//            am.addActionToAllActionsList(userId, "regularUser", "1.4", tempItemID, "");
-//        } else {
-//            sm.msgForNothing("in your wish list", ds);
-//        }
-//    }
 
+    /**
+     * Receives the request to add item to his/her inventory from the user
+     * and let the user manager handle it.
+     */
+    public void requestAddItem(String tempItemName) {
+        //calling this method means user is not a guest
+        im.requestAddItem(tempItemName, otherInfoGetter.getMessage("Enter the description of the item"), userId, otherInfoGetter.getItemType());
+        ds.printResult("Your add-item request", true);
+        am.addActionToCurrentRevocableList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
+        am.addActionToAllActionsList(userId, "regular","1.7", im.getRequestItemIDByName(tempItemName), "");
+    }
 
 
     /**
-     * Lets the presenter print all the tradable items in the system
-     * for the user to browse through.
-     * @param allOtherItems The items that will be displayed to the user.
+     * Let the presenter print user's most recent three items traded.
+     * If it doesn't apply to the user, an appropriate message will be
+     * printed.
      */
-    public void browseItems(ArrayList<Item> allOtherItems) {
-        //calling this method means user can be a guest/non-guest
-        if (allOtherItems.size() != 0) {
-            // print all items that are tradable
-            ds.printResult(new ArrayList<>(allOtherItems));
-            am.addActionToAllActionsList(userId, "regularUser", "1.1", 0, "");
-        }
-        else{
+    public void seeMostRecentThreeItems() {
+        //calling this method means user is not a guest
+        List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
+        List<Item> threeItems = im.getItemsByIds((ArrayList<Integer>)(recentThreeTradedIds));
+        if (threeItems.size() != 0) {
+            ds.printResult(new ArrayList<>(threeItems));
+        } else {
             sm.msgForNothing();
         }
     }
 
-    public ArrayList<Item> getTradables(){
-        ArrayList<Item> tradableItems = im.getAllTradableItems();
-        return tradableItems;
-    }
 
     /**
-     * Receives user's input and set his/her on-vacation status.
+     * Let the presenter print user's wishlist and inventory.
      */
-    public void setOnVacationStatus(boolean newStatus) {
-        //calling this method means user is not a guest
-        // get user's response and set the status likewise
-        if (newStatus) {
-            um.goOnVacation(userId);
-            im.setTradable(um.getUserInventory(userId), false);
-            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
-            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
-        } else {
-            um.comeFromVacation(userId);
-            im.setTradable(um.getUserInventory(userId), true);
-            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
-            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
-        }
+//    public void viewWishListInventory(){
+//        //calling this method means user is not a guest
+//        // get user
+//        TradableUser thisTradableUser = um.findUser(userId);
+//        // get user's wishlist and inventory
+//        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
+//        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
+//        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
+//        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
+//        // print user's wishlist and inventory
+//        ds.printOut("Your wishlist: ");
+//        ds.printResult(new ArrayList<>(wishlist));
+//        ds.printOut("\n");
+//        ds.printOut("Your inventory: ");
+//        ds.printResult(new ArrayList<>(inventory));
+//        ds.printOut("\n");
+//
+//    }
 
+
+    public ArrayList<Item> getWishList(){
+        TradableUser thisTradableUser = um.findUser(userId);
+        ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
+        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
+        return wishlist;
     }
+
+    public ArrayList<Item> getInventory(){
+        TradableUser thisTradableUser = um.findUser(userId);
+        ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
+        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
+        return inventory;
+    }
+
 
     /**
      * Lets the presenter print the tradable status for each of
@@ -322,18 +296,6 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Gets user's input of the new home city and then
-     * change user's home city.
-     */
-    public void changeUserHC(String newHC) {
-        //calling this method means user is not a guest
-        um.changeHome(userId, newHC);
-        ds.printResult(true);
-        am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
-    }
-
-
-    /**
      * Lets presenter print the items this user
      * can lend to a given user. The random number
      * part is Based on code by Bill the Lizard from:
@@ -365,6 +327,62 @@ public class RegularUserAccountMenuController {
             ds.printResult(new ArrayList<>(im.getItemsByIds(itemsCanLend)));
         }
     }
+
+
+
+
+
+
+
+
+    /**
+     * Receives the request to unfreeze from the user
+     * and let the user manager handle it.
+     */
+    public void RequestToUnfreeze(String msg) {
+        //calling this method means user is not a guest
+        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
+        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, msg));
+        am.addActionToAllActionsList(userId, "regularUser", "1.2.1", 0, "");
+    }
+
+
+    /**
+     * Receives user's input and set his/her on-vacation status.
+     */
+    public void setOnVacationStatus(boolean newStatus) {
+        //calling this method means user is not a guest
+        // get user's response and set the status likewise
+        if (newStatus) {
+            um.goOnVacation(userId);
+            im.setTradable(um.getUserInventory(userId), false);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "go on vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "go on vacation");
+        } else {
+            um.comeFromVacation(userId);
+            im.setTradable(um.getUserInventory(userId), true);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.10", 0, "come from vacation");
+            am.addActionToAllActionsList(userId, "regularUser", "1.10", 0, "come from vacation");
+        }
+
+    }
+
+
+    /**
+     * Gets user's input of the new home city and then
+     * change user's home city.
+     */
+    public void changeUserHC(String newHC) {
+        //calling this method means user is not a guest
+        um.changeHome(userId, newHC);
+        ds.printResult(true);
+        am.addActionToAllActionsList(userId, "regularUser", "1.13", 0, newHC);
+    }
+
+
+
+
+
 
     /**
      * Uses this user's input of the user id of the user
@@ -400,7 +418,26 @@ public class RegularUserAccountMenuController {
         //calling this method means user is not a guest
         return um.getItemFollowingLogs(userId);
     }
-    
+
+    // am.addActionToCurrentRevocableList(userId, "regular","1.1.5", itemID, "");
+    // am.addActionToAllActionsList(userId, "regular","1.1.5", itemID, "");
+    //
+    // am.addActionToAllActionsList(userId, "regularUser", "1.1.6", 0, "");
+    //
+    // am.addActionToAllActionsList(userId, "regularUser", "1.1.7", 0, "");
+    //
+    // set item tradable
+    // am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemID, "tradable");
+    // am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemID, "tradable");
+    // set item non-tradable
+    // am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemID, "non-tradable");
+    // am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemID, "non-tradable");
+    //
+    // am.addActionToAllActionsList(userId, "regularUser", "1.1.9", 0, "");
+    //
+    //
+
+
     }
 
 

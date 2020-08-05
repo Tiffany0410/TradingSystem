@@ -256,7 +256,7 @@ public class DisplaySystem {
         int subMenuOption = Integer.parseInt(menuOption[1]);
         int subSubMenuOption;
         if (menuOption.length == 3) {subSubMenuOption = Integer.parseInt(menuOption[2]);}
-        else {subSubMenuOption = 0}
+        else {subSubMenuOption = 0;}
 
 
         switch (mainMenuOption) {

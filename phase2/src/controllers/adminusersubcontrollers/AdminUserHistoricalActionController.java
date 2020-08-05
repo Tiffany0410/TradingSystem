@@ -163,22 +163,22 @@ public class AdminUserHistoricalActionController {
         String username = um.idToUsername(actionOwnerID);
 
         switch (subOption) {
-            // 1.2: Add to own Wish List
+            // 1.1.2: Add to own Wish List
             case 2:
                 // call UserManager to remove the item from Wish List
                 return um.removeItemWishlist(itemID, username);
-            // 1.4: Remove from own Wish List
-            case 4:
+            // 1.1.3: Remove from own Wish List
+            case 3:
                 // call UserManager to add the item into Wish List
                 return um.addItemWishlist(itemID, username);
-            // 1.5: Remove from own Inventory
-            case 5:
+            // 1.1.4: Remove from own Inventory
+            case 4:
                 // call UserManager to remove the item from Inventory
                 return um.addItemInventory(itemID, username);
-            // 1.7: Request to add item to your inventory
-            case 7:
+            // 1.1.5: Request to add item to your inventory
+            case 5:
                 return im.removeFromListItemToAdd(itemID);
-            // 1.10: Set your on-vacation status
+            // 1.2.2: Set your on-vacation status
             case 10:
                 // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
                 if (vacationStatus.equals("go on vacation")) {
@@ -191,7 +191,7 @@ public class AdminUserHistoricalActionController {
                     im.setTradable(um.getUserInventory(actionOwnerID), false);
                 }
                 return true;
-            // 1.11: Change tradable status for an inventory item
+            // 1.1.8: Change tradable status for an inventory item
             case 11:
                 ArrayList<Integer> temp = new ArrayList<>();
                 temp.add(itemID);
@@ -255,22 +255,6 @@ public class AdminUserHistoricalActionController {
         return false;
     }
 
-
-    /**
-     * Helper Function used to do the cancel part for revocable actions in Searching Menu
-     * @param targetAction The action which AdminUser want to cancel
-     * @param subOption The menu option number in Searching Menu
-     * @return Return true if cancel action successfully, vice versa
-     */
-    private boolean helper_cancelSearchingMenu(Action targetAction, int subOption) {
-        switch (subOption) {
-            //TODO
-
-        }
-        return false;
-    }
-
-
     /**
      * Helper Function used to do the cancel part for revocable actions in Community Menu
      * @param targetAction The action which AdminUser want to cancel
@@ -299,4 +283,10 @@ public class AdminUserHistoricalActionController {
         }
         return false;
     }
+
+    public void cancel_1_1_2(){}
+
+    public void cancel_1_1_3(){}
+
+    public void cancel_1_1_4(){}
 }
