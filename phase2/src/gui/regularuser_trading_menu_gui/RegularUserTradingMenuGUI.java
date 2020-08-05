@@ -3,7 +3,6 @@ package gui.regularuser_trading_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
-import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
@@ -14,7 +13,6 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,11 +66,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    viewTrades(sm, atc.viewOpenTrades(), "open");
-                } catch (InvalidIdException invalidIdException) {
-                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
-                }
+                viewTrades(sm, atc.viewOpenTrades(), "open");
 
             }
         });
@@ -84,13 +78,9 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    viewTrades(sm, atc.viewClosedTrades(), "closed");
-                }catch (InvalidIdException invalidIdException) {
-                    //TODO: refactor the below later
-                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
+                viewTrades(sm, atc.viewClosedTrades(), "closed");
                 }
-            }
+
         });
         confirmThatATradeButton.addActionListener(new ActionListener() {
             /**
@@ -124,12 +114,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    viewTrades(sm, atc.viewCancelledTrades(), "cancelled");
-                } catch (InvalidIdException invalidIdException) {
-                    printNote(sm.msgForNothing("here. It might be that you have not traded before"));
-                }
-
+                viewTrades(sm, atc.viewCancelledTrades(), "cancelled");
             }
         });
         suggestionForTheMostButton.addActionListener(new ActionListener() {
@@ -140,14 +125,12 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: this is ... suggestion for the most reasonable trade? a list of items?
-                // maybe just 1 item is enough? since it's "the most reasonable trade".
                 if (atc.hasTradeSuggestion()){
                     String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
                     printNote("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
                 }
                 else{
-                    printNote(sm.msgForNo(" recommended suggestion."));
+                    printNote(sm.msgForNo(" recommended trade suggestion."));
                 }
 
             }
@@ -166,7 +149,7 @@ public class RegularUserTradingMenuGUI {
         });
     }
 
-    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm) throws InvalidIdException {
+    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm) {
         if (atc.hasTopThree()){
             //has top three
             String str = sm.printListObject(new ArrayList<>(atc.seeTopThreePartners()));
@@ -177,36 +160,21 @@ public class RegularUserTradingMenuGUI {
     }
 
     private void confirmATradeIsCompleted(RegularUserTradingMenuController atc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
-        boolean ok = true;
-        boolean result = false;
-        List<Trade> openTrades = new ArrayList<>();
-        try {
-            openTrades = atc.viewOpenTrades();
-            viewTrades(sm, openTrades, "open");
-        } catch (InvalidIdException invalidIdException) {
-            printNote(sm.msgForNothing("here. It might be that you have not traded before"));
-        }
+        List<Trade> openTrades = atc.viewOpenTrades();
+        boolean result;
+        viewTrades(sm, openTrades, "open");
         if (openTrades.size() == 0){
             printNote(sm.msgForNothing("that you can confirm whether it's completed for now"));
         }
         else{
             String askTradeId = "Please enter the trade id of the trade for which you want to check its completion of";
             String input = getInPut(askTradeId, guiUserInputInfo);
-            if (idC.checkInt(input)){
+            if (idC.checkInt(input)) {
                 int tradeId = Integer.parseInt(input);
-                if (idC.checkTradeID(tradeId)){
-                    try {
-                         result = atc.confirmTradeComplete(tradeId);
-                    } catch (InvalidIdException invalidIdException) {
-                        printNote(sm.msgForNothing("here. It might be that you have not traded before"));
-                        ok = false;
-                    }
-                    if (ok){
-                        printNote(sm.msgFortradeCompletedOrNot(result));
-                    }
-
-                }
-                else{
+                if (idC.checkTradeID(tradeId)) {
+                    result = atc.confirmTradeComplete(tradeId);
+                    printNote(sm.msgFortradeCompletedOrNot(result));
+                } else {
                     printNote(sm.tryAgainMsgForWrongInput());
                 }
             }
@@ -226,20 +194,13 @@ public class RegularUserTradingMenuGUI {
     }
 
     private void respondToTradeRequest(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, RegularUserOtherInfoChecker oiC) {
-        boolean ok = true;
-        List<Trade> tradeRequests = new ArrayList<>();
+        List<Trade> tradeRequests;
         if (atc.lockThresholdOrNot()) {
             printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
-            //Or if (atc.tradeRequestsToRespond().size() == 0){printNote(...);}
-            //TODO: problem with getTradeHistory's exception throwing - don't need id exception
             //case with no trade requests
-            try {
-                tradeRequests = atc.tradeRequestsToRespond();
-            } catch (InvalidIdException invalidIdException) {
-                printNote(sm.msgForNothing("here."));
-            }
+            tradeRequests = atc.tradeRequestsToRespond();
             if (tradeRequests.size() != 0){
                 String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
                 printNote("Here's a list of trade requests: \n" + strTR);
@@ -250,15 +211,8 @@ public class RegularUserTradingMenuGUI {
                 if (idC.checkInt(input1)){
                     int tradeId = Integer.parseInt(input1);
                     if (idC.checkTradeID(tradeId) && oiC.checkAgreeOrNot(response)){
-                        try {
-                            atc.respondToTradeRequests(tradeId, response);
-                        } catch (InvalidIdException invalidIdException) {
-                            printNote(sm.msgForRequestProcess(false));
-                            ok = false;
-                        }
-                        if (ok){
-                            printNote(sm.msgForRequestProcess(true));
-                        }
+                        atc.respondToTradeRequests(tradeId, response);
+                        printNote(sm.msgForRequestProcess(true));
                     }
                     else{
                         printNote(sm.tryAgainMsgForWrongInput());
@@ -305,11 +259,7 @@ public class RegularUserTradingMenuGUI {
                 if ((tradeKind == 1 || tradeKind == 2) && idC.checkUserID(userId1) && idC.checkUserID(userId2)
                     && idC.checkItemID(itemid1, 1) && idC.checkItemID(itemid2, 1)
                         && oiC.checkTradeType(tradeType)) {
-                    try {
                         printNote(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
-                    } catch (InvalidIdException invalidIdException) {
-                        printNote("Invalid id / id(s) was/were entered...");
-                    }
                 }
                  else{
                      printNote(sm.tryAgainMsgForWrongInput());
