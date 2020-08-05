@@ -363,19 +363,19 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 1.3.1: Follow an user
             case 1:
-
+                //TODO:
                 break;
             // 1.3.2: Follow an item
             case 2:
-
+                //TODO:
                 break;
             // 1.3.3: See recent status of user(s) you're following
             case 3:
-
+                //TODO:
                 break;
             // 1.3.4: See recent status of item(s) you're following
             case 4:
-
+                //TODO:
                 break;
         }
     }
@@ -449,20 +449,88 @@ public class DisplaySystem {
 
     private void regularUserSearchingAction(Action action, int subMenuOption, int subSubMenuOption) {
         switch (subMenuOption) {
-            // 4.1:
+            // 4.1: SubMenuOption <1>  corresponding to RegularUserSearchingItemsMenu.csv
+            case 1:
+                regularUserSearchingItemsAction(action, subSubMenuOption);
+                break;
+            // 4.2: SubMenuOption <2>  corresponding to RegularUserSearchingUsersMenu.csv
+            case 2:
+                regularUserSearchingUsersAction(action,subSubMenuOption);
+                break;
+            // 4.3: SubMenuOption <3>  corresponding to RegularUserSearchingMeetingsMenu.csv
+            case 3:
+                regularUserSearchingMeetingsAction(action, subSubMenuOption);
+                break;
+            // 4.4: SubMenuOption <4>  corresponding to RegularUserSearchingTradesMenu.csv
+            case 4:
+                regularUserSearchingTradesAction(action, subSubMenuOption);
+                break;
+        }
+    }
+
+    private void regularUserSearchingItemsAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 4.1.1: Filter by category
             case 1:
                 //TODO:
                 break;
-            // 4.2:
+            // 4.1.2: Search item by name
+            case 2:
+                this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
+                break;
+            // 4.1.3: Search item by id TODO:need to add "add action" in regular User controller
+            case 3:
+                this.printOut(helper_regular_action_prefix(action) + "search Item with id of " + action.getAdjustableInt() + "\n");
+                break;
+            // 4.1.4: Sort by number of follows
+            case 4:
+                //TODO:
+                break;
+        }
+    }
+
+    private void regularUserSearchingUsersAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 4.2.1: Recent trade user
+            case 1:
+                //TODO:
+                break;
+            // 4.2.2: Frequent trade user
             case 2:
                 //TODO:
                 break;
-            // TODO:4.3: Search item by name
+            // 4.2.3: Sort user by rating
             case 3:
-                this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
+                //TODO:
                 break;
-            // 4.4:
-            case 4:
+        }
+    }
+
+    private void regularUserSearchingMeetingsAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 4.3.1: Sort by date
+            case 1:
+                //TODO:
+                break;
+            // 4.3.2: Incomplete meeting
+            case 2:
+                //TODO:
+                break;
+            // 4.2.3: Complete meeting
+            case 3:
+                //TODO:
+                break;
+        }
+    }
+
+    private void regularUserSearchingTradesAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 4.4.1: Incomplete trades
+            case 1:
+                //TODO:
+                break;
+            // 4.4.2: Complete trades
+            case 2:
                 //TODO:
                 break;
         }
