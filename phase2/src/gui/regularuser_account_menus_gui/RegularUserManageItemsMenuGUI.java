@@ -1,6 +1,5 @@
 package gui.regularuser_account_menus_gui;
 
-import com.sun.corba.se.spi.ior.ObjectKey;
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
@@ -10,14 +9,12 @@ import gui.NotificationGUI;
 import gui.UserInputGUI;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
-import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class RegularUserManageItemsMenuGUI {
     private JPanel rootPanel;
@@ -38,17 +35,14 @@ public class RegularUserManageItemsMenuGUI {
         browseAllTradableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: this option is allowed for both guest + non-guest
                 ArrayList<Item> tradableItems = amc.getTradables();
-                printObjects(new ArrayList<Object>(tradableItems), sm);
+                printObjects(tradableItems, sm);
             }
         });
 
         addToWishListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Add to own Wish List
-                // TODO: print sm.msgForGuest(); if it's a guest
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
@@ -62,8 +56,6 @@ public class RegularUserManageItemsMenuGUI {
         removeFromWishListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Remove from Wish List
-                // TODO: print sm.msgForGuest(); if it's a guest
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
@@ -77,8 +69,6 @@ public class RegularUserManageItemsMenuGUI {
         removeFromInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Remove from own Inventory
-                // TODO: print sm.msgForGuest(); if it's a guest
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
@@ -92,8 +82,6 @@ public class RegularUserManageItemsMenuGUI {
         requestItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Request that an item be added to your inventory
-                // TODO: print sm.msgForGuest(); if it's a guest
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
@@ -116,14 +104,12 @@ public class RegularUserManageItemsMenuGUI {
         mostRecentThreeItemsTradedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: See most recent three items traded
-                // TODO: print sm.msgForGuest(); if it's a guest
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
                 else {
                     ArrayList<Item> recentItems = amc.seeMostRecentThreeItems();
-                    printObjects(new ArrayList<Object>(recentItems), sm);
+                    printObjects(recentItems, sm);
                 }
             }
         });
@@ -131,8 +117,6 @@ public class RegularUserManageItemsMenuGUI {
         viewWishListInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: print sm.msgForGuest(); if it's a guest
-
                 if (isGuest){
                     printNote(sm.msgForGuest());
                 }
@@ -154,7 +138,6 @@ public class RegularUserManageItemsMenuGUI {
                     printNote(sm.msgForGuest());
                 }
                 else {
-                    ArrayList<Item> inventory = amc.getInventory();
                     ArrayList<Item> tradable = amc.getTradableItems();
                     ArrayList<Item> notTradable = amc.getNotTradableItems();
                     if (tradable.isEmpty() && notTradable.isEmpty()){
@@ -163,24 +146,9 @@ public class RegularUserManageItemsMenuGUI {
                     else {
                         String itemId_input = getTradableId(guiInput, sm, tradable, notTradable);
                         String setTradable_input = getStatus(sm, guiInput);
-                        if (idChecker.checkInt(itemId_input) && idChecker.checkInt(setTradable_input)){
-                            int itemId = Integer.parseInt(itemId_input);
-                            int setTradable = Integer.parseInt(setTradable_input);
-                            if (idChecker.checkItemID(inventory, itemId) && (setTradable == 1 | setTradable == 2)){
-                                boolean result = amc.setTradableBasedOnResponse(itemId, setTradable);
-                                printNote(sm.msgForSetTradable(result, setTradable));
-                            }
-                            else{
-                                printNote("Please enter a valid input.");
-                            }
-                        }
-                        else{
-                            printNote("Please enter a valid input.");
-                        }
+                        setTradable(itemId_input, setTradable_input, idChecker, sm, amc);
                     }
                 }
-                // TODO: Change tradable status for an inventory item
-                // TODO: print sm.msgForGuest(); if it's a guest
             }
         });
 
@@ -192,28 +160,8 @@ public class RegularUserManageItemsMenuGUI {
                 }
                 else {
                     String result = getInPut("Please enter the user's id you want to lend item(s) to", guiInput);
-                    if (idChecker.checkInt(result)){
-                        int lendToUserId = Integer.parseInt(result);
-                        if (idChecker.checkUserID(lendToUserId)){
-                            ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
-                            if (suggest.isEmpty()){
-                                printNote("No good suggestions available...\nHere's a randomly generated one:\n" +
-                                        sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
-                            }
-                            else{
-                                printNote("Below are suggestions of items you can lend to that user: \\n" + sm.printListObject(new ArrayList<>(suggest)));
-                            }
-                        }
-                        else{
-                            printNote("Please enter a valid input.");
-                        }
-                    }
-                    else{
-                        printNote("Please enter a valid input.");
-                    }
+                    getSuggestion(result, amc, sm, idChecker);
                 }
-                // TODO: Get suggestions for item(s) that you can lend to a given user
-                // TODO: print sm.msgForGuest(); if it's a guest
             }
         });
 
@@ -273,12 +221,12 @@ public class RegularUserManageItemsMenuGUI {
         }
     }
 
-    private void printObjects(ArrayList<Object> objects, SystemMessage sm){
-        if (objects.isEmpty()){
+    private void printObjects(ArrayList<Item> items, SystemMessage sm){
+        if (items.isEmpty()){
             printNote(sm.msgForNothing("here."));
         }
         else{
-            String str = sm.printListObject(objects);
+            String str = sm.printListObject(new ArrayList<>(items));
             printNote(str);
         }
     }
@@ -292,8 +240,61 @@ public class RegularUserManageItemsMenuGUI {
 
     private String getStatus(SystemMessage sm, GUIUserInputInfo guiInput){
         String str = sm.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
-        String result = getInPut(str, guiInput);
-        return result;
+        return getInPut(str, guiInput);
+    }
+
+    private void setTradable(String itemId_input, String setTradable_input, RegularUserIDChecker idChecker, SystemMessage sm, RegularUserAccountMenuController amc){
+        ArrayList<Item> inventory = amc.getInventory();
+        if (idChecker.checkInt(itemId_input) && idChecker.checkInt(setTradable_input)){
+            int itemId = Integer.parseInt(itemId_input);
+            int setTradable = Integer.parseInt(setTradable_input);
+            if (idChecker.checkItemID(inventory, itemId) && (setTradable == 1 | setTradable == 2)){
+                boolean result = amc.setTradableBasedOnResponse(itemId, setTradable);
+                printNote(sm.msgForSetTradable(result, setTradable));
+            }
+            else{
+                printNote("Please enter a valid input.");
+            }
+        }
+        else{
+            printNote("Please enter a valid input.");
+        }
+    }
+
+    private void getSuggestion(String result, RegularUserAccountMenuController amc, SystemMessage sm, RegularUserIDChecker idChecker){
+        if (idChecker.checkInt(result)){
+            int lendToUserId = Integer.parseInt(result);
+            if (idChecker.checkUserID(lendToUserId)){
+                ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
+                if (suggest.isEmpty()){
+                    printNote("No good suggestions available...\nHere's a randomly generated one:\n" +
+                            sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
+                }
+                else{
+                    printNote("Below are suggestions of items you can lend to that user: \\n" + sm.printListObject(new ArrayList<>(suggest)));
+                }
+            }
+            else{
+                printNote("Please enter a valid input.");
+            }
+        }
+        else{
+            printNote("Please enter a valid input.");
+        }
+    }
+
+    private String getInPut(String string, GUIUserInputInfo guiInput) {
+        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+        userInputGUI.run(string, guiInput);
+        String userResponse = guiInput.getTempUserInput();
+        // TODO: need to close first
+        return userResponse;
+    }
+
+    private void printNote(String msg){
+        NotificationGUI msgGUI = new NotificationGUI(msg);
+        msgGUI.run(msg);
+        // TODO: need to close first
     }
 
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
@@ -304,19 +305,4 @@ public class RegularUserManageItemsMenuGUI {
         frame.pack();
         frame.setVisible(true);
     }
-
-    public String getInPut(String string, GUIUserInputInfo guiInput) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String userResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
-        return userResponse;
-    }
-
-    public void printNote(String msg){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        // TODO: need to close first
-    }
-
 }
