@@ -36,7 +36,6 @@ public class AdminUserHistoricalActionController {
     private String username;
     private Integer userId;
     private FilesReaderWriter frw;
-    private String thresholdValuesFilePath;
 
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
@@ -62,7 +61,6 @@ public class AdminUserHistoricalActionController {
         this.userId = um.usernameToID(username);
         this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
         this.frw = new FilesReaderWriter();
-        String thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv";
     }
 
 
