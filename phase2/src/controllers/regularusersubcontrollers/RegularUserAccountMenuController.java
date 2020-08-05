@@ -276,36 +276,42 @@ public class RegularUserAccountMenuController {
 //        setTradableBasedOnResponse(itemIDs, optionN);
 //    }
 
-    private void setTradableBasedOnResponse(ArrayList<Integer> itemIDs, int optionN) {
-        if (optionN == 1){
-            if (im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(true);
-            }
-            else{
-                im.setTradable(itemIDs, true);
-                int itemID = itemIDs.get(0);
-                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "tradable");
-                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "tradable");
-            }
-        }
-        else{
-            if (!im.getTradable(itemIDs.get(0))) {
-                sm.msgNoNeedToSetTradableStatus(false);
-            }
-            else{
-                im.setTradable(itemIDs, false);
-                int itemID = itemIDs.get(0);
-                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "non-tradable");
-                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "non-tradable");
-            }
-        }
-    }
+//    private void setTradableBasedOnResponse(ArrayList<Integer> itemIDs, int optionN) {
+//        if (optionN == 1){
+//            if (im.getTradable(itemIDs.get(0))) {
+//                sm.msgNoNeedToSetTradableStatus(true);
+//            }
+//            else{
+//                im.setTradable(itemIDs, true);
+//                int itemID = itemIDs.get(0);
+//                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "tradable");
+//                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "tradable");
+//            }
+//        }
+//        else{
+//            if (!im.getTradable(itemIDs.get(0))) {
+//                sm.msgNoNeedToSetTradableStatus(false);
+//            }
+//            else{
+//                im.setTradable(itemIDs, false);
+//                int itemID = itemIDs.get(0);
+//                am.addActionToCurrentRevocableList(userId, "regularUser", "1.11", itemID, "non-tradable");
+//                am.addActionToAllActionsList(userId, "regularUser", "1.11", itemID, "non-tradable");
+//            }
+//        }
+//    }
 
     public boolean setTradableBasedOnResponse(int itemId, int option){
         if (option == 1){
-            return im.setTradable(im.getItembyId(itemId), true);
+            boolean result = im.setTradable(im.getItembyId(itemId), true);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemId, "tradable");
+            am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemId, "tradable");
+            return result;
         }
-        return im.setTradable(im.getItembyId(itemId), false);
+        boolean result = im.setTradable(im.getItembyId(itemId), false);
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemId, "non-tradable");
+        am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemId, "non-tradable");
+        return result;
     }
 
 
@@ -317,29 +323,49 @@ public class RegularUserAccountMenuController {
      * /how-do-i-generate-random-integers-within-a-specific-range-in-java
      *
      */
-    public void suggestItemToLend(int lendToUserId) {
-        //calling this method means user is not a guest
-        Random r = new Random();
-        //Asks the user for the user id of the user this user wants to lend to
-        //int lendToUserId = idGetter.getUserID("user you want to lend item(s) to");
-        //Calls um’s method with the user id of the person who wants to lend(2) and
-        // of the person to lend to(1) and the method returns the item that (2) can lend to (1) in return
+//    public void suggestItemToLend(int lendToUserId) {
+//        //calling this method means user is not a guest
+//        Random r = new Random();
+//        //Asks the user for the user id of the user this user wants to lend to
+//        //int lendToUserId = idGetter.getUserID("user you want to lend item(s) to");
+//        //Calls um’s method with the user id of the person who wants to lend(2) and
+//        // of the person to lend to(1) and the method returns the item that (2) can lend to (1) in return
+//        ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
+//        //use ds to print the list of actual items (converted using im’s method)
+//        if (itemsCanLend.size() != 0) {
+//            ds.printOut("Below are suggestions of items you can lend to that user: \\n");
+//            ds.printResult(new ArrayList<>(im.getItemsByIds(um.wantedItems(lendToUserId, userId))));
+//            am.addActionToAllActionsList(userId, "regularUser", "1.14", 0, "");
+//        }
+//        // If the list is empty -- return an appropriate message + print a random one
+//        else {
+//            ds.printOut("No good suggestions available... \\n");
+//            int range = um.getUserInventory(userId).size() + 1;
+//            int randInt = r.nextInt(range);
+//            ds.printOut("Here's a randomly generated one:");
+//            itemsCanLend.add(um.getUserInventory(userId).get(randInt));
+//            ds.printResult(new ArrayList<>(im.getItemsByIds(itemsCanLend)));
+//        }
+//    }
+
+    public ArrayList<Item> getSuggestItemToLend(int lendToUserId){
         ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
-        //use ds to print the list of actual items (converted using im’s method)
-        if (itemsCanLend.size() != 0) {
-            ds.printOut("Below are suggestions of items you can lend to that user: \\n");
-            ds.printResult(new ArrayList<>(im.getItemsByIds(um.wantedItems(lendToUserId, userId))));
-            am.addActionToAllActionsList(userId, "regularUser", "1.14", 0, "");
+        ArrayList<Item> suggestItems = im.getItemsByIds(itemsCanLend);
+        if (!itemsCanLend.isEmpty()){
+            am.addActionToAllActionsList(userId, "regularUser", "1.1.9", 0, "");
         }
-        // If the list is empty -- return an appropriate message + print a random one
-        else {
-            ds.printOut("No good suggestions available... \\n");
-            int range = um.getUserInventory(userId).size() + 1;
-            int randInt = r.nextInt(range);
-            ds.printOut("Here's a randomly generated one:");
-            itemsCanLend.add(um.getUserInventory(userId).get(randInt));
-            ds.printResult(new ArrayList<>(im.getItemsByIds(itemsCanLend)));
-        }
+        return suggestItems;
+    }
+
+    public ArrayList<Item> getRandomSuggestion(int lendToUserId){
+        ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
+        Random r = new Random();
+        int range = um.getUserInventory(userId).size() + 1;
+
+        itemsCanLend.add(um.getUserInventory(userId).get(r.nextInt(range)));
+        ArrayList<Item> suggestItems = im.getItemsByIds(itemsCanLend);
+        am.addActionToAllActionsList(userId, "regularUser", "1.1.9", 0, "");
+        return suggestItems;
     }
 
 

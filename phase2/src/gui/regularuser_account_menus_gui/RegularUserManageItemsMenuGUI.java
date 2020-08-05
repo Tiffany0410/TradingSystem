@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RegularUserManageItemsMenuGUI {
     private JPanel rootPanel;
@@ -173,6 +174,9 @@ public class RegularUserManageItemsMenuGUI {
                                 printNote("Please enter a valid input.");
                             }
                         }
+                        else{
+                            printNote("Please enter a valid input.");
+                        }
                     }
                 }
                 // TODO: Change tradable status for an inventory item
@@ -183,6 +187,31 @@ public class RegularUserManageItemsMenuGUI {
         getSuggestionForItemToLendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (isGuest){
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    String result = getInPut("Please enter the user's id you want to lend item(s) to", guiInput);
+                    if (idChecker.checkInt(result)){
+                        int lendToUserId = Integer.parseInt(result);
+                        if (idChecker.checkUserID(lendToUserId)){
+                            ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
+                            if (suggest.isEmpty()){
+                                printNote("No good suggestions available...\nHere's a randomly generated one:\n" +
+                                        sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
+                            }
+                            else{
+                                printNote("Below are suggestions of items you can lend to that user: \\n" + sm.printListObject(new ArrayList<>(suggest)));
+                            }
+                        }
+                        else{
+                            printNote("Please enter a valid input.");
+                        }
+                    }
+                    else{
+                        printNote("Please enter a valid input.");
+                    }
+                }
                 // TODO: Get suggestions for item(s) that you can lend to a given user
                 // TODO: print sm.msgForGuest(); if it's a guest
             }
