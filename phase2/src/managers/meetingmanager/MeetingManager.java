@@ -36,9 +36,8 @@ public class MeetingManager implements java.io.Serializable{
      * @param userId the id for a user
      * @param tradeManager the list of trades
      * @return a list of meetings that is not completed for a given id
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager) throws InvalidIdException {
+    public List<Meeting> getUnCompleteMeeting(int userId, TradeManager tradeManager) {
         List<Meeting> listUnCompleteMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !(meeting.getMeetingConfirm().
@@ -69,9 +68,8 @@ public class MeetingManager implements java.io.Serializable{
      * @param userId the id for the user
      * @param tradeManager the list of trades
      * @return the list of meetings that is not confirmed time and place by a given user
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public List<Meeting> getUnConfirmTimePlace(int userId, TradeManager tradeManager) throws InvalidIdException {
+    public List<Meeting> getUnConfirmTimePlace(int userId, TradeManager tradeManager) {
         List<Meeting> listUnConfirmMeeting = new ArrayList<>();
         for (Meeting meeting: listMeeting){
             if ((meeting.getUserId1() == userId || meeting.getUserId2() == userId) && !meeting.getTimePlaceConfirm()
@@ -215,10 +213,8 @@ public class MeetingManager implements java.io.Serializable{
      * @param meetingNum the order of the meeting for the trade
      * @param tradeManager a list of trades
      * @return the new created meeting
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
-    public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager)
-            throws InvalidIdException {
+    public Meeting addMeeting(int tradeId, int userId1, int userId2, int meetingNum, TradeManager tradeManager) {
         Meeting meeting1 = new Meeting(tradeId, userId1, userId2, meetingNum);
         listMeeting.add(meeting1);
         tradeManager.getTradeById(tradeId).openTrade();
@@ -260,10 +256,9 @@ public class MeetingManager implements java.io.Serializable{
      * @param meeting the meeting for the trade
      * @return a string shows that the transaction is cancelled if the meeting is edited over threshold, otherwise,
      * return a empty string.
-     * @throws InvalidIdException an instance of this class throws the invalid trade id
      */
     public String getEditOverThreshold(TradeManager tradeManager, Meeting meeting,
-                                       int maxMeetingTimePlaceEdits) throws InvalidIdException {
+                                       int maxMeetingTimePlaceEdits)  {
         if (!meeting.getTimePlaceConfirm() && meeting.getTimePlaceEdit().size() >= 2*maxMeetingTimePlaceEdits
                 && meeting.getMeetingNum() ==1){
             tradeManager.getTradeById(meeting.getTradeId()).cancelTrade();

@@ -1,7 +1,6 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
-import managers.itemmanager.Item;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
@@ -10,7 +9,6 @@ import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
 import presenter.DisplaySystem;
 import presenter.SystemMessage;
-import exception.InvalidIdException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +70,8 @@ public class RegularUserTradingMenuController {
      * print it to the screen. Else, print
      * an appropriate message to inform the user
      * of so.
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public List<TradableUser> seeTopThreePartners() throws InvalidIdException {
+    public List<TradableUser> seeTopThreePartners()  {
         List<Integer> topThreeIDS= tm.topThreePartners(userId);
         List<TradableUser> topThree = new ArrayList<>();
         for (int id : topThreeIDS) {
@@ -84,7 +81,7 @@ public class RegularUserTradingMenuController {
         return topThree;
     }
 
-    public boolean hasTopThree() throws InvalidIdException {
+    public boolean hasTopThree()  {
         return tm.getTradeHistory(userId).size() != 0;
     }
 
@@ -94,10 +91,8 @@ public class RegularUserTradingMenuController {
      * or not.
      * If there're no open trades, print an appropriate
      * message.
-     * @throws InvalidIdException In case the id is invalid.
-     * @return
      */
-    public boolean confirmTradeComplete(int tradeId) throws InvalidIdException {
+    public boolean confirmTradeComplete(int tradeId)  {
         am.addActionToAllActionsList(userId, "regularUser", "2.5", tradeId, "");
         return tm.confirmComplete(tradeId);
     }
@@ -110,9 +105,8 @@ public class RegularUserTradingMenuController {
      * outstanding trade requests or if the user has reached
      * the maximum number of transactions
      * for a week threshold, print an appropriate message.
-     * @throws InvalidIdException In case the id is invalid.
      */
-    public void respondToTradeRequests(int tradeID, String respondStatus) throws InvalidIdException{
+    public void respondToTradeRequests(int tradeID, String respondStatus){
         // get the actual trade object
         Trade trade = tm.getTradeById(tradeID);
         // will be used if two-way-trade
@@ -131,7 +125,7 @@ public class RegularUserTradingMenuController {
         }
 
 
-     public List<Trade> tradeRequestsToRespond() throws InvalidIdException {
+     public List<Trade> tradeRequestsToRespond() {
         //assume wait-to-be-opened = wait for the other user's response
         List<managers.trademanager.Trade> requests = new ArrayList<>();
         // only print ones that user haven't agree on
@@ -143,7 +137,7 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
-    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11, String respondStatus) throws InvalidIdException {
+    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11, String respondStatus) {
         // set user's status for the trade (agree / disagree)
         tm.setUserStatus(tradeID, userId, respondStatus);
         //remove items -- if agree
@@ -156,7 +150,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) throws InvalidIdException {
+    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
         if (!tm.checkOneWayTrade(tradeID)) {
@@ -176,7 +170,7 @@ public class RegularUserTradingMenuController {
     }
 
     public String requestTrade(int numKindOfTrade, int borrowerOrborrower1lender2, int lenderOrlender1borrower2,
-                               int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) throws InvalidIdException {
+                               int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) {
         // get the trade id
         int tradeID = determineTradeID();
         //get the trade object
@@ -188,13 +182,12 @@ public class RegularUserTradingMenuController {
 
     }
 
-    public boolean hasTradeSuggestion() throws InvalidIdException {
+    public boolean hasTradeSuggestion() {
         return im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId))).size() != 0;
     }
     /**Print the most suggest item for user to trade.
-     * @throws InvalidIdException
      */
-    public ArrayList<Integer> mostReasonableTradeSuggestions() throws InvalidIdException {
+    public ArrayList<Integer> mostReasonableTradeSuggestions() {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
         am.addActionToAllActionsList(userId, "regularUser", "2.8", 0, "");
         return p;
@@ -209,7 +202,7 @@ public class RegularUserTradingMenuController {
         return tradeID;
     }
 
-    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) throws InvalidIdException {
+    private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
         boolean ok;
         if (numKindOfTrade == 1) {
             // pass in borrower, lender, item
@@ -236,7 +229,7 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
-    private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) throws InvalidIdException {
+    private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
             return requestSuccess(trade, tradeId);
@@ -258,7 +251,7 @@ public class RegularUserTradingMenuController {
         return sm.msgForRequestResult(false);
     }
 
-    private String requestSuccess(Trade trade, int tradeId) throws InvalidIdException {
+    private String requestSuccess(Trade trade, int tradeId) {
         // add trade
         tm.addTrade(trade);
         am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, "");
@@ -271,7 +264,7 @@ public class RegularUserTradingMenuController {
     }
 
 
-    private boolean validateItems(int borrower, int lender, int itemId) throws InvalidIdException {
+    private boolean validateItems(int borrower, int lender, int itemId) {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory
         return um.findUser(borrower).getWishList().contains(itemId) &&
@@ -279,7 +272,7 @@ public class RegularUserTradingMenuController {
     }
 
 
-    private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2) throws InvalidIdException {
+    private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2)  {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory for both items
         // to be traded
@@ -287,17 +280,17 @@ public class RegularUserTradingMenuController {
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
 
-    public List<Trade> viewOpenTrades() throws InvalidIdException {
+    public List<Trade> viewOpenTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
         return tm.getOpenTrade(userId);
     }
 
-    public List<Trade> viewClosedTrades() throws InvalidIdException {
+    public List<Trade> viewClosedTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
         return tm.getClosedTrade(userId);
     }
 
-    public List<Trade> viewCancelledTrades() throws InvalidIdException {
+    public List<Trade> viewCancelledTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         return tm.getCancelledTrade(userId);
     }
