@@ -254,11 +254,15 @@ public class DisplaySystem {
         String[] menuOption = action.getMenuOption().split("\\.");
         int mainMenuOption = Integer.parseInt(menuOption[0]);
         int subMenuOption = Integer.parseInt(menuOption[1]);
+        int subSubMenuOption;
+        if (menuOption.length == 3) {subSubMenuOption = Integer.parseInt(menuOption[2]);}
+        else {subSubMenuOption = 0}
+
 
         switch (mainMenuOption) {
             // MainMenuOption <1>  corresponding to RegularUserAccountMainMenu.csv
             case 1:
-                regularUserAccountAction(action, subMenuOption);
+                regularUserAccountAction(action, subMenuOption, subSubMenuOption);
                 break;
             // MainMenuOption <2>  corresponding to RegularUserTradingMenu.csv
             case 2:
@@ -268,9 +272,9 @@ public class DisplaySystem {
             case 3:
                 regularUserMeetingAction(action, subMenuOption);
                 break;
-            // MainMenuOption <4>  corresponding to RegularUserSearchingMenu.csv
+            // MainMenuOption <4>  corresponding to RegularUserSearchingMainMenu.csv
             case 4:
-                regularUserSearchingAction(action, subMenuOption);
+                regularUserSearchingAction(action, subMenuOption, subSubMenuOption);
                 break;
             // MainMenuOption <5>  corresponding to RegularUserCommunityMenu.csv
             case 5:
@@ -279,60 +283,99 @@ public class DisplaySystem {
         }
     }
 
-    private void regularUserAccountAction(Action action, int subMenuOption) {
+    private void regularUserAccountAction(Action action, int subMenuOption, int subSubMenuOption) {
         switch (subMenuOption) {
-            // 1.1: Browse all tradable items in the system
+            // 1.1 SubMenuOption <1>  corresponding to RegularUserManageItemsMenu.csv
+            case 1:
+                regularUserManageItemsAction(action, subSubMenuOption);
+                break;
+            // 1.2 SubMenuOption <2>  corresponding to RegularUserAccountSettingsMenu.csv
+            case 2:
+                regularUserAccountSettingsAction(action, subSubMenuOption);
+                break;
+            // 1.3 SubMenuOption <3>  corresponding to RegularUserFollowMenu.csv
+            case 3:
+                regularUserFollowAction(action, subSubMenuOption);
+                break;
+        }
+    }
+
+    public void regularUserManageItemsAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 1.1.1: Browse all tradable items in the system
             case 1:
                 this.printOut(helper_regular_action_prefix(action) + "browse all tradable items in the system");
                 break;
-            // 1.2: Add to own Wish List
+            // 1.1.2: Add to own Wish List
             case 2:
                 this.printOut(helper_regular_action_prefix(action) + "add Item #" + action.getAdjustableInt() + " to own Wish List" + "\n");
                 break;
-            // 1.3: Search item
+            // 1.1.3: Remove from own Wish List
             case 3:
-                this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
-                break;
-            // 1.4: Remove from own Wish List
-            case 4:
                 this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Wish List" + "\n");
                 break;
-            // 1.5: Remove from own Inventory
-            case 5:
+            // 1.1.4: Remove from own Inventory
+            case 4:
                 this.printOut(helper_regular_action_prefix(action) + "remove Item #" + action.getAdjustableInt() + " from own Inventory" + "\n");
                 break;
-            // 1.6: Request to unfreeze account
-            case 6:
-                this.printOut(helper_regular_action_prefix(action) + "request to unfreeze account" + "\n");
-                break;
-            // 1.7: Request to add item to your inventory
-            case 7:
+            // 1.1.5: Request to add item to your inventory
+            case 5:
                 this.printOut(helper_regular_action_prefix(action) + "request to add Item #" + action.getAdjustableInt() + "\n");
                 break;
-            // 1.8: See most recent three items traded
-            case 8:
+            // 1.1.6: See most recent three items traded
+            case 6:
                 this.printOut(helper_regular_action_prefix(action) + "check most recent three items traded" + "\n");
                 break;
-            // 1.9: View your wishlist and inventory
-            case 9:
+            // 1.1.7: View your wishlist and inventory
+            case 7:
                 this.printOut(helper_regular_action_prefix(action) + "view own wishlist and inventory" + "\n");
                 break;
-            // 1.10: Set your on-vacation status
-            case 10:
-                this.printOut(helper_regular_action_prefix(action) + "set own on-vacation status into " + action.getAdjustableStr() + "\n");
-                break;
-            // 1.11: Change tradable status for an inventory item
-            case 11:
+            // 1.1.8: Change tradable status for an inventory item
+            case 8:
                 this.printOut(helper_regular_action_prefix(action) + "change tradable status of inventory item #"
                         + action.getAdjustableInt() + " into " + action.getAdjustableStr() + "\n");
                 break;
-            // 1.12: Change your home city
-            case 12:
+            // 1.1.9: Get suggestions for item(s) that you can lend to a given user
+            case 9:
+                this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
+                break;
+        }
+    }
+
+    public void regularUserAccountSettingsAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 1.2.1: Request to unfreeze account
+            case 1:
+                this.printOut(helper_regular_action_prefix(action) + "request to unfreeze account" + "\n");
+                break;
+            // 1.2.2: Set your on-vacation status
+            case 2:
+                this.printOut(helper_regular_action_prefix(action) + "set own on-vacation status into " + action.getAdjustableStr() + "\n");
+                break;
+            // 1.2.3: Change your home city
+            case 3:
                 this.printOut(helper_regular_action_prefix(action) + "change home city to " + action.getAdjustableStr() + "\n");
                 break;
-            // 1.13: Get suggestions for item(s) that you can lend to a given user
-            case 13:
-                this.printOut(helper_regular_action_prefix(action) + "get suggestions for item(s) that he/she can lend to a given user" + "\n");
+        }
+    }
+
+    public void regularUserFollowAction(Action action, int subSubMenuOption) {
+        switch (subSubMenuOption) {
+            // 1.3.1: Follow an user
+            case 1:
+
+                break;
+            // 1.3.2: Follow an item
+            case 2:
+
+                break;
+            // 1.3.3: See recent status of user(s) you're following
+            case 3:
+
+                break;
+            // 1.3.4: See recent status of item(s) you're following
+            case 4:
+
                 break;
         }
     }
@@ -404,9 +447,24 @@ public class DisplaySystem {
         }
     }
 
-    private void regularUserSearchingAction(Action action, int subMenuOption) {
+    private void regularUserSearchingAction(Action action, int subMenuOption, int subSubMenuOption) {
         switch (subMenuOption) {
-
+            // 4.1:
+            case 1:
+                //TODO:
+                break;
+            // 4.2:
+            case 2:
+                //TODO:
+                break;
+            // TODO:4.3: Search item by name
+            case 3:
+                this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
+                break;
+            // 4.4:
+            case 4:
+                //TODO:
+                break;
         }
     }
 
@@ -435,12 +493,23 @@ public class DisplaySystem {
             // 5.6: Send a friend request for a given user
             case 6:
                 this.printOut(helper_regular_action_prefix(action) + "send friend request to other user" + "\n");
+                break;
             // 5.7: Respond to friend requests
             case 7:
-                //TODO
-            // TODO:5.8 delete friend
+                this.printOut(helper_regular_action_prefix(action) + "allow to add user #" + action.getAdjustableInt() + " with the username: " + action.getAdjustableStr() + " as friend" + "\n");
+                break;
+            // 5.8: Unfriend a user
             case 8:
-                //TODO
+                this.printOut(helper_regular_action_prefix(action) + "unfriend user #" + action.getAdjustableInt() + " with the username: " + action.getAdjustableStr() + "\n");
+                break;
+            // 5.9: Send message to friends
+            case 9:
+                //TODO:
+                break;
+            // 5.10: View all message
+            case 10:
+                //TODO:
+                break;
         }
     }
 

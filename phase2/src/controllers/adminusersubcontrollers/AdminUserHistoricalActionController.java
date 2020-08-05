@@ -132,7 +132,7 @@ public class AdminUserHistoricalActionController {
             case 3:
                 helper_cancelMeetingMenu(targetAction, subOption);
                 break;
-            // call helper function to cancel the Revocable Action in RegularUserSearchingMenu.csv
+            // call helper function to cancel the Revocable Action in RegularUserSearchingMainMenu.csv
             case 4:
                 helper_cancelSearchingMenu(targetAction, subOption);
                 break;

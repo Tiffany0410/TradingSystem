@@ -242,7 +242,7 @@ public class TradingSystem {
          else if (option == 4) {
             boolean condition = true;
             while (condition) {
-               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserSearchingMenu.csv");
+               int suboption = displaySystem.getMenuAnswer("./configs/menus/RegularUserSearchingMainMenu.csv");
                if (suboption == 0) {
                   condition = false;
                } else {

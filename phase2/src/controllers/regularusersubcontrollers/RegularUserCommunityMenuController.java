@@ -176,8 +176,8 @@ public class RegularUserCommunityMenuController {
         String userFrom = um.idToUsername(id1);
         boolean yesOrNo = um.addFriend(userFrom, userTo);
         if(yesOrNo){
-        am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, "");
-        am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, "");
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, userFrom);
+        am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, userFrom);
         return true;
     }return false;}
 
