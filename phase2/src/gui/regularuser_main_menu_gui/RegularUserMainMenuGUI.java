@@ -19,7 +19,7 @@ public class RegularUserMainMenuGUI {
     private JButton logoutButton;
     private JButton communityInformationButton;
 
-    public void run((boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
+    public void run(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
                     RegularUserMeetingMenuController mmc, RegularUserTradingMenuController atc,
                     RegularUserIDChecker idChecker, RegularUserDateTimeChecker dateTimeChecker,
                     RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,

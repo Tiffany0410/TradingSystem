@@ -64,8 +64,10 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         dispose();
     }
 
-    public void run(String str) {
-        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str);
+    public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
+                    int meetingNum, int maxEditsTP) {
+        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str,mmc, sm, tradeId,
+        meetingNum, maxEditsTP);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

@@ -45,7 +45,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         buttonBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //go back to meeting menu gui
-                onBack();
+                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
             }
         });
 
@@ -53,14 +53,14 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onBack();
+                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onBack();
+                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         editButton.addActionListener(new ActionListener() {
@@ -85,7 +85,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     }
     private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
                                   int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
-                                  RegularUserDateTimeChecker dtc, SystemMessage sm) throws InvalidIdException {
+                                  RegularUserDateTimeChecker dtc, SystemMessage sm)  {
         if (mmc.checkOverEdit(tradeId, meetingNum, maxEditsTP).equals("")){
             //int year, int month, int day, int hour, int min, int sec, String place,
             //asks for input
@@ -155,8 +155,11 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         // TODO: need to close first
     }
 
-    public void run (String str) {
-        RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow(str);
+    public void run (GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int tradeId,
+                     int meetingNum, int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
+                     RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
+        RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow(guiD, str, mmc, tradeId,
+                meetingNum, maxEditsTP, sm, guiUserInputInfo, dtc, idc);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

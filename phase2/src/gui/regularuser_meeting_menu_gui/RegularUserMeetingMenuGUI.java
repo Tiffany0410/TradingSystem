@@ -1,9 +1,6 @@
 package gui.regularuser_meeting_menu_gui;
 
-import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
-import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
+import controllers.regularusersubcontrollers.*;
 import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
@@ -29,7 +26,8 @@ public class RegularUserMeetingMenuGUI {
     private JButton meetingsNeedToConfirmTPButton;
 
     public RegularUserMeetingMenuGUI(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                                     int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
+                                     int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                                     RegularUserDateTimeChecker dtc) {
 
         suggestOrConfirmTPButton.addActionListener(new ActionListener() {
             /**
@@ -40,7 +38,8 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                editAndConfirmMeetingTP(mmc, sm, guiUserInputInfo, idC);
+                editAndConfirmMeetingTP(guiD, mmc, sm, guiUserInputInfo, idC, maxNumTPEdits,
+                        dtc, idC);
             }
         });
 
@@ -110,7 +109,8 @@ public class RegularUserMeetingMenuGUI {
         });
     }
 
-    private void editAndConfirmMeetingTP(RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) throws InvalidIdException {
+    private void editAndConfirmMeetingTP(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                                         int maxEditTP, RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
         if (mmc.isEmpty(mmc.getUnConfirmTimePlace())) {
             printNote(sm.msgForNothing("here that requires action"));
         } else {
@@ -128,8 +128,10 @@ public class RegularUserMeetingMenuGUI {
                 if (mmc.checkValidMeeting(tradeId, meetingNum)) {
                     String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
                     RegularUserCheckMeetingWindow suggestOrConfirmMeetingTPgui =
-                            new RegularUserCheckMeetingWindow(meetingInfo);
-                    suggestOrConfirmMeetingTPgui.run(meetingInfo);
+                            new RegularUserCheckMeetingWindow(guiD, meetingInfo, mmc, tradeId, meetingNum, maxEditTP,
+                                    sm, guiUserInputInfo, dtc, idc);
+                    suggestOrConfirmMeetingTPgui.run(guiD, meetingInfo, mmc, tradeId, meetingNum, maxEditTP, sm,
+                            guiUserInputInfo, dtc, idc);
                 } else {
                     printNote(sm.tryAgainMsgForWrongInput());
                 }
@@ -160,7 +162,7 @@ public class RegularUserMeetingMenuGUI {
                 String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
                 RegularUserSuggestMeetingWindow confirmMeetingGui =
                         new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
-                confirmMeetingGui.run(meetingInfo);
+                confirmMeetingGui.run(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
             } else {
                 printNote(sm.tryAgainMsgForWrongInput());
             }
@@ -196,10 +198,11 @@ public class RegularUserMeetingMenuGUI {
 
 
     public void run(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                    int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
+                    int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                    RegularUserDateTimeChecker dtc) {
         JFrame frame = new JFrame("regularUserMeetingMenuGUI");
-        frame.setContentPane(new RegularUserMeetingMenuGUI(guiD, mmc, sm,
-        maxNumTPEdits, guiUserInputInfo, idC).rootPanel);
+        frame.setContentPane(new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits, guiUserInputInfo,
+                idC, dtc).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
