@@ -3,6 +3,7 @@ package managers.usermanager;
 import exception.InvalidIdException;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
+import managers.feedbackmanager.FeedbackManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -748,7 +749,7 @@ public class UserManager implements Serializable {
             return out;
         }
         for (TradableUser person: listTradableUser){
-            if (person.getHome().equals(homosapien.getHome())){
+            if (person.getHome().equals(homosapien.getHome()) && (!person.equals(homosapien)){
                 out.add(person);
             }
         }
@@ -899,12 +900,13 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    //TODO: Need FeedbackManager to get the rating
     private ArrayList<TradableUser> merge (ArrayList<TradableUser> lst1, ArrayList<TradableUser> lst2) {
         int i = 0;
         int j = 0;
         ArrayList<TradableUser> out = new ArrayList<>();
         while (i != lst1.size() && j != lst2.size()){
-            if (lst1.get(i).getRating() < lst2.get(j).getRating()){
+            if (lst1.get(i).getRating() > lst2.get(j).getRating()){
                 out.add(lst1.get(i));
                 i++;
             } else {
