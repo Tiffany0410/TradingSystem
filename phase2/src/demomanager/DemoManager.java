@@ -1,12 +1,14 @@
 package demomanager;
 
-import gui.GUIDemo;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import gateway.FilesReaderWriter;
+import gui.GUIDemo;
+import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
+import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
@@ -37,6 +39,7 @@ public class DemoManager {
         String serializedItemManagerFilePath = "./configs/serializedmanagersfiles/SerializedMeetingManager.ser";
         String serializedFeedbackManagerFilePath = "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser";
         String serializedActionManagerFilePath = "./configs/serializedmanagersfiles/SerializedActionManager.ser";
+        String serializedMessageManagerFilePath = "./configs/serializedmanagersfiles/SerializedMessageManager.ser";
 
 
         // Start trading system
@@ -71,6 +74,16 @@ public class DemoManager {
                 if (frw.check_file_empty_or_not(serializedFeedbackManagerFilePath)) {fm = new FeedbackManager();}
                 else {fm = (FeedbackManager) frw.readManagerFromFile(serializedFeedbackManagerFilePath);}
 
+                // Create the new ActionManager or Read it from file
+                ActionManager am;
+                if (frw.check_file_empty_or_not(serializedActionManagerFilePath)) {am = new ActionManager();}
+                else {am = (ActionManager) frw.readManagerFromFile(serializedActionManagerFilePath);}
+
+                // Create the new MessageManager or Read it from file
+                MessageManager messageManager;
+                if (frw.check_file_empty_or_not(serializedActionManagerFilePath)) {messageManager = new MessageManager();}
+                else {messageManager = (MessageManager) frw.readManagerFromFile(serializedMessageManagerFilePath);}
+
                 // Create the new DisplaySystem
                 DisplaySystem ds = new DisplaySystem();
 
@@ -92,7 +105,7 @@ public class DemoManager {
                 //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
 
                 // Run GUI
-                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ds, ac, lv);
+                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ac, lv, am);
                 guiController.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {
