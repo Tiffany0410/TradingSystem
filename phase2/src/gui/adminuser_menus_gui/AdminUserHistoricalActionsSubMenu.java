@@ -2,7 +2,9 @@ package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import gui.GUIDemo;
+import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
+import gui.UserInputGUI;
 import managers.actionmanager.Action;
 import presenter.SystemMessage;
 
@@ -20,7 +22,9 @@ public class AdminUserHistoricalActionsSubMenu {
     private JButton backButton;
     private JButton listAllTheRevocableButton;
 
-    public AdminUserHistoricalActionsSubMenu(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
+    public AdminUserHistoricalActionsSubMenu(GUIDemo guiDemo, SystemMessage systemMessage,
+                                             AdminUserHistoricalActionController adminUserHistoricalActionController,
+                                             GUIUserInputInfo guiUserInputInfo) {
         listAllTheHistoricalButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -29,8 +33,8 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Action> allAction = hac.getAllAction();
-                printObjects(allAction, sm);
+                ArrayList<Action> allAction = adminUserHistoricalActionController.getAllAction();
+                printObjects(allAction, systemMessage);
             }
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
@@ -41,8 +45,8 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Action> allAction = hac.getAllRevocableAction();
-                printObjects(allAction, sm);
+                ArrayList<Action> allAction = adminUserHistoricalActionController.getAllRevocableAction();
+                printObjects(allAction, systemMessage);
             }
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
@@ -56,9 +60,26 @@ public class AdminUserHistoricalActionsSubMenu {
                 // TODO:print "Here are all the TradableUser Id: \n"
                 // TODO:print all tradable user id
                 // TODO:get the user id enter by admin
-                int userID = 0;
-                ArrayList<Action> allAction = hac.searchRevocableActionByUserID(userID);
-                printObjects(allAction, sm);
+
+                String string = "Here are all TradableUser ID: \n";
+                string = string + adminUserHistoricalActionController.getAllTradableUser();
+                string = string + "Please enter the user ID: ";
+
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
+                String input = guiDemo.getUserInput();
+
+                try{
+                    int id = Integer.parseInt(input);
+                    //int userID = 0;
+                    ArrayList<Action> allAction = adminUserHistoricalActionController.searchRevocableActionByUserID(id);
+                    printObjects(allAction, systemMessage);
+                } catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
+
+
+
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -71,10 +92,28 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 // TODO:print "Please enter the id of action that you want to cancel: \n"
                 // TODO:get the action id enter by admin
-                int actionID = 0;
-                Action targetAction = hac.findActionByID(actionID);
-                // check if the action id in current revocable list
-                if (hac.checkRevocable(targetAction)) {hac.cancelRevocableAction(targetAction);}
+
+                String string = "Here are the list of all actions: \n";
+                string = string + adminUserHistoricalActionController.getAllAction();
+                string = string + "Please enter the action ID you want to cancel: \n";
+
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
+                String input = guiDemo.getUserInput();
+
+                try{
+                    int actionID = Integer.parseInt(input);
+                    //int actionID = 0;
+                    Action targetAction = adminUserHistoricalActionController.findActionByID(actionID);
+                    // check if the action id in current revocable list
+                    if (adminUserHistoricalActionController.checkRevocable(targetAction)) {
+                        adminUserHistoricalActionController.cancelRevocableAction(targetAction);}
+                } catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
+
+
+
 
             }
         });
@@ -97,7 +136,7 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO:
+                guiDemo.runAdminUserMainMenu();
             }
         });
     }
@@ -119,9 +158,11 @@ public class AdminUserHistoricalActionsSubMenu {
     }
 
 
-    public void run(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
+    public void run(GUIDemo guiDemo, SystemMessage systemMessage,
+                    AdminUserHistoricalActionController adminUserHistoricalActionController,
+                    GUIUserInputInfo guiUserInputInfo) {
         JFrame frame = new JFrame("AdminUserHistroicalActionsSubMenu");
-        frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiDemo, sm, hac).rootPanel);
+        frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiDemo, systemMessage, adminUserHistoricalActionController, guiUserInputInfo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
