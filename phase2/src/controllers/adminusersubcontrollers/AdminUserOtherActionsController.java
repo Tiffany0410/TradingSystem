@@ -30,14 +30,14 @@ public class AdminUserOtherActionsController {
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserOtherActionsController (AccountCreator ac, DisplaySystem ds, UserManager um,
+    public AdminUserOtherActionsController (UserManager um,
                                             ActionManager am, String username){
-        this.ac = ac;
-        this.ds = ds;
+        //this.ac = ac;          不需要这三个了，pass in那里这三个对应的已经删除掉了
+        //this.ds = ds;
         this.um = um;
         this.am = am;
         this.userId = um.usernameToID(username);
-        this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
+        //this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
 
     }
 
