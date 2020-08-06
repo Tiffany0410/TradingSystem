@@ -1,16 +1,15 @@
 package controllers.regularusersubcontrollers;
-import gui.GUIDemo;
+import managers.actionmanager.ActionManager;
+import managers.itemmanager.Category;
+import managers.itemmanager.Item;
+import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import managers.itemmanager.ItemManager;
-import presenter.SystemMessage;
-import managers.itemmanager.Category;
+
 import java.util.ArrayList;
 import java.util.List;
-import managers.itemmanager.Item;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class RegularUserSearchingMenuController {
 
@@ -18,6 +17,7 @@ public class RegularUserSearchingMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
+    private ActionManager am;
     private int userId;
 
     /** Constructor
@@ -27,17 +27,19 @@ public class RegularUserSearchingMenuController {
      * @param im item manager
      * @param username user name
      */
-    public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
+    public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm, ActionManager am,
                                               UserManager um, ItemManager im, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
+        this.am = am;
         this.userId = this.um.usernameToID(username);
 
     }
 
     public List<TradableUser> sortRating(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.2.3", 0, "");
         return um.sortRating();
         // 前面几个我把调用函数删了你自己看着加一下后面都是源代码一代没改
 //        if (l.size() == 0) {
@@ -52,6 +54,7 @@ public class RegularUserSearchingMenuController {
      */
     public List<Integer> recentThreePartner(){
 //        try{
+            am.addActionToAllActionsList(userId, "regularUser", "4.2.1", 0, "");
             return tm.recentThreePartners(userId);
 //            if (filter.size() == 0) {
 //                sm.msgForNothing();
@@ -65,6 +68,7 @@ public class RegularUserSearchingMenuController {
 
 
     public List<Integer> sortAllTradedPartner(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.2.2", 0, "");
         return tm.allPartners(userId);}
 //        try {
 //            List<Integer> filter = tm.allPartners(userId);
@@ -79,6 +83,7 @@ public class RegularUserSearchingMenuController {
 //    }
 
     public List<managers.trademanager.Trade> filterCompleteTrade(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.4.2", 0, "");
         return tm.filterHistory(userId);}
 //        try {
 //            List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
@@ -96,6 +101,7 @@ public class RegularUserSearchingMenuController {
         List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
         List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
         filter1.addAll(filter2);
+        am.addActionToAllActionsList(userId, "regularUser", "4.4.1", 0, "");
         return filter1;
 //        try {
 //            List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
@@ -112,6 +118,7 @@ public class RegularUserSearchingMenuController {
     }
 
     public List<managers.meetingmanager.Meeting> allMeetingSortByDate() {
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.1", 0, "");
         return mm.sortByDate(mm.getMeetingsByUserId(userId));
 //        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
 //        if (m.size() == 0) {
@@ -122,6 +129,7 @@ public class RegularUserSearchingMenuController {
     }
 
     public List<managers.meetingmanager.Meeting> unCompleteMeetingSortByDate(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.2", 0, "");
         return mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));}
 //        try {
 //            List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
@@ -138,6 +146,7 @@ public class RegularUserSearchingMenuController {
 //    }
 
     public List<managers.meetingmanager.Meeting> completeMeetingSortByDate() {
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.3", 0, "");
         return mm.sortByDate(mm.getCompleteMeeting(userId));
 //        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
 //        if (m.size() == 0) {
@@ -150,6 +159,7 @@ public class RegularUserSearchingMenuController {
 
     public ArrayList<Integer> filterByCategory(String category) {
         Category ca = Category.valueOf(category);
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.1", 0, category);
         return  im.getCategoryItem(ca);
 //        try {
 //            Category ca = Category.valueOf(category);
@@ -175,6 +185,7 @@ public class RegularUserSearchingMenuController {
 
 
     public ArrayList<Integer> searchItemByName(String name) {
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.2", 0, name);
         return im.searchItem(name);
 //        if (c.size() == 0) {
 //            sm.msgForNothing();
@@ -188,6 +199,7 @@ public class RegularUserSearchingMenuController {
      */
     public String getItemById(int itemId){
         Item c = im.getItembyId(itemId);
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.3", itemId, "");
         return c.getDescription();
 //        try {
 //            Item c = im.getItembyId(itemId);
@@ -203,6 +215,7 @@ public class RegularUserSearchingMenuController {
      *
      */
     public ArrayList<Item>  sortItemByFollows(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.4", 0, "");
         return im.getSortedItemByFollows(um);
 //        try {
 //            ArrayList<Item> c = im.getSortedItemByFollows(um);

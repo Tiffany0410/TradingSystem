@@ -356,6 +356,14 @@ public class DisplaySystem {
             case 3:
                 this.printOut(helper_regular_action_prefix(action) + "change home city to " + action.getAdjustableStr() + "\n");
                 break;
+            // 1.2.4: Review own revocable action
+            case 4:
+                this.printOut(helper_regular_action_prefix(action) + "review own revocable action" + "\n");
+                break;
+            // 1.2.5: Request undo a revocable action
+            case 5:
+                this.printOut(helper_regular_action_prefix(action) + "request undo a revocable action #" + action.getAdjustableInt() + "\n");
+                break;
         }
     }
 
@@ -420,28 +428,24 @@ public class DisplaySystem {
 
     private void regularUserMeetingAction(Action action, int subMenuOption) {
         switch (subMenuOption) {
-            // 3.1: Suggest/edit time and place for meetings
+            // 3.1: Suggest/confirm time and place for meetings
             case 1:
-                this.printOut(helper_regular_action_prefix(action) + "successfully edit the time and place for meeting #" + action.getAdjustableInt() + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "successfully edit/confirm the time and place for meeting #" + action.getAdjustableInt() + "\n");
                 break;
-            // 3.2: Confirm time and place for meetings
+            // 3.2: Confirm the meeting took place
             case 2:
-                this.printOut(helper_regular_action_prefix(action) + "successfully confirm time and place for meeting #" + action.getAdjustableInt() + "\n");
-                break;
-            // 3.3: Confirm the meeting took place
-            case 3:
                 this.printOut(helper_regular_action_prefix(action) + "confirm the meeting #" + action.getAdjustableInt() + "took place" + "\n");
                 break;
-            // 3.4: See the list of meetings need to be confirmed that it took place
-            case 4:
+            // 3.3: See the list of meetings need to be confirmed that it took place
+            case 3:
                 this.printOut(helper_regular_action_prefix(action) + "see the list of meetings need to be confirmed that it took place" + "\n");
                 break;
-            // 3.5: See the list of meetings that have been confirmed
-            case 5:
+            // 3.4: See the list of meetings that have been confirmed
+            case 4:
                 this.printOut(helper_regular_action_prefix(action) + "see the list of meetings that have been confirmed" + "\n");
                 break;
-            // 3.6: See the list of meetings with time and place that need to be confirmed
-            case 6:
+            // 3.5: See the list of meetings with time and place that need to be confirmed
+            case 5:
                 this.printOut(helper_regular_action_prefix(action) + "see the list of meetings with time and place that need to be confirmed" + "\n");
                 break;
         }
@@ -472,19 +476,19 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 4.1.1: Filter by category
             case 1:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "filter item by category: " + action.getAdjustableStr() + "\n");
                 break;
             // 4.1.2: Search item by name
             case 2:
                 this.printOut(helper_regular_action_prefix(action) + "search Item with name of " + action.getAdjustableStr() + "\n");
                 break;
-            // 4.1.3: Search item by id TODO:need to add "add action" in regular User controller
+            // 4.1.3: Search item by id
             case 3:
                 this.printOut(helper_regular_action_prefix(action) + "search Item with id of " + action.getAdjustableInt() + "\n");
                 break;
             // 4.1.4: Sort by number of follows
             case 4:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "sort items by number of follows" + "\n");
                 break;
         }
     }
@@ -493,15 +497,15 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 4.2.1: Recent trade user
             case 1:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "check recent three users traded with him/her" + "\n");
                 break;
             // 4.2.2: Frequent trade user
             case 2:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "sort all trade partners" + "\n");
                 break;
             // 4.2.3: Sort user by rating
             case 3:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "sort all users by rating" + "\n");
                 break;
         }
     }
@@ -510,15 +514,15 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 4.3.1: Sort by date
             case 1:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "sort all meeting by date" + "\n");
                 break;
             // 4.3.2: Incomplete meeting
             case 2:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "search for all incomplete meeting" + "\n");
                 break;
             // 4.2.3: Complete meeting
             case 3:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "search for all complete meeting" + "\n");
                 break;
         }
     }
@@ -527,11 +531,11 @@ public class DisplaySystem {
         switch (subSubMenuOption) {
             // 4.4.1: Incomplete trades
             case 1:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "search for all incomplete trade" + "\n");
                 break;
             // 4.4.2: Complete trades
             case 2:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "search for all complete trade" + "\n");
                 break;
         }
     }
