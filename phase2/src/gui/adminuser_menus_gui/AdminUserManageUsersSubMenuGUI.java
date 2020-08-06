@@ -26,7 +26,7 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserManagerUsersController.getAllUnfreezedUser();
+                String string = adminUserManagerUsersController.getAllUnfreezeUser();
                 UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
                 userInputGUI.run(string, guiUserInputInfo);
 
