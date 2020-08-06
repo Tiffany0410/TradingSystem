@@ -15,6 +15,8 @@ import presenter.DisplaySystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class DemoManager {
@@ -40,6 +42,8 @@ public class DemoManager {
         String serializedFeedbackManagerFilePath = "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser";
         String serializedActionManagerFilePath = "./configs/serializedmanagersfiles/SerializedActionManager.ser";
         String serializedMessageManagerFilePath = "./configs/serializedmanagersfiles/SerializedMessageManager.ser";
+        String regUserAlertFilePath = "./src/Alerts/UserAlerts.csv";
+        String thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv";
 
 
         // Start trading system
@@ -94,6 +98,8 @@ public class DemoManager {
                 Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
                 Map<String, String> adminUserLoginInfo = frw.readUserInfoFromCSVFile(adminAccountInfoFilePath);
                 LoginValidator lv = new LoginValidator(userLoginInfo, adminUserLoginInfo);
+                String partsOfUserAlerts = frw.readFromMenu(regUserAlertFilePath);
+                List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
 
                 // Create trading system
                 //TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
@@ -105,7 +111,7 @@ public class DemoManager {
                 //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
 
                 // Run GUI
-                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ac, lv, am);
+                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ac, lv, am, partsOfUserAlerts, thresholdValues);
                 guiController.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {

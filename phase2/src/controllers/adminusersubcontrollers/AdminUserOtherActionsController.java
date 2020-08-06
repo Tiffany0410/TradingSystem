@@ -24,20 +24,18 @@ public class AdminUserOtherActionsController {
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
      * an UserManager, an ItemManager and an adminUserId.
-     * @param ac The account creator
-     * @param ds The presenter class used to print to screen.
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserOtherActionsController (AccountCreator ac, DisplaySystem ds, UserManager um,
+    public AdminUserOtherActionsController (UserManager um,
                                             ActionManager am, String username){
-        this.ac = ac;
-        this.ds = ds;
+        //this.ac = ac;          不需要这三个了，pass in那里这三个对应的已经删除掉了
+        //this.ds = ds;
         this.um = um;
         this.am = am;
         this.userId = um.usernameToID(username);
-        this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
+        //this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
 
     }
 
@@ -47,9 +45,9 @@ public class AdminUserOtherActionsController {
      *
      */
     public void addNewAdmin() {
-            String username = otherInfoGetter.getNewAdminUserName();
-            String pw = otherInfoGetter.getNewAdminUserPassword();
-            ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
+            //String username = otherInfoGetter.getNewAdminUserName();            GUI已经执行了新建用户的操作，这里不需要执行了
+            //String pw = otherInfoGetter.getNewAdminUserPassword();
+            //ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
             int newUserID = um.getListAdminUser().get(-1).getId();
             am.addActionToAllActionsList(userId, "adminUser", "4.1", newUserID, "");
         }

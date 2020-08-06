@@ -22,7 +22,7 @@ import java.util.Random;
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the account menu part.
  *
- * @author Yu Xin Yan
+ * @author Yu Xin Yan, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserAccountMenuController {
@@ -290,11 +290,6 @@ public class RegularUserAccountMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
     }
 
-
-
-
-
-
     /**
      * Uses this user's input of the user id of the user
      * to follow to let this user follow the other user
@@ -345,6 +340,19 @@ public class RegularUserAccountMenuController {
         am.addUndoRequest(actionId,userId);
     }
 
+
+    public boolean seeIfFrozen(){
+        return um.getFrozenStatus(userId);
+    }
+
+
+    public boolean seeIfOnVacation(){
+        return um.getInfo(userId, "Vacation") == 1;
+    }
+
 }
+
+
+
 
 

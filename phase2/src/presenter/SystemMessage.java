@@ -2,11 +2,13 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
+import gui.GUIDemo;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
+import
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,12 +24,13 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
+    private GUIDemo guiDemo;
 
     /**
      * Constructs a SystemMessage instance.
      */
-    public SystemMessage(){
-
+    public SystemMessage(GUIDemo guiDemo){
+        this.guiDemo = guiDemo;
     }
 
 
@@ -47,6 +50,11 @@ public class SystemMessage {
 
     public void invalidInput() {
         String string = "Invalid put in, please type again.";
+        guiDemo.printNotification(string);
+    }
+
+    public void invalidNumber(){
+        String string = "Invalid put in, please type a number.";
         guiDemo.printNotification(string);
     }
 
