@@ -82,7 +82,7 @@ public class AdminUserHistoricalActionController {
         ds.printOut("Here are all the TradableUser Id: \n");
         ds.printListUser(um.getListTradableUser());
         int regularUserID = otherInfoGetter.getRegularUserID();
-        am.searchRevocableActionByID(regularUserID);
+        ds.printHistoricalActions(am.searchRevocableActionByID(regularUserID));
         am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
     }
 
@@ -94,7 +94,7 @@ public class AdminUserHistoricalActionController {
 
         ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
         // Print all the Historical Actions which can be cancelled
-        ds.printHistoricalActions(am.getListOfAllActions());
+        ds.printHistoricalActions(am.getListOfCurrentRevocableActions());
         ds.printOut("Please enter the ID of action that you want to cancel: \n");
         // get the number select by adminUser
         int actionID = otherInfoGetter.getActionID();
@@ -278,7 +278,7 @@ public class AdminUserHistoricalActionController {
             // 5.8: Unfriend a user
             case 8:
                 // call UserManager to remove friend
-                return um.removeFriend(targetUserID, actionOwnerID);
+                return um.addFriend(targetUserID, actionOwnerID);
         }
         return false;
     }

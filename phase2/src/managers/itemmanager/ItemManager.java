@@ -2,7 +2,6 @@ package managers.itemmanager;
 import managers.usermanager.UserManager;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -212,6 +211,11 @@ public class ItemManager implements Serializable {
         return ids;
     }
 
+    /**
+     * Return a list of tradable items that are in items
+     * @param items A list of items
+     * @return a list of tradable items that are in items
+     */
     public ArrayList<Item> getTradableItems(ArrayList<Item> items){
         ArrayList<Item> out = new ArrayList<>();
         for (Item item: items){
@@ -222,6 +226,11 @@ public class ItemManager implements Serializable {
         return out;
     }
 
+    /**
+     * Return a list of non-tradable items that are in items
+     * @param items A list of items
+     * @return a list of non-tradable items that are in items
+     */
     public ArrayList<Item> getNotTradableItems(ArrayList<Item> items){
         ArrayList<Item> out = new ArrayList<>();
         for (Item item: items){
