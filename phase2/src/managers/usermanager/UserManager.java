@@ -749,7 +749,7 @@ public class UserManager implements Serializable {
             return out;
         }
         for (TradableUser person: listTradableUser){
-            if (person.getHome().equals(homosapien.getHome()) && (!person.equals(homosapien)){
+            if (person.getHome().equals(homosapien.getHome()) && (!person.equals(homosapien))){
                 out.add(person);
             }
         }

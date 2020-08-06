@@ -19,7 +19,6 @@ public class RegularUserCommunityMenuController {
     private SystemMessage sm;
     private RegularUserIDChecker idGetter;
     private RegularUserOtherInfoChecker otherInfoGetter;
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -37,11 +36,10 @@ public class RegularUserCommunityMenuController {
      * @param am The current state of the ActionManager.
      * @param userId The user id of the regular user.
      */
-    public RegularUserCommunityMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
+    public RegularUserCommunityMenuController(TradeManager tm, MeetingManager mm, UserManager um,
                                               ItemManager im, ActionManager am, FeedbackManager fm,
                                               MessageManager messageManager,
                                               String username, int userId){
-        this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
@@ -62,6 +60,7 @@ public class RegularUserCommunityMenuController {
     public int getUserId(){
         return userId;
     }
+
     /**
      * Gets user's input of the id of the user to be reviewed, the rating to give,
      * as well as a message explaining the reason and uses them to update the review
@@ -69,8 +68,10 @@ public class RegularUserCommunityMenuController {
      */
     public boolean reviewUser(int userToReview, int rating, String reason) {
         boolean result = fm.setReview(userToReview, userId, rating, reason);
-        am.addActionToCurrentRevocableList(userId, "regularUser", "5.1", userToReview, rating + " and reason: " + reason);
-        am.addActionToAllActionsList(userId, "regularUser", "5.1", userToReview, rating + " and reason: " + reason);
+        am.addActionToCurrentRevocableList(userId, "regularUser", "5.1", userToReview,
+                rating + " and reason: " + reason);
+        am.addActionToAllActionsList(userId, "regularUser", "5.1", userToReview,
+                rating + " and reason: " + reason);
         return result;
     }
 
@@ -94,14 +95,17 @@ public class RegularUserCommunityMenuController {
         return fm.calculateRate(id);
     }
 
+    /**
+     * @param id The id of the user
+     * @return true if this user's id is in the system
+     */
     public boolean checkUserId(int id){
         return um.checkUser(id);
     }
 
+
     /**
-     * Lets the presenter print a list of users in the same
-     * city as this user.
-     *
+     * @return a list of tradable users that are in the same homecity with the user
      */
     public ArrayList<TradableUser> seeUsersInSameHC() {
         am.addActionToAllActionsList(userId, "regularUser", "5.4", 0, "");
@@ -114,9 +118,12 @@ public class RegularUserCommunityMenuController {
      */
     public ArrayList<TradableUser> getFriends(){
         am.addActionToAllActionsList(userId, "regularUser", "5.5", 0, "");
-        return  um.getFriends(userId);
+        return um.getFriends(userId);
     }
 
+    /**
+     * @return a list of users that are not friend with this.user
+     */
     public ArrayList<TradableUser> getNotFriends() { return um.getUsersNotFriends(userId);}
 
     /**
@@ -182,21 +189,11 @@ public class RegularUserCommunityMenuController {
         return true;
     }return false;}
 
-    /** delete a friend request
-     * @param id1 the id of user
-     * @return true if the friend request is deleted
+    /**
+     * Unfriend an user
+     * @param id The user's id that this.user wants to unfriend
+     * @return true if unfriend successfully, false otherwise
      */
-    public boolean deleteFriendRequest(int id1){
-        String userTo = um.idToUsername(userId);
-        String userFrom = um.idToUsername(id1);
-        String[] strings = new String[2];
-        strings[0] = userTo;
-        strings[1] = userFrom;
-        if(um.getListFriendRequest().contains(strings)){
-        um.getListFriendRequest().remove(strings);
-        return true;}return false;
-    }
-
     public boolean unfriendUser(int id){
         boolean unfriendOrNot = um.removeFriend(id,userId);
         if (unfriendOrNot){
