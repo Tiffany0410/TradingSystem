@@ -24,6 +24,8 @@ import java.util.List;
  *  @author Yu Xin Yan
  *  @version IntelliJ IDEA 2020.1
  */
+
+//TODO: can delete this class now
 public class RegularUserController {
 
     private RegularUserAccountMenuController amc;
