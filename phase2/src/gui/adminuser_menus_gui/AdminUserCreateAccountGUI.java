@@ -1,6 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.AccountCreator;
+import controllers.adminusersubcontrollers.AdminUserOtherActionsController;
 import gui.GUIDemo;
 import presenter.SystemMessage;
 
@@ -15,7 +16,8 @@ public class AdminUserCreateAccountGUI {
     private JButton createButton;
     private JButton cancelButton;
 
-    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage) {
+    public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage,
+                                     AdminUserOtherActionsController adminUserOtherActionsController) {
         createButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -28,6 +30,9 @@ public class AdminUserCreateAccountGUI {
                         new String(passwordField1.getPassword()), "None", "None");
 
                 systemMessage.printResult(result);
+
+                if (result){adminUserOtherActionsController.addNewAdmin();}
+
 
                 // TODO: Need method to close this window
 
