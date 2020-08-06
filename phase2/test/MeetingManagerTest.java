@@ -10,9 +10,9 @@ public class MeetingManagerTest {
     @Test
     public void testGetMeetingsById(){
         TradeManager tradeManager = new TradeManager();
+        tradeManager.addTrade(tradeManager.createTrade(1,2, 1,"Temporary",true, 1));
         MeetingManager meetingManager = new MeetingManager();
         meetingManager.addMeeting(1,1,2,1,tradeManager);
-        tradeManager.addTrade(tradeManager.createTrade(1,2, 1,"Temporary",true, 1));
         assertEquals(1,meetingManager.getMeetingsByUserId(1).size());
         assertEquals(0,meetingManager.getMeetingsByUserId(3).size());
         assertEquals(1,meetingManager.getUnCompleteMeeting(1,tradeManager).size());
