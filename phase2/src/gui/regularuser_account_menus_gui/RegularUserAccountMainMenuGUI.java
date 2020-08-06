@@ -1,5 +1,6 @@
 package gui.regularuser_account_menus_gui;
 
+import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import gui.GUIDemo;
 import gui.NotificationGUI;
 import presenter.SystemMessage;
@@ -16,7 +17,7 @@ public class RegularUserAccountMainMenuGUI {
     private JButton backButton;
     private JButton followOthersItemsButton;
 
-    public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiD) {
+    public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
         feedBackButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -27,12 +28,16 @@ public class RegularUserAccountMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // Call regular user feed back menu and close this window
                 // guest not allowed
-                if (!isGuest){
-                    guiD.runRegularUserAccountFeedBackMenu();
+                if (isGuest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
                 }
                 else{
-                    printNote(sm.msgForGuest());
+                    guiD.runRegularUserAccountFeedBackMenu();
                 }
+
             }
         });
         manageItemButton.addActionListener(new ActionListener() {
@@ -45,8 +50,12 @@ public class RegularUserAccountMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // Call manage Item menu and close this window
                 // guest allowed
+                if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
+                }
+                else {
                     guiD.runRegularUserAccountManageItemsMenu();
-
+                }
             }
         });
         accountSettingButton.addActionListener(new ActionListener() {
@@ -63,7 +72,7 @@ public class RegularUserAccountMainMenuGUI {
                     guiD.runRegularUserAccountSettingsMenu();
                 }
                 else{
-                    printNote(sm.msgForGuest());
+                    guiD.printNotification(sm.msgForGuest());
                 }
 
             }
@@ -82,17 +91,10 @@ public class RegularUserAccountMainMenuGUI {
         });
     }
 
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
-    public void printNote(String msg){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        // TODO: need to close first
-    }
 
-    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiD) {
+    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
         JFrame frame = new JFrame("regularUserAccountMenuGUI");
-        frame.setContentPane(new RegularUserAccountMainMenuGUI(isGuest, sm, guiD).rootPanel);
+        frame.setContentPane(new RegularUserAccountMainMenuGUI(isGuest, sm, guiD,amc).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -100,3 +102,4 @@ public class RegularUserAccountMainMenuGUI {
 
 
 }
+
