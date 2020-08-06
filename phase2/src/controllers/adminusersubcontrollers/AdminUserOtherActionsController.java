@@ -24,8 +24,6 @@ public class AdminUserOtherActionsController {
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
      * an UserManager, an ItemManager and an adminUserId.
-     * @param ac The account creator
-     * @param ds The presenter class used to print to screen.
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.

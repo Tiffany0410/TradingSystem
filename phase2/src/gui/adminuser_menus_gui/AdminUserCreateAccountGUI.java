@@ -53,9 +53,10 @@ public class AdminUserCreateAccountGUI {
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage) {
+    public void run(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage,
+                    AdminUserOtherActionsController adminUserOtherActionsController) {
         JFrame frame = new JFrame("createAccountGUI");
-        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiDemo, systemMessage).rootPanel);
+        frame.setContentPane(new AdminUserCreateAccountGUI(accountCreator, guiDemo, systemMessage, adminUserOtherActionsController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
