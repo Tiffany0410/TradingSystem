@@ -83,27 +83,6 @@ public class UserManager implements Serializable {
 
 
     /**
-     * Searches for an Item in all the Users' inventories
-     * @param item The prefix of the name of the Item searched for
-     * @return A list of all the Items with the prefix in their name same as item
-     */
-    //TODO: I think this should probably be moved to the item manager
-    /*
-    public ArrayList<Integer> searchItem(String item){
-        ArrayList<Integer> out = new ArrayList<>();
-        for (User person: listUser){
-            for (Integer thing: person.getInventory()){
-                //Change this condition accordingly
-                if (thing.getName().contains(item)){
-                    out.add(thing);
-                }
-            }
-        }
-        return out;
-    }
-    */
-
-    /**
      * Freezes a User
      * @param username The username of the the User that is being frozen
      * @return true if the User was frozen, false otherwise
@@ -264,7 +243,6 @@ public class UserManager implements Serializable {
                 TradableUser human = findUser(id);
                 if (human != null){
                     String[] log = {username, "wishlist", itemID.toString()};
-                    human.logUserActivity(log);
                 }
             }
         }
@@ -277,7 +255,6 @@ public class UserManager implements Serializable {
      * @param username The username of the User to add the item into their inventory
      * @return true if the item was added successfully, false otherwise
      */
-    //TODO remove from listItemtoAdd somehow
     public boolean addItemInventory(Integer item, String username){
         boolean out = false;
         TradableUser person = findUser(username);
@@ -292,8 +269,7 @@ public class UserManager implements Serializable {
             for (int id: usersFollowing){
                 TradableUser human = findUser(id);
                 if (human != null){
-                    String[] log = {username, "inventory", itemID.toString()};
-                    human.logUserActivity(log);
+                    String[] log = {username, "inventory", item.toString()};
                 }
             }
         }
@@ -399,40 +375,6 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Gives all the Items in all the Users' inventories except the one with the given username
-     * @param username The username of the User
-     * @return A list of all the Items of all the Users' inventories except the one with the given username
-     */
-    //TODO Refactor this or move to ItemManager
-    public ArrayList<Integer> allItems(String username){
-        ArrayList<Integer> out = new ArrayList<>();
-        for (TradableUser person: listTradableUser){
-            if (!person.getUsername().equals(username)){
-                out.addAll(person.getInventory());
-            }
-        }
-        return out;
-    }
-
-    /**
-     * Gives all the Items in all the Users' inventories except the one with the given ID
-     * @param ID ID of the User
-     * @return A list of all the Items in all the Users' inventories except the one with the given ID
-     */
-    //TODO Refactor this or move to ItemManager
-    /*
-    public ArrayList<Item> allTradableItems(int ID){
-        ArrayList<Item> out = new ArrayList<>();
-        for (User person: listUser){
-            if (person.getId() != (ID)){
-                out.addAll(person.getInventory());
-            }
-        }
-        return out;
-    }
-    */
-
-    /**
      * Sends a request to unfreeze a User
      * @param username The username of the User
      * @param message The message of the User to unfreeze
@@ -488,7 +430,11 @@ public class UserManager implements Serializable {
         }
     }
 
-    //TODO Write Javadoc for all below
+    /**
+     * Returns the frozen state of the User
+     * @param username The username of the User
+     * @return true if the User is frozen, false if the User is not
+     */
     public boolean getFrozenStatus(String username) {
         for (TradableUser person : listTradableUser){
             if (person.getUsername().equals(username)) {
@@ -498,6 +444,11 @@ public class UserManager implements Serializable {
         return false;
     }
 
+    /**
+     * Returns the frozen state of the User
+     * @param userID The ID of the User
+     * @return true if the User is frozen, false if the User is not
+     */
     public boolean getFrozenStatus(int userID) {
         for (TradableUser person : listTradableUser){
             if (person.getId() == (userID)) {
@@ -507,6 +458,11 @@ public class UserManager implements Serializable {
         return false;
     }
 
+    /**
+     * Gives the inventory of the User
+     * @param username The username of the User
+     * @return Returns a list of integers of the Id of Items in the User's inventory
+     */
     public ArrayList<Integer> getUserInventory(String username){
         TradableUser person = findUser(username);
         if (person != null){
@@ -515,6 +471,11 @@ public class UserManager implements Serializable {
         return new ArrayList<>();
     }
 
+    /**
+     * Gives the inventory of the User
+     * @param userID The ID of the User
+     * @return Returns a list of integers of the Id of Items in the User's inventory
+     */
     public ArrayList<Integer> getUserInventory(int userID){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -523,6 +484,11 @@ public class UserManager implements Serializable {
         return new ArrayList<>();
     }
 
+    /**
+     * Gives the wishlist of the User
+     * @param username The username of the User
+     * @return Returns a list of integers of the Id of Items in the User's wishlist
+     */
     public ArrayList<Integer> getUserWishlist(String username){
         TradableUser person = findUser(username);
         if (person != null){
@@ -531,6 +497,11 @@ public class UserManager implements Serializable {
         return new ArrayList<>();
     }
 
+    /**
+     * Gives the wishlist of the User
+     * @param userID The ID of the User
+     * @return Returns a list of integers of the ID of Items in the User's wishlist
+     */
     public ArrayList<Integer> getUserWishlist(int userID){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -539,6 +510,12 @@ public class UserManager implements Serializable {
         return new ArrayList<>();
     }
 
+    /**
+     * Changes thresholds according to what is requested
+     * @param userID The ID of the User
+     * @param threshold The threshold to be changed
+     * @param change The new threshold if there is any
+     */
     public void setThreshold (int userID, String threshold, int change){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -553,11 +530,23 @@ public class UserManager implements Serializable {
         }
     }
 
+    /**
+     * Changes thresholds according to what is requested
+     * @param username The username of the User
+     * @param threshold The threshold to be changed
+     * @param change The new threshold if there is any
+     */
     public void setThreshold (String username, String threshold, int change){
         int num = usernameToID(username);
         setThreshold(num, threshold, change);
     }
 
+    /**
+     * Gives back the specified information of a User
+     * @param userID The ID of the User
+     * @param threshold The name of the information that is wanted
+     * @return The information that is requested
+     */
     public int getInfo(int userID, String threshold){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -582,11 +571,22 @@ public class UserManager implements Serializable {
         return -1;
     }
 
+    /**
+     * Gives back the specified information of a User
+     * @param username The username of the User
+     * @param threshold The name of the information that is wanted
+     * @return The information that is requested
+     */
     public int getInfo(String username, String threshold){
         int num = usernameToID(username);
         return getInfo(num, threshold);
     }
 
+    /**
+     * Gives the list of friends the User is friends with
+     * @param userID The ID of the User
+     * @return A list of Users who are in the User's friend list
+     */
     public ArrayList<TradableUser> getFriends(int userID){
         TradableUser person = findUser(userID);
         ArrayList<TradableUser> out = new ArrayList<>();
@@ -603,6 +603,13 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Adds a request to the list of friend requests
+     * @param message The message to give to the recipient
+     * @param userTo The username of the recipient
+     * @param userFrom The username of the sender
+     * @return true if the request was successful, false otherwise
+     */
     public boolean requestFriend(String message, String userTo, String userFrom){
         boolean out = false;
         if (checkUser(userTo) && checkUser(userFrom)) {
@@ -618,6 +625,12 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Adds the Users to each others' friend lists
+     * @param user1 The username of one of the Users
+     * @param user2 The username of the other User
+     * @return true if they were successfully added, false otherwise
+     */
     public boolean addFriend(String user1, String user2){
         if (!checkUser(user1) || ! checkUser(user2)){
             return false;
@@ -627,6 +640,12 @@ public class UserManager implements Serializable {
         return addFriend(id1, id2);
     }
 
+    /**
+     * Adds the Users to each others' friend lists
+     * @param user1 The ID of one of the Users
+     * @param user2 The ID of the other User
+     * @return true if they were successfully added, false otherwise
+     */
     public boolean addFriend(int user1, int user2){
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
@@ -649,8 +668,12 @@ public class UserManager implements Serializable {
         return false;
     }
 
-
-
+    /**
+     * Removes the Users from each others friend list
+     * @param user1 The username of one of the Users
+     * @param user2 The username of the other User
+     * @return true if they were successfully added, false otherwise
+     */
     public boolean removeFriend(String user1, String user2){
         if (!checkUser(user1) || ! checkUser(user2)){
             return false;
@@ -660,6 +683,12 @@ public class UserManager implements Serializable {
         return removeFriend(id1, id2);
     }
 
+    /**
+     * Removes the Users from each others friend list
+     * @param user1 The ID of one of the Users
+     * @param user2 The ID of the other User
+     * @return true if they were successfully added, false otherwise
+     */
     public boolean removeFriend(int user1, int user2){
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
@@ -671,6 +700,11 @@ public class UserManager implements Serializable {
         return true;
     }
 
+    /**
+     * Lets a User change their status to go on vacation
+     * @param userID The ID of the User
+     * @return true if the change was performed, false otherwise
+     */
     public boolean goOnVacation(int userID){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -684,6 +718,11 @@ public class UserManager implements Serializable {
         return false;
     }
 
+    /**
+     * Lets a User change their status to come back from vacation
+     * @param userID The ID of the User
+     * @return true if the change was performed, false otherwise
+     */
     public boolean comeFromVacation(int userID){
         TradableUser person = findUser(userID);
         if (person != null){
@@ -697,6 +736,11 @@ public class UserManager implements Serializable {
         return false;
     }
 
+    /**
+     * Gives a list of Users that are in the same city as the given User
+     * @param userID The ID of the User
+     * @return Returns a list of Users who have the same home city as the given User
+     */
     public ArrayList<TradableUser> sameCity (int userID){
         ArrayList<TradableUser> out = new ArrayList<>();
         TradableUser homosapien = findUser(userID);
@@ -711,6 +755,12 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Checks to see if the User has anything the other User wants
+     * @param wantUser The User to check their wants
+     * @param haveUser The User to check what they have
+     * @return A list of integers of Item IDs that the User wants and the other has
+     */
     public ArrayList<Integer> wantedItems (int wantUser, int haveUser){
         ArrayList<Integer> out = new ArrayList<>();
         TradableUser person1 = findUser(wantUser);
@@ -728,6 +778,11 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Gives the home city of the User
+     * @param userID The ID of the User
+     * @return The home city of the User
+     */
     public String getHome(int userID){
         TradableUser person = findUser(userID);
         if(person != null){
@@ -736,6 +791,11 @@ public class UserManager implements Serializable {
         return "";
     }
 
+    /**
+     * Changes the home city of a User
+     * @param userID The ID of the User
+     * @param newHome The new city to change to
+     */
     public void changeHome(int userID, String newHome){
         TradableUser person = findUser(userID);
         if(person != null){
@@ -743,6 +803,12 @@ public class UserManager implements Serializable {
         }
     }
 
+    /**
+     * Lets a User follow another User
+     * @param userID The ID of the User
+     * @param toFollow The ID of the User to follow
+     * @return true if the User was successfully followed, false otherwise
+     */
     public boolean userFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
         TradableUser following = findUser(userID);
@@ -757,6 +823,12 @@ public class UserManager implements Serializable {
         return true;
     }
 
+    /**
+     * Lets a User follow an Item
+     * @param userID The ID of the User
+     * @param toFollow The ID of the Item to follow
+     * @return true if the Item was followed successfully, false otherwise
+     */
     public boolean itemFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
         if (person == null){
@@ -769,6 +841,10 @@ public class UserManager implements Serializable {
         return true;
     }
 
+    /**
+     * Gives all the Users and the Items they follow
+     * @return A map of User IDs as keys and a list of the Item IDs they follow as values
+     */
     public HashMap<Integer, ArrayList<Integer>> itemsFollowed(){
         HashMap<Integer, ArrayList<Integer>> out = new HashMap<>();
         for (TradableUser person: listTradableUser){
@@ -777,6 +853,11 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Gives the requests of all the Users requesting to be friends
+     * @param userID The ID of the User
+     * @return A list of all the friend requests requested of the User
+     */
     public ArrayList<String[]> friendsRequesting(int userID){
         ArrayList<String[]> out = new ArrayList<>();
         String username = idToUsername(userID);
@@ -788,6 +869,11 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Gives the UserFollowingLogs of the User
+     * @param userID The ID of the User
+     * @return The UserFollowingLogs of the User
+     */
     public ArrayList<String> getUserFollowingLogs (int userID){
         TradableUser person = findUser(userID);
         ArrayList<String> out = new ArrayList<>();
@@ -798,6 +884,11 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Gives the ItemFollowingLogs the User
+     * @param userID The ID of the User
+     * @return The ItemFollowingLogs of the User
+     */
     public ArrayList<String> getItemFollowingLogs (int userID){
         TradableUser person = findUser(userID);
         ArrayList<String> out = new ArrayList<>();
@@ -847,22 +938,36 @@ public class UserManager implements Serializable {
         }
     }
 
+    /**
+     * Sorts the Users by rating
+     * @return A list of Users sorted by rating in descending order
+     */
     public ArrayList<TradableUser> sortRating (){
-        ArrayList<TradableUser> listCopy = new ArrayList<>();
-        for (TradableUser person: listTradableUser) {
-            listCopy.add(person);
-        }
+        ArrayList<TradableUser> listCopy = new ArrayList<>(listTradableUser);
         return mergeSort(listCopy);
     }
 
+    /**
+     * Gets the list of friend requests
+     * @return List of all the friend requests
+     */
     public ArrayList<String[]> getListFriendRequest() {
         return listFriendRequest;
     }
 
+    /**
+     * Sets to the list of friend requests
+     * @param listFriendRequest The new list of friend requests
+     */
     public void setListFriendRequest(ArrayList<String[]> listFriendRequest) {
         this.listFriendRequest = listFriendRequest;
     }
 
+    /**
+     * Gets all the Users following a User
+     * @param userID The ID of the User
+     * @return A list of integers of the ID of Users that follow the User
+     */
     public ArrayList<Integer> usersFollowingUser (int userID){
         ArrayList<Integer> out = new ArrayList<>();
         if (!checkUser(userID)){
@@ -876,6 +981,11 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    /**
+     * Gets all the Users following a User
+     * @param username The username of the User
+     * @return A list of integers of the ID of Users that follow the User
+     */
     public ArrayList<Integer> usersFollowingUser (String username){
         if (!checkUser(username)){
             return new ArrayList<>();
@@ -884,6 +994,11 @@ public class UserManager implements Serializable {
         return usersFollowingUser(id);
     }
 
+    /**
+     * Gets all the Users following an Item
+     * @param itemID The ID of the Item
+     * @return A list of integers of the ID of Users that follow the Item
+     */
     public ArrayList<Integer> usersFollowingItem (int itemID){
         ArrayList<Integer> out = new ArrayList<>();
         if (!checkUser(itemID)){
@@ -895,14 +1010,6 @@ public class UserManager implements Serializable {
             }
         }
         return out;
-    }
-
-    public ArrayList<Integer> usersFollowingItem (String username){
-        if (!checkUser(username)){
-            return new ArrayList<>();
-        }
-        int id = usernameToID(username);
-        return usersFollowingItem(id);
     }
 
     /**
