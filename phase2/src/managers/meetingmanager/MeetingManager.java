@@ -285,13 +285,12 @@ public class MeetingManager implements java.io.Serializable{
          Meeting meeting = getMeetingByIdNum(tradeId, meetingNum);
          if (meeting.getTradeId() == 0){
              return false;
-         }else {
+         }else if(meeting.getTimePlaceConfirm()){
              meeting.setTimePlaceConfirm(false);
-             if (meeting.getTimePlaceEdit().size() == 0){
-             meeting.getTimePlaceEdit().remove(meeting.getTimePlaceEdit().size()-1);}
-             return true;
-         }
-     }
+             if (meeting.getTimePlaceEdit().size() != 0){
+                 meeting.getTimePlaceEdit().remove(meeting.getTimePlaceEdit().size()-1);
+             }return true;
+         }return false;}
 
     /** undo the confirmation of meeting took place
      * @param tradeId the trade id
@@ -305,10 +304,14 @@ public class MeetingManager implements java.io.Serializable{
              return false;
          }else if(meeting.getUserId1()!=userId && meeting.getUserId2() != userId){
              return false;
-         }else{
+         }else if(meeting.getMeetingConfirm().get(userId)){
+             if(meetingNum == 1 && getMeetingByIdNum(tradeId, 2).getTradeId()!=0){
+                 listMeeting.remove(getMeetingByIdNum(tradeId, 2).getTradeId());
+             }
              meeting.getMeetingConfirm().replace(userId,false);
-            return true;
-         } }
+             return true;
+         }return false;
+     }
 
     /** undo the edit of time and place
      * @param meeting the meeting
