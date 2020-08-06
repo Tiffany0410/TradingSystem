@@ -74,16 +74,29 @@ public class RegularUserAccountMenuController {
     // TODO: Add Java Doc!
     // FOR RegularUserManageItemsMenuGUI
 
+    /**
+     * Return a list of tradable items in the system
+     * @return A list of tradable items
+     */
     public ArrayList<Item> getTradables(){
         ArrayList<Item> tradableItems = im.getAllTradableItems();
         am.addActionToAllActionsList(userId, "regularUser", "1.1.1", 0, "");
         return tradableItems;
     }
 
+    /**
+     * Return a list of tradable items from other users in the system
+     * @return a list of tradable items from other users
+     */
     public ArrayList<Item> getAllTradableFromOther(){
         return im.allTradableItemsFromOtherUser(userId);
     }
 
+    /**
+     * Return true if the item added to user's wishlist successfully, false otherwise
+     * @param tempItemID The item's id
+     * @return true if the item added to wishlist successfully
+     */
     public boolean addToWishList(int tempItemID){
         boolean result = um.addItemWishlist(tempItemID, username);
         am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.2", tempItemID, "");
@@ -91,6 +104,11 @@ public class RegularUserAccountMenuController {
         return result;
     }
 
+    /**
+     * Return true if the item removed from user's wishlist successfully, false otherwise
+     * @param tempItemID The item's id
+     * @return true if the item removed from user's wishlist successfully
+     */
     public boolean removeFromWishlist(int tempItemID){
         boolean result = um.removeItemWishlist(tempItemID, username);
         am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.3", tempItemID, "");
@@ -98,6 +116,11 @@ public class RegularUserAccountMenuController {
         return result;
     }
 
+    /**
+     * Return true if the item removed from user's inventory successfully, false otherwise
+     * @param tempItemID tempItemID The item's id
+     * @return true if the item removed from user's inventory successfully
+     */
     public boolean removeFromInventory(int tempItemID){
         boolean result = um.removeItemInventory(tempItemID, username);
         im.addItemToListDeletedItem(im.getItembyId(tempItemID));
@@ -106,12 +129,22 @@ public class RegularUserAccountMenuController {
         return  result;
     }
 
+    /**
+     * Receives user's request to add item into inventory
+     * @param itemName The item's name
+     * @param description The item's description
+     * @param category The item's category
+     */
     public void requestAddItem(String itemName, String description, Category category){
         im.requestAddItem(itemName, description, userId, category);
         am.addActionToCurrentRevocableList(userId, "regular","1.1.5", im.getRequestItemIDByName(itemName), "");
         am.addActionToAllActionsList(userId, "regular","1.1.5", im.getRequestItemIDByName(itemName), "");
     }
 
+    /**
+     * Return a list of three most recent traded items
+     * @return A list of items
+     */
     public ArrayList<Item> seeMostRecentThreeItems() {
         //calling this method means user is not a guest
         List<Integer> recentThreeTradedIds = tm.recentThreeItem(userId);
@@ -120,6 +153,10 @@ public class RegularUserAccountMenuController {
         return threeItems;
     }
 
+    /**
+     * Return user's wishlist
+     * @return a list of items
+     */
     public ArrayList<Item> getWishList(){
         TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
@@ -127,6 +164,10 @@ public class RegularUserAccountMenuController {
         return wishlist;
     }
 
+    /**
+     * Return user's inventory
+     * @return a list of items
+     */
     public ArrayList<Item> getInventory(){
         TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
@@ -134,16 +175,30 @@ public class RegularUserAccountMenuController {
         return inventory;
     }
 
+    /**
+     * Return a list of tradable items that are also in user's inventory
+     * @return a list of tradable items
+     */
     public ArrayList<Item> getTradableItems(){
         ArrayList<Item> inventory = getInventory();
         return im.getTradableItems(inventory);
     }
 
+    /**
+     * Return a list of non-tradable items that are also in user's inventory
+     * @return a list of non-tradable items
+     */
     public ArrayList<Item> getNotTradableItems(){
         ArrayList<Item> inventory = getInventory();
         return im.getNotTradableItems(inventory);
     }
 
+    /**
+     * Receives user's request to set item's tradable status to option
+     * @param itemId The item's id
+     * @param option The option of tradable status (1 for true, 2 for false)
+     * @return true if tradable status set to option successfully
+     */
     public boolean setTradableBasedOnResponse(int itemId, int option){
         if (option == 1){
             boolean result = im.setTradable(im.getItembyId(itemId), true);
@@ -157,6 +212,11 @@ public class RegularUserAccountMenuController {
         return result;
     }
 
+    /**
+     * Return a list of suggested items to lend
+     * @param lendToUserId The user's id that lend to
+     * @return a list of suggested items to lend that are in user lendToUserId's inventory
+     */
     public ArrayList<Item> getSuggestItemToLend(int lendToUserId){
         ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
         ArrayList<Item> suggestItems = im.getItemsByIds(itemsCanLend);
@@ -166,6 +226,11 @@ public class RegularUserAccountMenuController {
         return suggestItems;
     }
 
+    /**
+     * Return a list of random suggested items to lend
+     * @param lendToUserId The user's id that lend to
+     * @return a list of random suggested items to lend that are in user lendToUserId's inventory
+     */
     public ArrayList<Item> getRandomSuggestion(int lendToUserId){
         ArrayList<Integer> itemsCanLend = um.wantedItems(lendToUserId, userId);
         Random r = new Random();
