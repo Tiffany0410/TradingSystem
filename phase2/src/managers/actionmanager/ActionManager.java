@@ -14,6 +14,7 @@ public class ActionManager {
     private ArrayList<Action> listOfAllActions;
     private ArrayList<Action> listOfCurrentRevocableActions;
     private ArrayList<Action> listOfDeletedRevocableActions;
+    //Key is the actionID and related value is the userID who send the request
     private Map<Integer, Integer> mapOfUndoRequest;
 
 
