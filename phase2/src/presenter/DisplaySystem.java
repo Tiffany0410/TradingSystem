@@ -564,7 +564,7 @@ public class DisplaySystem {
                 break;
             // 5.6: Send a friend request for a given user
             case 6:
-                this.printOut(helper_regular_action_prefix(action) + "send friend request to other user" + "\n");
+                this.printOut(helper_regular_action_prefix(action) + "send friend request to other user #" + action.getAdjustableInt() + "\n");
                 break;
             // 5.7: Respond to friend requests
             case 7:
@@ -576,11 +576,11 @@ public class DisplaySystem {
                 break;
             // 5.9: Send message to friends
             case 9:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "send message to friend #" + action.getAdjustableInt() + " : " + action.getAdjustableStr() + "\n");
                 break;
             // 5.10: View all message
             case 10:
-                //TODO:
+                this.printOut(helper_regular_action_prefix(action) + "view all message" + "\n");
                 break;
         }
     }

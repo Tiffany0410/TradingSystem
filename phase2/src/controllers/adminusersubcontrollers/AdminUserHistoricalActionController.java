@@ -278,7 +278,7 @@ public class AdminUserHistoricalActionController {
             // 5.8: Unfriend a user
             case 8:
                 // call UserManager to remove friend
-                return um.removeFriend(targetUserID, actionOwnerID);
+                return um.addFriend(targetUserID, actionOwnerID);
         }
         return false;
     }
