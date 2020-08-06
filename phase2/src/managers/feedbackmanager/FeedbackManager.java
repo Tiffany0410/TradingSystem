@@ -63,14 +63,14 @@ public class FeedbackManager implements Serializable {
             double sum = 0.0;
             int count = 0;
         for(Review review: listReview) {
-            if (review.getReviewerId() == userId) {
+            if (review.getReceiverId() == userId) {
                 sum += review.getPoint();
                 count += 1;
             } }
             return sum / count; }
     }
 
-    /** add new report to the reportMap
+    /** add new report to the list of report
      * @param userId1 the id of user who has been reported
      * @param userId2 the id of user who report the user with userId1
      * @param reason the reason to report the user
@@ -97,11 +97,12 @@ public class FeedbackManager implements Serializable {
             reports.add(report);
         }
     }return reports;}
+
     /** get a list of reviews that review the given user
      * @param userId the id of user who has been reviewed
      * @return a list of reviews that reviews the user with userId
      */
-    public List<Review> getReviewById(int userId){
+    public ArrayList<Review> getReviewById(int userId){
         ArrayList<Review> reviews = new ArrayList<>();
         for(Review review: listReview){
             if (review.getReceiverId() == userId){
@@ -145,7 +146,9 @@ public class FeedbackManager implements Serializable {
      */
     public boolean haveReport(int receiverId, int reporterId) {
         for (Report report : listReport) {
-            return report.getReceiverId() == receiverId && report.getReporterId() == reporterId;
+           if (report.getReceiverId() == receiverId && report.getReporterId() == reporterId){
+               return true;
+           }
         }return false;
 
     }
@@ -156,7 +159,9 @@ public class FeedbackManager implements Serializable {
      */
     public boolean haveReview(int receiverId, int reviewerId) {
         for (Review review : listReview) {
-            return review.getReceiverId() == receiverId && review.getReviewerId() == reviewerId;
+            if(review.getReceiverId() == receiverId && review.getReviewerId() == reviewerId){
+                return true;
+            }
         }return false;
 
     }
@@ -166,7 +171,9 @@ public class FeedbackManager implements Serializable {
      */
     public boolean haveReview(int receiverId) {
         for (Review review : listReview) {
-            return review.getReceiverId() == receiverId;
+            if(review.getReceiverId() == receiverId){
+                return true;
+            }
         }return false; }
 
     /** get a string to describe the list of reviews

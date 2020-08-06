@@ -1,7 +1,11 @@
 package managers.feedbackmanager;
 
 import java.io.Serializable;
-
+/**
+ * An instance of this class represents the review from a user
+ * @author Jianhong Guo
+ * @version IntelliJ IDEA 2020.1
+ */
 public class Review implements Serializable {
     private int receiverId;
     private int reviewerId;
@@ -9,10 +13,10 @@ public class Review implements Serializable {
     private String reason;
 
     /** Constructs a review instance.
-     * @param receiverId the id of user who is reported
-     * @param reviewerId the id of user who report others
+     * @param receiverId the id of user who is reviewed
+     * @param reviewerId the id of user who reviews others
      * @param point the point the reviewer give to the receiver
-     * @param reason the reason why report
+     * @param reason the reason why review
      */
     public Review(int receiverId, int reviewerId, int point, String reason){
         this.receiverId = receiverId;
