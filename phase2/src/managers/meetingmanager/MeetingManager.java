@@ -166,8 +166,8 @@ public class MeetingManager implements java.io.Serializable{
      */
     public boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
                                      int maxMeetingTimePlaceEdits){
-        if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&!meeting.getMeetingConfirm().
-                get(userId) ){
+        if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&(userId == meeting.getUserId1()
+                ||userId == meeting.getUserId2())&&!meeting.getMeetingConfirm().get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
             if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
                     getUserId2())&&(tradeManager.getTradeById(meeting.getTradeId())
