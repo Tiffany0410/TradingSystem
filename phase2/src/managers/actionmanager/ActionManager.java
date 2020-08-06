@@ -1,6 +1,9 @@
 package managers.actionmanager;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Store and manage all the actions which can be cancelled
@@ -11,6 +14,7 @@ public class ActionManager {
     private ArrayList<Action> listOfAllActions;
     private ArrayList<Action> listOfCurrentRevocableActions;
     private ArrayList<Action> listOfDeletedRevocableActions;
+    private Map<Integer, Integer> mapOfUndoRequest;
 
 
     /**
@@ -20,6 +24,7 @@ public class ActionManager {
         this.listOfAllActions = new ArrayList<>();
         this.listOfCurrentRevocableActions = new ArrayList<>();
         this.listOfDeletedRevocableActions = new ArrayList<>();
+        this.mapOfUndoRequest = new HashMap<>();
     }
 
 
@@ -186,5 +191,46 @@ public class ActionManager {
         ArrayList<Action> tempList = new ArrayList<>();
         for (Action action: listOfCurrentRevocableActions) { if (action.getActionOwnerID() == userID) {tempList.add(action);} }
         return tempList;
+    }
+
+
+    /**
+     * Add the new Undo Request into the mapOfUndoRequest and return the result
+     *
+     * @param actionID The ID of revocable actions
+     * @param userID The RegularUser ID who want to undo actions
+     * @return True if successfully add request
+     */
+    public boolean addUndoRequest(int actionID, int userID) {
+        if (!mapOfUndoRequest.containsKey(actionID)) {
+            mapOfUndoRequest.put(actionID, userID);
+            return true;
+        }
+    return false;
+    }
+
+    /**
+     * Delete the new Undo Request into the mapOfUndoRequest and return the result
+     *
+     * @param actionID The ID of revocable actions
+     * @return True if successfully delete request
+     */
+    public boolean deleteUndoRequest(int actionID){
+        if (mapOfUndoRequest.containsKey(actionID)) {
+            mapOfUndoRequest.remove(actionID);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Return if mapOfUndoRequest contains the provided actionID
+     *
+     * @param actionID The ID of revocable actions
+     * @return True if mapOfUndoRequest contains the provided actionID
+     */
+    public boolean checkUndoRequest(int actionID) {
+        return mapOfUndoRequest.containsKey(actionID);
     }
 }
