@@ -64,13 +64,31 @@ public class AdminUserHistoricalActionController {
     }
 
 
+//    /**
+//     * Lets the presenter print out all the actions done by RegularUser and AdminUser in the system
+//     */
+//    public void printOutAllHistoricalAction() {
+//        ds.printOut("Here are all the Historical Actions: \n");
+//        ds.printHistoricalActions(am.getListOfAllActions());
+//        am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
+//    }
+
+
     /**
-     * Lets the presenter print out all the actions done by RegularUser and AdminUser in the system
+     * Return a list of All Historical Actions in the system
      */
-    public void printOutAllHistoricalAction() {
-        ds.printOut("Here are all the Historical Actions: \n");
-        ds.printHistoricalActions(am.getListOfAllActions());
+    public ArrayList<Action> getAllAction() {
         am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
+        return am.getListOfAllActions();
+    }
+
+
+    /**
+     * Return a list of All Historical Actions in the system
+     */
+    public ArrayList<Action> getAllRevocableAction() {
+        am.addActionToAllActionsList(userId, "adminUser", "3.2", 0, "");
+        return am.getListOfCurrentRevocableActions();
     }
 
 
@@ -78,12 +96,16 @@ public class AdminUserHistoricalActionController {
      * Lets the presenter print out all the revocable actions done by RegularUser in the system
      * by the RegularUser id provided by AdminUser
      */
-    public void searchRevocableActionByUserID() {
-        ds.printOut("Here are all the TradableUser Id: \n");
-        ds.printListUser(um.getListTradableUser());
-        int regularUserID = otherInfoGetter.getRegularUserID();
-        ds.printHistoricalActions(am.searchRevocableActionByID(regularUserID));
+//    public void searchRevocableActionByUserID() {
+//        ds.printOut("Here are all the TradableUser Id: \n");
+//        ds.printListUser(um.getListTradableUser());
+//        int regularUserID = otherInfoGetter.getRegularUserID();
+//        ds.printHistoricalActions(am.searchRevocableActionByID(regularUserID));
+//        am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
+//    }
+    public ArrayList<Action> searchRevocableActionByUserID(int regularUserID) {
         am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
+        return am.searchRevocableActionByID(regularUserID);
     }
 
     /**
@@ -302,9 +324,4 @@ public class AdminUserHistoricalActionController {
         return false;
     }
 
-    public void cancel_1_1_2(){}
-
-    public void cancel_1_1_3(){}
-
-    public void cancel_1_1_4(){}
 }

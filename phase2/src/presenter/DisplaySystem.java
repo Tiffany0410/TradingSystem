@@ -655,17 +655,22 @@ public class DisplaySystem {
             case 1:
                 this.printOut(helper_admin_action_prefix(action) + "list all the historical actions in the system" + "\n");
                 break;
-            // 3.2: Cancel the revocable historical actions of tradableUser
+            // 3.2: List all the historical revocable actions in the system
             case 2:
-                this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #" + action.getAdjustableInt() + "\n");
+                this.printOut(helper_admin_action_prefix(action) + "list all the historical revocable actions in the system" + "\n");
                 break;
             // 3.3: Find all the revocable historical actions of specific tradableUser
             case 3:
                 this.printOut(helper_admin_action_prefix(action) + "search all the revocable historical actions of tradableUser #" + action.getAdjustableInt() + "\n");
                 break;
-            // 3.3: Confirm undo request and undo revocable historical actions
+            // 3.4: Cancel the revocable historical actions of tradableUser by actionID
             case 4:
+                this.printOut(helper_admin_action_prefix(action) + "cancel the revocable historical actions #" + action.getAdjustableInt() + "\n");
+                break;
+            // 3.4: Confirm undo request and undo revocable historical actions
+            case 5:
                 this.printOut(helper_admin_action_prefix(action) + "confirm undo request and undo revocable historical action #" + action.getAdjustableInt() + "\n");
+                break;
         }
     }
 

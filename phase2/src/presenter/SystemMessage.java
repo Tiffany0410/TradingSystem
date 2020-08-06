@@ -3,6 +3,7 @@ package presenter;
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gateway.FilesReaderWriter;
 import gui.GUIDemo;
+import managers.actionmanager.Action;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
@@ -396,4 +397,6 @@ public class SystemMessage {
         return "The tradable status for this item is already " + tradable_status + ". ";
     }
 
+    public String printHistoricalAction(ArrayList<Action> actions) {
+    }
 }
