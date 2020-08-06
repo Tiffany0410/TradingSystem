@@ -142,11 +142,23 @@ public class AdminUserManagerUsersController {
 
     public String getInventoryToAdd(){
         ArrayList<Item> listItemToAdd = im.getListItemToAdd();
-
+        StringBuilder string = new StringBuilder();
+        int count = 1;
+        for (Object o : listItemToAdd) {
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                string.append("#").append(count).append(". ").append(o.toString()).append("\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[]) o;
+                string.append("#").append(count).append(". \n").append("Username: ").append(strings[0]);
+                string.append("Message: ").append(strings[1]).append("\n");
+            }
+            count++;
+        }
+        return string.toString();
     }
-
-
-
 
 
     public void confirmInventoryAdd() {
