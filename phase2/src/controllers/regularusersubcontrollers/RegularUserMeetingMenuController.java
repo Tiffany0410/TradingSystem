@@ -114,7 +114,7 @@ public class RegularUserMeetingMenuController {
         boolean confirmSuccess = mm.confirmTimePlace(meeting, userId, maxMeetingTimePlaceEdits);
         if (confirmSuccess) {
             String tradeID2 = String.valueOf(meeting.getTradeId());
-            am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting.getMeetingNum(), tradeID2);
+            am.addActionToAllActionsList(userId, "regularUser", "3.1", meeting.getMeetingNum(), tradeID2);
             return true;
             }return false;
         }
