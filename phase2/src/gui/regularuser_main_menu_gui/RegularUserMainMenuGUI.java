@@ -1,13 +1,17 @@
 package gui.regularuser_main_menu_gui;
 
 import controllers.regularusersubcontrollers.*;
+import gateway.FilesReaderWriter;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
+import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class RegularUserMainMenuGUI {
     private JPanel rootPanel;
@@ -22,12 +26,13 @@ public class RegularUserMainMenuGUI {
     public void run(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
                     RegularUserMeetingMenuController mmc, RegularUserTradingMenuController atc,
                     RegularUserIDChecker idChecker, RegularUserDateTimeChecker dateTimeChecker,
-                    RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
-                    int numLentBeforeBorrow, int maxNumTransactionsAWeek, int maxEditsTP, int maxIncompleteTransactionsBeforeFrozen) {
+                    RegularUserThresholdController tc, RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
+                    String username, UserManager um, String menuPartOfAlert,
+                    ArrayList<Integer> thresholdValues) {
 
         JFrame frame = new JFrame("regularUserMainMenuGUI");
-        frame.setContentPane(new RegularUserMainMenuGUI(guest,sm, guiD, amc, mmc, atc, idChecker, dateTimeChecker,
-                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen).rootPanel);
+        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm, guiD, amc, mmc, atc, idChecker, dateTimeChecker, tc, otherInfoChecker,
+                guiUserInputInfo, username, um, menuPartOfAlert, thresholdValues).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -36,8 +41,9 @@ public class RegularUserMainMenuGUI {
     public RegularUserMainMenuGUI(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
                                   RegularUserMeetingMenuController mmc, RegularUserTradingMenuController atc,
                                   RegularUserIDChecker idChecker, RegularUserDateTimeChecker dateTimeChecker,
-                                  RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
-                                  int numLentBeforeBorrow, int maxNumTransactionsAWeek, int maxEditsTP, int maxIncompleteTransactionsBeforeFrozen) {
+                                  RegularUserThresholdController tc, RegularUserOtherInfoChecker otherInfoChecker, GUIUserInputInfo guiUserInputInfo,
+                                  String username, UserManager um, String menuPartOfAlert,
+                                  ArrayList<Integer> thresholdValues) {
         notificationButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -46,8 +52,14 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Notification which should be a JDialog
-                // call RegUserAlerts from sm and pass in the relevant params -> printNote
+                //TODO: do the following in GUIDemo:
+                // //String filepath = "./src/Alerts/UserAlerts.csv";
+                // //rw.readFromMenu(filepath)
+                // ^ to read the menuPartOfAlert
+                // // thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv"
+                // //List<Integer> thresholdValues = rw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+                // ^ to read the thresholdValues
+                guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
 
             }
         });
@@ -72,8 +84,13 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Call Trading Info Menu and close this window
-                guiD.runRegularUserTradingMenuGUI();
+                if (!guest) {
+                    //Call Trading Info Menu and close this window
+                    guiD.runRegularUserTradingMenuGUI();
+                }
+                else{
+                    sm.msgForGuest();
+                }
             }
         });
         meetingInformationButton.addActionListener(new ActionListener() {
@@ -84,9 +101,14 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Call Meeting Info Menu and close this window
-                guiD.runRegularUserMeetingMenu(guiD, mmc, sm, maxEditsTP, guiUserInputInfo,
-                        idChecker);
+                if (!guest) {
+                    //Call Meeting Info Menu and close this window
+                    guiD.runRegularUserMeetingMenu(guiD, mmc, sm, thresholdValues.get(3), guiUserInputInfo,
+                            idChecker);
+                }
+                else{
+                    sm.msgForGuest();
+                }
 
             }
         });
@@ -98,8 +120,13 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call Searching Info Menu and close this window
-                guiD.runRegularUserSearchingMenuGUI();
+                if (!guest) {
+                    // Call Searching Info Menu and close this window
+                    guiD.runRegularUserSearchingMenuGUI();
+                }
+                else{
+                    sm.msgForGuest();
+                }
 
 
             }
@@ -112,8 +139,13 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call Community Info Menu and close this window
-                guiD.runRegularUserCommunityMenuGUI();
+                if (!guest) {
+                    // Call Community Info Menu and close this window
+                    guiD.runRegularUserCommunityMenuGUI();
+                }
+                else{
+                    sm.msgForGuest();
+                }
             }
         });
         logoutButton.addActionListener(new ActionListener() {
