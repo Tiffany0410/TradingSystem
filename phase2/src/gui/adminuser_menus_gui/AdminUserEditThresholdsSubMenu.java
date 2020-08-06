@@ -1,7 +1,10 @@
 package gui.adminuser_menus_gui;
 
+import controllers.adminusersubcontrollers.AdminUserEditThresholdsController;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
+import gui.UserInputGUI;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +18,9 @@ public class AdminUserEditThresholdsSubMenu {
     private JButton editTheMaxEditsButton;
     private JButton backButton;
 
-    public AdminUserEditThresholdsSubMenu(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo) {
+    public AdminUserEditThresholdsSubMenu(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
+                                          AdminUserEditThresholdsController adminUserEditThresholdsController,
+                                          SystemMessage systemMessage) {
         editTheMaxNumberButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -24,8 +29,16 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Edit The Max Number Button controller and related window and close this menu or not
+                String string = adminUserEditThresholdsController.getMaxNumberTransactions() + "\n" + "Please enter new value:";
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
 
+                try {
+                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
+                    adminUserEditThresholdsController.editMaxNumberTransactions(futureValue);
+                }catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
                 // TODO: Need method to close this window
 
             }
@@ -38,7 +51,16 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Edit Max Number of Transaction sth controller and  related window and close this menu or not
+                String string = adminUserEditThresholdsController.getMaxNumberIncompleteTransactions() + "\n" + "Please enter new value:";
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
+
+                try {
+                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
+                    adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue);
+                }catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
 
                 // TODO: Need method to close this window
 
@@ -53,8 +75,16 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Edit Number Of Items User Must Lends sth controller and related window and close this menu or not
+                String string = adminUserEditThresholdsController.getMustLendNumber() + "\n" + "Please enter new value:";
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
 
+                try {
+                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
+                    adminUserEditThresholdsController.editMustLendNumber(futureValue);
+                }catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
                 // TODO: Need method to close this window
 
 
@@ -68,8 +98,16 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Edit Man Edit's for sth controller and related window and close this menu or not
+                String string = adminUserEditThresholdsController.getEditMaxEdits() + "\n" + "Please enter new value:";
+                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
+                userInputGUI.run(string, guiUserInputInfo);
 
+                try {
+                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
+                    adminUserEditThresholdsController.editMaxEdits(futureValue);
+                }catch (NumberFormatException ex){
+                    systemMessage.invalidNumber();
+                }
                 // TODO: Need method to close this window
 
 
@@ -83,7 +121,6 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Call Admin Main Menu and close this window
                     guiDemo.runAdminUserMainMenu();
                 // TODO: Need method to close this window
 
@@ -92,9 +129,11 @@ public class AdminUserEditThresholdsSubMenu {
         });
     }
 
-    public void run(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo) {
+    public void run(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
+                    AdminUserEditThresholdsController adminUserEditThresholdsController,
+                    SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserEditThresholdsSubMenu");
-        frame.setContentPane(new AdminUserEditThresholdsSubMenu(guiDemo, guiUserInputInfo).rootPanel);
+        frame.setContentPane(new AdminUserEditThresholdsSubMenu(guiDemo, guiUserInputInfo, adminUserEditThresholdsController, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
