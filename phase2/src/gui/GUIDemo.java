@@ -4,13 +4,16 @@ import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.maincontrollers.AdminUserController;
-import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
-import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
+import controllers.regularusersubcontrollers.*;
 import gui.adminuser_menus_gui.*;
+import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
+import gui.regularuser_account_menus_gui.RegularUserAccountSettingsMenuGUI;
+import gui.regularuser_account_menus_gui.RegularUserFollowMenuGUI;
+import gui.regularuser_account_menus_gui.RegularUserManageItemsMenuGUI;
+import gui.regularuser_community_menu_gui.RegularUserCommunityMenuGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.regularuser_meeting_menu_gui.RegularUserMeetingMenuGUI;
+import gui.regularuser_trading_menu_gui.RegularUserTradingMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
 import gui.trading_system_init_menu_gui.TradingSystemInitMenuGUI;
@@ -78,13 +81,6 @@ public class GUIDemo {
         regularUserCreateAccountGUI.run(this.accountCreator, this);
     }
 
-    public void runRegularUserMeetingMenu(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                                          int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC){
-        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits,
-                guiUserInputInfo, idC);
-        regularUserMeetingMenuGUI.run(guiD, mmc, sm, maxNumTPEdits,
-                guiUserInputInfo, idC);
-    }
 
     public void runAdminUserMainMenu() {
 
@@ -97,11 +93,60 @@ public class GUIDemo {
         adminUserMainMenuGUI.run(this);
     }
 
+    //TODO: Regular User menu gui start
     public void runRegularUserMainMenu(Boolean guest) {
-        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest);
-        regularUserMainMenuGUI.run(guest);
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest, this.systemMessage, this, amc, mmc, atc, idChecker, dateTimeChecker,
+                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen);
+        regularUserMainMenuGUI.run(guest, this.systemMessage, this, amc, mmc, atc, idChecker, dateTimeChecker,
+                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen);
     }
 
+    public void runRegularUserAccountFeedBackMenu(){
+        RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI();
+        regularUserFollowMenuGUI.run();
+    }
+
+    public void runRegularUserAccountManageItemsMenu(){
+        RegularUserManageItemsMenuGUI regularUserManageItemsMenuGUI = new RegularUserManageItemsMenuGUI();
+        regularUserManageItemsMenuGUI.run();
+    }
+
+    public void runRegularUserAccountSettingsMenu(){
+        RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI();
+        regularUserAccountSettingsMenuGUI.run();
+
+    }
+
+    public void runRegularUserAccountMainMenuGUI(){
+        RegularUserAccountMainMenuGUI regularUserAccountMainMenuGUI = new RegularUserAccountMainMenuGUI();
+        regularUserAccountMainMenuGUI.run();
+
+    }
+
+    public void runRegularUserTradingMenuGUI(){
+        RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI();
+        regularUserTradingMenuGUI.run();
+    }
+
+    public void runRegularUserCommunityMenuGUI(){
+        RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI();
+        regularUserCommunityMenuGUI.run();
+    }
+
+    public void runRegularUserMeetingMenu(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                                          int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC){
+        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits,
+                guiUserInputInfo, idC);
+        regularUserMeetingMenuGUI.run(guiD, mmc, sm, maxNumTPEdits,
+                guiUserInputInfo, idC);
+    }
+
+    public void runRegularUserSearchingMenuGUI() {
+        RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
+                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.tempUsername);
+    }
+
+    //TODO: Regular User menu gui end
 
     public void runAdminUserManageUsersSubMenu() {
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
@@ -146,8 +191,4 @@ public class GUIDemo {
         notificationGUI.run(string);
     }
 
-    public void runRegularUserSearchingMenuGUI() {
-        RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
-                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.tempUsername);
-    }
 }

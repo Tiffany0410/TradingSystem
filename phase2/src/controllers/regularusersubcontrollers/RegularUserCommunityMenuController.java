@@ -113,6 +113,7 @@ public class RegularUserCommunityMenuController {
      * @return a list of friends for this user
      */
     public ArrayList<TradableUser> getFriends(){
+        am.addActionToAllActionsList(userId, "regularUser", "5.5", 0, "");
         return  um.getFriends(userId);
     }
 
@@ -222,6 +223,7 @@ public class RegularUserCommunityMenuController {
     public boolean sendMessage(int receiverId, String message){
         if (checkIsFriend(receiverId)){
             messageManager.createNewMessage(userId,receiverId,message);
+            am.addActionToAllActionsList(userId, "regularUser", "5.9", receiverId, message);
             return true;
         }return false;
     }
@@ -230,6 +232,7 @@ public class RegularUserCommunityMenuController {
      * @return a list of messages that this user receive
      */
     public ArrayList<Message> getAllMessages(){
+        am.addActionToAllActionsList(userId,"regularUser", "5.10", 0, "");
         return messageManager.getMessageFor(userId);
     }
 
