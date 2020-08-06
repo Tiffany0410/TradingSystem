@@ -12,15 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ItemManagerTest {
-    // im.requestAddItem("book1", "this is book1", 1, Category.BOOKS);
-    // im.requestAddItem("book2", "this is book2", 2, Category.BOOKS);
-    // im.requestAddItem("book3", "this is book3", 3, Category.BOOKS);
-    // im.requestAddItem("furniture1", "this is furniture1", 4, Category.FURNITURE);
-    // im.requestAddItem("furniture2", "this is furniture2", 5, Category.FURNITURE);
-    // im.requestAddItem("notebook1", "this is notebook1", 6, Category.SUPPLIES);
-    // im.requestAddItem("notebook2", "this is notebook2", 5, Category.SUPPLIES);
-    // im.requestAddItem("HandCream", "this is a hand cream", 4, Category.BEAUTY);
-    // im.requestAddItem("ipad", "this is an ipad", 3, Category.ELECTRONICS);
 
     @Test
     public void testRequestAddItemAndGetNameById() throws InvalidIdException {
@@ -35,11 +26,6 @@ public class ItemManagerTest {
 
         String name = im.getNamebyId(book1.getItemId());
         assertEquals(name, book1.getName());
-        try {
-            String name1 = im.getNamebyId(2);
-        } catch (InvalidIdException e) {
-            assertEquals(e.getMessage(), "Invalid Item ID");
-        }
     }
 
     @Test
