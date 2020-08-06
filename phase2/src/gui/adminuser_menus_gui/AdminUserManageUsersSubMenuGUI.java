@@ -76,7 +76,7 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //adminUserManagerUsersController.confirmInventoryAdd();
-                List<Item> listItemToAdd = adminUserManagerUsersController.seeListItemToAdd()
+                List<Item> listItemToAdd = adminUserManagerUsersController.seeListItemToAdd();
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
                 guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
@@ -104,7 +104,7 @@ public class AdminUserManageUsersSubMenuGUI {
                     sm.tryAgainMsgForWrongFormatInput();
                 }
 
-
+                // TODO: Need method to close this window
 
             }
         });

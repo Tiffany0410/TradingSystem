@@ -167,6 +167,7 @@ public class AdminUserManagerUsersController {
         if (add){
             //first arg = item id, second arg = owner id
             um.addItemInventory(im.getIDFromItem(itemSelected).get(0), um.idToUsername(im.getIDFromItem(itemSelected).get(1)));
+            am.addActionToAllActionsList(this.userID, "adminUser", "1.3", itemSelected.getItemId(), String.valueOf(itemSelected.getOwnerId()));
         }
         //either add or not add - need to remove from to-be-added list
         im.getListItemToAdd().remove(itemSelected);
