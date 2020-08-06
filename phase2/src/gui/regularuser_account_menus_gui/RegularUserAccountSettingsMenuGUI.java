@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RegularUserAccountSettingsMenuGUI {
     private JButton requestToUnfreezeAccountButton;
@@ -20,6 +19,7 @@ public class RegularUserAccountSettingsMenuGUI {
     private JButton backButton;
     private JButton reviewOwnRevocableActionButton;
     private JButton requestUndoARevocableButton;
+    private JPanel rootPanel;
 
     public RegularUserAccountSettingsMenuGUI(RegularUserAccountMenuController atc, SystemMessage sm,
                                              GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
@@ -133,7 +133,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserAccountMainMenu(false);
+                guiD.runRegularUserAccountMainMenuGUI(false);
             }
 
 
@@ -162,6 +162,15 @@ public class RegularUserAccountSettingsMenuGUI {
         NotificationGUI msgGUI = new NotificationGUI(msg);
         msgGUI.run(msg);
         // TODO: need to close first
+    }
+
+    public void run(GUIDemo guiD, RegularUserAccountMenuController atc, GUIUserInputInfo guiUserInputInfo,
+                    RegularUserIDChecker idChecker, SystemMessage sm) {
+        JFrame frame = new JFrame("regularUserAccountSettingsMenuGUI");
+        frame.setContentPane(new RegularUserFollowMenuGUI(guiD, atc, guiUserInputInfo, idChecker, sm).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 
 }

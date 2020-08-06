@@ -131,22 +131,18 @@ public class SystemMessage {
      * Gathers all the necessary messages
      * for the regular user.
      *
-     * @param thresholdValuesFilePath The filepath of the file that stores all the threshold values in the system.
      * @return messages as properly formatted strings.
-     * @throws IOException In case the file can't be found.
      */
-    public String RegUserAlerts(UserManager um, RegularUserThresholdController tc, FilesReaderWriter rw, String username, String thresholdValuesFilePath) throws IOException {
+    public String regUserAlerts(UserManager um, RegularUserThresholdController tc, String username, String
+                                menuPartOfAlert, ArrayList<Integer> thresholdValues) {
         StringBuilder notification;
         notification = new StringBuilder();
-        String filepath = "./src/Alerts/UserAlerts.csv";
-        notification.append(rw.readFromMenu(filepath)).append("\n");
-        // thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv"
-        activeAlerts(notification, um, tc, username, rw, thresholdValuesFilePath);
+        notification.append(menuPartOfAlert).append("\n");
+        activeAlerts(notification, um, tc, username, thresholdValues);
         return notification.toString();
     }
 
-    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, String username, FilesReaderWriter rw, String thresholdValuesFilePath) throws FileNotFoundException {
-        List<Integer> thresholdValues = rw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+    private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, String username, ArrayList<Integer> thresholdValues) {
         if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(thresholdValues.get(1))){
