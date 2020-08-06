@@ -10,9 +10,9 @@ public class MeetingManagerTest {
     @Test
     public void testGetMeetingsById(){
         TradeManager tradeManager = new TradeManager();
+        tradeManager.addTrade(tradeManager.createTrade(1,2, 1,"Temporary",true, 1));
         MeetingManager meetingManager = new MeetingManager();
         meetingManager.addMeeting(1,1,2,1,tradeManager);
-        tradeManager.addTrade(tradeManager.createTrade(1,2, 1,"Temporary",true, 1));
         assertEquals(1,meetingManager.getMeetingsByUserId(1).size());
         assertEquals(0,meetingManager.getMeetingsByUserId(3).size());
         assertEquals(1,meetingManager.getUnCompleteMeeting(1,tradeManager).size());
@@ -73,6 +73,28 @@ public class MeetingManagerTest {
         assertEquals(1,meetingManager2.getCompleteMeeting(1).size());
         Meeting meeting2 = meetingManager2.getMeetingByIdNum(1,2);
         assertEquals("t",meeting2.getPlace());
+    }
+    @Test
+    public void testUndo(){TradeManager tradeManager2 = new TradeManager();
+        tradeManager2.addTrade( tradeManager2.createTrade(1,2, 1,"Temporary",true, 1));
+        MeetingManager meetingManager2 = new MeetingManager();
+        meetingManager2.addMeeting(1,1,2,1,tradeManager2);
+        Meeting meeting = meetingManager2.getMeetingByIdNum(1,1);
+        meetingManager2.editTimePlace(meeting,1,2020,4,5,5,5,5,"t",3);
+        meetingManager2.confirmTimePlace(meeting,2,3);
+        meetingManager2.setMeetingConfirm(tradeManager2,meeting,1,3);
+        meetingManager2.setMeetingConfirm(tradeManager2,meeting,2,3);
+        meetingManager2.undoConfirmTookPlace(1,1,2);
+        assertFalse(meetingManager2.getMeetingByIdNum(1,2).getTradeId()!=0);
+        assertFalse(meeting.getMeetingConfirm().get(2));
+        assertEquals(0,meetingManager2.getMeetingByIdNum(1,2).getTradeId());
+        meetingManager2.undoConfirmTookPlace(1,1,1);
+        assertTrue(meetingManager2.undoConfirmTandP(1,1));
+        assertFalse(meetingManager2.undoConfirmTandP(1,1));
+        assertTrue(meetingManager2.undoEditTimePlace(meeting,1,2020,3,2,3,2,1,","));
+        assertEquals(0,meeting.getTimePlaceEdit().size());
+
+
     }
 }
 

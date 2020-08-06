@@ -52,13 +52,6 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: do the following in GUIDemo:
-                // //String filepath = "./src/Alerts/UserAlerts.csv";
-                // //rw.readFromMenu(filepath)
-                // ^ to read the menuPartOfAlert
-                // // thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv"
-                // //List<Integer> thresholdValues = rw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
-                // ^ to read the thresholdValues
                 guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
 
             }
@@ -84,12 +77,17 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!guest) {
-                    //Call Trading Info Menu and close this window
-                    guiD.runRegularUserTradingMenuGUI();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
+                }
+                else if (amc.seeIfOnVacation()){
+                    guiD.printNotification(sm.lockMessageForVacation());
                 }
                 else{
-                    sm.msgForGuest();
+                    guiD.runRegularUserTradingMenuGUI();
                 }
             }
         });
@@ -101,13 +99,19 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!guest) {
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
+                }
+                else if (amc.seeIfOnVacation()){
+                    guiD.printNotification(sm.lockMessageForVacation());
+                }
+                else{
                     //Call Meeting Info Menu and close this window
                     guiD.runRegularUserMeetingMenu(guiD, mmc, sm, thresholdValues.get(3), guiUserInputInfo,
                             idChecker);
-                }
-                else{
-                    sm.msgForGuest();
                 }
 
             }
@@ -120,15 +124,16 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!guest) {
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
+                }
+                else{
                     // Call Searching Info Menu and close this window
                     guiD.runRegularUserSearchingMenuGUI();
                 }
-                else{
-                    sm.msgForGuest();
-                }
-
-
             }
         });
         communityInformationButton.addActionListener(new ActionListener() {
@@ -139,12 +144,15 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!guest) {
-                    // Call Community Info Menu and close this window
-                    guiD.runRegularUserCommunityMenuGUI();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (amc.seeIfFrozen()){
+                    guiD.printNotification(sm.lockMessageForFrozen());
                 }
                 else{
-                    sm.msgForGuest();
+                    // Call Community Info Menu and close this window
+                    guiD.runRegularUserCommunityMenuGUI();
                 }
             }
         });
@@ -163,3 +171,4 @@ public class RegularUserMainMenuGUI {
         });
     }
 }
+

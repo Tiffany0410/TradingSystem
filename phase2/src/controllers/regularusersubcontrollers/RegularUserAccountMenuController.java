@@ -22,7 +22,7 @@ import java.util.Random;
  * An instance of this class represents the communication system between the regular user,
  * the use cases, and the presenter, for the account menu part.
  *
- * @author Yu Xin Yan
+ * @author Yu Xin Yan, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
 public class RegularUserAccountMenuController {
@@ -290,11 +290,6 @@ public class RegularUserAccountMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
     }
 
-
-
-
-
-
     /**
      * Uses this user's input of the user id of the user
      * to follow to let this user follow the other user
@@ -322,29 +317,68 @@ public class RegularUserAccountMenuController {
 
     }
 
+    /**
+     * Gets a list of recent status of the user(s)
+     * this user is following.
+     * @return A list of recent status of the user(s) this user is following.
+     */
     public ArrayList<String> seeRecentStatusOfFollowedUser () {
         //calling this method means user is not a guest
         am.addActionToAllActionsList(userId, "regularUser", "1.3.3", 0, "");
         return um.getUserFollowingLogs(userId);
     }
 
+    /**
+     * Gets a list of recent status of the item(s) this user is following.
+     * @return A list of recent status of the items(s) this user is following.
+     * @return
+     */
     public ArrayList<String> seeRecentStatusOfFollowedItem () {
         //calling this method means user is not a guest
         am.addActionToAllActionsList(userId, "regularUser", "1.3.4", 0, "");
         return um.getItemFollowingLogs(userId);
     }
 
+    /**
+     * Gets a list of revocable actions for this user.
+     * @return A list of revocable actions for this user.
+     */
     public ArrayList<Action> seeOwnRevocableAction(){
         am.addActionToAllActionsList(userId, "regularUser", "1.2.4", 0, "");
         return am.searchRevocableActionByID(userId);
 
     }
 
+    /**
+     * Uses user's input of the action id to put together
+     * and store the request to undo a certain action.
+     * @param actionId The action id input by the user.
+     */
     public void requestUndoARevocableAction(int actionId){
         am.addActionToAllActionsList(userId, "regularUser", "1.2.5", actionId, "");
         am.addUndoRequest(actionId,userId);
     }
 
+
+    /**
+     * Checks to see if this user is frozen.
+     * @return Whether or not this user is frozen.
+     */
+    public boolean seeIfFrozen(){
+        return um.getFrozenStatus(userId);
+    }
+
+    /**
+     * Checks to see if this user is on vacation.
+     * @return Whether or not this user is on vacation.
+     */
+    public boolean seeIfOnVacation(){
+        return um.getInfo(userId, "Vacation") == 1;
+    }
+
 }
+
+
+
 
 

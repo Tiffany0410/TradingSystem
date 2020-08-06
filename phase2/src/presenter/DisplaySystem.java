@@ -662,6 +662,10 @@ public class DisplaySystem {
             // 3.3: Find all the revocable historical actions of specific tradableUser
             case 3:
                 this.printOut(helper_admin_action_prefix(action) + "search all the revocable historical actions of tradableUser #" + action.getAdjustableInt() + "\n");
+                break;
+            // 3.3: Confirm undo request and undo revocable historical actions
+            case 4:
+                this.printOut(helper_admin_action_prefix(action) + "confirm undo request and undo revocable historical action #" + action.getAdjustableInt() + "\n");
         }
     }
 

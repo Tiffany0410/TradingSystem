@@ -25,6 +25,9 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GUIDemo {
     private UserManager userManager;
     private MeetingManager meetingManager;
@@ -38,12 +41,15 @@ public class GUIDemo {
     private GUIUserInputInfo guiUserInputInfo;
     private String tempUsername;
     private SystemMessage systemMessage;
+    private String partsOfUserAlert;
+    private List<Integer> thresholdValues;
 
 
 
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                    ItemManager itemManager, FeedbackManager feedbackManager,
-                   AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager){
+                   AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager,
+                   String partsOfUserAlert, List<Integer> thresholdValues){
 
         this.userManager = userManager;
         this.meetingManager = meetingManager;
@@ -55,6 +61,8 @@ public class GUIDemo {
         this.actionManager = actionManager;
         this.guiUserInputInfo = new GUIUserInputInfo();
         this.systemMessage = new SystemMessage(this);
+        this.partsOfUserAlert = partsOfUserAlert;
+        this.thresholdValues = thresholdValues;
 
     }
 
@@ -93,12 +101,10 @@ public class GUIDemo {
         adminUserMainMenuGUI.run(this);
     }
 
-    //TODO: Regular User menu gui start
+    //TODO: Regular User menu gui start - fill in the parameters once the class's stable
     public void runRegularUserMainMenu(Boolean guest) {
-        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest, this.systemMessage, this, amc, mmc, atc, idChecker, dateTimeChecker,
-                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen);
-        regularUserMainMenuGUI.run(guest, this.systemMessage, this, amc, mmc, atc, idChecker, dateTimeChecker,
-                otherInfoChecker, guiUserInputInfo, numLentBeforeBorrow, maxNumTransactionsAWeek, maxEditsTP, maxIncompleteTransactionsBeforeFrozen);
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI();
+        regularUserMainMenuGUI.run();
     }
 
     public void runRegularUserAccountFeedBackMenu(){
@@ -192,3 +198,4 @@ public class GUIDemo {
     }
 
 }
+
