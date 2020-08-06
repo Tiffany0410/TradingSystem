@@ -60,7 +60,7 @@ public class RegularUserMainMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Call Account Info Menu and close this window
-                guiD.runRegularUserAccountMenuGUI();
+                guiD.runRegularUserAccountMainMenuGUI();
 
             }
         });
