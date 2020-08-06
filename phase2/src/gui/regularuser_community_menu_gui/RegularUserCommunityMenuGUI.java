@@ -2,6 +2,7 @@ package gui.regularuser_community_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
+import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.NotificationGUI;
@@ -12,7 +13,6 @@ import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import javax.xml.bind.Marshaller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -31,39 +31,42 @@ public class RegularUserCommunityMenuGUI {
     private JButton viewAllMessageButton;
     private JButton backButton;
 
-    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput,
-                    RegularUserIDChecker idC) {
+    public void run(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm,
+                    GUIUserInputInfo guiInput,
+                    RegularUserIDChecker idC,  RegularUserOtherInfoChecker otherChecker) {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new RegularUserCommunityMenuGUI(guidemo, cmc, sm, guiInput, idC).rootPanel);
+        frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, guiInput, idC,
+                otherChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-
-    public RegularUserCommunityMenuGUI(GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm, GUIUserInputInfo guiInput,
-                                       RegularUserIDChecker idC){
+    public RegularUserCommunityMenuGUI(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc,
+                                       SystemMessage sm, GUIUserInputInfo guiInput,
+                                       RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker){
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code to code the windows
-                rootPanel.setVisible(false); // MAYBE??
-
-                String string = "Please input an user id for the user you want to review: ";
-                String sUserId = getInPut(string, guiInput);
-                String string1 = "Please enter the point for the user(0-10): ";
-                String sPoint = getInPut(string1, guiInput);
-                String string2 = "Please enter the reason why you get the point: ";
-                String reason = getInPut(string2, guiInput);
-                if(idC.checkInt(sUserId) && idC.checkInt(sPoint)){
-                    int user_id = Integer.parseInt(sUserId);
-                    int point = Integer.parseInt(sPoint);
-                    if(guidemo.getUserManager().checkUser(user_id) && (0<=point && point<=10)) {
-                        boolean yesOrNo =  cmc.reviewUser(user_id, point, reason);
-                        printNote(sm.msgForResult(yesOrNo));
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
+                }
+                else {
+                    String sUserId = getInPut("Please input an user id for the user you want to review: ",
+                            guiInput);
+                    String sPoint = getInPut("Please enter the point for the user(0-10): ", guiInput);
+                    String reason = getInPut("Please enter the reason why you get the point: ", guiInput);
+                    if (idC.checkInt(sUserId) && idC.checkInt(sPoint)) {
+                        int user_id = Integer.parseInt(sUserId);
+                        int point = Integer.parseInt(sPoint);
+                        if (idC.checkUserID(user_id) && otherChecker.getNumRating(point)) {
+                            boolean yesOrNo = cmc.reviewUser(user_id, point, reason);
+                            printNote(sm.msgForResult(yesOrNo));
+                        }
                     }
-                }else{
-                    printNote("Please enter a valid id and point.");
+                    else {
+                        printNote("Please enter a valid id and point.");
+                    }
                 }
             }
         });
@@ -71,43 +74,43 @@ public class RegularUserCommunityMenuGUI {
         reportAUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                String result;
-                String get_id = "Please enter the user's id that you want to report.";
-                String sUserId = getInPut(get_id, guiInput);
-                String get_reason = "Please enter the reason why you report this user.";
-                String reason = getInPut(get_reason, guiInput);
-                if (idC.checkInt(sUserId)){
-                    int user_id = Integer.parseInt(sUserId);
-                    result = sm.msgForResult(cmc.reportUser(user_id, reason));
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
-                else{
-                    result = "Please enter valid information.";
+                else {
+                    String result;
+                    String sUserId = getInPut("Please enter the user's id that you want to report.", guiInput);
+                    String reason = getInPut("Please enter the reason why you report this user.", guiInput);
+                    if (idC.checkInt(sUserId)) {
+                        result = sm.msgForResult(cmc.reportUser(Integer.parseInt(sUserId), reason));
+                    }
+                    else {
+                        result = "Please enter valid information.";
+                    }
+                    printNote(result);
                 }
-                printNote(result);
             }
         });
 
         findTheRatingForButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                String get_id = "Please enter the user's id for his/her rating";
-                String sUserId = getInPut(get_id,guiInput);
-                if (idC.checkInt(sUserId)){
-                    int id = Integer.parseInt(get_id);
-                    if (cmc.checkUserId(id)){
-                        String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                        printNote(msg);
-                    }
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
                 else {
-                    String s = "Please enter a valid user id.";
-                    printNote(s);
+                    String sUserId = getInPut("Please enter the user's id for his/her rating", guiInput);
+                    if (idC.checkInt(sUserId)) {
+                        int id = Integer.parseInt(sUserId);
+                        if (cmc.checkUserId(id)) {
+                            String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
+                            printNote(msg);
+                        }
+                    }
+                    else {
+                        String s = "Please enter a valid user id.";
+                        printNote(s);
+                    }
                 }
             }
         });
@@ -115,18 +118,20 @@ public class RegularUserCommunityMenuGUI {
         seeUsersInYourButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                String string;
-                ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
-                if (users.isEmpty()){
-                    string = "There is no users in your home city, please check back later :)";
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
                 else {
-                    string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
+                    String string;
+                    ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
+                    if (users.isEmpty()) {
+                        string = "There is no users in your home city, please check later :)";
+                    }
+                    else {
+                        string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
+                    }
+                    printNote(string);
                 }
-                printNote(string);
             }
         });
 
@@ -138,170 +143,250 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                String string;
-                if (cmc.getFriends().isEmpty()){
-                    string = sm.msgForNothing("in your list of friends.");
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
                 else {
-                    string = sm.printListUser(cmc.getFriends());
+                    String string;
+                    if (cmc.getFriends().isEmpty()) {
+                        string = sm.msgForNothing("in your list of friends.");
+                    }
+                    else {
+                        string = sm.printListUser(cmc.getFriends());
+                    }
+                    printNote(string);
                 }
-                rootPanel.setVisible(false); // Not sure...
-                printNote(string);
             }
         });
 
         sendAFriendRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                ArrayList<TradableUser> notFriends = cmc.getNotFriends();
-                String out;
-                if (notFriends.isEmpty()){  // IF NO AVAILABLE USERS TO ADD
-                    out = sm.msgForNo("tradable users to be added. Please check your friend requests");
-                    printNote(out);
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
-                else{
-                    String string = "Here is a list of users you can add:\n" + sm.printListUser(notFriends) +
-                            "\nPlease enter user's Id to send friend request.";
-                    String result = getInPut(string, guiInput);
-                    if (idC.checkInt(result)){
-                        int userToID = Integer.parseInt(result);
-                        String msg = "Please leave a message for this user: ";
-                        String msg_result = getInPut(msg,guiInput);
-                        out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
-                        }
-                    else {
-                        out = "Please enter a valid information.";
-                    }
+                else {
+                    ArrayList<TradableUser> notFriends = cmc.getNotFriends();
+                    sendOrRespondOrUnfriend(notFriends, sm, guiInput, idC, cmc, "send friend request",
+                            "tradable users to be added. Please check your friend requests",
+                            "users you can add");
                 }
-                printNote(out);
             }
         });
 
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                String string;
-                ArrayList<TradableUser> requests = cmc.getFriendRequest();
-                if (requests.isEmpty()){
-                    string = "There is no friend requests.";
+                if (isGuest){
+                    printNote(sm.msgForGuest());
                 }
-                else{
-                    String msg = "Here is a list of friend requests: \n" + sm.printFriendRequest(requests);
-                    String id_input = getInPut(msg, guiInput);
-                    if (idC.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
-                        string = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
-                    }
-                    else {
-                        string = "Please enter a valid user id.";
-                    }
+                else {
+                    ArrayList<TradableUser> requests = cmc.getFriendRequest();
+                    sendOrRespondOrUnfriend(requests, sm, guiInput, idC, cmc, "accept friend request",
+                            "friend requests", "friend requests");
                 }
-                printNote(string);
             }
         });
 
         unfriendAUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                ArrayList<TradableUser> friends = cmc.getFriends();
-                String string;
-                if (friends.isEmpty()){
-                    string = sm.msgForNo("tradable users to be unfriended");
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
                 }
                 else {
-                    String msg = "Here is your list of friends: \n" + sm.printListUser(friends) +
-                            "\nPlease enter user's Id to unfriend.";
-                    String result = getInPut(msg, guiInput);
-                    if (idC.checkInt(result)){
-                        int id = Integer.parseInt(result);
-                        string = sm.msgForResult(cmc.unfriendUser(id));
-                        }
-                    else {
-                        string = "Please enter a valid information.";
-                    }
+                    ArrayList<TradableUser> friends = cmc.getFriends();
+                    sendOrRespondOrUnfriend(friends, sm, guiInput, idC, cmc, "unfriend",
+                            "tradable users to be unfriended", "friends");
                 }
-                printNote(string);
             }
         });
 
         sendMessageToFriendsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: close the windows
-                rootPanel.setVisible(false); // MAYBE??
-
-                ArrayList<TradableUser> friends = cmc.getFriends();
-                String string;
-                if (friends.isEmpty()){
-                    string = sm.msgForNo("friends. Please add friends first."); }
-                else {
-                    String msg = "Here is your list of friends: \n" + sm.printListUser(friends) + "\nPlease enter user's ID to send a message.";
-                    String result = getInPut(msg, guiInput);
-                    if (idC.checkInt(result)){
-                        int id = Integer.parseInt(result);
-                        if (!cmc.checkIsFriend(id)){
-                            string = "Please enter an id of your friend!"; }
-                        else{
-                            String get_msg = "Please write a message: ";
-                            String message = getInPut(get_msg, guiInput);
-                            string = sm.msgForResult(cmc.sendMessage(id, message));
-                        }
-                    }
-                    else{
-                        string = "Please enter a valid information.";
-                    }
+                if (isGuest){
+                    printNote(sm.msgForGuest());
                 }
-                printNote(string);
-
-
+                else {
+                    ArrayList<TradableUser> friends = cmc.getFriends();
+                    sendMessage(friends, sm, guiInput, idC, cmc);
+                }
             }
         });
 
         viewAllMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: need code for closing the menu first;
-                rootPanel.setVisible(false); // MAYBE??
-
-                ArrayList<Message> messages = cmc.getAllMessages();
-                String string;
-                if (messages.isEmpty()){
-                    string = "There is no messages.";
+                if (isGuest) {
+                    printNote(sm.msgForGuest());
+                } else {
+                    ArrayList<Message> messages = cmc.getAllMessages();
+                    String string;
+                    if (messages.isEmpty()) {
+                        string = "There is no messages.";
+                    }
+                    else {
+                        string = "Here is a list of messages: " + sm.printAllMessages(messages);
+                    }
+                    printNote(string);
                 }
-                else{
-                    string = "Here is a list of messages: " + sm.printAllMessages(messages);
-                }
-                printNote(string);
             }
         });
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Return to RegularUser Main Menu
-                guidemo.runRegularUserMainMenu(false);
+                guidemo.runRegularUserMainMenu(isGuest);
             }
         });
 
-    }public String getInPut(String string, GUIUserInputInfo guiInput){
+    }
+
+    private void sendOrRespondOrUnfriend(ArrayList<TradableUser> users, SystemMessage sm, GUIUserInputInfo guiInput,
+                                         RegularUserIDChecker idC, RegularUserCommunityMenuController cmc,
+                                         String actionType, String msg1, String msg2){
+        if (users.isEmpty()){
+            printNote(sm.msgForNo(msg1));
+        }
+        else{
+            String string = "Please enter user's Id to " + actionType + ".\n" + "Here is a list of " + msg2 + ":\n";
+            if (actionType.equals("send friend request")) {
+                string = string + sm.printFriendRequest(users);
+            }
+            else{
+                string = string + sm.printListUser(users);
+            }
+            String result = getInPut(string, guiInput);
+            if (idC.checkInt(result)){
+                int id = Integer.parseInt(result);
+                printRequest(sm, guiInput, cmc, actionType, id);
+            }
+            else{
+                printNote("Please enter a valid information.");
+            }
+        }
+    }
+
+    private void printRequest(SystemMessage sm, GUIUserInputInfo guiInput, RegularUserCommunityMenuController cmc,
+                              String actionType, int id){
+        String out;
+        if (actionType.equals("send friend request")){
+            String msg_result = getInPut("Please leave a message for this user: ", guiInput);
+            out = sm.msgForFriendRequest(cmc.sendFriendRequest(id, msg_result), id);
+        }
+        else if (actionType.equals("accept friend request")){
+            if (cmc.checkIdInRequest(id)){
+                out = sm.msgForResult(cmc.addFriend(id));
+            }
+            else{
+                out = "Please enter a valid information.";
+            }
+        }
+        else {
+            out = sm.msgForResult(cmc.unfriendUser(id));
+        }
+        printNote(out);
+    }
+
+    private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput,
+                             RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
+        String string;
+        if (friends.isEmpty()) {
+            string = sm.msgForNo("friends. Please add friends first.");
+        }
+        else {
+            String msg = "Please enter user's ID to send a message.\nHere is your list of friends:\n"
+                    + sm.printListUser(friends);
+            String result = getInPut(msg, guiInput);
+            if (idC.checkInt(result)) {
+                int id = Integer.parseInt(result);
+                if (!cmc.checkIsFriend(id)) {
+                    string = "Please enter an id of your friend!";
+                }
+                else {
+                    String message = getInPut("Please write a message: ", guiInput);
+                    string = sm.msgForResult(cmc.sendMessage(id, message));
+                }
+            }
+            else {
+                string = "Please enter a valid information.";
+            }
+        }
+        printNote(string);
+    }
+
+
+
+//    private void sendAFriendRequest(ArrayList<TradableUser> notFriends, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
+//        String out;
+//        if (notFriends.isEmpty()) {
+//            out = sm.msgForNo("tradable users to be added. Please check your friend requests");
+//        }
+//        else {
+//            String string = "Please enter user's Id to send friend request.\n" +
+//                    "Here is a list of users you can add:\n" + sm.printListUser(notFriends);
+//            String result = getInPut(string, guiInput);
+//            if (idC.checkInt(result)) {
+//                int userToID = Integer.parseInt(result);
+//                String msg = "Please leave a message for this user: ";
+//                String msg_result = getInPut(msg, guiInput);
+//                out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
+//            }
+//            else {
+//                out = "Please enter a valid information.";
+//            }
+//        }
+//        printNote(out);
+//    }
+//
+//    private void respondToFriendsRequest(ArrayList<TradableUser> requests, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
+//        String string;
+//        if (requests.isEmpty()){
+//            string = sm.msgForNo("friend requests");
+//        }
+//        else{
+//            String msg = "Please enter user's id to accept friend request.\n" +
+//                    "Here is a list of friend requests:\n" + sm.printFriendRequest(requests);
+//            String id_input = getInPut(msg, guiInput);
+//            if (idC.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
+//                string = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
+//            }
+//            else {
+//                string = "Please enter a valid information";
+//            }
+//        }
+//        printNote(string);
+//    }
+//
+//    private void unFriendAUser(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
+//        String string;
+//        if (friends.isEmpty()){
+//            string = sm.msgForNo("tradable users to be unfriended");
+//        }
+//        else {
+//            String msg = "Please enter user's id to unfriend.\n" +
+//                    "Here is a list of friends:\n" + sm.printListUser(friends);
+//            String result = getInPut(msg, guiInput);
+//            if (idC.checkInt(result)){
+//                int id = Integer.parseInt(result);
+//                string = sm.msgForResult(cmc.unfriendUser(id));
+//            }
+//            else {
+//                string = "Please enter a valid information.";
+//            }
+//        }
+//        printNote(string);
+//    }
+
+    private String getInPut(String string, GUIUserInputInfo guiInput){
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
         String sUserId = guiInput.getTempUserInput();
         // TODO: need to close first
         return sUserId;
     }
-    public void printNote(String string){
+    private void printNote(String string){
         NotificationGUI msgGUI = new NotificationGUI(string);
         msgGUI.run(string);
         // TODO: need to close first
