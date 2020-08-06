@@ -110,6 +110,25 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.2", actionID, "");
     }
 
+
+    /**
+     * Lets the presenter print out all the undo request from regular user and admin user confirm to cancel related revocable actions
+     * in the system
+     */
+    public void confirmRequestAndCancelAction(int actionID) throws InvalidIdException, ParseException, FileNotFoundException {
+        helper_cancelHistoricalAction(actionID);
+        am.deleteUndoRequest(actionID);
+
+        Action temp = am.findActionByID(actionID);
+        // delete action from current Revocable Action List in ActionManager
+        am.deleteAction(actionID);
+        // add action into deleted Revocable Action List in ActionManager
+        am.addActionToDeletedRevocableList(temp);
+        // add action into All Historical Action List in ActionManager
+        am.addActionToAllActionsList(userId, "adminUser", "3.4", actionID, "");
+    }
+
+
     /**
      * Helper Function used to do the cancel part for revocable actions and classify the different action
      * into different helper functions.
