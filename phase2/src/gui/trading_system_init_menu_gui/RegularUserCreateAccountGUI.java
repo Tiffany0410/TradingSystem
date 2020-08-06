@@ -12,9 +12,9 @@ public class RegularUserCreateAccountGUI {
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
     private JTextField emailTextField;
-    private JTextField cityTextField;
     private JButton createButton;
     private JButton cancelButton;
+    private JComboBox comboBox1;
 
     public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo) {
         createButton.addActionListener(new ActionListener() {
@@ -26,7 +26,7 @@ public class RegularUserCreateAccountGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 accountCreator.createAccount("Regular", usernameTextField.getText(),
-                        new String(passwordField1.getPassword()), emailTextField.getText(), cityTextField.getText());
+                        new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
             }
         });
         cancelButton.addActionListener(new ActionListener() {
