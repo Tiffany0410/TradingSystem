@@ -109,10 +109,18 @@ public class AdminUserHistoricalActionController {
     }
 
     /**
+     * Return Action by given action id
+     */
+    public Action findActionByID(int actionID) {
+        return am.findActionByID(actionID);
+    }
+
+
+    /**
      * Lets the presenter print out all the revocable actions and cancel the revocable actions done by RegularUser
      * in the system
      */
-    public void cancelRevocableAction() throws InvalidIdException, FileNotFoundException, ParseException {
+    public void cancelRevocableAction() {
 
         ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
         // Print all the Historical Actions which can be cancelled
@@ -121,7 +129,7 @@ public class AdminUserHistoricalActionController {
         // get the number select by adminUser
         int actionID = otherInfoGetter.getActionID();
         // call helper function to cancel different action and tell admin user that action has been cancelled
-        ds.printResult(helper_cancelHistoricalAction(actionID));
+//        ds.printResult(cancelHistoricalAction(actionID));
 
         Action temp = am.findActionByID(actionID);
         // delete action from current Revocable Action List in ActionManager
@@ -138,25 +146,34 @@ public class AdminUserHistoricalActionController {
      * in the system
      */
     public void confirmRequestAndCancelAction(int actionID) throws InvalidIdException, ParseException, FileNotFoundException {
-        helper_cancelHistoricalAction(actionID);
+        Action targetAction = am.findActionByID(actionID);
+        cancelRevocableAction(targetAction);
         am.deleteUndoRequest(actionID);
 
-        Action temp = am.findActionByID(actionID);
         // delete action from current Revocable Action List in ActionManager
         am.deleteAction(actionID);
         // add action into deleted Revocable Action List in ActionManager
-        am.addActionToDeletedRevocableList(temp);
+        am.addActionToDeletedRevocableList(targetAction);
         // add action into All Historical Action List in ActionManager
-        am.addActionToAllActionsList(userId, "adminUser", "3.4", actionID, "");
+        am.addActionToAllActionsList(userId, "adminUser", "3.5", actionID, "");
     }
 
 
     /**
-     * Helper Function used to do the cancel part for revocable actions and classify the different action
-     * into different helper functions.
+     * Return true if listOfCurrentRevocableActions contains the provided Action
+     *
+     * @param targetAction The Action need to be checked
+     * @return True if listOfCurrentRevocableActions contains the provided Action
      */
-    private boolean helper_cancelHistoricalAction(int actionID) throws InvalidIdException, FileNotFoundException, ParseException {
-        Action targetAction = am.findActionByID(actionID);
+    public boolean checkRevocable(Action targetAction) {
+        return am.checkRevocable(targetAction);
+    }
+
+
+    /**
+     * Cancel revocable actions and classify the different action into different helper functions.
+     */
+    public boolean cancelRevocableAction(Action targetAction) {
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
         int subOption = Integer.parseInt(menuOption[1]);
@@ -178,6 +195,14 @@ public class AdminUserHistoricalActionController {
                 helper_cancelCommunityMenu(targetAction, subOption);
                 break;
         }
+
+        int actionID = targetAction.getActionID();
+        // delete action from current Revocable Action List in ActionManager
+        am.deleteAction(actionID);
+        // add action into deleted Revocable Action List in ActionManager
+        am.addActionToDeletedRevocableList(targetAction);
+        // add action into All Historical Action List in ActionManager
+        am.addActionToAllActionsList(userId, "adminUser", "3.4", actionID, "");
         return false;
     }
 
@@ -187,7 +212,7 @@ public class AdminUserHistoricalActionController {
      * @param subOption The menu option number in Account Menu
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelAccountMenu(Action targetAction, int subOption) throws InvalidIdException {
+    private boolean helper_cancelAccountMenu(Action targetAction, int subOption) {
         // get the id of item from action
         int itemID = targetAction.getAdjustableInt();
         // get the status of item from action for action 1.11
@@ -247,7 +272,7 @@ public class AdminUserHistoricalActionController {
      * @param  subOption The menu option number in Trading Menu
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelTradeMenu(Action targetAction, int subOption) throws InvalidIdException {
+    private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:2.1: Request a trade
             case 1:
@@ -267,7 +292,7 @@ public class AdminUserHistoricalActionController {
      * @param subOption The menu option number in Meeting Menu
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) throws FileNotFoundException, ParseException {
+    private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
         switch (subOption) {
             // TODO:3.1: Suggest/edit time and place for meetings
             case 1:

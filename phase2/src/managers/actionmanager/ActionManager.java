@@ -105,9 +105,7 @@ public class ActionManager {
         // Find the max ID in All Action List
         int max_ID = 1;
         for (Action action : listOfAllActions) {
-            if (action.getActionID() > max_ID) {
-                max_ID = action.getActionID();
-            }
+            if (action.getActionID() > max_ID) { max_ID = action.getActionID();}
         }
         return max_ID;
     }
@@ -127,7 +125,7 @@ public class ActionManager {
         // Find the max ID in Deleted Revocable Action List
         int max_deleted_ID = 1;
         for (Action action: listOfCurrentRevocableActions) {
-            if (action.getActionID() > max_deleted_ID) { max_deleted_ID = action.getActionID(); }
+            if (action.getActionID() > max_deleted_ID) { max_deleted_ID = action.getActionID();}
         }
         // Return the maximum Action ID in two Revocable Action List
         return Math.max(max_current_ID, max_deleted_ID);
@@ -194,6 +192,14 @@ public class ActionManager {
         return tempList;
     }
 
+    /**
+     * Return true if listOfCurrentRevocableActions contains the provided Action
+     *
+     * @param targetAction The Action need to be checked
+     * @return True if listOfCurrentRevocableActions contains the provided Action
+     */
+    public boolean checkRevocable(Action targetAction) {return listOfCurrentRevocableActions.contains(targetAction);}
+
 
     /**
      * Add the new Undo Request into the mapOfUndoRequest and return the result
@@ -226,7 +232,7 @@ public class ActionManager {
 
 
     /**
-     * Return if mapOfUndoRequest contains the provided actionID
+     * Return true if mapOfUndoRequest contains the provided actionID
      *
      * @param actionID The ID of revocable actions
      * @return True if mapOfUndoRequest contains the provided actionID

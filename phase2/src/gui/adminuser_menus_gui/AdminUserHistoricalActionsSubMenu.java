@@ -41,7 +41,8 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ArrayList<Action> allAction = hac.getAllRevocableAction();
+                printObjects(allAction, sm);
             }
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
@@ -52,9 +53,9 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // print "Here are all the TradableUser Id: \n"
-                // print all tradable user id
-                // get the id enter by admin
+                // TODO:print "Here are all the TradableUser Id: \n"
+                // TODO:print all tradable user id
+                // TODO:get the user id enter by admin
                 int userID = 0;
                 ArrayList<Action> allAction = hac.searchRevocableActionByUserID(userID);
                 printObjects(allAction, sm);
@@ -68,6 +69,12 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO:print "Please enter the id of action that you want to cancel: \n"
+                // TODO:get the action id enter by admin
+                int actionID = 0;
+                Action targetAction = hac.findActionByID(actionID);
+                // check if the action id in current revocable list
+                if (hac.checkRevocable(targetAction)) {hac.cancelRevocableAction(targetAction);}
 
             }
         });
@@ -79,7 +86,7 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO:not sure about this new feature
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -90,7 +97,7 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO:
             }
         });
     }
