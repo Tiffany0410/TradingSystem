@@ -12,6 +12,12 @@ import java.util.List;
 import managers.itemmanager.Item;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
+
+/**
+ * Regular user searching controller
+ * @author Yuanze Bao
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserSearchingMenuController {
 
     private TradeManager tm;
@@ -37,131 +43,72 @@ public class RegularUserSearchingMenuController {
 
     }
 
+    /**
+     * @return a list of sorted tradeable user
+     */
     public List<TradableUser> sortRating(){
         return um.sortRating();
-        // 前面几个我把调用函数删了你自己看着加一下后面都是源代码一代没改
-//        if (l.size() == 0) {
-//            sm.msgForNothing();
-//        } else {
-//            sm.printResult(new ArrayList<>(l));
-//        }
     }
 
     /** Recent three users traded with this user
      * print a list of user id (3) that traded with this user
      */
     public List<Integer> recentThreePartner(){
-//        try{
             return tm.recentThreePartners(userId);
-//            if (filter.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(filter));
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        }
     }
 
 
+    /** sort all traded partner
+     * @return a list of user id that sorted in order
+     */
     public List<Integer> sortAllTradedPartner(){
         return tm.allPartners(userId);}
-//        try {
-//            List<Integer> filter = tm.allPartners(userId);
-//            if (filter.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(filter));
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        }
-//    }
 
+    /** filter complete trade
+     * @return  a list of trade that status is complete
+     */
     public List<managers.trademanager.Trade> filterCompleteTrade(){
         return tm.filterHistory(userId);}
-//        try {
-//            List<managers.trademanager.Trade> filter = tm.filterHistory(userId);
-//            if (filter.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(filter));
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        }
-//    }
 
+
+    /** filter incomplete trade
+     * @return  a list of trade that status is incomplete
+     */
     public List<managers.trademanager.Trade> filterIncompleteTrade(){
         List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
         List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
         filter1.addAll(filter2);
         return filter1;
-//        try {
-//            List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
-//            List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
-//            filter1.addAll(filter2);
-//            if (filter1.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(filter1));
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        }
     }
 
+    /** Sort all meetings by date
+     * @return a list of meeting
+     */
     public List<managers.meetingmanager.Meeting> allMeetingSortByDate() {
         return mm.sortByDate(mm.getMeetingsByUserId(userId));
-//        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getMeetingsByUserId(userId));
-//        if (m.size() == 0) {
-//            sm.msgForNothing();
-//        } else {
-//            sm.printResult(new ArrayList<>(m));
-//        }
     }
 
+    /** Sort all incomplete meetings by date
+     * @return a list of meeting
+     */
     public List<managers.meetingmanager.Meeting> unCompleteMeetingSortByDate(){
         return mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));}
-//        try {
-//            List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));
-//            if (m.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(m));
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        } catch (Exception e) {
-//            sm.invalidInput();
-//        }
-//    }
 
+    /** Sort all complete meetings by date
+     * @return a list of meeting
+     */
     public List<managers.meetingmanager.Meeting> completeMeetingSortByDate() {
         return mm.sortByDate(mm.getCompleteMeeting(userId));
-//        List<managers.meetingmanager.Meeting> m = mm.sortByDate(mm.getCompleteMeeting(userId));
-//        if (m.size() == 0) {
-//            sm.msgForNothing();
-//        } else {
-//            sm.printResult(new ArrayList<>(m));
-//        }
     }
 
 
+    /** Filter a list of integer that category by user input
+     * @param category category
+     * @return a list of integer
+     */
     public ArrayList<Integer> filterByCategory(String category) {
         Category ca = Category.valueOf(category);
         return  im.getCategoryItem(ca);
-//        try {
-//            Category ca = Category.valueOf(category);
-//            ArrayList<Integer> c = im.getCategoryItem(ca);
-//            if (c.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                sm.printResult(new ArrayList<>(c));
-//            }
-//        }catch(Exception e){
-//                sm.invalidInput();
-//            }
     }
 
     /** helper list  for gui
@@ -174,50 +121,29 @@ public class RegularUserSearchingMenuController {
     }
 
 
+    /** Search item by item name
+     * @param name item name
+     * @return a list of integer
+     */
     public ArrayList<Integer> searchItemByName(String name) {
         return im.searchItem(name);
-//        if (c.size() == 0) {
-//            sm.msgForNothing();
-//        } else {
-//            sm.printResult(new ArrayList<>(c));
-//        }
     }
 
     /** Get an item's description by id
      * @param itemId item id
+     * @return item's description
      */
     public String getItemById(int itemId){
         Item c = im.getItembyId(itemId);
         return c.getDescription();
-//        try {
-//            Item c = im.getItembyId(itemId);
-//            sm.printOut(c.getDescription());
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        } catch (Exception e) {
-//            sm.invalidInput();
-//        }
     }
 
-    /** Print sorted item by follows
-     *
+    /** Sort items by their follows
+     * @return a list of item that sorted by follows
      */
     public ArrayList<Item>  sortItemByFollows(){
         return im.getSortedItemByFollows(um);
-//        try {
-//            ArrayList<Item> c = im.getSortedItemByFollows(um);
-//            if (c.size() == 0) {
-//                sm.msgForNothing();
-//            } else {
-//                for (Item i : c) {
-//                    sm.printOut(i.getName() + "\n");
-//                }
-//            }
-//        } catch (InvalidIdException e) {
-//            sm.printInvalidID();
-//        } catch (Exception e) {
-//            sm.invalidInput();
-//        }
+
     }
 }
 
