@@ -9,7 +9,6 @@ import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -334,6 +333,17 @@ public class SystemMessage {
         }
         return out.toString();
     }
+
+    public String printListNumberedObject(ArrayList<Object> objects){
+        int i = 0;
+        StringBuilder out = new StringBuilder();
+        for (Object object: objects){
+            out.append("#").append(i).append(". ").append(object.toString());
+            i ++;
+        }
+        return out.toString();
+    }
+
 
     public String tryAgainMsgForWrongInput(){
        return "Please try again, one or more input(s) are invalid";

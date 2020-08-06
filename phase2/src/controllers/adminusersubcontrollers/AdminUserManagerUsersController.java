@@ -1,16 +1,14 @@
 package controllers.adminusersubcontrollers;
 
-import controllers.AccountCreator;
-import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
 import presenter.SystemMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -108,7 +106,7 @@ public class AdminUserManagerUsersController {
 
     public String unfreezeUser(String regularUsername) {
       //////////////////////////////This part goes to above:   getWantUnfreezeUser()/////////////////////
-      ///////////////////////////// Move related method out from displaySystem//////////////////////////
+      ///////////////////////////// Move relatead method out from displaySystem//////////////////////////
         //ds.printOut("Here's the list of user who request to be unfrozen:");
         //ds.printResult(new ArrayList<>(um.getListUnfreezeRequest()));
 
@@ -160,7 +158,22 @@ public class AdminUserManagerUsersController {
         return string.toString();
     }
 
+    public List<Item> seeListItemToAdd(){
+        return im.getListItemToAdd();
+    }
 
+    public void addItemOrNot(int itemNum, boolean add){
+        Item itemSelected = seeListItemToAdd().get(itemNum);
+        if (add){
+            //first arg = item id, second arg = owner id
+            um.addItemInventory(im.getIDFromItem(itemSelected).get(0), um.idToUsername(im.getIDFromItem(itemSelected).get(1)));
+        }
+        //either add or not add - need to remove from to-be-added list
+        im.getListItemToAdd().remove(itemSelected);
+    }
+
+
+/*
     public void confirmInventoryAdd() {
         ArrayList<Item> listItemToAdd = im.getListItemToAdd();
         int len = listItemToAdd.size();
@@ -197,6 +210,6 @@ public class AdminUserManagerUsersController {
             ds.printResult(true);
         }
     }
-
+*/
 
 }

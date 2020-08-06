@@ -12,6 +12,7 @@ import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,6 +29,18 @@ public class RegularUserManageItemsMenuGUI {
     private JButton changeTradableStatusForItemButton;
     private JButton getSuggestionForItemToLendButton;
     private JButton backButton;
+
+    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
+                    RegularUserIDChecker idChecker, RegularUserAccountMenuController acm,
+                    RegularUserOtherInfoChecker otherInfoChecker) {
+        JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
+        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm,
+                otherInfoChecker).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
 
     public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
                                          RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
@@ -168,7 +181,8 @@ public class RegularUserManageItemsMenuGUI {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // guiDemo.RegularUserAccountMainMenuGUI();
+                closeWindow(rootPanel);
+                guiDemo.runRegularUserAccountMainMenuGUI();
             }
         });
     }
@@ -287,22 +301,17 @@ public class RegularUserManageItemsMenuGUI {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
         String userResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
         return userResponse;
     }
 
     private void printNote(String msg){
         NotificationGUI msgGUI = new NotificationGUI(msg);
         msgGUI.run(msg);
-        // TODO: need to close first
     }
 
-    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
-                    RegularUserIDChecker idChecker, RegularUserAccountMenuController acm, RegularUserOtherInfoChecker otherInfoChecker) {
-        JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
-        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm, otherInfoChecker).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    private void closeWindow(JPanel panel){
+        Window window = SwingUtilities.getWindowAncestor(panel);
+        window.dispose();
     }
+
 }

@@ -93,37 +93,9 @@ public class AdminUserOtherInfoChecker {
         return thresholdAns;
     }
 
-    /**
-     * Gets admin user's response of whether to add or not.
-     * @return Admin user's response of whether to add or not.
-     */
-    public boolean getAddOrNot(){
-        //TODO: delete later + replace with check
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-        do{
-            ds.printOut("Please enter a number (1 - add, 2 - not add): ");
-            if(sc.hasNextInt()){
-                num = sc.nextInt();
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper option please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return num == 1;
 
+    public boolean checkItemToAddNum(int lenListItemToAdd, int userInput){
+        return 0 <= userInput && userInput <= (lenListItemToAdd-1);
     }
 
     /**

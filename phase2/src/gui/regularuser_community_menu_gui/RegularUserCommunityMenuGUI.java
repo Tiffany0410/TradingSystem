@@ -13,6 +13,7 @@ import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -237,6 +238,7 @@ public class RegularUserCommunityMenuGUI {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                closeWindow(rootPanel);
                 guidemo.runRegularUserMainMenu(isGuest);
             }
         });
@@ -383,12 +385,15 @@ public class RegularUserCommunityMenuGUI {
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
         String sUserId = guiInput.getTempUserInput();
-        // TODO: need to close first
         return sUserId;
     }
     private void printNote(String string){
         NotificationGUI msgGUI = new NotificationGUI(string);
         msgGUI.run(string);
-        // TODO: need to close first
+    }
+
+    private void closeWindow(JPanel panel){
+        Window window = SwingUtilities.getWindowAncestor(panel);
+        window.dispose();
     }
 }
