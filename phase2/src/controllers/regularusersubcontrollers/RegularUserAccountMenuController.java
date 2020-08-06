@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Category;
@@ -267,6 +268,18 @@ public class RegularUserAccountMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "1.3.4", 0, "");
         return um.getItemFollowingLogs(userId);
     }
+
+    public ArrayList<Action> seeOwnRevocableAction(){
+        am.addActionToAllActionsList(userId, "regularUser", "1.2.4", 0, "");
+        return am.searchRevocableActionByID(userId);
+
+    }
+
+    public void requestUndoARevocableAction(int actionId){
+        am.addActionToAllActionsList(userId, "regularUser", "1.2.5", actionId, "");
+        am.addUndoRequest(actionId,userId);
+    }
+
 }
 
 
