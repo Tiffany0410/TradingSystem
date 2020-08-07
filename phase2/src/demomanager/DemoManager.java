@@ -48,9 +48,7 @@ public class DemoManager {
 
 
         // Start trading system
-        while (true){
-
-
+        if (true){
             try {
                 // Create all use classes
                 FilesReaderWriter frw = new FilesReaderWriter();
@@ -109,13 +107,13 @@ public class DemoManager {
 
             } catch (FileNotFoundException ex) {
                 System.out.println("Can not find file, Please check the root of the program and README file.");
-                break;
+
             }catch (ClassNotFoundException ex){
                 System.out.println("Can not find Manager in related file, Please check README file or rerun the program.");
-                break;
+
             } catch (IOException ex){
                 System.out.println("Please try to clean the content of the files in Managers folder");
-                break;
+
             }
         }
 
