@@ -2,7 +2,7 @@ package controllers.adminusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+import presenter.SystemMessage;
 
 import java.util.Scanner;
 
@@ -15,20 +15,19 @@ import java.util.Scanner;
  */
 public class AdminUserOtherInfoChecker {
 
-    private DisplaySystem ds;
     private ActionManager am;
     private UserManager um;
 
     /**
      * Constructs the AdminUserOtherInfoGetter with a DisplaySystem
-     * @param ds The presenter class used to print to screen.
      * @param am The current ActionManager which used to record all action
      * @param um The current UserManager which used to record all AdminUser and RegularUser
      */
-    public AdminUserOtherInfoChecker(DisplaySystem ds, ActionManager am, UserManager um){
-        this.ds = ds;
+    public AdminUserOtherInfoChecker(ActionManager am, UserManager um){
+
         this.am = am;
         this.um = um;
+
     }
 
     public boolean checkItemToAddNum(int lenListItemToAdd, int userInput){
@@ -39,33 +38,33 @@ public class AdminUserOtherInfoChecker {
      * Gets the ActionID from the admin user.
      * @return The ActionID entered by admin user.
      */
-    public int getActionID() {
-        //TODO: delete later
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        int actionID = 0;
-        do{
-            ds.printOut("Enter the number of action that you want to cancel");
-            if(sc.hasNextInt()){
-                actionID = sc.nextInt();
-                if (am.getAllActionID(am.getListOfCurrentRevocableActions()).contains(actionID)) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper action number please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return actionID;
-    }
+//    public int getActionID() {
+//        //TODO: delete later
+//        /*
+//         * Referenced the code in the first answer in
+//         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+//         * by answerer Yassine.b
+//         */
+//        boolean okInput = false;
+//        Scanner sc = new Scanner(System.in);
+//        int actionID = 0;
+//        do{
+//            ds.printOut("Enter the number of action that you want to cancel");
+//            if(sc.hasNextInt()){
+//                actionID = sc.nextInt();
+//                if (am.getAllActionID(am.getListOfCurrentRevocableActions()).contains(actionID)) {
+//                    okInput = true;
+//                }
+//                else{
+//                    ds.printOut("Enter a proper action number please");
+//                }
+//            }else{
+//                sc.nextLine();
+//                ds.printOut("Enter a valid Integer value please");
+//            }
+//        }while(!okInput);
+//        return actionID;
+//    }
 
     /**
      * Checks if the action id is valid.
@@ -80,33 +79,33 @@ public class AdminUserOtherInfoChecker {
      * Gets the RegularUserID from the admin user.
      * @return The RegularUserID entered by admin user.
      */
-    public int getRegularUserID() {
-        //TODO: delete later
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        int userID = 0;
-        do{
-            ds.printOut("Enter the Id of tradableUser that you want to search");
-            if(sc.hasNextInt()){
-                userID = sc.nextInt();
-                if (um.getListTradableUser().contains(userID)) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper tradableUser Id please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        }while(!okInput);
-        return userID;
-    }
+//    public int getRegularUserID() {
+//        //TODO: delete later
+//        /*
+//         * Referenced the code in the first answer in
+//         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+//         * by answerer Yassine.b
+//         */
+//        boolean okInput = false;
+//        Scanner sc = new Scanner(System.in);
+//        int userID = 0;
+//        do{
+//            ds.printOut("Enter the Id of tradableUser that you want to search");
+//            if(sc.hasNextInt()){
+//                userID = sc.nextInt();
+//                if (um.getListTradableUser().contains(userID)) {
+//                    okInput = true;
+//                }
+//                else{
+//                    ds.printOut("Enter a proper tradableUser Id please");
+//                }
+//            }else{
+//                sc.nextLine();
+//                ds.printOut("Enter a valid Integer value please");
+//            }
+//        }while(!okInput);
+//        return userID;
+//    }
 
     /**
      * Checks if the id of the regular user is valid.
@@ -121,33 +120,33 @@ public class AdminUserOtherInfoChecker {
      * Gets the new AdminUser username from the admin user.
      * @return The new AdminUser username entered by admin user.
      */
-    public String getNewAdminUserName() {
-        //TODO: delete later
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        String userName = null;
-        do{
-            ds.printOut("Enter the name of new AdminUser that you want to add");
-            if(sc.hasNextLine()){
-                userName = sc.nextLine();
-                if (!um.getListAdminUserName().contains(userName)) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper AdminUser username please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid username please");
-            }
-        }while(!okInput);
-        return userName;
-    }
+//    public String getNewAdminUserName() {
+//        //TODO: delete later
+//        /*
+//         * Referenced the code in the first answer in
+//         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+//         * by answerer Yassine.b
+//         */
+//        boolean okInput = false;
+//        Scanner sc = new Scanner(System.in);
+//        String userName = null;
+//        do{
+//            ds.printOut("Enter the name of new AdminUser that you want to add");
+//            if(sc.hasNextLine()){
+//                userName = sc.nextLine();
+//                if (!um.getListAdminUserName().contains(userName)) {
+//                    okInput = true;
+//                }
+//                else{
+//                    ds.printOut("Enter a proper AdminUser username please");
+//                }
+//            }else{
+//                sc.nextLine();
+//                ds.printOut("Enter a valid username please");
+//            }
+//        }while(!okInput);
+//        return userName;
+//    }
 
     /**
      * Checks if the username for the new admin is valid.
@@ -163,33 +162,33 @@ public class AdminUserOtherInfoChecker {
      * Gets the new AdminUser password from the admin user.
      * @return The new AdminUser password entered by admin user.
      */
-    public String getNewAdminUserPassword() {
-        //TODO: delete later
-        /*
-         * Referenced the code in the first answer in
-         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
-         * by answerer Yassine.b
-         */
-        boolean okInput = false;
-        Scanner sc = new Scanner(System.in);
-        String pw = null;
-        do{
-            ds.printOut("Enter the password of new AdminUser that you want to add");
-            if(sc.hasNextLine()){
-                pw = sc.nextLine();
-                if (pw != null) {
-                    okInput = true;
-                }
-                else{
-                    ds.printOut("Enter a proper AdminUser password please");
-                }
-            }else{
-                sc.nextLine();
-                ds.printOut("Enter a valid password please");
-            }
-        }while(!okInput);
-        return pw;
-    }
+//    public String getNewAdminUserPassword() {
+//        //TODO: delete later
+//        /*
+//         * Referenced the code in the first answer in
+//         * https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
+//         * by answerer Yassine.b
+//         */
+//        boolean okInput = false;
+//        Scanner sc = new Scanner(System.in);
+//        String pw = null;
+//        do{
+//            ds.printOut("Enter the password of new AdminUser that you want to add");
+//            if(sc.hasNextLine()){
+//                pw = sc.nextLine();
+//                if (pw != null) {
+//                    okInput = true;
+//                }
+//                else{
+//                    ds.printOut("Enter a proper AdminUser password please");
+//                }
+//            }else{
+//                sc.nextLine();
+//                ds.printOut("Enter a valid password please");
+//            }
+//        }while(!okInput);
+//        return pw;
+//    }
 
     /**
      * Checks if the password for the new admin is valid.
