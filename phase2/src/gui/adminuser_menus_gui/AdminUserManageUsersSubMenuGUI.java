@@ -21,7 +21,7 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo,
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController muc, GUIDemo guiDemo,
                                           GUIUserInputInfo guiUserInputInfo, SystemMessage sm, RegularUserIDChecker idc,
                                           AdminUserOtherInfoChecker oic) {
         freezeUsersButton.addActionListener(new ActionListener() {
@@ -32,11 +32,11 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserManagerUsersController.getAllUnfreezeUser();
+                String string = muc.getAllUnfreezeUser();
                 guiDemo.getInPut(string);
-                String result = adminUserManagerUsersController.freezeUser(guiUserInputInfo.getTempUserInput());
-                guiDemo.printNotification(result);
-
+                String regularUserName = guiUserInputInfo.getTempUserInput();
+                if (regularUserName != null) {String result = muc.freezeUser(regularUserName);
+                guiDemo.printNotification(result);}
             }
         });
         unfreezeUsersButton.addActionListener(new ActionListener() {
@@ -47,8 +47,8 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserManagerUsersController.getWantUnfreezeUser();
-                String result = adminUserManagerUsersController.unfreezeUser(guiDemo.getInPut(string));
+                String string = muc.getWantUnfreezeUser();
+                String result = muc.unfreezeUser(guiDemo.getInPut(string));
                 guiDemo.printNotification(result);
 
             }
@@ -62,7 +62,7 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //adminUserManagerUsersController.confirmInventoryAdd();
-                List<Item> listItemToAdd = adminUserManagerUsersController.seeListItemToAdd();
+                List<Item> listItemToAdd = muc.seeListItemToAdd();
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
                 guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
@@ -74,11 +74,11 @@ public class AdminUserManageUsersSubMenuGUI {
                     int addOrNot = Integer.parseInt(input2);
                     if (oic.checkItemToAddNum(listItemToAdd.size(), itemToAddNum) && (addOrNot == 1 || addOrNot == 2)){
                         if (addOrNot == 1){
-                            adminUserManagerUsersController.addItemOrNot(itemToAddNum, true);
+                            muc.addItemOrNot(itemToAddNum, true);
                             guiDemo.printNotification(sm.msgForResult(true));
                         }
                         else{
-                            adminUserManagerUsersController.addItemOrNot(itemToAddNum, false);
+                            muc.addItemOrNot(itemToAddNum, false);
                             guiDemo.printNotification(sm.msgForResult(true));
                         }
                     }

@@ -44,7 +44,7 @@ public class AdminUserManagerUsersController {
 
         ArrayList<TradableUser> listOfUser = um.getListTradableUser();
         for (TradableUser user : listOfUser) {
-            body.append("#").append(user.getId()).append(". ").append(user.getUsername()).append(".\n");
+            body.append("TradableUser ID#").append(user.getId()).append(" with Username: ").append(user.getUsername()).append("\n");
         }
 
         return title + body.toString() + "Please enter the username want to freeze: \n";
