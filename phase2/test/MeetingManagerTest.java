@@ -88,8 +88,6 @@ public class MeetingManagerTest {
         assertFalse(meetingManager2.getMeetingByIdNum(1,2).getTradeId()!=0);
         assertFalse(meeting.getMeetingConfirm().get(2));
         assertEquals(0,meetingManager2.getMeetingByIdNum(1,2).getTradeId());
-        meetingManager2.undoConfirmTookPlace(1,1,1);
-        assertEquals(0,meeting.getTimePlaceEdit().size());
 
 
     }
