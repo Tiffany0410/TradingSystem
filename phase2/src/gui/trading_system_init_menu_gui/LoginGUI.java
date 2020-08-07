@@ -49,10 +49,12 @@ public class LoginGUI {
                         case "Admin":
                             guiDemo.setTempUsername(usernameText.getText());
                             guiDemo.runAdminUserMainMenu();
+                            guiDemo.closeWindow(rootPanel);
                             break;
                         case "User":
                             guiDemo.setTempUsername(usernameText.getText());
                             guiDemo.runRegularUserMainMenu(false);
+                            guiDemo.closeWindow(rootPanel);
                             break;
                     }
 
@@ -61,8 +63,6 @@ public class LoginGUI {
                     NotificationGUI notificationGUI = new NotificationGUI(string);
                     notificationGUI.run(string);
                 }
-
-                // TODO: Need method to close this window
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -74,9 +74,7 @@ public class LoginGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runTradingSystemInitMenuGUI();
-                // TODO: Need method to close this window
-
-
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }
