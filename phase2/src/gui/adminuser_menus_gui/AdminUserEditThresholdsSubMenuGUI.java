@@ -134,7 +134,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                     SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserEditThresholdsSubMenu");
         frame.setContentPane(new AdminUserEditThresholdsSubMenuGUI(guiDemo, guiUserInputInfo, adminUserEditThresholdsController, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

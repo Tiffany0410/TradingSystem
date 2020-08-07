@@ -43,7 +43,7 @@ public class AdminUserOtherSubMenuGUI {
     public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("adminUserOtherSubMenuGUI");
         frame.setContentPane(new AdminUserOtherSubMenuGUI(guiDemo).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

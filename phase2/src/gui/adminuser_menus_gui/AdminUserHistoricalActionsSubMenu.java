@@ -193,7 +193,7 @@ public class AdminUserHistoricalActionsSubMenu {
     public void run(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
         JFrame frame = new JFrame("AdminUserHistroicalActionsSubMenu");
         frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiDemo, sm, hac).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
