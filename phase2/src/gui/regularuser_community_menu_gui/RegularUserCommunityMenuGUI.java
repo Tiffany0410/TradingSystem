@@ -49,10 +49,9 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = guidemo.getInPut("Please input an user id for the user you want to review: ",
-                            guiInput);
-                    String sPoint = guidemo.getInPut("Please enter the point for the user(0-10): ", guiInput);
-                    String reason = guidemo.getInPut("Please enter the reason why you get the point: ", guiInput);
+                    String sUserId = guidemo.getInPut("Please input an user id for the user you want to review: ");
+                    String sPoint = guidemo.getInPut("Please enter the point for the user(0-10): ");
+                    String reason = guidemo.getInPut("Please enter the reason why you get the point: ");
                     if (idC.checkInt(sUserId) && idC.checkInt(sPoint)) {
                         int user_id = Integer.parseInt(sUserId);
                         int point = Integer.parseInt(sPoint);
@@ -76,8 +75,8 @@ public class RegularUserCommunityMenuGUI {
                 }
                 else {
                     String result;
-                    String sUserId = guidemo.getInPut("Please enter the user's id that you want to report.", guiInput);
-                    String reason = guidemo.getInPut("Please enter the reason why you report this user.", guiInput);
+                    String sUserId = guidemo.getInPut("Please enter the user's id that you want to report.");
+                    String reason = guidemo.getInPut("Please enter the reason why you report this user.");
                     if (idC.checkInt(sUserId)) {
                         result = sm.msgForResult(cmc.reportUser(Integer.parseInt(sUserId), reason));
                     }
@@ -96,7 +95,7 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating", guiInput);
+                    String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating");
                     if (idC.checkInt(sUserId)) {
                         int id = Integer.parseInt(sUserId);
                         if (cmc.checkUserId(id)) {
@@ -255,7 +254,7 @@ public class RegularUserCommunityMenuGUI {
             else{
                 string = string + sm.printListUser(users);
             }
-            String result = guiDemo.getInPut(string, guiInput);
+            String result = guiDemo.getInPut(string);
             if (idC.checkInt(result)){
                 int id = Integer.parseInt(result);
                 printRequest(sm, guiInput, cmc, actionType, id, guiDemo);
@@ -270,7 +269,7 @@ public class RegularUserCommunityMenuGUI {
                               String actionType, int id, GUIDemo guidemo){
         String out;
         if (actionType.equals("send friend request")){
-            String msg_result = guidemo.getInPut("Please leave a message for this user: ", guiInput);
+            String msg_result = guidemo.getInPut("Please leave a message for this user: ");
             out = sm.msgForFriendRequest(cmc.sendFriendRequest(id, msg_result), id);
         }
         else if (actionType.equals("accept friend request")){
@@ -296,14 +295,14 @@ public class RegularUserCommunityMenuGUI {
         else {
             String msg = "Please enter user's ID to send a message.\nHere is your list of friends:\n"
                     + sm.printListUser(friends);
-            String result = guiDemo.getInPut(msg, guiInput);
+            String result = guiDemo.getInPut(msg);
             if (idC.checkInt(result)) {
                 int id = Integer.parseInt(result);
                 if (!cmc.checkIsFriend(id)) {
                     string = "Please enter an id of your friend!";
                 }
                 else {
-                    String message = guiDemo.getInPut("Please write a message: ", guiInput);
+                    String message = guiDemo.getInPut("Please write a message: ");
                     string = sm.msgForResult(cmc.sendMessage(id, message));
                 }
             }

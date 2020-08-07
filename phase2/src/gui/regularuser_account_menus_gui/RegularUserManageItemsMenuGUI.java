@@ -96,10 +96,10 @@ public class RegularUserManageItemsMenuGUI {
                     guiDemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String itemName = guiDemo.getInPut("Please enter the item's name", guiInput);
-                    String description = guiDemo.getInPut("Enter the description of the item", guiInput);
+                    String itemName = guiDemo.getInPut("Please enter the item's name");
+                    String description = guiDemo.getInPut("Enter the description of the item");
                     String category_input = guiDemo.getInPut("Please enter the type of the item, it must be in one of the " +
-                            "categories below (all UPPERCASE)!\n" + sm.msgForCategory(), guiInput);
+                            "categories below (all UPPERCASE)!\n" + sm.msgForCategory());
                     if (otherInfoChecker.checkItemType(category_input)){
                         Category category = Category.valueOf(category_input);
                         amc.requestAddItem(itemName, description, category);
@@ -169,7 +169,7 @@ public class RegularUserManageItemsMenuGUI {
                     guiDemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String result = guiDemo.getInPut("Please enter the user's id you want to lend item(s) to", guiInput);
+                    String result = guiDemo.getInPut("Please enter the user's id you want to lend item(s) to");
                     getSuggestion(result, amc, sm, idChecker, guiDemo);
                 }
             }
@@ -193,7 +193,7 @@ public class RegularUserManageItemsMenuGUI {
             String str = "Here is your " + type + ": \n" +
                     sm.printListObject(new ArrayList<>(items)) +
                     "\nPlease enter the item's id to remove from " + type + ". ";
-            String input = guiDemo.getInPut(str, guiInput);
+            String input = guiDemo.getInPut(str);
             if (idChecker.checkInt(input)){
                 int itemId = Integer.parseInt(input);
                 if (idChecker.checkItemID(items, itemId)){
@@ -217,7 +217,7 @@ public class RegularUserManageItemsMenuGUI {
             String str = "Here is a list of tradable items you can add to wishlist: \n" +
                     sm.printListObject(new ArrayList<>(tradable)) +
                     "\nPlease enter the item's id to add to wishlist. ";
-            String input = guiDemo.getInPut(str, guiInput);
+            String input = guiDemo.getInPut(str);
             if (idChecker.checkInt(input)){
                 int itemId = Integer.parseInt(input);
                 if (idChecker.checkItemID(tradable, itemId)){
@@ -248,12 +248,12 @@ public class RegularUserManageItemsMenuGUI {
         String str = "Here's the list of items with tradable status: \n" + sm.printListObject(new ArrayList<>(tradable)) +
                     "Here's the list of items with non-tradable status: \n" + sm.printListObject(new ArrayList<>(nonTradable)) +
                     "Enter the item id of the item that you want to change the tradable status of.";
-        return guiDemo.getInPut(str, guiInput);
+        return guiDemo.getInPut(str);
     }
 
     private String getStatus(SystemMessage sm, GUIUserInputInfo guiInput, GUIDemo guiDemo){
         String str = sm.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
-        return guiDemo.getInPut(str, guiInput);
+        return guiDemo.getInPut(str);
     }
 
     private void setTradable(String itemId_input, String setTradable_input, RegularUserIDChecker idChecker, SystemMessage sm, RegularUserAccountMenuController amc, GUIDemo guiDemo){

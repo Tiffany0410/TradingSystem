@@ -170,7 +170,7 @@ public class RegularUserTradingMenuGUI {
         }
         else{
             String askTradeId = "Please enter the trade id of the trade for which you want to check its completion of";
-            String input = guiD.getInPut(askTradeId, guiUserInputInfo);
+            String input = guiD.getInPut(askTradeId);
             if (idC.checkInt(input)) {
                 int tradeId = Integer.parseInt(input);
                 if (idC.checkTradeID(tradeId)) {
@@ -208,9 +208,9 @@ public class RegularUserTradingMenuGUI {
                 String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
                 guiD.printNotification("Here's a list of trade requests: \n" + strTR);
                 String askTradeId = "Please enter the trade id of the trade request you wish to respond to.";
-                String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
+                String input1 = guiD.getInPut(askTradeId);
                 String askResponse = "Do you agree or disagree? Please enter the word in all lowercase.";
-                String response = guiD.getInPut(askResponse, guiUserInputInfo);
+                String response = guiD.getInPut(askResponse);
                 if (idC.checkInt(input1)){
                     int tradeId = Integer.parseInt(input1);
                     if (idC.checkTradeID(tradeId) && oiC.checkAgreeOrNot(response)){
@@ -238,19 +238,19 @@ public class RegularUserTradingMenuGUI {
         else{
             //asks for input
             String askTradeKind = "Please enter the kind of trade - (1 - one-way-trade/2 - two-way-trade).";
-            String input1 = guiD.getInPut(askTradeKind, guiUserInputInfo);
+            String input1 = guiD.getInPut(askTradeKind);
             String askUserid1 = "Please enter the user id of the borrower (if one-way-trade) " +
                     "or borrower for the first item and lender for the second item (if two-way-trade).";
-            String input2 = guiD.getInPut(askUserid1, guiUserInputInfo);
+            String input2 = guiD.getInPut(askUserid1);
             String askUserid2= "Please enter the user id of the lender (if one-way-trade) or lender for the first item " +
                     "and borrower for the second item (if two-way-trade).";
-            String input3 = guiD.getInPut(askUserid2, guiUserInputInfo);
+            String input3 = guiD.getInPut(askUserid2);
             String askItemid1 = "Please enter the item id of the first item (or the item if it's a one-way-trade).";
-            String input4 = guiD.getInPut(askItemid1, guiUserInputInfo);
+            String input4 = guiD.getInPut(askItemid1);
             String askItemid2 = "Please enter the item id of the second item (or a random number if it's a one-way-trade).";
-            String input5 = guiD.getInPut(askItemid2, guiUserInputInfo);
+            String input5 = guiD.getInPut(askItemid2);
             String askTradeType = "Please enter trade type (permanent / temporary).";
-            String tradeType = guiD.getInPut(askItemid2, guiUserInputInfo);
+            String tradeType = guiD.getInPut(askTradeType);
 
             if (idC.checkInt(input1) && idC.checkInt(input2) && idC.checkInt(input3) && idC.checkInt(input4)
                     && idC.checkInt(input5)){

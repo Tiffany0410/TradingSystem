@@ -120,9 +120,9 @@ public class RegularUserMeetingMenuGUI {
             guiD.printNotification("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
             // asks for user input for the meeting to edit / confirm
             String askTradeId = "Please enter the trade id of the meeting you wish to edit / confirm its time and place.";
-            String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
+            String input1 = guiD.getInPut(askTradeId);
             String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
-            String input2 = guiD.getInPut(askMeetingNum, guiUserInputInfo);
+            String input2 = guiD.getInPut(askMeetingNum);
             if (idC.checkInt(input1) && idC.checkInt(input2)) {
                 int tradeId = Integer.parseInt(input1);
                 int meetingNum = Integer.parseInt(input2);
@@ -154,9 +154,9 @@ public class RegularUserMeetingMenuGUI {
         guiD.printNotification("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
         //asks for user input
         String askTradeId = "Please enter the trade id of the meeting that you wish to confirm that it took place.";
-        String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
+        String input1 = guiD.getInPut(askTradeId);
         String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
-        String input2 = guiD.getInPut(askMeetingNum, guiUserInputInfo);
+        String input2 = guiD.getInPut(askMeetingNum);
         if (idC.checkInt(input1) && idC.checkInt(input2)) {
             int tradeId = Integer.parseInt(input1);
             int meetingNum = Integer.parseInt(input2);

@@ -48,7 +48,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askResponse = "Please enter a number (1 - set on-vacation status to true, 2 - set on-vacation status to false)";
-                String input1 = guiD.getInPut(askResponse, guiUserInputInfo);
+                String input1 = guiD.getInPut(askResponse);
                 if (idc.checkInt(input1)) {
                     int response = Integer.parseInt(input1);
                     if (response == 1) {
@@ -76,7 +76,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askHC = "Please enter the name of the new home city.";
-                String homeCity = guiD.getInPut(askHC, guiUserInputInfo);
+                String homeCity = guiD.getInPut(askHC);
                 atc.changeUserHC(homeCity);
                 guiD.printNotification(sm.msgForResult(true));
             }
@@ -109,7 +109,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askResponse = "Please enter the action id for the revocable action you would like to request to undo: ";
-                String input1 = guiD.getInPut(askResponse, guiUserInputInfo);
+                String input1 = guiD.getInPut(askResponse);
                 if (idc.checkInt(input1)) {
                     int actionId = Integer.parseInt(input1);
                    if (auIDC.checkActionId(actionId)){

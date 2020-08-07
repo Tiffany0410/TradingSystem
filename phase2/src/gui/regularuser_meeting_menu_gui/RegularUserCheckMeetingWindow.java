@@ -97,17 +97,17 @@ public class RegularUserCheckMeetingWindow extends JDialog {
             //int year, int month, int day, int hour, int min, int sec, String place,
             //asks for input
             String askYear = "Please enter the year (for the new time).";
-            String input1 = guiD.getInPut(askYear, guiUserInputInfo);
+            String input1 = guiD.getInPut(askYear);
             String askMonth = "Please enter the month (for the new time).";
-            String input2 = guiD.getInPut(askMonth, guiUserInputInfo);
+            String input2 = guiD.getInPut(askMonth);
             String askDay= "Please enter the day (for the new time).";
-            String input3 = guiD.getInPut(askDay, guiUserInputInfo);
+            String input3 = guiD.getInPut(askDay);
             String askHour = "Please enter the hour (for the new time).";
-            String input4 = guiD.getInPut(askHour, guiUserInputInfo);
+            String input4 = guiD.getInPut(askHour);
             String askMin = "Please enter the minute (for the new time).";
-            String input5 = guiD.getInPut(askMin, guiUserInputInfo);
+            String input5 = guiD.getInPut(askMin);
             String askPlace = "Please enter the new place.";
-            String place = guiD.getInPut(askPlace, guiUserInputInfo);
+            String place = guiD.getInPut(askPlace);
             if (idc.checkInt(input1) && idc.checkInt(input2) && idc.checkInt(input3) &&
             idc.checkInt(input4) && idc.checkInt(input5)){
                 int year = Integer.parseInt(input1);

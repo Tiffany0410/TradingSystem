@@ -35,7 +35,7 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getAllUnfreezeUser();
-                guiDemo.getInPut(string, guiUserInputInfo);
+                guiDemo.getInPut(string);
                 String result = adminUserManagerUsersController.freezeUser(guiUserInputInfo.getTempUserInput());
                 guiDemo.printNotification(result);
 
@@ -50,7 +50,7 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getWantUnfreezeUser();
-                String result = adminUserManagerUsersController.unfreezeUser(guiDemo.getInPut(string, guiUserInputInfo));
+                String result = adminUserManagerUsersController.unfreezeUser(guiDemo.getInPut(string));
                 guiDemo.printNotification(result);
 
             }
@@ -68,9 +68,9 @@ public class AdminUserManageUsersSubMenuGUI {
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
                 guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
-                String input1 = guiDemo.getInPut(askItemRequestNum, guiUserInputInfo);
+                String input1 = guiDemo.getInPut(askItemRequestNum);
                 String askAddOrNot = "Do you choose to add or not add this item to the corresponding user's wish list? enter (1 - add, 2 - not add).";
-                String input2 = guiDemo.getInPut(askAddOrNot, guiUserInputInfo);
+                String input2 = guiDemo.getInPut(askAddOrNot);
                 if (idc.checkInt(input1) && idc.checkInt(input2)){
                     int itemToAddNum = Integer.parseInt(input1);
                     int addOrNot = Integer.parseInt(input2);

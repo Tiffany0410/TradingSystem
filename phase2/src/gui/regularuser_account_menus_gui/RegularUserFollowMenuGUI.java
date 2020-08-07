@@ -33,7 +33,7 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askUserid = "Please enter the user id of the user you would like to follow";
-                String input = guiD.getInPut(askUserid, guiUserInputInfo);
+                String input = guiD.getInPut(askUserid);
                 if (idChecker.checkInt(input)){
                     int userId = Integer.parseInt(input);
                     if (idChecker.checkUserID(userId)){
@@ -57,7 +57,7 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askItemid = "Please enter the item id of the item you would like to follow";
-                String input = guiD.getInPut(askItemid, guiUserInputInfo);
+                String input = guiD.getInPut(askItemid);
                 if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
                     if (idChecker.checkItemID(itemId, 1)){
