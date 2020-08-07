@@ -4,6 +4,7 @@ import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import gui.GUIDemo;
 import gui.NotificationGUI;
 import managers.actionmanager.Action;
+import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -56,11 +57,13 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO:print "Here are all the TradableUser Id: \n"
-                // TODO:print all tradable user id
-                // TODO:get the user id enter by admin
-                int userID = 0;
+                ArrayList<TradableUser> allUser = hac.getAllTradableUser();
+                // TODO:print all tradable user
+                // TODO:get the user username enter by admin
+                String username = "";
+                int userID = hac.getUserID(username);
                 ArrayList<Action> allAction = new ArrayList<>();
-                if (hac.checkUser(userID)) {
+                if (hac.checkUser(username)) {
                     allAction = hac.searchRevocableActionByUserID(userID);
                 }
                 else {

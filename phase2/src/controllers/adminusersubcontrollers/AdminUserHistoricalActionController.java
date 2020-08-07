@@ -70,22 +70,10 @@ public class AdminUserHistoricalActionController {
 //        am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
 //    }
 
-    public String getAllTradableUser(){
-        ArrayList<TradableUser> userList = um.getListTradableUser();
-
-        StringBuilder string = new StringBuilder();
-
-        for (TradableUser user: userList){
-            string.append(user.getId());
-        }
-
-        return string.toString();
-    }
-
-
-
     /**
      * Return a list of All Historical Actions in the system
+     *
+     * @return an arraylist of All Historical Actions in the system
      */
     public ArrayList<Action> getAllAction() {
         am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
@@ -94,7 +82,9 @@ public class AdminUserHistoricalActionController {
 
 
     /**
-     * Return a list of All Historical Actions in the system
+     * Return a list of All Historical Revocable Actions in the system
+     *
+     * @return an arraylist of All Historical Revocable Actions in the system
      */
     public ArrayList<Action> getAllRevocableAction() {
         am.addActionToAllActionsList(userId, "adminUser", "3.2", 0, "");
@@ -103,7 +93,20 @@ public class AdminUserHistoricalActionController {
 
 
     /**
+     * Return a list of All TradableUser in the system
+     *
+     * @return an arraylist of All TradableUser in the system
+     */
+    public ArrayList<TradableUser> getAllTradableUser() {
+        return um.getListTradableUser();
+    }
+
+
+    /**
      * Lets the presenter print out all the revocable actions done by RegularUser in the system
+     * by the RegularUser id provided by AdminUser
+     *
+     * @return an Arraylist of all the revocable actions done by RegularUser in the system
      * by the RegularUser id provided by AdminUser
      */
 //    public void searchRevocableActionByUserID() {
@@ -120,6 +123,8 @@ public class AdminUserHistoricalActionController {
 
     /**
      * Return Action by given action id
+     *
+     * @return action by given action id
      */
     public Action findActionByID(int actionID) {
         return am.findActionByID(actionID);
@@ -137,15 +142,20 @@ public class AdminUserHistoricalActionController {
      * Return true if mapOfUndoRequest contains the provided actionID
      *
      * @param actionID The ID of revocable actions
-     * @return True if mapOfUndoRequest contains the provided actionID
+     *
+     * @return True if mapOfUndoRequest contains the provided actionID, vice versa
      */
     public boolean checkUndoRequest(int actionID) { return am.checkUndoRequest(actionID); }
 
 
 
     /**
-     * Lets the presenter print out all the undo request from regular user and admin user confirm to cancel related revocable actions
-     * in the system
+     * Lets the presenter print out all the undo request from regular user and admin user confirm to
+     * cancel related revocable actions in the system
+     *
+     * @param actionID The ID of revocable actions
+     *
+     * @return true if successfully cancel the target action, vice versa
      */
     public boolean confirmRequestAndCancelAction(int actionID) {
         Action targetAction = am.findActionByID(actionID);
@@ -166,7 +176,8 @@ public class AdminUserHistoricalActionController {
      * Return true if listOfCurrentRevocableActions contains the provided Action
      *
      * @param targetAction The Action need to be checked
-     * @return True if listOfCurrentRevocableActions contains the provided Action
+     *
+     * @return true if listOfCurrentRevocableActions contains the provided Action, vice versa
      */
     public boolean checkRevocable(Action targetAction) {
         return am.checkRevocable(targetAction);
@@ -175,17 +186,32 @@ public class AdminUserHistoricalActionController {
 
     /**
      * Checks if the User exists
-     * @param targetUserID The id of the User being searched for
-     * @return true if the user exists, false otherwise
+     *
+     * @param targetUserUsername The username of the User being searched for
+     *
+     * @return true if the user exists, vice versa
      */
-    public boolean checkUser(int targetUserID) {
-        return um.checkUser(targetUserID);
+    public boolean checkUser(String targetUserUsername) {
+        return um.checkUser(targetUserUsername);
+    }
+
+    /**
+     * Translate the username to userID
+     *
+     * @param targetUserUsername The username of the User
+     *
+     * @return userID
+     */
+    public int getUserID(String targetUserUsername) {
+        return um.usernameToID(targetUserUsername);
     }
 
     /**
      * Cancel revocable actions and classify the different action into different helper functions.
      *
      * @param targetAction the revocable action which need to undo
+     *
+     * @return true if successfully cancel target action, vice versa
      */
     public boolean cancelRevocableAction(Action targetAction) {
         String[] menuOption = targetAction.getMenuOption().split("\\.");
@@ -224,6 +250,7 @@ public class AdminUserHistoricalActionController {
      * @param targetAction The action which AdminUser want to cancel
      * @param subOption The menu option in AccountMainMenu
      * @param subSubOption The menu option number in sub menus of AccountMain
+     *
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelAccountMainMenu(Action targetAction, int subOption, int subSubOption) {
@@ -246,6 +273,7 @@ public class AdminUserHistoricalActionController {
      *
      * @param targetAction The action which AdminUser want to cancel
      * @param subSubOption The menu option number in ManageItemMenu
+     *
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelManageItemMenu(Action targetAction, int subSubOption) {
@@ -338,6 +366,7 @@ public class AdminUserHistoricalActionController {
      * Helper Function used to do the cancel part for revocable actions in Trading Menu
      * @param targetAction The action which AdminUser want to cancel
      * @param  subOption The menu option number in Trading Menu
+     *
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
@@ -359,6 +388,7 @@ public class AdminUserHistoricalActionController {
      * Helper Function used to do the cancel part for revocable actions in Meeting Menu
      * @param targetAction The action which AdminUser want to cancel
      * @param subOption The menu option number in Meeting Menu
+     *
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
@@ -376,6 +406,7 @@ public class AdminUserHistoricalActionController {
      * Helper Function used to do the cancel part for revocable actions in Community Menu
      * @param targetAction The action which AdminUser want to cancel
      * @param subOption The menu option number in Community Menu
+     *
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelCommunityMenu(Action targetAction, int subOption) {
