@@ -38,8 +38,6 @@ public class GUIDemo {
     private TradeManager tradeManager;
     private ItemManager itemManager;
     private FeedbackManager feedbackManager;
-    private AccountCreator accountCreator;
-    private LoginValidator loginValidator;
     private ActionManager actionManager;
     private MessageManager messageManager;
 
@@ -60,6 +58,10 @@ public class GUIDemo {
     private RegularUserSearchingMenuController regularUserSearchingMenuController;
     private RegularUserThresholdController regularUserThresholdController;
     private RegularUserTradingMenuController regularUserTradingMenuController;
+
+    //other controllers
+    private AccountCreator accountCreator;
+    private LoginValidator loginValidator;
 
     // Other variables
     private GUIUserInputInfo guiUserInputInfo;
