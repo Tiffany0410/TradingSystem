@@ -282,6 +282,7 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnUser (int userToFollowUserId){
         //calling this method means user is not a guest
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
         am.addActionToAllActionsList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
         return um.userFollow(userId, userToFollowUserId);
     }
@@ -295,6 +296,7 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnItem (int itemToFollowId){
         //calling this method means user is not a guest
+        am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.2", itemToFollowId, "");
         am.addActionToAllActionsList(userId, "regularUser", "1.3.2", itemToFollowId, "");
         return um.itemFollow(userId, itemToFollowId);
 

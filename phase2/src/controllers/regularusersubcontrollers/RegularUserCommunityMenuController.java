@@ -127,7 +127,6 @@ public class RegularUserCommunityMenuController {
             String userTo = um.idToUsername(userToId);
             boolean requestOrNot = um.requestFriend(msg, userTo,userFrom);
             if (requestOrNot){
-                am.addActionToCurrentRevocableList(userId, "regularUser", "5.6", userToId, "");
                 am.addActionToAllActionsList(userId, "regularUser", "5.6", userToId, "");
             }
             return requestOrNot;
@@ -174,7 +173,6 @@ public class RegularUserCommunityMenuController {
         String userFrom = um.idToUsername(id1);
         boolean yesOrNo = um.addFriend(userFrom, userTo);
         if(yesOrNo){
-        am.addActionToCurrentRevocableList(userId, "regularUser", "5.7", id1, userFrom);
         am.addActionToAllActionsList(userId, "regularUser", "5.7", id1, userFrom);
         return true;
     }return false;}
@@ -187,6 +185,7 @@ public class RegularUserCommunityMenuController {
     public boolean unfriendUser(int id){
         boolean unfriendOrNot = um.removeFriend(id,userId);
         if (unfriendOrNot){
+            am.addActionToCurrentRevocableList(this.userId, "regularUser", "5.8", userId, username);
             am.addActionToAllActionsList(this.userId, "regularUser", "5.8", userId, username);
         }
         return unfriendOrNot;

@@ -40,13 +40,17 @@ public class RegularUserMeetingMenuController {
      * @return the list of meetings that unconfirmed it took place.
      */
     public List<Meeting> getUnconfirmedMeeting(){
+        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
         return mm.getUnConfirmMeeting(userId);
     }
 
     /**
      * @return the list of meetings that are completed.
      */
-    public List<Meeting> getCompletedMeetings(){return mm.getCompleteMeeting(userId);}
+    public List<Meeting> getCompletedMeetings(){
+        am.addActionToAllActionsList(userId, "regularUser", "3.4", 0, "");
+        return mm.getCompleteMeeting(userId);
+    }
 
     /** check if the list of meeting is empty.
      * @param meetings the meeting of a trade
@@ -77,8 +81,8 @@ public class RegularUserMeetingMenuController {
         boolean yesOrNO= mm.setMeetingConfirm(tm, meeting, userId, maxMeetingTimePlaceEdits);
         if(yesOrNO) {
             String tradeID3 = String.valueOf(meeting.getTradeId());
-            am.addActionToAllActionsList(userId, "regularUser", "3.3", meeting.getMeetingNum(), tradeID3);
-            am.addActionToCurrentRevocableList(userId, "regularUser", "3.3", meeting.getMeetingNum(), tradeID3);
+            am.addActionToAllActionsList(userId, "regularUser", "3.2", meeting.getMeetingNum(), tradeID3);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "3.2", meeting.getMeetingNum(), tradeID3);
             return true;
         }return false;}
 
@@ -87,6 +91,7 @@ public class RegularUserMeetingMenuController {
      * @return a list of meeting that the time and place is not confirmed
      */
     public List<Meeting> getUnConfirmTimePlace(){
+        am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
         return mm.getUnConfirmTimePlace(userId,tm);
     }
 

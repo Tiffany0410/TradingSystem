@@ -233,6 +233,7 @@ public class RegularUserTradingMenuController {
             return requestSuccess(trade, tradeId);
         }
         else {
+            am.addActionToCurrentRevocableList(userId, "regularUser", "2.1", tradeId, " but fail");
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " but fail");
             return requestFail();
         }

@@ -1,17 +1,16 @@
 package controllers.regularusersubcontrollers;
-import gui.GUIDemo;
+import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
+import managers.itemmanager.Category;
+import managers.itemmanager.Item;
+import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import managers.itemmanager.ItemManager;
-import presenter.SystemMessage;
-import managers.itemmanager.Category;
+
 import java.util.ArrayList;
 import java.util.List;
-import managers.itemmanager.Item;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 
 /**
@@ -26,22 +25,25 @@ public class RegularUserSearchingMenuController {
     private UserManager um;
     private ItemManager im;
     private FeedbackManager fm;
+    private ActionManager am;
     private int userId;
 
     /** Constructor
      * @param tm trade manager
      * @param mm meeting manager
+     * @param am ActionManager
      * @param um user manager
      * @param im item manager
      * @param username user name
      */
-    public RegularUserSearchingMenuController(TradeManager tm, MeetingManager mm,
+    public RegularUserSearchingMenuController(TradeManager tm, MeetingManager mm, ActionManager am,
                                               UserManager um, ItemManager im, FeedbackManager fm,String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.fm = fm;
+        this.am = am;
         this.userId = this.um.usernameToID(username);
 
     }
@@ -50,6 +52,7 @@ public class RegularUserSearchingMenuController {
      * @return a list of sorted tradeable user
      */
     public List<TradableUser> sortRating(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.2.3", 0, "");
         return um.sortRating(fm);
     }
 
@@ -57,7 +60,8 @@ public class RegularUserSearchingMenuController {
      * print a list of user id (3) that traded with this user
      */
     public List<Integer> recentThreePartner(){
-            return tm.recentThreePartners(userId);
+        am.addActionToAllActionsList(userId, "regularUser", "4.2.1", 0, "");
+        return tm.recentThreePartners(userId);
     }
 
 
@@ -65,12 +69,14 @@ public class RegularUserSearchingMenuController {
      * @return a list of user id that sorted in order
      */
     public List<Integer> sortAllTradedPartner(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.2.2", 0, "");
         return tm.allPartners(userId);}
 
     /** filter complete trade
      * @return  a list of trade that status is complete
      */
     public List<managers.trademanager.Trade> filterCompleteTrade(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.4.2", 0, "");
         return tm.filterHistory(userId);}
 
 
@@ -81,6 +87,8 @@ public class RegularUserSearchingMenuController {
         List<managers.trademanager.Trade> filter1 = tm.getOpenTrade(userId);
         List<managers.trademanager.Trade> filter2 = tm.getWaitTrade(userId);
         filter1.addAll(filter2);
+        am.addActionToAllActionsList(userId, "regularUser", "4.4.1", 0, "");
+
         return filter1;
     }
 
@@ -88,6 +96,7 @@ public class RegularUserSearchingMenuController {
      * @return a list of meeting
      */
     public List<managers.meetingmanager.Meeting> allMeetingSortByDate() {
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.1", 0, "");
         return mm.sortByDate(mm.getMeetingsByUserId(userId));
     }
 
@@ -95,12 +104,14 @@ public class RegularUserSearchingMenuController {
      * @return a list of meeting
      */
     public List<managers.meetingmanager.Meeting> unCompleteMeetingSortByDate(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.2", 0, "");
         return mm.sortByDate(mm.getUnCompleteMeeting(userId, tm));}
 
     /** Sort all complete meetings by date
      * @return a list of meeting
      */
     public List<managers.meetingmanager.Meeting> completeMeetingSortByDate() {
+        am.addActionToAllActionsList(userId, "regularUser", "4.3.3", 0, "");
         return mm.sortByDate(mm.getCompleteMeeting(userId));
     }
 
@@ -118,6 +129,7 @@ public class RegularUserSearchingMenuController {
      * @return the list of category that user can input
      */
     public String listCategory(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.1", 0, "");
         return "Here is a list of category you can type:" + "\n" +
                 "appliances, clothing, electronics, furniture, beauty, "+ "\n" +
                 "jewellery, books, supplies, toys, others";
@@ -129,6 +141,7 @@ public class RegularUserSearchingMenuController {
      * @return a list of integer
      */
     public ArrayList<Integer> searchItemByName(String name) {
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.2", 0, name);
         return im.searchItem(name);
     }
 
@@ -138,6 +151,7 @@ public class RegularUserSearchingMenuController {
      */
     public String getItemById(int itemId){
         Item c = im.getItembyId(itemId);
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.3", itemId, "");
         return c.getDescription();
     }
 
@@ -145,8 +159,8 @@ public class RegularUserSearchingMenuController {
      * @return a list of item that sorted by follows
      */
     public ArrayList<Item>  sortItemByFollows(){
+        am.addActionToAllActionsList(userId, "regularUser", "4.1.4", 0, "");
         return im.getSortedItemByFollows(um);
-
     }
 }
 
