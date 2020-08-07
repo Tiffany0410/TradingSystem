@@ -6,7 +6,6 @@ import java.awt.event.*;
 
 public class NotificationGUI extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
     private JButton buttonCancel;
     private JTextArea textArea;
 
@@ -19,7 +18,7 @@ public class NotificationGUI extends JDialog {
 
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(buttonCancel);
 
 
         // call onCancel() when cross is clicked
@@ -54,13 +53,13 @@ public class NotificationGUI extends JDialog {
 
     private void onCancel() {
         // add your code here if necessary
-        dispose();
+        System.out.print(SwingUtilities.getWindowAncestor(contentPane));
+        SwingUtilities.getWindowAncestor(contentPane).dispose();
     }
 
     public void run(String string) {
         NotificationGUI dialog = new NotificationGUI(string);
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
     }
 }
