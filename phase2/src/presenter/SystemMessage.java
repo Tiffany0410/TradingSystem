@@ -278,8 +278,7 @@ public class SystemMessage {
 
 
     public String lockMessageForTPLimit() {
-        return "You can't edit any more because the time and place edits limit" +
-            " is reached.";}
+        return "You can't edit any more because the time and place edits limit is reached.";}
 
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
@@ -382,15 +381,14 @@ public class SystemMessage {
         ArrayList<String> categories = new ArrayList<>();
         StringBuilder str = new StringBuilder();
         for (Category category : Category.values()) {
-            str.append(category.name() + "\n");
+            str.append(category.name()).append("\n");
         }
         return str.toString();
     }
 
 
     public String getNumKindOfResponse(String option1, String option2){
-        String str = "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
-        return str;
+        return "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
     }
 
     public String msgForSetTradable(boolean validator, int status){

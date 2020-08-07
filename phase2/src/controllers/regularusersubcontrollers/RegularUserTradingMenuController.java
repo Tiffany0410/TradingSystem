@@ -50,7 +50,7 @@ public class RegularUserTradingMenuController {
      */
     public RegularUserTradingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm,
                                             UserManager um, ItemManager im, ActionManager am,
-                                            String username, int userId) {
+                                            String username, SystemMessage sm,int userId) {
         this.ds = ds;
         this.tm = tm;
         this.mm = mm;
@@ -61,8 +61,8 @@ public class RegularUserTradingMenuController {
         this.userId = userId;
         this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
         this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
-        this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
-        this.sm = new SystemMessage();
+        this.idGetter = new RegularUserIDChecker(tm, mm, um, im, username, userId);
+        this.sm = sm;
     }
 
     /**
