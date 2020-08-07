@@ -75,24 +75,11 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating");
-                    if (!sUserId.equals("")) {
-                        if (idC.checkInt(sUserId) && cmc.checkUserId(Integer.parseInt(sUserId))) {
-                            int id = Integer.parseInt(sUserId);
-                            double rate = cmc.findRatingForUser(id);
-                            if (rate == -1.0) {
-                                guidemo.printNotification("This user does not have any reviews.");
-                            } else {
-                                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                                guidemo.printNotification(msg);
-                            }
-                        }
-                        else {
-                            guidemo.printNotification("Please enter a valid user id.");
-                        }
+                    RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
+                    window.run(guidemo, cmc, idC);
                     }
                 }
-            }
+
         });
 
         seeUsersInYourButton.addActionListener(new ActionListener() {
