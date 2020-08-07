@@ -42,8 +42,8 @@ public class DemoManager {
         String serializedFeedbackManagerFilePath = "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser";
         String serializedActionManagerFilePath = "./configs/serializedmanagersfiles/SerializedActionManager.ser";
         String serializedMessageManagerFilePath = "./configs/serializedmanagersfiles/SerializedMessageManager.ser";
-        String regUserAlertFilePath = "./src/Alerts/UserAlerts.csv";
-        String adminUserAlertFilepath = "./src/Alerts/AdminAlerts.csv";
+        String regUserAlertFilePath = "./configs/alerts/UserAlerts.csv";
+        String adminUserAlertFilepath = "./configs/alerts/AdminAlerts.csv";
         String thresholdValuesFilePath = "./configs/thresholdvaluesfile/ThresholdValues.csv";
 
 
