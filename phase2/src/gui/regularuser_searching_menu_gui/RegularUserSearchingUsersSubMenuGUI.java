@@ -1,10 +1,8 @@
 package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
-import exception.InvalidIdException;
 import gui.GUIDemo;
-import gui.GUIUserInputInfo;
-import managers.meetingmanager.Meeting;
+import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -13,16 +11,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegularUserSearchingMeetingsSubMenu {
+public class RegularUserSearchingUsersSubMenuGUI {
     private JPanel rootPanel;
-    private JButton sortByDateButton;
-    private JButton incompleteMeetingButton;
-    private JButton completeMeetingButton;
+    private JButton recentTradeUserButton;
+    private JButton frequentTradeUserButton;
+    private JButton sortUserByRatingButton;
     private JButton backButton;
 
-    public RegularUserSearchingMeetingsSubMenu(RegularUserSearchingMenuController regularUserSearchingMenuController,
+    public RegularUserSearchingUsersSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
                                                GUIDemo guiDemo, SystemMessage systemMessage) {
-        sortByDateButton.addActionListener(new ActionListener() {
+        recentTradeUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -31,16 +29,16 @@ public class RegularUserSearchingMeetingsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                List<Meeting> m = regularUserSearchingMenuController.allMeetingSortByDate();
-                if (m.size() == 0) {
+                List<Integer> filter = regularUserSearchingMenuController.recentThreePartner();
+                if (filter.size() == 0) {
                     systemMessage.msgForNothing();
                 } else {
-                    systemMessage.printResult(new ArrayList<>(m));
-                }
+                    systemMessage.printResult(new ArrayList<>(filter)); }
                 // TODO: Need method to close this window
-            }
+
+                }
         });
-        incompleteMeetingButton.addActionListener(new ActionListener() {
+        frequentTradeUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -48,21 +46,19 @@ public class RegularUserSearchingMeetingsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.unCompleteMeetingSortByDate();
-                    if (m.size() == 0) {
+
+                List<Integer> filter = regularUserSearchingMenuController.sortAllTradedPartner();
+                if (filter.size() == 0) {
                     systemMessage.msgForNothing();
                 } else {
-                    systemMessage.printResult(new ArrayList<>(m));
-                }
-                } catch (Exception ex) {
-                    systemMessage.invalidInput();
+                    systemMessage.printResult(new ArrayList<>(filter));
                 }
 
                 // TODO: Need method to close this window
+
             }
         });
-        completeMeetingButton.addActionListener(new ActionListener() {
+        sortUserByRatingButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -70,13 +66,16 @@ public class RegularUserSearchingMeetingsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.completeMeetingSortByDate();
-                if (m.size() == 0) {
-                systemMessage.msgForNothing();
+
+
+                List<TradableUser> l = regularUserSearchingMenuController.sortRating();
+                if (l.size() == 0) {
+                    systemMessage.msgForNothing();
                 } else {
-                systemMessage.printResult(new ArrayList<>(m));
+                    systemMessage.printResult(new ArrayList<>(l));
                 }
                 // TODO: Need method to close this window
+
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -89,14 +88,15 @@ public class RegularUserSearchingMeetingsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runRegularUserSearchingMenuGUI();
                 // TODO: Need method to close this window
+
             }
         });
     }
 
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
                     GUIDemo guiDemo, SystemMessage systemMessage) {
-        JFrame frame = new JFrame("RegularUserSearchingMeetingsSubMenu");
-        frame.setContentPane(new RegularUserSearchingMeetingsSubMenu(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
+        JFrame frame = new JFrame("RegularUserSearchingUsersSubMenu");
+        frame.setContentPane(new RegularUserSearchingUsersSubMenuGUI(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

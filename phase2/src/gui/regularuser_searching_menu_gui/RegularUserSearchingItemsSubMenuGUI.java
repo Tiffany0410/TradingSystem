@@ -1,7 +1,6 @@
 package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
-import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
 import gui.UserInputGUI;
@@ -16,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class RegularUserSearchingItemsSubMenu {
+public class RegularUserSearchingItemsSubMenuGUI {
     private JButton filterByCategoryButton;
     private JPanel rootPanel;
     private JButton searchItemByNameButton;
@@ -24,9 +23,9 @@ public class RegularUserSearchingItemsSubMenu {
     private JButton sortByNumberOfButton;
     private JButton backButton;
 
-    public RegularUserSearchingItemsSubMenu(RegularUserSearchingMenuController regularUserSearchingMenuController,
-                                            GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo, ItemManager itemManager,
-                                            SystemMessage systemMessage) {
+    public RegularUserSearchingItemsSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
+                                               GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo, ItemManager itemManager,
+                                               SystemMessage systemMessage) {
         filterByCategoryButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -152,7 +151,7 @@ public class RegularUserSearchingItemsSubMenu {
                     GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo, ItemManager itemManager,
                     SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");
-        frame.setContentPane(new RegularUserSearchingItemsSubMenu(regularUserSearchingMenuController, guiDemo,
+        frame.setContentPane(new RegularUserSearchingItemsSubMenuGUI(regularUserSearchingMenuController, guiDemo,
                 guiUserInputInfo, itemManager, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
