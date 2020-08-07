@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 import gui.GUIDemo;
+import managers.feedbackmanager.FeedbackManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
@@ -24,6 +25,7 @@ public class RegularUserSearchingMenuController {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
+    private FeedbackManager fm;
     private int userId;
 
     /** Constructor
@@ -33,12 +35,13 @@ public class RegularUserSearchingMenuController {
      * @param im item manager
      * @param username user name
      */
-    public RegularUserSearchingMenuController( TradeManager tm, MeetingManager mm,
-                                              UserManager um, ItemManager im, String username) {
+    public RegularUserSearchingMenuController(TradeManager tm, MeetingManager mm,
+                                              UserManager um, ItemManager im, FeedbackManager fm,String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
+        this.fm = fm;
         this.userId = this.um.usernameToID(username);
 
     }
