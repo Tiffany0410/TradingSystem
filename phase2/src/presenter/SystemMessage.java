@@ -24,38 +24,33 @@ import java.util.List;
  * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
-    private GUIDemo guiDemo;
 
     /**
      * Constructs a SystemMessage instance.
      */
-    public SystemMessage(GUIDemo guiDemo){
-        this.guiDemo = guiDemo;
+    public SystemMessage(){
+
     }
 
 
     /**
      * Prints the message for when there is nothing to be shown.
      */
-    public void msgForNothing(){
-        String string = "There's nothing here.";
-        guiDemo.printNotification(string);
+    public String msgForNothing(){
+        return "There's nothing here.";
     }
 
 
-    public void printInvalidID(){
-        String string = "This is invalid ID.";
-        guiDemo.printNotification(string);
+    public String printInvalidID(){
+        return "This is invalid ID.";
     }
 
-    public void invalidInput() {
-        String string = "Invalid put in, please type again.";
-        guiDemo.printNotification(string);
+    public String invalidInput() {
+        return "Invalid put in, please type again.";
     }
 
-    public void invalidNumber(){
-        String string = "Invalid put in, please type a number.";
-        guiDemo.printNotification(string);
+    public String invalidNumber(){
+       return "Invalid put in, please type a number.";
     }
 
 
@@ -65,7 +60,7 @@ public class SystemMessage {
      *
      * @param obj the list of objects need to be printed
      */
-    public void printResult(ArrayList<Object> obj) {
+    public String printResult(ArrayList<Object> obj) {
         StringBuilder string = new StringBuilder();
 
         int count = 1;
@@ -83,17 +78,15 @@ public class SystemMessage {
             count++;
         }
 
-        guiDemo.printNotification(string.toString());
+        return string.toString();
     }
 
-    public void printOut(String description) {
-        guiDemo.printNotification(description);
+    public String printOut(String description) {
+        return description;
     }
 
-    //TODO: I think it'll adhere to the clean architecture more if you
-    // just return String and then in the gui menu class, call the printNotification method
-    // to print the string :)
-    public void printItemResult(ArrayList<Item> obj) {
+
+    public String printItemResult(ArrayList<Item> obj) {
         StringBuilder string = new StringBuilder();
 
         int count = 1;
@@ -111,7 +104,7 @@ public class SystemMessage {
             count++;
         }
 
-        guiDemo.printNotification(string.toString());
+        return string.toString();
     }
 
     public void printResult(boolean result){
@@ -166,21 +159,15 @@ public class SystemMessage {
      * Gathers all the necessary notifications
      * for the admin user.
      * @return Notifications as properly formatted strings.
-     * @throws IOException In case the file can't be found.
      */
-    public String AdminUserAlerts(FilesReaderWriter rw) throws IOException {
-        //Read this in from file
-        //Exception needs to be resolved in main or TradingSystem.
-        //String filepath = "./src/bookTradeSystem/AdminAlerts.csv";
-        String filepath = "./src/Alerts/AdminAlerts.csv"; // move it to src and not the bookTradeSystem
-        return rw.readFromMenu(filepath);
+    public String AdminUserAlerts(String adminPartOfAlert) {
+        return adminPartOfAlert;
     }
 
     /**
      * Returns the message for a meeting that doesn't exist.
-     * @param ds The presenter that prints to screen.
      */
-    public String msgForMeetingDNE(DisplaySystem ds) {
+    public String msgForMeetingDNE() {
         return "This meeting doesn't exist in the system." + "\n";
     }
 
@@ -408,5 +395,6 @@ public class SystemMessage {
     }
 
     public String printHistoricalAction(ArrayList<Action> actions) {
+
     }
 }

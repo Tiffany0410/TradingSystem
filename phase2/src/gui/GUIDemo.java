@@ -44,6 +44,7 @@ public class GUIDemo {
     private String tempUsername;
     private SystemMessage systemMessage;
     private String partsOfUserAlert;
+    private String partsOfAdminAlert;
     private List<Integer> thresholdValues;
 
 
@@ -51,7 +52,7 @@ public class GUIDemo {
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                    ItemManager itemManager, FeedbackManager feedbackManager,
                    AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager,
-                   String partsOfUserAlert, List<Integer> thresholdValues){
+                   String partsOfUserAlert, String partsOfAdminAlert, List<Integer> thresholdValues){
 
         this.userManager = userManager;
         this.meetingManager = meetingManager;
@@ -64,6 +65,7 @@ public class GUIDemo {
         this.guiUserInputInfo = new GUIUserInputInfo();
         this.systemMessage = new SystemMessage(this);
         this.partsOfUserAlert = partsOfUserAlert;
+        this.partsOfAdminAlert = partsOfAdminAlert;
         this.thresholdValues = thresholdValues;
 
     }
