@@ -3,7 +3,7 @@ package controllers;
 import gateway.FilesReaderWriter;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +21,8 @@ public class AccountCreator {
     /**
      * Constructs an AccountCreator with the given UserManager and DisplaySystem
      * @param um The initial UserManager
-     * @param ds The initial Display system
      */
-    public AccountCreator(UserManager um, DisplaySystem ds){
+    public AccountCreator(UserManager um){
         this.um = um;
         this.frw = new FilesReaderWriter();
     }

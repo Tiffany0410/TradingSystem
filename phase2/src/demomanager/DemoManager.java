@@ -11,10 +11,11 @@ import managers.meetingmanager.MeetingManager;
 import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,11 +89,9 @@ public class DemoManager {
                 if (frw.check_file_empty_or_not(serializedActionManagerFilePath)) {messageManager = new MessageManager();}
                 else {messageManager = (MessageManager) frw.readManagerFromFile(serializedMessageManagerFilePath);}
 
-                // Create the new DisplaySystem
-                DisplaySystem ds = new DisplaySystem();
 
                 //Create the new AccountCreator
-                AccountCreator ac = new AccountCreator(um, ds);
+                AccountCreator ac = new AccountCreator(um);
 
                 // Load accounts data from CSV file to initial login validator
                 Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
@@ -102,18 +101,10 @@ public class DemoManager {
                 String partsOfAdminAlerts = frw.readFromMenu(adminUserAlertFilepath);
                 List<Integer> thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
 
-                // Create trading system
-                //TradingSystem tradingSystem = new TradingSystem(um, mm, loginValidator, tm, ds, ac, im, fm);
 
-                // Run trading system
-                //condition = tradingSystem.tradingSystemInital();
-
-                // Run trading system
-                //tradingSystemInitMenuGUI tradingSystemInitMenuGUI  = new tradingSystemInitMenuGUI();
-
-                // Run GUI
-                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, ac, lv, am, partsOfUserAlerts, partsOfAdminAlerts,
-                        thresholdValues);
+                // Run GUIDemo
+                GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, messageManager,ac, lv, am, partsOfUserAlerts, partsOfAdminAlerts,
+                        (ArrayList<Integer>) thresholdValues);
                 guiController.runTradingSystemInitMenuGUI();
 
             } catch (FileNotFoundException ex) {
