@@ -2,9 +2,7 @@ package gui;
 
 import controllers.AccountCreator;
 import controllers.LoginValidator;
-import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
-import controllers.adminusersubcontrollers.AdminUserOtherActionsController;
-import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
+import controllers.adminusersubcontrollers.*;
 import controllers.regularusersubcontrollers.*;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
@@ -28,7 +26,6 @@ import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GUIDemo {
@@ -43,8 +40,8 @@ public class GUIDemo {
     private ActionManager actionManager;
 
     // Admin controllers
-    private AdminUserEditThresholdsSubMenu adminUserEditThresholdsSubMenu;
-    private AdminUserHistoricalActionsSubMenu adminUserHistoricalActionsSubMenu;
+    private AdminUserEditThresholdsController adminUserEditThresholdsController;
+    private AdminUserHistoricalActionController adminUserHistoricalActionController;
     private AdminUserManagerUsersController adminUserManagerUsersController;
     private AdminUserOtherActionsController adminUserOtherActionsController;
     private AdminUserOtherInfoChecker adminUserOtherInfoChecker;
@@ -53,7 +50,12 @@ public class GUIDemo {
     private RegularUserAccountMenuController regularUserAccountMenuController;
     private RegularUserCommunityMenuController regularUserCommunityMenuController;
     private RegularUserDateTimeChecker regularUserDateTimeChecker;
-    private
+    private RegularUserIDChecker regularUserIDChecker;
+    private RegularUserMeetingMenuController regularUserMeetingMenuController;
+    private RegularUserOtherInfoChecker regularUserOtherInfoChecker;
+    private RegularUserSearchingMenuController regularUserSearchingMenuController;
+    private RegularUserThresholdController regularUserThresholdController;
+    private RegularUserTradingMenuController regularUserTradingMenuController;
 
     // Other variables
     private GUIUserInputInfo guiUserInputInfo;
@@ -65,10 +67,11 @@ public class GUIDemo {
 
 
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
-                   ItemManager itemManager, FeedbackManager feedbackManager,
-                   AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager,
-                   String partsOfUserAlert, String partsOfAdminAlert, List<Integer> thresholdValues){
+                   ItemManager itemManager, FeedbackManager feedbackManager, AccountCreator accountCreator,
+                   LoginValidator loginValidator, ActionManager actionManager, String partsOfUserAlert,
+                   String partsOfAdminAlert, List<Integer> thresholdValues){
 
+        // get or create manager
         this.userManager = userManager;
         this.meetingManager = meetingManager;
         this.tradeManager = tradeManager;
@@ -77,12 +80,19 @@ public class GUIDemo {
         this.accountCreator = accountCreator;
         this.loginValidator = loginValidator;
         this.actionManager = actionManager;
-        this.guiUserInputInfo = new GUIUserInputInfo();
-        this.systemMessage = new SystemMessage(this);
+
+        // other variables
+        this.thresholdValues = thresholdValues;
         this.partsOfUserAlert = partsOfUserAlert;
         this.partsOfAdminAlert = partsOfAdminAlert;
-        this.thresholdValues = thresholdValues;
+
+        // create new object
+        this.guiUserInputInfo = new GUIUserInputInfo();
+        this.systemMessage = new SystemMessage();
         this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
+        this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
+
+
 
     }
 
@@ -105,7 +115,8 @@ public class GUIDemo {
 
 
     public void runRegularUserCreateAccount() {
-        RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator, this);
+        RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator,
+                this);
         regularUserCreateAccountGUI.run(this.accountCreator, this);
     }
 
@@ -122,20 +133,39 @@ public class GUIDemo {
     }
 
     public void runAdminUserManageUsersSubMenu() {
+        AdminUserManagerUsersController adminUserManagerUsersController = new AdminUserManagerUsersController(
+                this.userManager, this.itemManager, this.actionManager, this.systemMessage,
+                this.adminUserOtherInfoChecker, this.getTempUsername());
+
+        RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+                this.userManager, this.itemManager, this.getTempUsername());
+
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
-                this.adminUserManagerUsersController, this, this.guiUserInputInfo);
-        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this, this.guiUserInputInfo);
+                adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
+                regularUserIDChecker, this.adminUserOtherInfoChecker);
+        adminUserManageUsersSubMenuGUI.run(adminUserManagerUsersController, this, this.guiUserInputInfo,
+                this.systemMessage, regularUserIDChecker, this.adminUserOtherInfoChecker);
     }
 
     public void runAdminUserEditThresholdsSubMenu() {
-        AdminUserEditThresholdsSubMenu adminUserEditThresholdsSubMenu = new AdminUserEditThresholdsSubMenu();
-        adminUserEditThresholdsSubMenu.run();
+        AdminUserEditThresholdsController adminUserEditThresholdsController = new AdminUserEditThresholdsController(
+                this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);
+
+        AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
+                this.guiUserInputInfo,adminUserEditThresholdsController, this.systemMessage);
+        adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo,adminUserEditThresholdsController,
+                this.systemMessage);
 
     }
 
     public void runAdminUserHistoricalActionsSubMenu() {
-        AdminUserHistoricalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistoricalActionsSubMenu(this);
-        adminUserHistroicalActionsSubMenu.run(this);
+        AdminUserHistoricalActionController adminUserHistoricalActionController = new
+                AdminUserHistoricalActionController(this.userManager, this.itemManager, this.tradeManager,
+                this.meetingManager, this.actionManager, this.feedbackManager, this.getTempUsername());
+
+        AdminUserHistoricalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistoricalActionsSubMenu(
+                this, this.systemMessage, adminUserHistoricalActionController);
+        adminUserHistroicalActionsSubMenu.run(this, this.systemMessage, adminUserHistoricalActionController);
     }
 
     public void runAdminUserOtherSubMenu() {
@@ -144,13 +174,18 @@ public class GUIDemo {
     }
 
     public void runAdminUserCreateAccount() {
-        AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(accountCreator, this);
-        adminUserCreateAccountGUI.run(accountCreator, this);
+        AdminUserOtherActionsController adminUserOtherActionsController = new AdminUserOtherActionsController(
+                this.userManager, this.actionManager, this.getTempUsername());
+
+        AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(this.accountCreator, this,
+                this.systemMessage, adminUserOtherActionsController);
+        adminUserCreateAccountGUI.run(this.accountCreator, this,
+                this.systemMessage, adminUserOtherActionsController);
     }
 
-    //TODO: Regular User menu gui start - fill in the parameters once the class's stable
+    //Regular User menu gui start
     public void runRegularUserMainMenu(Boolean guest) {
-        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest, this.systemMessage, this.);
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest, this.systemMessage, this, );
         regularUserMainMenuGUI.run();
     }
 
@@ -186,12 +221,9 @@ public class GUIDemo {
         regularUserCommunityMenuGUI.run();
     }
 
-    public void runRegularUserMeetingMenu(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
-                                          int maxNumTPEdits, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC){
-        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits,
-                guiUserInputInfo, idC);
-        regularUserMeetingMenuGUI.run(guiD, mmc, sm, maxNumTPEdits,
-                guiUserInputInfo, idC);
+    public void runRegularUserMeetingMenu(){
+        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI();
+        regularUserMeetingMenuGUI.run();
     }
 
     public void runRegularUserSearchingMenuGUI() {
