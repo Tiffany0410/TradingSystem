@@ -74,9 +74,7 @@ public class LoginGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runTradingSystemInitMenuGUI();
-                // TODO: Need method to close this window
-
-
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }
