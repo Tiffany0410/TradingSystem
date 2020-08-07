@@ -38,7 +38,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
 
         buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                confirmTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, sm);
+                confirmTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, sm, guiD);
             }
         });
 
@@ -71,7 +71,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                editTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, guiUserInputInfo, idc, dtc, sm);
+                editTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, guiUserInputInfo, idc, dtc, sm, guiD);
 
             }
         });
@@ -85,22 +85,22 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     }
     private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
                                   int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
-                                  RegularUserDateTimeChecker dtc, SystemMessage sm)  {
+                                  RegularUserDateTimeChecker dtc, SystemMessage sm, GUIDemo guiD)  {
         if (mmc.checkOverEdit(tradeId, meetingNum, maxEditsTP).equals("")){
             //int year, int month, int day, int hour, int min, int sec, String place,
             //asks for input
             String askYear = "Please enter the year (for the new time).";
-            String input1 = getInPut(askYear, guiUserInputInfo);
+            String input1 = guiD.getInPut(askYear, guiUserInputInfo);
             String askMonth = "Please enter the month (for the new time).";
-            String input2 = getInPut(askMonth, guiUserInputInfo);
+            String input2 = guiD.getInPut(askMonth, guiUserInputInfo);
             String askDay= "Please enter the day (for the new time).";
-            String input3 = getInPut(askDay, guiUserInputInfo);
+            String input3 = guiD.getInPut(askDay, guiUserInputInfo);
             String askHour = "Please enter the hour (for the new time).";
-            String input4 = getInPut(askHour, guiUserInputInfo);
+            String input4 = guiD.getInPut(askHour, guiUserInputInfo);
             String askMin = "Please enter the minute (for the new time).";
-            String input5 = getInPut(askMin, guiUserInputInfo);
+            String input5 = guiD.getInPut(askMin, guiUserInputInfo);
             String askPlace = "Please enter the new place.";
-            String place = getInPut(askPlace, guiUserInputInfo);
+            String place = guiD.getInPut(askPlace, guiUserInputInfo);
             if (idc.checkInt(input1) && idc.checkInt(input2) && idc.checkInt(input3) &&
             idc.checkInt(input4) && idc.checkInt(input5)){
                 int year = Integer.parseInt(input1);
@@ -112,48 +112,33 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                     ArrayList<Integer> time = new ArrayList<>();
                     Collections.addAll(time, year, month, day, hour, min);
                     if (mmc.editMeetingTandP(tradeId, meetingNum, time, place, maxEditsTP)){
-                        printNote(sm.msgForResult(true));
+                        guiD.printNotification(sm.msgForResult(true));
                     }
                     else{
-                        printNote(sm.msgForNotYourTurn());
+                        guiD.printNotification(sm.msgForNotYourTurn());
                     }
                 }
             }
             else{
-                printNote(sm.tryAgainMsgForWrongFormatInput());
+                guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
             }
         }
         else{
-            printNote(sm.lockMessageForTPLimit());
+            guiD.printNotification(sm.lockMessageForTPLimit());
         }
     }
 
     private void confirmTimeAndPlace(RegularUserMeetingMenuController mmc,  int tradeId,
-                      int meetingNum, int maxEditsTP, SystemMessage sm) {
+                      int meetingNum, int maxEditsTP, SystemMessage sm, GUIDemo guiD) {
         boolean confirmed = mmc.confirmMeetingTandP(tradeId, meetingNum, maxEditsTP);
         if (confirmed){
-            printNote(sm.msgForResult(true));
+            guiD.printNotification(sm.msgForResult(true));
         }
         else{
-            printNote(sm.msgForNotYourTurn());
+            guiD.printNotification(sm.msgForNotYourTurn());
         }
     }
 
-
-    public String getInPut(String string, GUIUserInputInfo guiInput) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String UserResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
-        return string;
-
-    }
-
-    public void printNote(String msg){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        // TODO: need to close first
-    }
 
     public void run (GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int tradeId,
                      int meetingNum, int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,

@@ -40,7 +40,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                RequestATrade(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, numLentBeforeBorrow);
+                RequestATrade(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, numLentBeforeBorrow, guiD);
             }
         });
 
@@ -53,7 +53,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                respondToTradeRequest(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC);
+                respondToTradeRequest(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, guiD);
             }
         });
 
@@ -66,7 +66,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewOpenTrades(), "open");
+                viewTrades(sm, atc.viewOpenTrades(), "open", guiD);
 
             }
         });
@@ -78,7 +78,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewClosedTrades(), "closed");
+                viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
                 }
 
         });
@@ -90,7 +90,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                confirmATradeIsCompleted(atc, sm, guiUserInputInfo, idC);
+                confirmATradeIsCompleted(atc, sm, guiUserInputInfo, idC, guiD);
 
 
             }
@@ -103,7 +103,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                seeTopThreePartners(atc, sm);
+                seeTopThreePartners(atc, sm, guiD);
             }
         });
         viewTransactionsThatHaveButton.addActionListener(new ActionListener() {
@@ -114,7 +114,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewCancelledTrades(), "cancelled");
+                viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD);
             }
         });
         suggestionForTheMostButton.addActionListener(new ActionListener() {
@@ -127,10 +127,10 @@ public class RegularUserTradingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 if (atc.hasTradeSuggestion()){
                     String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
-                    printNote("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
+                    guiD.printNotification("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
                 }
                 else{
-                    printNote(sm.msgForNo(" recommended trade suggestion."));
+                    guiD.printNotification(sm.msgForNo(" recommended trade suggestion."));
                 }
 
             }
@@ -149,105 +149,107 @@ public class RegularUserTradingMenuGUI {
         });
     }
 
-    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm) {
+    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm, GUIDemo guiD) {
         if (atc.hasTopThree()){
             //has top three
             String str = sm.printListObject(new ArrayList<>(atc.seeTopThreePartners()));
-            printNote("Here's your list of top three partners: \n" + str);
+            guiD.printNotification("Here's your list of top three partners: \n" + str);
         } else {
-            printNote(sm.msgForNothing("here."));
+            guiD.printNotification(sm.msgForNothing("here."));
         }
     }
 
-    private void confirmATradeIsCompleted(RegularUserTradingMenuController atc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC) {
+    private void confirmATradeIsCompleted(RegularUserTradingMenuController atc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
+                                          GUIDemo guiD) {
         List<Trade> openTrades = atc.viewOpenTrades();
         boolean result;
-        viewTrades(sm, openTrades, "open");
+        viewTrades(sm, openTrades, "open", guiD);
         if (openTrades.size() == 0){
-            printNote(sm.msgForNothing("that you can confirm whether it's completed for now"));
+            guiD.printNotification(sm.msgForNothing("that you can confirm whether it's completed for now"));
         }
         else{
             String askTradeId = "Please enter the trade id of the trade for which you want to check its completion of";
-            String input = getInPut(askTradeId, guiUserInputInfo);
+            String input = guiD.getInPut(askTradeId, guiUserInputInfo);
             if (idC.checkInt(input)) {
                 int tradeId = Integer.parseInt(input);
                 if (idC.checkTradeID(tradeId)) {
                     result = atc.confirmTradeComplete(tradeId);
-                    printNote(sm.msgFortradeCompletedOrNot(result));
+                    guiD.printNotification(sm.msgFortradeCompletedOrNot(result));
                 } else {
-                    printNote(sm.tryAgainMsgForWrongInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongInput());
                 }
             }
             else{
-                printNote(sm.tryAgainMsgForWrongFormatInput());
+                guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
             }
         }
     }
 
-    private void viewTrades(SystemMessage sm, List<Trade> trades, String type) {
+    private void viewTrades(SystemMessage sm, List<Trade> trades, String type, GUIDemo guiD) {
         if (trades.size() != 0) {
             String str = sm.printListObject(new ArrayList<>(trades));
-            printNote("Here's your list of " + type + " trades: \n" + str);
+            guiD.printNotification("Here's your list of " + type + " trades: \n" + str);
         } else {
-            printNote(sm.msgForNothing("here."));
+            guiD.printNotification(sm.msgForNothing("here."));
         }
     }
 
-    private void respondToTradeRequest(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, RegularUserOtherInfoChecker oiC) {
+    private void respondToTradeRequest(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, RegularUserOtherInfoChecker oiC,
+                                       GUIDemo guiD) {
         List<Trade> tradeRequests;
         if (atc.lockThresholdOrNot()) {
-            printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
+            guiD.printNotification(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
             //case with no trade requests
             tradeRequests = atc.tradeRequestsToRespond();
             if (tradeRequests.size() != 0){
                 String strTR = sm.printListObject(new ArrayList<>(tradeRequests));
-                printNote("Here's a list of trade requests: \n" + strTR);
+                guiD.printNotification("Here's a list of trade requests: \n" + strTR);
                 String askTradeId = "Please enter the trade id of the trade request you wish to respond to.";
-                String input1 = getInPut(askTradeId, guiUserInputInfo);
+                String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
                 String askResponse = "Do you agree or disagree? Please enter the word in all lowercase.";
-                String response = getInPut(askResponse, guiUserInputInfo);
+                String response = guiD.getInPut(askResponse, guiUserInputInfo);
                 if (idC.checkInt(input1)){
                     int tradeId = Integer.parseInt(input1);
                     if (idC.checkTradeID(tradeId) && oiC.checkAgreeOrNot(response)){
                         atc.respondToTradeRequests(tradeId, response);
-                        printNote(sm.msgForRequestProcess(true));
+                        guiD.printNotification(sm.msgForRequestProcess(true));
                     }
                     else{
-                        printNote(sm.tryAgainMsgForWrongInput());
+                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
                     }
                 }
                 else {
-                    printNote(sm.tryAgainMsgForWrongFormatInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
             }
             else{
-                printNote(sm.msgForNothing("that you need to respond to here"));
+                guiD.printNotification(sm.msgForNothing("that you need to respond to here"));
             }
         }
     }
 
-    private void RequestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, RegularUserOtherInfoChecker oiC, int numLentBeforeBorrow) {
+    private void RequestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, RegularUserOtherInfoChecker oiC, int numLentBeforeBorrow, GUIDemo guiD) {
         if (atc.lockThresholdOrNot()) {
-            printNote(sm.lockMessageForThreshold(maxNumTransactionAWeek));
+            guiD.printNotification(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
             //asks for input
             String askTradeKind = "Please enter the kind of trade - (1 - one-way-trade/2 - two-way-trade).";
-            String input1 = getInPut(askTradeKind, guiUserInputInfo);
+            String input1 = guiD.getInPut(askTradeKind, guiUserInputInfo);
             String askUserid1 = "Please enter the user id of the borrower (if one-way-trade) " +
                     "or borrower for the first item and lender for the second item (if two-way-trade).";
-            String input2 = getInPut(askUserid1, guiUserInputInfo);
+            String input2 = guiD.getInPut(askUserid1, guiUserInputInfo);
             String askUserid2= "Please enter the user id of the lender (if one-way-trade) or lender for the first item " +
                     "and borrower for the second item (if two-way-trade).";
-            String input3 = getInPut(askUserid2, guiUserInputInfo);
+            String input3 = guiD.getInPut(askUserid2, guiUserInputInfo);
             String askItemid1 = "Please enter the item id of the first item (or the item if it's a one-way-trade).";
-            String input4 = getInPut(askItemid1, guiUserInputInfo);
+            String input4 = guiD.getInPut(askItemid1, guiUserInputInfo);
             String askItemid2 = "Please enter the item id of the second item (or a random number if it's a one-way-trade).";
-            String input5 = getInPut(askItemid2, guiUserInputInfo);
+            String input5 = guiD.getInPut(askItemid2, guiUserInputInfo);
             String askTradeType = "Please enter trade type (permanent / temporary).";
-            String tradeType = getInPut(askItemid2, guiUserInputInfo);
+            String tradeType = guiD.getInPut(askItemid2, guiUserInputInfo);
 
             if (idC.checkInt(input1) && idC.checkInt(input2) && idC.checkInt(input3) && idC.checkInt(input4)
                     && idC.checkInt(input5)){
@@ -259,35 +261,16 @@ public class RegularUserTradingMenuGUI {
                 if ((tradeKind == 1 || tradeKind == 2) && idC.checkUserID(userId1) && idC.checkUserID(userId2)
                     && idC.checkItemID(itemid1, 1) && idC.checkItemID(itemid2, 1)
                         && oiC.checkTradeType(tradeType)) {
-                        printNote(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
+                    guiD.printNotification(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
                 }
                  else{
-                     printNote(sm.tryAgainMsgForWrongInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongInput());
                 }
             }
             else{
-                printNote(sm.tryAgainMsgForWrongFormatInput());
+                guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
             }
         }
-    }
-
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
-    public String getInPut(String string, GUIUserInputInfo guiInput) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String userResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
-        return userResponse;
-
-    }
-
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
-    public void printNote(String msg){
-            NotificationGUI msgGUI = new NotificationGUI(msg);
-            msgGUI.run(msg);
-            // TODO: need to close first
     }
 
 
