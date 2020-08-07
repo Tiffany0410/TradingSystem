@@ -76,16 +76,20 @@ public class RegularUserCommunityMenuGUI {
                 }
                 else {
                     String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating");
-                    if (idC.checkInt(sUserId)) {
-                        int id = Integer.parseInt(sUserId);
-                        if (cmc.checkUserId(id)) {
-                            String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                            guidemo.printNotification(msg);
+                    if (!sUserId.equals("")) {
+                        if (idC.checkInt(sUserId) && cmc.checkUserId(Integer.parseInt(sUserId))) {
+                            int id = Integer.parseInt(sUserId);
+                            double rate = cmc.findRatingForUser(id);
+                            if (rate == -1.0) {
+                                guidemo.printNotification("This user does not have any reviews.");
+                            } else {
+                                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
+                                guidemo.printNotification(msg);
+                            }
                         }
-                    }
-                    else {
-                        String s = "Please enter a valid user id.";
-                        guidemo.printNotification(s);
+                        else {
+                            guidemo.printNotification("Please enter a valid user id.");
+                        }
                     }
                 }
             }
