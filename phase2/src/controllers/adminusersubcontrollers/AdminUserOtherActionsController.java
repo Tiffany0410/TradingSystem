@@ -14,8 +14,6 @@ import managers.usermanager.UserManager;
  */
 public class AdminUserOtherActionsController {
 
-    private AdminUserOtherInfoChecker otherInfoGetter;
-    private AccountCreator ac;
     private UserManager um;
     private ActionManager am;
     private int userId;
@@ -27,14 +25,12 @@ public class AdminUserOtherActionsController {
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserOtherActionsController (UserManager um,
-                                            ActionManager am, String username){
-        //this.ac = ac;          不需要这三个了，pass in那里这三个对应的已经删除掉了
-        //this.ds = ds;
+    public AdminUserOtherActionsController (UserManager um, ActionManager am, String username){
+
         this.um = um;
         this.am = am;
-        this.userId = um.usernameToID(username);
-        //this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
+        this.userId = this.um.usernameToID(username);
+
 
     }
 
@@ -44,9 +40,6 @@ public class AdminUserOtherActionsController {
      *
      */
     public void addNewAdmin(String username) {
-            //String username = otherInfoGetter.getNewAdminUserName();            GUI已经执行了新建用户的操作，这里不需要执行了
-            //String pw = otherInfoGetter.getNewAdminUserPassword();
-            //ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
             am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
         }
 }
