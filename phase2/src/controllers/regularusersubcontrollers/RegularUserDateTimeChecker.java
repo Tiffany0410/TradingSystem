@@ -1,7 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import controllers.maincontrollers.DisplaySystem;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,62 +25,62 @@ public class RegularUserDateTimeChecker {
     }
 
 
-    /**
-     * Asks the user for the valid datetime.
-     * @param ds The presenter used to display information.
-     * @return A list containing user's input of the valid datetime.
-     */
-    public List<Integer> getValidDate(DisplaySystem ds){
-        //TODO: delete later
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
-        List<Integer> list = new ArrayList<>();
-        boolean ok = true;
-        int year = 0, month = 0, day = 0, hour = 0, minute = 0;
-        Scanner sc = new Scanner(System.in);
-
-        do {
-            ok = true;
-            ds.printOut("Please enter the date between 2020 to 2030 (Format: yyyy-MM-dd HH-mm)");
-
-            try {
-                String typeIn = sc.nextLine();
-
-                Date date = format.parse(typeIn);
-
-                year = Integer.parseInt(typeIn.substring(0, 4));
-                month = Integer.parseInt(typeIn.substring(5, 7));
-                day = Integer.parseInt(typeIn.substring(8, 10));
-                hour = Integer.parseInt(typeIn.substring(11, 13));
-                minute = Integer.parseInt(typeIn.substring(14, 16));
-
-            } catch (ParseException e) {
-                ds.printOut("Wrong date format, please follow the correct format. (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-                ok = false;
-
-            } catch (NumberFormatException e) {
-                ds.printOut("Please follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-                ok = false;
-
-            } catch (StringIndexOutOfBoundsException s) {
-                ds.printOut("Follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-                ok = false;
-            }
-
-            if (isValidDay(year, month, day) && isValidTime(hour, minute)) {
-                ds.printOut("Time set success");
-            } else {
-                ds.printOut("Time set failed. Try again");
-                ok = false;
-            }
-            list.add(year);
-            list.add(month);
-            list.add(day);
-            list.add(hour);
-            list.add(minute);
-        } while(!ok);
-        return list;
-
-    }
+//    /**
+//     * Asks the user for the valid datetime.
+//     * @param ds The presenter used to display information.
+//     * @return A list containing user's input of the valid datetime.
+//     */
+//    public List<Integer> getValidDate(DisplaySystem ds){
+//        //TODO: delete later
+//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+//        List<Integer> list = new ArrayList<>();
+//        boolean ok = true;
+//        int year = 0, month = 0, day = 0, hour = 0, minute = 0;
+//        Scanner sc = new Scanner(System.in);
+//
+//        do {
+//            ok = true;
+//            ds.printOut("Please enter the date between 2020 to 2030 (Format: yyyy-MM-dd HH-mm)");
+//
+//            try {
+//                String typeIn = sc.nextLine();
+//
+//                Date date = format.parse(typeIn);
+//
+//                year = Integer.parseInt(typeIn.substring(0, 4));
+//                month = Integer.parseInt(typeIn.substring(5, 7));
+//                day = Integer.parseInt(typeIn.substring(8, 10));
+//                hour = Integer.parseInt(typeIn.substring(11, 13));
+//                minute = Integer.parseInt(typeIn.substring(14, 16));
+//
+//            } catch (ParseException e) {
+//                ds.printOut("Wrong date format, please follow the correct format. (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
+//                ok = false;
+//
+//            } catch (NumberFormatException e) {
+//                ds.printOut("Please follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
+//                ok = false;
+//
+//            } catch (StringIndexOutOfBoundsException s) {
+//                ds.printOut("Follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
+//                ok = false;
+//            }
+//
+//            if (isValidDay(year, month, day) && isValidTime(hour, minute)) {
+//                ds.printOut("Time set success");
+//            } else {
+//                ds.printOut("Time set failed. Try again");
+//                ok = false;
+//            }
+//            list.add(year);
+//            list.add(month);
+//            list.add(day);
+//            list.add(hour);
+//            list.add(minute);
+//        } while(!ok);
+//        return list;
+//
+//    }
 
     public boolean isValidTime(int hour, int min){return 1 <= hour && hour <= 24 && 0 <= min && min <= 59;}
 
