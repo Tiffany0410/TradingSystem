@@ -51,7 +51,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
                     systemMessage.invalidInput();
                 }
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         searchItemByNameButton.addActionListener(new ActionListener() {
@@ -79,8 +80,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
                     systemMessage.printResult(new ArrayList<>(c));
                 }
 
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         searchItemByIdButton.addActionListener(new ActionListener() {
@@ -112,7 +113,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 }
 
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         sortByNumberOfButton.addActionListener(new ActionListener() {
@@ -126,7 +128,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
                 systemMessage.printItemResult(items);
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -138,8 +141,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close this window
-                Window win = SwingUtilities.getWindowAncestor(rootPanel);
-                win.dispose();
+                guiDemo.closeWindow(rootPanel);
 
                 // call next window
                 guiDemo.runRegularUserSearchingMenuGUI();

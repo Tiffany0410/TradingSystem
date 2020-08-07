@@ -35,7 +35,8 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 } else {
                     systemMessage.printResult(new ArrayList<>(m));
                 }
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         incompleteMeetingButton.addActionListener(new ActionListener() {
@@ -57,7 +58,8 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                     systemMessage.invalidInput();
                 }
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         completeMeetingButton.addActionListener(new ActionListener() {
@@ -74,7 +76,8 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 } else {
                 systemMessage.printResult(new ArrayList<>(m));
                 }
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -86,7 +89,8 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runRegularUserSearchingMenuGUI();
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }

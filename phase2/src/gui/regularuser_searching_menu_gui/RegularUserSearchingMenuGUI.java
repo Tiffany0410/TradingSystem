@@ -24,6 +24,8 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -35,6 +37,8 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -46,7 +50,34 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
                 
+            }
+        });
+        searchingTradesButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
+
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }

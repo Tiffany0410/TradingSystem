@@ -54,8 +54,8 @@ public class RegularUserSearchingUsersSubMenuGUI {
                     systemMessage.printResult(new ArrayList<>(filter));
                 }
 
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         sortUserByRatingButton.addActionListener(new ActionListener() {
@@ -74,8 +74,8 @@ public class RegularUserSearchingUsersSubMenuGUI {
                 } else {
                     systemMessage.printResult(new ArrayList<>(l));
                 }
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -86,8 +86,9 @@ public class RegularUserSearchingUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
-                // TODO: Need method to close this window
 
             }
         });

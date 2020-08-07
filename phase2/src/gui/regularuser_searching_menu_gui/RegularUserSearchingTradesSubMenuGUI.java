@@ -34,7 +34,8 @@ public class RegularUserSearchingTradesSubMenuGUI {
                 }else {
                     systemMessage.printResult(new ArrayList<>(filter1));
                 }
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -54,7 +55,8 @@ public class RegularUserSearchingTradesSubMenuGUI {
                     systemMessage.printResult(new ArrayList<>(filter));
                 }
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -66,8 +68,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
-                // TODO: Need method to close this window
+
 
             }
         });
