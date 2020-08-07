@@ -940,12 +940,12 @@ public class UserManager implements Serializable {
     }
 
     //TODO: Need FeedbackManager to get the rating
-    private ArrayList<TradableUser> merge (ArrayList<TradableUser> lst1, ArrayList<TradableUser> lst2) {
+    private ArrayList<TradableUser> merge (ArrayList<TradableUser> lst1, ArrayList<TradableUser> lst2, FeedbackManager fm) {
         int i = 0;
         int j = 0;
         ArrayList<TradableUser> out = new ArrayList<>();
         while (i != lst1.size() && j != lst2.size()){
-            if (lst1.get(i).getRating() > lst2.get(j).getRating()){
+            if (fm.calculateRate(lst1.get(i).getId()) > (fm.calculateRate(lst2.get(j).getId()))){
                 out.add(lst1.get(i));
                 i++;
             } else {
@@ -966,16 +966,16 @@ public class UserManager implements Serializable {
         return out;
     }
 
-    private ArrayList<TradableUser> mergeSort (ArrayList<TradableUser> lst){
+    private ArrayList<TradableUser> mergeSort (ArrayList<TradableUser> lst, FeedbackManager fm){
         if (lst.size() < 2){
             return lst;
         } else {
             int mid_i = lst.size()/2;
             ArrayList<TradableUser> left = new ArrayList<>(lst.subList(0, mid_i));
             ArrayList<TradableUser> right = new ArrayList<>(lst.subList(mid_i, lst.size()));
-            ArrayList<TradableUser> sortedL = mergeSort(left);
-            ArrayList<TradableUser> sortedR = mergeSort(right);
-            return merge(sortedL, sortedR);
+            ArrayList<TradableUser> sortedL = mergeSort(left, fm);
+            ArrayList<TradableUser> sortedR = mergeSort(right, fm);
+            return merge(sortedL, sortedR, fm);
         }
     }
 
@@ -983,9 +983,9 @@ public class UserManager implements Serializable {
      * Sorts the Users by rating
      * @return A list of Users sorted by rating in descending order
      */
-    public ArrayList<TradableUser> sortRating (){
+    public ArrayList<TradableUser> sortRating (FeedbackManager fm){
         ArrayList<TradableUser> listCopy = new ArrayList<>(listTradableUser);
-        return mergeSort(listCopy);
+        return mergeSort(listCopy, fm);
     }
 
     /**

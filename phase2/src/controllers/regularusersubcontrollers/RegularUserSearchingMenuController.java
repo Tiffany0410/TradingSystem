@@ -50,7 +50,7 @@ public class RegularUserSearchingMenuController {
      * @return a list of sorted tradeable user
      */
     public List<TradableUser> sortRating(){
-        return um.sortRating();
+        return um.sortRating(fm);
     }
 
     /** Recent three users traded with this user
