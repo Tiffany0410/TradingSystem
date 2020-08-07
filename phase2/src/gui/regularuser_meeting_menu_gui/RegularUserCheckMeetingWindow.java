@@ -39,6 +39,9 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 confirmTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, sm, guiD);
+                //GO back to main menu
+                guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(contentPane);
             }
         });
 
@@ -72,6 +75,9 @@ public class RegularUserCheckMeetingWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, guiUserInputInfo, idc, dtc, sm, guiD);
+                //GO back to main menu
+                guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(contentPane);
 
             }
         });
@@ -80,8 +86,9 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     private void onBack(GUIDemo guiD, RegularUserMeetingMenuController mmc,
                         int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
                         RegularUserIDChecker idc){
+        // Go back to regular user main menu and close this window
         guiD.runRegularUserMeetingMenu(guiD, mmc, sm, maxEditsTP, guiUserInputInfo, idc);
-        dispose();
+        guiD.closeWindow(contentPane);
     }
     private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
                                   int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,

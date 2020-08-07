@@ -145,6 +145,7 @@ public class RegularUserTradingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
                 guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(rootPanel);
             }
         });
     }

@@ -105,6 +105,7 @@ public class RegularUserMeetingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
                 guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(rootPanel);
             }
         });
     }
@@ -162,8 +163,8 @@ public class RegularUserMeetingMenuGUI {
             if (mmc.checkValidMeeting(tradeId, meetingNum)) {
                 String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
                 RegularUserSuggestMeetingWindow confirmMeetingGui =
-                        new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
-                confirmMeetingGui.run(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
+                        new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits, guiD);
+                confirmMeetingGui.run(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits, guiD);
             } else {
                 guiD.printNotification(sm.tryAgainMsgForWrongInput());
             }

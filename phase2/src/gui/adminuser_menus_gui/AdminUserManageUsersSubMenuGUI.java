@@ -118,17 +118,12 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close window and then go back to main menu
-                closeWindow();
                 guiDemo.runAdminUserMainMenu();
+                guiDemo.closeWindow(rootPanel);
 
 
             }
         });
-    }
-
-    public void closeWindow(){
-        Window win = SwingUtilities.getWindowAncestor(rootPanel);
-        win.dispose();
     }
 
     public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,

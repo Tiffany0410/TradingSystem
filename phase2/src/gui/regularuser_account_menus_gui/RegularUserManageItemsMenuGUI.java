@@ -181,8 +181,8 @@ public class RegularUserManageItemsMenuGUI {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                closeWindow(rootPanel);
                 guiDemo.runRegularUserAccountMainMenuGUI();
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }
@@ -299,10 +299,5 @@ public class RegularUserManageItemsMenuGUI {
         }
     }
 
-
-    private void closeWindow(JPanel panel){
-        Window window = SwingUtilities.getWindowAncestor(panel);
-        window.dispose();
-    }
 
 }

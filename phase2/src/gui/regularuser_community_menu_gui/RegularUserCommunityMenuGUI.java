@@ -238,8 +238,8 @@ public class RegularUserCommunityMenuGUI {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                closeWindow(rootPanel);
                 guidemo.runRegularUserMainMenu(isGuest);
+                guidemo.closeWindow(rootPanel);
             }
         });
 
@@ -390,10 +390,12 @@ public class RegularUserCommunityMenuGUI {
     private void printNote(String string){
         NotificationGUI msgGUI = new NotificationGUI(string);
         msgGUI.run(string);
-    }*/
+    }
 
     private void closeWindow(JPanel panel){
         Window window = SwingUtilities.getWindowAncestor(panel);
         window.dispose();
     }
+
+    */
 }
