@@ -9,7 +9,6 @@ import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -116,7 +115,7 @@ public class AdminUserManageUsersSubMenuGUI {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
         frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo, guiUserInputInfo,
                 sm, idc, oic).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
