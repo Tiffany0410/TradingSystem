@@ -65,7 +65,7 @@ public class AdminUserHistoricalActionsSubMenu {
                 ArrayList<TradableUser> allUser = hac.getAllTradableUser();
 
                 //print all tradable user
-                string = string + sm.printResult(allUser);
+                string = string + sm.printListUser(allUser);
 
                 //get the user username enter by admin
                 string = string + "\n Please enter the username: ";

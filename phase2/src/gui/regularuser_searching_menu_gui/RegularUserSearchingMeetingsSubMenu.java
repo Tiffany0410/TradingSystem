@@ -55,8 +55,6 @@ public class RegularUserSearchingMeetingsSubMenu {
                 } else {
                     systemMessage.printResult(new ArrayList<>(m));
                 }
-                } catch (InvalidIdException ex) {
-                    systemMessage.printInvalidID();
                 } catch (Exception ex) {
                     systemMessage.invalidInput();
                 }

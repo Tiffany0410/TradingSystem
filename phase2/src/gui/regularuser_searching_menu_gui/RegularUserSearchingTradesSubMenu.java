@@ -28,7 +28,6 @@ public class RegularUserSearchingTradesSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            try {
                 List<Trade> filter1 = regularUserSearchingMenuController.filterIncompleteTrade();
 
                 if (filter1.size() == 0) {
@@ -36,9 +35,6 @@ public class RegularUserSearchingTradesSubMenu {
                 }else {
                     systemMessage.printResult(new ArrayList<>(filter1));
                 }
-            } catch (InvalidIdException  ex) {
-                systemMessage.printInvalidID();
-            }
                 // TODO: Need method to close this window
 
             }
@@ -52,16 +48,12 @@ public class RegularUserSearchingTradesSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            try {
-                List<managers.trademanager.Trade> filter = regularUserSearchingMenuController.filterCompleteTrade();
+                List<Trade> filter = regularUserSearchingMenuController.filterCompleteTrade();
                 if (filter.size() == 0) {
                     systemMessage.msgForNothing();
                 } else {
                     systemMessage.printResult(new ArrayList<>(filter));
                 }
-            } catch (InvalidIdException ex) {
-                systemMessage.printInvalidID();
-            }
 
                 // TODO: Need method to close this window
 

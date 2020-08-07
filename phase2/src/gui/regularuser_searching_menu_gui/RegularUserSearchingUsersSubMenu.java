@@ -31,15 +31,12 @@ public class RegularUserSearchingUsersSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try{
-                    List<Integer> filter = regularUserSearchingMenuController.recentThreePartner();
+                List<Integer> filter = regularUserSearchingMenuController.recentThreePartner();
                 if (filter.size() == 0) {
                     systemMessage.msgForNothing();
                 } else {
                     systemMessage.printResult(new ArrayList<>(filter)); }
-                } catch ( InvalidIdException ex) {
-                    systemMessage.printInvalidID(); }
-                    // TODO: Need method to close this window
+                // TODO: Need method to close this window
 
                 }
         });
@@ -52,15 +49,11 @@ public class RegularUserSearchingUsersSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
-                    List<Integer> filter = regularUserSearchingMenuController.sortAllTradedPartner();
-                    if (filter.size() == 0) {
-                        systemMessage.msgForNothing();
-                    } else {
-                        systemMessage.printResult(new ArrayList<>(filter));
-                    }
-                } catch (InvalidIdException ex) {
-                    systemMessage.printInvalidID();
+                List<Integer> filter = regularUserSearchingMenuController.sortAllTradedPartner();
+                if (filter.size() == 0) {
+                    systemMessage.msgForNothing();
+                } else {
+                    systemMessage.printResult(new ArrayList<>(filter));
                 }
 
                 // TODO: Need method to close this window
