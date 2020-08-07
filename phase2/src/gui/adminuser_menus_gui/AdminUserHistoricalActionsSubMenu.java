@@ -34,6 +34,8 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllAction();
                 printObjects(allAction, sm);
+
+                // TODO: close this window
             }
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
@@ -46,6 +48,9 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllRevocableAction();
                 printObjects(allAction, sm);
+
+                // TODO: close this window
+
             }
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
@@ -56,20 +61,27 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO:print "Here are all the TradableUser Id: \n"
+                String string = "Here are all the TradableUser: \n";
                 ArrayList<TradableUser> allUser = hac.getAllTradableUser();
-                // TODO:print all tradable user
-                // TODO:get the user username enter by admin
-                String username = "";
+
+                //print all tradable user
+                string = string + sm.printResult(allUser);
+
+                //get the user username enter by admin
+                string = string + "\n Please enter the username: ";
+                String username = guiDemo.getInPut(string);
                 int userID = hac.getUserID(username);
                 ArrayList<Action> allAction = new ArrayList<>();
                 if (hac.checkUser(username)) {
                     allAction = hac.searchRevocableActionByUserID(userID);
                 }
                 else {
-                    //TODO: print "Please enter correct userID"
+                    guiDemo.printNotification("Please enter correct username");
                 }
                 printObjects(allAction, sm);
+
+                // TODO: close this window
+
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -80,19 +92,26 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO:print "Please enter the ID of action that you want to cancel: \n"
-                // TODO:get the action id enter by admin
-                int actionID = 0;
-                boolean flag = false;
-                Action targetAction = hac.findActionByID(actionID);
-                // check if the action id in current revocable list
-                if (hac.checkRevocable(targetAction)) {
-                    flag = hac.cancelRevocableAction(targetAction);
+                String string = "Please enter the ID of action that you want to cancel: \n";
+
+                try {
+                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
+
+                    boolean flag = false;
+                    Action targetAction = hac.findActionByID(actionID);
+                    // check if the action id in current revocable list
+                    if (hac.checkRevocable(targetAction)) {
+                        flag = hac.cancelRevocableAction(targetAction);
+                    } else {
+                        guiDemo.printNotification("Please enter correct actionID");
+                    }
+                    if (flag) {
+                        guiDemo.printNotification("Successfully delete target action");
+                    }
+                } catch (NumberFormatException ex){
+                    sm.printInvalidID();
                 }
-                else {//TODO:print"Please enter correct actionID"
-                }
-                if (flag) {//TODO:print "Successfully delete target action"
-                }
+                // TODO: close this window
             }
         });
         confirmUndoRequestButton.addActionListener(new ActionListener() {
@@ -103,19 +122,34 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Map<Integer, Integer> undoRequests = new HashMap<>();
-                undoRequests.putAll(hac.getUndoRequest());
-                //TODO:print whole map(key is actionID, value is regularUser id)
-                //TODO:print "Please enter the ID of action that you want to cancel: \n"
-                //TODO:get the actionID enter by admin
-                int actionID = 0;
-                boolean flag = false;
-                if (hac.checkUndoRequest(actionID)) {
-                    flag = hac.confirmRequestAndCancelAction(actionID);}
-                else {//TODO:print"Please enter correct actionID"
+                Map<Integer, Integer> undoRequests = new HashMap<>(hac.getUndoRequest());
+
+                //print whole map(key is actionID, value is regularUser id)
+                String string = undoRequests.toString();
+
+                string = string + "Please enter the ID of action that you want to cancel: \n";
+
+                //get the actionID enter by admin
+                try {
+                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
+
+
+                    boolean flag = false;
+                    if (hac.checkUndoRequest(actionID)) {
+                        flag = hac.confirmRequestAndCancelAction(actionID);
+                    } else {
+                        guiDemo.printNotification("Please enter correct actionID");
+                    }
+
+                    if (flag) {
+                        guiDemo.printNotification("Successfully delete target action");
+                    }
+
+                } catch (NumberFormatException ex){
+                    sm.printInvalidID();
                 }
-                if (flag) {//TODO:print "Successfully delete target action"
-                }
+
+                // TODO: close this window
 
             }
         });
@@ -127,7 +161,8 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO:
+                guiDemo.runAdminUserMainMenu();
+                //TODO: Close this window
             }
         });
     }
