@@ -89,7 +89,6 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: check if there's toString method in the action class
                 ArrayList<Action> ownRevocableAction = atc.seeOwnRevocableAction();
                 if (ownRevocableAction.size() != 0){
                     String str = sm.printListObject(new ArrayList<>(ownRevocableAction));
