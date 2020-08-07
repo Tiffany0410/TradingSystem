@@ -10,36 +10,14 @@ import java.awt.event.ActionListener;
 
 public class RegularUserAccountMainMenuGUI {
     private JPanel rootPanel;
-    private JButton feedBackButton;
     private JButton manageItemButton;
     private JButton accountSettingButton;
     private JButton backButton;
     private JButton followOthersItemsButton;
+    private JButton feedbackButton;
 
     public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
-//        feedBackButton.addActionListener(new ActionListener() {
-//            /**
-//             * Invoked when an action occurs.
-//             *
-//             * @param e
-//             */
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Call regular user feed back menu and close this window
-//                // guest not allowed
-//                if (isGuest){
-//                    guiD.printNotification(sm.msgForGuest());
-//                }
-//                else if (amc.seeIfFrozen()){
-//                    guiD.printNotification(sm.lockMessageForFrozen());
-//                }
-//                else{
-//                    guiD.runRegularUserAccountFeedBackMenu();
-//                    guiD.closeWindow(rootPanel);
-//                }
-//
-//            }
-//        });
+
         manageItemButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -79,6 +57,27 @@ public class RegularUserAccountMainMenuGUI {
 
             }
         });
+
+        followOthersItemsButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Call account setting menu and close this window
+                // guest not allowed
+                if (!isGuest){
+                    guiD.runRegularUserAccountFollowMenu();
+                    guiD.closeWindow(rootPanel);
+                }
+                else{
+                    guiD.printNotification(sm.msgForGuest());
+                }
+            }
+        });
+
         backButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

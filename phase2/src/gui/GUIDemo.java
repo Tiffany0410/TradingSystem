@@ -236,7 +236,7 @@ public class GUIDemo {
                 this.partsOfUserAlert, this.thresholdValues);
     }
 
-    public void runRegularUserAccountFeedBackMenu(){
+    public void runRegularUserAccountFollowMenu(){
         RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI(this,
                 this.regularUserAccountMenuController, this.guiUserInputInfo, this.regularUserIDChecker, this.systemMessage);
         regularUserFollowMenuGUI.run(this,
