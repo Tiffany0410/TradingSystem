@@ -35,15 +35,14 @@ public class RegularUserThresholdController {
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
      */
     public RegularUserThresholdController(TradeManager tm, MeetingManager mm,
-                                          UserManager um, String username, int userId) {
+                                          UserManager um, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
-        this.userId = userId;
+        this.userId = um.usernameToID(this.username);
         this.thresholdReassessed = false;
     }
 
