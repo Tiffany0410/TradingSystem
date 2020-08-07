@@ -33,9 +33,6 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllAction();
                 printObjects(allAction, sm, guiDemo);
-
-                //close this window
-                guiDemo.closeWindow(rootPanel);
             }
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
@@ -48,10 +45,6 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllRevocableAction();
                 printObjects(allAction, sm, guiDemo);
-
-                //close this window
-                guiDemo.closeWindow(rootPanel);
-
             }
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
@@ -80,9 +73,6 @@ public class AdminUserHistoricalActionsSubMenu {
                     guiDemo.printNotification("Please enter correct username");
                 }
                 printObjects(allAction, sm, guiDemo);
-
-                //close this window
-                guiDemo.closeWindow(rootPanel);
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
