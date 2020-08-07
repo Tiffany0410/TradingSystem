@@ -197,5 +197,15 @@ public class GUIDemo {
         notificationGUI.run(string);
     }
 
+    //moved from community menu gui's helper method section
+    public String getInPut(String string, GUIUserInputInfo guiInput) {
+        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
+        userInputGUI.run(string, guiInput);
+        String userResponse = guiInput.getTempUserInput();
+        return userResponse;
+
+    }
+
+    
 }
 

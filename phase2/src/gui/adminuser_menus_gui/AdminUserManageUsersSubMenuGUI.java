@@ -11,6 +11,7 @@ import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -80,9 +81,9 @@ public class AdminUserManageUsersSubMenuGUI {
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
                 guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
-                String input1 = getInPut(askItemRequestNum, guiUserInputInfo);
+                String input1 = guiDemo.getInPut(askItemRequestNum, guiUserInputInfo);
                 String askAddOrNot = "Do you choose to add or not add this item to the corresponding user's wish list? enter (1 - add, 2 - not add).";
-                String input2 = getInPut(askAddOrNot, guiUserInputInfo);
+                String input2 = guiDemo.getInPut(askAddOrNot, guiUserInputInfo);
                 if (idc.checkInt(input1) && idc.checkInt(input2)){
                     int itemToAddNum = Integer.parseInt(input1);
                     int addOrNot = Integer.parseInt(input2);
@@ -116,17 +117,25 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close window and then go back to main menu
+                closeWindow();
                 guiDemo.runAdminUserMainMenu();
-                // TODO: Need method to close this window
 
 
             }
         });
     }
 
-    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo) {
+    public void closeWindow(){
+        Window win = SwingUtilities.getWindowAncestor(rootPanel);
+        win.dispose();
+    }
+
+    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
+                    SystemMessage sm, RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
-        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo, guiUserInputInfo).rootPanel);
+        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo, guiUserInputInfo,
+                sm, idc, oic).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
