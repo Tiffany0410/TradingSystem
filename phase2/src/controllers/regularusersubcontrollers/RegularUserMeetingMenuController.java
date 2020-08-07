@@ -18,10 +18,7 @@ import java.util.List;
 public class RegularUserMeetingMenuController {
     private TradeManager tm;
     private MeetingManager mm;
-    private UserManager um;
-    private ItemManager im;
     private ActionManager am;
-    private String username;
     private int userId;
 
     /**
@@ -30,20 +27,13 @@ public class RegularUserMeetingMenuController {
      *
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
-     * @param um       The current state of the UserManager.
-     * @param im       The current state of the ItemManager.
      * @param am       The current state of the ActionManager.
-     * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserMeetingMenuController(TradeManager tm, MeetingManager mm, UserManager um,
-                                            ItemManager im, ActionManager am, String username, int userId) {
+    public RegularUserMeetingMenuController(TradeManager tm, MeetingManager mm, ActionManager am, int userId) {
         this.tm = tm;
         this.mm = mm;
-        this.um = um;
-        this.im = im;
         this.am = am;
-        this.username = username;
         this.userId = userId;
     }
 
