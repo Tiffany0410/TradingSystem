@@ -140,6 +140,7 @@ public class SystemMessage {
     }
 
     private void activeAlerts(StringBuilder notification, UserManager um, RegularUserThresholdController tc, String username, ArrayList<Integer> thresholdValues) {
+        int userId = um.usernameToID(username);
         if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(thresholdValues.get(1))){
@@ -147,8 +148,9 @@ public class SystemMessage {
             }
         }
         notification.append("Your username is ").append(username).append("\n");
-        notification.append("Your userId is ").append(um.usernameToID(username)).append("\n");
+        notification.append("Your userId is ").append(userId).append("\n");
         notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append("\n");
+        notification.append("The answer to you're on-vacation is ").append(um.getInfo(userId, "Vacation") == 1).append("\n");
         notification.append("You have borrowed:").append(um.getInfo(username, "NumBorrowed")).append("\n");
         notification.append("You have lent:").append(um.getInfo(username, "NumLent")).append("\n");
         notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
