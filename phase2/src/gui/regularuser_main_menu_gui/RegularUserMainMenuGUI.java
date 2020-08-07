@@ -45,7 +45,12 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
+                if (!guest) {
+                    guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
+                }
+                else{
+                    guiD.printNotification(sm.msgForGuest());
+                }
 
             }
         });
