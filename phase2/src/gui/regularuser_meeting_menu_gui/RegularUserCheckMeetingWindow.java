@@ -87,7 +87,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                         int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
                         RegularUserIDChecker idc){
         // Go back to regular user main menu and close this window
-        guiD.runRegularUserMeetingMenu(guiD, mmc, sm, maxEditsTP, guiUserInputInfo, idc);
+        guiD.runRegularUserMeetingMenu();
         guiD.closeWindow(contentPane);
     }
     private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
