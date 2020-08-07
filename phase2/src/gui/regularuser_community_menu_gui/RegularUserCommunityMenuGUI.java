@@ -50,23 +50,23 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = getInPut("Please input an user id for the user you want to review: ",
+                    String sUserId = guidemo.getInPut("Please input an user id for the user you want to review: ",
                             guiInput);
-                    String sPoint = getInPut("Please enter the point for the user(0-10): ", guiInput);
-                    String reason = getInPut("Please enter the reason why you get the point: ", guiInput);
+                    String sPoint = guidemo.getInPut("Please enter the point for the user(0-10): ", guiInput);
+                    String reason = guidemo.getInPut("Please enter the reason why you get the point: ", guiInput);
                     if (idC.checkInt(sUserId) && idC.checkInt(sPoint)) {
                         int user_id = Integer.parseInt(sUserId);
                         int point = Integer.parseInt(sPoint);
                         if (idC.checkUserID(user_id) && otherChecker.getNumRating(point)) {
                             boolean yesOrNo = cmc.reviewUser(user_id, point, reason);
-                            printNote(sm.msgForResult(yesOrNo));
+                            guidemo.printNotification(sm.msgForResult(yesOrNo));
                         }
                     }
                     else {
-                        printNote("Please enter a valid id and point.");
+                        guidemo.printNotification("Please enter a valid id and point.");
                     }
                 }
             }
@@ -76,19 +76,19 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     String result;
-                    String sUserId = getInPut("Please enter the user's id that you want to report.", guiInput);
-                    String reason = getInPut("Please enter the reason why you report this user.", guiInput);
+                    String sUserId = guidemo.getInPut("Please enter the user's id that you want to report.", guiInput);
+                    String reason = guidemo.getInPut("Please enter the reason why you report this user.", guiInput);
                     if (idC.checkInt(sUserId)) {
                         result = sm.msgForResult(cmc.reportUser(Integer.parseInt(sUserId), reason));
                     }
                     else {
                         result = "Please enter valid information.";
                     }
-                    printNote(result);
+                    guidemo.printNotification(result);
                 }
             }
         });
@@ -97,20 +97,20 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = getInPut("Please enter the user's id for his/her rating", guiInput);
+                    String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating", guiInput);
                     if (idC.checkInt(sUserId)) {
                         int id = Integer.parseInt(sUserId);
                         if (cmc.checkUserId(id)) {
                             String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                            printNote(msg);
+                            guidemo.printNotification(msg);
                         }
                     }
                     else {
                         String s = "Please enter a valid user id.";
-                        printNote(s);
+                        guidemo.printNotification(s);
                     }
                 }
             }
@@ -120,7 +120,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     String string;
@@ -131,7 +131,7 @@ public class RegularUserCommunityMenuGUI {
                     else {
                         string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
                     }
-                    printNote(string);
+                    guidemo.printNotification(string);
                 }
             }
         });
@@ -145,7 +145,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     String string;
@@ -155,7 +155,7 @@ public class RegularUserCommunityMenuGUI {
                     else {
                         string = sm.printListUser(cmc.getFriends());
                     }
-                    printNote(string);
+                    guidemo.printNotification(string);
                 }
             }
         });
@@ -164,13 +164,13 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     ArrayList<TradableUser> notFriends = cmc.getNotFriends();
                     sendOrRespondOrUnfriend(notFriends, sm, guiInput, idC, cmc, "send friend request",
                             "tradable users to be added. Please check your friend requests",
-                            "users you can add");
+                            "users you can add", guidemo);
                 }
             }
         });
@@ -179,12 +179,12 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     ArrayList<TradableUser> requests = cmc.getFriendRequest();
                     sendOrRespondOrUnfriend(requests, sm, guiInput, idC, cmc, "accept friend request",
-                            "friend requests", "friend requests");
+                            "friend requests", "friend requests", guidemo);
                 }
             }
         });
@@ -193,12 +193,12 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     ArrayList<TradableUser> friends = cmc.getFriends();
                     sendOrRespondOrUnfriend(friends, sm, guiInput, idC, cmc, "unfriend",
-                            "tradable users to be unfriended", "friends");
+                            "tradable users to be unfriended", "friends", guidemo);
                 }
             }
         });
@@ -207,11 +207,11 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
                     ArrayList<TradableUser> friends = cmc.getFriends();
-                    sendMessage(friends, sm, guiInput, idC, cmc);
+                    sendMessage(friends, sm, guiInput, idC, cmc, guidemo);
                 }
             }
         });
@@ -220,7 +220,7 @@ public class RegularUserCommunityMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
-                    printNote(sm.msgForGuest());
+                    guidemo.printNotification(sm.msgForGuest());
                 } else {
                     ArrayList<Message> messages = cmc.getAllMessages();
                     String string;
@@ -230,7 +230,7 @@ public class RegularUserCommunityMenuGUI {
                     else {
                         string = "Here is a list of messages: " + sm.printAllMessages(messages);
                     }
-                    printNote(string);
+                    guidemo.printNotification(string);
                 }
             }
         });
@@ -247,9 +247,9 @@ public class RegularUserCommunityMenuGUI {
 
     private void sendOrRespondOrUnfriend(ArrayList<TradableUser> users, SystemMessage sm, GUIUserInputInfo guiInput,
                                          RegularUserIDChecker idC, RegularUserCommunityMenuController cmc,
-                                         String actionType, String msg1, String msg2){
+                                         String actionType, String msg1, String msg2, GUIDemo guiDemo){
         if (users.isEmpty()){
-            printNote(sm.msgForNo(msg1));
+            guiDemo.printNotification(sm.msgForNo(msg1));
         }
         else{
             String string = "Please enter user's Id to " + actionType + ".\n" + "Here is a list of " + msg2 + ":\n";
@@ -259,22 +259,22 @@ public class RegularUserCommunityMenuGUI {
             else{
                 string = string + sm.printListUser(users);
             }
-            String result = getInPut(string, guiInput);
+            String result = guiDemo.getInPut(string, guiInput);
             if (idC.checkInt(result)){
                 int id = Integer.parseInt(result);
-                printRequest(sm, guiInput, cmc, actionType, id);
+                printRequest(sm, guiInput, cmc, actionType, id, guiDemo);
             }
             else{
-                printNote("Please enter a valid information.");
+                guiDemo.printNotification("Please enter a valid information.");
             }
         }
     }
 
     private void printRequest(SystemMessage sm, GUIUserInputInfo guiInput, RegularUserCommunityMenuController cmc,
-                              String actionType, int id){
+                              String actionType, int id, GUIDemo guidemo){
         String out;
         if (actionType.equals("send friend request")){
-            String msg_result = getInPut("Please leave a message for this user: ", guiInput);
+            String msg_result = guidemo.getInPut("Please leave a message for this user: ", guiInput);
             out = sm.msgForFriendRequest(cmc.sendFriendRequest(id, msg_result), id);
         }
         else if (actionType.equals("accept friend request")){
@@ -288,11 +288,11 @@ public class RegularUserCommunityMenuGUI {
         else {
             out = sm.msgForResult(cmc.unfriendUser(id));
         }
-        printNote(out);
+        guidemo.printNotification(out);
     }
 
     private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput,
-                             RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
+                             RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guiDemo){
         String string;
         if (friends.isEmpty()) {
             string = sm.msgForNo("friends. Please add friends first.");
@@ -300,14 +300,14 @@ public class RegularUserCommunityMenuGUI {
         else {
             String msg = "Please enter user's ID to send a message.\nHere is your list of friends:\n"
                     + sm.printListUser(friends);
-            String result = getInPut(msg, guiInput);
+            String result = guiDemo.getInPut(msg, guiInput);
             if (idC.checkInt(result)) {
                 int id = Integer.parseInt(result);
                 if (!cmc.checkIsFriend(id)) {
                     string = "Please enter an id of your friend!";
                 }
                 else {
-                    String message = getInPut("Please write a message: ", guiInput);
+                    String message = guiDemo.getInPut("Please write a message: ", guiInput);
                     string = sm.msgForResult(cmc.sendMessage(id, message));
                 }
             }
@@ -315,7 +315,7 @@ public class RegularUserCommunityMenuGUI {
                 string = "Please enter a valid information.";
             }
         }
-        printNote(string);
+        guiDemo.printNotification(string);
     }
 
 
@@ -381,7 +381,7 @@ public class RegularUserCommunityMenuGUI {
 //        printNote(string);
 //    }
 
-    private String getInPut(String string, GUIUserInputInfo guiInput){
+   /* private String getInPut(String string, GUIUserInputInfo guiInput){
         UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
         userInputGUI.run(string, guiInput);
         String sUserId = guiInput.getTempUserInput();
@@ -390,7 +390,7 @@ public class RegularUserCommunityMenuGUI {
     private void printNote(String string){
         NotificationGUI msgGUI = new NotificationGUI(string);
         msgGUI.run(string);
-    }
+    }*/
 
     private void closeWindow(JPanel panel){
         Window window = SwingUtilities.getWindowAncestor(panel);

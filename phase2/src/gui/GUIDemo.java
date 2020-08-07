@@ -206,5 +206,13 @@ public class GUIDemo {
 
     }
 
+    //moved from account settings menu gui's helper method section
+    public String getLongInput(String str, GUIUserInputInfo guiUserInputInfo){
+        UserInputLongMsgGUI userInputLongMsgGUI = new UserInputLongMsgGUI(str, guiUserInputInfo);
+        userInputLongMsgGUI.run(str, guiUserInputInfo);
+        String userResponse = guiUserInputInfo.getTempUserInput();
+        return userResponse;
+    }
+
 }
 
