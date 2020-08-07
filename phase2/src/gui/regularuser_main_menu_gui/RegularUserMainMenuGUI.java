@@ -24,23 +24,19 @@ public class RegularUserMainMenuGUI {
     private JButton communityInformationButton;
 
     public void run(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
-                    RegularUserMeetingMenuController mmc, RegularUserIDChecker idChecker,
-                    RegularUserThresholdController tc,  GUIUserInputInfo guiUserInputInfo,
-                    String username, UserManager um, String menuPartOfAlert,
+                    RegularUserThresholdController tc, String username, UserManager um, String menuPartOfAlert,
                     ArrayList<Integer> thresholdValues) {
 
         JFrame frame = new JFrame("regularUserMainMenuGUI");
-        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm, guiD, amc, mmc, idChecker, tc, guiUserInputInfo,
-                username, um, menuPartOfAlert, thresholdValues).rootPanel);
+        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm, guiD, amc,tc, username, um, menuPartOfAlert,
+                thresholdValues).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
     public RegularUserMainMenuGUI(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
-                                  RegularUserMeetingMenuController mmc, RegularUserIDChecker idChecker,
-                                  RegularUserThresholdController tc,  GUIUserInputInfo guiUserInputInfo,
-                                  String username, UserManager um, String menuPartOfAlert,
+                                  RegularUserThresholdController tc, String username, UserManager um, String menuPartOfAlert,
                                   ArrayList<Integer> thresholdValues) {
         notificationButton.addActionListener(new ActionListener() {
             /**

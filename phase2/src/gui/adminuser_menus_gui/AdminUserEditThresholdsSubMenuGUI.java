@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AdminUserEditThresholdsSubMenu {
+public class AdminUserEditThresholdsSubMenuGUI {
     private JPanel rootPanel;
     private JButton editTheMaxNumberButton;
     private JButton editTheMaxNumberButton1;
@@ -18,9 +18,9 @@ public class AdminUserEditThresholdsSubMenu {
     private JButton editTheMaxEditsButton;
     private JButton backButton;
 
-    public AdminUserEditThresholdsSubMenu(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
-                                          AdminUserEditThresholdsController adminUserEditThresholdsController,
-                                          SystemMessage systemMessage) {
+    public AdminUserEditThresholdsSubMenuGUI(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
+                                             AdminUserEditThresholdsController adminUserEditThresholdsController,
+                                             SystemMessage systemMessage) {
         editTheMaxNumberButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -39,8 +39,8 @@ public class AdminUserEditThresholdsSubMenu {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         editTheMaxNumberButton1.addActionListener(new ActionListener() {
@@ -62,8 +62,8 @@ public class AdminUserEditThresholdsSubMenu {
                     systemMessage.invalidNumber();
                 }
 
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -85,8 +85,8 @@ public class AdminUserEditThresholdsSubMenu {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -108,8 +108,8 @@ public class AdminUserEditThresholdsSubMenu {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -121,9 +121,9 @@ public class AdminUserEditThresholdsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                    guiDemo.runAdminUserMainMenu();
-                // TODO: Need method to close this window
-
+                guiDemo.runAdminUserMainMenu();
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -133,7 +133,7 @@ public class AdminUserEditThresholdsSubMenu {
                     AdminUserEditThresholdsController adminUserEditThresholdsController,
                     SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserEditThresholdsSubMenu");
-        frame.setContentPane(new AdminUserEditThresholdsSubMenu(guiDemo, guiUserInputInfo, adminUserEditThresholdsController, systemMessage).rootPanel);
+        frame.setContentPane(new AdminUserEditThresholdsSubMenuGUI(guiDemo, guiUserInputInfo, adminUserEditThresholdsController, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
