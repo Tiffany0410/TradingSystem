@@ -37,6 +37,7 @@ public class TradingSystemInitMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //login
                 guiDemo.runLogin();
+                guiDemo.closeWindow(panel1);
             }
         });
 

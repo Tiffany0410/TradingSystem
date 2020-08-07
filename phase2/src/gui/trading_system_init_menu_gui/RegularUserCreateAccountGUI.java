@@ -27,6 +27,7 @@ public class RegularUserCreateAccountGUI {
             public void actionPerformed(ActionEvent e) {
                 accountCreator.createAccount("Regular", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
+                guiDemo.closeWindow(rootPanel);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -38,6 +39,7 @@ public class RegularUserCreateAccountGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runTradingSystemInitMenuGUI();
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }

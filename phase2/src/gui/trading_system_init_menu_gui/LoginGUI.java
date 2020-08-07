@@ -49,10 +49,12 @@ public class LoginGUI {
                         case "Admin":
                             guiDemo.setTempUsername(usernameText.getText());
                             guiDemo.runAdminUserMainMenu();
+                            guiDemo.closeWindow(rootPanel);
                             break;
                         case "User":
                             guiDemo.setTempUsername(usernameText.getText());
                             guiDemo.runRegularUserMainMenu(false);
+                            guiDemo.closeWindow(rootPanel);
                             break;
                     }
 
