@@ -63,8 +63,6 @@ public class LoginGUI {
                     NotificationGUI notificationGUI = new NotificationGUI(string);
                     notificationGUI.run(string);
                 }
-
-                // TODO: Need method to close this window
             }
         });
         cancelButton.addActionListener(new ActionListener() {
