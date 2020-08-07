@@ -3,7 +3,7 @@ package controllers.adminusersubcontrollers;
 import controllers.AccountCreator;
 import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -16,7 +16,6 @@ public class AdminUserOtherActionsController {
 
     private AdminUserOtherInfoChecker otherInfoGetter;
     private AccountCreator ac;
-    private DisplaySystem ds;
     private UserManager um;
     private ActionManager am;
     private int userId;
