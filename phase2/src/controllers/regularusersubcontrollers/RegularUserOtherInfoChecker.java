@@ -4,7 +4,7 @@ import managers.itemmanager.Category;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,55 +19,40 @@ import java.util.Scanner;
 
 public class RegularUserOtherInfoChecker {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
-    private TradeManager tm;
-    private MeetingManager mm;
     private UserManager um;
-    private String username;
-    private int userId;
+
 
     /**
      * Constructs a RegularUserOtherInfoGetter with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
-     * @param tm       The current state of the TradeManager.
-     * @param mm       The current state of the MeetingManager.
-     * @param um       The current state of the UserManager.
-     * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
+     *  @param um       The current state of the UserManager.
      */
-    public RegularUserOtherInfoChecker(DisplaySystem ds, TradeManager tm, MeetingManager mm,
-                                       UserManager um, String username, int userId) {
-        this.ds = ds;
-        this.tm = tm;
-        this.mm = mm;
+    public RegularUserOtherInfoChecker(UserManager um) {
         this.um = um;
-        this.username = username;
-        this.userId = userId;
     }
 
 
-    /**
-     * Gets user's message, which can be in any length.
-     *
-     * @param TypeOfMessage The part of the message that relates to the context.
-     * @return User's message in string format.
-     */
-    public String getMessage(String TypeOfMessage) {
-        //TODO: delete later
-        Scanner sc = new Scanner(System.in);
-        ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
-        StringBuilder fullMsg = new StringBuilder();
-        //read the first line
-        String msg = sc.nextLine();
-        //read in + append until user enters "OK"
-        while (!msg.equals("OK")) {
-            fullMsg.append(msg);
-            msg = sc.nextLine();
-        }
-        return fullMsg.toString();
-    }
+//    /**
+//     * Gets user's message, which can be in any length.
+//     *
+//     * @param TypeOfMessage The part of the message that relates to the context.
+//     * @return User's message in string format.
+//     */
+//    public String getMessage(String TypeOfMessage) {
+//        //TODO: delete later
+//        Scanner sc = new Scanner(System.in);
+//        ds.printOut(TypeOfMessage + "" + "[enter OK to stop]: ");
+//        StringBuilder fullMsg = new StringBuilder();
+//        //read the first line
+//        String msg = sc.nextLine();
+//        //read in + append until user enters "OK"
+//        while (!msg.equals("OK")) {
+//            fullMsg.append(msg);
+//            msg = sc.nextLine();
+//        }
+//        return fullMsg.toString();
+//    }
 
     /**
      * Checks the type of the trade input by the user.
@@ -107,30 +92,30 @@ public class RegularUserOtherInfoChecker {
      * @return User's input of the option number.
      * @link https://stackoverflow.com/questions/32592922/java-try-catch-with-scanner
      */
-    public int getNumKindOfResponse(int userInput, String option1, String option2) {
-        //TODO: delete later
-        Scanner sc = new Scanner(System.in);
-        int num = 0;
-
-        boolean okInput = false;
-        do {
-            ds.printOut("Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ");
-            // if the input is int
-            if (sc.hasNextInt()) {
-                num = sc.nextInt();
-                // if the input is valid
-                if (num == 1 || num == 2) {
-                    okInput = true;
-                } else {
-                    ds.printOut("Please enter a valid integer!");
-                }
-            } else {
-                sc.nextLine();
-                ds.printOut("Enter a valid Integer value please");
-            }
-        } while (!okInput);
-        return num;
-    }
+//    public int getNumKindOfResponse(int userInput, String option1, String option2) {
+//        //TODO: delete later
+//        Scanner sc = new Scanner(System.in);
+//        int num = 0;
+//
+//        boolean okInput = false;
+//        do {
+//            ds.printOut("Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ");
+//            // if the input is int
+//            if (sc.hasNextInt()) {
+//                num = sc.nextInt();
+//                // if the input is valid
+//                if (num == 1 || num == 2) {
+//                    okInput = true;
+//                } else {
+//                    ds.printOut("Please enter a valid integer!");
+//                }
+//            } else {
+//                sc.nextLine();
+//                ds.printOut("Enter a valid Integer value please");
+//            }
+//        } while (!okInput);
+//        return num;
+//    }
 
 
     /**
@@ -139,22 +124,22 @@ public class RegularUserOtherInfoChecker {
      *
      * @return User's input of the type of the item.
      */
-    public Category getItemType() {
-        //TODO: delete later
-        ArrayList<String> categories = new ArrayList<>();
-        String cateG;
-        for (Category category : Category.values()) {
-            categories.add(category.name());
-        }
-        Scanner sc = new Scanner(System.in);
-        ds.printOut("Please enter the type of the item: ");
-        ds.printOut("It must be in one of the categories below (all UPPERCASE)!");
-        ds.printResult(new ArrayList<>(categories));
-        do {
-            cateG = sc.nextLine();
-        } while (!categories.contains(cateG));
-        return Category.valueOf(cateG);
-    }
+//    public Category getItemType() {
+//        //TODO: delete later
+//        ArrayList<String> categories = new ArrayList<>();
+//        String cateG;
+//        for (Category category : Category.values()) {
+//            categories.add(category.name());
+//        }
+//        Scanner sc = new Scanner(System.in);
+//        ds.printOut("Please enter the type of the item: ");
+//        ds.printOut("It must be in one of the categories below (all UPPERCASE)!");
+//        ds.printResult(new ArrayList<>(categories));
+//        do {
+//            cateG = sc.nextLine();
+//        } while (!categories.contains(cateG));
+//        return Category.valueOf(cateG);
+//    }
 
 
     /**
