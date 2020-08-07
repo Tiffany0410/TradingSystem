@@ -51,7 +51,7 @@ public class UserInputLongMsgGUI {
     public void run(String string, GUIUserInputInfo guiUserInputInfo) {
         JFrame frame = new JFrame("userInputLongMsgGUI");
         frame.setContentPane(new UserInputLongMsgGUI(string, guiUserInputInfo).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

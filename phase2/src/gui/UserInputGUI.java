@@ -50,7 +50,7 @@ public class UserInputGUI {
     public void run(String string, GUIUserInputInfo guiUserInputInfo) {
         JFrame frame = new JFrame("userInputGUI");
         frame.setContentPane(new UserInputGUI(string, guiUserInputInfo).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
