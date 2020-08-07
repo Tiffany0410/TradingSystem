@@ -1,14 +1,9 @@
 package managers.itemmanager;
 
-import managers.usermanager.User;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.ObjectStreamClass;
 import java.io.Serializable;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * An instance of this class represents an item in the system.
@@ -16,7 +11,7 @@ import java.util.Observer;
  * @author Shi Tang
  * @version IntelliJ IDEA 2020.1.1
  */
-public class Item extends Observable implements PropertyChangeListener, Serializable {
+public class Item implements PropertyChangeListener, Serializable {
     private String name;
     private String description;
     private int itemId;
