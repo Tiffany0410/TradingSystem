@@ -21,7 +21,7 @@
           <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="f4a56" class="javax.swing.JButton" binding="browseAllTradableItemsButton" default-binding="true">
+      <component id="f4a56" class="javax.swing.JButton" binding="browseAllTradableButton">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -29,7 +29,7 @@
           <text value="Browse all tradable items in the system"/>
         </properties>
       </component>
-      <component id="4c40" class="javax.swing.JButton" default-binding="true">
+      <component id="4c40" class="javax.swing.JButton" binding="addToWishListButton">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -37,7 +37,7 @@
           <text value="Add to own Wish List"/>
         </properties>
       </component>
-      <component id="3e527" class="javax.swing.JButton" default-binding="true">
+      <component id="3e527" class="javax.swing.JButton" binding="removeFromWishListButton">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -45,7 +45,7 @@
           <text value="Remove from own Wish List"/>
         </properties>
       </component>
-      <component id="b3320" class="javax.swing.JButton" default-binding="true">
+      <component id="b3320" class="javax.swing.JButton" binding="removeFromInventoryButton">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -53,7 +53,7 @@
           <text value="Remove from own Inventory"/>
         </properties>
       </component>
-      <component id="f61d5" class="javax.swing.JButton" default-binding="true">
+      <component id="f61d5" class="javax.swing.JButton" binding="requestItemButton">
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -61,7 +61,7 @@
           <text value="Request that an item be added to your inventory"/>
         </properties>
       </component>
-      <component id="b8a9b" class="javax.swing.JButton" default-binding="true">
+      <component id="b8a9b" class="javax.swing.JButton" binding="mostRecentThreeItemsTradedButton">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -69,7 +69,7 @@
           <text value="See most recent three items traded"/>
         </properties>
       </component>
-      <component id="f8c63" class="javax.swing.JButton" default-binding="true">
+      <component id="f8c63" class="javax.swing.JButton" binding="viewWishListInventoryButton">
         <constraints>
           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -77,7 +77,7 @@
           <text value="View your wishlist and inventory"/>
         </properties>
       </component>
-      <component id="76518" class="javax.swing.JButton" default-binding="true">
+      <component id="76518" class="javax.swing.JButton" binding="changeTradableStatusForItemButton">
         <constraints>
           <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -85,7 +85,7 @@
           <text value="Change tradable status for an inventory item"/>
         </properties>
       </component>
-      <component id="ca985" class="javax.swing.JButton" default-binding="true">
+      <component id="ca985" class="javax.swing.JButton" binding="getSuggestionForItemToLendButton">
         <constraints>
           <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -93,7 +93,7 @@
           <text value="Get suggestions for item(s) that you can lend to a given user"/>
         </properties>
       </component>
-      <component id="ef2a5" class="javax.swing.JButton" default-binding="true">
+      <component id="ef2a5" class="javax.swing.JButton" binding="backButton">
         <constraints>
           <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
