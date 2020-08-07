@@ -81,11 +81,7 @@ public class RegularUserMainMenuGUI {
                     guiD.printNotification(sm.lockMessageForVacation());
                 }
                 else{
-                    try {
-                        guiD.runRegularUserTradingMenuGUI();
-                    } catch (FileNotFoundException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
-                    }
+                    guiD.runRegularUserTradingMenuGUI();
                     guiD.closeWindow(rootPanel);
                 }
             }
@@ -109,11 +105,7 @@ public class RegularUserMainMenuGUI {
                 }
                 else{
                     //Call Meeting Info Menu and close this window
-                    try {
-                        guiD.runRegularUserMeetingMenu();
-                    } catch (FileNotFoundException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
-                    }
+                    guiD.runRegularUserMeetingMenu();
                     guiD.closeWindow(rootPanel);
                 }
 

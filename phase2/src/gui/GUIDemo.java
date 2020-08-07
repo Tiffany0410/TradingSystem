@@ -129,7 +129,7 @@ public class GUIDemo {
 
 
     // Start of run admin menus
-
+    //TODO: add a notification button to AdminUserMainMenu
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
@@ -155,10 +155,8 @@ public class GUIDemo {
 
     public void runAdminUserManageUsersSubMenu() {
 
-        //TODO: what username should pass to ID checker?
-
         RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
-                this.userManager, this.itemManager, this.getTempUsername());
+                this.userManager, this.itemManager);
 
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
                 this.adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
@@ -210,10 +208,8 @@ public class GUIDemo {
                 this.meetingManager, this.userManager, this.itemManager, this.actionManager, this.feedbackManager,
                 this.messageManager, this.getTempUsername());
 
-        //TODO: what username should pass to ID checker?
-
         this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
-                this.userManager, this.itemManager, this.getTempUsername());
+                this.userManager, this.itemManager);
 
         this.regularUserMeetingMenuController = new RegularUserMeetingMenuController(this.tradeManager,
                 this.meetingManager, this.actionManager, this.userManager.usernameToID(this.getTempUsername()));
@@ -233,15 +229,12 @@ public class GUIDemo {
 
 
 
-        //TODO: What is String menuPartOfAlert?
-        String menuPartOfAlert = "";
-
         RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(this.isGuest, this.systemMessage, this,
                 regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
-                menuPartOfAlert, this.thresholdValues);
+                this.partsOfUserAlert, this.thresholdValues);
         regularUserMainMenuGUI.run(this.isGuest, this.systemMessage, this,
                 regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
-                menuPartOfAlert, this.thresholdValues);
+                this.partsOfUserAlert, this.thresholdValues);
     }
 
     public void runRegularUserAccountFeedBackMenu(){
@@ -275,11 +268,10 @@ public class GUIDemo {
 
     }
 
-    public void runRegularUserTradingMenuGUI() throws FileNotFoundException {
-        //TODO: What is int maxNumTransactionAWeek and int numLentBeforeBorrow?
+    public void runRegularUserTradingMenuGUI() {
 
-        int maxNumTransactionAWeek = regularUserThresholdController.getMaxNumTransactionAWeek();
-        int numLentBeforeBorrow = regularUserThresholdController.getNumLentBeforeBorrow();
+        int maxNumTransactionAWeek = thresholdValues.get(0);
+        int numLentBeforeBorrow =thresholdValues.get(2);
 
         RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
                 this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
@@ -297,10 +289,9 @@ public class GUIDemo {
                 this.systemMessage,this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
     }
 
-    public void runRegularUserMeetingMenu() throws FileNotFoundException {
+    public void runRegularUserMeetingMenu(){
 
-        //TODO: What is maxNumTPEdits?
-        int maxNumTPEdits = regularUserThresholdController.getMaxNumTPEdits();
+        int maxNumTPEdits = thresholdValues.get(3);
         RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(this,
                 this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,this.guiUserInputInfo,
                 this.regularUserIDChecker,this.regularUserDateTimeChecker);

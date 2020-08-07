@@ -60,7 +60,7 @@ public class RegularUserFollowMenuGUI {
                 String input = guiD.getInPut(askItemid);
                 if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(itemId, 1)){
+                    if (idChecker.checkItemID(itemId)){
                         guiD.printNotification(sm.msgForResult(atc.followAnItem(itemId)));
                     }
                     else{
