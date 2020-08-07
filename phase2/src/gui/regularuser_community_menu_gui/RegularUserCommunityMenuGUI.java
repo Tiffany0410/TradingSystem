@@ -34,7 +34,7 @@ public class RegularUserCommunityMenuGUI {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
         frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, guiInput, idC,
                 otherChecker).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

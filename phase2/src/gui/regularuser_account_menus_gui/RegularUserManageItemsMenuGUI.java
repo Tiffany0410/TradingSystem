@@ -33,7 +33,7 @@ public class RegularUserManageItemsMenuGUI {
         JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
         frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm,
                 otherInfoChecker).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
