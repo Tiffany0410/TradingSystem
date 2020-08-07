@@ -28,12 +28,11 @@ public class RegularUserCommunityMenuController {
      * Constructs a RegularUserFriendMenuController
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
-     * @param userId The user id of the regular user.
      */
     public RegularUserCommunityMenuController(TradeManager tm, MeetingManager mm, UserManager um,
                                               ItemManager im, ActionManager am, FeedbackManager fm,
                                               MessageManager messageManager,
-                                              String username, int userId){
+                                              String username){
         this.tm = tm;
         this.mm = mm;
         this.um = um;
@@ -41,8 +40,7 @@ public class RegularUserCommunityMenuController {
         this.am = am;
         this.fm = fm;
         this.username = username;
-        this.userId = userId;
-        // this.sm = new SystemMessage();
+        this.userId = um.usernameToID(this.username);
         this.messageManager = messageManager;
     }
 
