@@ -2,7 +2,6 @@ package gui.regularuser_account_menus_gui;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import gui.GUIDemo;
-import gui.NotificationGUI;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -18,29 +17,29 @@ public class RegularUserAccountMainMenuGUI {
     private JButton followOthersItemsButton;
 
     public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
-        feedBackButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call regular user feed back menu and close this window
-                // guest not allowed
-                if (isGuest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else{
-                    guiD.runRegularUserAccountFeedBackMenu();
-                    guiD.closeWindow(rootPanel);
-                }
-
-            }
-        });
+//        feedBackButton.addActionListener(new ActionListener() {
+//            /**
+//             * Invoked when an action occurs.
+//             *
+//             * @param e
+//             */
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                // Call regular user feed back menu and close this window
+//                // guest not allowed
+//                if (isGuest){
+//                    guiD.printNotification(sm.msgForGuest());
+//                }
+//                else if (amc.seeIfFrozen()){
+//                    guiD.printNotification(sm.lockMessageForFrozen());
+//                }
+//                else{
+//                    guiD.runRegularUserAccountFeedBackMenu();
+//                    guiD.closeWindow(rootPanel);
+//                }
+//
+//            }
+//        });
         manageItemButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
