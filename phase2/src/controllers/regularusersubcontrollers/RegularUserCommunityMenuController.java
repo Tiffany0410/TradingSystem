@@ -15,10 +15,7 @@ import presenter.SystemMessage;
 import java.util.ArrayList;
 
 public class RegularUserCommunityMenuController {
-
-    private SystemMessage sm;
-    private RegularUserIDChecker idGetter;
-    private RegularUserOtherInfoChecker otherInfoGetter;
+    
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -31,7 +28,6 @@ public class RegularUserCommunityMenuController {
 
     /**
      * Constructs a RegularUserFriendMenuController
-     * @param ds The presenter class used to print to screen.
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
      * @param userId The user id of the regular user.
@@ -50,8 +46,6 @@ public class RegularUserCommunityMenuController {
         this.userId = userId;
         // this.sm = new SystemMessage();
         this.messageManager = messageManager;
-        this.idGetter = new RegularUserIDChecker(tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoChecker(tm, mm, um, username, userId);
     }
 
     /** getter for user id

@@ -27,9 +27,6 @@ import java.util.Random;
  */
 public class RegularUserAccountMenuController {
 
-    private SystemMessage sm;
-    private RegularUserIDChecker idGetter;
-    private RegularUserOtherInfoChecker otherInfoGetter;
     private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
@@ -67,9 +64,6 @@ public class RegularUserAccountMenuController {
         this.fm = fm;
         this.username = username;
         this.userId = userId;
-        this.sm = new SystemMessage();
-        this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
     }
 
     // TODO: Add Java Doc!
