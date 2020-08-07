@@ -24,52 +24,36 @@ public class RegularUserIDChecker {
     private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
-    private String username;
-    private int userId;
 
     /**
      * Constructs a RegularUserIDGetter with a DisplaySystem, a TradeManager,
-     * a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
+     * a MeetingManager, a UserManager, and an ItemManager.
      *
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
-     * @param username The username of the regular user.
      */
     public RegularUserIDChecker(TradeManager tm, MeetingManager mm,
-                                UserManager um, ItemManager im, String username) {
+                                UserManager um, ItemManager im) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
-        this.username = username;
-        this.userId = um.usernameToID(this.username);
     }
 
 
     /**
      * Checks if user's input of the item id is valid.
      * @param itemId User's input of the item id.
-     * @param type The type of the item id.
      * @return If user's input is valid.
      */
-    public boolean checkItemID(int itemId, int type) {
+    public boolean checkItemID(int itemId) {
         // all possible ids the user can pick from
         ArrayList<Integer> potentialIds;
         // depends on the option the user chooses
         //check if the item is in the system
-        if (type == 1) {
-            potentialIds = im.getItemsIDs(im.getAllItem());
-        }
-        //check if the item is in user's wishlist
-        else if (type == 2){
-            potentialIds = um.getUserWishlist(userId);
-        }
-        //check if the item is in user's inventory
-        else{
-            potentialIds = um.getUserInventory(userId);
-        }
+        potentialIds = im.getItemsIDs(im.getAllItem());
         return potentialIds.contains(itemId);
 
     }

@@ -260,7 +260,7 @@ public class RegularUserTradingMenuGUI {
                 int itemid1 = Integer.parseInt(input4);
                 int itemid2 = Integer.parseInt(input5);
                 if ((tradeKind == 1 || tradeKind == 2) && idC.checkUserID(userId1) && idC.checkUserID(userId2)
-                    && idC.checkItemID(itemid1, 1) && idC.checkItemID(itemid2, 1)
+                    && idC.checkItemID(itemid1) && idC.checkItemID(itemid2)
                         && oiC.checkTradeType(tradeType)) {
                     guiD.printNotification(atc.requestTrade(tradeKind, userId1, userId2, itemid1, itemid2, numLentBeforeBorrow, tradeType));
                 }
