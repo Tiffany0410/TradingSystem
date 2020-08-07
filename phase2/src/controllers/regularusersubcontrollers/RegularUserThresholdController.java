@@ -4,7 +4,6 @@ import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +19,6 @@ import java.util.List;
 
 public class RegularUserThresholdController {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -33,17 +31,14 @@ public class RegularUserThresholdController {
      * Constructs a RegularUserThresholdController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
-     * @param tm       The current state of the TradeManager.
+     *  @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserThresholdController(DisplaySystem ds,
-                                          TradeManager tm, MeetingManager mm,
+    public RegularUserThresholdController(TradeManager tm, MeetingManager mm,
                                           UserManager um, String username, int userId) {
-        this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
