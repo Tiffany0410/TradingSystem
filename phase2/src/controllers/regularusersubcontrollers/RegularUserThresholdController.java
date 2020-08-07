@@ -1,10 +1,12 @@
 package controllers.regularusersubcontrollers;
 
+import gateway.FilesReaderWriter;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +28,7 @@ public class RegularUserThresholdController {
     private int userId;
     // whether the max transactions per week threshold is reassessed
     private boolean thresholdReassessed;
+    private FilesReaderWriter frw;
 
     /**
      * Constructs a RegularUserThresholdController with a DisplaySystem,
@@ -44,6 +47,7 @@ public class RegularUserThresholdController {
         this.username = username;
         this.userId = um.usernameToID(this.username);
         this.thresholdReassessed = false;
+        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -125,4 +129,17 @@ public class RegularUserThresholdController {
         }
         return uniqueTradeIDs.size();
     }
+
+    public int getMaxNumTPEdits() throws FileNotFoundException {
+        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(3);
+    }
+
+    public int getMaxNumTransactionAWeek() throws FileNotFoundException {
+        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(0);
+    }
+
+    public int getNumLentBeforeBorrow() throws FileNotFoundException {
+        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(2);
+    }
+
 }

@@ -3,18 +3,15 @@ package gui.regularuser_meeting_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class RegularUserCheckMeetingWindow extends JDialog {
@@ -48,7 +45,11 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         buttonBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //go back to meeting menu gui
-                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                try {
+                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
             }
         });
 
@@ -56,14 +57,22 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                try {
+                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                try {
+                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         editButton.addActionListener(new ActionListener() {
@@ -85,7 +94,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
 
     private void onBack(GUIDemo guiD, RegularUserMeetingMenuController mmc,
                         int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
-                        RegularUserIDChecker idc){
+                        RegularUserIDChecker idc) throws FileNotFoundException {
         // Go back to regular user main menu and close this window
         guiD.runRegularUserMeetingMenu();
         guiD.closeWindow(contentPane);

@@ -28,6 +28,7 @@ import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class GUIDemo {
@@ -274,11 +275,11 @@ public class GUIDemo {
 
     }
 
-    public void runRegularUserTradingMenuGUI(){
+    public void runRegularUserTradingMenuGUI() throws FileNotFoundException {
         //TODO: What is int maxNumTransactionAWeek and int numLentBeforeBorrow?
 
-        int maxNumTransactionAWeek = 0;
-        int numLentBeforeBorrow = 0;
+        int maxNumTransactionAWeek = regularUserThresholdController.getMaxNumTransactionAWeek();
+        int numLentBeforeBorrow = regularUserThresholdController.getNumLentBeforeBorrow();
 
         RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
                 this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
@@ -296,10 +297,10 @@ public class GUIDemo {
                 this.systemMessage,this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
     }
 
-    public void runRegularUserMeetingMenu(){
+    public void runRegularUserMeetingMenu() throws FileNotFoundException {
 
         //TODO: What is maxNumTPEdits?
-        int maxNumTPEdits = 0;
+        int maxNumTPEdits = regularUserThresholdController.getMaxNumTPEdits();
         RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(this,
                 this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,this.guiUserInputInfo,
                 this.regularUserIDChecker,this.regularUserDateTimeChecker);

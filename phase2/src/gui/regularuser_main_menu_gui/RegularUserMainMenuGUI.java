@@ -1,16 +1,15 @@
 package gui.regularuser_main_menu_gui;
 
-import controllers.regularusersubcontrollers.*;
-import gateway.FilesReaderWriter;
+import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
+import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import gui.GUIDemo;
-import gui.GUIUserInputInfo;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class RegularUserMainMenuGUI {
@@ -82,7 +81,11 @@ public class RegularUserMainMenuGUI {
                     guiD.printNotification(sm.lockMessageForVacation());
                 }
                 else{
-                    guiD.runRegularUserTradingMenuGUI();
+                    try {
+                        guiD.runRegularUserTradingMenuGUI();
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
                     guiD.closeWindow(rootPanel);
                 }
             }
@@ -106,7 +109,11 @@ public class RegularUserMainMenuGUI {
                 }
                 else{
                     //Call Meeting Info Menu and close this window
-                    guiD.runRegularUserMeetingMenu();
+                    try {
+                        guiD.runRegularUserMeetingMenu();
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
                     guiD.closeWindow(rootPanel);
                 }
 
