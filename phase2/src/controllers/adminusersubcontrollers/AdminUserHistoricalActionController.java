@@ -5,7 +5,6 @@ import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
-import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
@@ -113,31 +112,6 @@ public class AdminUserHistoricalActionController {
         return am.findActionByID(actionID);
     }
 
-
-    /**
-     * Lets the presenter print out all the revocable actions and cancel the revocable actions done by RegularUser
-     * in the system
-     */
-    public void cancelRevocableAction() {
-
-        ds.printOut("Here are all the Historical Actions which can be cancelled: \n");
-        // Print all the Historical Actions which can be cancelled
-        ds.printHistoricalActions(am.getListOfCurrentRevocableActions());
-        ds.printOut("Please enter the ID of action that you want to cancel: \n");
-        // get the number select by adminUser
-        int actionID = otherInfoGetter.getActionID();
-        // call helper function to cancel different action and tell admin user that action has been cancelled
-//        ds.printResult(cancelHistoricalAction(actionID));
-
-        Action temp = am.findActionByID(actionID);
-        // delete action from current Revocable Action List in ActionManager
-        am.deleteAction(actionID);
-        // add action into deleted Revocable Action List in ActionManager
-        am.addActionToDeletedRevocableList(temp);
-        // add action into All Historical Action List in ActionManager
-        am.addActionToAllActionsList(userId, "adminUser", "3.2", actionID, "");
-    }
-
     /**
      * Getter for all undo request submitted by RegularUser in system
      *
@@ -197,28 +171,27 @@ public class AdminUserHistoricalActionController {
 
     /**
      * Cancel revocable actions and classify the different action into different helper functions.
+     *
+     * @param targetAction the revocable action which need to undo
      */
     public boolean cancelRevocableAction(Action targetAction) {
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
         int subOption = Integer.parseInt(menuOption[1]);
+        int subSubOption = Integer.parseInt(menuOption[2]);
         switch (mainOption) {
             // call helper function to cancel the Revocable Action in RegularUserAccountMainMenu.csv
             case 1:
-                helper_cancelAccountMenu(targetAction, subOption);
-                break;
+                return helper_cancelAccountMainMenu(targetAction, subOption, subSubOption);
             // call helper function to cancel the Revocable Action in RegularUserTradingMenu.csv
             case 2:
-                helper_cancelTradeMenu(targetAction, subOption);
-                break;
+                return helper_cancelTradeMenu(targetAction, subOption);
             // call helper function to cancel the Revocable Action in RegularUserMeetingMenu.csv
             case 3:
-                helper_cancelMeetingMenu(targetAction, subOption);
-                break;
+                return helper_cancelMeetingMenu(targetAction, subOption);
             // call helper function to cancel the Revocable Action in RegularUserCommunityMenu.csv
             case 5:
-                helper_cancelCommunityMenu(targetAction, subOption);
-                break;
+                return helper_cancelCommunityMenu(targetAction, subOption);
         }
 
         int actionID = targetAction.getActionID();
@@ -231,61 +204,118 @@ public class AdminUserHistoricalActionController {
         return false;
     }
 
+
     /**
-     * Helper Function used to do the cancel part for revocable actions in Account Menu
+     * Cancel revocable actions and classify the different action into different helper functions.
+     *
      * @param targetAction The action which AdminUser want to cancel
-     * @param subOption The menu option number in Account Menu
+     * @param subOption The menu option in AccountMainMenu
+     * @param subSubOption The menu option number in sub menus of AccountMain
      * @return Return true if cancel action successfully, vice versa
      */
-    private boolean helper_cancelAccountMenu(Action targetAction, int subOption) {
-        // get the id of item from action
-        int itemID = targetAction.getAdjustableInt();
-        // get the status of item from action for action 1.11
-        String tradable = targetAction.getAdjustableStr();
-        // get the status of on-vacation status from action for action 1.10
-        String vacationStatus = targetAction.getAdjustableStr();
-        // get the action owner id from the action
-        int actionOwnerID = targetAction.getActionOwnerID();
-        // translate userID into username
-        String username = um.idToUsername(actionOwnerID);
-
+    private boolean helper_cancelAccountMainMenu(Action targetAction, int subOption, int subSubOption) {
         switch (subOption) {
+            // call helper function to cancel the Revocable Action in RegularUserManageItemMenu.csv
+            case 1:
+                return helper_cancelManageItemMenu(targetAction, subSubOption);
+            // call helper function to cancel the Revocable Action in RegularUserAccountSettingsMenu.csv
+            case 2:
+                return helper_cancelAccountSettingsMenu(targetAction, subSubOption);
+            // call helper function to cancel the Revocable Action in RegularUserFollowMenu.csv
+            case 3:
+                return helper_cancelFollowMenu(targetAction, subSubOption);
+        }
+        return false;
+    }
+
+    /**
+     * Helper Function used to do the cancel part for revocable actions in ManageItemMenu
+     *
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subSubOption The menu option number in ManageItemMenu
+     * @return Return true if cancel action successfully, vice versa
+     */
+    private boolean helper_cancelManageItemMenu(Action targetAction, int subSubOption) {
+        // get the status of item from action for action 1.1.8
+        String tradable = targetAction.getAdjustableStr();
+
+        switch (subSubOption) {
             // 1.1.2: Add to own Wish List
             case 2:
                 // call UserManager to remove the item from Wish List
-                return um.removeItemWishlist(itemID, username);
+                return um.removeItemWishlist(targetAction.getAdjustableInt(), um.idToUsername(targetAction.getActionOwnerID()));
             // 1.1.3: Remove from own Wish List
             case 3:
                 // call UserManager to add the item into Wish List
-                return um.addItemWishlist(itemID, username);
+                return um.addItemWishlist(targetAction.getAdjustableInt(), um.idToUsername(targetAction.getActionOwnerID()));
             // 1.1.4: Remove from own Inventory
             case 4:
                 // call UserManager to remove the item from Inventory
-                return um.addItemInventory(itemID, username);
+                return um.addItemInventory(targetAction.getAdjustableInt(), um.idToUsername(targetAction.getActionOwnerID()));
             // 1.1.5: Request to add item to your inventory
             case 5:
-                return im.removeFromListItemToAdd(itemID);
-            // 1.2.2: Set your on-vacation status
-            case 10:
-                // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
-                if (vacationStatus.equals("go on vacation")) {
-                    um.comeFromVacation(actionOwnerID);
-                    im.setTradable(um.getUserInventory(actionOwnerID), true);
-                }
-                // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
-                else {
-                    um.goOnVacation(actionOwnerID);
-                    im.setTradable(um.getUserInventory(actionOwnerID), false);
-                }
-                return true;
+                // call ItemManager to remove item from inventory request list
+                return im.removeFromListItemToAdd(targetAction.getAdjustableInt());
             // 1.1.8: Change tradable status for an inventory item
-            case 11:
+            case 8:
+                // call ItemManager to change tradable status for an inventory item
                 ArrayList<Integer> temp = new ArrayList<>();
-                temp.add(itemID);
+                temp.add(targetAction.getAdjustableInt());
                 // if user set item status into tradable, then change it into non-tradable
                 // if user set item status into non-tradable, then change it into tradable
                 im.setTradable(temp, !tradable.equals("tradable"));
                 return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Helper Function used to do the cancel part for revocable actions in AccountSettingsMenu
+     *
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subSubOption The menu option number in AccountSettingsMenu
+     * @return Return true if cancel action successfully, vice versa
+     */
+    private boolean helper_cancelAccountSettingsMenu(Action targetAction, int subSubOption) {
+        // get the status of on-vacation status from action for action 1.2.2
+        String vacationStatus = targetAction.getAdjustableStr();
+
+        switch (subSubOption){
+            // 1.2.2: Set your on-vacation status
+            case 2:
+                // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
+                if (vacationStatus.equals("go on vacation")) {
+                    um.comeFromVacation(targetAction.getActionOwnerID());
+                    im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), true);
+                }
+                // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
+                else {
+                    um.goOnVacation(targetAction.getActionOwnerID());
+                    im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), false);
+                }
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Helper Function used to do the cancel part for revocable actions in FollowMenu
+     *
+     * @param targetAction The action which AdminUser want to cancel
+     * @param subSubOption The menu option number in FollowMenu
+     * @return Return true if cancel action successfully, vice versa
+     */
+    private boolean helper_cancelFollowMenu(Action targetAction, int subSubOption) {
+        switch (subSubOption){
+            // 1.3.1: Follow an user
+            case 1:
+                // call UserManager to unfollow an user
+                return um.userUnfollow(targetAction.getActionOwnerID(), targetAction.getAdjustableInt());
+            // 1.3.2: Follow an item
+            case 2:
+                // call UserManager to unfollow an item
+                return um.itemUnfollow(targetAction.getActionOwnerID(), targetAction.getAdjustableInt());
         }
         return false;
     }
@@ -301,6 +331,7 @@ public class AdminUserHistoricalActionController {
         switch (subOption) {
             // TODO:2.1: Request a trade
             case 1:
+                // call TradeManger to remove the trade
                 if (targetAction.getAdjustableStr() == " and succeed") {
                     tm.removeTrade(targetAction.getAdjustableInt());
                     return true;
@@ -319,28 +350,11 @@ public class AdminUserHistoricalActionController {
      */
     private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
         switch (subOption) {
-            // TODO:3.1: Suggest/edit time and place for meetings
-            case 1:
-                String[] temp = targetAction.getAdjustableStr().split("\\.");
-                int targetUserID = Integer.parseInt(temp[0]);
-                String place = temp[1];
-                int tradeID = Integer.parseInt(temp[2]);
-                //get year, month, day, hour, min, sec
-                int year = Integer.parseInt(temp[3]);
-                int month = Integer.parseInt(temp[4]);
-                int day = Integer.parseInt(temp[5]);
-                int hour = Integer.parseInt(temp[6]);
-                int minute = Integer.parseInt(temp[7]);
-                Meeting meeting = mm.getMeetingByIdNum(tradeID, targetAction.getAdjustableInt());
-                return mm.undoEditTimePlace(meeting, targetUserID, year, month, day, hour, minute, 0, place);
-            // TODO:3.2: Confirm time and place for meetings
+            // TODO:3.2: Confirm the meeting took place
             case 2:
-                int tradeID2 = Integer.parseInt(targetAction.getAdjustableStr());
-                return mm.undoConfirmTandP(tradeID2, targetAction.getAdjustableInt());
-            // TODO:3.3: Confirm the meeting took place
-            case 3:
-                int tradeID3 = Integer.parseInt(targetAction.getAdjustableStr());
-                return mm.undoConfirmTookPlace(tradeID3, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
+                // call MeetingManger to unconfirm the meeting took place
+                int tradeID = Integer.parseInt(targetAction.getAdjustableStr());
+                return mm.undoConfirmTookPlace(tradeID, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
         }
         return false;
     }

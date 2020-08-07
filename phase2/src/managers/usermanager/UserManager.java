@@ -825,6 +825,26 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Lets a User unfollow another User
+     * @param userID The ID of the User
+     * @param toUnfollow The ID of the User to unfollow
+     * @return true if the User was successfully unfollowed, false otherwise
+     */
+    public boolean userUnfollow(int userID, int toUnfollow){
+        TradableUser person = findUser(userID);
+        TradableUser following = findUser(userID);
+        if (person == null || following == null){
+            return false;
+        }
+        if (!person.getFollowers().contains(toUnfollow)){
+            return false;
+        }
+        person.unfollowUser(toUnfollow);
+        following.removeFollowers(userID);
+        return true;
+    }
+
+    /**
      * Lets a User follow an Item
      * @param userID The ID of the User
      * @param toFollow The ID of the Item to follow
@@ -839,6 +859,25 @@ public class UserManager implements Serializable {
             return false;
         }
         person.followItem(toFollow);
+        return true;
+    }
+
+
+    /**
+     * Lets a User unfollow an Item
+     * @param userID The ID of the User
+     * @param toUnfollow The ID of the Item to unfollow
+     * @return true if the Item was unfollowed successfully, false otherwise
+     */
+    public boolean itemUnfollow(int userID, int toUnfollow){
+        TradableUser person = findUser(userID);
+        if (person == null){
+            return false;
+        }
+        if (!person.getItemFollowed().contains(toUnfollow)){
+            return false;
+        }
+        person.unfollowItem(toUnfollow);
         return true;
     }
 
