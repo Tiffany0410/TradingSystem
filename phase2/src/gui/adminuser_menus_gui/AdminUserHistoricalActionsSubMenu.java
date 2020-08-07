@@ -33,9 +33,10 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllAction();
-                printObjects(allAction, sm);
+                printObjects(allAction, sm, guiDemo);
 
-                // TODO: close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
@@ -47,9 +48,10 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllRevocableAction();
-                printObjects(allAction, sm);
+                printObjects(allAction, sm, guiDemo);
 
-                // TODO: close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -78,10 +80,10 @@ public class AdminUserHistoricalActionsSubMenu {
                 else {
                     guiDemo.printNotification("Please enter correct username");
                 }
-                printObjects(allAction, sm);
+                printObjects(allAction, sm, guiDemo);
 
-                // TODO: close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -111,7 +113,8 @@ public class AdminUserHistoricalActionsSubMenu {
                 } catch (NumberFormatException ex){
                     sm.printInvalidID();
                 }
-                // TODO: close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         confirmUndoRequestButton.addActionListener(new ActionListener() {
@@ -149,7 +152,8 @@ public class AdminUserHistoricalActionsSubMenu {
                     sm.printInvalidID();
                 }
 
-                // TODO: close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -162,25 +166,27 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runAdminUserMainMenu();
-                //TODO: Close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }
 
-    private void printObjects(ArrayList<Action> actions, SystemMessage sm){
+    private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
         if (actions.isEmpty()){
-            printNote(sm.msgForNothing("here."));
+            printNote(sm.msgForNothing("here."), guiDemo);
         }
         else{
             String str = sm.printHistoricalAction(new ArrayList<>(actions));
-            printNote(str);
+            printNote(str, guiDemo);
         }
     }
 
-    private void printNote(String msg){
+    private void printNote(String msg, GUIDemo guiDemo){
         NotificationGUI msgGUI = new NotificationGUI(msg);
         msgGUI.run(msg);
-        // TODO: need to close first
+        //close this window
+        guiDemo.closeWindow(rootPanel);
     }
 
 

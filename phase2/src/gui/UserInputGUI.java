@@ -27,8 +27,9 @@ public class UserInputGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiUserInputInfo.tempSaveUserInput(textField1.getText());
-                // TODO: Need method to close this window
-
+                //close this window
+                Window window = SwingUtilities.getWindowAncestor(rootPanel);
+                window.dispose();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -39,8 +40,9 @@ public class UserInputGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Need method to close this window
-
+                //close this window
+                Window window = SwingUtilities.getWindowAncestor(rootPanel);
+                window.dispose();
             }
         });
     }

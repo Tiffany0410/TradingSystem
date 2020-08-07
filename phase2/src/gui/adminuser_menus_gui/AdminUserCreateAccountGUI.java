@@ -35,7 +35,8 @@ public class AdminUserCreateAccountGUI {
                 if (result){adminUserOtherActionsController.addNewAdmin(username);}
 
 
-                // TODO: Need method to close this window
+                //close this window
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -47,8 +48,10 @@ public class AdminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                guiDemo.closeWindow(rootPanel);
                 guiDemo.runAdminUserOtherSubMenu();
-                // TODO: Need method to close this window
+
 
             }
         });

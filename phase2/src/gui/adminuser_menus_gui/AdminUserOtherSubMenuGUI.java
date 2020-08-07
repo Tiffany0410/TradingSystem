@@ -21,9 +21,8 @@ public class AdminUserOtherSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runAdminUserCreateAccount();
-                // TODO: Need method to close this window
-
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -35,8 +34,8 @@ public class AdminUserOtherSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runAdminUserMainMenu();
-                // TODO: Need method to close this window
-
+                //close this window
+                guiDemo.closeWindow(rootPanel);
             }
         });
     }

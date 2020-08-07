@@ -110,8 +110,7 @@ public class RegularUserMainMenuGUI {
                 }
                 else{
                     //Call Meeting Info Menu and close this window
-                    guiD.runRegularUserMeetingMenu(guiD, mmc, sm, thresholdValues.get(3), guiUserInputInfo,
-                            idChecker);
+                    guiD.runRegularUserMeetingMenu();
                     guiD.closeWindow(rootPanel);
                 }
 

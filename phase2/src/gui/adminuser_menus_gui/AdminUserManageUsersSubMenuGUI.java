@@ -5,8 +5,6 @@ import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -104,8 +102,9 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close window and then go back to main menu
-                guiDemo.runAdminUserMainMenu();
+                //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserMainMenu();
 
 
             }
