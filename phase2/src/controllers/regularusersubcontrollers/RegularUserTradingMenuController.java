@@ -7,7 +7,6 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
-import controllers.maincontrollers.DisplaySystem;
 import presenter.SystemMessage;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class RegularUserTradingMenuController {
     private RegularUserOtherInfoChecker otherInfoGetter;
     private RegularUserIDChecker idGetter;
     private SystemMessage sm;
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -39,29 +37,27 @@ public class RegularUserTradingMenuController {
      * Constructs a RegularUserTradingMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager
      * @param am       The current state of the ActionManager.
      * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
      */
-    public RegularUserTradingMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+    public RegularUserTradingMenuController(TradeManager tm, MeetingManager mm,
                                             UserManager um, ItemManager im, ActionManager am,
-                                            String username, SystemMessage sm,int userId) {
-        this.ds = ds;
+                                            String username, SystemMessage sm, RegularUserThresholdController tc,
+                                            RegularUserOtherInfoChecker otherInfoGetter, RegularUserIDChecker idGetter) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
         this.username = username;
-        this.userId = userId;
-        this.tc = new RegularUserThresholdController(ds, tm, mm, um, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
-        this.idGetter = new RegularUserIDChecker(tm, mm, um, im, username, userId);
+        this.userId = um.usernameToID(this.username);
+        this.tc = tc;
+        this.otherInfoGetter = otherInfoGetter;
+        this.idGetter = idGetter;
         this.sm = sm;
     }
 
