@@ -5,14 +5,11 @@ import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

@@ -5,15 +5,11 @@ import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
-import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -318,84 +314,4 @@ public class RegularUserCommunityMenuGUI {
         guiDemo.printNotification(string);
     }
 
-
-
-//    private void sendAFriendRequest(ArrayList<TradableUser> notFriends, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
-//        String out;
-//        if (notFriends.isEmpty()) {
-//            out = sm.msgForNo("tradable users to be added. Please check your friend requests");
-//        }
-//        else {
-//            String string = "Please enter user's Id to send friend request.\n" +
-//                    "Here is a list of users you can add:\n" + sm.printListUser(notFriends);
-//            String result = getInPut(string, guiInput);
-//            if (idC.checkInt(result)) {
-//                int userToID = Integer.parseInt(result);
-//                String msg = "Please leave a message for this user: ";
-//                String msg_result = getInPut(msg, guiInput);
-//                out = sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg_result), userToID);
-//            }
-//            else {
-//                out = "Please enter a valid information.";
-//            }
-//        }
-//        printNote(out);
-//    }
-//
-//    private void respondToFriendsRequest(ArrayList<TradableUser> requests, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
-//        String string;
-//        if (requests.isEmpty()){
-//            string = sm.msgForNo("friend requests");
-//        }
-//        else{
-//            String msg = "Please enter user's id to accept friend request.\n" +
-//                    "Here is a list of friend requests:\n" + sm.printFriendRequest(requests);
-//            String id_input = getInPut(msg, guiInput);
-//            if (idC.checkInt(id_input) && cmc.checkIdInRequest(Integer.parseInt(id_input))){
-//                string = sm.msgForResult(cmc.addFriend(Integer.parseInt(id_input)));
-//            }
-//            else {
-//                string = "Please enter a valid information";
-//            }
-//        }
-//        printNote(string);
-//    }
-//
-//    private void unFriendAUser(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc){
-//        String string;
-//        if (friends.isEmpty()){
-//            string = sm.msgForNo("tradable users to be unfriended");
-//        }
-//        else {
-//            String msg = "Please enter user's id to unfriend.\n" +
-//                    "Here is a list of friends:\n" + sm.printListUser(friends);
-//            String result = getInPut(msg, guiInput);
-//            if (idC.checkInt(result)){
-//                int id = Integer.parseInt(result);
-//                string = sm.msgForResult(cmc.unfriendUser(id));
-//            }
-//            else {
-//                string = "Please enter a valid information.";
-//            }
-//        }
-//        printNote(string);
-//    }
-
-   /* private String getInPut(String string, GUIUserInputInfo guiInput){
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String sUserId = guiInput.getTempUserInput();
-        return sUserId;
-    }
-    private void printNote(String string){
-        NotificationGUI msgGUI = new NotificationGUI(string);
-        msgGUI.run(string);
-    }
-
-    private void closeWindow(JPanel panel){
-        Window window = SwingUtilities.getWindowAncestor(panel);
-        window.dispose();
-    }
-
-    */
 }

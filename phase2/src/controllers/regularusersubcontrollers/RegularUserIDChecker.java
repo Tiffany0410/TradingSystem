@@ -32,7 +32,6 @@ public class RegularUserIDChecker {
      * Constructs a RegularUserIDGetter with a DisplaySystem, a TradeManager,
      * a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
@@ -40,9 +39,8 @@ public class RegularUserIDChecker {
      * @param username The username of the regular user.
      * @param userId   The userid of the regular user.
      */
-    public RegularUserIDChecker(DisplaySystem ds, TradeManager tm, MeetingManager mm,
+    public RegularUserIDChecker(TradeManager tm, MeetingManager mm,
                                 UserManager um, ItemManager im, String username, int userId) {
-        this.ds = ds;
         this.tm = tm;
         this.mm = mm;
         this.um = um;
