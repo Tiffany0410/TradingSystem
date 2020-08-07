@@ -62,16 +62,8 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String result;
-                    String sUserId = guidemo.getInPut("Please enter the user's id that you want to report.");
-                    String reason = guidemo.getInPut("Please enter the reason why you report this user.");
-                    if (idC.checkInt(sUserId)) {
-                        result = sm.msgForResult(cmc.reportUser(Integer.parseInt(sUserId), reason));
-                    }
-                    else {
-                        result = "Please enter valid information.";
-                    }
-                    guidemo.printNotification(result);
+                    RegularUserCommunityReportAUser report = new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo);
+                    report.run(sm, idC, cmc, guidemo);
                 }
             }
         });

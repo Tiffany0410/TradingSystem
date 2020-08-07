@@ -70,10 +70,13 @@ public class RegularUserCommunityMenuController {
      * and uses them to update the report system.
      */
     public boolean reportUser(int userToReport, String reason) {
+        if (um.checkUser(userToReport)){
         boolean result = fm.updateReport(userToReport, userId, reason);
         am.addActionToCurrentRevocableList(userId, "regularUser", "5.2", userToReport, reason);
         am.addActionToAllActionsList(userId, "regularUser", "5.2", userToReport, reason);
         return result;
+        }
+        return false;
     }
 
     /**

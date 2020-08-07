@@ -4,7 +4,6 @@ import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import gui.GUIDemo;
-import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -13,23 +12,23 @@ import java.awt.event.ActionListener;
 
 public class RegularUserCommunityWriteAReviewWindow {
     private JTextField userId;
-    private JTextField point;
-    private JTextField reason;
-    private JButton createButton1;
-    private JButton cancelButton;
+    private JButton createButton;
     private JPanel rootPanel;
+    private JComboBox point;
+    private JTextArea reason;
+    private JButton cancelButton;
 
     RegularUserCommunityWriteAReviewWindow(GUIDemo guidemo, RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker, RegularUserCommunityMenuController cmc, SystemMessage sm){
-        createButton1.addActionListener(new ActionListener() {
+        createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String sUserId = userId.getText();
-                String sPoint = point.getText();
+                String sPoint = (String) point.getSelectedItem();
                 String sReason = reason.getText();
-                if (idC.checkInt(sUserId) && idC.checkInt(sPoint)) {
+                if (idC.checkInt(sUserId)) {
                     int user_id = Integer.parseInt(sUserId);
                     int point = Integer.parseInt(sPoint);
-                    if (idC.checkUserID(user_id) && otherChecker.getNumRating(point)) {
+                    if (idC.checkUserID(user_id)) {
                         boolean yesOrNo = cmc.reviewUser(user_id, point, sReason);
                         guidemo.printNotification(sm.msgForResult(yesOrNo));
                         guidemo.closeWindow(rootPanel);
