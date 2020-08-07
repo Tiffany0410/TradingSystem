@@ -395,17 +395,16 @@ public class SystemMessage {
         StringBuilder string = new StringBuilder();
         for (Action action : listOfAction) {
             String userType = action.getUserType();
-            String menuOption = action.getMenuOption();
 
             RegularUserActionMessage regularUserActionMessage = new RegularUserActionMessage();
             AdminUserActionMessage adminUserActionMessage = new AdminUserActionMessage();
 
             switch (userType) {
                 case "regularUser":
-                    string.append(regularUserActionMessage.regularUserAction(action)).append("\n");
+                    string.append(regularUserActionMessage.regularUserAction(action));
                     break;
                 case "adminUser":
-                    string.append(adminUserActionMessage.adminUserAction(action)).append("\n");
+                    string.append(adminUserActionMessage.adminUserAction(action));
                     break;
             }
         }

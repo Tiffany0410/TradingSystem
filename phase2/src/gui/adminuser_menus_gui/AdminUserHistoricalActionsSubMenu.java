@@ -2,7 +2,6 @@ package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import gui.GUIDemo;
-import gui.NotificationGUI;
 import managers.actionmanager.Action;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
@@ -174,24 +173,17 @@ public class AdminUserHistoricalActionsSubMenu {
 
     private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
         if (actions.isEmpty()){
-            printNote(sm.msgForNothing("here."), guiDemo);
+            guiDemo.printNotification(sm.msgForNothing("here."));
         }
         else{
             String str = sm.printHistoricalAction(new ArrayList<>(actions));
-            printNote(str, guiDemo);
+            guiDemo.printNotification(str);
         }
-    }
-
-    private void printNote(String msg, GUIDemo guiDemo){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        //close this window
-        guiDemo.closeWindow(rootPanel);
     }
 
 
     public void run(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
-        JFrame frame = new JFrame("AdminUserHistroicalActionsSubMenu");
+        JFrame frame = new JFrame("AdminUserHistoricalActionsSubMenu");
         frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiDemo, sm, hac).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
