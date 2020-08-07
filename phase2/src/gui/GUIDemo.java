@@ -25,6 +25,8 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,6 +214,11 @@ public class GUIDemo {
         userInputLongMsgGUI.run(str, guiUserInputInfo);
         String userResponse = guiUserInputInfo.getTempUserInput();
         return userResponse;
+    }
+
+    public void closeWindow(JPanel panel){
+        Window window = SwingUtilities.getWindowAncestor(panel);
+        window.dispose();
     }
 
 }

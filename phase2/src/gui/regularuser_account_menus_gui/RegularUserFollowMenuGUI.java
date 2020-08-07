@@ -104,7 +104,8 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserAccountMainMenuGUI(false);
+                guiD.runRegularUserAccountMainMenuGUI();
+                guiD.closeWindow(rootPanel);
             }
         });
     }

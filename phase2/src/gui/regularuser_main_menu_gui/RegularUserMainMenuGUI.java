@@ -66,6 +66,7 @@ public class RegularUserMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //Call Account Info Menu and close this window
                 guiD.runRegularUserAccountMainMenuGUI();
+                guiD.closeWindow(rootPanel);
 
             }
         });
@@ -88,6 +89,7 @@ public class RegularUserMainMenuGUI {
                 }
                 else{
                     guiD.runRegularUserTradingMenuGUI();
+                    guiD.closeWindow(rootPanel);
                 }
             }
         });
@@ -112,6 +114,7 @@ public class RegularUserMainMenuGUI {
                     //Call Meeting Info Menu and close this window
                     guiD.runRegularUserMeetingMenu(guiD, mmc, sm, thresholdValues.get(3), guiUserInputInfo,
                             idChecker);
+                    guiD.closeWindow(rootPanel);
                 }
 
             }
@@ -133,6 +136,7 @@ public class RegularUserMainMenuGUI {
                 else{
                     // Call Searching Info Menu and close this window
                     guiD.runRegularUserSearchingMenuGUI();
+                    guiD.closeWindow(rootPanel);
                 }
             }
         });
@@ -150,6 +154,7 @@ public class RegularUserMainMenuGUI {
                 else{
                     // Call Community Info Menu and close this window
                     guiD.runRegularUserCommunityMenuGUI();
+                    guiD.closeWindow(rootPanel);
                 }
             }
         });
@@ -163,6 +168,7 @@ public class RegularUserMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //Call Trading System Init Menu and close this window
                 guiD.runTradingSystemInitMenuGUI();
+                guiD.closeWindow(rootPanel);
 
             }
         });

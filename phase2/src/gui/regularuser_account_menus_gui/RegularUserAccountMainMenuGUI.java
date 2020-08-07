@@ -36,6 +36,7 @@ public class RegularUserAccountMainMenuGUI {
                 }
                 else{
                     guiD.runRegularUserAccountFeedBackMenu();
+                    guiD.closeWindow(rootPanel);
                 }
 
             }
@@ -55,6 +56,7 @@ public class RegularUserAccountMainMenuGUI {
                 }
                 else {
                     guiD.runRegularUserAccountManageItemsMenu();
+                    guiD.closeWindow(rootPanel);
                 }
             }
         });
@@ -70,6 +72,7 @@ public class RegularUserAccountMainMenuGUI {
                 // guest not allowed
                 if (!isGuest){
                     guiD.runRegularUserAccountSettingsMenu();
+                    guiD.closeWindow(rootPanel);
                 }
                 else{
                     guiD.printNotification(sm.msgForGuest());
@@ -87,6 +90,7 @@ public class RegularUserAccountMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 // Go back to regular user main menu and close this window
                 guiD.runRegularUserMainMenu(isGuest);
+                guiD.closeWindow(rootPanel);
             }
         });
     }

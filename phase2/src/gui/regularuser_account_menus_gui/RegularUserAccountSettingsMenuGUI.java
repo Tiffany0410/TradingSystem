@@ -133,18 +133,19 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserAccountMainMenuGUI(false);
+                guiD.runRegularUserAccountMainMenuGUI();
+                guiD.closeWindow(rootPanel);
             }
-
 
         });
 
     }
 
-    public void run(GUIDemo guiD, RegularUserAccountMenuController atc, GUIUserInputInfo guiUserInputInfo,
-                    RegularUserIDChecker idChecker, SystemMessage sm) {
+    public void run(RegularUserAccountMenuController atc, SystemMessage sm,
+                    GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
+                    GUIDemo guiD, AdminUserOtherInfoChecker auIDC) {
         JFrame frame = new JFrame("regularUserAccountSettingsMenuGUI");
-        frame.setContentPane(new RegularUserFollowMenuGUI(guiD, atc, guiUserInputInfo, idChecker, sm).rootPanel);
+        frame.setContentPane(new RegularUserAccountSettingsMenuGUI(atc, sm, guiUserInputInfo, idc, guiD, auIDC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
