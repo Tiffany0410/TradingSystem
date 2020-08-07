@@ -2,18 +2,14 @@ package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
-import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
-import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
 import presenter.SystemMessage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,43 +23,38 @@ import java.util.Random;
  */
 public class RegularUserAccountMenuController {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    //private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
-    private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
-    private FeedbackManager fm;
+    private SystemMessage sm;
     private String username;
     private int userId;
+
 
     /**
      * Constructs a RegularUserAccountMenuController with a DisplaySystem,
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
      * an ActionManager, a FeedbackManager, the regular user's username and userId.
      *
-     * @param ds       The presenter class used to print to screen.
+     * @param sm       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
-     * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param am       The current state of the ActionManager.
-     * @param fm       The current state of the FeedbackManager.
      * @param username The username of the regular user.
-     * @param userId   The user id of the regular user.
      */
-    public RegularUserAccountMenuController(DisplaySystem ds, TradeManager tm, MeetingManager mm, UserManager um,
-                                            ItemManager im, ActionManager am, FeedbackManager fm,
-                                            String username, int userId) {
-        this.ds = ds;
+    public RegularUserAccountMenuController(TradeManager tm, UserManager um, ItemManager im, ActionManager am,
+                                            SystemMessage sm, String username) {
+
         this.tm = tm;
-        this.mm = mm;
         this.um = um;
         this.im = im;
         this.am = am;
-        this.fm = fm;
+        this.sm = sm;
         this.username = username;
-        this.userId = userId;
+        this.userId = um.usernameToID(this.username);
     }
 
     // TODO: Add Java Doc!
@@ -155,8 +146,7 @@ public class RegularUserAccountMenuController {
     public ArrayList<Item> getWishList(){
         TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
-        ArrayList<Item> wishlist = im.getItemsByIds(wishlistIDs);
-        return wishlist;
+        return im.getItemsByIds(wishlistIDs);
     }
 
     /**
@@ -166,8 +156,7 @@ public class RegularUserAccountMenuController {
     public ArrayList<Item> getInventory(){
         TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
-        ArrayList<Item> inventory = im.getItemsByIds(inventoryIDs);
-        return inventory;
+        return im.getItemsByIds(inventoryIDs);
     }
 
     /**
@@ -246,8 +235,8 @@ public class RegularUserAccountMenuController {
      */
     public void RequestToUnfreeze(String msg) {
         //calling this method means user is not a guest
-        ds.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
-        ds.printResult("Your unfreeze request", um.requestUnfreeze(username, msg));
+        sm.printOut("Please note that the admin may only unfreeze you if you promise to lend more.");
+        sm.printResult("Your unfreeze request ", um.requestUnfreeze(username, msg));
         am.addActionToAllActionsList(userId, "regularUser", "1.2.1", 0, "");
     }
 
@@ -280,7 +269,7 @@ public class RegularUserAccountMenuController {
     public void changeUserHC(String newHC) {
         //calling this method means user is not a guest
         um.changeHome(userId, newHC);
-        ds.printResult(true);
+        sm.printResult(true);
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
     }
 
