@@ -1,11 +1,9 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
-import managers.itemmanager.ItemManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
-import managers.usermanager.UserManager;
 import java.util.List;
 
 /**
