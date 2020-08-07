@@ -53,8 +53,7 @@ public class NotificationGUI extends JDialog {
 
     private void onCancel() {
         // add your code here if necessary
-        System.out.print(SwingUtilities.getWindowAncestor(contentPane));
-        SwingUtilities.getWindowAncestor(contentPane).dispose();
+        dispose();
     }
 
     public void run(String string) {
