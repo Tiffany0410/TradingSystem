@@ -129,7 +129,6 @@ public class GUIDemo {
 
 
     // Start of run admin menus
-    //TODO: add a notification button to AdminUserMainMenu
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
@@ -149,8 +148,8 @@ public class GUIDemo {
         this.adminUserOtherActionsController = new AdminUserOtherActionsController(
                 this.userManager, this.actionManager, this.getTempUsername());
 
-        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
-        adminUserMainMenuGUI.run(this);
+        AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this, this.partsOfAdminAlert);
+        adminUserMainMenuGUI.run(this, this.partsOfAdminAlert);
     }
 
     public void runAdminUserManageUsersSubMenu() {

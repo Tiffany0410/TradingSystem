@@ -14,8 +14,20 @@ public class AdminUserMainMenuGUI {
     private JButton manageHistoricalActionsButton;
     private JButton othersButton;
     private JButton logoutButton;
+    private JButton notificationButton;
 
-    public AdminUserMainMenuGUI(GUIDemo guiDemo) {
+    public AdminUserMainMenuGUI(GUIDemo guiDemo, String adminPartOfNotification) {
+        notificationButton.addActionListener(new ActionListener() {
+         /**
+          * Invoked when an action occurs.
+          *
+          * @param e the event to be processed
+          */
+         @Override
+         public void actionPerformed(ActionEvent e) {
+             guiDemo.printNotification(adminPartOfNotification);
+         }
+         });
         manageUserButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -91,9 +103,9 @@ public class AdminUserMainMenuGUI {
         });
     }
 
-    public void run(GUIDemo guiDemo) {
+    public void run(GUIDemo guiDemo, String adminNotification) {
         JFrame frame = new JFrame("adminUserMainMenuGUI");
-        frame.setContentPane(new AdminUserMainMenuGUI(guiDemo).rootPanel);
+        frame.setContentPane(new AdminUserMainMenuGUI(guiDemo, adminNotification).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
