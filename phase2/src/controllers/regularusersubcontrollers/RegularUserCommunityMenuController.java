@@ -50,8 +50,8 @@ public class RegularUserCommunityMenuController {
         this.userId = userId;
         // this.sm = new SystemMessage();
         this.messageManager = messageManager;
-        this.idGetter = new RegularUserIDChecker(ds, tm, mm, um, im, username, userId);
-        this.otherInfoGetter = new RegularUserOtherInfoChecker(ds, tm, mm, um, username, userId);
+        this.idGetter = new RegularUserIDChecker(tm, mm, um, im, username, userId);
+        this.otherInfoGetter = new RegularUserOtherInfoChecker(tm, mm, um, username, userId);
     }
 
     /** getter for user id
