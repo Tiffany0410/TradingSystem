@@ -35,15 +35,9 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getAllUnfreezeUser();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
-
+                guiDemo.getInPut(string, guiUserInputInfo);
                 String result = adminUserManagerUsersController.freezeUser(guiUserInputInfo.getTempUserInput());
-                NotificationGUI notificationGUI = new NotificationGUI(result);
-                notificationGUI.run(result);
-
-
-                // TODO: Need method to close this window
+                guiDemo.printNotification(result);
 
             }
         });
@@ -56,15 +50,8 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserManagerUsersController.getWantUnfreezeUser();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
-
-                String result = adminUserManagerUsersController.unfreezeUser(guiUserInputInfo.getTempUserInput());
-                NotificationGUI notificationGUI = new NotificationGUI(result);
-                notificationGUI.run(result);
-
-                // TODO: Need method to close this window
-
+                String result = adminUserManagerUsersController.unfreezeUser(guiDemo.getInPut(string, guiUserInputInfo));
+                guiDemo.printNotification(result);
 
             }
         });
@@ -98,14 +85,12 @@ public class AdminUserManageUsersSubMenuGUI {
                         }
                     }
                     else{
-                        sm.tryAgainMsgForWrongInput();
+                        guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
                     }
                     }
                 else{
-                    sm.tryAgainMsgForWrongFormatInput();
+                    guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
-
-                // TODO: Need method to close this window
 
             }
         });
@@ -118,17 +103,12 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close window and then go back to main menu
-                closeWindow();
                 guiDemo.runAdminUserMainMenu();
+                guiDemo.closeWindow(rootPanel);
 
 
             }
         });
-    }
-
-    public void closeWindow(){
-        Window win = SwingUtilities.getWindowAncestor(rootPanel);
-        win.dispose();
     }
 
     public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,

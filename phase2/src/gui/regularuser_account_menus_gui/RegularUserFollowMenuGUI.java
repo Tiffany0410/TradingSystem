@@ -33,18 +33,18 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askUserid = "Please enter the user id of the user you would like to follow";
-                String input = getInPut(askUserid, guiUserInputInfo);
+                String input = guiD.getInPut(askUserid, guiUserInputInfo);
                 if (idChecker.checkInt(input)){
                     int userId = Integer.parseInt(input);
                     if (idChecker.checkUserID(userId)){
-                        printNote(sm.msgForResult(atc.followAnUser(userId)));
+                        guiD.printNotification(sm.msgForResult(atc.followAnUser(userId)));
                     }
                     else{
-                        printNote(sm.tryAgainMsgForWrongInput());
+                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
                     }
                 }
                 else {
-                    printNote(sm.tryAgainMsgForWrongFormatInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
             }
         });
@@ -57,18 +57,18 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String askItemid = "Please enter the item id of the item you would like to follow";
-                String input = getInPut(askItemid, guiUserInputInfo);
+                String input = guiD.getInPut(askItemid, guiUserInputInfo);
                 if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
                     if (idChecker.checkItemID(itemId, 1)){
-                        printNote(sm.msgForResult(atc.followAnItem(itemId)));
+                        guiD.printNotification(sm.msgForResult(atc.followAnItem(itemId)));
                     }
                     else{
-                        printNote(sm.tryAgainMsgForWrongInput());
+                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
                     }
                 }
                 else {
-                    printNote(sm.tryAgainMsgForWrongFormatInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
 
             }
@@ -81,7 +81,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewUpdates(sm, atc.seeRecentStatusOfFollowedUser(), "users");
+                viewUpdates(sm, atc.seeRecentStatusOfFollowedUser(), "users", guiD);
             }
         });
         seeRecentStatusOfItemsButton1.addActionListener(new ActionListener() {
@@ -92,7 +92,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewUpdates(sm, atc.seeRecentStatusOfFollowedItem(), "items");
+                viewUpdates(sm, atc.seeRecentStatusOfFollowedItem(), "items", guiD);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -104,38 +104,21 @@ public class RegularUserFollowMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserAccountMainMenu(false);
+                guiD.runRegularUserAccountMainMenuGUI();
+                guiD.closeWindow(rootPanel);
             }
         });
     }
 
-    private void viewUpdates (SystemMessage sm, List<String> updates, String type) {
+    private void viewUpdates (SystemMessage sm, List<String> updates, String type, GUIDemo guiDemo) {
         if (updates.size() != 0) {
             String str = sm.printListObject(new ArrayList<>(updates));
-            printNote("Here's the list of updates for the " + type + " you're following \n" + str);
+            guiDemo.printNotification("Here's the list of updates for the " + type + " you're following \n" + str);
         } else {
-            printNote(sm.msgForNo("updates for now."));
+            guiDemo.printNotification(sm.msgForNo("updates for now."));
         }
     }
 
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
-    public String getInPut(String string, GUIUserInputInfo guiInput) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String userResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
-        return userResponse;
-
-    }
-
-    //TODO: C&P from community menu - maybe can move this method
-    // to somewhere the gui classes all have access to??
-    public void printNote(String msg){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        // TODO: need to close first
-    }
 
     public void run(GUIDemo guiD, RegularUserAccountMenuController atc, GUIUserInputInfo guiUserInputInfo,
                     RegularUserIDChecker idChecker, SystemMessage sm) {

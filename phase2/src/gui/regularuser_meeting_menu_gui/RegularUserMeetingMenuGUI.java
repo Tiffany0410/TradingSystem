@@ -52,7 +52,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                confirmMeetingTookPlace(mmc, sm, guiUserInputInfo, idC, maxNumTPEdits);
+                confirmMeetingTookPlace(mmc, sm, guiUserInputInfo, idC, maxNumTPEdits,guiD);
             }
         });
 
@@ -65,7 +65,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //print the list of unconfirmed meetings
-                viewMeetings(sm, mmc.getUnconfirmedMeeting(), "unconfirmed");
+                viewMeetings(sm, mmc.getUnconfirmedMeeting(), "unconfirmed", guiD);
 
             }
         });
@@ -78,7 +78,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //print the list of completed meetings
-                viewMeetings(sm, mmc.getCompletedMeetings(), "completed");
+                viewMeetings(sm, mmc.getCompletedMeetings(), "completed", guiD);
 
             }
         });
@@ -91,7 +91,7 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // print the meetings with unconfirmed time and place
-                viewMeetings(sm, mmc.getUnConfirmTimePlace(), "time and place unconfirmed");
+                viewMeetings(sm, mmc.getUnConfirmTimePlace(), "time and place unconfirmed", guiD);
 
             }
         });
@@ -105,6 +105,7 @@ public class RegularUserMeetingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
                 guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(rootPanel);
             }
         });
     }
@@ -112,16 +113,16 @@ public class RegularUserMeetingMenuGUI {
     private void editAndConfirmMeetingTP(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
                                          int maxEditTP, RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
         if (mmc.isEmpty(mmc.getUnConfirmTimePlace())) {
-            printNote(sm.msgForNothing("here that requires action"));
+            guiD.printNotification(sm.msgForNothing("here that requires action"));
         } else {
             // print the meetings with unconfirmed time and place
             String str = sm.printListObject(new ArrayList<>(mmc.getUnConfirmTimePlace()));
-            printNote("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
+            guiD.printNotification("Here's the list of meetings with time and place that need to be confirmed: + \n" + str);
             // asks for user input for the meeting to edit / confirm
             String askTradeId = "Please enter the trade id of the meeting you wish to edit / confirm its time and place.";
-            String input1 = getInPut(askTradeId, guiUserInputInfo);
+            String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
             String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
-            String input2 = getInPut(askMeetingNum, guiUserInputInfo);
+            String input2 = guiD.getInPut(askMeetingNum, guiUserInputInfo);
             if (idC.checkInt(input1) && idC.checkInt(input2)) {
                 int tradeId = Integer.parseInt(input1);
                 int meetingNum = Integer.parseInt(input2);
@@ -133,67 +134,53 @@ public class RegularUserMeetingMenuGUI {
                     suggestOrConfirmMeetingTPgui.run(guiD, meetingInfo, mmc, tradeId, meetingNum, maxEditTP, sm,
                             guiUserInputInfo, dtc, idc);
                 } else {
-                    printNote(sm.tryAgainMsgForWrongInput());
+                    guiD.printNotification(sm.tryAgainMsgForWrongInput());
                 }
             } else {
-                printNote(sm.tryAgainMsgForWrongFormatInput());
+                guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
             }
 
         }
     }
 
-    private void confirmMeetingTookPlace(RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, int maxNumTPEdits) {
+    private void confirmMeetingTookPlace(RegularUserMeetingMenuController mmc, SystemMessage sm, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC, int maxNumTPEdits,
+                                         GUIDemo guiD) {
         if (mmc.isEmpty(mmc.getUnconfirmedMeeting())) {
             sm.msgForNothing("that needs to be confirmed");
         }
         else {
         // print the meetings with unconfirmed meeting
         String str = sm.printListObject(new ArrayList<>(mmc.getUnconfirmedMeeting()));
-        printNote("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
+        guiD.printNotification("Here's the list of meetings that need to be confirmed that it took place: + \n" + str);
         //asks for user input
         String askTradeId = "Please enter the trade id of the meeting that you wish to confirm that it took place.";
-        String input1 = getInPut(askTradeId, guiUserInputInfo);
+        String input1 = guiD.getInPut(askTradeId, guiUserInputInfo);
         String askMeetingNum = "Please enter the meeting number (enter 1 for first meeting and 2 for second meeting).";
-        String input2 = getInPut(askMeetingNum, guiUserInputInfo);
+        String input2 = guiD.getInPut(askMeetingNum, guiUserInputInfo);
         if (idC.checkInt(input1) && idC.checkInt(input2)) {
             int tradeId = Integer.parseInt(input1);
             int meetingNum = Integer.parseInt(input2);
             if (mmc.checkValidMeeting(tradeId, meetingNum)) {
                 String meetingInfo = mmc.getMeeting(tradeId, meetingNum).toString();
                 RegularUserSuggestMeetingWindow confirmMeetingGui =
-                        new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
-                confirmMeetingGui.run(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits);
+                        new RegularUserSuggestMeetingWindow(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits, guiD);
+                confirmMeetingGui.run(meetingInfo, mmc, sm, tradeId, meetingNum, maxNumTPEdits, guiD);
             } else {
-                printNote(sm.tryAgainMsgForWrongInput());
+                guiD.printNotification(sm.tryAgainMsgForWrongInput());
             }
         } else {
-            printNote(sm.tryAgainMsgForWrongFormatInput());
+            guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
         }
         }
     }
 
-    private void viewMeetings(SystemMessage sm, List<Meeting> meetings, String type) {
+    private void viewMeetings(SystemMessage sm, List<Meeting> meetings, String type, GUIDemo guiD) {
         if (meetings.size() != 0) {
             String str = sm.printListObject(new ArrayList<>(meetings));
-            printNote("Here's your list of " + type + " meetings: \n" + str);
+            guiD.printNotification("Here's your list of " + type + " meetings: \n" + str);
         } else {
-            printNote(sm.msgForNothing("here."));
+            guiD.printNotification(sm.msgForNothing("here."));
         }
-    }
-
-    public String getInPut(String string, GUIUserInputInfo guiInput) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, guiInput);
-        userInputGUI.run(string, guiInput);
-        String userResponse = guiInput.getTempUserInput();
-        // TODO: need to close first
-        return userResponse;
-
-    }
-
-    public void printNote(String msg){
-        NotificationGUI msgGUI = new NotificationGUI(msg);
-        msgGUI.run(msg);
-        // TODO: need to close first
     }
 
 

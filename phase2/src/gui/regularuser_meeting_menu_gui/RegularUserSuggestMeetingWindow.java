@@ -1,6 +1,7 @@
 package gui.regularuser_meeting_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
+import gui.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
     private JTextArea textArea;
 
     public RegularUserSuggestMeetingWindow(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                                           int meetingNum, int maxEditsTP) {
+                                           int meetingNum, int maxEditsTP, GUIDemo guiD) {
         textArea.setText(str);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -26,13 +27,13 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(mmc, sm, tradeId, meetingNum, maxEditsTP);
+                onOK(mmc, sm, tradeId, meetingNum, maxEditsTP, guiD);
             }
         });
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                onCancel(guiD);
             }
         });
 
@@ -40,34 +41,34 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                onCancel(guiD);
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                onCancel(guiD);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                      int meetingNum, int maxEditsTP) {
+                      int meetingNum, int maxEditsTP, GUIDemo guiD) {
         boolean ok = mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP);
         sm.msgForResult(ok);
-        dispose();
+        guiD.closeWindow(contentPane);
     }
 
-    private void onCancel() {
+    private void onCancel(GUIDemo guiD) {
         // add your code here if necessary
-        dispose();
+        guiD.closeWindow(contentPane);
     }
 
     public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                    int meetingNum, int maxEditsTP) {
+                    int meetingNum, int maxEditsTP, GUIDemo guiD) {
         RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str,mmc, sm, tradeId,
-        meetingNum, maxEditsTP);
+        meetingNum, maxEditsTP, guiD);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

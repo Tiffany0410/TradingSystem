@@ -678,7 +678,7 @@ public class DisplaySystem {
         switch (subMenuOption) {
             // 4.1: Add subsequent admin Users
             case 1:
-                this.printOut(helper_admin_action_prefix(action) + "add subsequent Admin Users #" + action.getAdjustableInt() + "\n");
+                this.printOut(helper_admin_action_prefix(action) + "add subsequent Admin Users with username: " + action.getAdjustableStr() + "\n");
                 break;
         }
     }

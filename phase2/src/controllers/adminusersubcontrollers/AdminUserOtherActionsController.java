@@ -44,11 +44,10 @@ public class AdminUserOtherActionsController {
      * Add new subsequent admin users
      *
      */
-    public void addNewAdmin() {
+    public void addNewAdmin(String username) {
             //String username = otherInfoGetter.getNewAdminUserName();            GUI已经执行了新建用户的操作，这里不需要执行了
             //String pw = otherInfoGetter.getNewAdminUserPassword();
             //ds.printResult(this.ac.createAccount("Admin", username, pw, "None", "None"));
-            int newUserID = um.getListAdminUser().get(-1).getId();
-            am.addActionToAllActionsList(userId, "adminUser", "4.1", newUserID, "");
+            am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
         }
 }

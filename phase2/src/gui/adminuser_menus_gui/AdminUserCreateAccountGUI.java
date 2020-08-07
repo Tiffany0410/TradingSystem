@@ -26,12 +26,13 @@ public class AdminUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean result = accountCreator.createAccount("Admin", usernameTextField.getText(),
+                String username = usernameTextField.getText();
+                boolean result = accountCreator.createAccount("Admin", username,
                         new String(passwordField1.getPassword()), "None", "None");
 
                 systemMessage.printResult(result);
 
-                if (result){adminUserOtherActionsController.addNewAdmin();}
+                if (result){adminUserOtherActionsController.addNewAdmin(username);}
 
 
                 // TODO: Need method to close this window
