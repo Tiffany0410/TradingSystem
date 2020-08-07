@@ -22,7 +22,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <wrapStyleWord value="true"/>
+        </properties>
       </component>
       <component id="d4861" class="javax.swing.JButton" binding="OKButton" default-binding="true">
         <constraints>
