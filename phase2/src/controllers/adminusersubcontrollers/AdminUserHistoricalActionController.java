@@ -7,6 +7,7 @@ import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
+import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
@@ -46,8 +47,7 @@ public class AdminUserHistoricalActionController {
      * @param username The username of the Admin user.
      */
     public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im, TradeManager tm,
-                                               MeetingManager mm,
-                                               ActionManager am, FeedbackManager fm, String username) {
+                                               MeetingManager mm, ActionManager am, FeedbackManager fm, String username) {
         this.ds = ds;
         this.um = um;
         this.im = im;
@@ -69,6 +69,19 @@ public class AdminUserHistoricalActionController {
 //        ds.printHistoricalActions(am.getListOfAllActions());
 //        am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
 //    }
+
+    public String getAllTradableUser(){
+        ArrayList<TradableUser> userList = um.getListTradableUser();
+
+        StringBuilder string = new StringBuilder();
+
+        for (TradableUser user: userList){
+            string.append(user.getId());
+        }
+
+        return string.toString();
+    }
+
 
 
     /**

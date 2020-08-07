@@ -11,6 +11,7 @@ import managers.itemmanager.ItemManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -109,8 +110,6 @@ public class RegularUserSearchingItemsSubMenu {
 
                 } catch (NumberFormatException  ex){
                     guiDemo.printNotification("Please enter number!");
-                } catch (InvalidIdException ex){
-                    systemMessage.printInvalidID();
                 }
 
 
@@ -125,12 +124,8 @@ public class RegularUserSearchingItemsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
-                    systemMessage.printItemResult(items);
-                } catch (InvalidIdException invalidIdException) {
-                    systemMessage.printInvalidID();
-                }
+                ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
+                systemMessage.printItemResult(items);
 
                 // TODO: Need method to close this window
             }
@@ -143,8 +138,12 @@ public class RegularUserSearchingItemsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close this window
+                Window win = SwingUtilities.getWindowAncestor(rootPanel);
+                win.dispose();
+
+                // call next window
                 guiDemo.runRegularUserSearchingMenuGUI();
-                // TODO: Need method to close this window
             }
         });
     }
