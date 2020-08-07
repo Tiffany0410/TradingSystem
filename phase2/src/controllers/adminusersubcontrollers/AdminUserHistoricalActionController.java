@@ -320,7 +320,8 @@ public class AdminUserHistoricalActionController {
         String vacationStatus = targetAction.getAdjustableStr();
 
         // 1.2.2: Set your on-vacation status
-        if (subSubOption == 2) {// if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
+        if (subSubOption == 2) {
+            // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
             if (vacationStatus.equals("go on vacation")) {
                 um.comeFromVacation(targetAction.getActionOwnerID());
                 im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), true);
@@ -365,8 +366,9 @@ public class AdminUserHistoricalActionController {
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
-        // TODO:2.1: Request a trade
-        if (subOption == 1) {// call TradeManger to remove the trade
+        // 2.1: Request a trade
+        if (subOption == 1) {
+            // call TradeManger to remove the trade
             if (targetAction.getAdjustableStr().equals(" and succeed")) {
                 tm.removeTrade(targetAction.getAdjustableInt());
                 return true;
@@ -384,7 +386,7 @@ public class AdminUserHistoricalActionController {
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
-        // TODO:3.2: Confirm the meeting took place
+        // 3.2: Confirm the meeting took place
         if (subOption == 2) {// call MeetingManger to unconfirm the meeting took place
             int tradeID = Integer.parseInt(targetAction.getAdjustableStr());
             return mm.undoConfirmTookPlace(tradeID, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
