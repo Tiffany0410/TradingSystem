@@ -1,8 +1,6 @@
 package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
-import gateway.FilesReaderWriter;
-import gui.GUIDemo;
 import managers.actionmanager.Action;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
@@ -10,10 +8,8 @@ import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An instance of this class represents the
@@ -114,6 +110,28 @@ public class SystemMessage {
             printOut("Fail");
         }
         printOut("\n");
+    }
+
+
+    public String printResult(ArrayList<TradableUser> obj) {
+        StringBuilder string = new StringBuilder();
+
+        int count = 1;
+        for (Object o : obj) {
+            // if o is not a string[]
+            if (!(o instanceof String[])) {
+                string.append("#").append(count).append(". ").append(o.toString()).append("\n");
+            }
+            // if o is a string[]
+            else {
+                String[] strings = (String[]) o;
+                string.append("#").append(count).append(". ").append("\n").append("Username: ").append(strings[0]);
+                string.append("Message: ").append(strings[1]).append("\n");
+            }
+            count++;
+        }
+
+        return string.toString();
     }
 
 
@@ -392,7 +410,25 @@ public class SystemMessage {
         return "The tradable status for this item is already " + tradable_status + ". ";
     }
 
-    public String printHistoricalAction(ArrayList<Action> actions) {
+    public String printHistoricalAction(ArrayList<Action> listOfAction) {
+        StringBuilder string = new StringBuilder();
+        for (Action action : listOfAction) {
+            String userType = action.getUserType();
+            String menuOption = action.getMenuOption();
 
+            RegularUserActionMessage regularUserActionMessage = new RegularUserActionMessage();
+            AdminUserActionMessage adminUserActionMessage = new AdminUserActionMessage();
+
+            switch (userType) {
+                case "regularUser":
+                    string.append(regularUserActionMessage.regularUserAction(action)).append("\n");
+                    break;
+                case "adminUser":
+                    string.append(adminUserActionMessage.adminUserAction(action)).append("\n");
+                    break;
+            }
+        }
+        return string.toString();
     }
+
 }
