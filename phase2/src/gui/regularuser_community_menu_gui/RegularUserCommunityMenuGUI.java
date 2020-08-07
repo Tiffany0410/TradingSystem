@@ -49,20 +49,8 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = guidemo.getInPut("Please input an user id for the user you want to review: ");
-                    String sPoint = guidemo.getInPut("Please enter the point for the user(0-10): ");
-                    String reason = guidemo.getInPut("Please enter the reason why you get the point: ");
-                    if (idC.checkInt(sUserId) && idC.checkInt(sPoint)) {
-                        int user_id = Integer.parseInt(sUserId);
-                        int point = Integer.parseInt(sPoint);
-                        if (idC.checkUserID(user_id) && otherChecker.getNumRating(point)) {
-                            boolean yesOrNo = cmc.reviewUser(user_id, point, reason);
-                            guidemo.printNotification(sm.msgForResult(yesOrNo));
-                        }
-                    }
-                    else {
-                        guidemo.printNotification("Please enter a valid id and point.");
-                    }
+                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm);
+                    window.run(guidemo, idC, otherChecker, cmc, sm);
                 }
             }
         });
@@ -145,7 +133,7 @@ public class RegularUserCommunityMenuGUI {
                 else {
                     String string;
                     if (cmc.getFriends().isEmpty()) {
-                        string = sm.msgForNothing("in your list of friends.");
+                        string = sm.msgForNothing("your list of friends.");
                     }
                     else {
                         string = sm.printListUser(cmc.getFriends());
