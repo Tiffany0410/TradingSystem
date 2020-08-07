@@ -1,6 +1,5 @@
 package controllers.adminusersubcontrollers;
 
-import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
@@ -12,9 +11,8 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.DisplaySystem;
 
-import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -140,14 +138,31 @@ public class AdminUserHistoricalActionController {
         am.addActionToAllActionsList(userId, "adminUser", "3.2", actionID, "");
     }
 
+    /**
+     * Getter for all undo request submitted by RegularUser in system
+     *
+     * @return The Map of all undo request submitted by RegularUser in system
+     */
+    public Map<Integer, Integer> getUndoRequest() { return am.getMapOfUndoRequest(); }
+
+
+    /**
+     * Return true if mapOfUndoRequest contains the provided actionID
+     *
+     * @param actionID The ID of revocable actions
+     * @return True if mapOfUndoRequest contains the provided actionID
+     */
+    public boolean checkUndoRequest(int actionID) { return am.checkUndoRequest(actionID); }
+
+
 
     /**
      * Lets the presenter print out all the undo request from regular user and admin user confirm to cancel related revocable actions
      * in the system
      */
-    public void confirmRequestAndCancelAction(int actionID) throws InvalidIdException, ParseException, FileNotFoundException {
+    public boolean confirmRequestAndCancelAction(int actionID) {
         Action targetAction = am.findActionByID(actionID);
-        cancelRevocableAction(targetAction);
+        boolean flag = cancelRevocableAction(targetAction);
         am.deleteUndoRequest(actionID);
 
         // delete action from current Revocable Action List in ActionManager
@@ -156,6 +171,7 @@ public class AdminUserHistoricalActionController {
         am.addActionToDeletedRevocableList(targetAction);
         // add action into All Historical Action List in ActionManager
         am.addActionToAllActionsList(userId, "adminUser", "3.5", actionID, "");
+        return flag;
     }
 
 
@@ -169,6 +185,15 @@ public class AdminUserHistoricalActionController {
         return am.checkRevocable(targetAction);
     }
 
+
+    /**
+     * Checks if the User exists
+     * @param targetUserID The id of the User being searched for
+     * @return true if the user exists, false otherwise
+     */
+    public boolean checkUser(int targetUserID) {
+        return um.checkUser(targetUserID);
+    }
 
     /**
      * Cancel revocable actions and classify the different action into different helper functions.

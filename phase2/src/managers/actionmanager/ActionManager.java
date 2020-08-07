@@ -46,6 +46,14 @@ public class ActionManager {
 
 
     /**
+     * Getter for all undo request submitted by RegularUser in system
+     *
+     * @return The Map of all undo request submitted by RegularUser in system
+     */
+    public Map<Integer, Integer> getMapOfUndoRequest() {return this.mapOfUndoRequest;}
+
+
+    /**
      * Add new Action into the list contains all Historical Actions done by AdminUser and RegularUser in system
      *
      * @param actionOwnerID The Id of AdminUser or RegularUser who did the action
