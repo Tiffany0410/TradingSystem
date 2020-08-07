@@ -50,7 +50,7 @@ public class TradingSystemInitMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //login as guest
                 guiDemo.runRegularUserMainMenu(true);
-
+                guiDemo.closeWindow(panel1);
             }
         });
         a3CreateAccountButton.addActionListener(new ActionListener() {
