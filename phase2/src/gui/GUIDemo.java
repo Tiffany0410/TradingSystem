@@ -29,7 +29,6 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GUIDemo {
     // Managers
@@ -221,7 +220,7 @@ public class GUIDemo {
         this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker(this.userManager);
 
         this.regularUserSearchingMenuController = new RegularUserSearchingMenuController(this.tradeManager,
-                this.meetingManager, this.userManager, this.itemManager, this.feedbackManager, this.getTempUsername());
+                this.meetingManager, this.actionManager, this.userManager, this.itemManager, this.feedbackManager, this.getTempUsername());
 
         this.regularUserThresholdController = new RegularUserThresholdController(
                 this.tradeManager, this.meetingManager, this.userManager, this.getTempUsername());
