@@ -24,8 +24,9 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
-                                          SystemMessage sm, RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo,
+                                          GUIUserInputInfo guiUserInputInfo, SystemMessage sm, RegularUserIDChecker idc,
+                                          AdminUserOtherInfoChecker oic) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

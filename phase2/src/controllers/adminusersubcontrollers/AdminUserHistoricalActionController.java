@@ -9,7 +9,6 @@ import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -24,7 +23,6 @@ import java.util.Map;
 public class AdminUserHistoricalActionController {
 
     private AdminUserOtherInfoChecker otherInfoGetter;
-    private DisplaySystem ds;
     private UserManager um;
     private TradeManager tm;
     private ItemManager im;
@@ -38,7 +36,6 @@ public class AdminUserHistoricalActionController {
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
      * an UserManager, an ItemManager and an adminUserId.
-     * @param ds The presenter class used to print to screen.
      * @param im The current state of the ItemManager.
      * @param um The current state of the UserManager.
      * @param tm The current state of the TradeManager
@@ -46,9 +43,9 @@ public class AdminUserHistoricalActionController {
      * @param fm The current state of the FeedbackManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserHistoricalActionController(DisplaySystem ds, UserManager um, ItemManager im, TradeManager tm,
+    public AdminUserHistoricalActionController(UserManager um, ItemManager im, TradeManager tm,
                                                MeetingManager mm, ActionManager am, FeedbackManager fm, String username) {
-        this.ds = ds;
+
         this.um = um;
         this.im = im;
         this.tm = tm;
@@ -56,7 +53,7 @@ public class AdminUserHistoricalActionController {
         this.fm = fm;
         this.mm = mm;
         this.userId = um.usernameToID(username);
-        this.otherInfoGetter = new AdminUserOtherInfoChecker(ds, am, um);
+        this.otherInfoGetter = new AdminUserOtherInfoChecker(am, um);
         this.frw = new FilesReaderWriter();
     }
 
@@ -322,20 +319,18 @@ public class AdminUserHistoricalActionController {
         // get the status of on-vacation status from action for action 1.2.2
         String vacationStatus = targetAction.getAdjustableStr();
 
-        switch (subSubOption){
-            // 1.2.2: Set your on-vacation status
-            case 2:
-                // if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
-                if (vacationStatus.equals("go on vacation")) {
-                    um.comeFromVacation(targetAction.getActionOwnerID());
-                    im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), true);
-                }
-                // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
-                else {
-                    um.goOnVacation(targetAction.getActionOwnerID());
-                    im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), false);
-                }
-                return true;
+        // 1.2.2: Set your on-vacation status
+        if (subSubOption == 2) {// if user set own on-vacation status into "go on vacation", then change it into "come from vacation"
+            if (vacationStatus.equals("go on vacation")) {
+                um.comeFromVacation(targetAction.getActionOwnerID());
+                im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), true);
+            }
+            // if user set own on-vacation status into "come from vacation", then change it into "go on vacation"
+            else {
+                um.goOnVacation(targetAction.getActionOwnerID());
+                im.setTradable(um.getUserInventory(targetAction.getActionOwnerID()), false);
+            }
+            return true;
         }
         return false;
     }
@@ -370,15 +365,12 @@ public class AdminUserHistoricalActionController {
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelTradeMenu(Action targetAction, int subOption) {
-        switch (subOption) {
-            // TODO:2.1: Request a trade
-            case 1:
-                // call TradeManger to remove the trade
-                if (targetAction.getAdjustableStr() == " and succeed") {
-                    tm.removeTrade(targetAction.getAdjustableInt());
-                    return true;
-                }
-                break;
+        // TODO:2.1: Request a trade
+        if (subOption == 1) {// call TradeManger to remove the trade
+            if (targetAction.getAdjustableStr().equals(" and succeed")) {
+                tm.removeTrade(targetAction.getAdjustableInt());
+                return true;
+            }
         }
         return false;
     }
@@ -392,12 +384,10 @@ public class AdminUserHistoricalActionController {
      * @return Return true if cancel action successfully, vice versa
      */
     private boolean helper_cancelMeetingMenu(Action targetAction, int subOption) {
-        switch (subOption) {
-            // TODO:3.2: Confirm the meeting took place
-            case 2:
-                // call MeetingManger to unconfirm the meeting took place
-                int tradeID = Integer.parseInt(targetAction.getAdjustableStr());
-                return mm.undoConfirmTookPlace(tradeID, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
+        // TODO:3.2: Confirm the meeting took place
+        if (subOption == 2) {// call MeetingManger to unconfirm the meeting took place
+            int tradeID = Integer.parseInt(targetAction.getAdjustableStr());
+            return mm.undoConfirmTookPlace(tradeID, targetAction.getAdjustableInt(), targetAction.getActionOwnerID());
         }
         return false;
     }

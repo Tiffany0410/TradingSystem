@@ -5,7 +5,7 @@ import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import controllers.maincontrollers.DisplaySystem;
+
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
  */
 public class RegularUserIDChecker {
 
-    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
@@ -37,16 +36,15 @@ public class RegularUserIDChecker {
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      * @param username The username of the regular user.
-     * @param userId   The userid of the regular user.
      */
     public RegularUserIDChecker(TradeManager tm, MeetingManager mm,
-                                UserManager um, ItemManager im, String username, int userId) {
+                                UserManager um, ItemManager im, String username) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.im = im;
         this.username = username;
-        this.userId = userId;
+        this.userId = um.usernameToID(this.username);
     }
 
 

@@ -45,13 +45,12 @@ public class AdminUserEditThresholdsController {
 //    }
 
     public AdminUserEditThresholdsController(ActionManager am, UserManager um, SystemMessage sm, String username,
-                                             String thresholdValuesFilePath) throws FileNotFoundException {
+                                             List<Integer> thresholdValues){
         this.am = am;
         this.um = um;
         this.sm = sm;
         this.userId = um.usernameToID(username);
-        this.frw = new FilesReaderWriter();
-        this.thresholdValues = frw.readThresholdValuesFromCSVFile(thresholdValuesFilePath);
+        this.thresholdValues = thresholdValues;
     }
 
 
