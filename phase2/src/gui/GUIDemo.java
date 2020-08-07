@@ -12,6 +12,7 @@ import gui.regularuser_account_menus_gui.RegularUserManageItemsMenuGUI;
 import gui.regularuser_community_menu_gui.RegularUserCommunityMenuGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.regularuser_meeting_menu_gui.RegularUserMeetingMenuGUI;
+import gui.regularuser_searching_menu_gui.*;
 import gui.regularuser_trading_menu_gui.RegularUserTradingMenuGUI;
 import gui.trading_system_init_menu_gui.LoginGUI;
 import gui.trading_system_init_menu_gui.RegularUserCreateAccountGUI;
@@ -20,12 +21,14 @@ import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
+import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GUIDemo {
@@ -38,6 +41,7 @@ public class GUIDemo {
     private AccountCreator accountCreator;
     private LoginValidator loginValidator;
     private ActionManager actionManager;
+    private MessageManager messageManager;
 
     // Admin controllers
     private AdminUserEditThresholdsController adminUserEditThresholdsController;
@@ -63,13 +67,14 @@ public class GUIDemo {
     private SystemMessage systemMessage;
     private String partsOfUserAlert;
     private String partsOfAdminAlert;
-    private List<Integer> thresholdValues;
+    private ArrayList<Integer> thresholdValues;
+    private boolean isGuest;
 
 
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
-                   ItemManager itemManager, FeedbackManager feedbackManager, AccountCreator accountCreator,
-                   LoginValidator loginValidator, ActionManager actionManager, String partsOfUserAlert,
-                   String partsOfAdminAlert, List<Integer> thresholdValues){
+                   ItemManager itemManager, FeedbackManager feedbackManager, MessageManager messageManager,
+                   AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager,
+                   String partsOfUserAlert, String partsOfAdminAlert, ArrayList<Integer> thresholdValues){
 
         // get or create manager
         this.userManager = userManager;
@@ -80,11 +85,13 @@ public class GUIDemo {
         this.accountCreator = accountCreator;
         this.loginValidator = loginValidator;
         this.actionManager = actionManager;
+        this.messageManager = messageManager;
 
         // other variables
         this.thresholdValues = thresholdValues;
         this.partsOfUserAlert = partsOfUserAlert;
         this.partsOfAdminAlert = partsOfAdminAlert;
+        this.isGuest = false;
 
         // create new object
         this.guiUserInputInfo = new GUIUserInputInfo();
@@ -124,48 +131,57 @@ public class GUIDemo {
     // Start of run admin menus
 
     public void runAdminUserMainMenu() {
-
+        // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
                 this.actionManager, this.systemMessage,this.adminUserOtherInfoChecker,this.getTempUsername());
+
+        this.adminUserManagerUsersController = new AdminUserManagerUsersController(
+                this.userManager, this.itemManager, this.actionManager, this.systemMessage,
+                this.adminUserOtherInfoChecker, this.getTempUsername());
+
+        this.adminUserEditThresholdsController = new AdminUserEditThresholdsController(
+                this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);
+
+        this.adminUserHistoricalActionController = new
+                AdminUserHistoricalActionController(this.userManager, this.itemManager, this.tradeManager,
+                this.meetingManager, this.actionManager, this.feedbackManager, this.getTempUsername());
+
+        this.adminUserOtherActionsController = new AdminUserOtherActionsController(
+                this.userManager, this.actionManager, this.getTempUsername());
 
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this);
         adminUserMainMenuGUI.run(this);
     }
 
     public void runAdminUserManageUsersSubMenu() {
-        AdminUserManagerUsersController adminUserManagerUsersController = new AdminUserManagerUsersController(
-                this.userManager, this.itemManager, this.actionManager, this.systemMessage,
-                this.adminUserOtherInfoChecker, this.getTempUsername());
+
+        //TODO: what username should pass to ID checker?
 
         RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
                 this.userManager, this.itemManager, this.getTempUsername());
 
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
-                adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
+                this.adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
                 regularUserIDChecker, this.adminUserOtherInfoChecker);
-        adminUserManageUsersSubMenuGUI.run(adminUserManagerUsersController, this, this.guiUserInputInfo,
+        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this, this.guiUserInputInfo,
                 this.systemMessage, regularUserIDChecker, this.adminUserOtherInfoChecker);
     }
 
     public void runAdminUserEditThresholdsSubMenu() {
-        AdminUserEditThresholdsController adminUserEditThresholdsController = new AdminUserEditThresholdsController(
-                this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);
 
         AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
-                this.guiUserInputInfo,adminUserEditThresholdsController, this.systemMessage);
-        adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo,adminUserEditThresholdsController,
+                this.guiUserInputInfo, this.adminUserEditThresholdsController, this.systemMessage);
+        adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo, this.adminUserEditThresholdsController,
                 this.systemMessage);
 
     }
 
     public void runAdminUserHistoricalActionsSubMenu() {
-        AdminUserHistoricalActionController adminUserHistoricalActionController = new
-                AdminUserHistoricalActionController(this.userManager, this.itemManager, this.tradeManager,
-                this.meetingManager, this.actionManager, this.feedbackManager, this.getTempUsername());
+
 
         AdminUserHistoricalActionsSubMenu adminUserHistroicalActionsSubMenu = new AdminUserHistoricalActionsSubMenu(
-                this, this.systemMessage, adminUserHistoricalActionController);
-        adminUserHistroicalActionsSubMenu.run(this, this.systemMessage, adminUserHistoricalActionController);
+                this, this.systemMessage, this.adminUserHistoricalActionController);
+        adminUserHistroicalActionsSubMenu.run(this, this.systemMessage, this.adminUserHistoricalActionController);
     }
 
     public void runAdminUserOtherSubMenu() {
@@ -174,64 +190,154 @@ public class GUIDemo {
     }
 
     public void runAdminUserCreateAccount() {
-        AdminUserOtherActionsController adminUserOtherActionsController = new AdminUserOtherActionsController(
-                this.userManager, this.actionManager, this.getTempUsername());
 
         AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(this.accountCreator, this,
-                this.systemMessage, adminUserOtherActionsController);
+                this.systemMessage, this.adminUserOtherActionsController);
         adminUserCreateAccountGUI.run(this.accountCreator, this,
-                this.systemMessage, adminUserOtherActionsController);
+                this.systemMessage, this.adminUserOtherActionsController);
     }
+
 
     //Regular User menu gui start
     public void runRegularUserMainMenu(Boolean guest) {
-        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(guest, this.systemMessage, this, );
-        regularUserMainMenuGUI.run();
+        this.isGuest = guest;
+
+        // create all regular user controller
+        this.regularUserAccountMenuController = new RegularUserAccountMenuController(
+                this.tradeManager, this.userManager, this.itemManager, this.actionManager, this.systemMessage, this.getTempUsername());
+
+        this.regularUserCommunityMenuController = new RegularUserCommunityMenuController(this.tradeManager,
+                this.meetingManager, this.userManager, this.itemManager, this.actionManager, this.feedbackManager,
+                this.messageManager, this.getTempUsername());
+
+        //TODO: what username should pass to ID checker?
+
+        this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+                this.userManager, this.itemManager, this.getTempUsername());
+
+        this.regularUserMeetingMenuController = new RegularUserMeetingMenuController(this.tradeManager,
+                this.meetingManager, this.actionManager, this.userManager.usernameToID(this.getTempUsername()));
+
+        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker(this.userManager);
+
+        this.regularUserSearchingMenuController = new RegularUserSearchingMenuController(this.tradeManager,
+                this.meetingManager, this.userManager, this.itemManager, this.feedbackManager, this.getTempUsername());
+
+        this.regularUserThresholdController = new RegularUserThresholdController(
+                this.tradeManager, this.meetingManager, this.userManager, this.getTempUsername());
+
+        this.regularUserTradingMenuController = new RegularUserTradingMenuController(this.tradeManager,
+                this.meetingManager, this.userManager, this.itemManager, this.actionManager, this.getTempUsername(),
+                this.systemMessage, this.regularUserThresholdController, this.regularUserOtherInfoChecker,
+                this.regularUserIDChecker);
+
+
+
+        //TODO: What is String menuPartOfAlert?
+        String menuPartOfAlert = "";
+
+        RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(this.isGuest, this.systemMessage, this,
+                regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
+                menuPartOfAlert, this.thresholdValues);
+        regularUserMainMenuGUI.run(this.isGuest, this.systemMessage, this,
+                regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
+                menuPartOfAlert, this.thresholdValues);
     }
 
     public void runRegularUserAccountFeedBackMenu(){
-        RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI();
-        regularUserFollowMenuGUI.run();
+        RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI(this,
+                this.regularUserAccountMenuController, this.guiUserInputInfo, this.regularUserIDChecker, this.systemMessage);
+        regularUserFollowMenuGUI.run(this,
+                this.regularUserAccountMenuController, this.guiUserInputInfo, this.regularUserIDChecker, this.systemMessage);
     }
 
     public void runRegularUserAccountManageItemsMenu(){
-        RegularUserManageItemsMenuGUI regularUserManageItemsMenuGUI = new RegularUserManageItemsMenuGUI();
-        regularUserManageItemsMenuGUI.run();
+        RegularUserManageItemsMenuGUI regularUserManageItemsMenuGUI = new RegularUserManageItemsMenuGUI(this.isGuest,
+                this.systemMessage,this, this.guiUserInputInfo, this.regularUserIDChecker,
+                this.regularUserAccountMenuController, this.regularUserOtherInfoChecker);
+        regularUserManageItemsMenuGUI.run(this.isGuest, this.systemMessage,this, this.guiUserInputInfo,
+                this.regularUserIDChecker, this.regularUserAccountMenuController, this.regularUserOtherInfoChecker);
     }
 
     public void runRegularUserAccountSettingsMenu(){
-        RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI();
-        regularUserAccountSettingsMenuGUI.run();
+        RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI(
+                this.regularUserAccountMenuController, this.systemMessage, this.guiUserInputInfo, this.regularUserIDChecker,
+                this,this.adminUserOtherInfoChecker);
+        regularUserAccountSettingsMenuGUI.run(this.regularUserAccountMenuController, this.systemMessage,
+                this.guiUserInputInfo, this.regularUserIDChecker, this,this.adminUserOtherInfoChecker);
 
     }
 
     public void runRegularUserAccountMainMenuGUI(){
-        RegularUserAccountMainMenuGUI regularUserAccountMainMenuGUI = new RegularUserAccountMainMenuGUI();
-        regularUserAccountMainMenuGUI.run();
+        RegularUserAccountMainMenuGUI regularUserAccountMainMenuGUI = new RegularUserAccountMainMenuGUI(this.isGuest,
+                this.systemMessage, this, this.regularUserAccountMenuController);
+        regularUserAccountMainMenuGUI.run(this.isGuest, this.systemMessage, this, this.regularUserAccountMenuController);
 
     }
 
     public void runRegularUserTradingMenuGUI(){
-        RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI();
-        regularUserTradingMenuGUI.run();
+        //TODO: What is int maxNumTransactionAWeek and int numLentBeforeBorrow?
+
+        int maxNumTransactionAWeek = 0;
+        int numLentBeforeBorrow = 0;
+
+        RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
+                this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
+                this.guiUserInputInfo, this.regularUserIDChecker, this.regularUserOtherInfoChecker);
+        regularUserTradingMenuGUI.run(this, this.regularUserTradingMenuController, this.systemMessage,
+                maxNumTransactionAWeek, numLentBeforeBorrow, this.guiUserInputInfo, this.regularUserIDChecker,
+                this.regularUserOtherInfoChecker);
     }
 
     public void runRegularUserCommunityMenuGUI(){
-        RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI();
-        regularUserCommunityMenuGUI.run();
+        RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI(this.isGuest, this,
+                this.regularUserCommunityMenuController, this.systemMessage,this.guiUserInputInfo,
+                this.regularUserIDChecker,this.regularUserOtherInfoChecker);
+        regularUserCommunityMenuGUI.run(this.isGuest, this, this.regularUserCommunityMenuController,
+                this.systemMessage,this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
     }
 
     public void runRegularUserMeetingMenu(){
-        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI();
-        regularUserMeetingMenuGUI.run();
+
+        //TODO: What is maxNumTPEdits?
+        int maxNumTPEdits = 0;
+        RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(this,
+                this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,this.guiUserInputInfo,
+                this.regularUserIDChecker,this.regularUserDateTimeChecker);
+        regularUserMeetingMenuGUI.run(this, this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,
+                this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserDateTimeChecker);
     }
 
     public void runRegularUserSearchingMenuGUI() {
-        RegularUserSearchingMenuController regularUserSearchingMenuController = new RegularUserSearchingMenuController(
-                this.tradeManager, this.meetingManager, this.userManager, this.itemManager, this.tempUsername);
+        RegularUserSearchingMenuGUI regularUserSearchingMenuGUI = new RegularUserSearchingMenuGUI(this);
+        regularUserSearchingMenuGUI.run(this);
     }
 
-    //TODO: Regular User menu gui end
+
+    public void runRegularUserSearchingItemsSubMenu(){
+        RegularUserSearchingItemsSubMenuGUI regularUserSearchingItemsSubMenuGUI = new RegularUserSearchingItemsSubMenuGUI(
+                this.regularUserSearchingMenuController, this, this.guiUserInputInfo, this.itemManager, this.systemMessage);
+        regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.guiUserInputInfo, this.itemManager, this.systemMessage);
+    }
+
+    public void runRegularUserSearchingMeetingsSubMenu(){
+        RegularUserSearchingMeetingsSubMenuGUI regularUserSearchingMeetingsSubMenuGUI = new
+                RegularUserSearchingMeetingsSubMenuGUI(this.regularUserSearchingMenuController, this, this.systemMessage);
+        regularUserSearchingMeetingsSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
+    }
+
+    public void runRegularUserSearchingTradesSubMenu(){
+        RegularUserSearchingTradesSubMenuGUI regularUserSearchingTradesSubMenuGUI = new RegularUserSearchingTradesSubMenuGUI(
+                this.regularUserSearchingMenuController, this, this.systemMessage);
+        regularUserSearchingTradesSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
+    }
+
+    public void runRegularUserSearchingUsersSubMenu(){
+        RegularUserSearchingUsersSubMenuGUI regularUserSearchingUsersSubMenuGUI = new RegularUserSearchingUsersSubMenuGUI(
+                this.regularUserSearchingMenuController, this, this.systemMessage);
+        regularUserSearchingUsersSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
+    }
+    //Regular User menu gui end
 
 
     public void setTempUsername(String username){

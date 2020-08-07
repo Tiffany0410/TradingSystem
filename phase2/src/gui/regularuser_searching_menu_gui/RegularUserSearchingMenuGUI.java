@@ -26,6 +26,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingItemsSubMenu();
 
             }
         });
@@ -39,6 +40,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingUsersSubMenu();
 
             }
         });
@@ -52,6 +54,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingMeetingsSubMenu();
                 
             }
         });
@@ -65,6 +68,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingTradesSubMenu();
 
             }
         });
@@ -78,6 +82,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingMenuGUI();
             }
         });
     }
