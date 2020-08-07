@@ -60,6 +60,13 @@ public class User  implements  Serializable {
         return password;
     }
 
+    /**
+     * Getter for user's email.
+     *
+     * @return this user's email
+     */
+    public String getEmail(){return this.email;}
+
 
 
 

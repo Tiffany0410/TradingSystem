@@ -18,12 +18,8 @@ import java.util.Observer;
 public class TradableUser extends User implements  Serializable {
 
     //basic info
-    private String username;
-    private String password;
-    private String email;
     private ArrayList<Integer> wishList;
     private ArrayList<Integer> inventory;
-    private int id;
     //status related
     private int numLent;
     private int numBorrowed;
@@ -116,7 +112,7 @@ public class TradableUser extends User implements  Serializable {
      * @return id.
      */
     public int getId() {
-        return this.id;
+        return super.getId();
     }
 
     /**
@@ -290,8 +286,8 @@ public class TradableUser extends User implements  Serializable {
      * @param userId the followers's id
      */
     public void addFollowers(Integer userId) {
-        followers.add(id);
-        userFollowingLogs.add(("User" + this.username + "followed a new user with id" + id +"."));
+        followers.add(super.getId());
+        userFollowingLogs.add(("User" + super.getUsername() + "followed a new user with id" + super.getId() +"."));
     }
 
     /**
@@ -329,7 +325,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
-        userFollowingLogs.add(("User" + this.username + "unfollowed a user with id" + id +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "unfollowed a user with id" + super.getId() +"."));
     }
 
     /**
@@ -339,7 +335,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
-        userFollowingLogs.add(("User" + this.username + "followed an item with id" + id +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "followed an item with id" + super.getId() +"."));
     }
 
     /**
@@ -349,7 +345,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
-        userFollowingLogs.add(("User" + this.username + "unfollowed an item with id" + id +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "unfollowed an item with id" + super.getId() +"."));
     }
 
 
@@ -360,7 +356,7 @@ public class TradableUser extends User implements  Serializable {
      */
     @Override
     public String toString() {
-        return "This user has" + "username: " + this.username + ", id: " + this.id + ", email: " + this.email
+        return "This user has" + "username: " + super.getUsername() + ", id: " + super.getId() + ", email: " + super.getEmail()
                 + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
                 "The answer to whether he/she is frozen is " + isFrozen;
     }

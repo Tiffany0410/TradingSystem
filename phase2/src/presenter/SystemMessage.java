@@ -157,7 +157,7 @@ public class SystemMessage {
         notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append("\n");
         notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append("\n");
     }
-    
+
 
     /**
      * Returns the message for a meeting that doesn't exist.
