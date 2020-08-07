@@ -1,21 +1,14 @@
 package controllers.maincontrollers;
 
 import controllers.regularusersubcontrollers.*;
-import exception.InvalidIdException;
 import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
-import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
-import presenter.DisplaySystem;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An instance of this class represents the communication system between the regular user,

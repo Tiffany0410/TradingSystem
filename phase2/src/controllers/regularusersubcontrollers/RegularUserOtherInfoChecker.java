@@ -4,7 +4,7 @@ import managers.itemmanager.Category;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
+import controllers.maincontrollers.DisplaySystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;

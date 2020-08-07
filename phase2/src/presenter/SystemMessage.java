@@ -112,6 +112,16 @@ public class SystemMessage {
         printOut("\n");
     }
 
+    public void printResult(String string, boolean result) {
+        if (result) {
+            printOut(string + " is sent successfully");
+            printOut("\n");
+        } else {
+            printOut(string + " fails to be sent");
+            printOut("\n");
+        }
+    }
+
 
 
     /**
@@ -295,6 +305,8 @@ public class SystemMessage {
             stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
         } return stringBuilder.toString();
     }
+
+
     /** get a string for the list of users
      * @param listOfUser a list of tradable user
      * @return a string to describe the list of users
@@ -406,5 +418,6 @@ public class SystemMessage {
         }
         return string.toString();
     }
+
 
 }

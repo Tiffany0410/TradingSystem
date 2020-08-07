@@ -1,4 +1,4 @@
-package presenter;
+package controllers.maincontrollers;
 
 import gateway.FilesReaderWriter;
 import gui.NotificationGUI;

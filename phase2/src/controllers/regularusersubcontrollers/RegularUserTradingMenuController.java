@@ -7,7 +7,7 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
-import presenter.DisplaySystem;
+import controllers.maincontrollers.DisplaySystem;
 import presenter.SystemMessage;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class RegularUserTradingMenuController {
     private RegularUserOtherInfoChecker otherInfoGetter;
     private RegularUserIDChecker idGetter;
     private SystemMessage sm;
-    private presenter.DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
+    private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;

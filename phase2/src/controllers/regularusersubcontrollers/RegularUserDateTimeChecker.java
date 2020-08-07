@@ -1,6 +1,6 @@
 package controllers.regularusersubcontrollers;
 
-import presenter.DisplaySystem;
+import controllers.maincontrollers.DisplaySystem;
 
 import java.text.DateFormat;
 import java.text.ParseException;

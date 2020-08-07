@@ -11,11 +11,10 @@ import managers.meetingmanager.MeetingManager;
 import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
+import controllers.maincontrollers.DisplaySystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

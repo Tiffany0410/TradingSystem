@@ -52,7 +52,7 @@ public class GUIDemo {
     // Regular controllers
     private RegularUserAccountMenuController regularUserAccountMenuController;
     private RegularUserCommunityMenuController regularUserCommunityMenuController;
-    private RegularUserDateTimeChecker;
+    private RegularUserDateTimeChecker regularUserDateTimeChecker;
     private
 
     // Other variables

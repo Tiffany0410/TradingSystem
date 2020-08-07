@@ -9,8 +9,6 @@ import managers.messagemanger.MessageManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
-import presenter.SystemMessage;
 
 import java.util.ArrayList;
 

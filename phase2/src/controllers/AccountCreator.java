@@ -3,7 +3,7 @@ package controllers;
 import gateway.FilesReaderWriter;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import presenter.DisplaySystem;
+import controllers.maincontrollers.DisplaySystem;
 
 import java.io.IOException;
 import java.util.ArrayList;
