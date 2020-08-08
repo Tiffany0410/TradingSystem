@@ -27,6 +27,8 @@ public class RegularUserCreateAccountGUI {
             public void actionPerformed(ActionEvent e) {
                 accountCreator.createAccount("Regular", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
+                guiDemo.runSave();
+                guiDemo.runTradingSystemInitMenuGUI();
                 guiDemo.closeWindow(rootPanel);
             }
         });

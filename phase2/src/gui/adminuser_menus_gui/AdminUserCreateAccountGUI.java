@@ -37,7 +37,7 @@ public class AdminUserCreateAccountGUI {
                 guiDemo.runSave();
                 guiDemo.runAdminUserMainMenu();
                 //close this window
-//                guiDemo.closeWindow(rootPanel);
+                guiDemo.closeWindow(rootPanel);
 
             }
         });
