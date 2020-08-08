@@ -2,11 +2,8 @@ package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
-import managers.itemmanager.ItemManager;
-import managers.meetingmanager.MeetingManager;
 import managers.messagemanger.Message;
 import managers.messagemanger.MessageManager;
-import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
@@ -14,30 +11,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegularUserCommunityMenuController {
-    
-    private TradeManager tm;
-    private MeetingManager mm;
+
     private UserManager um;
-    private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
     private MessageManager messageManager;
     private String username;
     private int userId;
 
+
     /**
      * Constructs a RegularUserFriendMenuController
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
      */
-    public RegularUserCommunityMenuController(TradeManager tm, MeetingManager mm, UserManager um,
-                                              ItemManager im, ActionManager am, FeedbackManager fm,
-                                              MessageManager messageManager,
-                                              String username){
-        this.tm = tm;
-        this.mm = mm;
+    public RegularUserCommunityMenuController(UserManager um, ActionManager am, FeedbackManager fm,
+                                              MessageManager messageManager, String username){
         this.um = um;
-        this.im = im;
         this.am = am;
         this.fm = fm;
         this.username = username;
@@ -218,6 +208,5 @@ public class RegularUserCommunityMenuController {
         am.addActionToAllActionsList(userId,"regularUser", "5.10", 0, "");
         return messageManager.getMessageFor(userId);
     }
-
 
 }

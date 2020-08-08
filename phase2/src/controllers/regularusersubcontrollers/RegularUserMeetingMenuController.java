@@ -4,6 +4,7 @@ import managers.actionmanager.ActionManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
+
 import java.util.List;
 
 /**
@@ -158,5 +159,6 @@ public class RegularUserMeetingMenuController {
      */
     public Meeting getMeeting(int tradeId, int numMeeting){
         return mm.getMeetingByIdNum(tradeId, numMeeting);
-    }}
+    }
+}
 

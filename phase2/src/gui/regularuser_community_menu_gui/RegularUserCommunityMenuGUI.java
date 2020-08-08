@@ -12,6 +12,7 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,7 +81,6 @@ public class RegularUserCommunityMenuGUI {
                     window.run(guidemo, cmc, idC);
                     }
                 }
-
         });
 
         seeUsersInYourButton.addActionListener(new ActionListener() {
@@ -201,7 +201,13 @@ public class RegularUserCommunityMenuGUI {
                 }
                 else {
                     ArrayList<TradableUser> friends = cmc.getFriends();
-                    sendMessage(friends, sm, guiInput, idC, cmc, guidemo);
+                    if (!friends.isEmpty()){
+
+                    }
+                    else{
+                        guidemo.printNotification(sm.msgForNo("friends, please add friends first."));
+                    }
+
                 }
             }
         });
@@ -235,8 +241,7 @@ public class RegularUserCommunityMenuGUI {
 
     }
 
-    private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput,
-                             RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guiDemo){
+    private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guiDemo){
         String string;
         if (friends.isEmpty()) {
             string = sm.msgForNo("friends. Please add friends first.");
