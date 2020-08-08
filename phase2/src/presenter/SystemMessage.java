@@ -10,6 +10,7 @@ import managers.usermanager.UserManager;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An instance of this class represents the
@@ -295,19 +296,26 @@ public class SystemMessage {
     public String printListUser(ArrayList<TradableUser> listOfUser) {
         StringBuilder stringBuilder = new StringBuilder();
         for (TradableUser user : listOfUser) {
-            stringBuilder.append("#").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
+            stringBuilder.append("ID").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
         } return stringBuilder.toString();
     }
 
 
     /** get a string for the list of users
-     * @param listOfUser a list of tradable user
+     * @param requests a map of friend requests
      * @return a string to describe the list of users
      */
-    public String printFriendRequest(ArrayList<TradableUser> listOfUser){
-        return new String("You get friend requests from the " +
-                "following users: \n") + printListUser(listOfUser) +
-                "Please enter an id of the friend that you want to add. \n";
+    public String printFriendRequest(HashMap<TradableUser, String> requests){
+        StringBuilder string = new StringBuilder();
+        string.append("Here is a list of friend requests:\n");
+        int count = 1;
+        for (HashMap.Entry<TradableUser, String> set: requests.entrySet()){
+            TradableUser user = set.getKey();
+            String msg = set.getValue();
+            string.append("#" + count + ". Request from user " + user.getUsername() + " with id " + user.getId() +
+                    "\n A message from this user: " + msg + "\n");
+        }
+        return string.toString();
     }
 
 

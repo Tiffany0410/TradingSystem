@@ -1066,8 +1066,8 @@ public class UserManager implements Serializable {
                     friends.add(usernameToID(request[1]));
                 }
             }
-            for (TradableUser user: listTradableUser ){
-                if (! friends.contains(user.getId())){
+            for (TradableUser user: listTradableUser){
+                if (!friends.contains(user.getId()) && user.getId()!=userID){
                     out.add(user);
                 }
             }
