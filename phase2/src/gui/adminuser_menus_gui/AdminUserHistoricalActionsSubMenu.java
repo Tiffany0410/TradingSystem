@@ -90,10 +90,12 @@ public class AdminUserHistoricalActionsSubMenu {
                 String string = "Please enter the ID of action that you want to cancel: \n";
 
                 try {
-                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
+                    String userInput = guiDemo.getInPut(string);
+                    int actionID = Integer.parseInt(userInput);
 
                     boolean flag = false;
                     Action targetAction = hac.findActionByID(actionID);
+
                     // check if the action id in current revocable list
                     if (hac.checkRevocable(targetAction)) {
                         flag = hac.cancelRevocableAction(targetAction);
@@ -106,10 +108,9 @@ public class AdminUserHistoricalActionsSubMenu {
                         guiDemo.printNotification("Successfully delete target action");
                     }
                 } catch (NumberFormatException ex){
-                    sm.printInvalidID();
+                    guiDemo.printNotification(sm.printInvalidID());
                 }
-                //close this window
-//                guiDemo.closeWindow(rootPanel);
+
             }
         });
         confirmUndoRequestButton.addActionListener(new ActionListener() {
@@ -148,8 +149,6 @@ public class AdminUserHistoricalActionsSubMenu {
                     sm.printInvalidID();
                 }
 
-                //close this window
-//                guiDemo.closeWindow(rootPanel);
 
             }
         });

@@ -4,7 +4,7 @@ public class GUIUserInputInfo {
     private String tempUserInput;
 
     public GUIUserInputInfo() {
-        this.tempUserInput = "";
+        this.tempUserInput = "User inputs nothing";
     }
 
     public void tempSaveUserInput(String text) {
@@ -12,6 +12,8 @@ public class GUIUserInputInfo {
     }
 
     public String getTempUserInput(){
-        return this.tempUserInput;
+        String result = "" + this.tempUserInput;
+        this.tempUserInput = "User inputs nothing";
+        return result;
     }
 }
