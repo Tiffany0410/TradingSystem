@@ -10,6 +10,7 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RegularUserAccountSettingsMenuGUI {
@@ -34,7 +35,11 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
                 win.run(guiD, sm, atc);
-
+                try {
+                    atc.save();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         setYourOnVacationButton.addActionListener(new ActionListener() {
@@ -47,6 +52,11 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 SetYourOnVacationStatusWindow win = new SetYourOnVacationStatusWindow(atc, sm, guiD);
                 win.run(atc, sm, guiD);
+                try {
+                    atc.save();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         changeYourHomeCityButton.addActionListener(new ActionListener() {
@@ -59,6 +69,11 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 ChangeYourHCWindow changeYourHCWindow = new ChangeYourHCWindow(atc, guiD, sm);
                 changeYourHCWindow.run(atc, guiD, sm);
+                try {
+                    atc.save();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         reviewOwnRevocableActionButton.addActionListener(new ActionListener() {
@@ -70,6 +85,11 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reviewOwnRevocableActions(atc, sm, guiD);
+                try {
+                    atc.save();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         requestUndoARevocableButton.addActionListener(new ActionListener() {
@@ -82,6 +102,11 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 RequestUndoARevocableActionWindow requestUndoARevocableActionWindow = new RequestUndoARevocableActionWindow(guiD, idc, auIDC, atc, sm);
                 requestUndoARevocableActionWindow.run(guiD, idc, auIDC, atc, sm);
+                try {
+                    atc.save();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         backButton.addActionListener(new ActionListener() {

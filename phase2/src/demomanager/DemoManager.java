@@ -100,7 +100,7 @@ public class DemoManager {
 
 
             // Run GUIDemo
-            GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, messageManager,ac, lv, am, partsOfUserAlerts, partsOfAdminAlerts,
+            GUIDemo guiController = new GUIDemo(um, mm, tm, im, fm, messageManager, ac, lv, am, partsOfUserAlerts, partsOfAdminAlerts,
                     (ArrayList<Integer>) thresholdValues);
             guiController.runTradingSystemInitMenuGUI();
 

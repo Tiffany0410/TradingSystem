@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Category;
@@ -10,6 +11,7 @@ import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,6 +33,7 @@ public class RegularUserAccountMenuController {
     private SystemMessage sm;
     private String username;
     private int userId;
+    private FilesReaderWriter frw;
 
 
     /**
@@ -55,6 +58,7 @@ public class RegularUserAccountMenuController {
         this.sm = sm;
         this.username = username;
         this.userId = um.usernameToID(this.username);
+        this.frw = new FilesReaderWriter();
     }
 
     // TODO: Add Java Doc!
@@ -358,6 +362,20 @@ public class RegularUserAccountMenuController {
      */
     public boolean seeIfOnVacation(){
         return um.getInfo(userId, "Vacation") == 1;
+    }
+
+    /**
+     * Update each related Managers
+     *
+     */
+    public void save() throws IOException {
+        frw.saveManagerToFile(tm, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
+        //Save UserManager
+        frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+        //Save ItemManager
+        frw.saveManagerToFile(im, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
+        //Save ActionManager
+        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
     }
 
 }
