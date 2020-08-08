@@ -1,10 +1,9 @@
 package managers.usermanager;
 
-import exception.InvalidIdException;
-import managers.itemmanager.Item;
-import managers.itemmanager.ItemManager;
 import managers.feedbackmanager.FeedbackManager;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +13,13 @@ import java.util.HashMap;
  * @author Gabriel
  * @version IntelliJ IDEA 2020.1
  */
-public class UserManager implements Serializable {
+public class UserManager implements Serializable, PropertyChangeListener {
 
     private ArrayList<TradableUser> listTradableUser;
     private ArrayList<User> listAdmin;
     private ArrayList<String[]> listUnfreezeRequest;
     private ArrayList<String[]> listFriendRequest;
+    private ArrayList<String> itemChanges;
 
     /**
      * Constructs a UserManager with no Users or AdminUsers
@@ -939,7 +939,6 @@ public class UserManager implements Serializable {
         return out;
     }
 
-    //TODO: Need FeedbackManager to get the rating
     private ArrayList<TradableUser> merge (ArrayList<TradableUser> lst1, ArrayList<TradableUser> lst2, FeedbackManager fm) {
         int i = 0;
         int j = 0;
@@ -1075,4 +1074,12 @@ public class UserManager implements Serializable {
         return out;
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        itemChanges.add(evt.getPropertyName() + evt.getNewValue().toString());
+    }
+
+    public ArrayList<String> getItemChanges() {
+        return itemChanges;
+    }
 }
