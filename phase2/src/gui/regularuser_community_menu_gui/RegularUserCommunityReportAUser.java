@@ -27,12 +27,14 @@ public class RegularUserCommunityReportAUser {
                 if (idC.checkInt(userId)) {
                     boolean sOrF = cmc.reportUser(Integer.parseInt(userId),reason);
                     if(cmc.getUserId()==Integer.parseInt(userId)){
-                        guidemo.printNotification("You can not report yourself.");}
+                        guidemo.printNotification("Fail. Please do not report yourself.");}
                     else if(sOrF){
                         guidemo.printNotification(sm.msgForResult(true));}
-                    else{guidemo.printNotification("Fail. You have reported this user or the user does not exist.");
+                    else if(idC.checkUserID(Integer.parseInt(userId)))
+                    {guidemo.printNotification("Fail. You have reported this user.");}
+                    else{guidemo.printNotification("Fail. This user does not exist.");}
                     guidemo.closeWindow(rootPanel);
-                }}
+                }
                 else {
                     guidemo.printNotification("Please enter valid information.");
                 }

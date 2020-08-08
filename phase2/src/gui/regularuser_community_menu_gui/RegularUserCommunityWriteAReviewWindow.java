@@ -31,11 +31,13 @@ public class RegularUserCommunityWriteAReviewWindow {
                     int point = Integer.parseInt(sPoint);
                     if (idC.checkUserID(user_id)) {
                         boolean yesOrNo = cmc.reviewUser(user_id, point, sReason);
-                        guidemo.printNotification(sm.msgForResult(yesOrNo));
+                        if (cmc.getUserId() == user_id){guidemo.printNotification("Fail. Please don't review yourself.");}
+                        else if(yesOrNo){guidemo.printNotification(sm.msgForResult(true));}
+                        else {guidemo.printNotification("Fail. You have reviewed this user.");}
                         guidemo.closeWindow(rootPanel);
                     }
                     else{
-                        guidemo.printNotification("Please enter a valid information.");
+                        guidemo.printNotification("The user does not exist.");
                     }
                 }
                 else {
