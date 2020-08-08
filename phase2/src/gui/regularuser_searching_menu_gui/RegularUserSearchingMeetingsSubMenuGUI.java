@@ -31,11 +31,10 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
 
                 List<Meeting> m = regularUserSearchingMenuController.allMeetingSortByDate();
                 if (m.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(m));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(m)));
                 }
-                //close this window
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -50,15 +49,13 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 try {
                 List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.unCompleteMeetingSortByDate();
                     if (m.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(m));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(m)));
                 }
                 } catch (Exception ex) {
-                    systemMessage.invalidInput();
+                    guiDemo.printNotification(systemMessage.invalidInput());
                 }
-
-                //close this window
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -72,11 +69,10 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 List<managers.meetingmanager.Meeting> m = regularUserSearchingMenuController.completeMeetingSortByDate();
                 if (m.size() == 0) {
-                systemMessage.msgForNothing();
+                guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                systemMessage.printResult(new ArrayList<>(m));
+                guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(m)));
                 }
-                //close this window
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -88,9 +84,8 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runRegularUserSearchingMenuGUI();
-                //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runRegularUserSearchingMenuGUI();
             }
         });
     }
@@ -99,7 +94,7 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingMeetingsSubMenu");
         frame.setContentPane(new RegularUserSearchingMeetingsSubMenuGUI(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

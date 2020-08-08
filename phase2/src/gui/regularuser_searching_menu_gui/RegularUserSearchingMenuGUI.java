@@ -24,7 +24,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingItemsSubMenu();
 
@@ -38,7 +37,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingUsersSubMenu();
 
@@ -52,7 +50,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMeetingsSubMenu();
                 
@@ -66,7 +63,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingTradesSubMenu();
 
@@ -80,7 +76,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
             }
@@ -90,7 +85,7 @@ public class RegularUserSearchingMenuGUI {
     public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("regularUserSearchingMenuGUI");
         frame.setContentPane(new RegularUserSearchingMenuGUI(guiDemo).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

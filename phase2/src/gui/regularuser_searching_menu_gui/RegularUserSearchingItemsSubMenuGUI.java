@@ -110,9 +110,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
-                systemMessage.printItemResult(items);
-
-                //close this window
+                guiDemo.printNotification(systemMessage.printItemResult(items));
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -124,10 +122,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
-
-                // call next window
                 guiDemo.runRegularUserSearchingMenuGUI();
             }
         });
@@ -139,7 +134,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");
         frame.setContentPane(new RegularUserSearchingItemsSubMenuGUI(regularUserSearchingMenuController, guiDemo,
                 guiUserInputInfo, itemManager, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
