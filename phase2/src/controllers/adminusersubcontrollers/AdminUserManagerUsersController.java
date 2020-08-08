@@ -1,5 +1,6 @@
 package controllers.adminusersubcontrollers;
 
+import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
@@ -23,18 +24,18 @@ public class AdminUserManagerUsersController {
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
-    private AdminUserOtherInfoChecker otherInfoGetter;
     private int userID;
+    private FilesReaderWriter frw;
 
     // constructor
     public AdminUserManagerUsersController( UserManager um, ItemManager im, ActionManager am, SystemMessage sm,
-            AdminUserOtherInfoChecker adminUserOtherInfoChecker,String username) {
+            String username) {
         this.um = um;
         this.im = im;
         this.am = am;
         this.userID = um.usernameToID(username);
         this.sm = sm;
-        this.otherInfoGetter = adminUserOtherInfoChecker;
+        this.frw = new FilesReaderWriter();
     }
 
 
@@ -172,7 +173,6 @@ public class AdminUserManagerUsersController {
         //either add or not add - need to remove from to-be-added list
         im.getListItemToAdd().remove(itemSelected);
     }
-
 
 /*
     public void confirmInventoryAdd() {

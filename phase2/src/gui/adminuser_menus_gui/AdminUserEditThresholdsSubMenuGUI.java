@@ -9,7 +9,6 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class AdminUserEditThresholdsSubMenuGUI {
     private JPanel rootPanel;
@@ -37,8 +36,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
                     adminUserEditThresholdsController.editMaxNumberTransactions(futureValue);
-                    adminUserEditThresholdsController.save();
-                }catch (NumberFormatException | IOException ex){
+                }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
                 //close this window
@@ -60,8 +58,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
                     adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue);
-                    adminUserEditThresholdsController.save();
-                }catch (NumberFormatException | IOException ex){
+                }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
 
@@ -85,8 +82,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
                     adminUserEditThresholdsController.editMustLendNumber(futureValue);
-                    adminUserEditThresholdsController.save();
-                }catch (NumberFormatException | IOException ex){
+                }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
                 //close this window
@@ -109,8 +105,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
                     adminUserEditThresholdsController.editMaxEdits(futureValue);
-                    adminUserEditThresholdsController.save();
-                }catch (NumberFormatException | IOException ex){
+                }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
                 //close this window

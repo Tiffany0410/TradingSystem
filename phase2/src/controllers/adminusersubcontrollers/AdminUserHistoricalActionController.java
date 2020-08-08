@@ -10,7 +10,6 @@ import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -423,20 +422,5 @@ public class AdminUserHistoricalActionController {
                 return um.addFriend(targetUserID, actionOwnerID);
         }
         return false;
-    }
-
-    public void save() throws IOException {
-        //Save UserManager
-        frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-        //Save ItemManager
-        frw.saveManagerToFile(im, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
-        //Save TradeManager
-        frw.saveManagerToFile(tm, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
-        //Save MeetingManager
-        frw.saveManagerToFile(mm, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
-        //Save ActionManager
-        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
-        //Save FeedbackManager
-        frw.saveManagerToFile(fm, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
     }
 }

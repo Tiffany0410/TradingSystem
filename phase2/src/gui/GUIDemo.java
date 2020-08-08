@@ -4,6 +4,7 @@ import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.adminusersubcontrollers.*;
 import controllers.regularusersubcontrollers.*;
+import gateway.FilesReaderWriter;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
 import gui.regularuser_account_menus_gui.account_settings.RegularUserAccountSettingsMenuGUI;
@@ -28,6 +29,7 @@ import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUIDemo {
@@ -71,6 +73,8 @@ public class GUIDemo {
     private ArrayList<Integer> thresholdValues;
     private boolean isGuest;
 
+    // Gateway
+    private FilesReaderWriter frw;
 
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                    ItemManager itemManager, FeedbackManager feedbackManager, MessageManager messageManager,
@@ -100,7 +104,8 @@ public class GUIDemo {
         this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
 
-
+        // Create new FilesReaderWriter
+        this.frw = new FilesReaderWriter();
 
     }
 
@@ -133,11 +138,7 @@ public class GUIDemo {
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
-                this.actionManager, this.systemMessage,this.adminUserOtherInfoChecker,this.getTempUsername());
-
-        this.adminUserManagerUsersController = new AdminUserManagerUsersController(
-                this.userManager, this.itemManager, this.actionManager, this.systemMessage,
-                this.adminUserOtherInfoChecker, this.getTempUsername());
+                this.actionManager, this.systemMessage,this.getTempUsername());
 
         this.adminUserEditThresholdsController = new AdminUserEditThresholdsController(
                 this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);
@@ -161,6 +162,7 @@ public class GUIDemo {
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
                 this.adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
                 regularUserIDChecker, this.adminUserOtherInfoChecker);
+
         adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this, this.guiUserInputInfo,
                 this.systemMessage, regularUserIDChecker, this.adminUserOtherInfoChecker);
     }
@@ -169,6 +171,7 @@ public class GUIDemo {
 
         AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
                 this.guiUserInputInfo, this.adminUserEditThresholdsController, this.systemMessage);
+
         adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo, this.adminUserEditThresholdsController,
                 this.systemMessage);
 
@@ -365,5 +368,29 @@ public class GUIDemo {
         window.dispose();
     }
 
+    /**
+     * Update each related Managers
+     *
+     */
+    public void runSave() throws IOException {
+        //Save UserManager
+        frw.saveManagerToFile(userManager, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+        //Save ItemManager
+        frw.saveManagerToFile(itemManager, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
+        //Save TradeManager
+        frw.saveManagerToFile(tradeManager, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
+        //Save MeetingManager
+        frw.saveManagerToFile(meetingManager, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
+        //Save ActionManager
+        frw.saveManagerToFile(actionManager, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
+        //Save FeedbackManager
+        frw.saveManagerToFile(feedbackManager, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
+        //Save MessageManager
+        frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
+        //Save thresholdValues
+        frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+    }
 }
+
+
 

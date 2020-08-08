@@ -6,7 +6,6 @@ import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -164,9 +163,5 @@ public class AdminUserEditThresholdsController {
         this.thresholdValues.set(3, futureValue);
         sm.printResult(true);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.4", currentValue, String.valueOf(futureValue));
-    }
-
-    public void save() throws IOException {
-        frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
     }
 }
