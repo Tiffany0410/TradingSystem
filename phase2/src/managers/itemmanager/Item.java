@@ -157,6 +157,7 @@ public class Item implements PropertyChangeListener, Serializable {
      *
      * @return A string description of this item
      */
+    @Override
     public String toString() {
         return "Item id " + itemId + " : " + name + " \nDescription: " + description + "\n" +
                 "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + "."

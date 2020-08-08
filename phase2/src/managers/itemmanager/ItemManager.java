@@ -162,8 +162,7 @@ public class ItemManager implements Serializable {
      */
     public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds){
         ArrayList<Item> items = new ArrayList<>();
-        Set<Integer> setIds = new HashSet<>(listIds);
-        for (Integer id : setIds) {
+        for (Integer id : listIds) {
             items.add(getItembyId(id));
         }
         return items;
@@ -197,6 +196,23 @@ public class ItemManager implements Serializable {
         }
         return listId;
     }
+
+    /**
+     * Return a list of IDs for a given item which waiting for add
+     * @param item The item object
+     * @return a list of IDs (Item's Id, Owner's Id, Current Holder's ID)
+     */
+    public ArrayList<Integer> getIDFromWaitingItem(Item item){
+        ArrayList<Integer> listId = new ArrayList<>();
+        for (Item temp: listItemToAdd){
+            if (temp.getItemId() == item.getItemId()){
+                listId.add(item.getItemId());
+                listId.add(item.getOwnerId());
+            }
+        }
+        return listId;
+    }
+
 
     /**
      * Return a list of corresponding Ids for items
@@ -366,6 +382,12 @@ public class ItemManager implements Serializable {
     public void removeItemFromListDeletedItem(int itemID) {
         listDeletedItem.removeIf(item -> item.getItemId() == itemID);
     }
+
+    /**
+     * @param targetItem The item that being deleted
+     */
+    public void deleteItemFromListItemToAdd(Item targetItem) {
+        listItemToAdd.remove(targetItem); }
 
     // Getters by Category
 

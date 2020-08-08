@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import gui.GUIDemo;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Category;
@@ -161,7 +160,6 @@ public class RegularUserAccountMenuController {
      * @return a list of items
      */
     public ArrayList<Item> getInventory(){
-        TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
         return im.getItemsByIds(inventoryIDs);
     }
