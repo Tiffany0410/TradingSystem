@@ -33,12 +33,7 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
-                GUIUserInputInfo guiUserInputInfo = new GUIUserInputInfo();
-                UserInputGUI userInputGUI = new UserInputGUI(muc.getAllUnfreezeUser(), guiUserInputInfo);
-                userInputGUI.run(muc.getAllUnfreezeUser(), guiUserInputInfo);
-                String regularUserName = guiUserInputInfo.getTempUserInput();
-
+                String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
                 System.out.println(regularUserName);
 
                 if (!regularUserName.equals("User inputs nothing")) {
