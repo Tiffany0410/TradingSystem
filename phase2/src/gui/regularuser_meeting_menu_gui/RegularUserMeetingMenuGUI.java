@@ -40,6 +40,7 @@ public class RegularUserMeetingMenuGUI {
 
                 editAndConfirmMeetingTP(guiD, mmc, sm, guiUserInputInfo, idC, maxNumTPEdits,
                         dtc, idC);
+                guiD.runSave();
             }
         });
 
@@ -51,8 +52,8 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 confirmMeetingTookPlace(mmc, sm, guiUserInputInfo, idC, maxNumTPEdits,guiD);
+                guiD.runSave();
             }
         });
 
@@ -66,7 +67,6 @@ public class RegularUserMeetingMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //print the list of unconfirmed meetings
                 viewMeetings(sm, mmc.getUnconfirmedMeeting(), "unconfirmed", guiD);
-
             }
         });
         confirmedMeetingsButton.addActionListener(new ActionListener() {

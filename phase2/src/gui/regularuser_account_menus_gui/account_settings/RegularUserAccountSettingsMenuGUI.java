@@ -73,7 +73,6 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reviewOwnRevocableActions(atc, sm, guiD);
-                guiD.runSave();
             }
         });
         requestUndoARevocableButton.addActionListener(new ActionListener() {

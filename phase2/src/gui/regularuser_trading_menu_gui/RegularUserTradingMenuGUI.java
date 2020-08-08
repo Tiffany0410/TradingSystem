@@ -42,6 +42,7 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RequestATrade(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, numLentBeforeBorrow, guiD);
+                guiD.runSave();
             }
         });
 
@@ -56,6 +57,7 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 respondToTradeRequest(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, guiD);
+                guiD.runSave();
             }
         });
 
@@ -81,7 +83,7 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
-                }
+            }
 
         });
 
@@ -94,7 +96,7 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 confirmATradeIsCompleted(atc, sm, guiUserInputInfo, idC, guiD);
-
+                guiD.runSave();
 
             }
         });

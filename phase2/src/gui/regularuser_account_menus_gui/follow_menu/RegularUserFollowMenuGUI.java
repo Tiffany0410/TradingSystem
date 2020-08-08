@@ -32,6 +32,7 @@ public class RegularUserFollowMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 FollowAnUserWindow followAnUserWindow = new FollowAnUserWindow(guiD, idChecker, sm, amc);
                 followAnUserWindow.run(guiD, idChecker, sm, amc);
+                guiD.runSave();
             }
         });
         followAnItemButton.addActionListener(new ActionListener() {
@@ -44,6 +45,7 @@ public class RegularUserFollowMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 FollowAnItemWindow followAnItemWindow = new FollowAnItemWindow(guiD, idChecker, sm, amc);
                 followAnItemWindow.run(guiD, idChecker, sm, amc);
+                guiD.runSave();
             }
         });
         seeRecentStatusOfUsersButton.addActionListener(new ActionListener() {
