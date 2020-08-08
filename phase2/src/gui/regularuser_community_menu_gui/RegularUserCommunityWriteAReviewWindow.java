@@ -56,7 +56,7 @@ public class RegularUserCommunityWriteAReviewWindow {
         JFrame frame = new JFrame("Write a review");
         frame.setContentPane(new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

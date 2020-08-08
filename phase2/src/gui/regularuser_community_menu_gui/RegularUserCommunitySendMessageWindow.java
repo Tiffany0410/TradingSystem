@@ -56,7 +56,7 @@ public class RegularUserCommunitySendMessageWindow {
         JFrame frame = new JFrame("Send a message");
         frame.setContentPane(new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(400, 400));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

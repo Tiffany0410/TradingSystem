@@ -1,7 +1,5 @@
 package gui.regularuser_community_menu_gui;
 
-
-
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
@@ -54,7 +52,7 @@ public class RegularUserCommunitySendFriendRequestWindow {
         JFrame frame = new JFrame("Send a Friend Request");
         frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(600, 600));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
