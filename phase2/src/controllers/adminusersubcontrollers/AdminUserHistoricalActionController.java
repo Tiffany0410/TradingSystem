@@ -211,7 +211,8 @@ public class AdminUserHistoricalActionController {
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
         int subOption = Integer.parseInt(menuOption[1]);
-        int subSubOption = Integer.parseInt(menuOption[2]);
+        int subSubOption = 0;
+        if (menuOption.length == 3) {subSubOption = Integer.parseInt(menuOption[2]);}
         switch (mainOption) {
             // call helper function to cancel the Revocable Action in RegularUserAccountMainMenu.csv
             case 1:
@@ -415,7 +416,7 @@ public class AdminUserHistoricalActionController {
                 return fm.deleteReport(targetUserID, actionOwnerID);
             // 5.8: Unfriend a user
             case 8:
-                // call UserManager to remove friend
+                // call UserManager to add friend
                 return um.addFriend(targetUserID, actionOwnerID);
         }
         return false;
