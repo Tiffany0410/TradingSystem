@@ -4,6 +4,7 @@ package gui.trading_system_init_menu_gui;
 import gui.GUIDemo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,7 @@ public class TradingSystemInitMenuGUI {
         JFrame frame = new JFrame("Trading System");
         frame.setContentPane(new TradingSystemInitMenuGUI(guiDemo).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
     }
