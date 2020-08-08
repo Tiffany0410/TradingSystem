@@ -1,6 +1,5 @@
 package controllers.adminusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
@@ -21,7 +20,6 @@ public class AdminUserEditThresholdsController {
     private SystemMessage sm;
     private ActionManager am;
     private Integer userId;
-    private FilesReaderWriter frw;
     private UserManager um;
     private List<Integer> thresholdValues;
     private int currentValue;
@@ -49,9 +47,8 @@ public class AdminUserEditThresholdsController {
         this.am = am;
         this.um = um;
         this.sm = sm;
-        this.userId = um.usernameToID(username);
+        this.userId = this.um.usernameToID(username);
         this.thresholdValues = thresholdValues;
-        this.frw = new FilesReaderWriter();
     }
 
 

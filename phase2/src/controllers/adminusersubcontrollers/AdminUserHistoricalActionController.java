@@ -1,6 +1,5 @@
 package controllers.adminusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
@@ -31,7 +30,6 @@ public class AdminUserHistoricalActionController {
     private MeetingManager mm;
     private String username;
     private Integer userId;
-    private FilesReaderWriter frw;
 
     /**
      * Constructs the AdminUserHistoricalActionController with DisplaySystem, AccountCreator,
@@ -54,7 +52,6 @@ public class AdminUserHistoricalActionController {
         this.mm = mm;
         this.userId = um.usernameToID(username);
         this.otherInfoGetter = new AdminUserOtherInfoChecker(am, um);
-        this.frw = new FilesReaderWriter();
     }
 
 
