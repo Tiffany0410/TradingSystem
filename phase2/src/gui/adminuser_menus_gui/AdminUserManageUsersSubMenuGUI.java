@@ -36,7 +36,9 @@ public class AdminUserManageUsersSubMenuGUI {
                 guiDemo.getInPut(string);
                 String regularUserName = guiUserInputInfo.getTempUserInput();
                 if (regularUserName != null) {String result = muc.freezeUser(regularUserName);
-                guiDemo.printNotification(result);}
+                guiDemo.printNotification(result);
+                guiDemo.runSave();
+                }
             }
         });
         unfreezeUsersButton.addActionListener(new ActionListener() {
@@ -50,7 +52,7 @@ public class AdminUserManageUsersSubMenuGUI {
                 String string = muc.getWantUnfreezeUser();
                 String result = muc.unfreezeUser(guiDemo.getInPut(string));
                 guiDemo.printNotification(result);
-
+                guiDemo.runSave();
             }
         });
         confirmAndAddItemButton.addActionListener(new ActionListener() {
@@ -89,6 +91,7 @@ public class AdminUserManageUsersSubMenuGUI {
                 else{
                     guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
+                guiDemo.runSave();
 
             }
         });
