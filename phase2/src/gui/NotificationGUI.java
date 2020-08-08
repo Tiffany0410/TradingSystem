@@ -45,5 +45,6 @@ public class NotificationGUI extends JDialog {
         NotificationGUI dialog = new NotificationGUI(string);
         dialog.pack();
         dialog.setVisible(true);
+        dialog.setLocationRelativeTo(null);
     }
 }

@@ -71,6 +71,6 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         meetingNum, maxEditsTP, guiD);
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
+        dialog.setLocationRelativeTo(null);
     }
 }
