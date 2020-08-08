@@ -32,6 +32,7 @@ public class RegularUserTradingMenuGUI {
                                      int numLentBeforeBorrow, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idC,
                                      RegularUserOtherInfoChecker oiC){
 
+
         requestATradeButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -43,6 +44,7 @@ public class RegularUserTradingMenuGUI {
                 RequestATrade(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, numLentBeforeBorrow, guiD);
             }
         });
+
 
 
         respondToTradeRequestsButton.addActionListener(new ActionListener() {
@@ -82,6 +84,7 @@ public class RegularUserTradingMenuGUI {
                 }
 
         });
+        
         confirmThatATradeButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.

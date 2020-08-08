@@ -1,11 +1,9 @@
-package gui.regularuser_account_menus_gui;
+package gui.regularuser_account_menus_gui.follow_menu;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import presenter.SystemMessage;
 
 import javax.swing.*;
