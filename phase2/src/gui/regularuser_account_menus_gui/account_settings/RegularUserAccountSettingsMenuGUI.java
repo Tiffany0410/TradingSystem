@@ -35,11 +35,7 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
                 win.run(guiD, sm, atc);
-                try {
-                    guiD.runSave();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                guiD.runSave();
             }
         });
         setYourOnVacationButton.addActionListener(new ActionListener() {
@@ -52,6 +48,7 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 SetYourOnVacationStatusWindow win = new SetYourOnVacationStatusWindow(atc, sm, guiD);
                 win.run(atc, sm, guiD);
+                guiD.runSave();
             }
         });
         changeYourHomeCityButton.addActionListener(new ActionListener() {
@@ -64,6 +61,7 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 ChangeYourHCWindow changeYourHCWindow = new ChangeYourHCWindow(atc, guiD, sm);
                 changeYourHCWindow.run(atc, guiD, sm);
+                guiD.runSave();
             }
         });
         reviewOwnRevocableActionButton.addActionListener(new ActionListener() {
@@ -75,6 +73,7 @@ public class RegularUserAccountSettingsMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reviewOwnRevocableActions(atc, sm, guiD);
+                guiD.runSave();
             }
         });
         requestUndoARevocableButton.addActionListener(new ActionListener() {
@@ -87,6 +86,7 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 RequestUndoARevocableActionWindow requestUndoARevocableActionWindow = new RequestUndoARevocableActionWindow(guiD, idc, auIDC, atc, sm);
                 requestUndoARevocableActionWindow.run(guiD, idc, auIDC, atc, sm);
+                guiD.runSave();
             }
         });
         backButton.addActionListener(new ActionListener() {

@@ -391,7 +391,8 @@ public class GUIDemo {
             //Save thresholdValues
             frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
         } catch (IOException e) {
-            this.printNotification("File cannot be found...");
+            this.printNotification("Sorry, because we cannot find the files to save your progress in, so your progress" +
+                    "is not saved.");
         }
 
     }
