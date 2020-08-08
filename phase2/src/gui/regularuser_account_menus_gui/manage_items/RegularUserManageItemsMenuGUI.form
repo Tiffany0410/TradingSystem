@@ -29,20 +29,12 @@
           <text value="Browse all tradable items in the system"/>
         </properties>
       </component>
-      <component id="4c40" class="javax.swing.JButton" binding="addToWishListButton">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Add to own Wish List"/>
-        </properties>
-      </component>
       <component id="3e527" class="javax.swing.JButton" binding="removeFromWishListButton">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Remove from own Wish List"/>
+          <text value="Remove from own wishlist"/>
         </properties>
       </component>
       <component id="b3320" class="javax.swing.JButton" binding="removeFromInventoryButton">
@@ -50,7 +42,7 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Remove from own Inventory"/>
+          <text value="Remove from own inventory"/>
         </properties>
       </component>
       <component id="f61d5" class="javax.swing.JButton" binding="requestItemButton">
@@ -58,7 +50,7 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Request that an item be added to your inventory"/>
+          <text value="Request that an item to be added to your inventory"/>
         </properties>
       </component>
       <component id="b8a9b" class="javax.swing.JButton" binding="mostRecentThreeItemsTradedButton">
@@ -99,6 +91,14 @@
         </constraints>
         <properties>
           <text value="back"/>
+        </properties>
+      </component>
+      <component id="4c40" class="javax.swing.JButton" binding="addToWishListButton">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Add to own wishlist"/>
         </properties>
       </component>
     </children>
