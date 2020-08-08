@@ -15,6 +15,7 @@ public class RegularUserSearchingTradesSubMenuGUI {
     private JPanel rootPanel;
     private JButton incompleteTradesButton;
     private JButton completeTradesButton;
+    private JButton backButton;
 
     public RegularUserSearchingTradesSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
                                                 GUIDemo guiDemo, SystemMessage systemMessage) {
@@ -30,11 +31,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
                 List<Trade> filter1 = regularUserSearchingMenuController.filterIncompleteTrade();
 
                 if (filter1.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 }else {
-                    systemMessage.printResult(new ArrayList<>(filter1));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter1)));
                 }
-                //close this window
                 guiDemo.closeWindow(rootPanel);
 
             }
@@ -50,12 +50,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
 
                 List<Trade> filter = regularUserSearchingMenuController.filterCompleteTrade();
                 if (filter.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(filter));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
                 }
-
-                //close this window
                 guiDemo.closeWindow(rootPanel);
 
             }
@@ -68,11 +66,8 @@ public class RegularUserSearchingTradesSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
-
-
             }
         });
     }
@@ -81,11 +76,9 @@ public class RegularUserSearchingTradesSubMenuGUI {
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingTradesSubMenu");
         frame.setContentPane(new RegularUserSearchingTradesSubMenuGUI(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-
-    private JButton backButton;
 }
