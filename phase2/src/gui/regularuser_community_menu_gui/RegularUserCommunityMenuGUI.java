@@ -75,20 +75,11 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String sUserId = guidemo.getInPut("Please enter the user's id for his/her rating");
-                    if (idC.checkInt(sUserId)) {
-                        int id = Integer.parseInt(sUserId);
-                        if (cmc.checkUserId(id)) {
-                            String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                            guidemo.printNotification(msg);
-                        }
-                    }
-                    else {
-                        String s = "Please enter a valid user id.";
-                        guidemo.printNotification(s);
+                    RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
+                    window.run(guidemo, cmc, idC);
                     }
                 }
-            }
+
         });
 
         seeUsersInYourButton.addActionListener(new ActionListener() {

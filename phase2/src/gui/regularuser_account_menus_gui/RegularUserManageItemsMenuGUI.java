@@ -96,17 +96,8 @@ public class RegularUserManageItemsMenuGUI {
                     guiDemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String itemName = guiDemo.getInPut("Please enter the item's name");
-                    String description = guiDemo.getInPut("Enter the description of the item");
-                    String category_input = guiDemo.getInPut("Please enter the type of the item, it must be in one of the " +
-                            "categories below (all UPPERCASE)!\n" + sm.msgForCategory());
-                    if (otherInfoChecker.checkItemType(category_input)){
-                        Category category = Category.valueOf(category_input);
-                        amc.requestAddItem(itemName, description, category);
-                    }
-                    else {
-                        guiDemo.printNotification("Please enter the type of the item correctly (all UPPERCASE).");
-                    }
+                    RegularUserRequestItemWindow window = new RegularUserRequestItemWindow(guiDemo, amc, otherInfoChecker);
+                    window.run(guiDemo, amc, otherInfoChecker);
                 }
             }
         });
