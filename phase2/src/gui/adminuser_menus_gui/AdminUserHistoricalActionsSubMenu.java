@@ -98,15 +98,14 @@ public class AdminUserHistoricalActionsSubMenu {
 
                     // check if the action id in current revocable list
                     if (hac.checkRevocable(targetAction)) {
-                        flag = hac.cancelRevocableAction(targetAction);
+                        if (hac.cancelRevocableAction(targetAction)) {
+                            guiDemo.printNotification("Successfully delete target action");
+                            guiDemo.runSave();
+                        }
                     } else {
                         guiDemo.printNotification("Please enter correct actionID");
                     }
 
-                    if (flag) {
-                        guiDemo.runSave();
-                        guiDemo.printNotification("Successfully delete target action");
-                    }
                 } catch (NumberFormatException ex){
                     guiDemo.printNotification(sm.printInvalidID());
                 }
