@@ -27,7 +27,7 @@ public class FeedbackManager implements Serializable {
      */
     // the userId1 is the id of the user who is reviewed
     public boolean setReview(int userId1, int userId2, int point, String reason ){
-        if(haveReview(userId1, userId2)){
+        if(haveReview(userId1, userId2)|| userId1 == userId2){
             return false;}
         else{
            Review review = new Review(userId1, userId2, point, reason);
@@ -62,7 +62,7 @@ public class FeedbackManager implements Serializable {
      */
     // userId1 is the id of the user who has been reported, the userId2 is the id of user who report the other user
     public boolean updateReport(int userId1, int userId2, String reason){
-        if (haveReport(userId1, userId2)){
+        if (haveReport(userId1, userId2) || userId1 == userId2){
             return false;
         }else {
             Report report = new Report(userId1, userId2, reason);
