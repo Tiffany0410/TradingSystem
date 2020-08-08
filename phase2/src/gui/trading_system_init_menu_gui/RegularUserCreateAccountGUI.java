@@ -4,6 +4,7 @@ import controllers.AccountCreator;
 import gui.GUIDemo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,12 +13,12 @@ public class RegularUserCreateAccountGUI {
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
     private JTextField emailTextField;
-    private JButton createButton;
     private JButton cancelButton;
+    private JButton createButton1;
     private JComboBox comboBox1;
 
     public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo) {
-        createButton.addActionListener(new ActionListener() {
+        createButton1.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -50,6 +51,7 @@ public class RegularUserCreateAccountGUI {
         JFrame frame = new JFrame("regularUserCreateAccount");
         frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
     }

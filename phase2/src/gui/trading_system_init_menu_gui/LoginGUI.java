@@ -1,6 +1,7 @@
 package gui.trading_system_init_menu_gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controllers.LoginValidator;
@@ -13,20 +14,21 @@ public class LoginGUI {
     private JTextField usernameText;
     private JLabel passwordLabel;
     private JPasswordField passwordText;
-    private JButton loginButton;
     private JButton cancelButton;
+    private JButton loginButton1;
 
     public void run(LoginValidator loginValidator, GUIDemo guiDemo) {
         JFrame frame = new JFrame("loginGUI");
         frame.setContentPane(new LoginGUI(loginValidator, guiDemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
 
     }
 
     public LoginGUI(LoginValidator loginValidator, GUIDemo guiDemo) {
-        loginButton.addActionListener(new ActionListener() {
+        loginButton1.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
