@@ -1,5 +1,6 @@
 package managers.actionmanager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author Chengle Yang
  * @version IntelliJ IDEA 2020.1
  */
-public class ActionManager {
+public class ActionManager implements Serializable {
     private ArrayList<Action> listOfAllActions;
     private ArrayList<Action> listOfCurrentRevocableActions;
     private ArrayList<Action> listOfDeletedRevocableActions;
