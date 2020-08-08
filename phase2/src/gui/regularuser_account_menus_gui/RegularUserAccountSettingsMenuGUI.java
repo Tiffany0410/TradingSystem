@@ -34,8 +34,7 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 String msg = guiD.getLongInput("Please enter a message indicating reasons why you should " +
                         " be unfrozen", guiUserInputInfo);
-                atc.RequestToUnfreeze(msg);
-                sm.msgForRequestProcess(true);
+                guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(msg)));
 
             }
         });
