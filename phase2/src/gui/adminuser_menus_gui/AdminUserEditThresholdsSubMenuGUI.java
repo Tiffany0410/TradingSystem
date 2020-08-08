@@ -39,8 +39,9 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
+                guiDemo.runSave();
                 //close this window
-//                guiDemo.closeWindow(rootPanel);
+//              guiDemo.closeWindow(rootPanel);
             }
         });
         editTheMaxNumberButton1.addActionListener(new ActionListener() {
@@ -61,7 +62,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
-
+                guiDemo.runSave();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
 
@@ -85,6 +86,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
+                guiDemo.runSave();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
 
@@ -108,6 +110,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
+                guiDemo.runSave();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
 
