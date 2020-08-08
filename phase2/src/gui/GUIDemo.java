@@ -7,7 +7,7 @@ import controllers.regularusersubcontrollers.*;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
 import gui.regularuser_account_menus_gui.account_settings.RegularUserAccountSettingsMenuGUI;
-import gui.regularuser_account_menus_gui.RegularUserFollowMenuGUI;
+import gui.regularuser_account_menus_gui.follow_menu.RegularUserFollowMenuGUI;
 import gui.regularuser_account_menus_gui.manage_items.RegularUserManageItemsMenuGUI;
 import gui.regularuser_community_menu_gui.RegularUserCommunityMenuGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
@@ -254,10 +254,10 @@ public class GUIDemo {
 
     public void runRegularUserAccountSettingsMenu(){
         RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI(
-                this.regularUserAccountMenuController, this.systemMessage, this.guiUserInputInfo, this.regularUserIDChecker,
+                this.regularUserAccountMenuController, this.systemMessage, this.regularUserIDChecker,
                 this,this.adminUserOtherInfoChecker);
         regularUserAccountSettingsMenuGUI.run(this.regularUserAccountMenuController, this.systemMessage,
-                this.guiUserInputInfo, this.regularUserIDChecker, this,this.adminUserOtherInfoChecker);
+                this.regularUserIDChecker, this, this.adminUserOtherInfoChecker);
 
     }
 

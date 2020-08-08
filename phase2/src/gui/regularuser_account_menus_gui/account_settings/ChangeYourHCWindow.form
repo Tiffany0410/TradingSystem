@@ -1,13 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.regularuser_account_menus_gui.account_settings.ChangeYourHCWindow">
-  <grid id="27dc6" row-count="1" column-count="1" layout-manager="GridLayoutManager">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
-      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
     </constraints>
     <properties/>
     <border type="none"/>
-    <children/>
+    <children>
+      <component id="4cb0e" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Please enter the name of the new home city below."/>
+        </properties>
+      </component>
+      <component id="df22a" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="Please Select"/>
+            <item value="Barrie"/>
+            <item value="Belleville"/>
+            <item value="Brampton"/>
+            <item value="Brant"/>
+            <item value="Brantford"/>
+            <item value="Brockville"/>
+            <item value="Burlington"/>
+            <item value="Cambridge"/>
+            <item value="Cornwall"/>
+            <item value="Dryden"/>
+            <item value="Elliot Lake"/>
+            <item value="Greater Sudbury"/>
+            <item value="Guelph"/>
+            <item value="Hamilton"/>
+            <item value="Kenora"/>
+            <item value="Kingston"/>
+            <item value="Kitchener"/>
+            <item value="London"/>
+            <item value="Markham"/>
+            <item value="Mississauga"/>
+            <item value="Niagara Falls"/>
+            <item value="Norfolk Country"/>
+            <item value="North Bay"/>
+            <item value="Orillia"/>
+            <item value="Oshawa"/>
+            <item value="Ottawa"/>
+            <item value="Owen Sound"/>
+            <item value="Pembroke"/>
+            <item value="Peterborough"/>
+            <item value="Pickering"/>
+            <item value="Port Colborne"/>
+            <item value="Prince Edward Country"/>
+            <item value="Quinte West"/>
+            <item value="Richmond Hill"/>
+            <item value="Sarnia"/>
+            <item value="St.Catharines"/>
+            <item value="St.Thomas"/>
+            <item value="Stratford"/>
+            <item value="Temiskaming Shores"/>
+            <item value="Thorold"/>
+            <item value="Thunder Bay"/>
+            <item value="Timmins"/>
+            <item value="Toronto"/>
+            <item value="Vaughan"/>
+            <item value="Waterloo"/>
+            <item value="Welland"/>
+            <item value="Windsor"/>
+            <item value="Woodstock"/>
+          </model>
+        </properties>
+      </component>
+      <component id="ed2f1" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Cancel"/>
+        </properties>
+      </component>
+      <component id="cb7c4" class="javax.swing.JButton" binding="OKButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="OK"/>
+        </properties>
+      </component>
+    </children>
   </grid>
 </form>
