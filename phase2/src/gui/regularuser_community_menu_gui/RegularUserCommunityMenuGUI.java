@@ -206,7 +206,11 @@ public class RegularUserCommunityMenuGUI {
                 else {
                     ArrayList<TradableUser> friends = cmc.getFriends();
                     if (!friends.isEmpty()){
-
+                        String string = "Here is your list of friends:\n" + sm.printListUser(friends) +
+                                "\nPlease enter user's id to send a message.\n";
+                        RegularUserCommunitySendMessageWindow window =
+                                new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC);
+                        window.run(string, guidemo, sm, cmc, idC);
                     }
                     else{
                         guidemo.printNotification(sm.msgForNo("friends, please add friends first."));
@@ -243,31 +247,5 @@ public class RegularUserCommunityMenuGUI {
             }
         });
 
-    }
-
-    private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guiDemo){
-        String string;
-        if (friends.isEmpty()) {
-            string = sm.msgForNo("friends. Please add friends first.");
-        }
-        else {
-            String msg = "Please enter user's ID to send a message.\nHere is your list of friends:\n"
-                    + sm.printListUser(friends);
-            String result = guiDemo.getInPut(msg);
-            if (idC.checkInt(result)) {
-                int id = Integer.parseInt(result);
-                if (!cmc.checkIsFriend(id)) {
-                    string = "Please enter an id of your friend!";
-                }
-                else {
-                    String message = guiDemo.getInPut("Please write a message: ");
-                    string = sm.msgForResult(cmc.sendMessage(id, message));
-                }
-            }
-            else {
-                string = "Please enter a valid information.";
-            }
-        }
-        guiDemo.printNotification(string);
     }
 }
