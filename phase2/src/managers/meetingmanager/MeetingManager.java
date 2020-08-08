@@ -299,16 +299,6 @@ public class MeetingManager implements java.io.Serializable{
          }return false;
      }
 
-    /** check if the user's turn to edit time and place.
-     * @param meeting the meeting
-     * @param userId the user id
-     * @return true if it's this user to edit
-     */
-    public boolean checkTurn(Meeting meeting, int userId){
-        return (meeting.getUserId1() == userId || meeting.getUserId2() == userId)&&
-                meeting.getTimePlaceEdit().get(meeting.getTimePlaceEdit().size()-1) != userId;
-    }
-
     /** override the toString method to describe a list of meetings
      * @return a string show the detailed information about the meetings in the MeetingManager
      */
