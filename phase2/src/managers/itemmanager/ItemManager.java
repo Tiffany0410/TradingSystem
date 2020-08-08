@@ -42,11 +42,6 @@ public class ItemManager implements Serializable {
         return listItem;
     }
 
-
-    public boolean deleteItemFromListItemToAdd(Item targetItem) {
-        return  listItemToAdd.remove(targetItem);
-    }
-
     /**
      * Return a list of tradable items
      * @return a list of tradable items
@@ -167,8 +162,7 @@ public class ItemManager implements Serializable {
      */
     public ArrayList<Item> getItemsByIds(ArrayList<Integer> listIds){
         ArrayList<Item> items = new ArrayList<>();
-        Set<Integer> setIds = new HashSet<>(listIds);
-        for (Integer id : setIds) {
+        for (Integer id : listIds) {
             items.add(getItembyId(id));
         }
         return items;
@@ -388,6 +382,12 @@ public class ItemManager implements Serializable {
     public void removeItemFromListDeletedItem(int itemID) {
         listDeletedItem.removeIf(item -> item.getItemId() == itemID);
     }
+
+    /**
+     * @param targetItem The item that being deleted
+     */
+    public void deleteItemFromListItemToAdd(Item targetItem) {
+        listItemToAdd.remove(targetItem); }
 
     // Getters by Category
 

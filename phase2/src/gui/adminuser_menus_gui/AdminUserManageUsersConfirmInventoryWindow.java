@@ -43,12 +43,10 @@ public class AdminUserManageUsersConfirmInventoryWindow {
                         if (approvedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, true);
                             guiDemo.printNotification(sm.msgForResult(true));
-                            guiDemo.runSave();
                         }
                         else if (notApprovedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, false);
                             guiDemo.printNotification(sm.msgForResult(true));
-                            guiDemo.runSave();
                         }
                         else{
                             guiDemo.printNotification("Please select approve or not.");
