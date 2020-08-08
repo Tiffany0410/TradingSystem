@@ -1,48 +1,42 @@
 package controllers.regularusersubcontrollers;
 
+import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
-import managers.itemmanager.ItemManager;
-import managers.meetingmanager.MeetingManager;
 import managers.messagemanger.Message;
 import managers.messagemanger.MessageManager;
-import managers.trademanager.TradeManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegularUserCommunityMenuController {
-    
-    private TradeManager tm;
-    private MeetingManager mm;
+
     private UserManager um;
-    private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
     private MessageManager messageManager;
     private String username;
     private int userId;
+    private FilesReaderWriter frw;
+
 
     /**
      * Constructs a RegularUserFriendMenuController
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
      */
-    public RegularUserCommunityMenuController(TradeManager tm, MeetingManager mm, UserManager um,
-                                              ItemManager im, ActionManager am, FeedbackManager fm,
-                                              MessageManager messageManager,
-                                              String username){
-        this.tm = tm;
-        this.mm = mm;
+    public RegularUserCommunityMenuController(UserManager um, ActionManager am, FeedbackManager fm,
+                                              MessageManager messageManager, String username){
         this.um = um;
-        this.im = im;
         this.am = am;
         this.fm = fm;
         this.username = username;
         this.userId = um.usernameToID(this.username);
         this.messageManager = messageManager;
+        this.frw = new FilesReaderWriter();
     }
 
     /** getter for user id
@@ -219,5 +213,18 @@ public class RegularUserCommunityMenuController {
         return messageManager.getMessageFor(userId);
     }
 
-
+    /**
+     * Update each related Managers
+     *
+     */
+    public void save() throws IOException {
+        //Save UserManager
+        frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+        //Save ActionManager
+        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
+        //Save FeedbackManager
+        frw.saveManagerToFile(fm, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
+        //Same MessageManager
+        frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
+    }
 }

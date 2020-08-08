@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
@@ -9,6 +10,7 @@ import managers.usermanager.UserManager;
 import managers.itemmanager.ItemManager;
 import presenter.SystemMessage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class RegularUserTradingMenuController {
     private ActionManager am;
     private String username;
     private int userId;
+    private FilesReaderWriter frw;
 
     /**
      * Constructs a RegularUserTradingMenuController with a DisplaySystem,
@@ -59,6 +62,7 @@ public class RegularUserTradingMenuController {
         this.otherInfoGetter = otherInfoGetter;
         this.idGetter = idGetter;
         this.sm = sm;
+        this.frw = new FilesReaderWriter();
     }
 
     /**
@@ -290,5 +294,22 @@ public class RegularUserTradingMenuController {
     public List<Trade> viewCancelledTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         return tm.getCancelledTrade(userId);
+    }
+
+    /**
+     * Update each related Managers
+     *
+     */
+    public void save() throws IOException {
+        //Save TradeManager
+        frw.saveManagerToFile(tm, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
+        //Save UserManager
+        frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+        //Save ItemManager
+        frw.saveManagerToFile(im, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
+        //Save ActionManager
+        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
+        //Save MeetingManager
+        frw.saveManagerToFile(mm, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
     }
 }

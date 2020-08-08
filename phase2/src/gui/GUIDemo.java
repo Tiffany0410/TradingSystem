@@ -207,9 +207,8 @@ public class GUIDemo {
         this.regularUserAccountMenuController = new RegularUserAccountMenuController(
                 this.tradeManager, this.userManager, this.itemManager, this.actionManager, this.systemMessage, this.getTempUsername());
 
-        this.regularUserCommunityMenuController = new RegularUserCommunityMenuController(this.tradeManager,
-                this.meetingManager, this.userManager, this.itemManager, this.actionManager, this.feedbackManager,
-                this.messageManager, this.getTempUsername());
+        this.regularUserCommunityMenuController = new RegularUserCommunityMenuController(this.userManager,
+                this.actionManager, this.feedbackManager, this.messageManager, this.getTempUsername());
 
         this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
                 this.userManager, this.itemManager);
