@@ -9,6 +9,7 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,11 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllAction();
                 printObjects(allAction, sm, guiDemo);
+                try {
+                    guiDemo.runSave();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
@@ -45,6 +51,11 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Action> allAction = hac.getAllRevocableAction();
                 printObjects(allAction, sm, guiDemo);
+                try {
+                    guiDemo.runSave();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
@@ -73,6 +84,11 @@ public class AdminUserHistoricalActionsSubMenu {
                     guiDemo.printNotification("Please enter correct username");
                 }
                 printObjects(allAction, sm, guiDemo);
+                try {
+                    guiDemo.runSave();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -97,13 +113,18 @@ public class AdminUserHistoricalActionsSubMenu {
                         guiDemo.printNotification("Please enter correct actionID");
                     }
                     if (flag) {
+                        try {
+                            guiDemo.runSave();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                         guiDemo.printNotification("Successfully delete target action");
                     }
                 } catch (NumberFormatException ex){
                     sm.printInvalidID();
                 }
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+//                guiDemo.closeWindow(rootPanel);
             }
         });
         confirmUndoRequestButton.addActionListener(new ActionListener() {
@@ -134,6 +155,11 @@ public class AdminUserHistoricalActionsSubMenu {
                     }
 
                     if (flag) {
+                        try {
+                            guiDemo.runSave();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                         guiDemo.printNotification("Successfully delete target action");
                     }
 
@@ -142,7 +168,7 @@ public class AdminUserHistoricalActionsSubMenu {
                 }
 
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+//                guiDemo.closeWindow(rootPanel);
 
             }
         });

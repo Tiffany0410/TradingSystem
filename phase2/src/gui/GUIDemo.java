@@ -371,23 +371,28 @@ public class GUIDemo {
      * Update each related Managers
      *
      */
-    public void runSave() throws IOException {
-        //Save UserManager
-        frw.saveManagerToFile(userManager, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-        //Save ItemManager
-        frw.saveManagerToFile(itemManager, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
-        //Save TradeManager
-        frw.saveManagerToFile(tradeManager, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
-        //Save MeetingManager
-        frw.saveManagerToFile(meetingManager, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
-        //Save ActionManager
-        frw.saveManagerToFile(actionManager, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
-        //Save FeedbackManager
-        frw.saveManagerToFile(feedbackManager, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
-        //Save MessageManager
-        frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
-        //Save thresholdValues
-        frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+    public void runSave()  {
+        try {
+            //Save UserManager
+            frw.saveManagerToFile(userManager, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
+            //Save ItemManager
+            frw.saveManagerToFile(itemManager, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
+            //Save TradeManager
+            frw.saveManagerToFile(tradeManager, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
+            //Save MeetingManager
+            frw.saveManagerToFile(meetingManager, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
+            //Save ActionManager
+            frw.saveManagerToFile(actionManager, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
+            //Save FeedbackManager
+            frw.saveManagerToFile(feedbackManager, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
+            //Save MessageManager
+            frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
+            //Save thresholdValues
+            frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+        } catch (IOException e) {
+            this.printNotification("File cannot be found...");
+        }
+
     }
 }
 
