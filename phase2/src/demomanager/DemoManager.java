@@ -38,7 +38,7 @@ public class DemoManager {
         String serializedUserManagerFilePath = "./configs/serializedmanagersfiles/SerializedUserManager.ser";
         String serializedTradeManagerFilePath = "./configs/serializedmanagersfiles/SerializedTradeManager.ser";
         String serializedMeetingManagerFilePath = "./configs/serializedmanagersfiles/SerializedMeetingManager.ser";
-        String serializedItemManagerFilePath = "./configs/serializedmanagersfiles/SerializedMeetingManager.ser";
+        String serializedItemManagerFilePath = "./configs/serializedmanagersfiles/SerializedItemManager.ser";
         String serializedFeedbackManagerFilePath = "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser";
         String serializedActionManagerFilePath = "./configs/serializedmanagersfiles/SerializedActionManager.ser";
         String serializedMessageManagerFilePath = "./configs/serializedmanagersfiles/SerializedMessageManager.ser";
