@@ -22,7 +22,7 @@ public class RegularUserAccountSettingsMenuGUI {
     private JPanel rootPanel;
 
     public RegularUserAccountSettingsMenuGUI(RegularUserAccountMenuController atc, SystemMessage sm,
-                                             GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
+                                             RegularUserIDChecker idc,
                                              GUIDemo guiD, AdminUserOtherInfoChecker auIDC) {
         requestToUnfreezeAccountButton.addActionListener(new ActionListener() {
             /**
@@ -32,9 +32,8 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String msg = guiD.getLongInput("Please enter a message indicating reasons why you should " +
-                        " be unfrozen", guiUserInputInfo);
-                guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(msg)));
+                RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
+                win.run(guiD, sm, atc);
 
             }
         });
@@ -46,25 +45,9 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String askResponse = "Please enter a number (1 - set on-vacation status to true, 2 - set on-vacation status to false)";
-                String input1 = guiD.getInPut(askResponse);
-                if (idc.checkInt(input1)) {
-                    int response = Integer.parseInt(input1);
-                    if (response == 1) {
-                        atc.setOnVacationStatus(true);
-                        guiD.printNotification(sm.msgForResult(true));
-                    } else if (response == 2) {
-                        atc.setOnVacationStatus(false);
-                        guiD.printNotification(sm.msgForResult(true));
-                    } else {
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                } else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
+                SetYourOnVacationStatusWindow win = new SetYourOnVacationStatusWindow(atc, sm, guiD);
+                win.run(atc, sm, guiD);
             }
-
-
         });
         changeYourHomeCityButton.addActionListener(new ActionListener() {
             /**
@@ -74,10 +57,8 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String askHC = "Please enter the name of the new home city.";
-                String homeCity = guiD.getInPut(askHC);
-                atc.changeUserHC(homeCity);
-                guiD.printNotification(sm.msgForResult(true));
+                ChangeYourHCWindow changeYourHCWindow = new ChangeYourHCWindow(atc, guiD, sm);
+                changeYourHCWindow.run(atc, guiD, sm);
             }
         });
         reviewOwnRevocableActionButton.addActionListener(new ActionListener() {
@@ -88,14 +69,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Action> ownRevocableAction = atc.seeOwnRevocableAction();
-                if (ownRevocableAction.size() != 0){
-                    String str = sm.printListObject(new ArrayList<>(ownRevocableAction));
-                    guiD.printNotification("Here's your list of revocable actions: \n " + str);
-                }
-                else{
-                    guiD.printNotification(sm.msgForNothing("here."));
-                }
+                reviewOwnRevocableActions(atc, sm, guiD);
             }
         });
         requestUndoARevocableButton.addActionListener(new ActionListener() {
@@ -106,20 +80,8 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String askResponse = "Please enter the action id for the revocable action you would like to request to undo: ";
-                String input1 = guiD.getInPut(askResponse);
-                if (idc.checkInt(input1)) {
-                    int actionId = Integer.parseInt(input1);
-                   if (auIDC.checkActionId(actionId)){
-                       atc.requestUndoARevocableAction(actionId);
-                       sm.msgForRequestProcess(true);
-                    }
-                   else {
-                       guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                } else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
+                RequestUndoARevocableActionWindow requestUndoARevocableActionWindow = new RequestUndoARevocableActionWindow(guiD, idc, auIDC, atc, sm);
+                requestUndoARevocableActionWindow.run(guiD, idc, auIDC, atc, sm);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -139,11 +101,22 @@ public class RegularUserAccountSettingsMenuGUI {
 
     }
 
+    private void reviewOwnRevocableActions(RegularUserAccountMenuController atc, SystemMessage sm, GUIDemo guiD) {
+        ArrayList<Action> ownRevocableAction = atc.seeOwnRevocableAction();
+        if (ownRevocableAction.size() != 0){
+            String str = sm.printListObject(new ArrayList<>(ownRevocableAction));
+            guiD.printNotification("Here's your list of revocable actions: \n " + str);
+        }
+        else{
+            guiD.printNotification(sm.msgForNothing("here."));
+        }
+    }
+
     public void run(RegularUserAccountMenuController atc, SystemMessage sm,
-                    GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
+                    RegularUserIDChecker idc,
                     GUIDemo guiD, AdminUserOtherInfoChecker auIDC) {
         JFrame frame = new JFrame("regularUserAccountSettingsMenuGUI");
-        frame.setContentPane(new RegularUserAccountSettingsMenuGUI(atc, sm, guiUserInputInfo, idc, guiD, auIDC).rootPanel);
+        frame.setContentPane(new RegularUserAccountSettingsMenuGUI(atc, sm, idc, guiD, auIDC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
