@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import controllers.LoginValidator;
 import gui.GUIDemo;
 import gui.LongNotificationGUI;
+import gui.NotificationGUI;
 
 public class LoginGUI {
     private JPanel rootPanel;
@@ -46,7 +47,7 @@ public class LoginGUI {
                     switch (type) {
                         case "False":
                             String string = "Wrong password, please check again";
-                            LongNotificationGUI notificationGUI = new LongNotificationGUI(string);
+                            NotificationGUI notificationGUI = new NotificationGUI(string);
                             notificationGUI.run(string);
                             break;
                         case "Admin":
@@ -63,7 +64,7 @@ public class LoginGUI {
 
                 } else{
                     String string = "Username does not exist, please check again";
-                    LongNotificationGUI notificationGUI = new LongNotificationGUI(string);
+                    NotificationGUI notificationGUI = new NotificationGUI(string);
                     notificationGUI.run(string);
                 }
             }

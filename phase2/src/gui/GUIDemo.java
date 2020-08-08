@@ -160,10 +160,10 @@ public class GUIDemo {
                 this.userManager, this.itemManager);
 
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
-                this.adminUserManagerUsersController, this, this.guiUserInputInfo, this.systemMessage,
+                this.adminUserManagerUsersController, this, this.systemMessage,
                 regularUserIDChecker, this.adminUserOtherInfoChecker);
 
-        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this, this.guiUserInputInfo,
+        adminUserManageUsersSubMenuGUI.run(this.adminUserManagerUsersController, this,
                 this.systemMessage, regularUserIDChecker, this.adminUserOtherInfoChecker);
     }
 

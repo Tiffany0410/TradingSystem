@@ -4,7 +4,9 @@ import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
+
 import gui.GUIUserInputInfo;
+import gui.UserInputGUI;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -21,9 +23,8 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
-    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController muc, GUIDemo guiDemo,
-                                          GUIUserInputInfo guiUserInputInfo, SystemMessage sm, RegularUserIDChecker idc,
-                                          AdminUserOtherInfoChecker oic) {
+    public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController muc, GUIDemo guiDemo, SystemMessage sm,
+                                          RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -32,19 +33,20 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = muc.getAllUnfreezeUser();
-                String regularUserName = guiDemo.getInPut(string);
+                //String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
+                GUIUserInputInfo guiUserInputInfo = new GUIUserInputInfo();
+                UserInputGUI userInputGUI = new UserInputGUI(muc.getAllUnfreezeUser(), guiUserInputInfo);
+                userInputGUI.run(muc.getAllUnfreezeUser(), guiUserInputInfo);
+                String regularUserName = guiUserInputInfo.getTempUserInput();
 
-                System.out.println("0");
+                System.out.println(regularUserName);
 
                 if (!regularUserName.equals("User inputs nothing")) {
-                    System.out.println("1");
                     String result = muc.freezeUser(regularUserName);
-                    System.out.println("2");
                     guiDemo.printNotification(result);
-                    System.out.println("3");
                     guiDemo.runSave();
                 }
+
             }
         });
         unfreezeUsersButton.addActionListener(new ActionListener() {
@@ -72,7 +74,13 @@ public class AdminUserManageUsersSubMenuGUI {
                 //adminUserManagerUsersController.confirmInventoryAdd();
                 List<Item> listItemToAdd = muc.seeListItemToAdd();
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
-                guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
+
+                if (str.equals("")) {
+                    guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
+                }else{
+                    guiDemo.printNotification("Nothing here.");
+                }
+
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
                 String input1 = guiDemo.getInPut(askItemRequestNum);
                 String askAddOrNot = "Do you choose to add or not add this item to the corresponding user's wish list? enter (1 - add, 2 - not add).";
@@ -119,11 +127,10 @@ public class AdminUserManageUsersSubMenuGUI {
         });
     }
 
-    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
+    public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo,
                     SystemMessage sm, RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");
-        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo, guiUserInputInfo,
-                sm, idc, oic).rootPanel);
+        frame.setContentPane(new AdminUserManageUsersSubMenuGUI(adminUserManagerUsersController, guiDemo, sm, idc, oic).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
