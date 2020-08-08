@@ -62,6 +62,6 @@ public class LockMessageForMaxTransactionsThreshold extends JDialog {
         LockMessageForMaxTransactionsThreshold dialog = new LockMessageForMaxTransactionsThreshold(maxNumTransactionAWeek);
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
+        dialog.setLocationRelativeTo(null);
     }
 }

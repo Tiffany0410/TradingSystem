@@ -24,6 +24,7 @@ public class LoginGUI {
         frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
 
     }
 

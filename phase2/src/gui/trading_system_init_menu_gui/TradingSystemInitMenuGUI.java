@@ -25,7 +25,7 @@ public class TradingSystemInitMenuGUI {
         frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
-        frame.setLocation(550, 300);
+        frame.setLocationRelativeTo(null);
     }
 
     public TradingSystemInitMenuGUI(GUIDemo guiDemo){

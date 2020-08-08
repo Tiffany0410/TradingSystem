@@ -163,6 +163,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                 meetingNum, maxEditsTP, sm, guiUserInputInfo, dtc, idc);
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
+        dialog.setLocationRelativeTo(null);
     }
 }
