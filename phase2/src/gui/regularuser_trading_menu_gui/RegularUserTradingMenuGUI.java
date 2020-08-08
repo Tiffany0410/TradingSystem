@@ -84,7 +84,7 @@ public class RegularUserTradingMenuGUI {
                 }
 
         });
-        
+
         confirmThatATradeButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
