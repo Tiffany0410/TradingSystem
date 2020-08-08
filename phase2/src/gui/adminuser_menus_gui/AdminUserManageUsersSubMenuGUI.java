@@ -4,9 +4,6 @@ import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
-
-import gui.GUIUserInputInfo;
-import gui.UserInputGUI;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -71,9 +68,9 @@ public class AdminUserManageUsersSubMenuGUI {
                 String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
 
                 if (str.equals("")) {
-                    guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
-                }else{
                     guiDemo.printNotification("Nothing here.");
+                }else{
+                    guiDemo.printNotification("Here's a list of items-to-add requests: " + "\n" + str + "\n");
                 }
 
                 String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
@@ -86,12 +83,11 @@ public class AdminUserManageUsersSubMenuGUI {
                     if (oic.checkItemToAddNum(listItemToAdd.size(), itemToAddNum) && (addOrNot == 1 || addOrNot == 2)){
                         if (addOrNot == 1){
                             muc.addItemOrNot(itemToAddNum, true);
-                            guiDemo.printNotification(sm.msgForResult(true));
                         }
                         else{
                             muc.addItemOrNot(itemToAddNum, false);
-                            guiDemo.printNotification(sm.msgForResult(true));
                         }
+                        guiDemo.printNotification(sm.msgForResult(true));
                     }
                     else{
                         guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
