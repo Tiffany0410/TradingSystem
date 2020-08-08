@@ -20,7 +20,7 @@ public class RegularUserFollowMenuGUI {
     private JButton backButton;
     private JPanel rootPanel;
 
-    public RegularUserFollowMenuGUI(GUIDemo guiD, RegularUserAccountMenuController atc, GUIUserInputInfo guiUserInputInfo,
+    public RegularUserFollowMenuGUI(GUIDemo guiD, RegularUserAccountMenuController amc,
                                     RegularUserIDChecker idChecker, SystemMessage sm) {
         followAnUserButton.addActionListener(new ActionListener() {
             /**
@@ -30,20 +30,8 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String askUserid = "Please enter the user id of the user you would like to follow";
-                String input = guiD.getInPut(askUserid);
-                if (idChecker.checkInt(input)){
-                    int userId = Integer.parseInt(input);
-                    if (idChecker.checkUserID(userId)){
-                        guiD.printNotification(sm.msgForResult(atc.followAnUser(userId)));
-                    }
-                    else{
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                }
-                else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
+                FollowAnUserWindow followAnUserWindow = new FollowAnUserWindow(guiD, idChecker, sm, amc);
+                followAnUserWindow.run(guiD, idChecker, sm, amc);
             }
         });
         followAnItemButton.addActionListener(new ActionListener() {
@@ -54,21 +42,8 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String askItemid = "Please enter the item id of the item you would like to follow";
-                String input = guiD.getInPut(askItemid);
-                if (idChecker.checkInt(input)){
-                    int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(itemId)){
-                        guiD.printNotification(sm.msgForResult(atc.followAnItem(itemId)));
-                    }
-                    else{
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                }
-                else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
-
+                FollowAnItemWindow followAnItemWindow = new FollowAnItemWindow(guiD, idChecker, sm, amc);
+                followAnItemWindow.run(guiD, idChecker, sm, amc);
             }
         });
         seeRecentStatusOfUsersButton.addActionListener(new ActionListener() {
@@ -79,7 +54,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewUpdates(sm, atc.seeRecentStatusOfFollowedUser(), "users", guiD);
+                viewUpdates(sm, amc.seeRecentStatusOfFollowedUser(), "users", guiD);
             }
         });
         seeRecentStatusOfItemsButton1.addActionListener(new ActionListener() {
@@ -90,7 +65,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewUpdates(sm, atc.seeRecentStatusOfFollowedItem(), "items", guiD);
+                viewUpdates(sm, amc.seeRecentStatusOfFollowedItem(), "items", guiD);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -118,10 +93,10 @@ public class RegularUserFollowMenuGUI {
     }
 
 
-    public void run(GUIDemo guiD, RegularUserAccountMenuController atc, GUIUserInputInfo guiUserInputInfo,
+    public void run(GUIDemo guiD, RegularUserAccountMenuController atc,
                     RegularUserIDChecker idChecker, SystemMessage sm) {
         JFrame frame = new JFrame("regularUserFollowMenuGUI");
-        frame.setContentPane(new RegularUserFollowMenuGUI(guiD, atc, guiUserInputInfo, idChecker, sm).rootPanel);
+        frame.setContentPane(new RegularUserFollowMenuGUI(guiD, atc, idChecker, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

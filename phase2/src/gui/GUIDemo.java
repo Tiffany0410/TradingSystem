@@ -239,9 +239,9 @@ public class GUIDemo {
 
     public void runRegularUserAccountFollowMenu(){
         RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI(this,
-                this.regularUserAccountMenuController, this.guiUserInputInfo, this.regularUserIDChecker, this.systemMessage);
+                this.regularUserAccountMenuController, this.regularUserIDChecker, this.systemMessage);
         regularUserFollowMenuGUI.run(this,
-                this.regularUserAccountMenuController, this.guiUserInputInfo, this.regularUserIDChecker, this.systemMessage);
+                this.regularUserAccountMenuController, this.regularUserIDChecker, this.systemMessage);
     }
 
     public void runRegularUserAccountManageItemsMenu(){
