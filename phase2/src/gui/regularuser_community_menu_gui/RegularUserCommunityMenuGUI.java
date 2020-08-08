@@ -213,7 +213,7 @@ public class RegularUserCommunityMenuGUI {
                         window.run(string, guidemo, sm, cmc, idC);
                     }
                     else{
-                        guidemo.printNotification(sm.msgForNo("friends, please add friends first."));
+                        guidemo.printNotification(sm.msgForNo("friends, please add friends first"));
                     }
                     guidemo.runSave();
                 }

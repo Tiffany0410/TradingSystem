@@ -5,6 +5,7 @@ import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -48,6 +49,7 @@ public class RegularUserCommunityRatingWindow {
         JFrame frame = new JFrame("Find rating");
         frame.setContentPane(new RegularUserCommunityRatingWindow(guidemo, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }

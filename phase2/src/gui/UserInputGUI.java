@@ -51,6 +51,7 @@ public class UserInputGUI {
         JFrame frame = new JFrame("userInputGUI");
         frame.setContentPane(new UserInputGUI(string, guiUserInputInfo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }

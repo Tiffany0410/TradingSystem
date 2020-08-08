@@ -7,6 +7,7 @@ import gui.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,6 +46,7 @@ public class RegularUserCommunityReportAUser {
         JFrame frame = new JFrame("Report an user");
         frame.setContentPane(new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }

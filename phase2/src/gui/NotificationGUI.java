@@ -58,6 +58,7 @@ public class NotificationGUI extends JDialog {
 
     public void run(String string) {
         NotificationGUI dialog = new NotificationGUI(string);
+        dialog.setPreferredSize(new Dimension(300, 300));
         dialog.pack();
         dialog.setVisible(true);
     }

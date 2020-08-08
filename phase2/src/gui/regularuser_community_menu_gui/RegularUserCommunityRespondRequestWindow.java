@@ -54,6 +54,7 @@ public class RegularUserCommunityRespondRequestWindow {
         JFrame frame = new JFrame("Respond to friend request");
         frame.setContentPane(new RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }

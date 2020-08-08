@@ -54,6 +54,7 @@ public class RegularUserCommunitySendFriendRequestWindow {
         JFrame frame = new JFrame("Send a Friend Request");
         frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }

@@ -7,6 +7,7 @@ import gui.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,6 +56,7 @@ public class RegularUserCommunityWriteAReviewWindow {
         JFrame frame = new JFrame("Write a review");
         frame.setContentPane(new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
         frame.setVisible(true);
     }
