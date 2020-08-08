@@ -28,14 +28,24 @@ public class RegularUserCommunityWriteAReviewWindow {
                 String sReason = reason.getText();
                 if (idC.checkInt(sUserId)) {
                     int user_id = Integer.parseInt(sUserId);
-                    int point = Integer.parseInt(sPoint);
-                    if (idC.checkUserID(user_id)) {
-                        boolean yesOrNo = cmc.reviewUser(user_id, point, sReason);
-                        guidemo.printNotification(sm.msgForResult(yesOrNo));
-                        guidemo.closeWindow(rootPanel);
+                    if (idC.checkInt(sPoint)) {
+                        int point = Integer.parseInt(sPoint);
+                        if (idC.checkUserID(user_id)) {
+                            boolean yesOrNo = cmc.reviewUser(user_id, point, sReason);
+                            if (cmc.getUserId() == user_id) {
+                                guidemo.printNotification("Fail. Please don't review yourself.");
+                            } else if (yesOrNo) {
+                                guidemo.printNotification(sm.msgForResult(true));
+                            } else {
+                                guidemo.printNotification("Fail. You have reviewed this user.");
+                            }
+                            guidemo.closeWindow(rootPanel);
+                        } else {
+                            guidemo.printNotification("The user does not exist.");
+                        }
                     }
                     else{
-                        guidemo.printNotification("Please enter a valid information.");
+                        guidemo.printNotification("Please select a point.");
                     }
                 }
                 else {
@@ -56,7 +66,7 @@ public class RegularUserCommunityWriteAReviewWindow {
         JFrame frame = new JFrame("Write a review");
         frame.setContentPane(new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

@@ -6,6 +6,7 @@ import gui.GUIDemo;
 import managers.itemmanager.Category;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +29,7 @@ public class RegularUserRequestItemWindow {
                     Category item_category = Category.valueOf(itemCategory);
                     amc.requestAddItem(itemName, itemDescription, item_category);
                     guiDemo.printNotification("Item requested, please wait for an administrative user to confirm.");
+                    guiDemo.runSave();
                 }
                 else {
                     guiDemo.printNotification("Please select the category of the item correctly.");
@@ -49,6 +51,7 @@ public class RegularUserRequestItemWindow {
         JFrame frame = new JFrame("Request an item");
         frame.setContentPane(new RegularUserRequestItemWindow(guiDemo, amc, otherInfoChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(400, 400));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

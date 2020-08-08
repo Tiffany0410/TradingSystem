@@ -1,7 +1,5 @@
 package gui.regularuser_community_menu_gui;
 
-
-
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
@@ -32,7 +30,12 @@ public class RegularUserCommunitySendFriendRequestWindow {
                 String msg = message.getText();
                 if (idC.checkInt(id_input)) {
                     int userToID = Integer.parseInt(id_input);
-                    guidemo.printNotification(sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg), userToID));
+                    if (userToID != cmc.getUserId()) {
+                        guidemo.printNotification(sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg), userToID));
+
+                    } else {
+                        guidemo.printNotification("You can't send friend request to yourself :)");
+                    }
                 }
                 else {
                     guidemo.printNotification("Please enter a valid information.");
@@ -54,7 +57,7 @@ public class RegularUserCommunitySendFriendRequestWindow {
         JFrame frame = new JFrame("Send a Friend Request");
         frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(600, 600));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

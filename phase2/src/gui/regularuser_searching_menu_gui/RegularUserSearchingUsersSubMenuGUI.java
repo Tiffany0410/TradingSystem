@@ -31,11 +31,11 @@ public class RegularUserSearchingUsersSubMenuGUI {
 
                 List<Integer> filter = regularUserSearchingMenuController.recentThreePartner();
                 if (filter.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(filter)); }
-                // TODO: Need method to close this window
-
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
+                }
+                guiDemo.closeWindow(rootPanel);
                 }
         });
         frequentTradeUserButton.addActionListener(new ActionListener() {
@@ -49,12 +49,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
 
                 List<Integer> filter = regularUserSearchingMenuController.sortAllTradedPartner();
                 if (filter.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(filter));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
                 }
-
-                //close this window
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -70,11 +68,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
 
                 List<TradableUser> l = regularUserSearchingMenuController.sortRating();
                 if (l.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(l));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(l)));
                 }
-                //close this window
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -86,7 +83,6 @@ public class RegularUserSearchingUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
 
@@ -98,7 +94,7 @@ public class RegularUserSearchingUsersSubMenuGUI {
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingUsersSubMenu");
         frame.setContentPane(new RegularUserSearchingUsersSubMenuGUI(regularUserSearchingMenuController, guiDemo, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import gui.GUIDemo;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Category;
@@ -58,8 +57,7 @@ public class RegularUserAccountMenuController {
         this.userId = um.usernameToID(this.username);
     }
 
-    // TODO: Add Java Doc!
-    // FOR RegularUserManageItemsMenuGUI
+
 
     /**
      * Return a list of tradable items in the system
@@ -69,6 +67,13 @@ public class RegularUserAccountMenuController {
         ArrayList<Item> tradableItems = im.getAllTradableItems();
         am.addActionToAllActionsList(userId, "regularUser", "1.1.1", 0, "");
         return tradableItems;
+    }
+
+    /**
+     * @return the user's id
+     */
+    public int getUserId(){
+        return this.userId;
     }
 
     /**
@@ -155,7 +160,6 @@ public class RegularUserAccountMenuController {
      * @return a list of items
      */
     public ArrayList<Item> getInventory(){
-        TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> inventoryIDs = um.getUserInventory(userId);
         return im.getItemsByIds(inventoryIDs);
     }
@@ -181,19 +185,20 @@ public class RegularUserAccountMenuController {
     /**
      * Receives user's request to set item's tradable status to option
      * @param itemId The item's id
-     * @param option The option of tradable status (1 for true, 2 for false)
+     * @param option The tradable status
      * @return true if tradable status set to option successfully
      */
-    public boolean setTradableBasedOnResponse(int itemId, int option){
-        if (option == 1){
-            boolean result = im.setTradable(im.getItembyId(itemId), true);
+    public boolean setTradableBasedOnResponse(int itemId, boolean option){
+        boolean result;
+        if (option){
+            result = im.setTradable(im.getItembyId(itemId), true);
             am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemId, "tradable");
             am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemId, "tradable");
-            return result;
         }
-        boolean result = im.setTradable(im.getItembyId(itemId), false);
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemId, "non-tradable");
-        am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemId, "non-tradable");
+        else {
+            result = im.setTradable(im.getItembyId(itemId), false);
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.1.8", itemId, "non-tradable");
+            am.addActionToAllActionsList(userId, "regularUser", "1.1.8", itemId, "non-tradable");}
         return result;
     }
 

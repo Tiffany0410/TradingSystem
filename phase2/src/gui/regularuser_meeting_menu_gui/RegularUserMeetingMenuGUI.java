@@ -103,7 +103,7 @@ public class RegularUserMeetingMenuGUI {
     private void confirmMeetingTookPlace(RegularUserMeetingMenuController mmc, SystemMessage sm, int maxEditsTP, RegularUserIDChecker idc,
                                          GUIDemo guiD) {
         if (mmc.isEmpty(mmc.getUnconfirmedMeeting())) {
-            sm.msgForNothing("that needs to be confirmed");
+            guiD.printNotification(sm.msgForNothing("that needs to be confirmed"));
         }
         else {
         // print the meetings with unconfirmed meeting

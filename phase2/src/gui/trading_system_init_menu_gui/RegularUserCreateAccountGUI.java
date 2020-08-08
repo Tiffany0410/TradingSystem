@@ -30,7 +30,7 @@ public class RegularUserCreateAccountGUI {
                 boolean result = accountCreator.createAccount("Regular", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
 
-                guiDemo.printNotification( "Create account " + systemMessage.printResult(result));
+                guiDemo.printNotification( "Create Account " + systemMessage.printResult(result));
                 guiDemo.runSave();
                 guiDemo.runTradingSystemInitMenuGUI();
                 guiDemo.closeWindow(rootPanel);
@@ -54,7 +54,7 @@ public class RegularUserCreateAccountGUI {
         JFrame frame = new JFrame("regularUserCreateAccount");
         frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, guiDemo, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300,300));
+        frame.setPreferredSize(new Dimension(400,400));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

@@ -170,10 +170,9 @@ public class GUIDemo {
     public void runAdminUserEditThresholdsSubMenu() {
 
         AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
-                this.guiUserInputInfo, this.adminUserEditThresholdsController, this.systemMessage);
+                this.adminUserEditThresholdsController);
 
-        adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo, this.adminUserEditThresholdsController,
-                this.systemMessage);
+        adminUserEditThresholdsSubMenuGUI.run(this,this.adminUserEditThresholdsController);
 
     }
 
@@ -398,11 +397,23 @@ public class GUIDemo {
             this.loginValidator = new LoginValidator(
                     frw.readUserInfoFromCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv"),
                     frw.readUserInfoFromCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv"));
+//            this.userManager = (UserManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedUserManager.ser");
+//            this.meetingManager = (MeetingManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
+//            this.tradeManager = (TradeManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedTradeManager.ser");
+//            this.itemManager = (ItemManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedItemManager.ser");
+//            this.feedbackManager = (FeedbackManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
+//            this.actionManager = (ActionManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedActionManager.ser");
+//            this.messageManager = (MessageManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedMessageManager.ser");
+//            this.thresholdValues = (ArrayList<Integer>) frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv");
         } catch (IOException e) {
             this.printNotification("Sorry, because we cannot find the files to save your progress in, so your progress" +
                     "is not saved.");
         }
 
+    }
+
+    public void printInvalidNumber() {
+        this.systemMessage.invalidNumber();
     }
 }
 

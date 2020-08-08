@@ -18,9 +18,8 @@ public class AdminUserEditThresholdsSubMenuGUI {
     private JButton editTheMaxEditsButton;
     private JButton backButton;
 
-    public AdminUserEditThresholdsSubMenuGUI(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
-                                             AdminUserEditThresholdsController adminUserEditThresholdsController,
-                                             SystemMessage systemMessage) {
+    public AdminUserEditThresholdsSubMenuGUI(GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController
+                                             ) {
         editTheMaxNumberButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -30,15 +29,10 @@ public class AdminUserEditThresholdsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserEditThresholdsController.getMaxNumberTransactions() + "\n" + "Please enter new value:";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
+                int option = 1;
 
-                try {
-                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
-                }catch (NumberFormatException ex){
-                    systemMessage.invalidNumber();
-                }
+                AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
+                adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
 //              guiDemo.closeWindow(rootPanel);
@@ -53,18 +47,13 @@ public class AdminUserEditThresholdsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserEditThresholdsController.getMaxNumberIncompleteTransactions() + "\n" + "Please enter new value:";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
+                int option = 2;
 
-                try {
-                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
-                }catch (NumberFormatException ex){
-                    systemMessage.invalidNumber();
-                }
+                AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
+                adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -77,18 +66,13 @@ public class AdminUserEditThresholdsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserEditThresholdsController.getMustLendNumber() + "\n" + "Please enter new value:";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
+                int option = 3;
 
-                try {
-                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    guiDemo.printNotification(adminUserEditThresholdsController.editMustLendNumber(futureValue));
-                }catch (NumberFormatException ex){
-                    systemMessage.invalidNumber();
-                }
+                AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
+                adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -101,18 +85,13 @@ public class AdminUserEditThresholdsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String string = adminUserEditThresholdsController.getEditMaxEdits() + "\n" + "Please enter new value:";
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
+                int option = 4;
 
-                try {
-                    int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxEdits(futureValue));
-                }catch (NumberFormatException ex){
-                    systemMessage.invalidNumber();
-                }
+                AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
+                adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
 
             }
         });
@@ -132,11 +111,9 @@ public class AdminUserEditThresholdsSubMenuGUI {
         });
     }
 
-    public void run(GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo,
-                    AdminUserEditThresholdsController adminUserEditThresholdsController,
-                    SystemMessage systemMessage) {
+    public void run(GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
         JFrame frame = new JFrame("AdminUserEditThresholdsSubMenu");
-        frame.setContentPane(new AdminUserEditThresholdsSubMenuGUI(guiDemo, guiUserInputInfo, adminUserEditThresholdsController, systemMessage).rootPanel);
+        frame.setContentPane(new AdminUserEditThresholdsSubMenuGUI(guiDemo, adminUserEditThresholdsController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

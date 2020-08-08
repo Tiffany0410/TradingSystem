@@ -120,9 +120,9 @@ public class RegularUserSearchingMenuController {
      * @param category category
      * @return a list of integer
      */
-    public ArrayList<Integer> filterByCategory(String category) {
-        Category ca = Category.valueOf(category);
-        return  im.getCategoryItem(ca);
+    public ArrayList<Item> filterByCategory(Category category) {
+        ArrayList<Integer> ids = im.getCategoryItem(category);
+        return  im.getItemsByIds(ids);
     }
 
     /** helper list  for gui

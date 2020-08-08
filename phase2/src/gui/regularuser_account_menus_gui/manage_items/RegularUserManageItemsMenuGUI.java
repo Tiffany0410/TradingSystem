@@ -27,10 +27,10 @@ public class RegularUserManageItemsMenuGUI {
     private JButton backButton;
 
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
-                    RegularUserIDChecker idChecker, RegularUserAccountMenuController acm,
+                    RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                     RegularUserOtherInfoChecker otherInfoChecker) {
         JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
-        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm,
+        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, amc,
                 otherInfoChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
@@ -58,7 +58,16 @@ public class RegularUserManageItemsMenuGUI {
                 }
                 else{
                     ArrayList<Item> tradable = amc.getAllTradableFromOther();
-                    addToWishlist(tradable, sm, guiInput, idChecker, amc, guiDemo);
+                    if (tradable.isEmpty()){
+                        guiDemo.printNotification(sm.msgForNo("tradable items that can be added to your wishlist"));
+                    }
+                    else{
+                        String string = "Here is a list of tradable items you can add to wishlist: \n" +
+                                sm.printListObject(new ArrayList<>(tradable)) +
+                                "\nPlease enter the item's id to add to wishlist: ";
+                        RegularUserManageItemsAddWlstWindow window = new RegularUserManageItemsAddWlstWindow(tradable, string, guiDemo, sm, amc, idChecker);
+                        window.run(tradable, string, guiDemo, sm, amc, idChecker);
+                    }
                 }
                 guiDemo.runSave();
             }
@@ -72,7 +81,16 @@ public class RegularUserManageItemsMenuGUI {
                 }
                 else {
                     ArrayList<Item> items = amc.getWishList();
-                    removeFrom(amc, sm, guiInput, idChecker, items, "wishlist", guiDemo);
+                    if (items.isEmpty()){
+                        guiDemo.printNotification(sm.msgForNo("tradable items that can be removed from your wishlist"));
+                    }
+                    else{
+                        String string = "Here is your wishlist: \n" +
+                                sm.printListObject(new ArrayList<>(items)) +
+                                "\nPlease enter the item's id to remove from wishlist:";
+                        RegularUserManageItemsRemoveWlstWindow window = new RegularUserManageItemsRemoveWlstWindow(items, string, guiDemo, sm, amc, idChecker);
+                        window.run(items, string, guiDemo, sm, amc, idChecker);
+                    }
                 }
                 guiDemo.runSave();
             }
@@ -86,7 +104,16 @@ public class RegularUserManageItemsMenuGUI {
                 }
                 else {
                     ArrayList<Item> items = amc.getInventory();
-                    removeFrom(amc, sm, guiInput, idChecker, items, "inventory", guiDemo);
+                    if (items.isEmpty()){
+                        guiDemo.printNotification(sm.msgForNo("tradable items that can be removed from your inventory"));
+                    }
+                    else{
+                        String string = "Here is your inventory: \n" +
+                                sm.printListObject(new ArrayList<>(items)) +
+                                "\nPlease enter the item's id to remove from inventory:";
+                        RegularUserManageItemsRemoveInvtyWindow window = new RegularUserManageItemsRemoveInvtyWindow(items, string, guiDemo, sm, amc, idChecker);
+                        window.run(items, string, guiDemo, sm, amc, idChecker);
+                    }
                 }
                 guiDemo.runSave();
             }
@@ -149,9 +176,11 @@ public class RegularUserManageItemsMenuGUI {
                         guiDemo.printNotification("There is no tradable items that can be changed.");
                     }
                     else {
-                        String itemId_input = getTradableId(guiInput, sm, tradable, notTradable, guiDemo);
-                        String setTradable_input = getStatus(sm, guiInput, guiDemo);
-                        setTradable(itemId_input, setTradable_input, idChecker, sm, amc, guiDemo);
+                        String string = getTradableId(sm, tradable, notTradable);
+                        ArrayList<Item> inventory = amc.getInventory();
+                        RegularUserManageItemsTradableStatusWindow window = new
+                                RegularUserManageItemsTradableStatusWindow(inventory, string, guiDemo, sm, amc, idChecker);
+                        window.run(inventory, string, guiDemo, sm, amc, idChecker);
                     }
                     guiDemo.runSave();
                 }
@@ -165,8 +194,8 @@ public class RegularUserManageItemsMenuGUI {
                     guiDemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    String result = guiDemo.getInPut("Please enter the user's id you want to lend item(s) to");
-                    getSuggestion(result, amc, sm, idChecker, guiDemo);
+                    RegularUserManageItemsSuggestionWindow window = new RegularUserManageItemsSuggestionWindow(guiDemo, sm, amc, idChecker);
+                    window.run(guiDemo, sm, amc, idChecker);
                 }
             }
         });
@@ -180,59 +209,9 @@ public class RegularUserManageItemsMenuGUI {
         });
     }
 
-    private void removeFrom(RegularUserAccountMenuController amc, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idChecker, ArrayList<Item> items, String type,
-                            GUIDemo guiDemo){
-        if (items.isEmpty()){
-            guiDemo.printNotification(sm.msgForNothing("your " + type + " that can be removed"));
-        }
-        else{
-            String str = "Here is your " + type + ": \n" +
-                    sm.printListObject(new ArrayList<>(items)) +
-                    "\nPlease enter the item's id to remove from " + type + ". ";
-            String input = guiDemo.getInPut(str);
-            if (idChecker.checkInt(input)){
-                int itemId = Integer.parseInt(input);
-                if (idChecker.checkItemID(items, itemId)){
-                    boolean result;
-                    if (type.equals("wishlist")){
-                        result = amc.removeFromWishlist(itemId); }
-                    else {
-                        result = amc.removeFromInventory(itemId); }
-                    guiDemo.printNotification(sm.msgForResult(result)); }
-                else { guiDemo.printNotification("Invalid item id was entered, please try again."); } }
-            else { guiDemo.printNotification("Please enter an integer."); }
-        }
-    }
-
-    private void addToWishlist(ArrayList<Item> tradable, SystemMessage sm, GUIUserInputInfo guiInput, RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
-                               GUIDemo guiDemo){
-        if (tradable.isEmpty()){
-            guiDemo.printNotification(sm.msgForNo("tradable items can be added to wishlist."));
-        }
-        else{
-            String str = "Here is a list of tradable items you can add to wishlist: \n" +
-                    sm.printListObject(new ArrayList<>(tradable)) +
-                    "\nPlease enter the item's id to add to wishlist. ";
-            String input = guiDemo.getInPut(str);
-            if (idChecker.checkInt(input)){
-                int itemId = Integer.parseInt(input);
-                if (idChecker.checkItemID(tradable, itemId)){
-                    boolean result = amc.addToWishList(itemId);
-                    guiDemo.printNotification(sm.msgForResult(result));
-                }
-                else {
-                    guiDemo.printNotification("Invalid item id was entered, please try again.");
-                }
-            }
-            else {
-                guiDemo.printNotification("Please enter an integer.");
-            }
-        }
-    }
-
     private void printObjects(ArrayList<Item> items, SystemMessage sm, GUIDemo guiDemo){
         if (items.isEmpty()){
-            guiDemo.printNotification(sm.msgForNothing("here."));
+            guiDemo.printNotification(sm.msgForNothing("here"));
         }
         else{
             String str = sm.printListObject(new ArrayList<>(items));
@@ -240,57 +219,10 @@ public class RegularUserManageItemsMenuGUI {
         }
     }
 
-    private String getTradableId(GUIUserInputInfo guiInput, SystemMessage sm, ArrayList<Item> tradable, ArrayList<Item> nonTradable, GUIDemo guiDemo){
+    private String getTradableId(SystemMessage sm, ArrayList<Item> tradable, ArrayList<Item> nonTradable){
         String str = "Here's the list of items with tradable status: \n" + sm.printListObject(new ArrayList<>(tradable)) +
                     "Here's the list of items with non-tradable status: \n" + sm.printListObject(new ArrayList<>(nonTradable)) +
                     "Enter the item id of the item that you want to change the tradable status of.";
-        return guiDemo.getInPut(str);
+        return str;
     }
-
-    private String getStatus(SystemMessage sm, GUIUserInputInfo guiInput, GUIDemo guiDemo){
-        String str = sm.getNumKindOfResponse("set item to tradable", "set item to non-tradable");
-        return guiDemo.getInPut(str);
-    }
-
-    private void setTradable(String itemId_input, String setTradable_input, RegularUserIDChecker idChecker, SystemMessage sm, RegularUserAccountMenuController amc, GUIDemo guiDemo){
-        ArrayList<Item> inventory = amc.getInventory();
-        if (idChecker.checkInt(itemId_input) && idChecker.checkInt(setTradable_input)){
-            int itemId = Integer.parseInt(itemId_input);
-            int setTradable = Integer.parseInt(setTradable_input);
-            if (idChecker.checkItemID(inventory, itemId) && (setTradable == 1 | setTradable == 2)){
-                boolean result = amc.setTradableBasedOnResponse(itemId, setTradable);
-                guiDemo.printNotification(sm.msgForSetTradable(result, setTradable));
-            }
-            else{
-                guiDemo.printNotification("Please enter a valid input.");
-            }
-        }
-        else{
-            guiDemo.printNotification("Please enter a valid input.");
-        }
-    }
-
-    private void getSuggestion(String result, RegularUserAccountMenuController amc, SystemMessage sm, RegularUserIDChecker idChecker, GUIDemo guiDemo){
-        if (idChecker.checkInt(result)){
-            int lendToUserId = Integer.parseInt(result);
-            if (idChecker.checkUserID(lendToUserId)){
-                ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
-                if (suggest.isEmpty()){
-                    guiDemo.printNotification("No good suggestions available...\nHere's a randomly generated one:\n" +
-                            sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
-                }
-                else{
-                    guiDemo.printNotification("Below are suggestions of items you can lend to that user: \\n" + sm.printListObject(new ArrayList<>(suggest)));
-                }
-            }
-            else{
-                guiDemo.printNotification("Please enter a valid input.");
-            }
-        }
-        else{
-            guiDemo.printNotification("Please enter a valid input.");
-        }
-    }
-
-
 }

@@ -4,9 +4,6 @@ import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
-
-import gui.GUIUserInputInfo;
-import gui.UserInputGUI;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -67,39 +64,20 @@ public class AdminUserManageUsersSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //adminUserManagerUsersController.confirmInventoryAdd();
-                List<Item> listItemToAdd = muc.seeListItemToAdd();
-                String str = sm.printListNumberedObject(new ArrayList<>(listItemToAdd));
+                ArrayList<Item> listItemToAdd = new ArrayList<>(muc.seeListItemToAdd());
 
-                if (str.equals("")) {
-                    guiDemo.printNotification("Here's a list of items-to-add requests: " + str);
-                }else{
-                    guiDemo.printNotification("Nothing here.");
+                if (listItemToAdd.isEmpty()){
+                    guiDemo.printNotification("There is no items-to-add requests.");
                 }
-
-                String askItemRequestNum = "Please enter the number beside the # of the request you want to act on: ";
-                String input1 = guiDemo.getInPut(askItemRequestNum);
-                String askAddOrNot = "Do you choose to add or not add this item to the corresponding user's wish list? enter (1 - add, 2 - not add).";
-                String input2 = guiDemo.getInPut(askAddOrNot);
-                if (idc.checkInt(input1) && idc.checkInt(input2)){
-                    int itemToAddNum = Integer.parseInt(input1);
-                    int addOrNot = Integer.parseInt(input2);
-                    if (oic.checkItemToAddNum(listItemToAdd.size(), itemToAddNum) && (addOrNot == 1 || addOrNot == 2)){
-                        if (addOrNot == 1){
-                            muc.addItemOrNot(itemToAddNum, true);
-                            guiDemo.printNotification(sm.msgForResult(true));
-                        }
-                        else{
-                            muc.addItemOrNot(itemToAddNum, false);
-                            guiDemo.printNotification(sm.msgForResult(true));
-                        }
-                    }
-                    else{
-                        guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                    }
                 else{
-                    guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
+                    String string = "Here's a list of items-to-add requests:\n" +
+                            sm.printListNumberedObject(new ArrayList<>(listItemToAdd)) +
+                            "\nPlease enter the number beside the # of the request you want to act on: \n";
+                    AdminUserManageUsersConfirmInventoryWindow window = new
+                            AdminUserManageUsersConfirmInventoryWindow(string, listItemToAdd, muc, guiDemo, sm, idc, oic);
+                    window.run(string, listItemToAdd, muc, guiDemo, sm, idc, oic);
                 }
+
                 guiDemo.runSave();
 
             }

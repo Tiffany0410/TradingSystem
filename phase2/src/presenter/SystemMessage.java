@@ -319,8 +319,9 @@ public class SystemMessage {
 
     public String printListObject(ArrayList<Object> objects){
         StringBuilder out = new StringBuilder();
+        if (objects.isEmpty()) {return "\n";}
         for (Object object: objects){
-            out.append(object.toString());
+            if (object != null) {out.append(object.toString());}
         }
         return out.toString();
     }
@@ -383,9 +384,9 @@ public class SystemMessage {
         return "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
     }
 
-    public String msgForSetTradable(boolean validator, int status){
+    public String msgForSetTradable(boolean validator, boolean status){
         String tradable_status;
-        if (status == 1){
+        if (status){
             tradable_status = "tradable";
         }
         else {
