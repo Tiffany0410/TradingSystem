@@ -10,46 +10,58 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class RegularUserCheckMeetingWindow extends JDialog {
     private JPanel contentPane;
-    private JButton buttonConfirm;
-    private JButton buttonBack;
-    private JButton editButton;
-    private JTextArea textArea;
+    private JButton back;
+    private JButton confirm;
+    private JButton edit;
+    private JTextField meetingNum;
+    private JTextField tradeId;
+    private JTextArea textArea1;
 
-    public RegularUserCheckMeetingWindow(GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int tradeId,
-                                         int meetingNum, int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
+    public RegularUserCheckMeetingWindow(GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int maxEditsTP, SystemMessage sm,
                                          RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
-        textArea.setText(str);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+        textArea1.setText(str);
+        textArea1.setEditable(false);
+        textArea1.setLineWrap(true);
+        textArea1.setBackground(new Color(242,242,242));
 
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonConfirm);
+        getRootPane().setDefaultButton(back);
 
-        buttonConfirm.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                confirmTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, sm, guiD);
-                //GO back to main menu
-                guiD.runRegularUserMainMenu(false);
-                guiD.closeWindow(contentPane);
-            }
-        });
-
-        buttonBack.addActionListener(new ActionListener() {
+        back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //go back to meeting menu gui
-                try {
-                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
+                onBack(guiD);
+            }
+
+        });
+
+        confirm.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String tradeIdInS = tradeId.getText();
+                String meetingNumInS = meetingNum.getText();
+                if (idc.checkInt(tradeIdInS) && idc.checkInt(meetingNumInS)) {
+                    int tradeId = Integer.parseInt(tradeIdInS);
+                    int meetingNum = Integer.parseInt(meetingNumInS);
+                    if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                        confirmTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, sm, guiD);
+                    } else {
+                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
+                    }
                 }
+                else{
+                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+                }
+                //GO back to main menu
+                guiD.runSave();
+                guiD.runRegularUserMainMenu(false);
+                guiD.closeWindow(contentPane);
+
             }
         });
 
@@ -57,34 +69,40 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                try {
-                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
+                onBack(guiD);
+
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    onBack(guiD, mmc, maxEditsTP, sm, guiUserInputInfo, idc);
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
+                onBack(guiD);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        editButton.addActionListener(new ActionListener() {
+        edit.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
              * @param e the event to be processed
              */
             @Override
-            public void actionPerformed(ActionEvent e) {
-                editTimeAndPlace(mmc, tradeId, meetingNum, maxEditsTP, guiUserInputInfo, idc, dtc, sm, guiD);
+            public void actionPerformed(ActionEvent e) {String tradeIdInS = tradeId.getText();
+                String meetingNumInS = meetingNum.getText();
+                if (idc.checkInt(tradeIdInS) && idc.checkInt(meetingNumInS)) {
+                    int tradeId = Integer.parseInt(tradeIdInS);
+                    int meetingNum = Integer.parseInt(meetingNumInS);
+                    if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                        editTimeAndPlace(mmc, tradeId, meetingNum, idc, dtc, maxEditsTP, sm, guiD);
+                    } else {
+                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
+                    }
+                }
+                else{
+                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+                }
                 //GO back to main menu
+                guiD.runSave();
                 guiD.runRegularUserMainMenu(false);
                 guiD.closeWindow(contentPane);
 
@@ -92,52 +110,19 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         });
     }
 
-    private void onBack(GUIDemo guiD, RegularUserMeetingMenuController mmc,
-                        int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
-                        RegularUserIDChecker idc) throws FileNotFoundException {
+    private void onBack(GUIDemo guiD) {
         // Go back to regular user main menu and close this window
         guiD.runRegularUserMeetingMenu();
         guiD.closeWindow(contentPane);
     }
     private void editTimeAndPlace(RegularUserMeetingMenuController mmc, int tradeId, int meetingNum,
-                                  int maxEditsTP, GUIUserInputInfo guiUserInputInfo, RegularUserIDChecker idc,
-                                  RegularUserDateTimeChecker dtc, SystemMessage sm, GUIDemo guiD)  {
+                                  RegularUserIDChecker idc, RegularUserDateTimeChecker dtc,
+                                  int maxEditsTP, SystemMessage sm, GUIDemo guiD)  {
         if (mmc.checkOverEdit(tradeId, meetingNum, maxEditsTP).equals("")){
-            //int year, int month, int day, int hour, int min, int sec, String place,
-            //asks for input
-            String askYear = "Please enter the year (for the new time).";
-            String input1 = guiD.getInPut(askYear);
-            String askMonth = "Please enter the month (for the new time).";
-            String input2 = guiD.getInPut(askMonth);
-            String askDay= "Please enter the day (for the new time).";
-            String input3 = guiD.getInPut(askDay);
-            String askHour = "Please enter the hour (for the new time).";
-            String input4 = guiD.getInPut(askHour);
-            String askMin = "Please enter the minute (for the new time).";
-            String input5 = guiD.getInPut(askMin);
-            String askPlace = "Please enter the new place.";
-            String place = guiD.getInPut(askPlace);
-            if (idc.checkInt(input1) && idc.checkInt(input2) && idc.checkInt(input3) &&
-            idc.checkInt(input4) && idc.checkInt(input5)){
-                int year = Integer.parseInt(input1);
-                int month = Integer.parseInt(input2);
-                int day = Integer.parseInt(input3);
-                int hour = Integer.parseInt(input4);
-                int min = Integer.parseInt(input5);
-                if (dtc.isValidDay(year, month, day) && dtc.isValidTime(hour, min)){
-                    ArrayList<Integer> time = new ArrayList<>();
-                    Collections.addAll(time, year, month, day, hour, min);
-                    if (mmc.editMeetingTandP(tradeId, meetingNum, time, place, maxEditsTP)){
-                        guiD.printNotification(sm.msgForResult(true));
-                    }
-                    else{
-                        guiD.printNotification(sm.msgForNotYourTurn());
-                    }
-                }
-            }
-            else{
-                guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-            }
+            EditMeetingWindow editMeetingWindow = new EditMeetingWindow(tradeId, meetingNum, idc, dtc, mmc, maxEditsTP,
+                    guiD, sm);
+            editMeetingWindow.run(tradeId, meetingNum, idc, dtc, mmc, maxEditsTP,
+                    guiD, sm);
         }
         else{
             guiD.printNotification(sm.lockMessageForTPLimit());
@@ -156,11 +141,10 @@ public class RegularUserCheckMeetingWindow extends JDialog {
     }
 
 
-    public void run (GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int tradeId,
-                     int meetingNum, int maxEditsTP, SystemMessage sm, GUIUserInputInfo guiUserInputInfo,
+    public void run (GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int maxEditsTP, SystemMessage sm,
                      RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
-        RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow(guiD, str, mmc, tradeId,
-                meetingNum, maxEditsTP, sm, guiUserInputInfo, dtc, idc);
+        RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow(guiD, str, mmc, maxEditsTP,
+                sm, dtc, idc);
         dialog.pack();
         dialog.setVisible(true);
         dialog.setLocationRelativeTo(null);

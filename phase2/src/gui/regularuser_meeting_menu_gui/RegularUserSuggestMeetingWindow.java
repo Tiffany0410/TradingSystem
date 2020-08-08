@@ -1,5 +1,6 @@
 package gui.regularuser_meeting_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
 import gui.GUIDemo;
 import presenter.SystemMessage;
@@ -12,14 +13,16 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextArea textArea;
+    private JTextArea textArea1;
+    private JTextField meetingNum;
+    private JTextField tradeId;
 
-    public RegularUserSuggestMeetingWindow(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                                           int meetingNum, int maxEditsTP, GUIDemo guiD) {
-        textArea.setText(str);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+    public RegularUserSuggestMeetingWindow(String str, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                                           int maxEditsTP, GUIDemo guiD, RegularUserIDChecker idc) {
+        textArea1.setText(str);
+        textArea1.setEditable(false);
+        textArea1.setLineWrap(true);
+        textArea1.setBackground(new Color(242,242,242));
 
         setContentPane(contentPane);
         setModal(true);
@@ -27,7 +30,7 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(mmc, sm, tradeId, meetingNum, maxEditsTP, guiD);
+                onOK(mmc, sm, maxEditsTP, guiD, idc);
             }
         });
 
@@ -53,10 +56,25 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                      int meetingNum, int maxEditsTP, GUIDemo guiD) {
-        boolean ok = mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP);
+    private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int maxEditsTP, GUIDemo guiD,
+                      RegularUserIDChecker idc) {
+        boolean ok = false;
+        String tradeIdInS = tradeId.getText();
+        String meetingNumInS = meetingNum.getText();
+        if (idc.checkInt(tradeIdInS) && idc.checkInt(meetingNumInS)) {
+            int tradeId = Integer.parseInt(tradeIdInS);
+            int meetingNum = Integer.parseInt(meetingNumInS);
+            if (mmc.checkValidMeeting(tradeId, meetingNum)) {
+                ok = mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP);
+            } else {
+                guiD.printNotification(sm.tryAgainMsgForWrongInput());
+            }
+        }
+        else{
+            guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+        }
         sm.msgForResult(ok);
+        guiD.runSave();
         guiD.closeWindow(contentPane);
     }
 
@@ -65,10 +83,10 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         guiD.closeWindow(contentPane);
     }
 
-    public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm, int tradeId,
-                    int meetingNum, int maxEditsTP, GUIDemo guiD) {
-        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str,mmc, sm, tradeId,
-        meetingNum, maxEditsTP, guiD);
+    public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm,
+                    int maxEditsTP, GUIDemo guiD, RegularUserIDChecker idc) {
+        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str, mmc, sm, maxEditsTP,
+                guiD, idc);
         dialog.pack();
         dialog.setVisible(true);
         dialog.setLocationRelativeTo(null);
