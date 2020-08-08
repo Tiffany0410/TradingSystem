@@ -34,25 +34,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = regularUserSearchingMenuController.listCategory();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
-
-                String category = guiUserInputInfo.getTempUserInput();
-                try {
-                    Category ca = Category.valueOf(category);
-                    ArrayList<Integer> c = itemManager.getCategoryItem(ca);
-                if (c.size() == 0) {
-                    systemMessage.msgForNothing();
-                } else {
-                    systemMessage.printResult(new ArrayList<>(c));
-                }
-                }catch(Exception ex){
-                    systemMessage.invalidInput();
-                }
-
-                //close this window
-                guiDemo.closeWindow(rootPanel);
+                RegularUserSearchingItemByCatWindow window = new
+                        RegularUserSearchingItemByCatWindow(regularUserSearchingMenuController, systemMessage, guiDemo);
+                window.run(regularUserSearchingMenuController, systemMessage, guiDemo);
             }
         });
         searchItemByNameButton.addActionListener(new ActionListener() {
