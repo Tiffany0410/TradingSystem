@@ -30,7 +30,7 @@ public class RegularUserCreateAccountGUI {
                 boolean result = accountCreator.createAccount("Regular", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
 
-                guiDemo.printNotification( "Create account " + systemMessage.printResult(result));
+                guiDemo.printNotification( "Create Account " + systemMessage.printResult(result));
                 guiDemo.runSave();
                 guiDemo.runTradingSystemInitMenuGUI();
                 guiDemo.closeWindow(rootPanel);

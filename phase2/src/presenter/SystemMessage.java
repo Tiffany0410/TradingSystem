@@ -383,9 +383,9 @@ public class SystemMessage {
         return "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
     }
 
-    public String msgForSetTradable(boolean validator, int status){
+    public String msgForSetTradable(boolean validator, boolean status){
         String tradable_status;
-        if (status == 1){
+        if (status){
             tradable_status = "tradable";
         }
         else {
