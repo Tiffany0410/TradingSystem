@@ -5,8 +5,6 @@ import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import managers.trademanager.Trade;
 import presenter.SystemMessage;
 

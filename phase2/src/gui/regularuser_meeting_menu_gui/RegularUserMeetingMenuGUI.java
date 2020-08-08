@@ -1,13 +1,9 @@
 package gui.regularuser_meeting_menu_gui;
 
 import controllers.regularusersubcontrollers.*;
-import exception.InvalidIdException;
 import gui.GUIDemo;
 import gui.GUIUserInputInfo;
-import gui.NotificationGUI;
-import gui.UserInputGUI;
 import managers.meetingmanager.Meeting;
-import managers.trademanager.Trade;
 import presenter.SystemMessage;
 
 import javax.swing.*;

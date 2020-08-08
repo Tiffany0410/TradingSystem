@@ -344,8 +344,14 @@ public class GUIDemo {
     public String getUserInput(){return this.guiUserInputInfo.getTempUserInput();}
 
     public void printNotification(String string) {
-        NotificationGUI notificationGUI = new NotificationGUI(string);
-        notificationGUI.run(string);
+
+        if (string.contains("\n")){
+        LongNotificationGUI longNotificationGUI = new LongNotificationGUI(string);
+        longNotificationGUI.run(string);}
+        else{
+            NotificationGUI notificationGUI = new NotificationGUI(string);
+            notificationGUI.run(string);
+        }
     }
 
     public String getInPut(String string) {
