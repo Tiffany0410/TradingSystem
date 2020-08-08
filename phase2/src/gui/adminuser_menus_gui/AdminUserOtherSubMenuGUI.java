@@ -21,6 +21,7 @@ public class AdminUserOtherSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runAdminUserCreateAccount();
+                guiDemo.runSave();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
             }
