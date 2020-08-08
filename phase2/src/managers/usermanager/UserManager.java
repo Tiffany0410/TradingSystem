@@ -653,7 +653,6 @@ public class UserManager implements Serializable {
         if (person1 != null && person2 != null){
             person1.addToFriends(user2);
             person2.addToFriends(user1);
-            return true;
         }
         String[] toRemove = {};
         for (String[] request: listFriendRequest){
@@ -665,6 +664,7 @@ public class UserManager implements Serializable {
         }
         if (toRemove.length != 0) {
             listFriendRequest.remove(toRemove);
+            return true;
         }
         return false;
     }
