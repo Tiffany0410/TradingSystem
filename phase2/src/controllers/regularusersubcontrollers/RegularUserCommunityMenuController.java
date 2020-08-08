@@ -136,13 +136,6 @@ public class RegularUserCommunityMenuController {
             return requestOrNot;
     }
 
-    /** check if there has friend request for the user
-     * @return true if there is no friend request
-     */
-    public boolean checkEmptyFR(){
-        return getFriendRequest().isEmpty();
-    }
-
     /** get a list of user who send a friend request to the user.
      * @return a list of user who send a friend request to the user.
      */

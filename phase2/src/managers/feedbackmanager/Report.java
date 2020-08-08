@@ -36,20 +36,6 @@ public class Report implements Serializable {
         return reporterId;
     }
 
-    /** get the reason
-     * @return the reason for the report
-     */
-    public String getReason(){
-        return reason;
-    }
-
-    /** set the reason
-     * @param reason the reason for the report
-     */
-    public void setReason(String reason){
-        this.reason =reason;
-    }
-
     /** get a string describe the report
      * @return a string for a report
      */

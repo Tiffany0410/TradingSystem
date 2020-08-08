@@ -46,27 +46,6 @@ public class Review implements Serializable {
         return point;
     }
 
-    /** get the reason
-     * @return the reason for the review
-     */
-    public String getReason(){
-        return reason;
-    }
-
-    /** set the point
-     * @param point the point of the review
-     */
-    public void setPoint(int point){
-        this.point = point;
-    }
-
-    /** set the reason
-     * @param reason the reason for the review
-     */
-    public void setReason(String reason){
-        this.reason =reason;
-    }
-
     /** get a string describe the review
      * @return a string for a review
      */

@@ -1,8 +1,6 @@
 package managers.feedbackmanager;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * An instance of this class represents the feedback from users
@@ -19,20 +17,6 @@ public class FeedbackManager implements Serializable {
     public FeedbackManager(){
         listReport = new ArrayList<>();
         listReview = new ArrayList<>();
-    }
-
-    /** getter for list of report
-     * @return the list of report
-     */
-    public ArrayList<Report> getListReport(){
-        return listReport;
-    }
-
-    /** getter for list of review
-     * @return the list of review
-     */
-    public ArrayList<Review> getListReview(){
-        return listReview;
     }
 
     /** add the new review with the given user ids, the point and the reason.
@@ -174,27 +158,4 @@ public class FeedbackManager implements Serializable {
             if(review.getReceiverId() == receiverId){
                 return true;
             }
-        }return false; }
-
-    /** get a string to describe the list of reviews
-     * @param reviews the list of reviews
-     * @return a string describe the list of reviews
-     */
-     public String printReviews(ArrayList<Review> reviews){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(Review review: reviews){
-            stringBuilder.append(review.toString());
-            stringBuilder.append("\n");
-        }return stringBuilder.toString();
-    }
-    /** get a string to describe the list of reports
-     * @param reports the list of reports
-     * @return a string describe the list of reports
-     */
-    public String printReports(ArrayList<Report> reports){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(Report report: reports){
-            stringBuilder.append(report.toString());
-            stringBuilder.append("\n");
-        }return stringBuilder.toString();
-}}
+        }return false; }}

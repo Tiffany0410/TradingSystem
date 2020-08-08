@@ -4,6 +4,7 @@ import managers.trademanager.TradeManager;
 
 import java.util.*;
 
+
 /**
  * An instance of this class represents the list of meetings
  * @author Jianhong Guo
@@ -297,19 +298,6 @@ public class MeetingManager implements java.io.Serializable{
              return true;
          }return false;
      }
-
-
-    /** get a string that describe the list of meeting
-     * @param meetings the list of meetings
-     * @return a string that describe the list of meetings
-     */
-    public String stringForListMeeting(List<Meeting> meetings){
-        StringBuilder string1 = new StringBuilder();
-        for(Meeting meeting: meetings){
-            string1.append(meeting.toString());
-            string1.append("\n");
-        }return string1.toString();
-    }
 
     /** check if the user's turn to edit time and place.
      * @param meeting the meeting
