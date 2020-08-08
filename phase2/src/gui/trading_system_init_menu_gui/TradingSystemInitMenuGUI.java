@@ -67,6 +67,7 @@ public class TradingSystemInitMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //Create account
                 guiDemo.runRegularUserCreateAccount();
+                guiDemo.closeWindow(panel1);
             }
         });
         exitButton.addActionListener(new ActionListener() {

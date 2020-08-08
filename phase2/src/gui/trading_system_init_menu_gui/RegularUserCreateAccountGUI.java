@@ -2,6 +2,7 @@ package gui.trading_system_init_menu_gui;
 
 import controllers.AccountCreator;
 import gui.GUIDemo;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class RegularUserCreateAccountGUI {
     private JButton createButton1;
     private JComboBox comboBox1;
 
-    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo) {
+    public RegularUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage) {
         createButton1.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -26,8 +27,10 @@ public class RegularUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                accountCreator.createAccount("Regular", usernameTextField.getText(),
+                boolean result = accountCreator.createAccount("Regular", usernameTextField.getText(),
                         new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
+
+                guiDemo.printNotification( "Create account " + systemMessage.printResult(result));
                 guiDemo.runSave();
                 guiDemo.runTradingSystemInitMenuGUI();
                 guiDemo.closeWindow(rootPanel);
@@ -47,9 +50,9 @@ public class RegularUserCreateAccountGUI {
         });
     }
 
-    public void run(AccountCreator accountCreator, GUIDemo guiDemo) {
+    public void run(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("regularUserCreateAccount");
-        frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, guiDemo).rootPanel);
+        frame.setContentPane(new RegularUserCreateAccountGUI(accountCreator, guiDemo, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(300,300));
         frame.pack();

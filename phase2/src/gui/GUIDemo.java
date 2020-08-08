@@ -129,8 +129,8 @@ public class GUIDemo {
 
     public void runRegularUserCreateAccount() {
         RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator,
-                this);
-        regularUserCreateAccountGUI.run(this.accountCreator, this);
+                this, this.systemMessage);
+        regularUserCreateAccountGUI.run(this.accountCreator, this, this.systemMessage);
     }
 
 

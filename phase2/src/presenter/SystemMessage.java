@@ -112,13 +112,11 @@ public class SystemMessage {
         }
     }
 
-    public void printResult(String string, boolean result) {
+    public String printResult(String string, boolean result) {
         if (result) {
-            printOut(string + " is sent successfully");
-            printOut("\n");
+            return string + " is sent successfully";
         } else {
-            printOut(string + " fails to be sent");
-            printOut("\n");
+            return string + " fails to be sent";
         }
     }
 
