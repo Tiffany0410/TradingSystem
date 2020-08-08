@@ -54,6 +54,7 @@ public class RegularUserCommunityMenuGUI {
                     RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm);
                     window.run(guidemo, idC, otherChecker, cmc, sm);
                 }
+                guidemo.runSave();
             }
         });
 
@@ -67,6 +68,7 @@ public class RegularUserCommunityMenuGUI {
                     RegularUserCommunityReportAUser report = new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo);
                     report.run(sm, idC, cmc, guidemo);
                 }
+                guidemo.runSave();
             }
         });
 
@@ -80,7 +82,7 @@ public class RegularUserCommunityMenuGUI {
                     RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
                     window.run(guidemo, cmc, idC);
                     }
-                }
+            }
         });
 
         seeUsersInYourButton.addActionListener(new ActionListener() {
@@ -146,6 +148,7 @@ public class RegularUserCommunityMenuGUI {
                         guidemo.printNotification(sm.msgForNo("tradable users can be added"));
                     }
                 }
+                guidemo.runSave();
             }
         });
 
@@ -167,6 +170,7 @@ public class RegularUserCommunityMenuGUI {
                         guidemo.printNotification(sm.msgForNo("requests to be responded"));
                     }
                 }
+                guidemo.runSave();
             }
         });
 
@@ -188,7 +192,7 @@ public class RegularUserCommunityMenuGUI {
                     else{
                         guidemo.printNotification(sm.msgForNo("tradable users to be unfriended"));
                     }
-
+                    guidemo.runSave();
                 }
             }
         });
@@ -207,7 +211,7 @@ public class RegularUserCommunityMenuGUI {
                     else{
                         guidemo.printNotification(sm.msgForNo("friends, please add friends first."));
                     }
-
+                    guidemo.runSave();
                 }
             }
         });

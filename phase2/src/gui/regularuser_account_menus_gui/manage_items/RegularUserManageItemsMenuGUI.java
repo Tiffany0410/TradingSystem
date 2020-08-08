@@ -59,6 +59,7 @@ public class RegularUserManageItemsMenuGUI {
                     ArrayList<Item> tradable = amc.getAllTradableFromOther();
                     addToWishlist(tradable, sm, guiInput, idChecker, amc, guiDemo);
                 }
+                guiDemo.runSave();
             }
         });
 
@@ -72,6 +73,7 @@ public class RegularUserManageItemsMenuGUI {
                     ArrayList<Item> items = amc.getWishList();
                     removeFrom(amc, sm, guiInput, idChecker, items, "wishlist", guiDemo);
                 }
+                guiDemo.runSave();
             }
         });
 
@@ -85,6 +87,7 @@ public class RegularUserManageItemsMenuGUI {
                     ArrayList<Item> items = amc.getInventory();
                     removeFrom(amc, sm, guiInput, idChecker, items, "inventory", guiDemo);
                 }
+                guiDemo.runSave();
             }
         });
 
@@ -98,6 +101,7 @@ public class RegularUserManageItemsMenuGUI {
                     RegularUserRequestItemWindow window = new RegularUserRequestItemWindow(guiDemo, amc, otherInfoChecker);
                     window.run(guiDemo, amc, otherInfoChecker);
                 }
+                guiDemo.runSave();
             }
         });
 
@@ -148,6 +152,7 @@ public class RegularUserManageItemsMenuGUI {
                         String setTradable_input = getStatus(sm, guiInput, guiDemo);
                         setTradable(itemId_input, setTradable_input, idChecker, sm, amc, guiDemo);
                     }
+                    guiDemo.runSave();
                 }
             }
         });
