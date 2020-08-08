@@ -6,9 +6,9 @@ import controllers.adminusersubcontrollers.*;
 import controllers.regularusersubcontrollers.*;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
-import gui.regularuser_account_menus_gui.RegularUserAccountSettingsMenuGUI;
+import gui.regularuser_account_menus_gui.account_settings.RegularUserAccountSettingsMenuGUI;
 import gui.regularuser_account_menus_gui.RegularUserFollowMenuGUI;
-import gui.regularuser_account_menus_gui.RegularUserManageItemsMenuGUI;
+import gui.regularuser_account_menus_gui.manage_items.RegularUserManageItemsMenuGUI;
 import gui.regularuser_community_menu_gui.RegularUserCommunityMenuGUI;
 import gui.regularuser_main_menu_gui.RegularUserMainMenuGUI;
 import gui.regularuser_meeting_menu_gui.RegularUserMeetingMenuGUI;
@@ -28,7 +28,6 @@ import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class GUIDemo {

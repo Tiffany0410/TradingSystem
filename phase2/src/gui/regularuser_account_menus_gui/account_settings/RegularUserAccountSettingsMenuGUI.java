@@ -1,4 +1,4 @@
-package gui.regularuser_account_menus_gui;
+package gui.regularuser_account_menus_gui.account_settings;
 
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
