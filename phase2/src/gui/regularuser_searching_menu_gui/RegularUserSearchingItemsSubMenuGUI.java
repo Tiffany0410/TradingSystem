@@ -59,9 +59,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 ArrayList<Integer> c = regularUserSearchingMenuController.searchItemByName(guiDemo.getUserInput());
 
                 if (c.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(c));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(c)));
                 }
 
                 //close this window
