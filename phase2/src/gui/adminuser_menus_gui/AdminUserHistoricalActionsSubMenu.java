@@ -57,26 +57,32 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = "Here are all the TradableUser: \n";
+                String info = "Here are all the TradableUser: \n";
                 ArrayList<TradableUser> allUser = hac.getAllTradableUser();
 
                 //print all tradable user
-                string = string + sm.printListUser(allUser);
+                info = info + sm.printListUser(allUser);
 
                 //get the user username enter by admin
-                string = string + "\n Please enter the username: ";
-                String username = guiDemo.getInPut(string);
-                int userID = hac.getUserID(username);
-                ArrayList<Action> allAction;
+                String inputName =  "Please enter the username: ";
+                int option = 3;
 
-                if (hac.checkUser(username)) {
-                    allAction = hac.searchRevocableActionByUserID(userID);
-                    printObjects(allAction, sm, guiDemo);
-                    guiDemo.runSave();
-                }
-                else {
-                    guiDemo.printNotification("Please enter correct username");
-                }
+                AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
+                        inputName, info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
+
+//                String username = guiDemo.getInPut(string);
+//                int userID = hac.getUserID(username);
+//                ArrayList<Action> allAction;
+//
+//                if (hac.checkUser(username)) {
+//                    allAction = hac.searchRevocableActionByUserID(userID);
+//                    printObjects(allAction, sm, guiDemo);
+//                    guiDemo.runSave();
+//                }
+//                else {
+//                    guiDemo.printNotification("Please enter correct username");
+//                }
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -87,28 +93,34 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = "Please enter the ID of action that you want to cancel: \n";
+                String inputName = "Please enter the ID of action that you want to cancel: ";
+                String info = "Here is Cancel the revocable historical actions of tradableUser by actionID window";
+                int option = 4;
 
-                try {
-                    String userInput = guiDemo.getInPut(string);
-                    int actionID = Integer.parseInt(userInput);
+                AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
+                        inputName, info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
 
-                    boolean flag = false;
-                    Action targetAction = hac.findActionByID(actionID);
-
-                    // check if the action id in current revocable list
-                    if (hac.checkRevocable(targetAction)) {
-                        if (hac.cancelRevocableAction(targetAction)) {
-                            guiDemo.printNotification("Successfully delete target action");
-                            guiDemo.runSave();
-                        }
-                    } else {
-                        guiDemo.printNotification("Please enter correct actionID");
-                    }
-
-                } catch (NumberFormatException ex){
-                    guiDemo.printNotification(sm.printInvalidID());
-                }
+//                try {
+//                    String userInput = guiDemo.getInPut(string);
+//                    int actionID = Integer.parseInt(userInput);
+//
+//                    boolean flag = false;
+//                    Action targetAction = hac.findActionByID(actionID);
+//
+//                    // check if the action id in current revocable list
+//                    if (hac.checkRevocable(targetAction)) {
+//                        if (hac.cancelRevocableAction(targetAction)) {
+//                            guiDemo.printNotification("Successfully delete target action");
+//                            guiDemo.runSave();
+//                        }
+//                    } else {
+//                        guiDemo.printNotification("Please enter correct actionID");
+//                    }
+//
+//                } catch (NumberFormatException ex){
+//                    guiDemo.printNotification(sm.printInvalidID());
+//                }
 
             }
         });
@@ -123,30 +135,36 @@ public class AdminUserHistoricalActionsSubMenu {
                 Map<Integer, Integer> undoRequests = new HashMap<>(hac.getUndoRequest());
 
                 //print whole map(key is actionID, value is regularUser id)
-                String string = undoRequests.toString();
+                String info = undoRequests.toString();
 
-                string = string + "Please enter the ID of action that you want to cancel: \n";
+                String inputName = "Please enter the ID of action that you want to cancel: \n";
 
-                //get the actionID enter by admin
-                try {
-                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
+                int option = 5;
 
+                AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
+                        inputName, info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
 
-                    boolean flag = false;
-                    if (hac.checkUndoRequest(actionID)) {
-                        flag = hac.confirmRequestAndCancelAction(actionID);
-                    } else {
-                        guiDemo.printNotification("Please enter correct actionID");
-                    }
-
-                    if (flag) {
-                        guiDemo.runSave();
-                        guiDemo.printNotification("Successfully delete target action");
-                    }
-
-                } catch (NumberFormatException ex){
-                    sm.printInvalidID();
-                }
+//                //get the actionID enter by admin
+//                try {
+//                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
+//
+//
+//                    boolean flag = false;
+//                    if (hac.checkUndoRequest(actionID)) {
+//                        flag = hac.confirmRequestAndCancelAction(actionID);
+//                    } else {
+//                        guiDemo.printNotification("Please enter correct actionID");
+//                    }
+//
+//                    if (flag) {
+//                        guiDemo.runSave();
+//                        guiDemo.printNotification("Successfully delete target action");
+//                    }
+//
+//                } catch (NumberFormatException ex){
+//                    sm.printInvalidID();
+//                }
 
 
             }
