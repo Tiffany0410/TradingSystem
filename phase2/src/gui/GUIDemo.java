@@ -295,10 +295,9 @@ public class GUIDemo {
 
         int maxNumTPEdits = thresholdValues.get(3);
         RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(this,
-                this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,this.guiUserInputInfo,
-                this.regularUserIDChecker,this.regularUserDateTimeChecker);
+                this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits, this.regularUserIDChecker,this.regularUserDateTimeChecker);
         regularUserMeetingMenuGUI.run(this, this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,
-                this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserDateTimeChecker);
+                this.regularUserIDChecker,this.regularUserDateTimeChecker);
     }
 
     public void runRegularUserSearchingMenuGUI() {

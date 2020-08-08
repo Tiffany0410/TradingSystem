@@ -39,8 +39,8 @@ public class AdminUserManageUsersSubMenuGUI {
                 if (!regularUserName.equals("User inputs nothing")) {
                     String result = muc.freezeUser(regularUserName);
                     guiDemo.printNotification(result);
-                    guiDemo.runSave();
                 }
+                guiDemo.runSave();
 
             }
         });
