@@ -10,6 +10,7 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RegularUserAccountSettingsMenuGUI {
@@ -34,6 +35,11 @@ public class RegularUserAccountSettingsMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
                 win.run(guiD, sm, atc);
+                try {
+                    guiD.runSave();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         setYourOnVacationButton.addActionListener(new ActionListener() {
