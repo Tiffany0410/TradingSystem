@@ -208,6 +208,15 @@ public class AdminUserHistoricalActionController {
      * @return true if successfully cancel target action, vice versa
      */
     public boolean cancelRevocableAction(Action targetAction) {
+
+        int actionID = targetAction.getActionID();
+        // delete action from current Revocable Action List in ActionManager
+        am.deleteAction(actionID);
+        // add action into deleted Revocable Action List in ActionManager
+        am.addActionToDeletedRevocableList(targetAction);
+        // add action into All Historical Action List in ActionManager
+        am.addActionToAllActionsList(userId, "adminUser", "3.4", actionID, "");
+
         String[] menuOption = targetAction.getMenuOption().split("\\.");
         int mainOption = Integer.parseInt(menuOption[0]);
         int subOption = Integer.parseInt(menuOption[1]);
@@ -227,14 +236,6 @@ public class AdminUserHistoricalActionController {
             case 5:
                 return helper_cancelCommunityMenu(targetAction, subOption);
         }
-
-        int actionID = targetAction.getActionID();
-        // delete action from current Revocable Action List in ActionManager
-        am.deleteAction(actionID);
-        // add action into deleted Revocable Action List in ActionManager
-        am.addActionToDeletedRevocableList(targetAction);
-        // add action into All Historical Action List in ActionManager
-        am.addActionToAllActionsList(userId, "adminUser", "3.4", actionID, "");
         return false;
     }
 
