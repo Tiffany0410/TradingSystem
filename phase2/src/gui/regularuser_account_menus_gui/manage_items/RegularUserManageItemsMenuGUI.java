@@ -9,7 +9,6 @@ import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,10 +27,10 @@ public class RegularUserManageItemsMenuGUI {
     private JButton backButton;
 
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
-                    RegularUserIDChecker idChecker, RegularUserAccountMenuController acm,
+                    RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                     RegularUserOtherInfoChecker otherInfoChecker) {
         JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
-        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, acm,
+        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, amc,
                 otherInfoChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();

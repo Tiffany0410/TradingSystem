@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import gui.GUIDemo;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Category;

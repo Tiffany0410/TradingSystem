@@ -2,10 +2,8 @@ package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
-import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
-import gui.regularuser_account_menus_gui.manage_items.RegularUserManageItemsTradableStatusWindow;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -45,10 +43,12 @@ public class AdminUserManageUsersConfirmInventoryWindow {
                         if (approvedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, true);
                             guiDemo.printNotification(sm.msgForResult(true));
+                            guiDemo.runSave();
                         }
                         else if (notApprovedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, false);
                             guiDemo.printNotification(sm.msgForResult(true));
+                            guiDemo.runSave();
                         }
                         else{
                             guiDemo.printNotification("Please select approve or not.");

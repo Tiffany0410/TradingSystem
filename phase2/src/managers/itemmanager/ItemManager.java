@@ -42,6 +42,11 @@ public class ItemManager implements Serializable {
         return listItem;
     }
 
+
+    public boolean deleteItemFromListItemToAdd(Item targetItem) {
+        return  listItemToAdd.remove(targetItem);
+    }
+
     /**
      * Return a list of tradable items
      * @return a list of tradable items
@@ -197,6 +202,23 @@ public class ItemManager implements Serializable {
         }
         return listId;
     }
+
+    /**
+     * Return a list of IDs for a given item which waiting for add
+     * @param item The item object
+     * @return a list of IDs (Item's Id, Owner's Id, Current Holder's ID)
+     */
+    public ArrayList<Integer> getIDFromWaitingItem(Item item){
+        ArrayList<Integer> listId = new ArrayList<>();
+        for (Item temp: listItemToAdd){
+            if (temp.getItemId() == item.getItemId()){
+                listId.add(item.getItemId());
+                listId.add(item.getOwnerId());
+            }
+        }
+        return listId;
+    }
+
 
     /**
      * Return a list of corresponding Ids for items

@@ -319,8 +319,9 @@ public class SystemMessage {
 
     public String printListObject(ArrayList<Object> objects){
         StringBuilder out = new StringBuilder();
+        if (objects.isEmpty()) {return "\n";}
         for (Object object: objects){
-            out.append(object.toString());
+            if (object != null) {out.append(object.toString());}
         }
         return out.toString();
     }
