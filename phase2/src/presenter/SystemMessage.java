@@ -296,7 +296,7 @@ public class SystemMessage {
     public String printListUser(ArrayList<TradableUser> listOfUser) {
         StringBuilder stringBuilder = new StringBuilder();
         for (TradableUser user : listOfUser) {
-            stringBuilder.append("ID").append( user.getId()).append(". ").append(user.getUsername()).append("\n");
+            stringBuilder.append("Tradable User ID #").append(user.getId()).append(" with username: ").append(user.getUsername()).append("\n");
         } return stringBuilder.toString();
     }
 

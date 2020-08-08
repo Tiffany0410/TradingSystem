@@ -67,15 +67,16 @@ public class AdminUserHistoricalActionsSubMenu {
                 string = string + "\n Please enter the username: ";
                 String username = guiDemo.getInPut(string);
                 int userID = hac.getUserID(username);
-                ArrayList<Action> allAction = new ArrayList<>();
+                ArrayList<Action> allAction;
+
                 if (hac.checkUser(username)) {
                     allAction = hac.searchRevocableActionByUserID(userID);
+                    printObjects(allAction, sm, guiDemo);
+                    guiDemo.runSave();
                 }
                 else {
                     guiDemo.printNotification("Please enter correct username");
                 }
-                printObjects(allAction, sm, guiDemo);
-                guiDemo.runSave();
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
@@ -99,6 +100,7 @@ public class AdminUserHistoricalActionsSubMenu {
                     } else {
                         guiDemo.printNotification("Please enter correct actionID");
                     }
+
                     if (flag) {
                         guiDemo.runSave();
                         guiDemo.printNotification("Successfully delete target action");
@@ -168,7 +170,7 @@ public class AdminUserHistoricalActionsSubMenu {
 
     private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
         if (actions.isEmpty()){
-            guiDemo.printNotification(sm.msgForNothing("here."));
+            guiDemo.printNotification(sm.msgForNothing("here"));
         }
         else{
             String str = sm.printHistoricalAction(new ArrayList<>(actions));
