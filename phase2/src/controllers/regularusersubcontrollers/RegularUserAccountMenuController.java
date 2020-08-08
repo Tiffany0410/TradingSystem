@@ -373,7 +373,7 @@ public class RegularUserAccountMenuController {
         //Save UserManager
         frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
         //Save ItemManager
-        frw.saveManagerToFile(im, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
+        frw.saveManagerToFile(im, "./configs/serializedmanagersfiles/SerializedItemManager.ser");
         //Save ActionManager
         frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
     }
