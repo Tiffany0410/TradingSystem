@@ -25,7 +25,14 @@ public class RegularUserCommunityReportAUser {
                 String userId = idField.getText();
                 String reason = reasonArea.getText();
                 if (idC.checkInt(userId)) {
-                    guidemo.printNotification(sm.msgForResult(cmc.reportUser(Integer.parseInt(userId), reason)));
+                    boolean sOrF = cmc.reportUser(Integer.parseInt(userId),reason);
+                    if(cmc.getUserId()==Integer.parseInt(userId)){
+                        guidemo.printNotification("Fail. Please do not report yourself.");}
+                    else if(sOrF){
+                        guidemo.printNotification(sm.msgForResult(true));}
+                    else if(idC.checkUserID(Integer.parseInt(userId)))
+                    {guidemo.printNotification("Fail. You have reported this user.");}
+                    else{guidemo.printNotification("Fail. This user does not exist.");}
                     guidemo.closeWindow(rootPanel);
                 }
                 else {

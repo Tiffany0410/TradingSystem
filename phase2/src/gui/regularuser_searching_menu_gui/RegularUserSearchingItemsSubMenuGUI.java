@@ -34,25 +34,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = regularUserSearchingMenuController.listCategory();
-                UserInputGUI userInputGUI = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI.run(string, guiUserInputInfo);
-
-                String category = guiUserInputInfo.getTempUserInput();
-                try {
-                    Category ca = Category.valueOf(category);
-                    ArrayList<Integer> c = itemManager.getCategoryItem(ca);
-                if (c.size() == 0) {
-                    systemMessage.msgForNothing();
-                } else {
-                    systemMessage.printResult(new ArrayList<>(c));
-                }
-                }catch(Exception ex){
-                    systemMessage.invalidInput();
-                }
-
-                //close this window
-                guiDemo.closeWindow(rootPanel);
+                RegularUserSearchingItemByCatWindow window = new
+                        RegularUserSearchingItemByCatWindow(regularUserSearchingMenuController, systemMessage, guiDemo);
+                window.run(regularUserSearchingMenuController, systemMessage, guiDemo);
             }
         });
         searchItemByNameButton.addActionListener(new ActionListener() {
@@ -75,9 +59,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 ArrayList<Integer> c = regularUserSearchingMenuController.searchItemByName(guiDemo.getUserInput());
 
                 if (c.size() == 0) {
-                    systemMessage.msgForNothing();
+                    guiDemo.printNotification(systemMessage.msgForNothing());
                 } else {
-                    systemMessage.printResult(new ArrayList<>(c));
+                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(c)));
                 }
 
                 //close this window
@@ -126,9 +110,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
-                systemMessage.printItemResult(items);
-
-                //close this window
+                guiDemo.printNotification(systemMessage.printItemResult(items));
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -140,10 +122,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close this window
                 guiDemo.closeWindow(rootPanel);
-
-                // call next window
                 guiDemo.runRegularUserSearchingMenuGUI();
             }
         });
@@ -155,7 +134,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");
         frame.setContentPane(new RegularUserSearchingItemsSubMenuGUI(regularUserSearchingMenuController, guiDemo,
                 guiUserInputInfo, itemManager, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

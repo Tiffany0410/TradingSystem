@@ -170,10 +170,9 @@ public class GUIDemo {
     public void runAdminUserEditThresholdsSubMenu() {
 
         AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
-                this.guiUserInputInfo, this.adminUserEditThresholdsController, this.systemMessage);
+                this.adminUserEditThresholdsController);
 
-        adminUserEditThresholdsSubMenuGUI.run(this, this.guiUserInputInfo, this.adminUserEditThresholdsController,
-                this.systemMessage);
+        adminUserEditThresholdsSubMenuGUI.run(this,this.adminUserEditThresholdsController);
 
     }
 
@@ -411,6 +410,10 @@ public class GUIDemo {
                     "is not saved.");
         }
 
+    }
+
+    public void printInvalidNumber() {
+        this.systemMessage.invalidNumber();
     }
 }
 
