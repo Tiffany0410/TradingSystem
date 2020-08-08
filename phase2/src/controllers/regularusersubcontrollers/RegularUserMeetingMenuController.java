@@ -1,12 +1,10 @@
 package controllers.regularusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,7 +18,6 @@ public class RegularUserMeetingMenuController {
     private TradeManager tm;
     private MeetingManager mm;
     private ActionManager am;
-    private FilesReaderWriter frw;
     private int userId;
 
     /**
@@ -37,7 +34,6 @@ public class RegularUserMeetingMenuController {
         this.mm = mm;
         this.am = am;
         this.userId = userId;
-        this.frw = new FilesReaderWriter();
     }
 
 
@@ -163,19 +159,6 @@ public class RegularUserMeetingMenuController {
      */
     public Meeting getMeeting(int tradeId, int numMeeting){
         return mm.getMeetingByIdNum(tradeId, numMeeting);
-    }
-
-    /**
-     * Update each related Managers
-     *
-     */
-    public void save() throws IOException {
-        //Save TradeManager
-        frw.saveManagerToFile(tm, "./configs/serializedmanagersfiles/SerializedTradeManager.ser");
-        //Save ActionManager
-        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
-        //Save MeetingManager
-        frw.saveManagerToFile(mm, "./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
     }
 }
 

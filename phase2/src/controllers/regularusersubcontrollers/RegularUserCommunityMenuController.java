@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.messagemanger.Message;
@@ -8,7 +7,6 @@ import managers.messagemanger.MessageManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +18,6 @@ public class RegularUserCommunityMenuController {
     private MessageManager messageManager;
     private String username;
     private int userId;
-    private FilesReaderWriter frw;
 
 
     /**
@@ -36,7 +33,6 @@ public class RegularUserCommunityMenuController {
         this.username = username;
         this.userId = um.usernameToID(this.username);
         this.messageManager = messageManager;
-        this.frw = new FilesReaderWriter();
     }
 
     /** getter for user id
@@ -213,18 +209,4 @@ public class RegularUserCommunityMenuController {
         return messageManager.getMessageFor(userId);
     }
 
-    /**
-     * Update each related Managers
-     *
-     */
-    public void save() throws IOException {
-        //Save UserManager
-        frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-        //Save ActionManager
-        frw.saveManagerToFile(am, "./configs/serializedmanagersfiles/SerializedActionManager.ser");
-        //Save FeedbackManager
-        frw.saveManagerToFile(fm, "./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
-        //Same MessageManager
-        frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
-    }
 }
