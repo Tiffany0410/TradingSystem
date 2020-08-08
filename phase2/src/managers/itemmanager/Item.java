@@ -158,7 +158,7 @@ public class Item implements PropertyChangeListener, Serializable {
      * @return A string description of this item
      */
     public String toString() {
-        return "This " + name + " with ID " + itemId + " is: " + description + ".\n" +
+        return "Item id " + itemId + " : " + name + " \nDescription: " + description + "\n" +
                 "Owner's ID is " + ownerId + " and current holder's ID is " + currHolderId + "."
                 + " Tradable = " + getTradable() + ".\n";
     }

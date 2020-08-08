@@ -72,7 +72,7 @@ public class AdminUserManageUsersSubMenuGUI {
                 else{
                     String string = "Here's a list of items-to-add requests:\n" +
                             sm.printListNumberedObject(new ArrayList<>(listItemToAdd)) +
-                            "Please enter the number beside the # of the request you want to act on: \n";
+                            "\nPlease enter the number beside the # of the request you want to act on: \n";
                     AdminUserManageUsersConfirmInventoryWindow window = new
                             AdminUserManageUsersConfirmInventoryWindow(string, listItemToAdd, muc, guiDemo, sm, idc, oic);
                     window.run(string, listItemToAdd, muc, guiDemo, sm, idc, oic);
