@@ -60,8 +60,9 @@ public class LongNotificationGUI extends JDialog {
         LongNotificationGUI dialog = new LongNotificationGUI(string);
         dialog.setPreferredSize(new Dimension(500, 400));
         dialog.pack();
-        dialog.setVisible(true);
         dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
     }
 
 }
