@@ -147,17 +147,18 @@ public class SystemMessage {
                 notification.append("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.").append("\n");
             }
         }
-        notification.append("Your username is ").append(username).append("\n");
-        notification.append("Your userId is ").append(userId).append("\n");
-        notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append("\n");
-        notification.append("The answer to you're on-vacation is ").append(um.getInfo(userId, "Vacation") == 1).append("\n");
-        notification.append("You have borrowed:").append(um.getInfo(username, "NumBorrowed")).append("\n");
-        notification.append("You have lent:").append(um.getInfo(username, "NumLent")).append("\n");
-        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append("\n");
-        notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append("\n");
-        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append("\n");
-        notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append("\n");
-        notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append("\n");
+        notification.append("Your username is ").append(username).append(".\n");
+        notification.append("Your userId is ").append(userId).append(".\n");
+        notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append(".\n");
+        notification.append("The answer to you're on-vacation is ").append(um.getInfo(userId, "Vacation") == 1).append(".\n");
+        notification.append("You have borrowed:").append(um.getInfo(username, "NumBorrowed")).append(".\n");
+        notification.append("Your home city is ").append(um.getHome(userId)).append(".\n");
+        notification.append("You have lent:").append(um.getInfo(username, "NumLent")).append(".\n");
+        notification.append("KEEP IN MIND OF THE FOLLOWING THRESHOLD VALUES").append(".\n");
+        notification.append("Max number of transactions a week = ").append(thresholdValues.get(0)).append(".\n");
+        notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append(".\n");
+        notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append(".\n");
+        notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append(".\n");
     }
 
 
