@@ -73,10 +73,11 @@ public class AdminUserEditThresholdsController {
         return sm.msgForThresholdValue(this.currentValue);
     }
 
-    public void editMaxNumberTransactions(int futureValue){
+    public String editMaxNumberTransactions(int futureValue){
         this.thresholdValues.set(0, futureValue);
-        sm.printResult(true);
+
         am.addActionToAllActionsList(this.userId, "adminUser", "2.1", this.currentValue, String.valueOf(futureValue));
+        return sm.printResult(true);
     }
 
     /**
@@ -100,10 +101,10 @@ public class AdminUserEditThresholdsController {
     }
 
 
-    public void editMaxNumberIncompleteTransactions(int futureValue){
+    public String editMaxNumberIncompleteTransactions(int futureValue){
         this.thresholdValues.set(0, futureValue);
-        sm.printResult(true);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.2", this.currentValue, String.valueOf(futureValue));
+        return sm.printResult(true);
     }
 
 
@@ -129,10 +130,10 @@ public class AdminUserEditThresholdsController {
         return sm.msgForThresholdValue(currentValue);
     }
 
-    public void editMustLendNumber(int futureValue){
+    public String editMustLendNumber(int futureValue){
         this.thresholdValues.set(2, futureValue);
-        sm.printResult(true);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.3", this.currentValue, String.valueOf(futureValue));
+        return sm.printResult(true);
     }
 
 
@@ -156,9 +157,9 @@ public class AdminUserEditThresholdsController {
         return sm.msgForThresholdValue(this.currentValue);
     }
 
-    public void editMaxEdits(int futureValue){
+    public String editMaxEdits(int futureValue){
         this.thresholdValues.set(3, futureValue);
-        sm.printResult(true);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.4", currentValue, String.valueOf(futureValue));
+        return sm.printResult(true);
     }
 }

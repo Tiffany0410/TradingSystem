@@ -104,13 +104,12 @@ public class SystemMessage {
         return string.toString();
     }
 
-    public void printResult(boolean result){
+    public String printResult(boolean result){
         if (result){
-            printOut("Success");
+            return "Success";
         }else{
-            printOut("Fail");
+            return "Fail";
         }
-        printOut("\n");
     }
 
     public void printResult(String string, boolean result) {

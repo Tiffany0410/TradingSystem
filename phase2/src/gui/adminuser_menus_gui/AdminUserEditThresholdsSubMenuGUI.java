@@ -35,7 +35,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
 
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    adminUserEditThresholdsController.editMaxNumberTransactions(futureValue);
+                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
@@ -58,7 +58,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
 
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue);
+                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
@@ -82,7 +82,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
 
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    adminUserEditThresholdsController.editMustLendNumber(futureValue);
+                    guiDemo.printNotification(adminUserEditThresholdsController.editMustLendNumber(futureValue));
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }
@@ -106,7 +106,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
 
                 try {
                     int futureValue = Integer.parseInt(guiUserInputInfo.getTempUserInput());
-                    adminUserEditThresholdsController.editMaxEdits(futureValue);
+                    guiDemo.printNotification(adminUserEditThresholdsController.editMaxEdits(futureValue));
                 }catch (NumberFormatException ex){
                     systemMessage.invalidNumber();
                 }

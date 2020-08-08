@@ -24,7 +24,7 @@ public class ChangeYourHCWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                atc.changeUserHC((String)comboBox1.getSelectedItem());
+                guiDemo.printNotification(atc.changeUserHC((String)comboBox1.getSelectedItem()));
                 guiDemo.printNotification(sm.msgForResult(true));
                 guiDemo.closeWindow(rootPanel);
             }

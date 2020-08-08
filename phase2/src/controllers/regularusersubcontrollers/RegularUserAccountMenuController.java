@@ -1,5 +1,6 @@
 package controllers.regularusersubcontrollers;
 
+import gui.GUIDemo;
 import managers.actionmanager.Action;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Category;
@@ -265,11 +266,12 @@ public class RegularUserAccountMenuController {
      * Gets user's input of the new home city and then
      * change user's home city.
      */
-    public void changeUserHC(String newHC) {
+    public String changeUserHC(String newHC) {
         //calling this method means user is not a guest
         um.changeHome(userId, newHC);
-        sm.printResult(true);
+
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
+        return sm.printResult(true);
     }
 
     /**
