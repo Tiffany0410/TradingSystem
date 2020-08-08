@@ -389,6 +389,10 @@ public class GUIDemo {
             frw.saveManagerToFile(messageManager, "./configs/serializedmanagersfiles/SerializedMessageManager.ser");
             //Save thresholdValues
             frw.saveThresholdValuesToCSVFile(thresholdValues, "./configs/thresholdvaluesfile/ThresholdValues.csv");
+            //Update the files saved username and pw
+            this.loginValidator = new LoginValidator(
+                    frw.readUserInfoFromCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv"),
+                    frw.readUserInfoFromCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv"));
         } catch (IOException e) {
             this.printNotification("Sorry, because we cannot find the files to save your progress in, so your progress" +
                     "is not saved.");

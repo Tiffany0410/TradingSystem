@@ -34,9 +34,10 @@ public class AdminUserCreateAccountGUI {
 
                 if (result){adminUserOtherActionsController.addNewAdmin(username);}
 
-
+                guiDemo.runSave();
+                guiDemo.runAdminUserMainMenu();
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+//                guiDemo.closeWindow(rootPanel);
 
             }
         });
