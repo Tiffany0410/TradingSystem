@@ -149,17 +149,6 @@ public class RegularUserMeetingMenuController {
         return mm.getEditOverThreshold(tm,meeting, maxMeetingTimePlaceEdits);
     }
 
-    /** check if the user's turn to edit time and place.
-     * @param tradeId the trade id
-     * @param numMeeting the meeting number
-     * @param userId the user id
-     * @return true if it's this user to edit
-     */
-    public boolean checkTurn(int tradeId, int numMeeting, int userId){
-        Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
-        return mm.checkTurn(meeting,userId);
-    }
-
     /**
      * Gets the meeting based on some information given.
      * @param tradeId The trade id.
@@ -169,9 +158,5 @@ public class RegularUserMeetingMenuController {
      */
     public Meeting getMeeting(int tradeId, int numMeeting){
         return mm.getMeetingByIdNum(tradeId, numMeeting);
-    }
-
-
-
-    }
+    }}
 
