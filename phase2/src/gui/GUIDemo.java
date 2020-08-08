@@ -254,10 +254,10 @@ public class GUIDemo {
 
     public void runRegularUserAccountSettingsMenu(){
         RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI(
-                this.regularUserAccountMenuController, this.systemMessage, this.guiUserInputInfo, this.regularUserIDChecker,
+                this.regularUserAccountMenuController, this.systemMessage, this.regularUserIDChecker,
                 this,this.adminUserOtherInfoChecker);
         regularUserAccountSettingsMenuGUI.run(this.regularUserAccountMenuController, this.systemMessage,
-                this.guiUserInputInfo, this.regularUserIDChecker, this,this.adminUserOtherInfoChecker);
+                this.regularUserIDChecker, this, this.adminUserOtherInfoChecker);
 
     }
 
