@@ -54,6 +54,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO
                 respondToTradeRequest(atc, sm, maxNumTransactionAWeek, guiUserInputInfo, idC, oiC, guiD);
                 guiD.runSave();
             }
@@ -93,6 +94,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO
                 confirmATradeIsCompleted(atc, sm, guiUserInputInfo, idC, guiD);
                 guiD.runSave();
 

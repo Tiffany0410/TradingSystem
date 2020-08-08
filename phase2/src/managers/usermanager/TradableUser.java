@@ -15,7 +15,7 @@ import java.util.Observer;
  * @author Hao Du, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
-public class TradableUser extends User implements  Serializable {
+public class TradableUser extends User implements Serializable, PropertyChangeListener {
 
     //basic info
     private ArrayList<Integer> wishList;
@@ -91,9 +91,7 @@ public class TradableUser extends User implements  Serializable {
      * @param newInventory The new inventory.
      */
     public void setInventory(ArrayList<Integer> newInventory) {
-
         inventory = newInventory;
-
     }
 
     /**
@@ -316,6 +314,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void followUser(Integer userId) {
         userFollowed.add(userId);
+        userFollowingLogs.add(("User" + super.getUsername() + "followed an user with id" + userId +"."));
     }
 
     /**
@@ -325,7 +324,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
-        userFollowingLogs.add(("User" + super.getUsername() + "unfollowed a user with id" + super.getId() +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "un-followed a user with id" + userId +"."));
     }
 
     /**
@@ -335,7 +334,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
-        userFollowingLogs.add(("User" + super.getUsername() + "followed an item with id" + super.getId() +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "followed an item with id" + itemId +"."));
     }
 
     /**
@@ -345,7 +344,7 @@ public class TradableUser extends User implements  Serializable {
      */
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
-        userFollowingLogs.add(("User" + super.getUsername() + "unfollowed an item with id" + super.getId() +"."));
+        userFollowingLogs.add(("User" + super.getUsername() + "un-followed an item with id" + itemId +"."));
     }
 
 
@@ -383,5 +382,20 @@ public class TradableUser extends User implements  Serializable {
      */
     public ArrayList<String> getItemFollowingLogs() {
         return itemFollowingLogs;
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ((boolean)evt.getNewValue()) {
+            this.getItemFollowingLogs().add(evt.getPropertyName() +  "has changed to tradable." );
+        } else {
+            this.getItemFollowingLogs().add(evt.getPropertyName() + "has changed to non-tradable." );
+        }
     }
 }
