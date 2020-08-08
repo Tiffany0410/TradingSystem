@@ -11,6 +11,7 @@ import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegularUserCommunityMenuController {
     
@@ -145,13 +146,13 @@ public class RegularUserCommunityMenuController {
     /** get a list of user who send a friend request to the user.
      * @return a list of user who send a friend request to the user.
      */
-    public ArrayList<TradableUser> getFriendRequest(){
+    public HashMap<TradableUser, String> getFriendRequest(){
         ArrayList<String[]> requestFriends = um.friendsRequesting(userId);
-        ArrayList<TradableUser> friends = new ArrayList<>();
+        HashMap<TradableUser, String> out = new HashMap<>();
         for(String[] strings: requestFriends){
-            String friendName = strings[1];
-            friends.add(um.findUser(friendName));
-        }return friends;
+            out.put(um.findUser(strings[1]), strings[2]);
+        }
+        return out;
     }
 
     /** check if a user in the friend request or not.

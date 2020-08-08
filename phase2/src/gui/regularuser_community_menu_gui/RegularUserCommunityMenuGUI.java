@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegularUserCommunityMenuGUI {
     private JPanel rootPanel;
@@ -116,7 +117,7 @@ public class RegularUserCommunityMenuGUI {
                 else {
                     String string;
                     if (cmc.getFriends().isEmpty()) {
-                        string = sm.msgForNothing("your list of friends.");
+                        string = sm.msgForNothing("your list of friends");
                     }
                     else {
                         string = sm.printListUser(cmc.getFriends());
@@ -134,9 +135,16 @@ public class RegularUserCommunityMenuGUI {
                 }
                 else {
                     ArrayList<TradableUser> notFriends = cmc.getNotFriends();
-                    sendOrRespondOrUnfriend(notFriends, sm, guiInput, idC, cmc, "send friend request",
-                            "tradable users to be added. Please check your friend requests",
-                            "users you can add", guidemo);
+                    if (!notFriends.isEmpty()) {
+                        String string = "Here's a list of users you can send request to:\n" + sm.printListUser(notFriends)
+                                + "\nPlease enter user's id to send friend request.\n";
+                        RegularUserCommunitySendFriendRequestWindow window = new
+                                RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC);
+                        window.run(string, guidemo, sm, cmc, idC);
+                    }
+                    else{
+                        guidemo.printNotification(sm.msgForNo("tradable users can be added"));
+                    }
                 }
             }
         });
@@ -148,9 +156,16 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    ArrayList<TradableUser> requests = cmc.getFriendRequest();
-                    sendOrRespondOrUnfriend(requests, sm, guiInput, idC, cmc, "accept friend request",
-                            "friend requests", "friend requests", guidemo);
+                    HashMap<TradableUser, String> requests = cmc.getFriendRequest();
+                    if (!requests.isEmpty()){
+                        String string = sm.printFriendRequest(requests) + "\nPlease enter user's id to accept friend request.\n" ;
+                        RegularUserCommunityRespondRequestWindow window = new
+                                RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC);
+                        window.run(string, guidemo, sm, cmc, idC);
+                    }
+                    else{
+                        guidemo.printNotification(sm.msgForNo("requests to be responded"));
+                    }
                 }
             }
         });
@@ -163,8 +178,17 @@ public class RegularUserCommunityMenuGUI {
                 }
                 else {
                     ArrayList<TradableUser> friends = cmc.getFriends();
-                    sendOrRespondOrUnfriend(friends, sm, guiInput, idC, cmc, "unfriend",
-                            "tradable users to be unfriended", "friends", guidemo);
+                    if (!friends.isEmpty()){
+                        String string = "Here is a list of friends:\n" + sm.printListUser(friends) +
+                                "\nPlease enter user's id to unfriend.\n";
+                        RegularUserCommunityUnfriendWindow window = new RegularUserCommunityUnfriendWindow(string, guidemo, sm, cmc, idC);
+                        window.run(string, guidemo, sm, cmc, idC);
+
+                    }
+                    else{
+                        guidemo.printNotification(sm.msgForNo("tradable users to be unfriended"));
+                    }
+
                 }
             }
         });
@@ -211,52 +235,6 @@ public class RegularUserCommunityMenuGUI {
 
     }
 
-    private void sendOrRespondOrUnfriend(ArrayList<TradableUser> users, SystemMessage sm, GUIUserInputInfo guiInput,
-                                         RegularUserIDChecker idC, RegularUserCommunityMenuController cmc,
-                                         String actionType, String msg1, String msg2, GUIDemo guiDemo){
-        if (users.isEmpty()){
-            guiDemo.printNotification(sm.msgForNo(msg1));
-        }
-        else{
-            String string = "Please enter user's Id to " + actionType + ".\n" + "Here is a list of " + msg2 + ":\n";
-            if (actionType.equals("send friend request")) {
-                string = string + sm.printFriendRequest(users);
-            }
-            else{
-                string = string + sm.printListUser(users);
-            }
-            String result = guiDemo.getInPut(string);
-            if (idC.checkInt(result)){
-                int id = Integer.parseInt(result);
-                printRequest(sm, guiInput, cmc, actionType, id, guiDemo);
-            }
-            else{
-                guiDemo.printNotification("Please enter a valid information.");
-            }
-        }
-    }
-
-    private void printRequest(SystemMessage sm, GUIUserInputInfo guiInput, RegularUserCommunityMenuController cmc,
-                              String actionType, int id, GUIDemo guidemo){
-        String out;
-        if (actionType.equals("send friend request")){
-            String msg_result = guidemo.getInPut("Please leave a message for this user: ");
-            out = sm.msgForFriendRequest(cmc.sendFriendRequest(id, msg_result), id);
-        }
-        else if (actionType.equals("accept friend request")){
-            if (cmc.checkIdInRequest(id)){
-                out = sm.msgForResult(cmc.addFriend(id));
-            }
-            else{
-                out = "Please enter a valid information.";
-            }
-        }
-        else {
-            out = sm.msgForResult(cmc.unfriendUser(id));
-        }
-        guidemo.printNotification(out);
-    }
-
     private void sendMessage(ArrayList<TradableUser> friends, SystemMessage sm, GUIUserInputInfo guiInput,
                              RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guiDemo){
         String string;
@@ -283,5 +261,4 @@ public class RegularUserCommunityMenuGUI {
         }
         guiDemo.printNotification(string);
     }
-
 }
