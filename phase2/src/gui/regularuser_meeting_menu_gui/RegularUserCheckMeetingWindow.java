@@ -120,7 +120,7 @@ public class RegularUserCheckMeetingWindow {
             guiD.printNotification(sm.msgForResult(true));
         }
         else{
-            guiD.printNotification(sm.msgForNotYourTurn());
+            guiD.printNotification(sm.msgForTPcannotConfirm());
         }
     }
 
