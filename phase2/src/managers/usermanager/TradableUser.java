@@ -393,9 +393,9 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ((boolean)evt.getNewValue()) {
-            this.getItemFollowingLogs().add(evt.getPropertyName() +  "has changed to tradable." );
+            itemFollowingLogs.add(evt.getPropertyName() +  "has changed to tradable." );
         } else {
-            this.getItemFollowingLogs().add(evt.getPropertyName() + "has changed to non-tradable." );
+            itemFollowingLogs.add(evt.getPropertyName() + "has changed to non-tradable." );
         }
     }
 }

@@ -1,6 +1,7 @@
 package managers.usermanager;
 
 import managers.feedbackmanager.FeedbackManager;
+import managers.itemmanager.Item;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -13,7 +14,7 @@ import java.util.HashMap;
  * @author Gabriel
  * @version IntelliJ IDEA 2020.1
  */
-public class UserManager implements Serializable, PropertyChangeListener {
+public class UserManager implements Serializable {
 
     private ArrayList<TradableUser> listTradableUser;
     private ArrayList<User> listAdmin;
@@ -850,15 +851,16 @@ public class UserManager implements Serializable, PropertyChangeListener {
      * @param toFollow The ID of the Item to follow
      * @return true if the Item was followed successfully, false otherwise
      */
-    public boolean itemFollow(int userID, int toFollow){
+    public boolean itemFollow(int userID, Item toFollow){
         TradableUser person = findUser(userID);
         if (person == null){
             return false;
         }
-        if (person.getItemFollowed().contains(toFollow)){
+        if (person.getItemFollowed().contains(toFollow.getItemId())){
             return false;
         }
-        person.followItem(toFollow);
+        person.followItem(toFollow.getItemId());
+        toFollow.addPropertyChangeListener(person);
         return true;
     }
 
@@ -1072,14 +1074,5 @@ public class UserManager implements Serializable, PropertyChangeListener {
             }
         }
         return out;
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        itemChanges.add(evt.getPropertyName() + evt.getNewValue().toString());
-    }
-
-    public ArrayList<String> getItemChanges() {
-        return itemChanges;
     }
 }

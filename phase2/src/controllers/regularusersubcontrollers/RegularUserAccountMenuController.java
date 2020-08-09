@@ -304,7 +304,7 @@ public class RegularUserAccountMenuController {
         //calling this method means user is not a guest
         am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.2", itemToFollowId, "");
         am.addActionToAllActionsList(userId, "regularUser", "1.3.2", itemToFollowId, "");
-        return um.itemFollow(userId, itemToFollowId);
+        return um.itemFollow(userId, im.getItembyId(itemToFollowId));
 
     }
 
@@ -322,7 +322,6 @@ public class RegularUserAccountMenuController {
     /**
      * Gets a list of recent status of the item(s) this user is following.
      * @return A list of recent status of the items(s) this user is following.
-     * @return
      */
     public ArrayList<String> seeRecentStatusOfFollowedItem () {
         //calling this method means user is not a guest
