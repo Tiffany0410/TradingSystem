@@ -88,7 +88,7 @@ public class DemoManager {
 
 
             //Create the new AccountCreator
-            AccountCreator ac = new AccountCreator(um);
+            AccountCreator ac = new AccountCreator(um, userAccountInfoFilePath, adminAccountInfoFilePath);
 
             // Load accounts data from CSV file to initial login validator
             Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);
