@@ -27,6 +27,7 @@ public class ChangeYourHCWindow {
                 guiDemo.printNotification(atc.changeUserHC((String)comboBox1.getSelectedItem()));
                 guiDemo.runSave();
                 guiDemo.printNotification(sm.msgForResult(true));
+                guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);
             }
         });

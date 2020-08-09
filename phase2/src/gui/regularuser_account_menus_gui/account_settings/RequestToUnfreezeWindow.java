@@ -30,6 +30,7 @@ public class RequestToUnfreezeWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(textArea.getText())));
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
         });

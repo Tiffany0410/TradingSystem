@@ -40,6 +40,7 @@ public class RequestUndoARevocableActionWindow {
                 } else {
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
         });

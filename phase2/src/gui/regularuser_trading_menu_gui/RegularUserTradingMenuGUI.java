@@ -82,6 +82,7 @@ public class RegularUserTradingMenuGUI {
                 }
                 else {
                     viewTrades(sm, atc.viewOpenTrades(), "open", guiD);
+                    guiD.runSave();
                 }
 
             }
@@ -99,6 +100,7 @@ public class RegularUserTradingMenuGUI {
                 }
                 else {
                     viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
+                    guiD.runSave();
                 }
             }
 
@@ -135,6 +137,7 @@ public class RegularUserTradingMenuGUI {
                 }
                 else {
                     seeTopThreePartners(atc, sm, guiD);
+                    guiD.runSave();
                 }
             }
         });
@@ -151,6 +154,7 @@ public class RegularUserTradingMenuGUI {
                 }
                 else {
                     viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD);
+                    guiD.runSave();
                 }
             }
         });
@@ -172,6 +176,7 @@ public class RegularUserTradingMenuGUI {
                 else{
                     guiD.printNotification(sm.msgForNo(" recommended trade suggestion."));
                 }
+                guiD.runSave();
 
             }
         });
