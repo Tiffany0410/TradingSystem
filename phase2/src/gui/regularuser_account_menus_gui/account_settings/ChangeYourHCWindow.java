@@ -24,11 +24,17 @@ public class ChangeYourHCWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.printNotification(atc.changeUserHC((String)comboBox1.getSelectedItem()));
-                guiDemo.runSave();
-                guiDemo.printNotification(sm.msgForResult(true));
-                guiDemo.runSave();
-                guiDemo.closeWindow(rootPanel);
+                String city = (String) comboBox1.getSelectedItem();
+                if (city.equals("Please Select")) {
+                    guiDemo.printNotification("Please select an option.");
+                }
+                else {
+                    guiDemo.printNotification(atc.changeUserHC(city));
+                    guiDemo.runSave();
+                    guiDemo.printNotification(sm.msgForResult(true));
+                    guiDemo.runSave();
+                    guiDemo.closeWindow(rootPanel);
+                }
             }
         });
         cancelButton.addActionListener(new ActionListener() {
