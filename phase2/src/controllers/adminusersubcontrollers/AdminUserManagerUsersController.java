@@ -20,12 +20,10 @@ import java.util.List;
  */
 public class AdminUserManagerUsersController {
 
-    private SystemMessage sm;
     private UserManager um;
     private ItemManager im;
     private ActionManager am;
     private int userID;
-    private FilesReaderWriter frw;
 
     // constructor
     public AdminUserManagerUsersController( UserManager um, ItemManager im, ActionManager am, SystemMessage sm,
@@ -34,8 +32,6 @@ public class AdminUserManagerUsersController {
         this.im = im;
         this.am = am;
         this.userID = um.usernameToID(username);
-        this.sm = sm;
-        this.frw = new FilesReaderWriter();
     }
 
 
@@ -69,7 +65,10 @@ public class AdminUserManagerUsersController {
         //String regularUsername = ds.getUsername();
 
         int regularUserID = um.usernameToID(regularUsername);
+        System.out.println("this is controller: " + regularUsername);
+
         boolean freezeOrNot = um.freezeUser(regularUsername);
+        System.out.println( "This is result: "+ freezeOrNot);
         // let presenter print the msg of successful or not
         //ds.printResult(freezeOrNot);
         if (freezeOrNot) {

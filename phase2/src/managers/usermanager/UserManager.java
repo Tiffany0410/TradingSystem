@@ -317,8 +317,8 @@ public class UserManager implements Serializable {
     public TradableUser findUser(String username){
         TradableUser out = null;
         for (TradableUser person : listTradableUser) {
-            if (person.getUsername().equals(username)) {
-                out = person;
+            if (person.getUsername().equalsIgnoreCase(username)) {
+                return person;
             }
         }
         return out;
