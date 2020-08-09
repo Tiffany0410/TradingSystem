@@ -30,14 +30,29 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
-                System.out.println(regularUserName);
+//                String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
+//
+//                if (!regularUserName.equals("User inputs nothing")) {
+//                    String result = muc.freezeUser(regularUserName);
+//                }
+//                guiDemo.runSave();
 
-                if (!regularUserName.equals("User inputs nothing")) {
-                    String result = muc.freezeUser(regularUserName);
-                    guiDemo.printNotification(result);
-                }
+
+//                String string = muc.getAllUnfreezeUser();
+//                guiDemo.getInPut(string);
+//                String regularUserName = guiUserInputInfo.getTempUserInput();
+//                if (regularUserName != null) {String result = muc.freezeUser(regularUserName);
+//                    guiDemo.printNotification(result);}
+
+                int option = 1;
+                String info = muc.getAllUnfreezeUser();
+                String inputName = "Please enter the username of the user you want to freeze: ";
+
+                AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
+                adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
+
                 guiDemo.runSave();
+
 
             }
         });
@@ -49,9 +64,18 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = muc.getWantUnfreezeUser();
-                String result = muc.unfreezeUser(guiDemo.getInPut(string));
-                guiDemo.printNotification(result);
+//                String string = muc.getWantUnfreezeUser();
+//                String result = muc.unfreezeUser(guiDemo.getInPut(string));
+//                guiDemo.printNotification(result);
+//                guiDemo.runSave();
+
+                int option = 2;
+                String info = muc.getWantUnfreezeUser();
+                String inputName = "Please enter the username of the user you want to unfreeze: ";
+
+                AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
+                adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
+
                 guiDemo.runSave();
             }
         });
