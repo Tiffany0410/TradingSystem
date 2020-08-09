@@ -40,7 +40,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     private ArrayList<String> userFollowingLogs;
     private ArrayList<String> itemFollowingLogs;
 
-
     /**
      * Construct an User.
      *
@@ -62,6 +61,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
         userFollowed = new ArrayList<>();
         itemFollowed = new ArrayList<>();
         userFollowingLogs = new ArrayList<>();
+        itemFollowingLogs = new ArrayList<>();
 
 
     }
@@ -285,8 +285,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      * @param userId the followers's id
      */
     public void addFollowers(Integer userId) {
-        followers.add(super.getId());
-        userFollowingLogs.add(("User" + super.getUsername() + "followed a new user with id" + super.getId() +"."));
+        followers.add(userId);
     }
 
     /**
@@ -315,7 +314,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void followUser(Integer userId) {
         userFollowed.add(userId);
-        userFollowingLogs.add(("User" + super.getUsername() + "followed an user with id" + userId +"."));
+        userFollowingLogs.add("User " + super.getUsername() + " followed an user with id" + userId +".");
     }
 
     /**
@@ -325,7 +324,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
-        userFollowingLogs.add(("User" + super.getUsername() + "un-followed a user with id" + userId +"."));
+        userFollowingLogs.add("User " + super.getUsername() + " un-followed a user with id" + userId +".");
     }
 
     /**
@@ -335,7 +334,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
-        userFollowingLogs.add(("User" + super.getUsername() + "followed an item with id" + itemId +"."));
+        itemFollowingLogs.add("User " + super.getUsername() + " followed an item with id" + itemId +".");
     }
 
     /**
@@ -345,7 +344,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
-        userFollowingLogs.add(("User" + super.getUsername() + "un-followed an item with id" + itemId +"."));
+        itemFollowingLogs.add("User " + super.getUsername() + " un-followed an item with id" + itemId +".");
     }
 
 
@@ -394,9 +393,9 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ((boolean)evt.getNewValue()) {
-            itemFollowingLogs.add(evt.getPropertyName() +  "has changed to tradable." );
+            itemFollowingLogs.add(evt.getPropertyName() +  " has changed to tradable." );
         } else {
-            itemFollowingLogs.add(evt.getPropertyName() + "has changed to non-tradable." );
+            itemFollowingLogs.add(evt.getPropertyName() + " has changed to non-tradable." );
         }
     }
 
