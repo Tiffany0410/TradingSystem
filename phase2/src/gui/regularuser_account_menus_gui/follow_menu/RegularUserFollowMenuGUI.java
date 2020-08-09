@@ -92,6 +92,7 @@ public class RegularUserFollowMenuGUI {
         } else {
             guiDemo.printNotification(sm.msgForNo("updates for now."));
         }
+        guiDemo.runSave();
     }
 
 

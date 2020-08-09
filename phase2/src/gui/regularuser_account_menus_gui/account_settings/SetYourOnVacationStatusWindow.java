@@ -43,6 +43,7 @@ public class SetYourOnVacationStatusWindow {
                     atc.setOnVacationStatus(false);
                 }
                 guiD.printNotification(sm.msgForResult(true));
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
 

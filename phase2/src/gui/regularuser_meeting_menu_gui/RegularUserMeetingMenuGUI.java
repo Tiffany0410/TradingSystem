@@ -79,6 +79,7 @@ public class RegularUserMeetingMenuGUI {
                     } else {
                         guiD.printNotification(sm.msgForNothing("here."));
                     }
+                    guiD.runSave();
 
                 }
             }

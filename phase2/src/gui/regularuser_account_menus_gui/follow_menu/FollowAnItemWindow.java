@@ -38,6 +38,7 @@ public class FollowAnItemWindow {
                 else {
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
         });
@@ -48,7 +49,8 @@ public class FollowAnItemWindow {
              * @param e the event to be processed
              */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 guiD.closeWindow(rootPanel);
             }
         });
