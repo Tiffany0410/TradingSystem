@@ -1,7 +1,6 @@
 package managers.trademanager;
 
 import managers.usermanager.TradableUser;
-import exception.InvalidIdException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -49,7 +48,6 @@ public class TradeManager implements Serializable {
      *
      * @param userId the user's id we want to check
      * @return a list of that user's trade history
-     * @throws InvalidIdException In case the id is invalid.
      */
     public List<managers.trademanager.Trade> getTradeHistory(int userId) {
         List<managers.trademanager.Trade> list = new ArrayList<>();
@@ -214,7 +212,6 @@ public class TradeManager implements Serializable {
      * @link https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
      * @param userId user id
      * @return list of top three partners id (Most is at index 0 and least at last index)
-     * @throws InvalidIdException In case the id is invalid.
      */
     public List<Integer> topThreePartners(int userId){
         Map<Integer, Integer> numTrade = new HashMap<>();

@@ -125,16 +125,6 @@ public class RegularUserSearchingMenuController {
         return  im.getItemsByIds(ids);
     }
 
-    /** helper list  for gui
-     * @return the list of category that user can input
-     */
-    public String listCategory(){
-        am.addActionToAllActionsList(userId, "regularUser", "4.1.1", 0, "");
-        return "Here is a list of category you can type:" + "\n" +
-                "appliances, clothing, electronics, furniture, beauty, "+ "\n" +
-                "jewellery, books, supplies, toys, others";
-    }
-
 
     /** Search item by item name
      * @param name item name
@@ -157,6 +147,10 @@ public class RegularUserSearchingMenuController {
         return c.getDescription();
     }
 
+    /** Get an item by id
+     * @param itemId item id
+     * @return an Item by giving item id
+     */
     public Item getItemObjectById(int itemId){
         return im.getItembyId(itemId);
     }
