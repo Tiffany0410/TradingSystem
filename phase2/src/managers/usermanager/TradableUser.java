@@ -334,7 +334,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
-        itemFollowingLogs.add("User " + super.getUsername() + " followed an item with id" + itemId +".");
+        userFollowingLogs.add("User " + super.getUsername() + " followed an item with id" + itemId +".");
     }
 
     /**
@@ -344,7 +344,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
-        itemFollowingLogs.add("User " + super.getUsername() + " un-followed an item with id" + itemId +".");
+        userFollowingLogs.add("User " + super.getUsername() + " un-followed an item with id" + itemId +".");
     }
 
 
