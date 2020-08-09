@@ -128,8 +128,8 @@ public class RegularUserManageItemsMenuGUI {
                 else {
                     RegularUserRequestItemWindow window = new RegularUserRequestItemWindow(guiDemo, amc, otherInfoChecker);
                     window.run(guiDemo, amc, otherInfoChecker);
+                    guiDemo.runSave();
                 }
-                guiDemo.runSave();
             }
         });
 

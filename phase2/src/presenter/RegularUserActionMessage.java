@@ -214,17 +214,17 @@ public class RegularUserActionMessage {
                 string = string + helper_regular_action_prefix(action) + "confirm the meeting #" + action.getAdjustableInt() + "took place" + "\n";
                 break;
             // 3.3: See the list of meetings need to be confirmed that it took place
+//            case 3:
+//                string = string + helper_regular_action_prefix(action) + "see the list of meetings need to be confirmed that it took place" + "\n";
+//                break;
+            // 3.3: See the list of meetings that have been confirmed
             case 3:
-                string = string + helper_regular_action_prefix(action) + "see the list of meetings need to be confirmed that it took place" + "\n";
-                break;
-            // 3.4: See the list of meetings that have been confirmed
-            case 4:
                 string = string + helper_regular_action_prefix(action) + "see the list of meetings that have been confirmed" + "\n";
                 break;
             // 3.5: See the list of meetings with time and place that need to be confirmed
-            case 5:
-                string = string + helper_regular_action_prefix(action) + "see the list of meetings with time and place that need to be confirmed" + "\n";
-                break;
+//            case 5:
+//                string = string + helper_regular_action_prefix(action) + "see the list of meetings with time and place that need to be confirmed" + "\n";
+//                break;
         }
         return string;
     }
