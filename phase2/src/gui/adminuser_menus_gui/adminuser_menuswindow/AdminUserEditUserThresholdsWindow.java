@@ -20,7 +20,7 @@ public class AdminUserEditUserThresholdsWindow {
         infoLabel.setText(string);
 
 
-        Cancel.addActionListener(new ActionListener() {
+        confirmButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -68,7 +68,7 @@ public class AdminUserEditUserThresholdsWindow {
 
             }
         });
-        confirmButton.addActionListener(new ActionListener() {
+        Cancel.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
