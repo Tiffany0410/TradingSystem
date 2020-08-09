@@ -65,7 +65,6 @@ public class GUIDemo {
     private LoginValidator loginValidator;
 
     // Other variables
-    private GUIUserInputInfo guiUserInputInfo;
     private String tempUsername;
     private SystemMessage systemMessage;
     private String partsOfUserAlert;
@@ -99,7 +98,6 @@ public class GUIDemo {
         this.isGuest = false;
 
         // create new object
-        this.guiUserInputInfo = new GUIUserInputInfo();
         this.systemMessage = new SystemMessage();
         this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
@@ -247,9 +245,9 @@ public class GUIDemo {
 
     public void runRegularUserAccountManageItemsMenu(){
         RegularUserManageItemsMenuGUI regularUserManageItemsMenuGUI = new RegularUserManageItemsMenuGUI(this.isGuest,
-                this.systemMessage,this, this.guiUserInputInfo, this.regularUserIDChecker,
+                this.systemMessage,this, this.regularUserIDChecker,
                 this.regularUserAccountMenuController, this.regularUserOtherInfoChecker);
-        regularUserManageItemsMenuGUI.run(this.isGuest, this.systemMessage,this, this.guiUserInputInfo,
+        regularUserManageItemsMenuGUI.run(this.isGuest, this.systemMessage,this,
                 this.regularUserIDChecker, this.regularUserAccountMenuController, this.regularUserOtherInfoChecker);
     }
 
@@ -283,10 +281,10 @@ public class GUIDemo {
 
     public void runRegularUserCommunityMenuGUI(){
         RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI(this.isGuest, this,
-                this.regularUserCommunityMenuController, this.systemMessage,this.guiUserInputInfo,
+                this.regularUserCommunityMenuController, this.systemMessage,
                 this.regularUserIDChecker,this.regularUserOtherInfoChecker);
         regularUserCommunityMenuGUI.run(this.isGuest, this, this.regularUserCommunityMenuController,
-                this.systemMessage,this.guiUserInputInfo, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
+                this.systemMessage, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
     }
 
     public void runRegularUserMeetingMenu(){
@@ -307,8 +305,8 @@ public class GUIDemo {
 
     public void runRegularUserSearchingItemsSubMenu(){
         RegularUserSearchingItemsSubMenuGUI regularUserSearchingItemsSubMenuGUI = new RegularUserSearchingItemsSubMenuGUI(
-                this.regularUserSearchingMenuController, this, this.guiUserInputInfo, this.itemManager, this.systemMessage);
-        regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.guiUserInputInfo, this.itemManager, this.systemMessage);
+                this.regularUserSearchingMenuController, this, this.systemMessage, this.regularUserIDChecker);
+        regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this,  this.systemMessage, this.regularUserIDChecker);
     }
 
     public void runRegularUserSearchingMeetingsSubMenu(){
@@ -339,7 +337,6 @@ public class GUIDemo {
         return this.tempUsername;
     }
 
-    public String getUserInput(){return this.guiUserInputInfo.getTempUserInput();}
 
     public void printNotification(String string) {
 
@@ -352,19 +349,6 @@ public class GUIDemo {
         }
     }
 
-    public String getInPut(String string) {
-        UserInputGUI userInputGUI = new UserInputGUI(string, this.guiUserInputInfo);
-        userInputGUI.run(string, this.guiUserInputInfo);
-        return this.guiUserInputInfo.getTempUserInput();
-    }
-
-    //moved from account settings menu gui's helper method section
-    public String getLongInput(String str, GUIUserInputInfo guiUserInputInfo){
-        UserInputLongMsgGUI userInputLongMsgGUI = new UserInputLongMsgGUI(str, guiUserInputInfo);
-        userInputLongMsgGUI.run(str, guiUserInputInfo);
-        String userResponse = guiUserInputInfo.getTempUserInput();
-        return userResponse;
-    }
 
     public void closeWindow(JPanel panel){
         Window window = SwingUtilities.getWindowAncestor(panel);

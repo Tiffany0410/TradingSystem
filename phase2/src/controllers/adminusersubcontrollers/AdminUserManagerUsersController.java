@@ -53,7 +53,7 @@ public class AdminUserManagerUsersController {
             body.append("TradableUser ID#").append(user.getId()).append(" with Username: ").append(user.getUsername()).append("\n");
         }
 
-        return title + body.toString() + "Please enter the username want to freeze: ";
+        return title + body.toString();
     }
 
 
@@ -105,7 +105,7 @@ public class AdminUserManagerUsersController {
             count++;
         }
 
-        return title + body.toString() +"\n" +"Please enter the username of the user to UNFREEZE: ";
+        return title + body.toString();
     }
 
 

@@ -35,8 +35,6 @@ public class RegularUserSearchingTradesSubMenuGUI {
                 }else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter1)));
                 }
-                guiDemo.closeWindow(rootPanel);
-
             }
         });
         completeTradesButton.addActionListener(new ActionListener() {
@@ -54,8 +52,6 @@ public class RegularUserSearchingTradesSubMenuGUI {
                 } else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
                 }
-                guiDemo.closeWindow(rootPanel);
-
             }
         });
         backButton.addActionListener(new ActionListener() {

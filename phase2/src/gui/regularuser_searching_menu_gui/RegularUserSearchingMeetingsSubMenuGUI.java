@@ -35,7 +35,6 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 } else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(m)));
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
         incompleteMeetingButton.addActionListener(new ActionListener() {
@@ -56,7 +55,6 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 } catch (Exception ex) {
                     guiDemo.printNotification(systemMessage.invalidInput());
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
         completeMeetingButton.addActionListener(new ActionListener() {
@@ -73,7 +71,6 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
                 } else {
                 guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(m)));
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {

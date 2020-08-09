@@ -25,7 +25,7 @@ public class FollowAnItemWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = guiD.getInPut(textField1.getText());
+                String input = textField1.getText();
                 if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
                     if (idChecker.checkItemID(itemId)){

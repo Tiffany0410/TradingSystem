@@ -179,6 +179,9 @@ public class RegularUserTradingMenuController {
     }
 
     public boolean hasTradeSuggestion() {
+        if (um.getUserWishlist(userId).isEmpty()){
+            return false;
+        }
         return im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId))).size() != 0;
     }
     /**Print the most suggest item for user to trade.

@@ -30,10 +30,9 @@ public class RegularUserCommunityMenuGUI {
     private JButton backButton;
 
     public void run(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm,
-                    GUIUserInputInfo guiInput,
                     RegularUserIDChecker idC,  RegularUserOtherInfoChecker otherChecker) {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, guiInput, idC,
+        frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, idC,
                 otherChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
@@ -42,7 +41,7 @@ public class RegularUserCommunityMenuGUI {
     }
 
     public RegularUserCommunityMenuGUI(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc,
-                                       SystemMessage sm, GUIUserInputInfo guiInput,
+                                       SystemMessage sm,
                                        RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker){
         writeAReviewForButton.addActionListener(new ActionListener() {
             @Override

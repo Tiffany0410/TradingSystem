@@ -108,7 +108,7 @@ public class RegularUserAccountSettingsMenuGUI {
     private void reviewOwnRevocableActions(RegularUserAccountMenuController atc, SystemMessage sm, GUIDemo guiD) {
         ArrayList<Action> ownRevocableAction = atc.seeOwnRevocableAction();
         if (ownRevocableAction.size() != 0){
-            String str = sm.printListObject(new ArrayList<>(ownRevocableAction));
+            String str = sm.printHistoricalAction(ownRevocableAction);
             guiD.printNotification("Here's your list of revocable actions: \n " + str);
         }
         else{

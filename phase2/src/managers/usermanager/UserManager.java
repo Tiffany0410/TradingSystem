@@ -816,7 +816,7 @@ public class UserManager implements Serializable {
      */
     public boolean userFollow(int userID, int toFollow){
         TradableUser person = findUser(userID);
-        TradableUser following = findUser(userID);
+        TradableUser following = findUser(toFollow);
         if (person == null || following == null){
             return false;
         }
@@ -836,7 +836,7 @@ public class UserManager implements Serializable {
      */
     public boolean userUnfollow(int userID, int toUnfollow){
         TradableUser person = findUser(userID);
-        TradableUser following = findUser(userID);
+        TradableUser following = findUser(toUnfollow);
         if (person == null || following == null){
             return false;
         }

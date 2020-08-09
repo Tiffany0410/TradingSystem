@@ -140,10 +140,12 @@ public class RegularUserSearchingMenuController {
      * @param name item name
      * @return a list of integer
      */
-    public ArrayList<Integer> searchItemByName(String name) {
+    public ArrayList<Item> searchItemByName(String name) {
         am.addActionToAllActionsList(userId, "regularUser", "4.1.2", 0, name);
-        return im.searchItem(name);
+        ArrayList<Integer> ids =  im.searchItem(name);
+        return im.getItemsByIds(ids);
     }
+
 
     /** Get an item's description by id
      * @param itemId item id
@@ -154,6 +156,11 @@ public class RegularUserSearchingMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "4.1.3", itemId, "");
         return c.getDescription();
     }
+
+    public Item getItemObjectById(int itemId){
+        return im.getItembyId(itemId);
+    }
+
 
     /** Sort items by their follows
      * @return a list of item that sorted by follows

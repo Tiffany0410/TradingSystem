@@ -77,8 +77,9 @@ public class AdminUserEditUserThresholdsWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserEditThresholdsSubMenu();
                 guiDemo.closeWindow(rootPanel);
+                //guiDemo.runAdminUserEditThresholdsSubMenu();
+
             }
         });
     }
