@@ -25,7 +25,7 @@ public class FollowAnUserWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = guiD.getInPut(textField1.getText());
+                String input = textField1.getText();
                 if (idChecker.checkInt(input)){
                     int userId = Integer.parseInt(input);
                     if (idChecker.checkUserID(userId)){
