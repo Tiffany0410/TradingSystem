@@ -27,13 +27,25 @@ public class RegularUserCreateAccountGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean result = accountCreator.createAccount("Regular", usernameTextField.getText(),
-                        new String(passwordField1.getPassword()), emailTextField.getText(), (String)comboBox1.getSelectedItem());
-
-                guiDemo.printNotification( "Create Account " + systemMessage.printResult(result));
-                guiDemo.runSave();
-                guiDemo.runTradingSystemInitMenuGUI();
-                guiDemo.closeWindow(rootPanel);
+                String username = usernameTextField.getText();
+                String password = new String(passwordField1.getPassword());
+                String email = emailTextField.getText();
+                String city = (String) comboBox1.getSelectedItem();
+                if (!username.equals("") && !password.equals("") && !email.equals("") && !city.equals("Please Select")){
+                    boolean result = accountCreator.createAccount("Regular", username, password, email, city);
+                    if (result){
+                        guiDemo.printNotification( "Create Account " + systemMessage.printResult(true));
+                        guiDemo.closeWindow(rootPanel);
+                        guiDemo.runTradingSystemInitMenuGUI();
+                        guiDemo.runSave();
+                    }
+                    else{
+                        guiDemo.printNotification("Username is taken, please try again :)");
+                    }
+                }
+                else{
+                    guiDemo.printNotification("Please enter a valid information in order to create an account.");
+                }
             }
         });
         cancelButton.addActionListener(new ActionListener() {

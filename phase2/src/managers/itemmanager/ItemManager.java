@@ -487,6 +487,9 @@ public class ItemManager implements Serializable {
      */
     private ArrayList<Integer> getMostMatchItem(ArrayList<Item> wishlist) {
         ArrayList<Integer> ids = new ArrayList<>();
+        if (wishlist.isEmpty()){
+            return ids;
+        }
         int ownerId = wishlist.get(0).getOwnerId();
         HashMap<Category, ArrayList<Integer>> category = getAllCategoryItem(wishlist);
         for (Category c : getSortedCategory(category)) {

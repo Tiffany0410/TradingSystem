@@ -2,6 +2,7 @@ package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
+import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -24,37 +25,36 @@ public class RegularUserSearchingWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (option == 2){
-                    ArrayList<Integer> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
+                    ArrayList<Item> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
 
                     if (c.size() == 0) {
                         guiDemo.printNotification(systemMessage.msgForNothing());
                     } else {
-                        guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(c)));
+                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(c)));
                     }
 
                 }
 
 
-                if (option == 3){
-                    try{
+                if (option == 3) {
+                    try {
                         int id = Integer.parseInt(textField.getText());
-                        String description = regularUserSearchingMenuController.getItemById(id);
-                        guiDemo.printNotification(description);
+                        Item item = regularUserSearchingMenuController.getItemObjectById(id);
+                        ArrayList<Item> items = new ArrayList<>();
+                        items.add(item);
+                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
                         guiDemo.runSave();
-                    } catch (NumberFormatException  ex){
+                    } catch (NumberFormatException ex) {
                         guiDemo.printNotification("Please enter number!");
                     }
-
                 }
-
+                guiDemo.closeWindow(rootPanel);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                guiDemo.runRegularUserSearchingItemsSubMenu();
-
             }
         });
     }
@@ -64,9 +64,9 @@ public class RegularUserSearchingWindow {
         JFrame frame = new JFrame("RegularUserSearchingWindow");
         frame.setContentPane(new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
 
