@@ -305,8 +305,8 @@ public class GUIDemo {
 
     public void runRegularUserSearchingItemsSubMenu(){
         RegularUserSearchingItemsSubMenuGUI regularUserSearchingItemsSubMenuGUI = new RegularUserSearchingItemsSubMenuGUI(
-                this.regularUserSearchingMenuController, this, this.systemMessage);
-        regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this,  this.systemMessage);
+                this.regularUserSearchingMenuController, this, this.systemMessage, this.regularUserIDChecker);
+        regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this,  this.systemMessage, this.regularUserIDChecker);
     }
 
     public void runRegularUserSearchingMeetingsSubMenu(){
