@@ -94,7 +94,7 @@ public class RegularUserSearchingMenuGUI {
             public void actionPerformed(ActionEvent e) {
 
                 guiDemo.closeWindow(rootPanel);
-                guiDemo.runRegularUserSearchingMenuGUI();
+                guiDemo.runRegularUserMainMenu(guest);
             }
         });
     }
