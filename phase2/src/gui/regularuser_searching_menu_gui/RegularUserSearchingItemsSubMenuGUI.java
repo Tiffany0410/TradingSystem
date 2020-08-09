@@ -2,15 +2,10 @@ package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
-import gui.GUIUserInputInfo;
-import gui.UserInputGUI;
-import managers.itemmanager.Category;
 import managers.itemmanager.Item;
-import managers.itemmanager.ItemManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,8 +19,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
     private JButton backButton;
 
     public RegularUserSearchingItemsSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
-                                               GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo, ItemManager itemManager,
-                                               SystemMessage systemMessage) {
+                                               GUIDemo guiDemo, SystemMessage systemMessage) {
         filterByCategoryButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -47,25 +41,23 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = "Please enter the item name:";
+                String inputName = "Please enter the item name:";
+                int option = 2;
 
-                UserInputGUI userInputGUI1 = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI1.run(string, guiUserInputInfo);
-
-                String name = guiUserInputInfo.getTempUserInput();
-                UserInputGUI userInputGUI2 = new UserInputGUI(name, guiUserInputInfo);
-                userInputGUI2.run(name, guiUserInputInfo);
-
-                ArrayList<Integer> c = regularUserSearchingMenuController.searchItemByName(guiDemo.getUserInput());
-
-                if (c.size() == 0) {
-                    guiDemo.printNotification(systemMessage.msgForNothing());
-                } else {
-                    guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(c)));
-                }
+                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController);
+                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController);
 
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
+
+//                UserInputGUI userInputGUI1 = new UserInputGUI(string, guiUserInputInfo);
+//                userInputGUI1.run(string, guiUserInputInfo);
+//
+//                String name = guiUserInputInfo.getTempUserInput();
+//                UserInputGUI userInputGUI2 = new UserInputGUI(name, guiUserInputInfo);
+//                userInputGUI2.run(name, guiUserInputInfo);
+
+
             }
         });
         searchItemByIdButton.addActionListener(new ActionListener() {
@@ -76,29 +68,14 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = "Please enter the item ID:";
+                String inputName = "Please enter the item ID:";
+                int option = 3;
 
-                // Get the id from user
-                UserInputGUI userInputGUI1 = new UserInputGUI(string, guiUserInputInfo);
-                userInputGUI1.run(string, guiUserInputInfo);
-
-                //String ID = guiUserInputInfo.getTempUserInput();
-                //UserInputGUI userInputGUI2 = new UserInputGUI(ID, guiUserInputInfo);
-                //userInputGUI2.run(ID, guiUserInputInfo);
-
-                // print the info of the item
-                try{
-                    int id = Integer.parseInt(guiDemo.getUserInput());
-                    String description = regularUserSearchingMenuController.getItemById(id);
-                    guiDemo.printNotification(description);
-
-                } catch (NumberFormatException  ex){
-                    guiDemo.printNotification("Please enter number!");
-                }
-
+                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
+                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
 
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
             }
         });
         sortByNumberOfButton.addActionListener(new ActionListener() {
@@ -129,11 +106,10 @@ public class RegularUserSearchingItemsSubMenuGUI {
     }
 
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
-                    GUIDemo guiDemo, GUIUserInputInfo guiUserInputInfo, ItemManager itemManager,
-                    SystemMessage systemMessage) {
+                    GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");
         frame.setContentPane(new RegularUserSearchingItemsSubMenuGUI(regularUserSearchingMenuController, guiDemo,
-                guiUserInputInfo, itemManager, systemMessage).rootPanel);
+                systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

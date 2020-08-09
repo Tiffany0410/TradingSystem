@@ -26,11 +26,11 @@ public class RegularUserManageItemsMenuGUI {
     private JButton getSuggestionForItemToLendButton;
     private JButton backButton;
 
-    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
+    public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo,
                     RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                     RegularUserOtherInfoChecker otherInfoChecker) {
         JFrame frame = new JFrame("RegularUserManageItemsMenuGUI");
-        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, guiInput, idChecker, amc,
+        frame.setContentPane(new RegularUserManageItemsMenuGUI(isGuest, sm, guiDemo, idChecker, amc,
                 otherInfoChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
@@ -39,7 +39,7 @@ public class RegularUserManageItemsMenuGUI {
     }
 
 
-    public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiDemo, GUIUserInputInfo guiInput,
+    public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiDemo,
                                          RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                                          RegularUserOtherInfoChecker otherInfoChecker){
         browseAllTradableButton.addActionListener(new ActionListener() {
