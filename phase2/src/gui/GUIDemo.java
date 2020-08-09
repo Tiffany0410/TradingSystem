@@ -276,9 +276,9 @@ public class GUIDemo {
 
         RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
                 this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
-                this.regularUserIDChecker);
+                this.regularUserIDChecker, this.isGuest);
         regularUserTradingMenuGUI.run(this, this.regularUserTradingMenuController, this.systemMessage,
-                maxNumTransactionAWeek, numLentBeforeBorrow, this.regularUserIDChecker);
+                maxNumTransactionAWeek, numLentBeforeBorrow, this.regularUserIDChecker, this.isGuest);
     }
 
     public void runRegularUserCommunityMenuGUI(){
@@ -293,14 +293,15 @@ public class GUIDemo {
 
         int maxNumTPEdits = thresholdValues.get(3);
         RegularUserMeetingMenuGUI regularUserMeetingMenuGUI = new RegularUserMeetingMenuGUI(this,
-                this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits, this.regularUserIDChecker,this.regularUserDateTimeChecker);
+                this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits, this.regularUserIDChecker,this.regularUserDateTimeChecker, this.isGuest);
         regularUserMeetingMenuGUI.run(this, this.regularUserMeetingMenuController, this.systemMessage,maxNumTPEdits,
-                this.regularUserIDChecker,this.regularUserDateTimeChecker);
+                this.regularUserIDChecker,this.regularUserDateTimeChecker, this.isGuest);
     }
 
     public void runRegularUserSearchingMenuGUI() {
-        RegularUserSearchingMenuGUI regularUserSearchingMenuGUI = new RegularUserSearchingMenuGUI(this);
-        regularUserSearchingMenuGUI.run(this);
+        RegularUserSearchingMenuGUI regularUserSearchingMenuGUI = new RegularUserSearchingMenuGUI(this,  this.isGuest,
+                systemMessage);
+        regularUserSearchingMenuGUI.run(this, this.isGuest, systemMessage);
     }
 
 

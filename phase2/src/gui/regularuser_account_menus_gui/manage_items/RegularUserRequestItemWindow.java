@@ -28,8 +28,8 @@ public class RegularUserRequestItemWindow {
                 if (otherInfoChecker.checkItemType(itemCategory)){
                     Category item_category = Category.valueOf(itemCategory);
                     amc.requestAddItem(itemName, itemDescription, item_category);
-                    guiDemo.printNotification("Item requested, please wait for an administrative user to confirm.");
                     guiDemo.runSave();
+                    guiDemo.printNotification("Item requested, please wait for an administrative user to confirm.");
                 }
                 else {
                     guiDemo.printNotification("Please select the category of the item correctly.");

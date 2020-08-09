@@ -21,7 +21,7 @@ public class RegularUserMeetingMenuGUI {
 
     public RegularUserMeetingMenuGUI(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
                                      int maxNumTPEdits, RegularUserIDChecker idC,
-                                     RegularUserDateTimeChecker dtc) {
+                                     RegularUserDateTimeChecker dtc, boolean guest) {
 
         suggestOrConfirmTPButton.addActionListener(new ActionListener() {
             /**
@@ -31,8 +31,13 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                editAndConfirmMeetingTP(guiD, mmc, sm, maxNumTPEdits, dtc, idC);
-                guiD.runSave();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    editAndConfirmMeetingTP(guiD, mmc, sm, maxNumTPEdits, dtc, idC);
+                    guiD.runSave();
+                }
             }
         });
 
@@ -44,9 +49,14 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //1 window - print out meetings that need to confirmed that it took place --  plus meeting id and trade num -- plus confirm button on bottom
-                confirmMeetingTookPlace(mmc, sm, maxNumTPEdits, idC, guiD);
-                guiD.runSave();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    //1 window - print out meetings that need to confirmed that it took place --  plus meeting id and trade num -- plus confirm button on bottom
+                    confirmMeetingTookPlace(mmc, sm, maxNumTPEdits, idC, guiD);
+                    guiD.runSave();
+                }
             }
         });
 
@@ -58,15 +68,19 @@ public class RegularUserMeetingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //print the list of completed meetings
-                List<Meeting> meetings = mmc.getCompletedMeetings();
-                if (meetings.size() != 0) {
-                    String str = sm.printListObject(new ArrayList<>(meetings));
-                    guiD.printNotification("Here's your list of completed meetings: \n" + str);
+                if (guest) {
+                    guiD.printNotification(sm.msgForGuest());
                 } else {
-                    guiD.printNotification(sm.msgForNothing("here."));
-                }
+                    //print the list of completed meetings
+                    List<Meeting> meetings = mmc.getCompletedMeetings();
+                    if (meetings.size() != 0) {
+                        String str = sm.printListObject(new ArrayList<>(meetings));
+                        guiD.printNotification("Here's your list of completed meetings: \n" + str);
+                    } else {
+                        guiD.printNotification(sm.msgForNothing("here."));
+                    }
 
+                }
             }
         });
 
@@ -120,10 +134,10 @@ public class RegularUserMeetingMenuGUI {
 
     public void run(GUIDemo guiD, RegularUserMeetingMenuController mmc, SystemMessage sm,
                     int maxNumTPEdits,  RegularUserIDChecker idC,
-                    RegularUserDateTimeChecker dtc) {
+                    RegularUserDateTimeChecker dtc, boolean isGuest) {
         JFrame frame = new JFrame("regularUserMeetingMenuGUI");
         frame.setContentPane(new RegularUserMeetingMenuGUI(guiD, mmc, sm, maxNumTPEdits,
-                idC, dtc).rootPanel);
+                idC, dtc, isGuest).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
