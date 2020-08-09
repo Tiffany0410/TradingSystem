@@ -56,7 +56,7 @@ public class RegularUserManageItemsMenuGUI {
                     guiDemo.printNotification(sm.msgForGuest());
                 }
                 else{
-                    ArrayList<Item> tradable = amc.getAllTradableFromOther();
+                    ArrayList<Item> tradable = amc.getAllTradableFromOtherNotInWishlist();
                     if (tradable.isEmpty()){
                         guiDemo.printNotification(sm.msgForNo("tradable items that can be added to your wishlist"));
                     }

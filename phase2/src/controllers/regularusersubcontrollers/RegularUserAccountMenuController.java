@@ -80,8 +80,16 @@ public class RegularUserAccountMenuController {
      * Return a list of tradable items from other users in the system
      * @return a list of tradable items from other users
      */
-    public ArrayList<Item> getAllTradableFromOther(){
-        return im.allTradableItemsFromOtherUser(userId);
+    public ArrayList<Item> getAllTradableFromOtherNotInWishlist(){
+        ArrayList<Item> wishlist = getWishList();
+        ArrayList<Item> allTradable = im.allTradableItemsFromOtherUser(userId);
+        ArrayList<Item> out = new ArrayList<>();
+        for (Item item: allTradable){
+            if (!wishlist.contains(item)){
+                out.add(item);
+            }
+        }
+        return out;
     }
 
     /**

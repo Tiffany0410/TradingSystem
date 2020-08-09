@@ -50,7 +50,9 @@ public class SystemMessage {
        return "Invalid put in, please type a number.";
     }
 
-
+    public String tryAgainMsgForWrongDatetime(){
+        return "Invalid input: the year must be between 2020 and 2030, inclusive.";
+    }
 
     /**
      * print out the result of action with object type
@@ -347,11 +349,12 @@ public class SystemMessage {
 
 
     public String tryAgainMsgForWrongInput(){
-       return "Please try again, one or more input(s) are invalid";
+       return "Please try again, one or more input(s) are invalid.";
     }
 
     public String tryAgainMsgForWrongFormatInput(){
-        return "One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)";
+        return "Please try again. One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)." +
+                "Also, don't add 0 before a number (ex. we accept 5 but don't accept 05). ";
     }
 
     public String msgForNotYourTurn(){
@@ -425,6 +428,10 @@ public class SystemMessage {
             }
         }
         return string.toString();
+    }
+
+    public String printObject(Object object){
+        return object.toString();
     }
 
 

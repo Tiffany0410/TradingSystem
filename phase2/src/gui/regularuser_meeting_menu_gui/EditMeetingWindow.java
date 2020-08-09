@@ -66,7 +66,7 @@ public class EditMeetingWindow {
                             guiD.printNotification(sm.msgForNotYourTurn());
                         }
                     } else {
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
+                        guiD.printNotification(sm.tryAgainMsgForWrongDatetime());
                     }
                 } else {
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
