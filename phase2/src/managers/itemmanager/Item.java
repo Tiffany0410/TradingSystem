@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Shi Tang
  * @version IntelliJ IDEA 2020.1.1
  */
-public class Item implements PropertyChangeListener, Serializable {
+public class Item implements Serializable {
     private String name;
     private String description;
     private int itemId;
@@ -49,7 +49,7 @@ public class Item implements PropertyChangeListener, Serializable {
      * @param tradable the flag indicates whether the item is tradable
      */
     public void setTradable(boolean tradable) {
-        support.firePropertyChange("Tradable Status of the item", this.tradable, tradable);
+        support.firePropertyChange("Tradable Status of the item with item id " + itemId, this.tradable, tradable);
         this.tradable = tradable;
     }
 
@@ -180,11 +180,6 @@ public class Item implements PropertyChangeListener, Serializable {
      */
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         support.removePropertyChangeListener(pcl);
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        this.setTradable((boolean) evt.getNewValue());
     }
 
 
