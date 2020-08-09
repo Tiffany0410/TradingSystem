@@ -92,7 +92,6 @@ public class RegularUserSearchingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserMainMenu(guest);
             }

@@ -41,7 +41,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String inputName = "Please enter the item name:";
+                String inputName = "Please enter the keyword you want to search for:";
                 int option = 2;
 
                 RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController);
@@ -70,12 +70,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 String inputName = "Please enter the item ID:";
                 int option = 3;
-
                 RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
                 regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
-
-                //close this window
-                //guiDemo.closeWindow(rootPanel);
             }
         });
         sortByNumberOfButton.addActionListener(new ActionListener() {
@@ -87,8 +83,11 @@ public class RegularUserSearchingItemsSubMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Item> items = regularUserSearchingMenuController.sortItemByFollows();
-                guiDemo.printNotification(systemMessage.printItemResult(items));
-                guiDemo.closeWindow(rootPanel);
+                if (items.isEmpty()){
+                    guiDemo.printNotification(systemMessage.msgForNothing());
+                }
+                else{
+                guiDemo.printNotification(systemMessage.printItemResult(items));}
             }
         });
         backButton.addActionListener(new ActionListener() {

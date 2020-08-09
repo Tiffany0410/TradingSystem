@@ -35,26 +35,23 @@ public class RegularUserSearchingWindow {
                 }
 
 
-                if (option == 3){
-                    try{
+                if (option == 3) {
+                    try {
                         int id = Integer.parseInt(textField.getText());
                         String description = regularUserSearchingMenuController.getItemById(id);
                         guiDemo.printNotification(description);
                         guiDemo.runSave();
-                    } catch (NumberFormatException  ex){
+                    } catch (NumberFormatException ex) {
                         guiDemo.printNotification("Please enter number!");
                     }
-
                 }
-
+                guiDemo.closeWindow(rootPanel);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                guiDemo.runRegularUserSearchingItemsSubMenu();
-
             }
         });
     }
@@ -64,9 +61,9 @@ public class RegularUserSearchingWindow {
         JFrame frame = new JFrame("RegularUserSearchingWindow");
         frame.setContentPane(new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
 
