@@ -61,6 +61,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
         followers = new ArrayList<>();
         userFollowed = new ArrayList<>();
         itemFollowed = new ArrayList<>();
+        userFollowingLogs = new ArrayList<>();
 
 
     }
