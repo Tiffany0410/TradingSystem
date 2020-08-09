@@ -174,7 +174,6 @@ public class RegularUserTradingMenuController {
         // get the validation from the item side
         boolean ok = getValidationForItems(numKindOfTrade, itemId2, borrowerOrborrower1lender2, lenderOrlender1borrower2, itemId1);
         // use all these to determine the result
-
         return requestResult(ok, trade, tradeID, borrowerOrborrower1lender2, numLentBeforeBorrow);
 
     }
@@ -268,7 +267,7 @@ public class RegularUserTradingMenuController {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory
         return um.findUser(borrower).getWishList().contains(itemId) &&
-                um.findUser(lender).getInventory().contains(im.getItembyId(itemId));
+                um.findUser(lender).getInventory().contains(itemId);
     }
 
 
