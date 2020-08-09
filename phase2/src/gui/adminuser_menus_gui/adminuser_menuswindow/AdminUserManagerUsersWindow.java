@@ -15,13 +15,14 @@ public class AdminUserManagerUsersWindow {
     private JButton confirmButton;
     private JTextArea textArea;
     private javax.swing.JLabel JLabel;
+    private JScrollBar scrollBar1;
 
     public void run(int option, GUIDemo guiDemo, String inputName,String info, AdminUserManagerUsersController muc) {
         JFrame frame = new JFrame("AdminUserManagerUsersWindow");
         frame.setContentPane(new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setSize(300, 300);
+        frame.setSize(350, 300);
         //frame.pack();
         frame.setVisible(true);
     }
@@ -66,6 +67,7 @@ public class AdminUserManagerUsersWindow {
                         guiDemo.printNotification(result);
                         guiDemo.runSave();}
                 }
+
                 if (option == 2){
                     if (regularUserName != null) {
                         String result = muc.unfreezeUser(regularUserName);

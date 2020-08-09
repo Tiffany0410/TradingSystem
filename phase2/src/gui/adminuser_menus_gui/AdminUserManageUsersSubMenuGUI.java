@@ -62,7 +62,7 @@ public class AdminUserManageUsersSubMenuGUI {
                 if (info.equalsIgnoreCase("There are no user request to unfreeze")){
                     guiDemo.printNotification("There are no user request to unfreeze");
                 }else {
-                    String inputName = "Please enter the username of the user to UNFREEZE:";
+                    String inputName = "Please enter the username: ";
                     AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
                     adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
 

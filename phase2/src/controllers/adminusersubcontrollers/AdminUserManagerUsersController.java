@@ -101,7 +101,7 @@ public class AdminUserManagerUsersController {
             else {
                 String[] strings = (String[]) o;
                 body.append("#").append(count).append(". ").append("\n").append("Username: ").append(strings[0]);
-                body.append("Message: ").append(strings[1]).append("\n");
+                body.append("\nRequest message: ").append(strings[1]).append("\n");
             }
             count++;
         }
