@@ -61,12 +61,16 @@ public class AdminUserManagerUsersWindow {
             public void actionPerformed(ActionEvent e) {
                 String regularUserName = textField.getText();
                 if (option == 1){
-                    if (regularUserName != null) {String result = muc.freezeUser(regularUserName);
-                        guiDemo.printNotification(result);}
+                    if (regularUserName != null) {
+                        String result = muc.freezeUser(regularUserName);
+                        guiDemo.printNotification(result);
+                        guiDemo.runSave();}
                 }
                 if (option == 2){
-                    if (regularUserName != null) {String result = muc.unfreezeUser(regularUserName);
-                        guiDemo.printNotification(result);}
+                    if (regularUserName != null) {
+                        String result = muc.unfreezeUser(regularUserName);
+                        guiDemo.printNotification(result);
+                        guiDemo.runSave();}
                 }
                 guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);

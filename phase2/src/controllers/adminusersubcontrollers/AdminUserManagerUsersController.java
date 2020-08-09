@@ -46,7 +46,9 @@ public class AdminUserManagerUsersController {
         }
 
         for (TradableUser user : listOfUser) {
-            body.append("TradableUser ID#").append(user.getId()).append(" with Username: ").append(user.getUsername()).append("\n");
+            if (!user.getIfFrozen()) {
+                body.append("TradableUser ID#").append(user.getId()).append(" with Username: ").append(user.getUsername()).append("\n");
+            }
         }
 
         return title + body.toString();
@@ -65,10 +67,10 @@ public class AdminUserManagerUsersController {
         //String regularUsername = ds.getUsername();
 
         int regularUserID = um.usernameToID(regularUsername);
-        System.out.println("this is controller: " + regularUsername);
+
 
         boolean freezeOrNot = um.freezeUser(regularUsername);
-        System.out.println( "This is result: "+ freezeOrNot);
+
         // let presenter print the msg of successful or not
         //ds.printResult(freezeOrNot);
         if (freezeOrNot) {
