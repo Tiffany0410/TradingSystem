@@ -102,7 +102,7 @@ public class AdminUserEditThresholdsController {
 
 
     public String editMaxNumberIncompleteTransactions(int futureValue){
-        this.thresholdValues.set(0, futureValue);
+        this.thresholdValues.set(1, futureValue);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.2", this.currentValue, String.valueOf(futureValue));
         return sm.printResult(true);
     }
