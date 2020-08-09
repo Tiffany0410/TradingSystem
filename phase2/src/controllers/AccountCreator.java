@@ -54,7 +54,7 @@ public class AccountCreator {
 
 
                     //Write the UserManger into ser file in order to save the data
-                    frw.saveManagerToFile(um, this.userInfoFilePath);
+                    frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
                     frw.saveUserInfoToCSVFile(this.userInfoFilePath, username, password, email);
 
                 }
