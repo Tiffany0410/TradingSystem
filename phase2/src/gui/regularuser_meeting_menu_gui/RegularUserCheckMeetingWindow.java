@@ -100,7 +100,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                 }
                 //GO back to main menu
                 guiD.runSave();
-                guiD.runRegularUserMeetingMenu();
                 guiD.closeWindow(contentPane);
 
             }
