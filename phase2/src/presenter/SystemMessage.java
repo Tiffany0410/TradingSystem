@@ -321,7 +321,7 @@ public class SystemMessage {
         StringBuilder out = new StringBuilder();
         if (objects.isEmpty()) {return "\n";}
         for (Object object: objects){
-            if (object != null) {out.append(object.toString());}
+            if (object != null) {out.append(object.toString()).append("\n");}
         }
         return out.toString();
     }
@@ -330,7 +330,7 @@ public class SystemMessage {
         int i = 0;
         StringBuilder out = new StringBuilder();
         for (Object object: objects){
-            out.append("#").append(i).append(". ").append(object.toString());
+            out.append("#").append(i).append(". ").append(object.toString()).append("\n");
             i ++;
         }
         return out.toString();
