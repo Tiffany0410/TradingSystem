@@ -1,5 +1,6 @@
 package gui.regularuser_searching_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
 import managers.itemmanager.Item;
@@ -18,7 +19,8 @@ public class RegularUserSearchingWindow {
     private JButton confirmButton;
 
     public RegularUserSearchingWindow(String inputName, int option, GUIDemo guiDemo, SystemMessage systemMessage,
-                                      RegularUserSearchingMenuController regularUserSearchingMenuController) {
+                                      RegularUserSearchingMenuController regularUserSearchingMenuController,
+                                      RegularUserIDChecker idC) {
         JLabel.setText(inputName);
 
         confirmButton.addActionListener(new ActionListener() {
@@ -38,13 +40,20 @@ public class RegularUserSearchingWindow {
 
                 if (option == 3) {
                     try {
+                        String input = textField.getText();
                         int id = Integer.parseInt(textField.getText());
-                        Item item = regularUserSearchingMenuController.getItemObjectById(id);
-                        ArrayList<Item> items = new ArrayList<>();
-                        items.add(item);
-                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
-                        guiDemo.runSave();
-                    } catch (NumberFormatException ex) {
+                        if (idC.checkItemID(id)){
+                            Item item = regularUserSearchingMenuController.getItemObjectById(id);
+                            ArrayList<Item> items = new ArrayList<>();
+                            items.add(item);
+                            guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
+                            guiDemo.runSave();
+                        }
+                        else{
+                            guiDemo.printNotification("This item id is invalid :(");
+                        }
+                    }
+                    catch (NumberFormatException ex) {
                         guiDemo.printNotification("Please enter number!");
                     }
                 }
@@ -60,9 +69,9 @@ public class RegularUserSearchingWindow {
     }
 
     public void run(String inputName, int option, GUIDemo guiDemo, SystemMessage systemMessage,
-                    RegularUserSearchingMenuController regularUserSearchingMenuController) {
+                    RegularUserSearchingMenuController regularUserSearchingMenuController, RegularUserIDChecker idC) {
         JFrame frame = new JFrame("RegularUserSearchingWindow");
-        frame.setContentPane(new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController).rootPanel);
+        frame.setContentPane(new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

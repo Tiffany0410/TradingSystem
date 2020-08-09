@@ -1,5 +1,6 @@
 package gui.regularuser_searching_menu_gui;
 
+import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
 import managers.itemmanager.Item;
@@ -19,7 +20,7 @@ public class RegularUserSearchingItemsSubMenuGUI {
     private JButton backButton;
 
     public RegularUserSearchingItemsSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
-                                               GUIDemo guiDemo, SystemMessage systemMessage) {
+                                               GUIDemo guiDemo, SystemMessage systemMessage, RegularUserIDChecker idC) {
         filterByCategoryButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -44,8 +45,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 String inputName = "Please enter the keyword you want to search for:";
                 int option = 2;
 
-                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController);
-                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController);
+                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController, idC);
+                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController, idC);
 
                 //close this window
                 //guiDemo.closeWindow(rootPanel);
@@ -70,8 +71,8 @@ public class RegularUserSearchingItemsSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 String inputName = "Please enter the item ID:";
                 int option = 3;
-                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
-                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController);
+                RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController, idC);
+                regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage, regularUserSearchingMenuController, idC);
             }
         });
         sortByNumberOfButton.addActionListener(new ActionListener() {
@@ -105,10 +106,10 @@ public class RegularUserSearchingItemsSubMenuGUI {
     }
 
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
-                    GUIDemo guiDemo, SystemMessage systemMessage) {
+                    GUIDemo guiDemo, SystemMessage systemMessage, RegularUserIDChecker idC) {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");
         frame.setContentPane(new RegularUserSearchingItemsSubMenuGUI(regularUserSearchingMenuController, guiDemo,
-                systemMessage).rootPanel);
+                systemMessage, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
