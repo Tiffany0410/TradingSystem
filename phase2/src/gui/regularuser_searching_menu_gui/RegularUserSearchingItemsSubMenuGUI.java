@@ -2,15 +2,10 @@ package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
-import gui.GUIUserInputInfo;
-import gui.UserInputGUI;
-import managers.itemmanager.Category;
 import managers.itemmanager.Item;
-import managers.itemmanager.ItemManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
