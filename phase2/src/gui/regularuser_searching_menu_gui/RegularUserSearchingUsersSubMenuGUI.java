@@ -35,8 +35,7 @@ public class RegularUserSearchingUsersSubMenuGUI {
                 } else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
                 }
-                guiDemo.closeWindow(rootPanel);
-                }
+            }
         });
         frequentTradeUserButton.addActionListener(new ActionListener() {
             /**
@@ -53,7 +52,6 @@ public class RegularUserSearchingUsersSubMenuGUI {
                 } else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(filter)));
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
         sortUserByRatingButton.addActionListener(new ActionListener() {
@@ -72,7 +70,6 @@ public class RegularUserSearchingUsersSubMenuGUI {
                 } else {
                     guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(l)));
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -85,7 +82,6 @@ public class RegularUserSearchingUsersSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runRegularUserSearchingMenuGUI();
-
             }
         });
     }
