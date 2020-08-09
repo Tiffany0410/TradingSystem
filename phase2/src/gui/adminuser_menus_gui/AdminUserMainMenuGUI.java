@@ -36,9 +36,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserManageUsersSubMenu();
+
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserManageUsersSubMenu();
 
             }
         });
@@ -50,9 +51,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserEditThresholdsSubMenu();
+
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserEditThresholdsSubMenu();
 
 
             }
@@ -65,10 +67,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserHistoricalActionsSubMenu();
 
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserHistoricalActionsSubMenu();
 
 
             }
@@ -81,10 +83,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserOtherSubMenu();
 
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserOtherSubMenu();
             }
         });
         logoutButton.addActionListener(new ActionListener() {
@@ -95,10 +97,10 @@ public class AdminUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runTradingSystemInitMenuGUI();
 
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runTradingSystemInitMenuGUI();
             }
         });
     }

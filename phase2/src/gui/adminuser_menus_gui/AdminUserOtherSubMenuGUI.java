@@ -20,10 +20,10 @@ public class AdminUserOtherSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserCreateAccount();
-                guiDemo.runSave();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserCreateAccount();
+                guiDemo.runSave();
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -37,7 +37,6 @@ public class AdminUserOtherSubMenuGUI {
 
                 //close this window
                 guiDemo.closeWindow(rootPanel);
-
                 guiDemo.runAdminUserMainMenu();
             }
         });
