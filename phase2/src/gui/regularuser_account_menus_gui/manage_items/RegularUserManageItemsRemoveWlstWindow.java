@@ -59,7 +59,7 @@ public class RegularUserManageItemsRemoveWlstWindow {
         JFrame frame = new JFrame("Remove From Wishlist");
         frame.setContentPane(new RegularUserManageItemsRemoveWlstWindow(items, string, guiDemo, sm, amc, idChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

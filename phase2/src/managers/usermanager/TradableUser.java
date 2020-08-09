@@ -355,10 +355,11 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     @Override
     public String toString() {
-        return "This user has" + "username: " + super.getUsername() + ", id: " + super.getId() + ", email: " + super.getEmail()
-                + " ." + "He/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
-                "The answer to whether he/she is frozen is " + isFrozen;
+        return "This user has" + " username: " + super.getUsername() + ", id: " + super.getId() + ", email: " + super.getEmail()
+                + " ." + "\nHe/she has borrowed " + numBorrowed + " items and lent " + numLent + " items." + "" +
+                "\nThe answer to whether he/she is frozen is " + isFrozen + ".\n";
     }
+
     /**
      * Get a list of item  that this user followed
      *

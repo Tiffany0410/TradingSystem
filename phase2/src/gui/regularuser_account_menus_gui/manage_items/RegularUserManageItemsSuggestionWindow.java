@@ -63,7 +63,7 @@ public class RegularUserManageItemsSuggestionWindow {
         JFrame frame = new JFrame("Get Suggestion to Lend");
         frame.setContentPane(new RegularUserManageItemsSuggestionWindow(guiDemo, sm, amc, idChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(300, 300));
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

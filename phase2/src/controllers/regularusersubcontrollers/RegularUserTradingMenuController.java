@@ -1,6 +1,7 @@
 package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
+import managers.itemmanager.Item;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.Trade;
 import managers.trademanager.TradeManager;
@@ -184,10 +185,10 @@ public class RegularUserTradingMenuController {
     }
     /**Print the most suggest item for user to trade.
      */
-    public ArrayList<Integer> mostReasonableTradeSuggestions() {
+    public Item mostReasonableTradeSuggestions() {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
         am.addActionToAllActionsList(userId, "regularUser", "2.8", 0, "");
-        return p;
+        return im.getItembyId(p.get(0));
     }
 
 
