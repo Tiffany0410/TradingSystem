@@ -41,7 +41,7 @@ public class RegularUserMeetingMenuController {
      * @return the list of meetings that unconfirmed it took place.
      */
     public List<Meeting> getUnconfirmedMeeting(){
-        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
+//        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
         return mm.getUnConfirmMeeting(userId);
     }
 
@@ -49,7 +49,7 @@ public class RegularUserMeetingMenuController {
      * @return the list of meetings that are completed.
      */
     public List<Meeting> getCompletedMeetings(){
-        am.addActionToAllActionsList(userId, "regularUser", "3.4", 0, "");
+        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
         return mm.getCompleteMeeting(userId);
     }
 
@@ -92,7 +92,7 @@ public class RegularUserMeetingMenuController {
      * @return a list of meeting that the time and place is not confirmed
      */
     public List<Meeting> getUnConfirmTimePlace(){
-        am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
+//        am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
         return mm.getUnConfirmTimePlace(userId,tm);
     }
 
