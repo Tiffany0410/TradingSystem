@@ -413,7 +413,7 @@ public class GUIDemo {
     }
 
     public void printInvalidNumber() {
-        this.systemMessage.invalidNumber();
+        printNotification(this.systemMessage.invalidNumber());
     }
 }
 
