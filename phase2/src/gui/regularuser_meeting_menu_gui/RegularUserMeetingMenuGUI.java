@@ -93,8 +93,8 @@ public class RegularUserMeetingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserMainMenu(guest);
                 guiD.closeWindow(rootPanel);
+                guiD.runRegularUserMainMenu(guest);
             }
         });
     }

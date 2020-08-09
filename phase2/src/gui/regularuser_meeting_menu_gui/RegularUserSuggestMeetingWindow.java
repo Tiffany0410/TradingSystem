@@ -73,11 +73,13 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
             guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
         }
         guiD.runSave();
+        guiD.runRegularUserMeetingMenu();
         guiD.closeWindow(contentPane);
     }
 
     private void onCancel(GUIDemo guiD) {
         // add your code here if necessary
+        guiD.runRegularUserMeetingMenu();
         guiD.closeWindow(contentPane);
     }
 

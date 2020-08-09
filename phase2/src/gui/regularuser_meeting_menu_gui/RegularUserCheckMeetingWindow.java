@@ -28,7 +28,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
 
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(back);
+        getRootPane().setDefaultButton(confirm);
 
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,6 +56,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                 }
                 //GO back to main menu
                 guiD.runSave();
+                guiD.runRegularUserMeetingMenu();
                 guiD.closeWindow(contentPane);
 
             }
@@ -99,7 +100,7 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                 }
                 //GO back to main menu
                 guiD.runSave();
-                guiD.runRegularUserMainMenu(false);
+                guiD.runRegularUserMeetingMenu();
                 guiD.closeWindow(contentPane);
 
             }
