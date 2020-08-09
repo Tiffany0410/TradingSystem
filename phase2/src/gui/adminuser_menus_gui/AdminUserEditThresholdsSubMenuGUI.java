@@ -28,7 +28,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserEditThresholdsController.getMaxNumberTransactions() + "\n" + "Please enter new value:";
+                String string = adminUserEditThresholdsController.getMaxNumberTransactions();
                 int option = 1;
 
                 AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
@@ -46,7 +46,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserEditThresholdsController.getMaxNumberIncompleteTransactions() + "\n" + "Please enter new value:";
+                String string = adminUserEditThresholdsController.getMaxNumberIncompleteTransactions();
                 int option = 2;
 
                 AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
@@ -65,7 +65,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserEditThresholdsController.getMustLendNumber() + "\n" + "Please enter new value:";
+                String string = adminUserEditThresholdsController.getMustLendNumber();
                 int option = 3;
 
                 AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
@@ -84,7 +84,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = adminUserEditThresholdsController.getEditMaxEdits() + "\n" + "Please enter new value:";
+                String string = adminUserEditThresholdsController.getEditMaxEdits();
                 int option = 4;
 
                 AdminUserEditUserThresholdsWindow adminUserEditUserThresholdsWindow = new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController);
@@ -103,9 +103,9 @@ public class AdminUserEditThresholdsSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserMainMenu();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserMainMenu();
 
             }
         });

@@ -10,18 +10,15 @@ import java.awt.event.ActionListener;
 
 public class AdminUserEditUserThresholdsWindow {
     private JPanel rootPanel;
-    private javax.swing.JLabel JLabel;
     private JTextField textField;
     private JButton Cancel;
     private JButton confirmButton;
-    private JTextArea textArea;
+    private JLabel Jlabel;
+    private JLabel infoLabel;
 
     public AdminUserEditUserThresholdsWindow(String string, int option, GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
-        this.JLabel.setText("Please enter new value: ");
-        this.textArea.setText(string);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+        Jlabel.setText("Please enter new value");
+        infoLabel.setText(string);
 
 
         Cancel.addActionListener(new ActionListener() {
@@ -89,7 +86,8 @@ public class AdminUserEditUserThresholdsWindow {
     public void run(String string, int option, GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
         JFrame frame = new JFrame("AdminUserEditUserThresholdsWindow");
         frame.setContentPane(new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
