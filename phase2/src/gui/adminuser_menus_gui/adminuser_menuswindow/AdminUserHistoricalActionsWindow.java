@@ -17,9 +17,11 @@ public class AdminUserHistoricalActionsWindow {
     private JButton confirmButton;
     private JButton cancelButton;
     private JTextArea textArea;
+    private JScrollBar scrollBar1;
+    private javax.swing.JLabel JLabel;
 
-    public AdminUserHistoricalActionsWindow(String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
-
+    public AdminUserHistoricalActionsWindow(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
+        JLabel.setText(inputName);
         textArea.setText(info);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -115,12 +117,12 @@ public class AdminUserHistoricalActionsWindow {
         });
     }
 
-    public void run(String info,int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
+    public void run(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserHistoricalActionsWindow");
-        frame.setContentPane(new AdminUserHistoricalActionsWindow(info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
+        frame.setContentPane(new AdminUserHistoricalActionsWindow(inputName, info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setSize(300, 300);
+        frame.setSize(500, 300);
         //frame.pack();
         frame.setVisible(true);
     }

@@ -62,14 +62,15 @@ public class AdminUserHistoricalActionsSubMenu {
                 ArrayList<TradableUser> allUser = hac.getAllTradableUser();
 
                 //print all tradable user
-                info = info + sm.printListUser(allUser) + "Please enter the username that you want to search: \n";
+                info = info + sm.printListUser(allUser);
 
                 //get the user username enter by admin
                 int option = 3;
+                String inputName = "Please enter the username that you want to search:";
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                         info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run( info, option, guiDemo, hac, sm);
+                         inputName, info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
 
 //                String username = guiDemo.getInPut(string);
 //                int userID = hac.getUserID(username);
@@ -94,12 +95,13 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String inputName = "Please enter the ID of action that you want to cancel: ";
-                String info = "Here is Cancel the revocable historical actions of tradableUser by actionID window \n \nPlease enter the id of Revocable Action which you want to cancel:\n";
+                String info = "Here is Cancel the revocable historical actions of tradableUser by actionID window: \n";
                 int option = 4;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(info, option, guiDemo, hac, sm);
+                        inputName, info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
+
 
 //                try {
 //                    String userInput = guiDemo.getInPut(string);
@@ -137,17 +139,20 @@ public class AdminUserHistoricalActionsSubMenu {
                 //print whole map(key is actionID, value is regularUser id)
                 StringBuilder info = new StringBuilder();
 
+                info.append("Here is undo request: \n");
+
                 for (Map.Entry<Integer, Integer> entry : undoRequests.entrySet()) {
                     info.append("Tradable User# ").append(entry.getValue()).append(" request to undo Revocable Action #").append(entry.getKey()).append("\n");
                 }
 
-                info.append("Please enter the Action Number that you wan to undo: ");
-
                 int option = 5;
 
+                String inputName = "Please enter the Action Number that you wan to undo: ";
+
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        info.toString(), option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(info.toString(), option, guiDemo, hac, sm);
+                        inputName, info.toString(), option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(inputName, info.toString(), option, guiDemo, hac, sm);
+
 
 //                //get the actionID enter by admin
 //                try {
