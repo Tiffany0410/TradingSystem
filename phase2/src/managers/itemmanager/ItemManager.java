@@ -477,7 +477,7 @@ public class ItemManager implements Serializable {
                 }
             }
         }
-        return getMostMatchItem(wishlist);      // If all of the items in wishlist are not tradable
+        return getMostMatchItem(wishlist);
     }
 
     /**

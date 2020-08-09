@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.regularuser_community_menu_gui.RegularUserCommunityReportAUser">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.regularuser_community_menu_gui.communityWindows.RegularUserCommunitySendMessageWindow">
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -8,23 +8,23 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="3c2ee" class="javax.swing.JLabel">
+      <component id="f169f" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Write a report"/>
+          <text value="Send a message to friend"/>
         </properties>
       </component>
-      <component id="d7385" class="javax.swing.JLabel">
+      <component id="824e6" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
         </constraints>
-        <properties>
-          <text value="Enter the user's id that you want to report"/>
-        </properties>
+        <properties/>
       </component>
-      <component id="6418f" class="javax.swing.JTextField" binding="idField">
+      <component id="aefbd" class="javax.swing.JTextField" binding="id">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -32,15 +32,15 @@
         </constraints>
         <properties/>
       </component>
-      <component id="9ba99" class="javax.swing.JLabel">
+      <component id="886ca" class="javax.swing.JLabel">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Enter the reason"/>
+          <text value="Write your message here: "/>
         </properties>
       </component>
-      <component id="2b573" class="javax.swing.JTextArea" binding="reasonArea">
+      <component id="9149c" class="javax.swing.JTextArea" binding="msg">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -48,20 +48,20 @@
         </constraints>
         <properties/>
       </component>
-      <component id="af683" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
+      <component id="2b60f" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Cancel"/>
         </properties>
       </component>
-      <component id="5544b" class="javax.swing.JButton" binding="createButton" default-binding="true">
+      <component id="58985" class="javax.swing.JButton" binding="sendButton" default-binding="true">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Create"/>
+          <text value="Send"/>
         </properties>
       </component>
     </children>

@@ -1,4 +1,4 @@
-package gui.regularuser_account_menus_gui.manage_items;
+package gui.regularuser_account_menus_gui.manage_items.manageItemsWindows;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
@@ -12,14 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class RegularUserManageItemsRemoveWlstWindow {
+public class RegularUserManageItemsRemoveInvtyWindow {
     private JTextPane textPane1;
     private JButton cancelButton;
     private JButton removeButton;
     private JTextField userInput;
     private JPanel rootPanel;
 
-    public RegularUserManageItemsRemoveWlstWindow(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
+    public RegularUserManageItemsRemoveInvtyWindow(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker) {
         textPane1.setText(string);
         textPane1.setEditable(false);
@@ -32,7 +32,7 @@ public class RegularUserManageItemsRemoveWlstWindow {
                 if (idChecker.checkInt(input)) {
                     int itemId = Integer.parseInt(input);
                     if (idChecker.checkItemID(items, itemId)) {
-                        boolean result = amc.removeFromWishlist(itemId);
+                        boolean result = amc.removeFromInventory(itemId);
                         guiDemo.printNotification(sm.msgForResult(result));
                     }
                     else {
@@ -56,8 +56,8 @@ public class RegularUserManageItemsRemoveWlstWindow {
 
     public void run(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
-        JFrame frame = new JFrame("Remove From Wishlist");
-        frame.setContentPane(new RegularUserManageItemsRemoveWlstWindow(items, string, guiDemo, sm, amc, idChecker).rootPanel);
+        JFrame frame = new JFrame("Remove From Inventory");
+        frame.setContentPane(new RegularUserManageItemsRemoveInvtyWindow(items, string, guiDemo, sm, amc, idChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();

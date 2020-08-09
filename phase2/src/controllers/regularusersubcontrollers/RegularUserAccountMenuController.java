@@ -23,7 +23,6 @@ import java.util.Random;
  */
 public class RegularUserAccountMenuController {
 
-    //private DisplaySystem ds; //instead of this maybe make the tradingSystem's one protected
     private TradeManager tm;
     private UserManager um;
     private ItemManager im;
@@ -158,7 +157,6 @@ public class RegularUserAccountMenuController {
      * @return a list of items
      */
     public ArrayList<Item> getWishList(){
-        TradableUser thisTradableUser = um.findUser(userId);
         ArrayList<Integer> wishlistIDs = um.getUserWishlist(userId);
         return im.getItemsByIds(wishlistIDs);
     }

@@ -1,12 +1,9 @@
-import exception.InvalidIdException;
 import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +11,7 @@ import java.util.Collections;
 public class ItemManagerTest {
 
     @Test
-    public void testRequestAddItemAndGetNameById() throws InvalidIdException {
+    public void testRequestAddItemAndGetNameById() {
         ItemManager im = new ItemManager();
         im.requestAddItem("book1", "this is book1", 1, Category.BOOKS);
         Item book1 = im.getListItemToAdd().get(0);
@@ -29,7 +26,7 @@ public class ItemManagerTest {
     }
 
     @Test
-    public void testSearchItem() throws InvalidIdException {
+    public void testSearchItem() {
         ItemManager im = new ItemManager();
         im.requestAddItem("book 1", "this is book1", 1, Category.BOOKS);
         im.requestAddItem("book 2", "this is book2", 2, Category.BOOKS);
@@ -65,7 +62,7 @@ public class ItemManagerTest {
     }
 
     @Test
-    public void testGetMatchItem() throws InvalidIdException {
+    public void testGetMatchItem() {
         ItemManager im = new ItemManager();
         Item book1 = new Item("book1", "this is book1", 1,1, Category.BOOKS);
         Item book2 = new Item("book2", "this is book2", 1,2, Category.BOOKS);
@@ -83,7 +80,7 @@ public class ItemManagerTest {
     }
 
     @Test
-    public void testGetMostMatchItem() throws InvalidIdException {
+    public void testGetMostMatchItem() {
         ItemManager im = new ItemManager();
         Item book1 = new Item("book1", "this is book1", 1,1, Category.BOOKS);
         Item book2 = new Item("book2", "this is book2", 1,2, Category.BOOKS);
