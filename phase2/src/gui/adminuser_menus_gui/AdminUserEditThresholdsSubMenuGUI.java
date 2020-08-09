@@ -89,7 +89,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
-                guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
 
             }
         });
