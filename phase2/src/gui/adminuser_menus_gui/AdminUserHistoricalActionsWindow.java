@@ -16,11 +16,9 @@ public class AdminUserHistoricalActionsWindow {
     private JTextField textField;
     private JButton confirmButton;
     private JButton cancelButton;
-    private javax.swing.JLabel JLabel;
     private JTextArea textArea;
 
-    public AdminUserHistoricalActionsWindow(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
-        this.JLabel.setText(inputName);
+    public AdminUserHistoricalActionsWindow(String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
 
         this.textArea.setText(info);
         textArea.setEditable(false);
@@ -116,9 +114,9 @@ public class AdminUserHistoricalActionsWindow {
         });
     }
 
-    public void run(String inputName, String info,int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
+    public void run(String info,int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserHistoricalActionsWindow");
-        frame.setContentPane(new AdminUserHistoricalActionsWindow(inputName, info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
+        frame.setContentPane(new AdminUserHistoricalActionsWindow(info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

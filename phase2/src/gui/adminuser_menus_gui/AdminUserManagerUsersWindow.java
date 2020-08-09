@@ -5,30 +5,35 @@ import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import gui.GUIDemo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AdminUserManagerUsersWindow {
     private JPanel rootPanel;
-    private javax.swing.JLabel JLabel;
     private JTextField textField;
     private JButton cancleButton;
     private JButton confirmButton;
     private JTextArea textArea;
 
-    public void run(int option, GUIDemo guiDemo, String inputName, String info, AdminUserManagerUsersController muc) {
+    public void run(int option, GUIDemo guiDemo, String info, AdminUserManagerUsersController muc) {
         JFrame frame = new JFrame("AdminUserManagerUsersWindow");
-        frame.setContentPane(new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new AdminUserManagerUsersWindow(option, guiDemo, info, muc).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
 
 
 
-    public AdminUserManagerUsersWindow(int option, GUIDemo guiDemo, String inputName, String info, AdminUserManagerUsersController muc) {
-        this.JLabel.setText(inputName);
+    public AdminUserManagerUsersWindow(int option, GUIDemo guiDemo, String info, AdminUserManagerUsersController muc) {
         this.textArea.setText(info);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setBackground(new Color(242,242,242));
+
+
 
         cancleButton.addActionListener(new ActionListener() {
             /**

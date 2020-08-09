@@ -44,11 +44,16 @@ public class AdminUserManagerUsersController {
         StringBuilder body = new StringBuilder();
 
         ArrayList<TradableUser> listOfUser = um.getListTradableUser();
+
+        if (listOfUser.size() == 0){
+            return "No users can be frozen";
+        }
+
         for (TradableUser user : listOfUser) {
             body.append("TradableUser ID#").append(user.getId()).append(" with Username: ").append(user.getUsername()).append("\n");
         }
 
-        return title + body.toString() + "Please enter the username want to freeze: \n";
+        return title + body.toString() + "Please enter the username want to freeze: ";
     }
 
 
@@ -83,7 +88,7 @@ public class AdminUserManagerUsersController {
         int count = 1;
 
         if (um.getListUnfreezeRequest().isEmpty()){
-            return "There are no user request unfreeze";
+            return "There are no user request to unfreeze";
         }
 
         for (Object o : um.getListUnfreezeRequest()) {

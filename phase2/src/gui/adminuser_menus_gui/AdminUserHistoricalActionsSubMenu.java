@@ -64,12 +64,11 @@ public class AdminUserHistoricalActionsSubMenu {
                 info = info + sm.printListUser(allUser);
 
                 //get the user username enter by admin
-                String inputName =  "Please enter the username: ";
                 int option = 3;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        inputName, info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
+                         info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run( info, option, guiDemo, hac, sm);
 
 //                String username = guiDemo.getInPut(string);
 //                int userID = hac.getUserID(username);
@@ -98,8 +97,8 @@ public class AdminUserHistoricalActionsSubMenu {
                 int option = 4;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        inputName, info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
+                        info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(info, option, guiDemo, hac, sm);
 
 //                try {
 //                    String userInput = guiDemo.getInPut(string);
@@ -137,13 +136,12 @@ public class AdminUserHistoricalActionsSubMenu {
                 //print whole map(key is actionID, value is regularUser id)
                 String info = undoRequests.toString();
 
-                String inputName = "Please enter the ID of action that you want to cancel: \n";
 
                 int option = 5;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        inputName, info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
+                        info, option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(info, option, guiDemo, hac, sm);
 
 //                //get the actionID enter by admin
 //                try {

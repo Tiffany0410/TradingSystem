@@ -46,13 +46,15 @@ public class AdminUserManageUsersSubMenuGUI {
 
                 int option = 1;
                 String info = muc.getAllUnfreezeUser();
-                String inputName = "Please enter the username of the user you want to freeze: ";
 
-                AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
-                adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
+                if (info.equalsIgnoreCase("No users can be frozen")){
+                    guiDemo.printNotification("No users can be frozen");
+                }else {
+                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, info, muc);
+                    adminUserManagerUsersWindow.run(option, guiDemo, info, muc);
 
-                guiDemo.runSave();
-
+                    guiDemo.runSave();
+                }
 
             }
         });
@@ -71,12 +73,17 @@ public class AdminUserManageUsersSubMenuGUI {
 
                 int option = 2;
                 String info = muc.getWantUnfreezeUser();
-                String inputName = "Please enter the username of the user you want to unfreeze: ";
 
-                AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
-                adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
+                System.out.println(info);
 
-                guiDemo.runSave();
+                if (info.equalsIgnoreCase("There are no user request to unfreeze")){
+                    guiDemo.printNotification("There are no user request to unfreeze");
+                }else {
+                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, info, muc);
+                    adminUserManagerUsersWindow.run(option, guiDemo, info, muc);
+
+                    guiDemo.runSave();
+                }
             }
         });
         confirmAndAddItemButton.addActionListener(new ActionListener() {

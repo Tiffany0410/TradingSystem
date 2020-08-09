@@ -34,9 +34,11 @@ public class AdminUserOtherSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserMainMenu();
+
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+
+                guiDemo.runAdminUserMainMenu();
             }
         });
     }
