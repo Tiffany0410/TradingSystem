@@ -361,6 +361,9 @@ public class SystemMessage {
         return "You can't confirm right now because no time/place has been suggested or you have just suggested time/place your" +
                 " self. In the second case, the system automatically sets your status as confirmed.";
     }
+    public String msgForNotYourTurn(){
+        return "It's not your turn to edit.";
+    }
 
     public String msgForNo(String string){
         return "There is no " + string + " .";
