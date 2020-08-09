@@ -652,11 +652,15 @@ public class UserManager implements Serializable {
      * @return true if they were successfully added, false otherwise
      */
     public boolean addFriend(int user1, int user2){
+        boolean out = false;
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
         if (person1 != null && person2 != null){
-            person1.addToFriends(user2);
-            person2.addToFriends(user1);
+            if (!person1.getFriend().contains(user2)) {
+                person1.addToFriends(user2);
+                person2.addToFriends(user1);
+                out = true;
+            }
         }
         String[] toRemove = {};
         for (String[] request: listFriendRequest){
@@ -668,9 +672,8 @@ public class UserManager implements Serializable {
         }
         if (toRemove.length != 0) {
             listFriendRequest.remove(toRemove);
-            return true;
         }
-        return false;
+        return out;
     }
 
     /**
@@ -698,11 +701,13 @@ public class UserManager implements Serializable {
         TradableUser person1 = findUser(user1);
         TradableUser person2 = findUser(user2);
         if (person1 != null && person2 != null){
-            person1.removeFromFriends(user2);
-            person2.removeFromFriends(user1);
-            return true;
+            if (person1.getFriend().contains(user2)) {
+                person1.removeFromFriends(user2);
+                person2.removeFromFriends(user1);
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -879,7 +884,7 @@ public class UserManager implements Serializable {
         if (person == null){
             return false;
         }
-        if (!person.getItemFollowed().contains(toUnfollow)){
+        if (!person.getItemFollowed().contains(toUnfollow.getItemId())){
             return false;
         }
         person.unfollowItem(toUnfollow.getItemId());

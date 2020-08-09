@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class UserManagerTest {
-    UserManager um = new UserManager();
+public class UserManagerTest2 {
     TradableUser u1 = new TradableUser("a", "a", "a@a", 1);
     TradableUser u2 = new TradableUser("b", "b", "b@b", 2);
     Item i1 = new Item("c", "c", 1, 1, Category.CLOTHING);
@@ -21,6 +20,10 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testGetUserInventory() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         ArrayList<Integer> inv1 = new ArrayList<>();
         inv1.add(1);
         inv1.add(2);
@@ -32,6 +35,10 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testGetUserWishlist() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         ArrayList<Integer> wish2 = new ArrayList<>();
         wish2.add(1);
         u2.setWishList(wish2);
@@ -42,14 +49,22 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRequestFriend() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         assertTrue(um.requestFriend("add", "a", "b"));
-        assertFalse(um.requestFriend("no", "b", "a"));
+        assertTrue(um.requestFriend("no", "b", "a"));
         assertFalse(um.requestFriend("yes", "a", "b"));
         assertFalse(um.requestFriend("yes", "c", "b"));
     }
 
     @Test(timeout = 50)
     public void testAddFriend(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         assertFalse(um.addFriend("c", "d"));
         assertTrue(um.addFriend(1, 2));
         assertFalse(um.addFriend(1, 2));
@@ -58,6 +73,11 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testRemoveFriend(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
+        um.addFriend(1,2);
         assertFalse(um.removeFriend("c", "d"));
         assertTrue(um.removeFriend(1, 2));
         assertFalse(um.removeFriend(1, 2));
@@ -66,6 +86,10 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testGoOnVacation(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         assertFalse(um.goOnVacation(3));
         assertTrue(um.goOnVacation(1));
         assertFalse(um.goOnVacation(1));
@@ -73,13 +97,22 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testComeFromVacation(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         assertFalse(um.comeFromVacation(3));
+        um.goOnVacation(1);
         assertTrue(um.comeFromVacation(1));
         assertFalse(um.comeFromVacation(1));
     }
 
     @Test(timeout = 50)
     public void testSameCity(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
         u1.setHome("Toronto");
         u2.setHome("Toronto");
 
@@ -91,6 +124,20 @@ public class UserManagerTest {
 
     @Test(timeout = 50)
     public void testWantedItems(){
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+
+        ArrayList<Integer> inv1 = new ArrayList<>();
+        inv1.add(1);
+        inv1.add(2);
+        u1.setInventory(inv1);
+
+        ArrayList<Integer> wish2 = new ArrayList<>();
+        wish2.add(1);
+        u2.setWishList(wish2);
+
+        UserManager um = new UserManager(users, new ArrayList<>());
         assertTrue(um.wantedItems(2, 1).contains(1));
         assertFalse(um.wantedItems(2, 1).contains(2));
         assertFalse(um.wantedItems(2, 1).contains(3));
