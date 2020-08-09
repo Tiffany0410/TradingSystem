@@ -30,7 +30,8 @@ public class AdminUserEditUserThresholdsWindow {
             public void actionPerformed(ActionEvent e) {
                 if (option == 1){
                     try {
-                        int futureValue = Integer.parseInt(textField.getInputContext().toString());
+                        int futureValue = Integer.parseInt(textField.getText());
+                        String result = adminUserEditThresholdsController.editMaxNumberTransactions(futureValue);
                         guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
@@ -39,7 +40,10 @@ public class AdminUserEditUserThresholdsWindow {
 
                 if (option == 2){
                     try {
-                        int futureValue = Integer.parseInt(textField.getInputContext().toString());
+                        int futureValue = Integer.parseInt(textField.getText());
+                        System.out.println( "This is window"+ futureValue);
+                        System.out.println( "This is window"+ adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue)) ;
+
                         guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
@@ -48,7 +52,7 @@ public class AdminUserEditUserThresholdsWindow {
 
                 if (option == 3){
                     try {
-                        int futureValue = Integer.parseInt(textField.getInputContext().toString());
+                        int futureValue = Integer.parseInt(textField.getText());
                         guiDemo.printNotification(adminUserEditThresholdsController.editMustLendNumber(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
@@ -57,13 +61,13 @@ public class AdminUserEditUserThresholdsWindow {
 
                 if (option == 4){
                     try {
-                        int futureValue = Integer.parseInt(textField.getInputContext().toString());
+                        int futureValue = Integer.parseInt(textField.getText());
                         guiDemo.printNotification(adminUserEditThresholdsController.editMaxEdits(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
                     }
                 }
-
+                guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);
 
             }

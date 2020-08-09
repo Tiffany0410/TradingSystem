@@ -103,7 +103,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
-
+                guiDemo.runSave();
                 guiDemo.runAdminUserMainMenu();
 
             }
