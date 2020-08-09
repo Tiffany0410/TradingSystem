@@ -37,7 +37,7 @@ public class MeetingManagerTest {
         boolean check4 =meetingManager1.confirmTimePlace(meeting, 2,3);
         assertTrue(check4);
         assertEquals(1,meetingManager1.getUnConfirmMeeting(1).size());
-        tradeManager1.createTrade(1,2, 2,"Temporary",true, 2);
+        tradeManager1.addTrade(tradeManager1.createTrade(1,2, 2,"Temporary",true, 2));
         meetingManager1.addMeeting(2,1,2,1,tradeManager1);
         Meeting meeting1 = meetingManager1.getMeetingByIdNum(2,1);
         meetingManager1.editTimePlace(meeting1,1,2020,4,4,4,4,4,"toronto", 3);

@@ -25,12 +25,12 @@ public class FeedbackManagerTest  {
         feedbackManager.updateReport(1,2,"a");
         feedbackManager.updateReport(1,3,"b");
         assertTrue(feedbackManager.haveReport(1,3));
-        assertFalse(feedbackManager.updateReport(1,4,"hh"));
+        assertTrue(feedbackManager.updateReport(1,4,"hh"));
         assertFalse(feedbackManager.updateReport(1,2,"ss"));
-        assertEquals(2,feedbackManager.getReportById(1).size());
+        assertEquals(3,feedbackManager.getReportById(1).size());
         assertTrue(feedbackManager.deleteReport(1,2));
         assertFalse(feedbackManager.deleteReport(1,2));
         assertFalse(feedbackManager.deleteReport(2,1));
-        assertEquals(1,feedbackManager.getReportById(1).size());
+        assertEquals(2,feedbackManager.getReportById(1).size());
 
     }}
