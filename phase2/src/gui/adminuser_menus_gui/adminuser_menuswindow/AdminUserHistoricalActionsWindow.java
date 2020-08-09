@@ -16,17 +16,18 @@ public class AdminUserHistoricalActionsWindow {
     private JTextField textField;
     private JButton confirmButton;
     private JButton cancelButton;
-    private JTextArea textArea;
-    private JScrollBar scrollBar1;
     private javax.swing.JLabel JLabel;
+    private JScrollPane scrollPane;
+    private JTextPane textPane1;
 
     public AdminUserHistoricalActionsWindow(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JLabel.setText(inputName);
-        textArea.setText(info);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+        textPane1.setText(info);
+        textPane1.setEditable(false);
+        textPane1.setBackground(new Color(242,242,242));
 
+        textPane1.setVisible(true);
+        scrollPane.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
             /**
@@ -121,10 +122,10 @@ public class AdminUserHistoricalActionsWindow {
         JFrame frame = new JFrame("AdminUserHistoricalActionsWindow");
         frame.setContentPane(new AdminUserHistoricalActionsWindow(inputName, info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(500, 300);
-        //frame.pack();
+        frame.setPreferredSize(new Dimension(400,400));
+        frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
     private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
