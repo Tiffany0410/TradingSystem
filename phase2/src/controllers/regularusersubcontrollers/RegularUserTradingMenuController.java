@@ -103,8 +103,6 @@ public class RegularUserTradingMenuController {
      * for a week threshold, print an appropriate message.
      */
     public void respondToTradeRequests(int tradeID, String respondStatus){
-        // get the actual trade object
-        Trade trade = tm.getTradeById(tradeID);
         // will be used if two-way-trade
         int itemid22 = 0;
         // if it's one-way-trade
@@ -117,7 +115,7 @@ public class RegularUserTradingMenuController {
             itemid22 = tm.getId(tradeID, 4);
         }
         // the result of the response
-        respondResult(tradeID, trade, itemid22, userId11, userId22, itemId11, respondStatus);
+        respondResult(tradeID, itemid22, userId11, userId22, itemId11, respondStatus);
         }
 
 
@@ -133,12 +131,12 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
-    private void respondResult(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11, String respondStatus) {
+    private void respondResult(int tradeID,  int itemid22, int userId11, int userId22, int itemId11, String respondStatus) {
         // set user's status for the trade (agree / disagree)
         tm.setUserStatus(tradeID, userId, respondStatus);
         //remove items -- if agree
         if (respondStatus.equals("Agree")) {
-            respondAgree(tradeID, trade, itemid22, userId11, userId22, itemId11);
+            respondAgree(tradeID, itemid22, userId11, userId22, itemId11);
             am.addActionToAllActionsList(userId, "regularUser", "2.2", tradeID, "");
         } else {
             // cancel the trade so user can see it's cancelled in the list of cancelled trades
@@ -146,7 +144,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    private void respondAgree(int tradeID, Trade trade, int itemid22, int userId11, int userId22, int itemId11) {
+    private void respondAgree(int tradeID, int itemid22, int userId11, int userId22, int itemId11) {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
         if (!tm.checkOneWayTrade(tradeID)) {

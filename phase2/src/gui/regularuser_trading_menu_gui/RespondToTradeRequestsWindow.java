@@ -52,9 +52,17 @@ public class RespondToTradeRequestsWindow {
                 if (idC.checkInt(tradeIdS)){
                     int tradeId = Integer.parseInt(tradeIdS);
                     if (idC.checkTradeID(tradeId)){
-                        //TODO: don't know if buttonGroup.getSelection().toString() works
-                        atc.respondToTradeRequests(tradeId, buttonGroup.getSelection().toString());
-                        guiD.printNotification(sm.msgForRequestProcess(true));
+                        if (agreeRadioButton.isSelected()) {
+                            atc.respondToTradeRequests(tradeId, "Agree");
+                            guiD.printNotification(sm.msgForRequestProcess(true));
+                        }
+                        else if (disagreeRadioButton.isSelected()){
+                            atc.respondToTradeRequests(tradeId, "Disagree");
+                            guiD.printNotification(sm.msgForRequestProcess(true));
+                        }
+                        else{
+                            guiD.printNotification(sm.msgForRequestProcess(false) + "\n Please select an option (agree/disagree)!");
+                        }
                     }
                     else{
                         guiD.printNotification(sm.tryAgainMsgForWrongInput());
