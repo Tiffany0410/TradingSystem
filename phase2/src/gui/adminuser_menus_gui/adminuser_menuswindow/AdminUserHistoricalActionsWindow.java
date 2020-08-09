@@ -1,4 +1,4 @@
-package gui.adminuser_menus_gui;
+package gui.adminuser_menus_gui.adminuser_menuswindow;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import gui.GUIDemo;
@@ -20,7 +20,7 @@ public class AdminUserHistoricalActionsWindow {
 
     public AdminUserHistoricalActionsWindow(String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
 
-        this.textArea.setText(info);
+        textArea.setText(info);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setBackground(new Color(242,242,242));
@@ -108,8 +108,9 @@ public class AdminUserHistoricalActionsWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserHistoricalActionsSubMenu();
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserHistoricalActionsSubMenu();
+
             }
         });
     }
@@ -117,8 +118,10 @@ public class AdminUserHistoricalActionsWindow {
     public void run(String info,int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserHistoricalActionsWindow");
         frame.setContentPane(new AdminUserHistoricalActionsWindow(info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setSize(300, 300);
+        //frame.pack();
         frame.setVisible(true);
     }
 

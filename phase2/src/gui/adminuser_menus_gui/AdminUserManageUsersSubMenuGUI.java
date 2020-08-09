@@ -4,6 +4,8 @@ import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import gui.GUIDemo;
+import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserManageUsersConfirmInventoryWindow;
+import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserManagerUsersWindow;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
@@ -11,7 +13,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminUserManageUsersSubMenuGUI {
     private JPanel rootPanel;
