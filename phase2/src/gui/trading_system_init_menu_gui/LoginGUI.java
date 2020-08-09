@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controllers.LoginValidator;
-import gui.GUIDemo;
-import gui.LongNotificationGUI;
+import demomanager.GUIDemo;
 import gui.NotificationGUI;
 
 public class LoginGUI {

@@ -1,7 +1,7 @@
 package gui.trading_system_init_menu_gui;
 
 import controllers.AccountCreator;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

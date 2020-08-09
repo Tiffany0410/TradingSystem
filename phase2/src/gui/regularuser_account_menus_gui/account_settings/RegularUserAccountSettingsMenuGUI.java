@@ -3,7 +3,7 @@ package gui.regularuser_account_menus_gui.account_settings;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.actionmanager.Action;
 import presenter.SystemMessage;
 

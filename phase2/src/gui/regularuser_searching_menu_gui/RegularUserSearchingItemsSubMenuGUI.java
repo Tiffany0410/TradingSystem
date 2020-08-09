@@ -2,7 +2,7 @@ package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 

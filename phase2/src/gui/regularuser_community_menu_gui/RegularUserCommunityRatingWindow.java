@@ -2,7 +2,7 @@ package gui.regularuser_community_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 
 import javax.swing.*;
 import java.awt.*;

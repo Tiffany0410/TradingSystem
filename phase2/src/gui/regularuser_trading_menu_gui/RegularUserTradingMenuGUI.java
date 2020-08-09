@@ -1,10 +1,8 @@
 package gui.regularuser_trading_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
-import gui.GUIDemo;
-import gui.GUIUserInputInfo;
+import demomanager.GUIDemo;
 import managers.trademanager.Trade;
 import presenter.SystemMessage;
 

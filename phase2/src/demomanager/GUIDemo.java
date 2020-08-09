@@ -1,10 +1,12 @@
-package gui;
+package demomanager;
 
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import controllers.adminusersubcontrollers.*;
 import controllers.regularusersubcontrollers.*;
 import gateway.FilesReaderWriter;
+import gui.LongNotificationGUI;
+import gui.NotificationGUI;
 import gui.adminuser_menus_gui.*;
 import gui.regularuser_account_menus_gui.RegularUserAccountMainMenuGUI;
 import gui.regularuser_account_menus_gui.account_settings.RegularUserAccountSettingsMenuGUI;

@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserHistoricalActionsWindow;
 import managers.actionmanager.Action;
 import managers.usermanager.TradableUser;

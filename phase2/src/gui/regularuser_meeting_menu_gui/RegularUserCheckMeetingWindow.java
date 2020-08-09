@@ -3,15 +3,12 @@ package gui.regularuser_meeting_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import gui.GUIDemo;
-import gui.GUIUserInputInfo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class RegularUserCheckMeetingWindow extends JDialog {
     private JPanel contentPane;

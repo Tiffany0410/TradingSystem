@@ -1,6 +1,6 @@
 package gui.regularuser_searching_menu_gui;
 
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.meetingmanager.Meeting;
 import presenter.SystemMessage;
 

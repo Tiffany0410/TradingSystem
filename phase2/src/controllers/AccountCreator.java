@@ -1,7 +1,6 @@
 package controllers;
 
 import gateway.FilesReaderWriter;
-import gui.GUIDemo;
 import gui.NotificationGUI;
 import managers.usermanager.UserManager;
 

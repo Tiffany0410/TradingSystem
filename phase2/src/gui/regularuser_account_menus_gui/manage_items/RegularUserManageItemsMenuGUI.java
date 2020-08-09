@@ -3,8 +3,7 @@ package gui.regularuser_account_menus_gui.manage_items;
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
-import gui.GUIDemo;
-import gui.GUIUserInputInfo;
+import demomanager.GUIDemo;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 

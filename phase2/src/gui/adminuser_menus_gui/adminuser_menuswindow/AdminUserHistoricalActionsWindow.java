@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui.adminuser_menuswindow;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.actionmanager.Action;
 import presenter.SystemMessage;
 

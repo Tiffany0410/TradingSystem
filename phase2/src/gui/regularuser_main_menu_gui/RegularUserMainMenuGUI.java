@@ -2,14 +2,13 @@ package gui.regularuser_main_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class RegularUserMainMenuGUI {

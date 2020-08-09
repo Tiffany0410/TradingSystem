@@ -3,7 +3,7 @@ package gui.adminuser_menus_gui.adminuser_menuswindow;
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 

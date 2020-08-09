@@ -3,7 +3,7 @@ package gui.regularuser_meeting_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserMeetingMenuController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

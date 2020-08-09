@@ -2,7 +2,7 @@ package gui.adminuser_menus_gui;
 
 import controllers.AccountCreator;
 import controllers.adminusersubcontrollers.AdminUserOtherActionsController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

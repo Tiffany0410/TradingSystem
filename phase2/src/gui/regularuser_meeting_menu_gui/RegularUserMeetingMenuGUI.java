@@ -1,8 +1,7 @@
 package gui.regularuser_meeting_menu_gui;
 
 import controllers.regularusersubcontrollers.*;
-import gui.GUIDemo;
-import gui.GUIUserInputInfo;
+import demomanager.GUIDemo;
 import managers.meetingmanager.Meeting;
 import presenter.SystemMessage;
 

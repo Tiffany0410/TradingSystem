@@ -2,7 +2,7 @@ package gui.regularuser_account_menus_gui.manage_items;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import managers.itemmanager.Category;
 
 import javax.swing.*;

@@ -3,7 +3,6 @@ package demomanager;
 import controllers.AccountCreator;
 import controllers.LoginValidator;
 import gateway.FilesReaderWriter;
-import gui.GUIDemo;
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.ItemManager;

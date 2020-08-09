@@ -1,7 +1,7 @@
 package gui.regularuser_account_menus_gui.account_settings;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

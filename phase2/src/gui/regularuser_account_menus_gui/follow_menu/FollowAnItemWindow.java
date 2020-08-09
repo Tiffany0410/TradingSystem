@@ -2,7 +2,7 @@ package gui.regularuser_account_menus_gui.follow_menu;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import presenter.SystemMessage;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package gui.trading_system_init_menu_gui;
 
 
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 
 import javax.swing.*;
 import java.awt.*;

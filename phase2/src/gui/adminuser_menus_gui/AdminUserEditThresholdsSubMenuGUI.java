@@ -1,7 +1,7 @@
 package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserEditThresholdsController;
-import gui.GUIDemo;
+import demomanager.GUIDemo;
 import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserEditUserThresholdsWindow;
 
 import javax.swing.*;
