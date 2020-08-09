@@ -33,7 +33,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
                 adminUserEditUserThresholdsWindow.run(string, option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 //close this window
-//              guiDemo.closeWindow(rootPanel);
+                //guiDemo.closeWindow(rootPanel);
             }
         });
         editTheMaxNumberButton1.addActionListener(new ActionListener() {
@@ -103,6 +103,7 @@ public class AdminUserEditThresholdsSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runSave();
                 guiDemo.runAdminUserMainMenu();
 
             }

@@ -178,6 +178,7 @@ public class AdminUserHistoricalActionsSubMenu {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+
                 guiDemo.runAdminUserMainMenu();
             }
         });
