@@ -3,6 +3,7 @@ package gui.regularuser_trading_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import demomanager.GUIDemo;
+import managers.itemmanager.Item;
 import managers.trademanager.Trade;
 import presenter.SystemMessage;
 
@@ -168,8 +169,9 @@ public class RegularUserTradingMenuGUI {
                     guiD.printNotification(sm.msgForGuest());
                 }
                 else if (atc.hasTradeSuggestion()){
-                    String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
-                    guiD.printNotification("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
+                    Item item = atc.mostReasonableTradeSuggestions();
+                    String str = sm.printObject(item);
+                    guiD.printNotification("Trade suggestion for you:\n" + str);
                 }
                 else{
                     guiD.printNotification(sm.msgForNo(" recommended trade suggestion."));

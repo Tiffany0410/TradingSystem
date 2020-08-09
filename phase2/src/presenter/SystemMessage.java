@@ -427,5 +427,9 @@ public class SystemMessage {
         return string.toString();
     }
 
+    public String printObject(Object object){
+        return object.toString();
+    }
+
 
 }
