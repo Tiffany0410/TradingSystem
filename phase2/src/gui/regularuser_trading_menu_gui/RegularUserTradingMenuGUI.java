@@ -189,7 +189,7 @@ public class RegularUserTradingMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GO back to main menu
-                guiD.runRegularUserMainMenu(false);
+                guiD.runRegularUserMainMenu(guest);
                 guiD.closeWindow(rootPanel);
             }
         });
