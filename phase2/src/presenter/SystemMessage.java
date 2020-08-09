@@ -372,6 +372,13 @@ public class SystemMessage {
         return "Success!";
     }
 
+    public String msgForMeetingTookPlaceResult(boolean validator){
+        if (!validator){
+            return "Failed. It's probably because you have already confirmed it or the meeting time hasn't arrived.";
+        }
+        return "Success!";
+    }
+
     public String msgForNo(String string){
         return "There is no " + string + " .";
     }

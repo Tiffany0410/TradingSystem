@@ -53,7 +53,7 @@ public class RegularUserSuggestMeetingWindow {
             int tradeId = Integer.parseInt(tradeIdInS);
             int meetingNum = Integer.parseInt(meetingNumInS);
             if (mmc.checkValidMeeting(tradeId, meetingNum)) {
-                guiD.printNotification(sm.printResult(mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP)));
+                guiD.printNotification(sm.msgForMeetingTookPlaceResult(mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP)));
             } else {
                 guiD.printNotification(sm.tryAgainMsgForWrongInput());
             }
