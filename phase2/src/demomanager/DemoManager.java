@@ -111,7 +111,8 @@ public class DemoManager {
             System.out.println("Can not find Manager in related file, Please check README file or rerun the program.");
 
         } catch (IOException ex){
-            System.out.println("Please try to clean the content of the files in Managers folder");
+            System.out.println("Please try to clean the content of the files in serializedmanagersfiles folder in the" +
+                    " configs folder.");
 
         }
 
