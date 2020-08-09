@@ -1,4 +1,4 @@
-package gui.regularuser_account_menus_gui.manage_items;
+package gui.regularuser_account_menus_gui.manage_items.manageItemsWindows;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;

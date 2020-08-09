@@ -4,6 +4,7 @@ import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import demomanager.GUIDemo;
+import gui.regularuser_community_menu_gui.communityWindows.*;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;

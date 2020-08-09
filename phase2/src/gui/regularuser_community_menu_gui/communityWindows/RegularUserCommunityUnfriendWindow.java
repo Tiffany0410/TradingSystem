@@ -1,4 +1,4 @@
-package gui.regularuser_community_menu_gui;
+package gui.regularuser_community_menu_gui.communityWindows;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
@@ -10,31 +10,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegularUserCommunityRespondRequestWindow {
+public class RegularUserCommunityUnfriendWindow {
     private JTextPane textPane1;
-    private JTextField id;
     private JButton cancelButton;
-    private JButton acceptButton;
+    private JButton unfriendButton;
+    private JTextField id;
     private JPanel rootPanel;
 
-    public RegularUserCommunityRespondRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc,
-                                                    RegularUserIDChecker idC){
+    public RegularUserCommunityUnfriendWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc,
+                                              RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
         textPane1.setBackground(new Color(242,242,242));
 
-        acceptButton.addActionListener(new ActionListener() {
+        unfriendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String user_id = id.getText();
-                if (idC.checkInt(user_id)) {
-                    int userToID = Integer.parseInt(user_id);
-                    if (cmc.checkIdInRequest(userToID)){
-                        guidemo.printNotification(sm.msgForResult(cmc.addFriend(userToID)));
-                    }
-                    else {
-                        guidemo.printNotification("Please enter a valid user id in the list");
-                    }
+                if (idC.checkInt(user_id)){
+                    int id = Integer.parseInt(user_id);
+                    guidemo.printNotification(sm.msgForResult(cmc.unfriendUser(id)));
                 }
                 else {
                     guidemo.printNotification("Please enter a valid information.");
@@ -50,9 +45,11 @@ public class RegularUserCommunityRespondRequestWindow {
             }
         });
     }
-    public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
-        JFrame frame = new JFrame("Respond to friend request");
-        frame.setContentPane(new RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
+
+    public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc,
+                    RegularUserIDChecker idC){
+        JFrame frame = new JFrame("Unfriend an user");
+        frame.setContentPane(new RegularUserCommunityUnfriendWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(400, 400));
         frame.pack();

@@ -4,6 +4,7 @@ import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import demomanager.GUIDemo;
+import gui.regularuser_account_menus_gui.manage_items.manageItemsWindows.*;
 import managers.itemmanager.Item;
 import presenter.SystemMessage;
 

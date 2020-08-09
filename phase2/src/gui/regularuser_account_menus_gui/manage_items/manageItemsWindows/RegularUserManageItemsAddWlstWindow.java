@@ -1,4 +1,4 @@
-package gui.regularuser_account_menus_gui.manage_items;
+package gui.regularuser_account_menus_gui.manage_items.manageItemsWindows;
 
 import controllers.regularusersubcontrollers.RegularUserAccountMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
@@ -12,27 +12,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class RegularUserManageItemsRemoveInvtyWindow {
+public class RegularUserManageItemsAddWlstWindow {
     private JTextPane textPane1;
-    private JButton cancelButton;
-    private JButton removeButton;
     private JTextField userInput;
+    private JButton cancelButton;
+    private JButton addButton;
     private JPanel rootPanel;
 
-    public RegularUserManageItemsRemoveInvtyWindow(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
-            sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker) {
+    public RegularUserManageItemsAddWlstWindow(ArrayList<Item> tradable, String string, GUIDemo guiDemo, SystemMessage
+             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
         textPane1.setText(string);
         textPane1.setEditable(false);
-        textPane1.setBackground(new Color(242, 242, 242));
+        textPane1.setBackground(new Color(242,242,242));
 
-        removeButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
-                if (idChecker.checkInt(input)) {
+                if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(items, itemId)) {
-                        boolean result = amc.removeFromInventory(itemId);
+                    if (idChecker.checkItemID(tradable, itemId)){
+                        boolean result = amc.addToWishList(itemId);
                         guiDemo.printNotification(sm.msgForResult(result));
                     }
                     else {
@@ -54,10 +54,10 @@ public class RegularUserManageItemsRemoveInvtyWindow {
         });
     }
 
-    public void run(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
+    public void run(ArrayList<Item> tradable, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
-        JFrame frame = new JFrame("Remove From Inventory");
-        frame.setContentPane(new RegularUserManageItemsRemoveInvtyWindow(items, string, guiDemo, sm, amc, idChecker).rootPanel);
+        JFrame frame = new JFrame("Add to Wishlist");
+        frame.setContentPane(new RegularUserManageItemsAddWlstWindow(tradable, string, guiDemo, sm, amc, idChecker).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();

@@ -1,4 +1,4 @@
-package gui.regularuser_community_menu_gui;
+package gui.regularuser_community_menu_gui.communityWindows;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;

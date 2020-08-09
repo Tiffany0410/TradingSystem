@@ -1,4 +1,4 @@
-package gui.regularuser_community_menu_gui;
+package gui.regularuser_community_menu_gui.communityWindows;
 
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
@@ -10,37 +10,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegularUserCommunitySendMessageWindow {
+public class RegularUserCommunitySendFriendRequestWindow {
     private JTextPane textPane1;
-    private JTextField id;
-    private JTextArea msg;
+    private JTextField userId;
+    private JTextArea message;
     private JButton cancelButton;
-    private JButton sendButton;
+    private JButton requestButton;
     private JPanel rootPanel;
 
-    public RegularUserCommunitySendMessageWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
+    public RegularUserCommunitySendFriendRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
         textPane1.setBackground(new Color(242,242,242));
 
-        sendButton.addActionListener(new ActionListener() {
+        requestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String userId = id.getText();
-                String message = msg.getText();
-                if (idC.checkInt(userId)) {
-                    int user_id = Integer.parseInt(userId);
-                    if (!cmc.checkIsFriend(user_id)) {
-                        guidemo.printNotification("Please enter an id of your friend!");
-                    }
-                    else {
-                        guidemo.printNotification(sm.msgForResult(cmc.sendMessage(user_id, message)));
+                String id_input = userId.getText();
+                String msg = message.getText();
+                if (idC.checkInt(id_input)) {
+                    int userToID = Integer.parseInt(id_input);
+                    if (userToID != cmc.getUserId()) {
+                        guidemo.printNotification(sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg), userToID));
+
+                    } else {
+                        guidemo.printNotification("You can't send friend request to yourself :)");
                     }
                 }
                 else {
                     guidemo.printNotification("Please enter a valid information.");
                 }
                 guidemo.closeWindow(rootPanel);
+
             }
         });
 
@@ -53,10 +54,10 @@ public class RegularUserCommunitySendMessageWindow {
     }
 
     public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
-        JFrame frame = new JFrame("Send a message");
-        frame.setContentPane(new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC).rootPanel);
+        JFrame frame = new JFrame("Send a Friend Request");
+        frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(400, 400));
+        frame.setPreferredSize(new Dimension(600, 600));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
