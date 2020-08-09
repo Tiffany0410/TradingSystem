@@ -78,6 +78,9 @@ public class RegularUserTradingMenuController {
         return topThree;
     }
 
+    /**
+     * @return true if user has top three otherwise false;
+     */
     public boolean hasTopThree()  {
         return tm.getTradeHistory(userId).size() != 0;
     }
@@ -120,6 +123,9 @@ public class RegularUserTradingMenuController {
         }
 
 
+    /** Get the user respond for the request
+     * @return a list of trade
+     */
      public List<Trade> tradeRequestsToRespond() {
         //assume wait-to-be-opened = wait for the other user's response
         List<managers.trademanager.Trade> requests = new ArrayList<>();
@@ -132,6 +138,9 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
+    /**
+        Get the respond result(agree or disagree) by user
+     */
     private void respondResult(int tradeID,  int itemid22, int userId11, int userId22, int itemId11, String respondStatus) {
         // set user's status for the trade (agree / disagree)
         tm.setUserStatus(tradeID, userId, respondStatus);
@@ -145,6 +154,9 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    /**
+     Get the respond result which is agree by user
+     */
     private void respondAgree(int tradeID, int itemid22, int userId11, int userId22, int itemId11) {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
@@ -158,12 +170,18 @@ public class RegularUserTradingMenuController {
         mm.addMeeting(tradeID, userId11, userId22, 1, tm);
     }
 
+    /**
+     lock user if the user has no more transcactions.
+     */
     public boolean lockThresholdOrNot(){
         // if the user has no more transactions left
         return um.getInfo(userId, "TransactionLeftForTheWeek") == 0;
 
     }
 
+    /**
+     Request a trade by user to another user
+     */
     public String requestTrade(int numKindOfTrade, int borrowerOrborrower1lender2, int lenderOrlender1borrower2,
                                int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) {
         // get the trade id
@@ -177,13 +195,17 @@ public class RegularUserTradingMenuController {
 
     }
 
+
+    /**
+     * @return true if user has a wanted item in his wishlist, otherwise false
+     */
     public boolean hasTradeSuggestion() {
         if (um.getUserWishlist(userId).isEmpty()){
             return false;
         }
         return im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId))).size() != 0;
     }
-    /**Print the most suggest item for user to trade.
+    /**return the most suggest item for user to trade.
      */
     public Item mostReasonableTradeSuggestions() {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
@@ -192,6 +214,9 @@ public class RegularUserTradingMenuController {
     }
 
 
+    /** Determine what a trade id should be
+     * @return a trade id
+     */
     private int determineTradeID() {
         int tradeID;
         //add the trade id so that there're no duplicates
@@ -200,6 +225,14 @@ public class RegularUserTradingMenuController {
         return tradeID;
     }
 
+    /**
+     * @param numKindOfTrade which kind of trade
+     * @param itemId2 second user item id
+     * @param userId1 user1 id
+     * @param userId2 user2 id
+     * @param itemId user item id
+     * @return true if item(s) is validate, false otherwise
+     */
     private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
         boolean ok;
         if (numKindOfTrade == 1) {
@@ -214,6 +247,16 @@ public class RegularUserTradingMenuController {
     }
 
 
+    /**
+     * @param numKindOfTrade which kind of trade
+     * @param itemId2 second user item id
+     * @param userId1 user1 id
+     * @param userId2 user2 id
+     * @param itemId user item id
+     * @param tradeID trade id
+     * @param tradeType trade's type
+     * @return a trade
+     */
     private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Trade trade;
         if (numKindOfTrade == 1) {
@@ -227,6 +270,15 @@ public class RegularUserTradingMenuController {
         return trade;
     }
 
+
+    /**
+     * @param ok result
+     * @param trade trade
+     * @param tradeId trade id
+     * @param userId1 user1 id
+     * @param numLendBeforeBorrow num lend before borrow
+     * @return the result of request
+     */
     private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
@@ -240,6 +292,9 @@ public class RegularUserTradingMenuController {
         }
     }
 
+    /**
+     * @return false message of request
+     */
     private String requestFail() {
         //if the trade request failed
         // system auto-freeze
@@ -251,6 +306,11 @@ public class RegularUserTradingMenuController {
         return sm.msgForRequestResult(false);
     }
 
+    /**
+     * @param trade trade
+     * @param tradeId trade id
+     * @return success message of request
+     */
     private String requestSuccess(Trade trade, int tradeId) {
         // add trade
         tm.addTrade(trade);
@@ -262,6 +322,12 @@ public class RegularUserTradingMenuController {
     }
 
 
+    /** one way trade validation
+     * @param borrower borrower
+     * @param lender  lender
+     * @param itemId item id  that is trading
+     * @return true if it is validate item otherwise false
+     */
     private boolean validateItems(int borrower, int lender, int itemId) {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory
@@ -270,6 +336,13 @@ public class RegularUserTradingMenuController {
     }
 
 
+    /** two way trade validation
+     * @param borrower1Lender2 user1
+     * @param borrower2lender1 user2
+     * @param itemId1 item1 id
+     * @param itemId2 item2 id
+     * @return true if them are validate otherwise false
+     */
     private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2)  {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory for both items
@@ -278,16 +351,25 @@ public class RegularUserTradingMenuController {
                 validateItems(borrower2lender1, borrower1Lender2, itemId2);
     }
 
+    /**
+     * @return trade status are open
+     */
     public List<Trade> viewOpenTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
         return tm.getOpenTrade(userId);
     }
 
+    /**
+     * @return trade status are closed
+     */
     public List<Trade> viewClosedTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
         return tm.getClosedTrade(userId);
     }
 
+    /**
+     * @return trade status are cancelled
+     */
     public List<Trade> viewCancelledTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         return tm.getCancelledTrade(userId);

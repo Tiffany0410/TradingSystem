@@ -341,13 +341,14 @@ public class TradeManager implements Serializable {
      * @return the trade we remove
      */
     public managers.trademanager.Trade removeTrade(int tradeId) {
+        List<Trade> l = new ArrayList<>();
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
-                listTrade.remove(t);
-                return t;
+                l.add(t);
             }
         }
-        return null;
+        listTrade.removeAll(l);
+        return l.get(0);
     }
 
 
@@ -391,22 +392,6 @@ public class TradeManager implements Serializable {
         }
     }
 
-
-    /** change a trade status to close
-     * @param tradeId trade id
-     */
-    public void closeTrade(int tradeId, managers.itemmanager.ItemManager im){
-        for (managers.trademanager.Trade t : listTrade) {
-            if (t.getIds().get(0) == tradeId) {
-                ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
-                if (!t.getIsOneWayTrade()) {
-                    lst.add(t.getIds().get(4));
-                }
-                im.setTradable(lst,true);
-                t.closedTrade();
-            }
-        }
-    }
 
     /** Change a trade status to open
      * @param tradeId trade id
