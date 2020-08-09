@@ -68,6 +68,7 @@ public class AdminUserManagerUsersWindow {
                     if (regularUserName != null) {String result = muc.unfreezeUser(regularUserName);
                         guiDemo.printNotification(result);}
                 }
+                guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);
             }
         });
