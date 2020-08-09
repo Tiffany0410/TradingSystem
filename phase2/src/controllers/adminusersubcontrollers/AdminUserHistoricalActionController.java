@@ -351,7 +351,7 @@ public class AdminUserHistoricalActionController {
             // 1.3.2: Follow an item
             case 2:
                 // call UserManager to unfollow an item
-                return um.itemUnfollow(targetAction.getActionOwnerID(), targetAction.getAdjustableInt());
+                return um.itemUnfollow(targetAction.getActionOwnerID(), im.getItembyId(targetAction.getAdjustableInt()));
         }
         return false;
     }

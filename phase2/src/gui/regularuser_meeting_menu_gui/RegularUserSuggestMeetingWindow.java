@@ -58,14 +58,13 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
     private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int maxEditsTP, GUIDemo guiD,
                       RegularUserIDChecker idc) {
-        boolean ok = false;
         String tradeIdInS = tradeId.getText();
         String meetingNumInS = meetingNum.getText();
         if (idc.checkInt(tradeIdInS) && idc.checkInt(meetingNumInS)) {
             int tradeId = Integer.parseInt(tradeIdInS);
             int meetingNum = Integer.parseInt(meetingNumInS);
             if (mmc.checkValidMeeting(tradeId, meetingNum)) {
-                ok = mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP);
+                guiD.printNotification(sm.printResult(mmc.confirmMeetingTookPlace(tradeId, meetingNum, maxEditsTP)));
             } else {
                 guiD.printNotification(sm.tryAgainMsgForWrongInput());
             }
@@ -73,7 +72,6 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         else{
             guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
         }
-        sm.msgForResult(ok);
         guiD.runSave();
         guiD.closeWindow(contentPane);
     }

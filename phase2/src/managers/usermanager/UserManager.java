@@ -874,7 +874,7 @@ public class UserManager implements Serializable {
      * @param toUnfollow The ID of the Item to unfollow
      * @return true if the Item was unfollowed successfully, false otherwise
      */
-    public boolean itemUnfollow(int userID, int toUnfollow){
+    public boolean itemUnfollow(int userID, Item toUnfollow){
         TradableUser person = findUser(userID);
         if (person == null){
             return false;
@@ -882,7 +882,8 @@ public class UserManager implements Serializable {
         if (!person.getItemFollowed().contains(toUnfollow)){
             return false;
         }
-        person.unfollowItem(toUnfollow);
+        person.unfollowItem(toUnfollow.getItemId());
+        toUnfollow.removePropertyChangeListener(person);
         return true;
     }
 

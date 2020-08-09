@@ -276,10 +276,9 @@ public class GUIDemo {
 
         RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
                 this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
-                this.guiUserInputInfo, this.regularUserIDChecker, this.regularUserOtherInfoChecker);
+                this.regularUserIDChecker);
         regularUserTradingMenuGUI.run(this, this.regularUserTradingMenuController, this.systemMessage,
-                maxNumTransactionAWeek, numLentBeforeBorrow, this.guiUserInputInfo, this.regularUserIDChecker,
-                this.regularUserOtherInfoChecker);
+                maxNumTransactionAWeek, numLentBeforeBorrow, this.regularUserIDChecker);
     }
 
     public void runRegularUserCommunityMenuGUI(){
