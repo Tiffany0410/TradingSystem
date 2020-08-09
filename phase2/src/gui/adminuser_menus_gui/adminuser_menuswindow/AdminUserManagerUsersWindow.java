@@ -46,8 +46,9 @@ public class AdminUserManagerUsersWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserManageUsersSubMenu();
                 guiDemo.closeWindow(rootPanel);
+                //guiDemo.runAdminUserManageUsersSubMenu();
+
             }
         });
         confirmButton.addActionListener(new ActionListener() {

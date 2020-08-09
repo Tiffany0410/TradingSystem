@@ -109,7 +109,7 @@ public class AdminUserHistoricalActionsWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                guiDemo.runAdminUserHistoricalActionsSubMenu();
+                //guiDemo.runAdminUserHistoricalActionsSubMenu();
 
             }
         });
