@@ -28,10 +28,10 @@ public class AdminUserEditUserThresholdsWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (option == 1){
                     try {
                         int futureValue = Integer.parseInt(textField.getText());
-                        String result = adminUserEditThresholdsController.editMaxNumberTransactions(futureValue);
                         guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
@@ -41,9 +41,6 @@ public class AdminUserEditUserThresholdsWindow {
                 if (option == 2){
                     try {
                         int futureValue = Integer.parseInt(textField.getText());
-                        System.out.println( "This is window"+ futureValue);
-                        System.out.println( "This is window"+ adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue)) ;
-
                         guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
                     }catch (NumberFormatException ex){
                         guiDemo.printInvalidNumber();
