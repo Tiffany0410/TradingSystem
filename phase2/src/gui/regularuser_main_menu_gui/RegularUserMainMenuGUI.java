@@ -77,10 +77,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else if (amc.seeIfFrozen()){
+                if (amc.seeIfFrozen()){
                     guiD.printNotification(sm.lockMessageForFrozen());
                 }
                 else if (amc.seeIfOnVacation()){
@@ -100,10 +97,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else if (amc.seeIfFrozen()){
+                if (amc.seeIfFrozen()){
                     guiD.printNotification(sm.lockMessageForFrozen());
                 }
                 else if (amc.seeIfOnVacation()){
@@ -125,10 +119,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else if (amc.seeIfFrozen()){
+                if (amc.seeIfFrozen()){
                     guiD.printNotification(sm.lockMessageForFrozen());
                 }
                 else{
