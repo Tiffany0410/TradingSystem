@@ -825,7 +825,7 @@ public class UserManager implements Serializable {
         if (person == null || following == null){
             return false;
         }
-        if (person.getFollowers().contains(toFollow)){
+        if (following.getFollowers().contains(userID)){
             return false;
         }
         person.followUser(toFollow);
