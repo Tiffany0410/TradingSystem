@@ -103,6 +103,7 @@ public class GUIDemo {
         this.systemMessage = new SystemMessage();
         this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
+        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker(this.userManager);
 
         // Create new FilesReaderWriter
         this.frw = new FilesReaderWriter();
@@ -129,8 +130,8 @@ public class GUIDemo {
 
     public void runRegularUserCreateAccount() {
         RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator,
-                this, this.systemMessage);
-        regularUserCreateAccountGUI.run(this.accountCreator, this, this.systemMessage);
+                this, this.systemMessage, this.regularUserOtherInfoChecker);
+        regularUserCreateAccountGUI.run(this.accountCreator, this, this.systemMessage, this.regularUserOtherInfoChecker);
     }
 
 
