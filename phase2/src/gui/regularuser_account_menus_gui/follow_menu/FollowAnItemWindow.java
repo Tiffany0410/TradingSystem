@@ -29,7 +29,7 @@ public class FollowAnItemWindow {
                 if (idChecker.checkInt(input)){
                     int itemId = Integer.parseInt(input);
                     if (idChecker.checkItemID(itemId)){
-                        guiD.printNotification(sm.msgForResult(amc.followAnItem(itemId)));
+                        guiD.printNotification(sm.msgForFollowResult(amc.followAnItem(itemId)));
                     }
                     else{
                         guiD.printNotification(sm.tryAgainMsgForWrongInput());

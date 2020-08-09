@@ -296,9 +296,12 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnUser (int userToFollowUserId){
         //calling this method means user is not a guest
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
-        am.addActionToAllActionsList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
-        return um.userFollow(userId, userToFollowUserId);
+        boolean success = um.userFollow(userId, userToFollowUserId);
+        if (success) {
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.3.1", userToFollowUserId, "");
+        }
+        return success;
     }
 
     /**
@@ -310,10 +313,12 @@ public class RegularUserAccountMenuController {
      */
     public boolean followAnItem (int itemToFollowId){
         //calling this method means user is not a guest
-        am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.2", itemToFollowId, "");
-        am.addActionToAllActionsList(userId, "regularUser", "1.3.2", itemToFollowId, "");
-        return um.itemFollow(userId, im.getItembyId(itemToFollowId));
-
+        boolean success = um.itemFollow(userId, im.getItembyId(itemToFollowId));
+        if (success) {
+            am.addActionToCurrentRevocableList(userId, "regularUser", "1.3.2", itemToFollowId, "");
+            am.addActionToAllActionsList(userId, "regularUser", "1.3.2", itemToFollowId, "");
+        }
+        return success;
     }
 
     /**

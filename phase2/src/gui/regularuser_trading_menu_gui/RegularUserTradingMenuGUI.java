@@ -41,7 +41,8 @@ public class RegularUserTradingMenuGUI {
                     guiD.printNotification(sm.msgForGuest());
                 }
                 else {
-                    RequestATrade(atc, sm, maxNumTransactionAWeek, idC, numLentBeforeBorrow, guiD);
+                    RequestTradeWindow window = new RequestTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
+                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow);
                     guiD.runSave();
                 }
             }

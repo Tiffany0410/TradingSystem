@@ -365,6 +365,20 @@ public class SystemMessage {
         return "It's not your turn to edit.";
     }
 
+    public String msgForFollowResult(boolean validator){
+        if (!validator){
+            return "Failed. It's probably because you're trying to follow yourself or follow the same user/item twice.";
+        }
+        return "Success!";
+    }
+
+    public String msgForMeetingTookPlaceResult(boolean validator){
+        if (!validator){
+            return "Failed. It's probably because you have already confirmed it or the meeting time hasn't arrived.";
+        }
+        return "Success!";
+    }
+
     public String msgForNo(String string){
         return "There is no " + string + " .";
     }

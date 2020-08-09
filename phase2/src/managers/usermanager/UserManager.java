@@ -820,6 +820,9 @@ public class UserManager implements Serializable {
      * @return true if the User was successfully followed, false otherwise
      */
     public boolean userFollow(int userID, int toFollow){
+        if (userID == toFollow){
+            return false;
+        }
         TradableUser person = findUser(userID);
         TradableUser following = findUser(toFollow);
         if (person == null || following == null){
@@ -845,7 +848,7 @@ public class UserManager implements Serializable {
         if (person == null || following == null){
             return false;
         }
-        if (!person.getFollowers().contains(toUnfollow)){
+        if (!following.getFollowers().contains(userID)){
             return false;
         }
         person.unfollowUser(toUnfollow);
