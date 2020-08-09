@@ -8,6 +8,8 @@ import managers.usermanager.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An instance of this class represents the other information
@@ -154,6 +156,17 @@ public class RegularUserOtherInfoChecker {
      */
     public boolean checkTradableUserId(int tradableUserId) {
         return tradableUserId == 0 || um.getListTradableUser().contains(tradableUserId);
+    }
 
+    /**
+     * Checks if user's input of the string is a valid email format.
+     * @param email The input from user
+     * @return if the user's input is a valid email
+     */
+    public boolean checkEmail(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }
