@@ -31,19 +31,6 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-//                String regularUserName = guiDemo.getInPut(muc.getAllUnfreezeUser());
-//
-//                if (!regularUserName.equals("User inputs nothing")) {
-//                    String result = muc.freezeUser(regularUserName);
-//                }
-//                guiDemo.runSave();
-
-
-//                String string = muc.getAllUnfreezeUser();
-//                guiDemo.getInPut(string);
-//                String regularUserName = guiUserInputInfo.getTempUserInput();
-//                if (regularUserName != null) {String result = muc.freezeUser(regularUserName);
-//                    guiDemo.printNotification(result);}
 
                 int option = 1;
                 String info = muc.getAllUnfreezeUser();
@@ -51,8 +38,9 @@ public class AdminUserManageUsersSubMenuGUI {
                 if (info.equalsIgnoreCase("No users can be frozen")){
                     guiDemo.printNotification("No users can be frozen");
                 }else {
-                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, info, muc);
-                    adminUserManagerUsersWindow.run(option, guiDemo, info, muc);
+                    String inputName = "Please enter the username: ";
+                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
+                    adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
 
                     guiDemo.runSave();
                 }
@@ -67,21 +55,16 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-//                String string = muc.getWantUnfreezeUser();
-//                String result = muc.unfreezeUser(guiDemo.getInPut(string));
-//                guiDemo.printNotification(result);
-//                guiDemo.runSave();
-
                 int option = 2;
                 String info = muc.getWantUnfreezeUser();
 
-                System.out.println(info);
 
                 if (info.equalsIgnoreCase("There are no user request to unfreeze")){
                     guiDemo.printNotification("There are no user request to unfreeze");
                 }else {
-                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, info, muc);
-                    adminUserManagerUsersWindow.run(option, guiDemo, info, muc);
+                    String inputName = "Please enter the username of the user to UNFREEZE:";
+                    AdminUserManagerUsersWindow adminUserManagerUsersWindow = new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc);
+                    adminUserManagerUsersWindow.run(option, guiDemo, inputName, info, muc);
 
                     guiDemo.runSave();
                 }
@@ -95,14 +78,13 @@ public class AdminUserManageUsersSubMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //adminUserManagerUsersController.confirmInventoryAdd();
                 ArrayList<Item> listItemToAdd = new ArrayList<>(muc.seeListItemToAdd());
 
                 if (listItemToAdd.isEmpty()){
-                    guiDemo.printNotification("There is no items-to-add requests.");
+                    guiDemo.printNotification("There are no items-to-add requests.");
                 }
                 else{
-                    String string = "Here's a list of items-to-add requests:\n" +
+                    String string = "Here's the list of items-to-add requests:\n" +
                             sm.printListNumberedObject(new ArrayList<>(listItemToAdd)) +
                             "\nPlease enter the number beside the # of the request you want to act on: \n";
                     AdminUserManageUsersConfirmInventoryWindow window = new
