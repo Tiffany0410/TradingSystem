@@ -27,7 +27,7 @@ public class RegularUserTradingMenuGUI {
     private JButton backButton;
 
     public RegularUserTradingMenuGUI(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
-                                     int numLentBeforeBorrow,  RegularUserIDChecker idC){
+                                     int numLentBeforeBorrow,  RegularUserIDChecker idC, boolean guest){
 
 
         requestATradeButton.addActionListener(new ActionListener() {
@@ -38,8 +38,13 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                RequestATrade(atc, sm, maxNumTransactionAWeek, idC,  numLentBeforeBorrow, guiD);
-                guiD.runSave();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    RequestATrade(atc, sm, maxNumTransactionAWeek, idC, numLentBeforeBorrow, guiD);
+                    guiD.runSave();
+                }
             }
         });
 
@@ -53,8 +58,13 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                respondToTradeRequest(atc, sm, maxNumTransactionAWeek, idC, guiD);
-                guiD.runSave();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    respondToTradeRequest(atc, sm, maxNumTransactionAWeek, idC, guiD);
+                    guiD.runSave();
+                }
             }
         });
 
@@ -67,7 +77,12 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewOpenTrades(), "open", guiD);
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    viewTrades(sm, atc.viewOpenTrades(), "open", guiD);
+                }
 
             }
         });
@@ -79,7 +94,12 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
+                }
             }
 
         });
@@ -92,8 +112,13 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                confirmATradeIsCompleted(atc, sm, idC, guiD);
-                guiD.runSave();
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    confirmATradeIsCompleted(atc, sm, idC, guiD);
+                    guiD.runSave();
+                }
 
             }
         });
@@ -105,7 +130,12 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                seeTopThreePartners(atc, sm, guiD);
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    seeTopThreePartners(atc, sm, guiD);
+                }
             }
         });
         viewTransactionsThatHaveButton.addActionListener(new ActionListener() {
@@ -116,7 +146,12 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD);
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else {
+                    viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD);
+                }
             }
         });
         suggestionForTheMostButton.addActionListener(new ActionListener() {
@@ -127,7 +162,10 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (atc.hasTradeSuggestion()){
+                if (guest){
+                    guiD.printNotification(sm.msgForGuest());
+                }
+                else if (atc.hasTradeSuggestion()){
                     String str = sm.printListObject(new ArrayList<>(atc.mostReasonableTradeSuggestions()));
                     guiD.printNotification("Trade suggestion for you (first number = item id, second number = this item's owner's id): \n" + str);
                 }
@@ -219,9 +257,9 @@ public class RegularUserTradingMenuGUI {
 
 
     public void run(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
-                    int numLentBeforeBorrow, RegularUserIDChecker idC) {
+                    int numLentBeforeBorrow, RegularUserIDChecker idC, boolean guest) {
         JFrame frame = new JFrame("regularUserTradingMenuGUI");
-        frame.setContentPane(new RegularUserTradingMenuGUI(guiD, atc, sm, maxNumTransactionAWeek, numLentBeforeBorrow,idC).rootPanel);
+        frame.setContentPane(new RegularUserTradingMenuGUI(guiD, atc, sm, maxNumTransactionAWeek, numLentBeforeBorrow,idC, guest).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
