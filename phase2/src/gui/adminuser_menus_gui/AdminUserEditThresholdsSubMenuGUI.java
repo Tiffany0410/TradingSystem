@@ -2,9 +2,7 @@ package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserEditThresholdsController;
 import gui.GUIDemo;
-import gui.GUIUserInputInfo;
-import gui.UserInputGUI;
-import presenter.SystemMessage;
+import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserEditUserThresholdsWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

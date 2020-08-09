@@ -1,10 +1,9 @@
-package gui.adminuser_menus_gui;
+package gui.adminuser_menus_gui.adminuser_menuswindow;
 
 import controllers.adminusersubcontrollers.AdminUserEditThresholdsController;
 import gui.GUIDemo;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

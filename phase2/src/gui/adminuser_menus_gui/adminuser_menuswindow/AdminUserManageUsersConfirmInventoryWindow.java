@@ -1,4 +1,4 @@
-package gui.adminuser_menus_gui;
+package gui.adminuser_menus_gui.adminuser_menuswindow;
 
 import controllers.adminusersubcontrollers.AdminUserManagerUsersController;
 import controllers.adminusersubcontrollers.AdminUserOtherInfoChecker;

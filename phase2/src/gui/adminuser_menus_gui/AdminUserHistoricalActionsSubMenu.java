@@ -2,6 +2,7 @@ package gui.adminuser_menus_gui;
 
 import controllers.adminusersubcontrollers.AdminUserHistoricalActionController;
 import gui.GUIDemo;
+import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserHistoricalActionsWindow;
 import managers.actionmanager.Action;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
@@ -175,9 +176,9 @@ public class AdminUserHistoricalActionsSubMenu {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiDemo.runAdminUserMainMenu();
                 //close this window
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserMainMenu();
             }
         });
     }
