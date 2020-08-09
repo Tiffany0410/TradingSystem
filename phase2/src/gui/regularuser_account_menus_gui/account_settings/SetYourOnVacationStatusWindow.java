@@ -36,13 +36,17 @@ public class SetYourOnVacationStatusWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String response = (String)comboBox1.getSelectedItem();
-                if (response.equals("on-vacation")) {
+                if ((response.equals("on-vacation") && atc.seeIfOnVacation()) || (response.equals("not on-vacation") && !atc.seeIfOnVacation())){
+                    guiD.printNotification(sm.msgForStatusChangeResult(false));
+                }
+                else if(response.equals("on-vacation") && !atc.seeIfOnVacation()){
                     atc.setOnVacationStatus(true);
+                    guiD.printNotification(sm.msgForStatusChangeResult(true));
                 }
                 else{
                     atc.setOnVacationStatus(false);
+                    guiD.printNotification(sm.msgForStatusChangeResult(true));
                 }
-                guiD.printNotification(sm.msgForResult(true));
                 guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }

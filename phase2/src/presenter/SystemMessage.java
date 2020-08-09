@@ -237,6 +237,15 @@ public class SystemMessage {
         }
     }
 
+    public String msgForStatusChangeResult(boolean validator){
+        if (validator){
+            return "Success";
+        }
+        else {
+            return "Fail because you are already in the status that you're trying to set.";
+        }
+    }
+
     public String msgForRequestProcess(boolean validator){
         if (validator) {
             return "Your response to request is sent successfully";
