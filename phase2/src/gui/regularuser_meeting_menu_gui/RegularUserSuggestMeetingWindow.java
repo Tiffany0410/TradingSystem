@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RegularUserSuggestMeetingWindow extends JDialog {
+public class RegularUserSuggestMeetingWindow {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -24,9 +24,6 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
         textArea1.setLineWrap(true);
         textArea1.setBackground(new Color(242,242,242));
 
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -36,14 +33,6 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel(guiD);
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
                 onCancel(guiD);
             }
         });
@@ -85,10 +74,12 @@ public class RegularUserSuggestMeetingWindow extends JDialog {
 
     public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm,
                     int maxEditsTP, GUIDemo guiD, RegularUserIDChecker idc) {
-        RegularUserSuggestMeetingWindow dialog = new RegularUserSuggestMeetingWindow(str, mmc, sm, maxEditsTP,
-                guiD, idc);
-        dialog.pack();
-        dialog.setVisible(true);
-        dialog.setLocationRelativeTo(null);
+        JFrame frame = new JFrame("regularUserConfirmMeetingTookPlaceWindowGUI");
+        frame.setContentPane(new RegularUserSuggestMeetingWindow(str, mmc, sm, maxEditsTP, guiD, idc).contentPane);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+
     }
 }

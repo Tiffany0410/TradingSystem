@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RegularUserCheckMeetingWindow extends JDialog {
+public class RegularUserCheckMeetingWindow {
     private JPanel contentPane;
     private JButton back;
     private JButton confirm;
@@ -26,9 +26,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
         textArea1.setLineWrap(true);
         textArea1.setBackground(new Color(242,242,242));
 
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(confirm);
 
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,15 +55,6 @@ public class RegularUserCheckMeetingWindow extends JDialog {
                 guiD.runSave();
                 guiD.runRegularUserMeetingMenu();
                 guiD.closeWindow(contentPane);
-
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onBack(guiD);
 
             }
         });
@@ -139,10 +127,11 @@ public class RegularUserCheckMeetingWindow extends JDialog {
 
     public void run (GUIDemo guiD, String str, RegularUserMeetingMenuController mmc, int maxEditsTP, SystemMessage sm,
                      RegularUserDateTimeChecker dtc, RegularUserIDChecker idc) {
-        RegularUserCheckMeetingWindow dialog = new RegularUserCheckMeetingWindow(guiD, str, mmc, maxEditsTP,
-                sm, dtc, idc);
-        dialog.pack();
-        dialog.setVisible(true);
-        dialog.setLocationRelativeTo(null);
+        JFrame frame = new JFrame("regularUserEditOrConfirmMeetingTPMenuGUI");
+        frame.setContentPane(new RegularUserCheckMeetingWindow(guiD,str, mmc, maxEditsTP, sm, dtc, idc).contentPane);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 }
