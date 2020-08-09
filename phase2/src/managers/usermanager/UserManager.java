@@ -199,6 +199,10 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 person.setWishList(temp);
                 out = true;
+                ArrayList<String> temp2 = person.getUserFollowingLogs();
+                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
+                        " to their wishlist.");
+                person.setUserFollowingLogs(temp2);
             }
         }
         return out;
@@ -210,7 +214,7 @@ public class UserManager implements Serializable {
      * @param username The username of the User to remove the item from their inventory
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemInventory(int itemID, String username){
+    public boolean removeItemInventory(Integer itemID, String username){
         boolean out = false;
         TradableUser person = findUser(username);
         if (person != null){
@@ -219,8 +223,12 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 out = true;
                 person.setInventory(temp);
-                }
+                ArrayList<String> temp2 = person.getUserFollowingLogs();
+                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
+                        " to their inventory.");
+                person.setUserFollowingLogs(temp2);
             }
+        }
         return out;
     }
 
@@ -239,40 +247,35 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setWishList(temp);
-            }
-            ArrayList<Integer> usersFollowing = usersFollowingUser(username);
-            for (int id: usersFollowing){
-                TradableUser human = findUser(id);
-                if (human != null){
-                    String[] log = {username, "wishlist", itemID.toString()};
-                }
+                ArrayList<String> temp2 = person.getUserFollowingLogs();
+                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
+                        " to their wishlist.");
+                person.setUserFollowingLogs(temp2);
             }
         }
+
         return out;
     }
 
     /**
      * Adds an Item to a User's inventory
-     * @param item The Item that is being added
+     * @param itemID The ID of the item that is being added
      * @param username The username of the User to add the item into their inventory
      * @return true if the item was added successfully, false otherwise
      */
-    public boolean addItemInventory(Integer item, String username){
+    public boolean addItemInventory(Integer itemID, String username){
         boolean out = false;
         TradableUser person = findUser(username);
         if (person != null){
             ArrayList<Integer> temp = person.getInventory();
-            if (!temp.contains(item)) {
-                temp.add(item);
+            if (!temp.contains(itemID)) {
+                temp.add(itemID);
                 out = true;
                 person.setInventory(temp);
-            }
-            ArrayList<Integer> usersFollowing = usersFollowingUser(username);
-            for (int id: usersFollowing){
-                TradableUser human = findUser(id);
-                if (human != null){
-                    String[] log = {username, "inventory", item.toString()};
-                }
+                ArrayList<String> temp2 = person.getUserFollowingLogs();
+                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
+                        " to their inventory.");
+                person.setUserFollowingLogs(temp2);
             }
         }
         return out;

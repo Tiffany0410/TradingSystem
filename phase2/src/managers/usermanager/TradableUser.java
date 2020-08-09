@@ -398,4 +398,8 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
             itemFollowingLogs.add(evt.getPropertyName() + "has changed to non-tradable." );
         }
     }
+
+    public void setUserFollowingLogs(ArrayList<String> userFollowingLogs) {
+        this.userFollowingLogs = userFollowingLogs;
+    }
 }
