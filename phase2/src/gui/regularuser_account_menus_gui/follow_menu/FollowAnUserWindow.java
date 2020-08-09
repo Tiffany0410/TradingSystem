@@ -29,7 +29,7 @@ public class FollowAnUserWindow {
                 if (idChecker.checkInt(input)){
                     int userId = Integer.parseInt(input);
                     if (idChecker.checkUserID(userId)){
-                        guiD.printNotification(sm.msgForResult(amc.followAnUser(userId)));
+                        guiD.printNotification(sm.msgForFollowResult(amc.followAnUser(userId)));
                     }
                     else{
                         guiD.printNotification(sm.tryAgainMsgForWrongInput());
