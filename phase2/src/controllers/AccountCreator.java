@@ -1,22 +1,23 @@
 package controllers;
 
 import gateway.FilesReaderWriter;
-import managers.usermanager.TradableUser;
+import gui.GUIDemo;
+import gui.NotificationGUI;
 import managers.usermanager.UserManager;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Used to create a new User account
- * @author Gabriel
+ * @author Gabriel, Jiaqi Gong
  * @version IntelliJ IDEA 2020.1
  */
 public class AccountCreator {
     private UserManager um;
     private FilesReaderWriter frw;
+    private String userInfoFilePath;
 
     /**
      * Constructs an AccountCreator with the given UserManager and DisplaySystem
@@ -36,14 +37,13 @@ public class AccountCreator {
         boolean out = false;
         HashMap<String, String> userInfo = um.userPasswords();
         HashMap<String, String> adminInfo = um.adminPasswords();
-        ArrayList<TradableUser> listPeople = um.getListTradableUser();
 
-
-
-        if (username.toLowerCase().equals("guest")) {
-            return out;
+        if (type.equalsIgnoreCase("Regular")) {
+            this.userInfoFilePath = "./configs/secureinfofiles/RegularUserUsernameAndPassword.csv";
+        }else{
+            this.userInfoFilePath = "./configs/secureinfofiles/AdminUserUsernameAndPassword.csv";
         }
-        if (type.equals("Regular")) {
+
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
                 um.addUser(username, password, email, home);
                 out = true;
@@ -51,29 +51,13 @@ public class AccountCreator {
                 try {
                     //Write the UserManger into ser file in order to save the data
                     frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-                    frw.saveUserInfoToCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv",
-                            username, password, email);
+                    frw.saveUserInfoToCSVFile(this.userInfoFilePath, username, password, email);
                 } catch (IOException e){
-                    System.out.println("Please check regular user information files");
+                    String info = "Please check " + type +" user information files";
+                    NotificationGUI notificationGUI = new NotificationGUI(info);
+                    notificationGUI.run(info);
                 }
             }
-        }
-
-       else if (type.equals("Admin")) {
-           if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
-               um.addAdmin(username, password, email);
-               out = true;
-
-               try {
-                   //Write the UserManger into ser file in order to save the data
-                   frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-                   frw.saveUserInfoToCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv",
-                           username, password, email);
-               } catch (IOException e){
-                   System.out.println("Please check admin user information files");
-               }
-           }
-        }
 
         return out;
     }

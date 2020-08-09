@@ -339,10 +339,14 @@ public class GUIDemo {
 
 
     public void printNotification(String string) {
-
-        if (string.contains("\n")){
-        LongNotificationGUI longNotificationGUI = new LongNotificationGUI(string);
-        longNotificationGUI.run(string);}
+        if (string == null){
+            string = "ERROR: NO INPUT VALUE!";
+            NotificationGUI notificationGUI = new NotificationGUI(string);
+            notificationGUI.run(string);
+        }
+        else if (string.contains("\n")){
+            LongNotificationGUI longNotificationGUI = new LongNotificationGUI(string);
+            longNotificationGUI.run(string);}
         else{
             NotificationGUI notificationGUI = new NotificationGUI(string);
             notificationGUI.run(string);
