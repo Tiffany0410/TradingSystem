@@ -2,6 +2,7 @@ package gui.regularuser_searching_menu_gui;
 
 import controllers.regularusersubcontrollers.RegularUserSearchingMenuController;
 import gui.GUIDemo;
+import managers.itemmanager.Item;
 import presenter.SystemMessage;
 
 import javax.swing.*;
@@ -24,12 +25,12 @@ public class RegularUserSearchingWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (option == 2){
-                    ArrayList<Integer> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
+                    ArrayList<Item> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
 
                     if (c.size() == 0) {
                         guiDemo.printNotification(systemMessage.msgForNothing());
                     } else {
-                        guiDemo.printNotification(systemMessage.printResult(new ArrayList<>(c)));
+                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(c)));
                     }
 
                 }
@@ -38,8 +39,10 @@ public class RegularUserSearchingWindow {
                 if (option == 3) {
                     try {
                         int id = Integer.parseInt(textField.getText());
-                        String description = regularUserSearchingMenuController.getItemById(id);
-                        guiDemo.printNotification(description);
+                        Item item = regularUserSearchingMenuController.getItemObjectById(id);
+                        ArrayList<Item> items = new ArrayList<>();
+                        items.add(item);
+                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
                         guiDemo.runSave();
                     } catch (NumberFormatException ex) {
                         guiDemo.printNotification("Please enter number!");
