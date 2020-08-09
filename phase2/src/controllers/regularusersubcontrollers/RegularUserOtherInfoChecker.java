@@ -54,27 +54,6 @@ public class RegularUserOtherInfoChecker {
 //        return fullMsg.toString();
 //    }
 
-    /**
-     * Checks the type of the trade input by the user.
-     * For now, there're only permanent and temporary.
-     * @param tradeType User's input of the trade type.
-     * @return If the trade type is valid.
-     */
-   public boolean checkTradeType(String tradeType) {
-        return tradeType.equals("Permanent") || tradeType.equals("Temporary");
-
-    }
-
-
-    /**
-     * Checks the response from the user to
-     * the agree or not question.
-     * @param response User's input of the response.
-     * @return If user's response is valid.
-     */
-    public boolean checkAgreeOrNot(String response) {
-        return response.equals("Agree") || response.equals("Disagree");
-    }
 
     /**
      * Checks user's input of the meeting number.
