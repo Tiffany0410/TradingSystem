@@ -62,7 +62,7 @@ public class AdminUserHistoricalActionsSubMenu {
                 ArrayList<TradableUser> allUser = hac.getAllTradableUser();
 
                 //print all tradable user
-                info = info + sm.printListUser(allUser);
+                info = info + sm.printListUser(allUser) + "Please enter the username that you want to search: \n";
 
                 //get the user username enter by admin
                 int option = 3;
@@ -94,7 +94,7 @@ public class AdminUserHistoricalActionsSubMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String inputName = "Please enter the ID of action that you want to cancel: ";
-                String info = "Here is Cancel the revocable historical actions of tradableUser by actionID window";
+                String info = "Here is Cancel the revocable historical actions of tradableUser by actionID window \n \nPlease enter the id of Revocable Action which you want to cancel:\n";
                 int option = 4;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
@@ -135,14 +135,19 @@ public class AdminUserHistoricalActionsSubMenu {
                 Map<Integer, Integer> undoRequests = new HashMap<>(hac.getUndoRequest());
 
                 //print whole map(key is actionID, value is regularUser id)
-                String info = undoRequests.toString();
+                StringBuilder info = new StringBuilder();
 
+                for (Map.Entry<Integer, Integer> entry : undoRequests.entrySet()) {
+                    info.append("Tradable User# ").append(entry.getValue()).append(" request to undo Revocable Action #").append(entry.getKey()).append("\n");
+                }
+
+                info.append("Please enter the Action Number that you wan to undo: ");
 
                 int option = 5;
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
-                        info, option, guiDemo, hac, sm);
-                adminUserHistoricalActionsWindow.run(info, option, guiDemo, hac, sm);
+                        info.toString(), option, guiDemo, hac, sm);
+                adminUserHistoricalActionsWindow.run(info.toString(), option, guiDemo, hac, sm);
 
 //                //get the actionID enter by admin
 //                try {
