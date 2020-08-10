@@ -353,7 +353,7 @@ public class SystemMessage {
     }
 
     public String tryAgainMsgForWrongFormatInput(){
-        return "Please try again. One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)." +
+        return "Please try again. One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word). " +
                 "Also, don't add 0 before a number (ex. we accept 5 but don't accept 05). ";
     }
 

@@ -17,11 +17,17 @@ public class RegularUserCommunitySendFriendRequestWindow {
     private JButton cancelButton;
     private JButton requestButton;
     private JPanel rootPanel;
+    private JScrollPane scrollPane;
+    private JScrollPane scrollPane1;
 
     public RegularUserCommunitySendFriendRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
         textPane1.setBackground(new Color(242,242,242));
+        textPane1.setVisible(true);
+        message.setVisible(true);
+        scrollPane.setVisible(true);
+        scrollPane1.setVisible(true);
 
         requestButton.addActionListener(new ActionListener() {
             @Override
@@ -57,7 +63,7 @@ public class RegularUserCommunitySendFriendRequestWindow {
         JFrame frame = new JFrame("Send a Friend Request");
         frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(400, 400));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
