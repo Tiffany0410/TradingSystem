@@ -15,6 +15,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Used to show regular user community menu
+ * @author Shi Tang, Jianhong Guo
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserCommunityMenuGUI {
     private JPanel rootPanel;
     private JButton writeAReviewForButton;
@@ -29,35 +35,57 @@ public class RegularUserCommunityMenuGUI {
     private JButton viewAllMessageButton;
     private JButton backButton;
 
+    /**
+     * Run Regular User Community Menu GUI
+     * @param isGuest The boolean stores whether this user is guest account or not
+     * @param guidemo GUIDemo
+     * @param cmc RegularUserCommunityMenuController
+     * @param sm SystemMessage
+     * @param idC RegularUserIDChecker
+     */
     public void run(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc, SystemMessage sm,
-                    RegularUserIDChecker idC,  RegularUserOtherInfoChecker otherChecker) {
+                    RegularUserIDChecker idC) {
         JFrame frame = new JFrame("regularUserCommunityMenuGUI");
-        frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, idC,
-                otherChecker).rootPanel);
+        frame.setContentPane(new RegularUserCommunityMenuGUI(isGuest, guidemo, cmc, sm, idC).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * Constructor for Regular User Community Menu GUI
+     * @param isGuest The boolean stores whether this user is guest account or not
+     * @param guidemo GUIDemo
+     * @param cmc RegularUserCommunityMenuController
+     * @param sm SystemMessage
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserCommunityMenuGUI(boolean isGuest, GUIDemo guidemo, RegularUserCommunityMenuController cmc,
-                                       SystemMessage sm,
-                                       RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker){
+                                       SystemMessage sm, RegularUserIDChecker idC){
         writeAReviewForButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, write a review for user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm);
-                    window.run(guidemo, idC, otherChecker, cmc, sm);
+                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, cmc, sm);
+                    window.run(guidemo, idC, cmc, sm);
                 }
                 guidemo.runSave();
             }
         });
 
         reportAUserButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, report an user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -72,6 +100,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         findTheRatingForButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, find the rating for a particular user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -85,6 +117,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         seeUsersInYourButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, see users in the home same city
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -106,9 +142,8 @@ public class RegularUserCommunityMenuGUI {
 
         viewYourListOfButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation, view your list of friends
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,6 +164,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         sendAFriendRequestButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, send friend request to other user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -152,6 +191,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         respondToFriendsRequestButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, respond to friend requests
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -174,6 +217,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         unfriendAUserButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, unfriend an user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -197,6 +244,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         sendMessageToFriendsButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, send message to friends
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -220,6 +271,10 @@ public class RegularUserCommunityMenuGUI {
         });
 
         viewAllMessageButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, view all messages
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest) {
@@ -231,7 +286,7 @@ public class RegularUserCommunityMenuGUI {
                         string = "There is no messages.";
                     }
                     else {
-                        string = "Here is a list of messages: " + sm.printAllMessages(messages);
+                        string = "Here is a list of messages: \n" + sm.printAllMessages(messages);
                     }
                     guidemo.printNotification(string);
                 }
@@ -239,12 +294,15 @@ public class RegularUserCommunityMenuGUI {
         });
 
         backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, back to upper level menu
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.runRegularUserMainMenu(isGuest);
                 guidemo.closeWindow(rootPanel);
             }
         });
-
     }
 }

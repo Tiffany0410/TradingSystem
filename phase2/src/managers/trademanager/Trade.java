@@ -86,14 +86,14 @@ public class Trade implements Serializable {
      * @param userId borrower id
      * @param status Agree or Disagree
      */
-    public void setUserStatus(int userId, String status) {
+    protected void setUserStatus(int userId, String status) {
         userStatus.replace(userId, status);
     }
 
     /** Get is one way trade
      * @return true if it is one way trade
      */
-    public boolean getIsOneWayTrade(){
+    protected boolean getIsOneWayTrade(){
         return this.isOneWayTrade;
     }
     /**
@@ -101,7 +101,7 @@ public class Trade implements Serializable {
      *
      * @return list of ids
      */
-    public List<Integer> getIds() {
+    protected List<Integer> getIds() {
         List<Integer> list = new ArrayList<>();
         if (itemId1 == 0) {
             Collections.addAll(list, tradeId, userId1, userId2, itemId);

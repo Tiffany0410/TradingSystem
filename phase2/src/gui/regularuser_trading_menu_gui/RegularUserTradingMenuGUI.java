@@ -41,9 +41,7 @@ public class RegularUserTradingMenuGUI {
                     guiD.printNotification(sm.msgForGuest());
                 }
                 else {
-                    RequestTradeWindow window = new RequestTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow);
-                    guiD.runSave();
+                   requestATrade(atc, sm, maxNumTransactionAWeek, idC, numLentBeforeBorrow, guiD);
                 }
             }
         });
@@ -249,14 +247,14 @@ public class RegularUserTradingMenuGUI {
         }
     }
 
-    private void RequestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, RegularUserIDChecker idC,  int numLentBeforeBorrow, GUIDemo guiD) {
+    private void requestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, RegularUserIDChecker idC,  int numLentBeforeBorrow, GUIDemo guiD) {
         if (atc.lockThresholdOrNot()) {
             guiD.printNotification(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
-            RequestATradeWindow requestATradeWindow = new RequestATradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
-            requestATradeWindow.run(idC,guiD,atc,sm, numLentBeforeBorrow);
-
+            RequestTradeWindow window = new RequestTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow);
+            guiD.runSave();
         }
     }
 

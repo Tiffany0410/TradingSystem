@@ -16,14 +16,6 @@
           <text value="Send a Friend Request"/>
         </properties>
       </component>
-      <component id="ca638" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
-      </component>
       <component id="f149" class="javax.swing.JTextField" binding="userId">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -39,14 +31,6 @@
         <properties>
           <text value="Please leave a message for the user"/>
         </properties>
-      </component>
-      <component id="e755c" class="javax.swing.JTextArea" binding="message">
-        <constraints>
-          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
       </component>
       <component id="bfc50" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
         <constraints>
@@ -64,6 +48,32 @@
           <text value="Request"/>
         </properties>
       </component>
+      <scrollpane id="6bd2e" binding="scrollPane">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="56621" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="27df3" binding="scrollPane1">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="e6598" class="javax.swing.JTextArea" binding="message">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

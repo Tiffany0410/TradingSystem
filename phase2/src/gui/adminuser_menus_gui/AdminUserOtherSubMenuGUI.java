@@ -7,6 +7,11 @@ import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserSetTimeWindow;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * Used to show admin user other sub menu gui
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class AdminUserOtherSubMenuGUI {
     private JPanel rootPanel;
@@ -14,12 +19,17 @@ public class AdminUserOtherSubMenuGUI {
     private JButton backButton;
     private JButton setSystemTimeButton;
 
+    /**
+     * Constructor of admin user other submenu gui
+     * @param guiDemo GUIDemo
+     * @param adminUserOtherActionsController adminUserOtherActionsController
+     */
     public AdminUserOtherSubMenuGUI(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         addNewAdminUserButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -32,9 +42,9 @@ public class AdminUserOtherSubMenuGUI {
         });
         setSystemTimeButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,9 +58,9 @@ public class AdminUserOtherSubMenuGUI {
 
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,6 +73,11 @@ public class AdminUserOtherSubMenuGUI {
 
     }
 
+    /**
+     * Run admin user other sub menu gui
+     * @param guiDemo GUIDemo
+     * @param adminUserOtherActionsController adminUserOtherActionsController
+     */
     public void run(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         JFrame frame = new JFrame("adminUserOtherSubMenuGUI");
         frame.setContentPane(new AdminUserOtherSubMenuGUI(guiDemo, adminUserOtherActionsController).rootPanel);

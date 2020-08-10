@@ -2,14 +2,33 @@ package presenter;
 
 import managers.actionmanager.Action;
 
+/**
+ * Admin user action message
+ * @author Yangle Cheng, Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserActionMessage {
 
+    /**
+     * Constructor of adminUserActionMessage
+     */
     public AdminUserActionMessage(){}
 
+    /**
+     * Prefix of all admin action
+     * @param action action
+     * @return the prefix of admin user actions
+     */
     private String helper_admin_action_prefix(Action action) {
         return "Action #" + action.getActionID() + ": AdminUser #" + action.getActionOwnerID() + " ";
     }
 
+    /**
+     * Give the string of admin user actions
+     * @param action action
+     * @return string of description this action
+     */
     public String adminUserAction(Action action) {
         String string = "";
 
@@ -38,6 +57,11 @@ public class AdminUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of admin user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String adminUserManageUsersAction(Action action, int subMenuOption) {
         String string = "";
 
@@ -58,6 +82,11 @@ public class AdminUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of admin user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String adminUserEditThresholdsAction(Action action, int subMenuOption) {
         String string = "";
 
@@ -82,6 +111,11 @@ public class AdminUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of admin user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String adminUserActionAction(Action action, int subMenuOption) {
         String string = "";
 
@@ -110,6 +144,11 @@ public class AdminUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of admin user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String adminUserOtherAction(Action action, int subMenuOption) {
         String string = "";
         switch (subMenuOption) {

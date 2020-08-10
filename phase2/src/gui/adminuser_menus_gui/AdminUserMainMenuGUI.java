@@ -6,6 +6,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * GUI of admin user main menu
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserMainMenuGUI {
     private JPanel rootPanel;
     private JLabel topLabel;
@@ -16,10 +22,15 @@ public class AdminUserMainMenuGUI {
     private JButton logoutButton;
     private JButton notificationButton;
 
+    /**
+     * Constructor of admin user main menu gui
+     * @param guiDemo GUIDemo
+     * @param adminPartOfNotification admin user notification
+     */
     public AdminUserMainMenuGUI(GUIDemo guiDemo, String adminPartOfNotification) {
         notificationButton.addActionListener(new ActionListener() {
          /**
-          * Invoked when an action occurs.
+          * Invoked when click button and do related operations
           *
           * @param e the event to be processed
           */
@@ -30,9 +41,9 @@ public class AdminUserMainMenuGUI {
          });
         manageUserButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,9 +56,9 @@ public class AdminUserMainMenuGUI {
         });
         editThresholdsButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,9 +72,9 @@ public class AdminUserMainMenuGUI {
         });
         manageHistoricalActionsButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do realted operations
              *
-             * @param e
+             * @param e clicj button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,9 +88,9 @@ public class AdminUserMainMenuGUI {
         });
         othersButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,9 +102,9 @@ public class AdminUserMainMenuGUI {
         });
         logoutButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do realted operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,6 +116,11 @@ public class AdminUserMainMenuGUI {
         });
     }
 
+    /**
+     * Run admin user main menu
+     * @param guiDemo GUIDemo
+     * @param adminNotification admin user notification
+     */
     public void run(GUIDemo guiDemo, String adminNotification) {
         JFrame frame = new JFrame("adminUserMainMenuGUI");
         frame.setContentPane(new AdminUserMainMenuGUI(guiDemo, adminNotification).rootPanel);

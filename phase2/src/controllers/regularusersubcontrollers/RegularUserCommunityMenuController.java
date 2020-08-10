@@ -10,6 +10,13 @@ import managers.usermanager.UserManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * An instance of this class represents the community menu controller for regular user.
+ *
+ * @author Shi Tang, Jianhong Guo, Chengle Yang
+ * @version IntelliJ IDEA 2020.1
+ *
+ */
 public class RegularUserCommunityMenuController {
 
     private UserManager um;
@@ -24,7 +31,10 @@ public class RegularUserCommunityMenuController {
      * Constructs a RegularUserFriendMenuController
      * @param um The current state of the UserManager.
      * @param am The current state of the ActionManager.
-     */
+     * @param fm FeedbackManager
+     * @param messageManager MessageManager
+     * @param username Username
+     * */
     public RegularUserCommunityMenuController(UserManager um, ActionManager am, FeedbackManager fm,
                                               MessageManager messageManager, String username){
         this.um = um;
@@ -87,7 +97,6 @@ public class RegularUserCommunityMenuController {
         return um.checkUser(id);
     }
 
-
     /**
      * @return a list of tradable users that are in the same homecity with the user
      */
@@ -95,7 +104,6 @@ public class RegularUserCommunityMenuController {
         am.addActionToAllActionsList(userId, "regularUser", "5.4", 0, "");
         return new ArrayList<>(um.sameCity(userId));
     }
-
 
     /**
      * @return a list of friends for this user

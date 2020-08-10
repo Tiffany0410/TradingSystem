@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An instance of this class represents the communication system between the regular user,
- * the use cases, and the presenter, for the trade menu part.
+ * An instance of this class represents the communication system between the regular user
+ * and the use cases for the trade menu part.
  *
  * @author Yu Xin Yan, Yuanze Bao
  * @version IntelliJ IDEA 2020.1
@@ -23,8 +23,6 @@ import java.util.List;
 public class RegularUserTradingMenuController {
 
     private RegularUserThresholdController tc;
-    private RegularUserOtherInfoChecker otherInfoGetter;
-    private RegularUserIDChecker idGetter;
     private SystemMessage sm;
     private TradeManager tm;
     private MeetingManager mm;
@@ -36,7 +34,8 @@ public class RegularUserTradingMenuController {
 
     /**
      * Constructs a RegularUserTradingMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * a TradeManager, a MeetingManager, an UserManager, the regular user's username,
+     * the presenter, and the threshold controller.
      *
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
@@ -44,11 +43,12 @@ public class RegularUserTradingMenuController {
      * @param im       The current state of the ItemManager
      * @param am       The current state of the ActionManager.
      * @param username The username of the regular user.
+     * @param sm       The presenter in our system.
+     * @param tc       The regularUserThresholdController.
      */
     public RegularUserTradingMenuController(TradeManager tm, MeetingManager mm,
                                             UserManager um, ItemManager im, ActionManager am,
-                                            String username, SystemMessage sm, RegularUserThresholdController tc,
-                                            RegularUserOtherInfoChecker otherInfoGetter, RegularUserIDChecker idGetter) {
+                                            String username, SystemMessage sm, RegularUserThresholdController tc) {
         this.tm = tm;
         this.mm = mm;
         this.um = um;
@@ -57,16 +57,12 @@ public class RegularUserTradingMenuController {
         this.username = username;
         this.userId = um.usernameToID(this.username);
         this.tc = tc;
-        this.otherInfoGetter = otherInfoGetter;
-        this.idGetter = idGetter;
         this.sm = sm;
     }
 
     /**
-     * If the user has top three trading partners,
-     * print it to the screen. Else, print
-     * an appropriate message to inform the user
-     * of so.
+     * Puts together the list of top three partners for the user.
+     * @return This user's top three trading partners.
      */
     public List<TradableUser> seeTopThreePartners()  {
         List<Integer> topThreeIDS= tm.topThreePartners(userId);
@@ -79,32 +75,30 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return true if user has top three otherwise false;
+     * Decides if the user has top three partners.
+     * @return true if user has top three otherwise false.
      */
     public boolean hasTopThree()  {
         return tm.getTradeHistory(userId).size() != 0;
     }
 
     /**
-     * Asks the user to for the trade id and let the user
-     * know if the trade with this trade id is completed
-     * or not.
-     * If there're no open trades, print an appropriate
-     * message.
+     * Checks if the trade with the given trade id is
+     * complete.
+     * @param tradeId The trade id of the trade to be checked for completion.
+     * @return Whether or not the trade that correspond to the trade id is complete.
      */
     public boolean confirmTradeComplete(int tradeId)  {
         am.addActionToAllActionsList(userId, "regularUser", "2.5", tradeId, "");
         return tm.confirmComplete(tradeId);
     }
 
-
     /**
-     * Gets from user the information about the trade the user
-     * wants to respond to and determine whether the
-     * response is successfully sent or not. If there're no
-     * outstanding trade requests or if the user has reached
-     * the maximum number of transactions
-     * for a week threshold, print an appropriate message.
+     * Uses the given trade id and respond Status to
+     * set the respond status for the user for the trade
+     * that corresponds to the trade id.
+     * @param tradeID The trade id input by the user.
+     * @param respondStatus The respond status of the user.
      */
     public void respondToTradeRequests(int tradeID, String respondStatus){
         // will be used if two-way-trade
@@ -122,9 +116,9 @@ public class RegularUserTradingMenuController {
         respondResult(tradeID, itemid22, userId11, userId22, itemId11, respondStatus);
         }
 
-
-    /** Get the user respond for the request
-     * @return a list of trade
+    /**
+     * Puts together a list of trade requests the user needs to respond to.
+     * @return The list of trade requests the user needs to respond to.
      */
      public List<Trade> tradeRequestsToRespond() {
         //assume wait-to-be-opened = wait for the other user's response
@@ -138,9 +132,6 @@ public class RegularUserTradingMenuController {
         return requests;
     }
 
-    /**
-        Get the respond result(agree or disagree) by user
-     */
     private void respondResult(int tradeID,  int itemid22, int userId11, int userId22, int itemId11, String respondStatus) {
         // set user's status for the trade (agree / disagree)
         tm.setUserStatus(tradeID, userId, respondStatus);
@@ -154,9 +145,6 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    /**
-     Get the respond result which is agree by user
-     */
     private void respondAgree(int tradeID, int itemid22, int userId11, int userId22, int itemId11) {
         // remove + record the borrowing/lending
         um.removeItemFromUsers(userId11, userId22, itemId11);
@@ -171,7 +159,8 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     lock user if the user has no more transcactions.
+     * Checks to see if this user has reached the maximum number of transactions per week.
+     * @return Whether or not this user has reached the maximum number of transactions per week.
      */
     public boolean lockThresholdOrNot(){
         // if the user has no more transactions left
@@ -179,8 +168,22 @@ public class RegularUserTradingMenuController {
 
     }
 
+
     /**
-     Request a trade by user to another user
+     * Requests a trade with information about the users
+     * as well as the item(s) to be involved.
+     * @param numKindOfTrade The kind of trade (one-way / two-way).
+     * @param borrowerOrborrower1lender2 The borrower (if one-way), or the borrower
+     *                                   for the first item and the lender for the second
+     *                                   item (if two-way).
+     * @param lenderOrlender1borrower2   The lender (if one-way), or the lender for
+     *                                   the first item and the borrower for the second
+     *                                   item (if two-way).
+     * @param itemId1 The id of the first item (or only item) to be traded.
+     * @param itemId2 The id of the second item to be traded (if two-way-trade).
+     * @param numLentBeforeBorrow The number of items the user must lend before he/she can borrow.
+     * @param tradeType The type of the trade (temporary / permanent).
+     * @return A message for the result of the request.
      */
     public String requestTrade(int numKindOfTrade, int borrowerOrborrower1lender2, int lenderOrlender1borrower2,
                                int itemId1, int itemId2, int numLentBeforeBorrow, String tradeType) {
@@ -197,7 +200,8 @@ public class RegularUserTradingMenuController {
 
 
     /**
-     * @return true if user has a wanted item in his wishlist, otherwise false
+     * Decides if there is a trade suggestion for the user.
+     * @return the system has a trade suggestion for the user.
      */
     public boolean hasTradeSuggestion() {
         if (um.getUserWishlist(userId).isEmpty()){
@@ -205,7 +209,10 @@ public class RegularUserTradingMenuController {
         }
         return im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId))).size() != 0;
     }
-    /**return the most suggest item for user to trade.
+
+    /**
+     * Puts together the most reasonable trade suggestion for the user.
+     * @return the most reasonable trade suggestion for the user.
      */
     public Item mostReasonableTradeSuggestions() {
         ArrayList<Integer> p = im.getMatchItem(im.getItemsByIds(um.getUserWishlist(userId)));
@@ -214,9 +221,7 @@ public class RegularUserTradingMenuController {
     }
 
 
-    /** Determine what a trade id should be
-     * @return a trade id
-     */
+
     private int determineTradeID() {
         int tradeID;
         //add the trade id so that there're no duplicates
@@ -225,14 +230,7 @@ public class RegularUserTradingMenuController {
         return tradeID;
     }
 
-    /**
-     * @param numKindOfTrade which kind of trade
-     * @param itemId2 second user item id
-     * @param userId1 user1 id
-     * @param userId2 user2 id
-     * @param itemId user item id
-     * @return true if item(s) is validate, false otherwise
-     */
+
     private boolean getValidationForItems(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId) {
         boolean ok;
         if (numKindOfTrade == 1) {
@@ -247,16 +245,6 @@ public class RegularUserTradingMenuController {
     }
 
 
-    /**
-     * @param numKindOfTrade which kind of trade
-     * @param itemId2 second user item id
-     * @param userId1 user1 id
-     * @param userId2 user2 id
-     * @param itemId user item id
-     * @param tradeID trade id
-     * @param tradeType trade's type
-     * @return a trade
-     */
     private Trade getTrade(int numKindOfTrade, int itemId2, int userId1, int userId2, int itemId, int tradeID, String tradeType) {
         Trade trade;
         if (numKindOfTrade == 1) {
@@ -271,14 +259,6 @@ public class RegularUserTradingMenuController {
     }
 
 
-    /**
-     * @param ok result
-     * @param trade trade
-     * @param tradeId trade id
-     * @param userId1 user1 id
-     * @param numLendBeforeBorrow num lend before borrow
-     * @return the result of request
-     */
     private String requestResult(boolean ok, Trade trade, int tradeId, int userId1, int numLendBeforeBorrow) {
         if (tm.validateTrade(trade, um.findUser(userId1), numLendBeforeBorrow) && ok) {
             am.addActionToAllActionsList(userId, "regularUser", "2.1", tradeId, " and succeed");
@@ -292,9 +272,7 @@ public class RegularUserTradingMenuController {
         }
     }
 
-    /**
-     * @return false message of request
-     */
+
     private String requestFail() {
         //if the trade request failed
         // system auto-freeze
@@ -303,14 +281,10 @@ public class RegularUserTradingMenuController {
             um.freezeUser(username);
             return sm.msgForRequestResult(false)+ "\n" + sm.failMessageForFrozen();
         }
-        return sm.msgForRequestResult(false);
+        return sm.msgTradeRequestFail();
     }
 
-    /**
-     * @param trade trade
-     * @param tradeId trade id
-     * @return success message of request
-     */
+
     private String requestSuccess(Trade trade, int tradeId) {
         // add trade
         tm.addTrade(trade);
@@ -322,12 +296,7 @@ public class RegularUserTradingMenuController {
     }
 
 
-    /** one way trade validation
-     * @param borrower borrower
-     * @param lender  lender
-     * @param itemId item id  that is trading
-     * @return true if it is validate item otherwise false
-     */
+
     private boolean validateItems(int borrower, int lender, int itemId) {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory
@@ -336,13 +305,6 @@ public class RegularUserTradingMenuController {
     }
 
 
-    /** two way trade validation
-     * @param borrower1Lender2 user1
-     * @param borrower2lender1 user2
-     * @param itemId1 item1 id
-     * @param itemId2 item2 id
-     * @return true if them are validate otherwise false
-     */
     private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2)  {
         // return true iff the borrower has the item in his/her wishlist and
         // the lender has the item in his/her inventory for both items
@@ -352,7 +314,8 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are open
+     * Puts together a list of open trades for the user.
+     * @return A list of open trades for the user.
      */
     public List<Trade> viewOpenTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
@@ -360,7 +323,8 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are closed
+     * Puts together a list of closed trades for the user.
+     * @return A list of cancelled trades for the user.
      */
     public List<Trade> viewClosedTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
@@ -368,10 +332,14 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are cancelled
+     * Puts together a list of cancelled trades for the user.
+     * @return A list of cancelled trades for the user.
      */
     public List<Trade> viewCancelledTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         return tm.getCancelledTrade(userId);
     }
+
+
+
 }

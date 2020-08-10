@@ -13,6 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to show regular user manage items menu
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserManageItemsMenuGUI {
     private JPanel rootPanel;
     private JButton browseAllTradableButton;
@@ -26,6 +31,15 @@ public class RegularUserManageItemsMenuGUI {
     private JButton getSuggestionForItemToLendButton;
     private JButton backButton;
 
+    /**
+     * Run Regular User Manage Items Menu Gui
+     * @param isGuest The boolean stores whether this user is guest account or not
+     * @param sm SystemMessage
+     * @param guiDemo GUIDemo
+     * @param idChecker RegularUserIDChecker
+     * @param amc RegularUserAccountMenuController
+     * @param otherInfoChecker RegularUserOtherInfoChecker
+     */
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiDemo,
                     RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                     RegularUserOtherInfoChecker otherInfoChecker) {
@@ -38,11 +52,23 @@ public class RegularUserManageItemsMenuGUI {
         frame.setLocationRelativeTo(null);
     }
 
-
+    /**
+     * Constructor for Regular User Manage Items Menu Gui
+     * @param isGuest The boolean stores whether this user is guest account or not
+     * @param sm SystemMessage
+     * @param guiDemo GUIDemo
+     * @param idChecker RegularUserIDChecker
+     * @param amc RegularUserAccountMenuController
+     * @param otherInfoChecker RegularUserOtherInfoChecker
+     */
     public RegularUserManageItemsMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiDemo,
                                          RegularUserIDChecker idChecker, RegularUserAccountMenuController amc,
                                          RegularUserOtherInfoChecker otherInfoChecker){
         browseAllTradableButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, browse all tradable items
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Item> tradableItems = amc.getTradables();
@@ -51,6 +77,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         addToWishListButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, add item to wishlist
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -74,6 +104,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         removeFromWishListButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, remove item from wishlist
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -97,6 +131,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         removeFromInventoryButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, remove item from inventory
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -120,6 +158,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         requestItemButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, request item to be added to inventory
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -134,6 +176,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         mostRecentThreeItemsTradedButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, see most recent threes item traded
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -147,6 +193,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         viewWishListInventoryButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, view wishlist and inventory
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -164,6 +214,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         changeTradableStatusForItemButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, change tradable status for an item
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -188,6 +242,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         getSuggestionForItemToLendButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, get suggestion for item to lend
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isGuest){
@@ -201,6 +259,10 @@ public class RegularUserManageItemsMenuGUI {
         });
 
         backButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, back to upper level menu
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.runRegularUserAccountMainMenuGUI();
@@ -209,6 +271,12 @@ public class RegularUserManageItemsMenuGUI {
         });
     }
 
+    /**
+     * Helper method for printing object
+     * @param items A list of Item
+     * @param sm SystemMessage
+     * @param guiDemo GuiDemo
+     */
     private void printObjects(ArrayList<Item> items, SystemMessage sm, GUIDemo guiDemo){
         if (items.isEmpty()){
             guiDemo.printNotification(sm.msgForNothing("here"));
@@ -219,6 +287,13 @@ public class RegularUserManageItemsMenuGUI {
         }
     }
 
+    /**
+     * Helper method for getting string representation for get tradable id
+     * @param sm System Message
+     * @param tradable A list of tradable items
+     * @param nonTradable A list of non-tradable items
+     * @return A string representation of tradable and nontradable
+     */
     private String getTradableId(SystemMessage sm, ArrayList<Item> tradable, ArrayList<Item> nonTradable){
         String str = "Here's the list of items with tradable status: \n" + sm.printListObject(new ArrayList<>(tradable)) +
                     "Here's the list of items with non-tradable status: \n" + sm.printListObject(new ArrayList<>(nonTradable)) +

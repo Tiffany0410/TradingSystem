@@ -11,6 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to show regular searching window
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserSearchingWindow {
     private JPanel rootPanel;
     private javax.swing.JLabel JLabel;
@@ -18,12 +23,26 @@ public class RegularUserSearchingWindow {
     private JButton cancelButton;
     private JButton confirmButton;
 
+    /**
+     * Constructor of regular user searching window
+     * @param inputName name of user input
+     * @param option actions option
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserSearchingWindow(String inputName, int option, GUIDemo guiDemo, SystemMessage systemMessage,
                                       RegularUserSearchingMenuController regularUserSearchingMenuController,
                                       RegularUserIDChecker idC) {
         JLabel.setText(inputName);
 
         confirmButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation
+             * @param e click button
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (option == 2){
@@ -61,6 +80,11 @@ public class RegularUserSearchingWindow {
             }
         });
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation
+             * @param e click button
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -68,6 +92,15 @@ public class RegularUserSearchingWindow {
         });
     }
 
+    /**
+     * Run regular user searching window
+     * @param inputName name of user input
+     * @param option actions option
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param idC RegularUserIDChecker
+     */
     public void run(String inputName, int option, GUIDemo guiDemo, SystemMessage systemMessage,
                     RegularUserSearchingMenuController regularUserSearchingMenuController, RegularUserIDChecker idC) {
         JFrame frame = new JFrame("RegularUserSearchingWindow");

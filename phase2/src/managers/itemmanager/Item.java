@@ -47,7 +47,7 @@ public class Item implements Serializable {
      *
      * @param tradable the flag indicates whether the item is tradable
      */
-    public void setTradable(boolean tradable) {
+    protected void setTradable(boolean tradable) {
         support.firePropertyChange("Tradable Status of the item with item id " + itemId, this.tradable, tradable);
         this.tradable = tradable;
     }
@@ -57,7 +57,7 @@ public class Item implements Serializable {
      *
      * @return tradable the flag indicates whether the item is tradable
      */
-    public boolean getTradable() {
+    protected boolean getTradable() {
         return this.tradable;
     }
 
@@ -71,15 +71,6 @@ public class Item implements Serializable {
     }
 
     /**
-     * Set the name of this item
-     *
-     * @param name The name of this item
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Get the description of this item
      *
      * @return the description of this item
@@ -89,30 +80,12 @@ public class Item implements Serializable {
     }
 
     /**
-     * Set the description of this item
-     *
-     * @param description The description of this item
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * Get the category of this item
      *
      * @return the category of item
      */
-    public Category getCategory() {
+    protected Category getCategory() {
         return this.category;
-    }
-
-    /**
-     * Return the description of the item
-     *
-     * @return the description of this item
-     */
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     /**
@@ -131,24 +104,6 @@ public class Item implements Serializable {
      */
     public int getOwnerId() {
         return ownerId;
-    }
-
-    /**
-     * Get current holder's ID of this item
-     *
-     * @return The current holder's ID of this item
-     */
-    public int getCurrHolderId() {
-        return currHolderId;
-    }
-
-    /**
-     * Set the current holder's ID of this item
-     *
-     * @param currHolderId The current holder's ID of this item
-     */
-    public void setCurrHolderId(int currHolderId) {
-        this.currHolderId = currHolderId;
     }
 
     /**

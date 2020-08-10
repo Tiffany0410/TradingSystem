@@ -12,6 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to show regular user change tradable status for items window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserManageItemsTradableStatusWindow {
     private JTextPane textPane1;
     private JTextField userInput;
@@ -21,6 +26,15 @@ public class RegularUserManageItemsTradableStatusWindow {
     private JRadioButton setToNONTRADABLERadioButton;
     private JRadioButton setToTRADABLERadioButton;
 
+    /**
+     * Constructor for regular user change tradable status for items window
+     * @param inventory A list of items in inventory
+     * @param string A string representation of items in inventory
+     * @param guiDemo GUIDemo
+     * @param sm SystemMessage
+     * @param amc RegularUserAccountMenuController
+     * @param idChecker RegularUserIDChecker
+     */
     public RegularUserManageItemsTradableStatusWindow(ArrayList<Item> inventory, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
         textPane1.setText(string);
@@ -32,6 +46,10 @@ public class RegularUserManageItemsTradableStatusWindow {
         group.add(setToTRADABLERadioButton);
 
         setButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, set tradable status
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean result;
@@ -63,6 +81,10 @@ public class RegularUserManageItemsTradableStatusWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -70,6 +92,15 @@ public class RegularUserManageItemsTradableStatusWindow {
         });
     }
 
+    /**
+     * Run regular user change tradable status for items window
+     * @param inventory A list of items in inventory
+     * @param string A string representation of items in inventory
+     * @param guiDemo GUIDemo
+     * @param sm SystemMessage
+     * @param amc RegularUserAccountMenuController
+     * @param idChecker RegularUserIDChecker
+     */
     public void run(ArrayList<Item> inventory, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
         JFrame frame = new JFrame("Set Tradable Status for Item");

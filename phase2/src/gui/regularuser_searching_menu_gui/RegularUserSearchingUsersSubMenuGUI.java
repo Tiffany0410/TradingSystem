@@ -10,7 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Used to show regular searching menu
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserSearchingUsersSubMenuGUI {
     private JPanel rootPanel;
     private JButton recentTradeUserButton;
@@ -22,10 +26,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
                                                GUIDemo guiDemo, SystemMessage systemMessage) {
         recentTradeUserButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -39,10 +43,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
         });
         frequentTradeUserButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -56,10 +60,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
         });
         sortUserByRatingButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -74,10 +78,10 @@ public class RegularUserSearchingUsersSubMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -86,6 +90,12 @@ public class RegularUserSearchingUsersSubMenuGUI {
         });
     }
 
+    /**
+     * Run regular user searching users submenu gui
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     */
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingUsersSubMenu");

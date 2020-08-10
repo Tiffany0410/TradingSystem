@@ -6,6 +6,11 @@ import presenter.SystemMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * Used to show regular searching gui
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class RegularUserSearchingMenuGUI {
     private JPanel rootPanel;
@@ -19,10 +24,10 @@ public class RegularUserSearchingMenuGUI {
     public RegularUserSearchingMenuGUI(GUIDemo guiDemo, boolean guest, SystemMessage sm) {
         searchingItemsButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                     guiDemo.closeWindow(rootPanel);
@@ -32,10 +37,10 @@ public class RegularUserSearchingMenuGUI {
         });
         searchingUsersButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (guest) {
@@ -50,10 +55,10 @@ public class RegularUserSearchingMenuGUI {
         });
         searchingMeetingsButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (guest) {
@@ -68,10 +73,10 @@ public class RegularUserSearchingMenuGUI {
         });
         searchingTradesButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (guest) {
@@ -86,10 +91,10 @@ public class RegularUserSearchingMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -98,6 +103,12 @@ public class RegularUserSearchingMenuGUI {
         });
     }
 
+    /**
+     * Run regular uer searching menu gui
+     * @param guiDemo GUIDemo
+     * @param guest guest or not
+     * @param sm systemMessage
+     */
     public void run(GUIDemo guiDemo, boolean guest, SystemMessage sm) {
         JFrame frame = new JFrame("regularUserSearchingMenuGUI");
         frame.setContentPane(new RegularUserSearchingMenuGUI(guiDemo, guest, sm).rootPanel);

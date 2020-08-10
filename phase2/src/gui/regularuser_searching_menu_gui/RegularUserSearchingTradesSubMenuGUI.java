@@ -10,7 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Used to show regular searching window
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserSearchingTradesSubMenuGUI {
     private JPanel rootPanel;
     private JButton incompleteTradesButton;
@@ -21,10 +25,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
                                                 GUIDemo guiDemo, SystemMessage systemMessage) {
         incompleteTradesButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -39,10 +43,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
         });
         completeTradesButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -56,10 +60,10 @@ public class RegularUserSearchingTradesSubMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoke when click button and do related operation
+             * @param e click button
              */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -68,6 +72,12 @@ public class RegularUserSearchingTradesSubMenuGUI {
         });
     }
 
+    /**
+     * Run regular user searching trade submenu gui
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     */
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingTradesSubMenu");

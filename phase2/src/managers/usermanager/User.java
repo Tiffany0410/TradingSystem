@@ -47,7 +47,7 @@ public class User  implements  Serializable {
      *
      * @return user's id.
      */
-    public int getId() {
+    protected int getId() {
         return this.id;
     }
 
@@ -56,7 +56,7 @@ public class User  implements  Serializable {
      *
      * @return this user's password
      */
-    public String getPassword() {
+    protected String getPassword() {
         return password;
     }
 
@@ -65,7 +65,7 @@ public class User  implements  Serializable {
      *
      * @return this user's email
      */
-    public String getEmail(){return this.email;}
+    protected String getEmail(){return this.email;}
 
 
 

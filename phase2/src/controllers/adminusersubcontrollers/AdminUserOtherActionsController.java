@@ -9,12 +9,11 @@ import managers.usermanager.UserManager;
 
 import java.util.Calendar;
 
-
 /**
  * An instance of this class represents the communication system between the admin user,
  * the use cases, and the presenter, for the adding new admin user actions part.
  *
- * @author Chengle Yang
+ * @author Chengle Yang, Jiaqi Gong
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserOtherActionsController {
@@ -53,13 +52,12 @@ public class AdminUserOtherActionsController {
 
 
     /**
-     * Check if the year,month and day are valid
-     *
+     * Check if the year, month and day user select are valid
      * @param year Year
      * @param month Month
      * @param day Day
      *
-     * @return true if the date are vlid
+     * @return true if the date are valid
      */
     public boolean checkSystemTime(int year, int month, int day) {
         return this.regularUserDateTimeChecker.isValidDay(year,month, day);
