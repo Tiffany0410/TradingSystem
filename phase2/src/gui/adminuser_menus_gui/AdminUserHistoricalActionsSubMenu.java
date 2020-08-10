@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Used to show admin user historical acrions submenu
+ * @author Jiaqi Gong, Yangle Cheng
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserHistoricalActionsSubMenu {
     private JPanel rootPanel;
     private JButton listAllTheHistoricalButton;
@@ -23,12 +29,18 @@ public class AdminUserHistoricalActionsSubMenu {
     private JButton backButton;
     private JButton listAllTheRevocableButton;
 
+    /**
+     * Constructor of admin user historical actions submenu gui
+     * @param guiDemo GUIDemo
+     * @param sm system message
+     * @param hac adminUserHistoricalActionsController
+     */
     public AdminUserHistoricalActionsSubMenu(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
         listAllTheHistoricalButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,9 +51,9 @@ public class AdminUserHistoricalActionsSubMenu {
         });
         listAllTheRevocableButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button abd do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,9 +64,9 @@ public class AdminUserHistoricalActionsSubMenu {
         });
         findAllTheRevocableByIDButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,26 +83,13 @@ public class AdminUserHistoricalActionsSubMenu {
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
                          inputName, info, option, guiDemo, hac, sm);
                 adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
-
-//                String username = guiDemo.getInPut(string);
-//                int userID = hac.getUserID(username);
-//                ArrayList<Action> allAction;
-//
-//                if (hac.checkUser(username)) {
-//                    allAction = hac.searchRevocableActionByUserID(userID);
-//                    printObjects(allAction, sm, guiDemo);
-//                    guiDemo.runSave();
-//                }
-//                else {
-//                    guiDemo.printNotification("Please enter correct username");
-//                }
             }
         });
         cancelTheRevocableHistoricalButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,35 +101,13 @@ public class AdminUserHistoricalActionsSubMenu {
                         inputName, info, option, guiDemo, hac, sm);
                 adminUserHistoricalActionsWindow.run(inputName, info, option, guiDemo, hac, sm);
 
-
-//                try {
-//                    String userInput = guiDemo.getInPut(string);
-//                    int actionID = Integer.parseInt(userInput);
-//
-//                    boolean flag = false;
-//                    Action targetAction = hac.findActionByID(actionID);
-//
-//                    // check if the action id in current revocable list
-//                    if (hac.checkRevocable(targetAction)) {
-//                        if (hac.cancelRevocableAction(targetAction)) {
-//                            guiDemo.printNotification("Successfully delete target action");
-//                            guiDemo.runSave();
-//                        }
-//                    } else {
-//                        guiDemo.printNotification("Please enter correct actionID");
-//                    }
-//
-//                } catch (NumberFormatException ex){
-//                    guiDemo.printNotification(sm.printInvalidID());
-//                }
-
             }
         });
         confirmUndoRequestButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,47 +129,29 @@ public class AdminUserHistoricalActionsSubMenu {
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
                         inputName, info.toString(), option, guiDemo, hac, sm);
                 adminUserHistoricalActionsWindow.run(inputName, info.toString(), option, guiDemo, hac, sm);
-
-
-//                //get the actionID enter by admin
-//                try {
-//                    int actionID = Integer.parseInt(guiDemo.getInPut(string));
-//
-//
-//                    boolean flag = false;
-//                    if (hac.checkUndoRequest(actionID)) {
-//                        flag = hac.confirmRequestAndCancelAction(actionID);
-//                    } else {
-//                        guiDemo.printNotification("Please enter correct actionID");
-//                    }
-//
-//                    if (flag) {
-//                        guiDemo.runSave();
-//                        guiDemo.printNotification("Successfully delete target action");
-//                    }
-//
-//                } catch (NumberFormatException ex){
-//                    sm.printInvalidID();
-//                }
-
-
             }
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do realted operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
-
                 guiDemo.runAdminUserMainMenu();
             }
         });
     }
+
+    /**
+     * This is method print the info of given action list
+     * @param actions list of actions
+     * @param sm system message
+     * @param guiDemo GUIDemo
+     */
 
     private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
         if (actions.isEmpty()){
@@ -209,7 +168,12 @@ public class AdminUserHistoricalActionsSubMenu {
         }
     }
 
-
+    /**
+     * Run this GUI
+     * @param guiDemo GUIDemo
+     * @param sm system Message
+     * @param hac adminUserHistoricalActionController
+     */
     public void run(GUIDemo guiDemo, SystemMessage sm, AdminUserHistoricalActionController hac) {
         JFrame frame = new JFrame("AdminUserHistoricalActionsSubMenu");
         frame.setContentPane(new AdminUserHistoricalActionsSubMenu(guiDemo, sm, hac).rootPanel);
