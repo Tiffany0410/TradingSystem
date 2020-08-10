@@ -10,6 +10,7 @@ public class AdminUserOtherSubMenuGUI {
     private JPanel rootPanel;
     private JButton addNewAdminUserButton;
     private JButton backButton;
+    private JButton setSystemTimeButton;
 
     public AdminUserOtherSubMenuGUI(GUIDemo guiDemo) {
         addNewAdminUserButton.addActionListener(new ActionListener() {
@@ -22,10 +23,25 @@ public class AdminUserOtherSubMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
-                guiDemo.runAdminUserCreateAccount();
                 guiDemo.runSave();
+                guiDemo.runAdminUserCreateAccount();
+
             }
         });
+        setSystemTimeButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiDemo.closeWindow(rootPanel);
+                guiDemo.runSave();
+
+            }
+        });
+
         backButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -40,6 +56,7 @@ public class AdminUserOtherSubMenuGUI {
                 guiDemo.runAdminUserMainMenu();
             }
         });
+
     }
 
     public void run(GUIDemo guiDemo) {
