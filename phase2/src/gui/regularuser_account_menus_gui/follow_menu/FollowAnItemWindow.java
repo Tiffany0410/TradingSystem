@@ -15,8 +15,17 @@ public class FollowAnItemWindow {
     private JButton cancelButton;
     private JPanel rootPanel;
 
+    /**
+     * Responsible for the view and getting input for user
+     * when user wants to follow an item.
+     * @param guiD The GUI helper.
+     * @param idChecker The id checker.
+     * @param sm The presenter.
+     * @param amc The RegularUserAccountMenuController
+     */
     public FollowAnItemWindow(GUIDemo guiD, RegularUserIDChecker idChecker, SystemMessage sm,
                               RegularUserAccountMenuController amc) {
+
         OKButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -25,21 +34,7 @@ public class FollowAnItemWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = textField1.getText();
-                if (idChecker.checkInt(input)){
-                    int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(itemId)){
-                        guiD.printNotification(sm.msgForFollowResult(amc.followAnItem(itemId)));
-                    }
-                    else{
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                }
-                else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
-                guiD.runSave();
-                guiD.closeWindow(rootPanel);
+                followAnItemOk(idChecker, guiD, sm, amc);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -55,6 +50,32 @@ public class FollowAnItemWindow {
             }
         });
     }
+
+    private void followAnItemOk(RegularUserIDChecker idChecker, GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController amc) {
+        String input = textField1.getText();
+        if (idChecker.checkInt(input)){
+            int itemId = Integer.parseInt(input);
+            if (idChecker.checkItemID(itemId)){
+                guiD.printNotification(sm.msgForFollowResult(amc.followAnItem(itemId)));
+            }
+            else{
+                guiD.printNotification(sm.tryAgainMsgForWrongInput());
+            }
+        }
+        else {
+            guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+        }
+        guiD.runSave();
+        guiD.closeWindow(rootPanel);
+    }
+
+    /**
+     * Responsible for running this window.
+     * @param guiD The GUI helper.
+     * @param idChecker The id checker.
+     * @param sm The presenter.
+     * @param amc The RegularUserAccountMenuController
+     */
     public void run(GUIDemo guiD, RegularUserIDChecker idChecker, SystemMessage sm,
                     RegularUserAccountMenuController amc) {
         JFrame frame = new JFrame("FollowAnItemWindow");

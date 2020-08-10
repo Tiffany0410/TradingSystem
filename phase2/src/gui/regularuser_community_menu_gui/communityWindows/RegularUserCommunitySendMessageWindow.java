@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user send message window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserCommunitySendMessageWindow {
     private JTextPane textPane1;
     private JTextField id;
@@ -20,6 +26,14 @@ public class RegularUserCommunitySendMessageWindow {
     private JScrollPane scrollPane;
     private JScrollPane scrollPane1;
 
+    /**
+     * Constructor for Regular User Community Send Message Window
+     * @param string A string representation of a list of users that can send message to
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserCommunitySendMessageWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
@@ -27,9 +41,13 @@ public class RegularUserCommunitySendMessageWindow {
         textPane1.setVisible(true);
         msg.setVisible(true);
         scrollPane.setVisible(true);
-        scrollPane.setVisible(true);
+        scrollPane1.setVisible(true);
 
         sendButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, send a message
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userId = id.getText();
@@ -51,6 +69,10 @@ public class RegularUserCommunitySendMessageWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.closeWindow(rootPanel);
@@ -58,6 +80,14 @@ public class RegularUserCommunitySendMessageWindow {
         });
     }
 
+    /**
+     * Run Regular User Community Send Message Window
+     * @param string A string representation of a list of users that can send message to
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         JFrame frame = new JFrame("Send a message");
         frame.setContentPane(new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC).rootPanel);

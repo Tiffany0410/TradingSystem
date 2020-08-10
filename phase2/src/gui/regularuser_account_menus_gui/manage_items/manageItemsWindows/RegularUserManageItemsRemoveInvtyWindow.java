@@ -12,6 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to show regular user remove from inventory window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserManageItemsRemoveInvtyWindow {
     private JTextPane textPane1;
     private JButton cancelButton;
@@ -19,6 +24,15 @@ public class RegularUserManageItemsRemoveInvtyWindow {
     private JTextField userInput;
     private JPanel rootPanel;
 
+    /**
+     * Constructor for Regular User Remove Items From Inventory Window
+     * @param items A list of items that is in user's inventory
+     * @param string String representation for the items in inventory
+     * @param guiDemo GUIDemo
+     * @param sm SystemMessage
+     * @param amc RegularUserAccountMenuController
+     * @param idChecker RegularUserIDChecker
+     */
     public RegularUserManageItemsRemoveInvtyWindow(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker) {
         textPane1.setText(string);
@@ -26,6 +40,10 @@ public class RegularUserManageItemsRemoveInvtyWindow {
         textPane1.setBackground(new Color(242, 242, 242));
 
         removeButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, remove from wishlist
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
@@ -47,6 +65,10 @@ public class RegularUserManageItemsRemoveInvtyWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -54,6 +76,15 @@ public class RegularUserManageItemsRemoveInvtyWindow {
         });
     }
 
+    /**
+     * Run Regular User Remove Items From Inventory Window
+     * @param items A list of items that is in user's inventory
+     * @param string String representation for the items in inventory
+     * @param guiDemo GUIDemo
+     * @param sm SystemMessage
+     * @param amc RegularUserAccountMenuController
+     * @param idChecker RegularUserIDChecker
+     */
     public void run(ArrayList<Item> items, String string, GUIDemo guiDemo, SystemMessage
             sm, RegularUserAccountMenuController amc, RegularUserIDChecker idChecker){
         JFrame frame = new JFrame("Remove From Inventory");

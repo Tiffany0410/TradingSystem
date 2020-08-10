@@ -1,13 +1,12 @@
 package controllers.regularusersubcontrollers;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
  * An instance of this class represents the datetime
- * getter for the RegularUserController class.
+ * checker, which performs various datetime checks.
  *
  * @author Yu Xin Yan, Jiaqi Gong
  * @version IntelliJ IDEA 2020.1
@@ -21,68 +20,23 @@ public class RegularUserDateTimeChecker {
 
     }
 
-
-//    /**
-//     * Asks the user for the valid datetime.
-//     * @param ds The presenter used to display information.
-//     * @return A list containing user's input of the valid datetime.
-//     */
-//    public List<Integer> getValidDate(DisplaySystem ds){
-//        //TODO: delete later
-//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
-//        List<Integer> list = new ArrayList<>();
-//        boolean ok = true;
-//        int year = 0, month = 0, day = 0, hour = 0, minute = 0;
-//        Scanner sc = new Scanner(System.in);
-//
-//        do {
-//            ok = true;
-//            ds.printOut("Please enter the date between 2020 to 2030 (Format: yyyy-MM-dd HH-mm)");
-//
-//            try {
-//                String typeIn = sc.nextLine();
-//
-//                Date date = format.parse(typeIn);
-//
-//                year = Integer.parseInt(typeIn.substring(0, 4));
-//                month = Integer.parseInt(typeIn.substring(5, 7));
-//                day = Integer.parseInt(typeIn.substring(8, 10));
-//                hour = Integer.parseInt(typeIn.substring(11, 13));
-//                minute = Integer.parseInt(typeIn.substring(14, 16));
-//
-//            } catch (ParseException e) {
-//                ds.printOut("Wrong date format, please follow the correct format. (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-//                ok = false;
-//
-//            } catch (NumberFormatException e) {
-//                ds.printOut("Please follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-//                ok = false;
-//
-//            } catch (StringIndexOutOfBoundsException s) {
-//                ds.printOut("Follow the correct date format! (Format: yyyy-MM-dd HH-mm)(ex. 2025-09-01 08-30)");
-//                ok = false;
-//            }
-//
-//            if (isValidDay(year, month, day) && isValidTime(hour, minute)) {
-//                ds.printOut("Time set success");
-//            } else {
-//                ds.printOut("Time set failed. Try again");
-//                ok = false;
-//            }
-//            list.add(year);
-//            list.add(month);
-//            list.add(day);
-//            list.add(hour);
-//            list.add(minute);
-//        } while(!ok);
-//        return list;
-//
-//    }
-
+    /**
+     * Checks if the hour and minute are valid.
+     * @param hour The hour input by the user.
+     * @param min The minute input by the user.
+     * @return Whether or not the hour and time are valid.
+     */
     public boolean isValidTime(int hour, int min){return 1 <= hour && hour <= 24 && 0 <= min && min <= 59;}
 
+    /**
+     * Checks if the year, month, and day are valid for the system time.
+     * @param year The year input received from the user as input.
+     * @param month The month input by the user.
+     * @param day The day input by the user.
+     * @return Whether or not the year, month, and day are valid for the system time.
+     */
     public boolean isValidDay(int year, int month, int day){
-        if (year < 2020 || year > 2030){return false;}
+        if (year < 2020 || year > 2025){return false;}
 
         if (month < 1 || month > 12){return false;}
 
@@ -100,12 +54,21 @@ public class RegularUserDateTimeChecker {
         }
     }
 
+    /**
+     * Checks if the year, month, and day are valid for a meeting time.
+     * @param year The year input received from the user as input.
+     * @param month The month input by the user.
+     * @param day The day input by the user.
+     * @return Whether or not the year, month, and day are valid for a meeting time.
+     */
     public boolean isValidDayForMeetingTime(int year, int month, int day){
-        int yearNow = Calendar.getInstance().get(Calendar.YEAR);
-        int monthNow = Calendar.getInstance().get(Calendar.MONTH);
-        int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Date date = new Date();
+;       LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int yearNow  = localDate.getYear();
+        int monthNow = localDate.getMonthValue();
+        int dayNow   = localDate.getDayOfMonth();
         if (isValidDay(year, month, day)) {
-            return (yearNow <= year && year <= 2030) && (monthNow <= month) && (dayNow <= day);
+            return (yearNow <= year && year <= 2024) && (monthNow <= month) && (dayNow < day);
         }
         return false;
     }

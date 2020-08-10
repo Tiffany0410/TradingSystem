@@ -21,19 +21,19 @@ public class RegularUserMainMenuGUI {
     private JButton logoutButton;
     private JButton communityInformationButton;
 
-    public void run(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
-                    RegularUserThresholdController tc, String username, UserManager um, String menuPartOfAlert,
-                    ArrayList<Integer> thresholdValues) {
-
-        JFrame frame = new JFrame("regularUserMainMenuGUI");
-        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm, guiD, amc,tc, username, um, menuPartOfAlert,
-                thresholdValues).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-    }
-
+    /**
+     * Responsible for the view and getting input for user
+     * when user is browsing the account main menu.
+     * @param guest Whether or not guest access should be granted.
+     * @param sm The presenter.
+     * @param guiD The GUI helper.
+     * @param amc The RegularUserAccountMenuController.
+     * @param tc The threshold controller.
+     * @param username User's username.
+     * @param um The user manager.
+     * @param menuPartOfAlert The part of the notification read from the file.
+     * @param thresholdValues A list of threshold values.
+     */
     public RegularUserMainMenuGUI(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
                                   RegularUserThresholdController tc, String username, UserManager um, String menuPartOfAlert,
                                   ArrayList<Integer> thresholdValues) {
@@ -45,12 +45,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!guest) {
-                    guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
-                }
-                else{
-                    guiD.printNotification(sm.msgForGuest());
-                }
+                seeNotification(guest, guiD, sm, um, tc, username, menuPartOfAlert, thresholdValues);
 
             }
         });
@@ -62,9 +57,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Call Account Info Menu and close this window
-                guiD.runRegularUserAccountMainMenuGUI();
-                guiD.closeWindow(rootPanel);
+                launchAccountMenu(guiD);
 
             }
         });
@@ -76,16 +69,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else if (amc.seeIfOnVacation()){
-                    guiD.printNotification(sm.lockMessageForVacation());
-                }
-                else{
-                    guiD.runRegularUserTradingMenuGUI();
-                    guiD.closeWindow(rootPanel);
-                }
+                launchTradingMenu(amc, guiD, sm);
             }
         });
         meetingInformationButton.addActionListener(new ActionListener() {
@@ -96,17 +80,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else if (amc.seeIfOnVacation()){
-                    guiD.printNotification(sm.lockMessageForVacation());
-                }
-                else{
-                    //Call Meeting Info Menu and close this window
-                    guiD.runRegularUserMeetingMenu();
-                    guiD.closeWindow(rootPanel);
-                }
+                launchMeetingMenu(amc, guiD, sm);
 
             }
         });
@@ -118,14 +92,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else{
-                    // Call Searching Info Menu and close this window
-                    guiD.runRegularUserSearchingMenuGUI();
-                    guiD.closeWindow(rootPanel);
-                }
+                launchSearchingMenu(amc, guiD, sm);
             }
         });
         communityInformationButton.addActionListener(new ActionListener() {
@@ -136,14 +103,7 @@ public class RegularUserMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else{
-                    // Call Community Info Menu and close this window
-                    guiD.runRegularUserCommunityMenuGUI();
-                    guiD.closeWindow(rootPanel);
-                }
+                launchCommunityMenu(amc, guiD, sm);
             }
         });
         logoutButton.addActionListener(new ActionListener() {
@@ -161,5 +121,97 @@ public class RegularUserMainMenuGUI {
             }
         });
     }
+
+    private void launchCommunityMenu(RegularUserAccountMenuController amc, GUIDemo guiD, SystemMessage sm) {
+        if (amc.seeIfFrozen()){
+            guiD.printNotification(sm.lockMessageForFrozen());
+        }
+        else{
+            // Call Community Info Menu and close this window
+            guiD.runRegularUserCommunityMenuGUI();
+            guiD.closeWindow(rootPanel);
+        }
+    }
+
+    private void launchSearchingMenu(RegularUserAccountMenuController amc, GUIDemo guiD, SystemMessage sm) {
+        if (amc.seeIfFrozen()){
+            guiD.printNotification(sm.lockMessageForFrozen());
+        }
+        else{
+            // Call Searching Info Menu and close this window
+            guiD.runRegularUserSearchingMenuGUI();
+            guiD.closeWindow(rootPanel);
+        }
+    }
+
+    private void launchMeetingMenu(RegularUserAccountMenuController amc, GUIDemo guiD, SystemMessage sm) {
+        if (amc.seeIfFrozen()){
+            guiD.printNotification(sm.lockMessageForFrozen());
+        }
+        else if (amc.seeIfOnVacation()){
+            guiD.printNotification(sm.lockMessageForVacation());
+        }
+        else{
+            //Call Meeting Info Menu and close this window
+            guiD.runRegularUserMeetingMenu();
+            guiD.closeWindow(rootPanel);
+        }
+    }
+
+    private void launchTradingMenu(RegularUserAccountMenuController amc, GUIDemo guiD, SystemMessage sm) {
+        if (amc.seeIfFrozen()){
+            guiD.printNotification(sm.lockMessageForFrozen());
+        }
+        else if (amc.seeIfOnVacation()){
+            guiD.printNotification(sm.lockMessageForVacation());
+        }
+        else{
+            guiD.runRegularUserTradingMenuGUI();
+            guiD.closeWindow(rootPanel);
+        }
+    }
+
+    private void launchAccountMenu(GUIDemo guiD) {
+        //Call Account Info Menu and close this window
+        guiD.runRegularUserAccountMainMenuGUI();
+        guiD.closeWindow(rootPanel);
+    }
+
+    private void seeNotification(boolean guest, GUIDemo guiD, SystemMessage sm, UserManager um, RegularUserThresholdController tc, String username, String menuPartOfAlert, ArrayList<Integer> thresholdValues) {
+        if (!guest) {
+            guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
+            guiD.runSave();
+        }
+        else{
+            guiD.printNotification(sm.msgForGuest());
+        }
+    }
+
+
+    /**
+     * Responsible for running this window.
+     * @param guest Whether or not guest access should be granted.
+     * @param sm The presenter.
+     * @param guiD The GUI helper.
+     * @param amc The RegularUserAccountMenuController.
+     * @param tc The threshold controller.
+     * @param username User's username.
+     * @param um The user manager.
+     * @param menuPartOfAlert The part of the notification read from the file.
+     * @param thresholdValues A list of threshold values.
+     */
+    public void run(boolean guest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc,
+                    RegularUserThresholdController tc, String username, UserManager um, String menuPartOfAlert,
+                    ArrayList<Integer> thresholdValues) {
+
+        JFrame frame = new JFrame("regularUserMainMenuGUI");
+        frame.setContentPane(new RegularUserMainMenuGUI(guest, sm, guiD, amc,tc, username, um, menuPartOfAlert,
+                thresholdValues).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+    }
+
 }
 

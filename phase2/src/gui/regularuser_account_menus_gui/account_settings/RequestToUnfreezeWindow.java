@@ -16,6 +16,13 @@ public class RequestToUnfreezeWindow {
     private JPanel rootPanel;
 
 
+    /**
+     * Responsible for the view and getting input for user
+     * when user wants to request unfreeze.
+     * @param guiD The GUI helper.
+     * @param sm The presenter.
+     * @param atc The RegularUserAccountMenuController.
+     */
     public RequestToUnfreezeWindow(GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController atc){
         textArea.setEditable(true);
         textArea.setLineWrap(true);
@@ -29,9 +36,7 @@ public class RequestToUnfreezeWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(textArea.getText())));
-                guiD.runSave();
-                guiD.closeWindow(rootPanel);
+                requestUnfreezeOk(guiD, sm, atc);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -47,6 +52,18 @@ public class RequestToUnfreezeWindow {
         });
     }
 
+    private void requestUnfreezeOk(GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController atc) {
+        guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(textArea.getText())));
+        guiD.runSave();
+        guiD.closeWindow(rootPanel);
+    }
+
+    /**
+     * Responsible for running this window.
+     * @param guiD The GUI helper.
+     * @param sm The presenter.
+     * @param atc The RegularUserAccountMenuController.
+     */
     public void run(GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController atc){
         JFrame frame = new JFrame("regularUserRequestToUnfreezeWindowGUI");
         frame.setContentPane(new RequestToUnfreezeWindow(guiD, sm, atc).rootPanel);

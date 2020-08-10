@@ -6,17 +6,15 @@ import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.trademanager.TradeManager;
-import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * An instance of this class represents the communication system between the regular user,
- * the use cases, and the presenter, for the account menu part.
+ * An instance of this class represents the communication system between the regular user and
+ * the use cases for the account menu part.
  *
  * @author Yu Xin Yan, Shi Tang
  * @version IntelliJ IDEA 2020.1
@@ -59,7 +57,7 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Return a list of tradable items in the system
+     * Returns a list of tradable items in the system
      * @return A list of tradable items
      */
     public ArrayList<Item> getTradables(){
@@ -76,7 +74,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of tradable items from other users in the system
+     * Returns a list of tradable items from other users in the system
      * @return a list of tradable items from other users
      */
     public ArrayList<Item> getAllTradableFromOtherNotInWishlist(){
@@ -92,7 +90,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return true if the item added to user's wishlist successfully, false otherwise
+     * Returns true if the item added to user's wishlist successfully, false otherwise
      * @param tempItemID The item's id
      * @return true if the item added to wishlist successfully
      */
@@ -104,7 +102,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return true if the item removed from user's wishlist successfully, false otherwise
+     * Returns true if the item removed from user's wishlist successfully, false otherwise
      * @param tempItemID The item's id
      * @return true if the item removed from user's wishlist successfully
      */
@@ -116,7 +114,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return true if the item removed from user's inventory successfully, false otherwise
+     * Returns true if the item removed from user's inventory successfully, false otherwise
      * @param tempItemID tempItemID The item's id
      * @return true if the item removed from user's inventory successfully
      */
@@ -141,7 +139,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of three most recent traded items
+     * Returns a list of three most recent traded items
      * @return A list of items
      */
     public ArrayList<Item> seeMostRecentThreeItems() {
@@ -153,7 +151,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return user's wishlist
+     * Returns user's wishlist
      * @return a list of items
      */
     public ArrayList<Item> getWishList(){
@@ -162,7 +160,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return user's inventory
+     * Returns user's inventory
      * @return a list of items
      */
     public ArrayList<Item> getInventory(){
@@ -171,7 +169,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of tradable items that are also in user's inventory
+     * Returns a list of tradable items that are also in user's inventory
      * @return a list of tradable items
      */
     public ArrayList<Item> getTradableItems(){
@@ -180,7 +178,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of non-tradable items that are also in user's inventory
+     * Returns a list of non-tradable items that are also in user's inventory
      * @return a list of non-tradable items
      */
     public ArrayList<Item> getNotTradableItems(){
@@ -209,7 +207,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of suggested items to lend
+     * Returns a list of suggested items to lend
      * @param lendToUserId The user's id that lend to
      * @return a list of suggested items to lend that are in user lendToUserId's inventory
      */
@@ -223,7 +221,7 @@ public class RegularUserAccountMenuController {
     }
 
     /**
-     * Return a list of random suggested items to lend
+     * Returns a list of random suggested items to lend
      * @param lendToUserId The user's id that lend to
      * @return a list of random suggested items to lend that are in user lendToUserId's inventory
      */

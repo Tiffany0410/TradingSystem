@@ -10,6 +10,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user request item to add to inventory window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserRequestItemWindow {
     private JTextField name;
     private JTextArea description;
@@ -18,10 +23,20 @@ public class RegularUserRequestItemWindow {
     private JButton addButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructor for regular user request item to add to inventory window
+     * @param guiDemo GUIDemo
+     * @param amc RegularUserAccountMenuController
+     * @param otherInfoChecker RegularUserOtherInfoChecker
+     */
     public RegularUserRequestItemWindow(GUIDemo guiDemo, RegularUserAccountMenuController amc, RegularUserOtherInfoChecker otherInfoChecker){
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /**
+                 * Invoke when click button and do related operation, request add item to inventory
+                 * @param e click button
+                 */
                 String itemName = name.getText();
                 String itemDescription = description.getText();
                 String itemCategory = (String) category.getSelectedItem();
@@ -40,6 +55,10 @@ public class RegularUserRequestItemWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -47,6 +66,12 @@ public class RegularUserRequestItemWindow {
         });
     }
 
+    /**
+     * Run regular user request item to add to inventory window
+     * @param guiDemo GUIDemo
+     * @param amc RegularUserAccountMenuController
+     * @param otherInfoChecker RegularUserOtherInfoChecker
+     */
     public void run(GUIDemo guiDemo, RegularUserAccountMenuController amc, RegularUserOtherInfoChecker otherInfoChecker){
         JFrame frame = new JFrame("Request an item");
         frame.setContentPane(new RegularUserRequestItemWindow(guiDemo, amc, otherInfoChecker).rootPanel);

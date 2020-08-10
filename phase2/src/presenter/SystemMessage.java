@@ -51,7 +51,9 @@ public class SystemMessage {
     }
 
     public String tryAgainMsgForWrongDatetime(){
-        return "Invalid input: the year must be between 2020 and 2030, inclusive.";
+        return "Invalid input: the year must be between 2020 and 2024, inclusive." +
+                " Also, you cannot set the date to be earlier than today or" +
+                " today.";
     }
 
     /**
@@ -173,7 +175,7 @@ public class SystemMessage {
      */
     public String lockMessageForThreshold(int maxNumTransactionAWeek) {
         return "This option is locked \n" +
-                "You have reached the" + maxNumTransactionAWeek + "transactions a week limit" +
+                "You have reached the " + maxNumTransactionAWeek + " transactions a week limit" +
                 "\n";
     }
 
@@ -448,6 +450,13 @@ public class SystemMessage {
 
     public String printObject(Object object){
         return object.toString();
+    }
+
+    public String msgTradeRequestFail(){
+        return "Trade request failed, please check the following conditions:\n\nFor one-way-trade:\n" +
+                "1. The item is tradable. \n2. You have added the item to your wishlist.\n3. You have completed a two-way-trade before.\n\n" +
+                "For two-way-trade:\n" + "1. The items are tradable.\n2. Both users have added the items to " +
+                "their wishlist.\n3. The number of borrow did not exceed the number of lend.";
     }
 
 
