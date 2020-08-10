@@ -3,6 +3,8 @@ package controllers.regularusersubcontrollers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -101,9 +103,11 @@ public class RegularUserDateTimeChecker {
     }
 
     public boolean isValidDayForMeetingTime(int year, int month, int day){
-        int yearNow = Calendar.getInstance().get(Calendar.YEAR);
-        int monthNow = Calendar.getInstance().get(Calendar.MONTH);
-        int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Date date = new Date();
+;       LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int yearNow  = localDate.getYear();
+        int monthNow = localDate.getMonthValue();
+        int dayNow   = localDate.getDayOfMonth();
         if (isValidDay(year, month, day)) {
             return (yearNow <= year && year <= 2030) && (monthNow <= month) && (dayNow <= day);
         }
