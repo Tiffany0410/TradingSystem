@@ -36,14 +36,7 @@ public class Message implements Serializable{
     public Integer getReceiverId() {
         return receiverId;
     }
-    /**
-     * Get the sender's id.
-     *
-     * @return sender's id.
-     */
-    public Integer getSenderId() {
-        return senderId;
-    }
+
     /**
      * Get the message.
      *
