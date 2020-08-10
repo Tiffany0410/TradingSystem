@@ -175,7 +175,7 @@ public class RegularUserTradingMenuGUI {
                     guiD.printNotification("Trade suggestion for you:\n" + str);
                 }
                 else{
-                    guiD.printNotification(sm.msgForNo(" recommended trade suggestion."));
+                    guiD.printNotification(sm.msgForNoTradeSuggestion());
                 }
                 guiD.runSave();
 
