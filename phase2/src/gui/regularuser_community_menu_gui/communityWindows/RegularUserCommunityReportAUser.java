@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user report window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserCommunityReportAUser {
     private JPanel rootPanel;
     private JTextField idField;
@@ -18,11 +24,22 @@ public class RegularUserCommunityReportAUser {
     private JButton createButton;
     private JScrollPane scrollPane;
 
+    /**
+     * Constructor for RegularUserCommunityRatingWindow
+     * @param sm SystemMessage
+     * @param idC RegularUserIDChecker
+     * @param cmc RegularUserCommunityMenuController
+     * @param guidemo GUIDemo
+     */
     public RegularUserCommunityReportAUser(SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo){
         reasonArea.setVisible(true);
         scrollPane.setVisible(true);
         
         createButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, create a report
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userId = idField.getText();
@@ -45,13 +62,23 @@ public class RegularUserCommunityReportAUser {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.closeWindow(rootPanel);
             }
         });
     }
-
+    /**
+     * run Regular user community report window
+     * @param sm SystemMessage
+     * @param idC RegularUserIDChecker
+     * @param cmc RegularUserCommunityMenuController
+     * @param guidemo GUIDemo
+     */
     public void run(SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo){
         JFrame frame = new JFrame("Report an user");
         frame.setContentPane(new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo).rootPanel);

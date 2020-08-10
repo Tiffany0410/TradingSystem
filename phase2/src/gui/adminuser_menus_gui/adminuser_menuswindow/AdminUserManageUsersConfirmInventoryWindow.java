@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 /**
  * Used to edit user historical actions
- * @author Tang Shi
+ * @author Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
 

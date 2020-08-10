@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 /**
- * Used to show regular serching window
- * @author Jiaqi Gong, Yangle Cheng
+ * Used to show regular searching window
+ * @author Jiaqi Gong, Shi Tang
  * @version IntelliJ IDEA 2020.1
  */
 

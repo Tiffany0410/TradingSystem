@@ -9,15 +9,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user rating window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserCommunityRatingWindow {
-    private JLabel text;
     private JTextField textField1;
     private JButton cancelButton;
     private JButton okButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructor for RegularUserCommunityRatingWindow
+     * @param guidemo GUIDemo
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserCommunityRatingWindow(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         okButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, find rating for this user
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String str = textField1.getText();
@@ -39,12 +54,23 @@ public class RegularUserCommunityRatingWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.closeWindow(rootPanel);
             }
         });
     }
+
+    /**
+     * run Regular user community rating window
+     * @param guidemo GUIDemo
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         JFrame frame = new JFrame("Find rating");
         frame.setContentPane(new RegularUserCommunityRatingWindow(guidemo, cmc, idC).rootPanel);

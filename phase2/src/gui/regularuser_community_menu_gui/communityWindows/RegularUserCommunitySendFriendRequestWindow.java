@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user send friend request window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserCommunitySendFriendRequestWindow {
     private JTextPane textPane1;
     private JTextField userId;
@@ -20,6 +26,14 @@ public class RegularUserCommunitySendFriendRequestWindow {
     private JScrollPane scrollPane;
     private JScrollPane scrollPane1;
 
+    /**
+     * Constructor for Regular User Community Send Friend Request Window
+     * @param string A string representation of a list of users that can send request to
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserCommunitySendFriendRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
@@ -30,6 +44,10 @@ public class RegularUserCommunitySendFriendRequestWindow {
         scrollPane1.setVisible(true);
 
         requestButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, send a friend request
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id_input = userId.getText();
@@ -52,6 +70,10 @@ public class RegularUserCommunitySendFriendRequestWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.closeWindow(rootPanel);
@@ -59,6 +81,14 @@ public class RegularUserCommunitySendFriendRequestWindow {
         });
     }
 
+    /**
+     * Run Regular User Community Send Friend Request Window
+     * @param string A string representation of a list of users that can send request to
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         JFrame frame = new JFrame("Send a Friend Request");
         frame.setContentPane(new RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);
