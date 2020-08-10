@@ -827,6 +827,7 @@ public class UserManager implements Serializable {
         person.followUser(toFollow);
         following.addFollowers(userID);
         following.addPropertyChangeListener(person);
+        System.out.println("userFollow");
         return true;
     }
 

@@ -64,6 +64,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
         itemFollowed = new ArrayList<>();
         userFollowingLogs = new ArrayList<>();
         itemFollowingLogs = new ArrayList<>();
+        support = new PropertyChangeSupport(this);
 
 
     }
@@ -260,7 +261,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void addToFriends(Integer id) {
         friend.add(id);
         support.firePropertyChange("User " + super.getUsername() + " is now friends with a user with id"
-                + id +"." , 0, 0);
+                + id +"." , -1, -1);
     }
 
     /**
@@ -271,7 +272,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void removeFromFriends(Integer id) {
         friend.remove(id);
         support.firePropertyChange("User " + super.getUsername() + " is no longer friends with the user with id"
-                + id +"." , 0, 0);
+                + id +"." , -1, -1);
     }
 
 
@@ -321,8 +322,9 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void followUser(Integer userId) {
         userFollowed.add(userId);
         support.firePropertyChange("User " + super.getUsername() + " followed a user with id"
-                + userId +"." , 0, 0);
+                + userId +"." , -1, -1);
         //userFollowingLogs.add("User " + super.getUsername() + " followed an user with id" + userId +".");
+        System.out.println("followUser");
     }
 
     /**
@@ -333,7 +335,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
         support.firePropertyChange("User " + super.getUsername() + " un-followed a user with id"
-                + userId +"." , 0, 0);
+                + userId +"." , -1, -1);
         //userFollowingLogs.add("User " + super.getUsername() + " un-followed a user with id" + userId +".");
     }
 
@@ -345,7 +347,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void followItem(Integer itemId) {
         itemFollowed.add(itemId);
         support.firePropertyChange("User " + super.getUsername() + " followed an item with id"
-                + itemId +"." , 0, 0);
+                + itemId +"." , -1, -1);
         //userFollowingLogs.add("User " + super.getUsername() + " followed an item with id" + itemId +".");
     }
 
@@ -357,7 +359,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     public void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
         support.firePropertyChange("User " + super.getUsername() + " un-followed an item with id"
-                + itemId +"." , 0, 0);
+                + itemId +"." , -1, -1);
         //userFollowingLogs.add("User " + super.getUsername() + " un-followed an item with id" + itemId +".");
     }
 
@@ -407,12 +409,13 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ((boolean)evt.getNewValue()) {
-            itemFollowingLogs.add(evt.getPropertyName() +  " has changed to tradable." );
-        } else if (!(boolean)evt.getNewValue()){
-            itemFollowingLogs.add(evt.getPropertyName() + " has changed to non-tradable." );
-        } else {
+        System.out.println("propertyChange");
+        if ((int)evt.getNewValue() == -1){
             userFollowingLogs.add(evt.getPropertyName());
+        }else if ((boolean)evt.getNewValue()) {
+            itemFollowingLogs.add(evt.getPropertyName() +  " has changed to tradable." );
+        } else {
+            itemFollowingLogs.add(evt.getPropertyName() + " has changed to non-tradable." );
         }
     }
 
@@ -439,7 +442,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     }
 
     public void updateFollowers(String name){
-        support.firePropertyChange(name, 0, 0);
+        support.firePropertyChange(name, -1, -1);
     }
 
 }
