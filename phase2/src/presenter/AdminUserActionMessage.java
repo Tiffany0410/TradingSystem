@@ -117,6 +117,13 @@ public class AdminUserActionMessage {
             case 1:
                 string = string + helper_admin_action_prefix(action) + "add subsequent Admin Users with username: " + action.getAdjustableStr() + "\n";
                 break;
+            // 4.2: Set system time
+            case 2:
+                String[] temp = action.getAdjustableStr().split(";");
+                String previous = temp[0];
+                String current = temp[1];
+                string = string + helper_admin_action_prefix(action) + "change system time from " + previous + " to " + current + "\n";
+                break;
         }
         return string;
     }
