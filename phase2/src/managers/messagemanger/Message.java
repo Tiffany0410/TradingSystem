@@ -1,9 +1,8 @@
 package managers.messagemanger;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Message {
-    //basic
+public class Message implements Serializable {
     private Integer senderId;
     private Integer receiverId;
     private String message;
@@ -30,14 +29,7 @@ public class Message {
     public Integer getReceiverId() {
         return receiverId;
     }
-    /**
-     * Get the sender's id.
-     *
-     * @return sender's id.
-     */
-    public Integer getSenderId() {
-        return senderId;
-    }
+
     /**
      * Get the message.
      *
