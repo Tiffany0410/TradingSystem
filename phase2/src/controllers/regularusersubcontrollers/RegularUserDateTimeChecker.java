@@ -68,7 +68,7 @@ public class RegularUserDateTimeChecker {
         int monthNow = localDate.getMonthValue();
         int dayNow   = localDate.getDayOfMonth();
         if (isValidDay(year, month, day)) {
-            return (yearNow <= year && year <= 2024) && (monthNow <= month) && (dayNow <= day);
+            return (yearNow <= year && year <= 2024) && (monthNow <= month) && (dayNow < day);
         }
         return false;
     }
