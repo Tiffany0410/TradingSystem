@@ -7,14 +7,19 @@ import java.awt.event.*;
 public class LongNotificationGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonCancel;
-    private JTextArea textArea;
+    private JTextArea textArea1;
+    private JScrollPane scrollPane;
 
 
     public LongNotificationGUI(String string) {
-        textArea.setText(string);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+        textArea1.setText(string);
+        textArea1.setEditable(false);
+        textArea1.setLineWrap(true);
+        textArea1.setWrapStyleWord(true);
+        textArea1.setBackground(new Color(242,242,242));
+
+        textArea1.setVisible(true);
+        scrollPane.setVisible(true);
 
         setContentPane(contentPane);
         setModal(true);

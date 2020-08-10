@@ -48,20 +48,20 @@
         </constraints>
         <properties/>
       </component>
-      <component id="69f78" class="javax.swing.JButton" binding="createButton" default-binding="true">
+      <component id="69f78" class="javax.swing.JButton" binding="cancelButton">
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Create"/>
+          <text value="Cancel"/>
         </properties>
       </component>
-      <component id="8a30e" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
+      <component id="8a30e" class="javax.swing.JButton" binding="createButton1">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cancel"/>
+          <text value="Create"/>
         </properties>
       </component>
     </children>

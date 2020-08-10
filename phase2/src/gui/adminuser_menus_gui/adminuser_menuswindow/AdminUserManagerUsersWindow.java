@@ -13,27 +13,29 @@ public class AdminUserManagerUsersWindow {
     private JTextField textField;
     private JButton cancleButton;
     private JButton confirmButton;
-    private JTextArea textArea;
     private javax.swing.JLabel JLabel;
-    private JScrollBar scrollBar1;
+    private JTextPane textPane1;
+    private JScrollPane scrollPane;
 
     public void run(int option, GUIDemo guiDemo, String inputName,String info, AdminUserManagerUsersController muc) {
         JFrame frame = new JFrame("AdminUserManagerUsersWindow");
         frame.setContentPane(new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(350, 300);
-        //frame.pack();
+        frame.setPreferredSize(new Dimension(400, 400));
+        frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
 
 
     public AdminUserManagerUsersWindow(int option, GUIDemo guiDemo, String putinName,String info, AdminUserManagerUsersController muc) {
-        textArea.setText(info);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setBackground(new Color(242,242,242));
+        textPane1.setText(info);
+        textPane1.setEditable(false);
+        textPane1.setBackground(new Color(242,242,242));
+
+        textPane1.setVisible(true);
+        scrollPane.setVisible(true);
 
         JLabel.setText(putinName);
 

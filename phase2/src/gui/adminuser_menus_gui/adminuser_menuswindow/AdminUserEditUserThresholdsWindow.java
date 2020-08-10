@@ -4,6 +4,7 @@ import controllers.adminusersubcontrollers.AdminUserEditThresholdsController;
 import demomanager.GUIDemo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -88,9 +89,10 @@ public class AdminUserEditUserThresholdsWindow {
         JFrame frame = new JFrame("AdminUserEditUserThresholdsWindow");
         frame.setContentPane(new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        frame.setPreferredSize(new Dimension(300,300));
         frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
 
