@@ -148,7 +148,7 @@ public class GUIDemo {
                 this.meetingManager, this.actionManager, this.feedbackManager, this.getTempUsername());
 
         this.adminUserOtherActionsController = new AdminUserOtherActionsController(
-                this.userManager, this.actionManager, this.getTempUsername());
+                this.userManager, this.actionManager, this.getTempUsername(), this.meetingManager);
 
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this, this.partsOfAdminAlert);
         adminUserMainMenuGUI.run(this, this.partsOfAdminAlert);
@@ -185,8 +185,8 @@ public class GUIDemo {
     }
 
     public void runAdminUserOtherSubMenu() {
-        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this);
-        adminUserOtherSubMenuGUI.run(this);
+        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this, this.adminUserOtherActionsController);
+        adminUserOtherSubMenuGUI.run(this, this.adminUserOtherActionsController);
     }
 
     public void runAdminUserCreateAccount() {
