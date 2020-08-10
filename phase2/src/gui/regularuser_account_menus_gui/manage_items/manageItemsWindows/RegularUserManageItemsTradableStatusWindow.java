@@ -52,31 +52,7 @@ public class RegularUserManageItemsTradableStatusWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean result;
-                String input = userInput.getText();
-                if (idChecker.checkInt(input)){
-                    int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(inventory, itemId)){
-                        if (setToNONTRADABLERadioButton.isSelected()){
-                            result = amc.setTradableBasedOnResponse(itemId, false);
-                            guiDemo.printNotification(sm.msgForSetTradable(result, false));
-                        }
-                        else if (setToTRADABLERadioButton.isSelected()) {
-                            result = amc.setTradableBasedOnResponse(itemId, true);
-                            guiDemo.printNotification(sm.msgForSetTradable(result, true));
-                        }
-                        else{
-                            guiDemo.printNotification("Please select an option,");
-                        }
-                    }
-                    else{
-                        guiDemo.printNotification("Please enter a valid item id that is on the list.");
-                    }
-                }
-                else{
-                    guiDemo.printNotification("Please enter a valid input.");
-                }
-                guiDemo.closeWindow(rootPanel);
+                changeTradableStatus(idChecker, inventory, amc, guiDemo, sm);
             }
         });
 
@@ -90,6 +66,34 @@ public class RegularUserManageItemsTradableStatusWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void changeTradableStatus(RegularUserIDChecker idChecker, ArrayList<Item> inventory, RegularUserAccountMenuController amc, GUIDemo guiDemo, SystemMessage sm) {
+        boolean result;
+        String input = userInput.getText();
+        if (idChecker.checkInt(input)){
+            int itemId = Integer.parseInt(input);
+            if (idChecker.checkItemID(inventory, itemId)){
+                if (setToNONTRADABLERadioButton.isSelected()){
+                    result = amc.setTradableBasedOnResponse(itemId, false);
+                    guiDemo.printNotification(sm.msgForSetTradable(result, false));
+                }
+                else if (setToTRADABLERadioButton.isSelected()) {
+                    result = amc.setTradableBasedOnResponse(itemId, true);
+                    guiDemo.printNotification(sm.msgForSetTradable(result, true));
+                }
+                else{
+                    guiDemo.printNotification("Please select an option,");
+                }
+            }
+            else{
+                guiDemo.printNotification("Please enter a valid item id that is on the list.");
+            }
+        }
+        else{
+            guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guiDemo.closeWindow(rootPanel);
     }
 
     /**

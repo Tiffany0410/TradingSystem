@@ -35,21 +35,7 @@ public class RegularUserCommunityRatingWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String str = textField1.getText();
-                if (idC.checkInt(str) && cmc.checkUserId(Integer.parseInt(str))) {
-                    int id = Integer.parseInt(str);
-                    double rate = cmc.findRatingForUser(id);
-                    if (rate == -1.0) {
-                        guidemo.printNotification("This user does not have any reviews.");
-                    } else {
-                        String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                        guidemo.printNotification(msg);
-                    }
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid user id.");
-                }
-                guidemo.closeWindow(rootPanel);
+                findRating(idC, cmc, guidemo);
             }
         });
 
@@ -63,6 +49,24 @@ public class RegularUserCommunityRatingWindow {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void findRating(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo) {
+        String str = textField1.getText();
+        if (idC.checkInt(str) && cmc.checkUserId(Integer.parseInt(str))) {
+            int id = Integer.parseInt(str);
+            double rate = cmc.findRatingForUser(id);
+            if (rate == -1.0) {
+                guidemo.printNotification("This user does not have any reviews.");
+            } else {
+                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
+                guidemo.printNotification(msg);
+            }
+        }
+        else {
+            guidemo.printNotification("Please enter a valid user id.");
+        }
+        guidemo.closeWindow(rootPanel);
     }
 
     /**

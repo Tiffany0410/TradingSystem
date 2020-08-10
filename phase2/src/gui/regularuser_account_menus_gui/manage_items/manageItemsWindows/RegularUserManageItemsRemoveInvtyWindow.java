@@ -46,21 +46,7 @@ public class RegularUserManageItemsRemoveInvtyWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = userInput.getText();
-                if (idChecker.checkInt(input)) {
-                    int itemId = Integer.parseInt(input);
-                    if (idChecker.checkItemID(items, itemId)) {
-                        boolean result = amc.removeFromInventory(itemId);
-                        guiDemo.printNotification(sm.msgForResult(result));
-                    }
-                    else {
-                        guiDemo.printNotification("Invalid item id was entered, please try again.");
-                    }
-                }
-                else {
-                    guiDemo.printNotification("Please enter an integer.");
-                }
-                guiDemo.closeWindow(rootPanel);
+                removeFromInventory(idChecker, items, amc, guiDemo, sm);
             }
         });
 
@@ -74,6 +60,24 @@ public class RegularUserManageItemsRemoveInvtyWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void removeFromInventory(RegularUserIDChecker idChecker, ArrayList<Item> items, RegularUserAccountMenuController amc, GUIDemo guiDemo, SystemMessage sm) {
+        String input = userInput.getText();
+        if (idChecker.checkInt(input)) {
+            int itemId = Integer.parseInt(input);
+            if (idChecker.checkItemID(items, itemId)) {
+                boolean result = amc.removeFromInventory(itemId);
+                guiDemo.printNotification(sm.msgForResult(result));
+            }
+            else {
+                guiDemo.printNotification("Invalid item id was entered, please try again.");
+            }
+        }
+        else {
+            guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guiDemo.closeWindow(rootPanel);
     }
 
     /**
