@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class AdminUserManagerUsersWindow {
     private JPanel rootPanel;
     private JTextField textField;
-    private JButton cancleButton;
+    private JButton cancelButton;
     private JButton confirmButton;
     private javax.swing.JLabel JLabel;
     private JTextPane textPane1;
@@ -41,7 +41,7 @@ public class AdminUserManagerUsersWindow {
 
 
 
-        cancleButton.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
