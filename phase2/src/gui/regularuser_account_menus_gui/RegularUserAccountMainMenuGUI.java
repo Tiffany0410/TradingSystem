@@ -14,8 +14,15 @@ public class RegularUserAccountMainMenuGUI {
     private JButton accountSettingButton;
     private JButton backButton;
     private JButton followOthersItemsButton;
-    private JButton feedbackButton;
 
+    /**
+     * Responsible for the view and getting input for user
+     * when user is browsing the account main menu.
+     * @param isGuest Whether or not to grant guest access.
+     * @param sm The presenter.
+     * @param guiD The GUI helper.
+     * @param amc The RegularUserAccountMenuController.
+     */
     public RegularUserAccountMainMenuGUI(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
 
         manageItemButton.addActionListener(new ActionListener() {
@@ -26,15 +33,7 @@ public class RegularUserAccountMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call manage Item menu and close this window
-                // guest allowed
-                if (amc.seeIfFrozen()){
-                    guiD.printNotification(sm.lockMessageForFrozen());
-                }
-                else {
-                    guiD.runRegularUserAccountManageItemsMenu();
-                    guiD.closeWindow(rootPanel);
-                }
+                manageItems(amc, guiD, sm);
             }
         });
         accountSettingButton.addActionListener(new ActionListener() {
@@ -45,15 +44,7 @@ public class RegularUserAccountMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call account setting menu and close this window
-                // guest not allowed
-                if (!isGuest){
-                    guiD.runRegularUserAccountSettingsMenu();
-                    guiD.closeWindow(rootPanel);
-                }
-                else{
-                    guiD.printNotification(sm.msgForGuest());
-                }
+                accountSettings(isGuest, guiD, sm);
 
             }
         });
@@ -66,15 +57,7 @@ public class RegularUserAccountMainMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call account setting menu and close this window
-                // guest not allowed
-                if (!isGuest){
-                    guiD.runRegularUserAccountFollowMenu();
-                    guiD.closeWindow(rootPanel);
-                }
-                else{
-                    guiD.printNotification(sm.msgForGuest());
-                }
+                followOthers(isGuest, guiD, sm);
             }
         });
 
@@ -93,7 +76,49 @@ public class RegularUserAccountMainMenuGUI {
         });
     }
 
+    private void followOthers(boolean isGuest, GUIDemo guiD, SystemMessage sm) {
+        // Call account setting menu and close this window
+        // guest not allowed
+        if (!isGuest){
+            guiD.runRegularUserAccountFollowMenu();
+            guiD.closeWindow(rootPanel);
+        }
+        else{
+            guiD.printNotification(sm.msgForGuest());
+        }
+    }
 
+    private void accountSettings(boolean isGuest, GUIDemo guiD, SystemMessage sm) {
+        // Call account setting menu and close this window
+        // guest not allowed
+        if (!isGuest){
+            guiD.runRegularUserAccountSettingsMenu();
+            guiD.closeWindow(rootPanel);
+        }
+        else{
+            guiD.printNotification(sm.msgForGuest());
+        }
+    }
+
+    private void manageItems(RegularUserAccountMenuController amc, GUIDemo guiD, SystemMessage sm) {
+        // Call manage Item menu and close this window
+        // guest allowed
+        if (amc.seeIfFrozen()){
+            guiD.printNotification(sm.lockMessageForFrozen());
+        }
+        else {
+            guiD.runRegularUserAccountManageItemsMenu();
+            guiD.closeWindow(rootPanel);
+        }
+    }
+
+
+    /**
+     * Responsible for running this window.
+     * @param sm The presenter.
+     * @param guiD The GUI helper.
+     * @param amc The RegularUserAccountMenuController.
+     */
     public void run(boolean isGuest, SystemMessage sm, GUIDemo guiD, RegularUserAccountMenuController amc) {
         JFrame frame = new JFrame("regularUserAccountMenuGUI");
         frame.setContentPane(new RegularUserAccountMainMenuGUI(isGuest, sm, guiD,amc).rootPanel);
