@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to create a new User account
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserEditUserThresholdsWindow {
     private JPanel rootPanel;
     private JTextField textField;
@@ -16,16 +22,21 @@ public class AdminUserEditUserThresholdsWindow {
     private JLabel Jlabel;
     private JLabel infoLabel;
 
+    /**
+     * This is the constructor of admin user edit thresholds window
+     * @param string information of this operation
+     * @param option option number
+     * @param guiDemo GUIDemo
+     * @param adminUserEditThresholdsController adminUserEditThresholdsController
+     */
     public AdminUserEditUserThresholdsWindow(String string, int option, GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
         Jlabel.setText("Please enter new value");
         infoLabel.setText(string);
 
-
         confirmButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoked when click confirm button and call controller to perform actions
+             * @param e action
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,19 +83,24 @@ public class AdminUserEditUserThresholdsWindow {
         });
         Cancel.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
-             *
-             * @param e
+             * Invoked when click cancel button, back to upper level
+             * @param e action
              */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                //guiDemo.runAdminUserEditThresholdsSubMenu();
 
             }
         });
     }
 
+    /**
+     * This is method run this window
+     * @param string information of this operation
+     * @param option option number
+     * @param guiDemo GUIDemo
+     * @param adminUserEditThresholdsController adminUserEditThresholdsController
+     */
     public void run(String string, int option, GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
         JFrame frame = new JFrame("AdminUserEditUserThresholdsWindow");
         frame.setContentPane(new AdminUserEditUserThresholdsWindow(string, option, guiDemo, adminUserEditThresholdsController).rootPanel);
