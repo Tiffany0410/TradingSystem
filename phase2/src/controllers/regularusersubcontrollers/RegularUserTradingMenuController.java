@@ -281,7 +281,7 @@ public class RegularUserTradingMenuController {
             um.freezeUser(username);
             return sm.msgForRequestResult(false)+ "\n" + sm.failMessageForFrozen();
         }
-        return sm.msgForRequestResult(false);
+        return sm.msgTradeRequestFail();
     }
 
 
