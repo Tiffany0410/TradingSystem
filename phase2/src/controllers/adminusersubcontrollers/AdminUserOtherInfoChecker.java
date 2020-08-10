@@ -24,7 +24,6 @@ public class AdminUserOtherInfoChecker {
      * @param um The current UserManager which used to record all AdminUser and RegularUser
      */
     public AdminUserOtherInfoChecker(ActionManager am, UserManager um){
-
         this.am = am;
         this.um = um;
 

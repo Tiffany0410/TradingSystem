@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Used to create a new User account
+ * Used to edit user thresholds
  * @author Jiaqi Gong
  * @version IntelliJ IDEA 2020.1
  */
