@@ -13,12 +13,12 @@ public class AdminUserCreateAccountGUI {
     private JPanel rootPanel;
     private JTextField usernameTextField;
     private JPasswordField passwordField1;
-    private JButton createButton;
     private JButton cancelButton;
+    private JButton createButton1;
 
     public AdminUserCreateAccountGUI(AccountCreator accountCreator, GUIDemo guiDemo, SystemMessage systemMessage,
                                      AdminUserOtherActionsController adminUserOtherActionsController) {
-        createButton.addActionListener(new ActionListener() {
+        createButton1.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
