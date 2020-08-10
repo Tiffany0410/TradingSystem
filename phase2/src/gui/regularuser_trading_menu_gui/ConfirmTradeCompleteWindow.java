@@ -25,17 +25,6 @@ public class ConfirmTradeCompleteWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiD.closeWindow(rootPanel);
-            }
-        });
-        cancelButton.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 boolean result;
                 String input = tradeId.getText();
                 if (idC.checkInt(input)) {
@@ -50,6 +39,19 @@ public class ConfirmTradeCompleteWindow {
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
                 guiD.runSave();
+                guiD.closeWindow(rootPanel);
+
+            }
+
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 guiD.closeWindow(rootPanel);
             }
         });
