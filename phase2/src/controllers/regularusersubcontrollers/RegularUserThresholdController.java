@@ -84,7 +84,8 @@ public class RegularUserThresholdController {
     protected boolean isFirstDayOfTheWeek(){
         // changed to the mock system date
         Calendar c = mm.getSystemDate();
-        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
+        int b = c.get(Calendar.DAY_OF_WEEK);
+        return c.get(Calendar.DAY_OF_WEEK) == 2;
     }
 
     /**

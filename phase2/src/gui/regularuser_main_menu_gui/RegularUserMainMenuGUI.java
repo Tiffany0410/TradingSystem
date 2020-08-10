@@ -47,6 +47,7 @@ public class RegularUserMainMenuGUI {
             public void actionPerformed(ActionEvent e) {
                 if (!guest) {
                     guiD.printNotification(sm.regUserAlerts(um, tc, username, menuPartOfAlert, thresholdValues));
+                    guiD.runSave();
                 }
                 else{
                     guiD.printNotification(sm.msgForGuest());

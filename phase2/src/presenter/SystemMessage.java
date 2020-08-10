@@ -51,7 +51,7 @@ public class SystemMessage {
     }
 
     public String tryAgainMsgForWrongDatetime(){
-        return "Invalid input: the year must be between 2020 and 2030, inclusive." +
+        return "Invalid input: the year must be between 2020 and 2024, inclusive." +
                 " Also, you cannot set the time to be earlier than the time right now.";
     }
 
@@ -174,7 +174,7 @@ public class SystemMessage {
      */
     public String lockMessageForThreshold(int maxNumTransactionAWeek) {
         return "This option is locked \n" +
-                "You have reached the" + maxNumTransactionAWeek + "transactions a week limit" +
+                "You have reached the " + maxNumTransactionAWeek + " transactions a week limit" +
                 "\n";
     }
 
