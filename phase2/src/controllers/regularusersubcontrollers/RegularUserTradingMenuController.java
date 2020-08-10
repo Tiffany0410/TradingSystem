@@ -171,7 +171,8 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     lock user if the user has no more transcactions.
+     * Check to see if this user has reached the maximum number of transactions per week.
+     * @return Whether or not this user has reached the maximum number of transactions per week.
      */
     public boolean lockThresholdOrNot(){
         // if the user has no more transactions left
@@ -341,7 +342,7 @@ public class RegularUserTradingMenuController {
      * @param borrower2lender1 user2
      * @param itemId1 item1 id
      * @param itemId2 item2 id
-     * @return true if them are validate otherwise false
+     * @return True if them are validate otherwise false.
      */
     private boolean validateItems(int borrower1Lender2, int borrower2lender1, int itemId1, int itemId2)  {
         // return true iff the borrower has the item in his/her wishlist and
@@ -352,7 +353,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are open
+     * @return Whether or not trade status are open.
      */
     public List<Trade> viewOpenTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.3", 0, "");
@@ -360,7 +361,7 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are closed
+     * @return Whether or not trade status are closed.
      */
     public List<Trade> viewClosedTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.4", 0, "");
@@ -368,10 +369,13 @@ public class RegularUserTradingMenuController {
     }
 
     /**
-     * @return trade status are cancelled
+     * @return Whether or not trade status are cancelled.
      */
     public List<Trade> viewCancelledTrades() {
         am.addActionToAllActionsList(userId, "regularUser", "2.7", 0, "");
         return tm.getCancelledTrade(userId);
     }
+
+
+
 }
