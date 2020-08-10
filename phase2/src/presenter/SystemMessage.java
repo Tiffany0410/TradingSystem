@@ -47,7 +47,7 @@ public class SystemMessage {
     }
 
     public String invalidNumber(){
-       return "Invalid put in, please type a number.";
+        return "Invalid put in, please type a number.";
     }
 
     public String tryAgainMsgForWrongDatetime(){
@@ -131,7 +131,7 @@ public class SystemMessage {
      * @return messages as properly formatted strings.
      */
     public String regUserAlerts(UserManager um, RegularUserThresholdController tc, String username, String
-                                menuPartOfAlert, ArrayList<Integer> thresholdValues) {
+            menuPartOfAlert, ArrayList<Integer> thresholdValues) {
         StringBuilder notification;
         notification = new StringBuilder();
         notification.append(menuPartOfAlert).append("\n");
@@ -144,9 +144,10 @@ public class SystemMessage {
         if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(thresholdValues.get(1))){
-                notification.append("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.").append("\n");
+                notification.append("NOTE: You are frozen because you have reached the maximum number of uncompleted transactions limit.".toUpperCase()).append("\n\n");
             }
         }
+        tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         notification.append("Your username is ").append(username).append(".\n");
         notification.append("Your userId is ").append(userId).append(".\n");
         notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append(".\n");
@@ -159,16 +160,11 @@ public class SystemMessage {
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append(".\n");
         notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append(".\n");
         notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append(".\n");
+        notification.append("FOR YOU...").append("\n");
+        notification.append("YOU STILL HAVE " + um.getInfo(userId, "TransactionLeftForTheWeek") + " TRANSACTIONS LEFT FOR THE WEEK.");
+        notification.append("If you're wondering: the transactions left for the week will be set back to full every MONDAY.");
+
     }
-
-
-    /**
-     * Returns the message for a meeting that doesn't exist.
-     */
-    public String msgForMeetingDNE() {
-        return "This meeting doesn't exist in the system." + "\n";
-    }
-
 
     /**
      * Put together the message for when the option is locked for the user
@@ -349,7 +345,7 @@ public class SystemMessage {
 
 
     public String tryAgainMsgForWrongInput(){
-       return "Please try again, one or more input(s) are invalid.";
+        return "Please try again, one or more input(s) are invalid.";
     }
 
     public String tryAgainMsgForWrongFormatInput(){
@@ -415,10 +411,6 @@ public class SystemMessage {
         return str.toString();
     }
 
-
-    public String getNumKindOfResponse(String option1, String option2){
-        return "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
-    }
 
     public String msgForSetTradable(boolean validator, boolean status){
         String tradable_status;

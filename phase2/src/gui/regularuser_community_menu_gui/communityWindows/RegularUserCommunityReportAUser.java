@@ -13,11 +13,15 @@ import java.awt.event.ActionListener;
 public class RegularUserCommunityReportAUser {
     private JPanel rootPanel;
     private JTextField idField;
-    private JTextArea reasonArea;
+    private JTextPane reasonArea;
     private JButton cancelButton;
     private JButton createButton;
+    private JScrollPane scrollPane;
 
     public RegularUserCommunityReportAUser(SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo){
+        reasonArea.setVisible(true);
+        scrollPane.setVisible(true);
+        
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

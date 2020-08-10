@@ -82,7 +82,8 @@ public class RegularUserThresholdController {
      * @return Whether now is the first day of the week.
      */
     protected boolean isFirstDayOfTheWeek(){
-        Calendar c = Calendar.getInstance();
+        // changed to the mock system date
+        Calendar c = mm.getSystemDate();
         return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
     }
 
@@ -99,7 +100,7 @@ public class RegularUserThresholdController {
         // if user went over the threshold
         // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
         int threshold =  maxNumTransactionIncomplete + (numFrozen * maxNumTransactionIncomplete);
-        if (numUncompletedTransactions > threshold || numFrozen == 3) {
+        if (numUncompletedTransactions >= threshold || numFrozen == 3) {
             // freeze the user if the limit's passed and the user's been frozen 3 times
             um.freezeUser(username);
             // add one to the number of times the user's frozen

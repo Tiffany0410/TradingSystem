@@ -16,10 +16,15 @@ public class RegularUserCommunityWriteAReviewWindow {
     private JButton createButton;
     private JPanel rootPanel;
     private JComboBox point;
-    private JTextArea reason;
+    private JTextPane reason;
     private JButton cancelButton;
+    private JScrollPane scrollPane;
 
-    public RegularUserCommunityWriteAReviewWindow(GUIDemo guidemo, RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker, RegularUserCommunityMenuController cmc, SystemMessage sm){
+    public RegularUserCommunityWriteAReviewWindow(GUIDemo guidemo, RegularUserIDChecker idC,
+                                                  RegularUserCommunityMenuController cmc, SystemMessage sm){
+        reason.setVisible(true);
+        scrollPane.setVisible(true);
+
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,9 +67,9 @@ public class RegularUserCommunityWriteAReviewWindow {
         });
 
     }
-    public void run(GUIDemo guidemo, RegularUserIDChecker idC, RegularUserOtherInfoChecker otherChecker, RegularUserCommunityMenuController cmc, SystemMessage sm){
+    public void run(GUIDemo guidemo, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, SystemMessage sm){
         JFrame frame = new JFrame("Write a review");
-        frame.setContentPane(new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm).rootPanel);
+        frame.setContentPane(new RegularUserCommunityWriteAReviewWindow(guidemo, idC, cmc, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(500, 500));
         frame.pack();

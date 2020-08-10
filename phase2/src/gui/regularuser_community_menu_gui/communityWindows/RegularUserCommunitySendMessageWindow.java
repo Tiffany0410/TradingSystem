@@ -17,11 +17,17 @@ public class RegularUserCommunitySendMessageWindow {
     private JButton cancelButton;
     private JButton sendButton;
     private JPanel rootPanel;
+    private JScrollPane scrollPane;
+    private JScrollPane scrollPane1;
 
     public RegularUserCommunitySendMessageWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
         textPane1.setBackground(new Color(242,242,242));
+        textPane1.setVisible(true);
+        msg.setVisible(true);
+        scrollPane.setVisible(true);
+        scrollPane.setVisible(true);
 
         sendButton.addActionListener(new ActionListener() {
             @Override

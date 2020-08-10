@@ -50,8 +50,8 @@ public class RegularUserCommunityMenuGUI {
                     guidemo.printNotification(sm.msgForGuest());
                 }
                 else {
-                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, otherChecker, cmc, sm);
-                    window.run(guidemo, idC, otherChecker, cmc, sm);
+                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, cmc, sm);
+                    window.run(guidemo, idC, cmc, sm);
                 }
                 guidemo.runSave();
             }
@@ -231,7 +231,7 @@ public class RegularUserCommunityMenuGUI {
                         string = "There is no messages.";
                     }
                     else {
-                        string = "Here is a list of messages: " + sm.printAllMessages(messages);
+                        string = "Here is a list of messages: \n" + sm.printAllMessages(messages);
                     }
                     guidemo.printNotification(string);
                 }
