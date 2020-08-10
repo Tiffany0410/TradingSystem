@@ -1,5 +1,4 @@
 package controllers.regularusersubcontrollers;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -63,16 +62,16 @@ public class RegularUserDateTimeChecker {
      */
     public boolean isValidDayForMeetingTime(int year, int month, int day){
         Date date = new Date();
-;       LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int yearNow  = localDate.getYear();
         int monthNow = localDate.getMonthValue();
         int dayNow   = localDate.getDayOfMonth();
         if (isValidDay(year, month, day)) {
-            return (yearNow <= year && year <= 2024) && (monthNow <= month) && (dayNow < day);
-        }
-        return false;
-    }
-
-
-
+            if(yearNow < year && year <= 2024){
+                return true;
+            }
+            else if(yearNow == year && monthNow <month){
+                return true;
+            }else return yearNow == year && monthNow == month && dayNow < day;
+    }return false;}
 }
