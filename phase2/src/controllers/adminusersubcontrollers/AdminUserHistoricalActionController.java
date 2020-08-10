@@ -21,14 +21,12 @@ import java.util.Map;
  */
 public class AdminUserHistoricalActionController {
 
-    private AdminUserOtherInfoChecker otherInfoGetter;
     private UserManager um;
     private TradeManager tm;
     private ItemManager im;
     private ActionManager am;
     private FeedbackManager fm;
     private MeetingManager mm;
-    private String username;
     private Integer userId;
 
     /**
@@ -51,22 +49,10 @@ public class AdminUserHistoricalActionController {
         this.fm = fm;
         this.mm = mm;
         this.userId = um.usernameToID(username);
-        this.otherInfoGetter = new AdminUserOtherInfoChecker(am, um);
     }
-
-
-//    /**
-//     * Lets the presenter print out all the actions done by RegularUser and AdminUser in the system
-//     */
-//    public void printOutAllHistoricalAction() {
-//        ds.printOut("Here are all the Historical Actions: \n");
-//        ds.printHistoricalActions(am.getListOfAllActions());
-//        am.addActionToAllActionsList(userId, "adminUser", "3.1", 0, "");
-//    }
 
     /**
      * Return a list of All Historical Actions in the system
-     *
      * @return an arraylist of All Historical Actions in the system
      */
     public ArrayList<Action> getAllAction() {
@@ -103,13 +89,6 @@ public class AdminUserHistoricalActionController {
      * @return an Arraylist of all the revocable actions done by RegularUser in the system
      * by the RegularUser id provided by AdminUser
      */
-//    public void searchRevocableActionByUserID() {
-//        ds.printOut("Here are all the TradableUser Id: \n");
-//        ds.printListUser(um.getListTradableUser());
-//        int regularUserID = otherInfoGetter.getRegularUserID();
-//        ds.printHistoricalActions(am.searchRevocableActionByID(regularUserID));
-//        am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
-//    }
     public ArrayList<Action> searchRevocableActionByUserID(int regularUserID) {
         am.addActionToAllActionsList(userId, "adminUser", "3.3", regularUserID, "");
         return am.searchRevocableActionByID(regularUserID);
