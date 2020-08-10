@@ -3,6 +3,7 @@ package controllers.adminusersubcontrollers;
 import controllers.AccountCreator;
 import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import managers.actionmanager.ActionManager;
+import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.usermanager.UserManager;
 
@@ -18,6 +19,7 @@ public class AdminUserOtherActionsController {
 
     private UserManager um;
     private ActionManager am;
+    private MeetingManager mm;
     private RegularUserDateTimeChecker regularUserDateTimeChecker;
     private int userId;
 
@@ -28,10 +30,11 @@ public class AdminUserOtherActionsController {
      * @param am The current state of the ActionManager.
      * @param username The username of the Admin user.
      */
-    public AdminUserOtherActionsController (UserManager um, ActionManager am, String username){
+    public AdminUserOtherActionsController (UserManager um, ActionManager am, String username, MeetingManager mm){
 
         this.um = um;
         this.am = am;
+        this.mm = mm;
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
         this.userId = this.um.usernameToID(username);
 
@@ -46,21 +49,11 @@ public class AdminUserOtherActionsController {
             am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
         }
 
-    public String checkSystemTime(String selecteYear, String selectMonth, String selectDay) {
-        try{
-            int year = Integer.parseInt(selecteYear);
-            int month = Integer.parseInt(selectMonth);
-            int day = Integer.parseInt(selectDay);
+    public boolean checkSystemTime(int year, int month, int day) {
+        return this.regularUserDateTimeChecker.isValidDay(year,month, day);
+    }
 
-            boolean result = this.regularUserDateTimeChecker.isValidDay(year,month, day);
-
-            if (result){return "true";}
-            else{return "false";}
-
-        }catch (NumberFormatException e){
-            return "Unselected";
-        }
-
-
+    public void setSystemTime(int year, int month, int day){
+        this.mm.setSystemTime(year, month, day);
     }
 }

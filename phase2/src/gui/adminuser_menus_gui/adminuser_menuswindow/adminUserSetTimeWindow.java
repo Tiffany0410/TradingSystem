@@ -39,15 +39,24 @@ public class adminUserSetTimeWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String result = adminUserOtherActionsController.checkSystemTime((String) yearBox.getSelectedItem(),
-                        (String) monthBox.getSelectedItem(), (String) dayBox.getSelectedItem());
+                try{
+                    int year = Integer.parseInt((String) yearBox.getSelectedItem());
+                    int month = Integer.parseInt((String) monthBox.getSelectedItem());
+                    int day = Integer.parseInt((String) dayBox.getSelectedItem());
 
-                if (result.equals("Unselected")){guiDemo.printNotification("Please select year, month and day");}
-                else if(result.equals("false")){guiDemo.printNotification("Please select a valid date");}
-                else{
+                    boolean result = adminUserOtherActionsController.checkSystemTime(year, month, day);
 
-                    guiDemo.printNotification("System time set succeed");}
+                    if(result){
+                        adminUserOtherActionsController.setSystemTime(year, month, day);
+                        guiDemo.printNotification("System time set succeed");
+                        }
+                    else{
+                        guiDemo.printNotification("Please select a valid date");
+                        }
 
+                }catch (NumberFormatException ex){
+                    guiDemo.printNotification("Please select year, month and day");
+                }
             }
         });
     }
@@ -61,6 +70,4 @@ public class adminUserSetTimeWindow {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-
-
 }

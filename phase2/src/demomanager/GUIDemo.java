@@ -148,7 +148,7 @@ public class GUIDemo {
                 this.meetingManager, this.actionManager, this.feedbackManager, this.getTempUsername());
 
         this.adminUserOtherActionsController = new AdminUserOtherActionsController(
-                this.userManager, this.actionManager, this.getTempUsername());
+                this.userManager, this.actionManager, this.getTempUsername(), this.meetingManager);
 
         AdminUserMainMenuGUI adminUserMainMenuGUI = new AdminUserMainMenuGUI(this, this.partsOfAdminAlert);
         adminUserMainMenuGUI.run(this, this.partsOfAdminAlert);
