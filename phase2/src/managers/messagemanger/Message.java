@@ -1,8 +1,14 @@
 package managers.messagemanger;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-
-public class Message {
+/**
+ * An instance of this class represents a message  in this system.
+ *
+ * @author Hao Du
+ * @version IntelliJ IDEA 2020.1
+ */
+public class Message implements Serializable{
     //basic
     private Integer senderId;
     private Integer receiverId;
@@ -30,14 +36,7 @@ public class Message {
     public Integer getReceiverId() {
         return receiverId;
     }
-    /**
-     * Get the sender's id.
-     *
-     * @return sender's id.
-     */
-    public Integer getSenderId() {
-        return senderId;
-    }
+
     /**
      * Get the message.
      *

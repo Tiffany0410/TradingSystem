@@ -61,7 +61,7 @@ public class Meeting implements java.io.Serializable{
         time = time1.getTime();
     }
 
-    /** get the place for the meeting
+    /** Get the place for the meeting
      * @return the place for the meeting
      */
     public String getPlace(){

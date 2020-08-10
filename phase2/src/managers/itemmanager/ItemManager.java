@@ -85,54 +85,12 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Return item's information by given item ID
-     * @param itemId The item's ID
-     * @return the information of the item
-     */
-    public String getInfobyID(int itemId){
-        for (Item item: listItem){
-            if (item.getItemId() == itemId) {
-                return item.toString();
-            }
-        }
-        return "Item not found.";
-    }
-
-    /**
      * Return the item by given item ID
      * @param itemId The item's ID
      * @return The corresponding Item
      */
     public Item getItembyId(int itemId){
         for (Item item: listItem){
-            if (item.getItemId() == itemId){
-                return item;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get tradable status for item
-     * @param itemId The item's id
-     * @return true if item is tradable
-     */
-    public boolean getTradable(int itemId){
-        for (Item item: listItem){
-            if (item.getItemId() == itemId){
-                return item.getTradable();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return the item by given item ID
-     * @param itemId The item's ID
-     * @return The corresponding Item
-     */
-    public Item getDeletedItemById(int itemId){
-        for (Item item: listDeletedItem){
             if (item.getItemId() == itemId){
                 return item;
             }
@@ -180,21 +138,6 @@ public class ItemManager implements Serializable {
             if (item.getName().equals(itemName)){ return item.getItemId(); }
         }
         return -1;
-    }
-
-    /**
-     * Return a list of IDs for a given item
-     * @param item The item object
-     * @return a list of IDs (Item's Id, Owner's Id, Current Holder's ID)
-     */
-    public ArrayList<Integer> getIDFromItem(Item item){
-        ArrayList<Integer> listId = new ArrayList<>();
-        for (Item item_: listItem){
-            if (item_.getItemId() == item.getItemId()){
-                Collections.addAll(listId, item.getItemId(), item.getOwnerId(), item.getCurrHolderId());
-            }
-        }
-        return listId;
     }
 
     /**
@@ -273,19 +216,6 @@ public class ItemManager implements Serializable {
     }
 
     // Setters & Add
-
-    /**
-     * Set the item's current holder's ID to currHolderId
-     * @param itemId The item's ID
-     * @param currHolderId The current holder's ID
-     */
-    public void setCurrHolderId(int itemId, int currHolderId){
-        for (Item item: listItem){
-            if (item.getItemId() == itemId) {
-                item.setCurrHolderId(currHolderId);
-            }
-        }
-    }
 
     /**
      * Set the list of items' tradable statuses to tradable
@@ -368,22 +298,6 @@ public class ItemManager implements Serializable {
     }
 
     /**
-     * Remove item from listItem
-     * @param itemId The Item's ID
-     */
-    public void removeFromListItem(int itemId) {
-        listItem.removeIf(item -> item.getItemId() == itemId);
-    }
-
-    /**
-     * Remove item from listDeletedItem
-     * @param itemID The item's id
-     */
-    public void removeItemFromListDeletedItem(int itemID) {
-        listDeletedItem.removeIf(item -> item.getItemId() == itemID);
-    }
-
-    /**
      * @param targetItem The item that being deleted
      */
     public void deleteItemFromListItemToAdd(Item targetItem) {
@@ -429,8 +343,7 @@ public class ItemManager implements Serializable {
      */
     public ArrayList<Category> getSortedCategory(HashMap<Category, ArrayList<Integer>> category){
         ArrayList<Category> out = new ArrayList<>();
-        HashMap<Category, ArrayList<Integer>> temp_cat = new HashMap<>();
-        temp_cat.putAll(category);
+        HashMap<Category, ArrayList<Integer>> temp_cat = new HashMap<>(category);
         while (!temp_cat.isEmpty()){
             Category most = null;
             for (Category c: temp_cat.keySet()){
@@ -513,8 +426,7 @@ public class ItemManager implements Serializable {
      */
     public ArrayList<Item> getSortedItemByFollows(UserManager um){
         ArrayList<Item> sortedItems = new ArrayList<>();
-        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
-        map.putAll(getUsersByItemsFollowed(um));
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>(getUsersByItemsFollowed(um));
         while (!map.isEmpty()) {
             int most = 0;
             for (int itemid: map.keySet()) {
