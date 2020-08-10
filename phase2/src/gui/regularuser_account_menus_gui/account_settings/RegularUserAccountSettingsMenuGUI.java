@@ -21,6 +21,15 @@ public class RegularUserAccountSettingsMenuGUI {
     private JButton requestUndoARevocableButton;
     private JPanel rootPanel;
 
+    /**
+     * Responsible for the view and getting input for user
+     * when user is browsing the account settings menu.
+     * @param atc The RegularUserAccountMenuController.
+     * @param sm The presenter.
+     * @param idc The id checker.
+     * @param guiD The GUI helper.
+     * @param auIDC The other information checker.
+     */
     public RegularUserAccountSettingsMenuGUI(RegularUserAccountMenuController atc, SystemMessage sm,
                                              RegularUserIDChecker idc,
                                              GUIDemo guiD, AdminUserOtherInfoChecker auIDC) {
@@ -32,9 +41,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
-                win.run(guiD, sm, atc);
-                guiD.runSave();
+                requestUnfreeze(guiD, sm, atc);
             }
         });
         setYourOnVacationButton.addActionListener(new ActionListener() {
@@ -45,9 +52,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                SetYourOnVacationStatusWindow win = new SetYourOnVacationStatusWindow(atc, sm, guiD);
-                win.run(atc, sm, guiD);
-                guiD.runSave();
+                setUserOnVacationStatus(atc, sm, guiD);
             }
         });
         changeYourHomeCityButton.addActionListener(new ActionListener() {
@@ -58,9 +63,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangeYourHCWindow changeYourHCWindow = new ChangeYourHCWindow(atc, guiD, sm);
-                changeYourHCWindow.run(atc, guiD, sm);
-                guiD.runSave();
+                changeHomeCity(atc, guiD, sm);
             }
         });
         reviewOwnRevocableActionButton.addActionListener(new ActionListener() {
@@ -71,8 +74,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                reviewOwnRevocableActions(atc, sm, guiD);
-                guiD.runSave();
+                reviewOwnRevoActions(atc, sm, guiD);
             }
         });
         requestUndoARevocableButton.addActionListener(new ActionListener() {
@@ -83,9 +85,7 @@ public class RegularUserAccountSettingsMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                RequestUndoARevocableActionWindow requestUndoARevocableActionWindow = new RequestUndoARevocableActionWindow(guiD, idc, auIDC, atc, sm);
-                requestUndoARevocableActionWindow.run(guiD, idc, auIDC, atc, sm);
-                guiD.runSave();
+                requestUndoRevoActions(guiD, idc, auIDC, atc, sm);
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -105,6 +105,35 @@ public class RegularUserAccountSettingsMenuGUI {
 
     }
 
+    private void requestUndoRevoActions(GUIDemo guiD, RegularUserIDChecker idc, AdminUserOtherInfoChecker auIDC, RegularUserAccountMenuController atc, SystemMessage sm) {
+        RequestUndoARevocableActionWindow requestUndoARevocableActionWindow = new RequestUndoARevocableActionWindow(guiD, idc, auIDC, atc, sm);
+        requestUndoARevocableActionWindow.run(guiD, idc, auIDC, atc, sm);
+        guiD.runSave();
+    }
+
+    private void reviewOwnRevoActions(RegularUserAccountMenuController atc, SystemMessage sm, GUIDemo guiD) {
+        reviewOwnRevocableActions(atc, sm, guiD);
+        guiD.runSave();
+    }
+
+    private void changeHomeCity(RegularUserAccountMenuController atc, GUIDemo guiD, SystemMessage sm) {
+        ChangeYourHCWindow changeYourHCWindow = new ChangeYourHCWindow(atc, guiD, sm);
+        changeYourHCWindow.run(atc, guiD, sm);
+        guiD.runSave();
+    }
+
+    private void setUserOnVacationStatus(RegularUserAccountMenuController atc, SystemMessage sm, GUIDemo guiD) {
+        SetYourOnVacationStatusWindow win = new SetYourOnVacationStatusWindow(atc, sm, guiD);
+        win.run(atc, sm, guiD);
+        guiD.runSave();
+    }
+
+    private void requestUnfreeze(GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController atc) {
+        RequestToUnfreezeWindow win = new RequestToUnfreezeWindow(guiD, sm, atc);
+        win.run(guiD, sm, atc);
+        guiD.runSave();
+    }
+
     private void reviewOwnRevocableActions(RegularUserAccountMenuController atc, SystemMessage sm, GUIDemo guiD) {
         ArrayList<Action> ownRevocableAction = atc.seeOwnRevocableAction();
         if (ownRevocableAction.size() != 0){
@@ -116,6 +145,14 @@ public class RegularUserAccountSettingsMenuGUI {
         }
     }
 
+    /**
+     * Responsible for getting this window running.
+     * @param atc The RegularUserAccountMenuController.
+     * @param sm The presenter.
+     * @param idc The id checker.
+     * @param guiD The GUI helper.
+     * @param auIDC The other information checker.
+     */
     public void run(RegularUserAccountMenuController atc, SystemMessage sm,
                     RegularUserIDChecker idc,
                     GUIDemo guiD, AdminUserOtherInfoChecker auIDC) {
