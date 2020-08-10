@@ -357,10 +357,9 @@ public class GUIDemo {
      */
     public void runRegularUserCommunityMenuGUI(){
         RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI(this.isGuest, this,
-                this.regularUserCommunityMenuController, this.systemMessage,
-                this.regularUserIDChecker,this.regularUserOtherInfoChecker);
+                this.regularUserCommunityMenuController, this.systemMessage, this.regularUserIDChecker);
         regularUserCommunityMenuGUI.run(this.isGuest, this, this.regularUserCommunityMenuController,
-                this.systemMessage, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
+                this.systemMessage, this.regularUserIDChecker);
     }
 
     /**

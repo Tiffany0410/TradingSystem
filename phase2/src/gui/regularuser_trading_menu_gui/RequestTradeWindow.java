@@ -1,6 +1,5 @@
 package gui.regularuser_trading_menu_gui;
 
-
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import demomanager.GUIDemo;
@@ -11,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user trade request
+ * @author Yu Xin Yan, Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RequestTradeWindow {
     private JRadioButton oneWayTradeRadioButton;
     private JRadioButton twoWayTradeRadioButton;
@@ -20,6 +25,14 @@ public class RequestTradeWindow {
     private JButton nextButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructor of regular user request for trade window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     */
     public RequestTradeWindow(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                               SystemMessage sm, int numLentBeforeBorrow){
 
@@ -32,6 +45,10 @@ public class RequestTradeWindow {
         tradeType.add(temporaryRadioButton);
 
         nextButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, request for a trade
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (oneWayTradeRadioButton.isSelected() && permanentRadioButton.isSelected()){
@@ -59,6 +76,9 @@ public class RequestTradeWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /** Invoke when click button and return to menu
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiD.closeWindow(rootPanel);
@@ -66,6 +86,14 @@ public class RequestTradeWindow {
         });
     }
 
+    /**
+     * Run trade request window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     */
     public void run(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                     SystemMessage sm, int numLentBeforeBorrow){
         JFrame frame = new JFrame("Trade request");
@@ -76,5 +104,4 @@ public class RequestTradeWindow {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-
 }

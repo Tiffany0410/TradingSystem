@@ -3,13 +3,18 @@ package gui.regularuser_trading_menu_gui;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserTradingMenuController;
 import demomanager.GUIDemo;
-import gui.adminuser_menus_gui.adminuser_menuswindow.AdminUserManageUsersConfirmInventoryWindow;
 import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+/**
+ * Used to show regular user onw-way-trade request
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class OneWayTradeWindow {
     private JTextField thisUser;
@@ -19,9 +24,22 @@ public class OneWayTradeWindow {
     private JButton requestButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructor of regular user request for onw-way-trade window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     * @param tradeType Trade type ("Permanent" or "Temporary")
+     */
     public OneWayTradeWindow(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                              SystemMessage sm, int numLentBeforeBorrow, String tradeType){
         requestButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, request for onw-way-trade
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String borrower = thisUser.getText();
@@ -49,6 +67,9 @@ public class OneWayTradeWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /** Invoke when click button and close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiD.closeWindow(rootPanel);
@@ -56,6 +77,15 @@ public class OneWayTradeWindow {
         });
     }
 
+    /**
+     * Run one-way-trade request window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     * @param tradeType Trade type ("Permanent" or "Temporary")
+     */
     public void run(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                     SystemMessage sm, int numLentBeforeBorrow, String tradeType){
         JFrame frame = new JFrame("One-way-trade request");
