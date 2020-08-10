@@ -110,11 +110,9 @@ public class GUIDemo {
 
     }
 
-    public UserManager getUserManager() {
-        return userManager;
-    }
-    public FeedbackManager getFeedbackManager(){
-        return feedbackManager;
+
+    public void printInvalidNumber() {
+        printNotification(this.systemMessage.invalidNumber());
     }
 
     public void runTradingSystemInitMenuGUI(){
@@ -126,6 +124,7 @@ public class GUIDemo {
         LoginGUI login = new LoginGUI(this.loginValidator, this);
         login.run(this.loginValidator,this);
     }
+
 
 
     public void runRegularUserCreateAccount() {
@@ -403,9 +402,8 @@ public class GUIDemo {
 
     }
 
-    public void printInvalidNumber() {
-        printNotification(this.systemMessage.invalidNumber());
-    }
+
+
 }
 
 

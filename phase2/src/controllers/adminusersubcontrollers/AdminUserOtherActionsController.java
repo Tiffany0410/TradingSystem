@@ -1,7 +1,9 @@
 package controllers.adminusersubcontrollers;
 
 import controllers.AccountCreator;
+import controllers.regularusersubcontrollers.RegularUserDateTimeChecker;
 import managers.actionmanager.ActionManager;
+import managers.meetingmanager.MeetingManager;
 import managers.usermanager.UserManager;
 
 
@@ -16,6 +18,7 @@ public class AdminUserOtherActionsController {
 
     private UserManager um;
     private ActionManager am;
+    private RegularUserDateTimeChecker regularUserDateTimeChecker;
     private int userId;
 
     /**
@@ -29,8 +32,8 @@ public class AdminUserOtherActionsController {
 
         this.um = um;
         this.am = am;
+        this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
         this.userId = this.um.usernameToID(username);
-
 
     }
 
@@ -42,4 +45,22 @@ public class AdminUserOtherActionsController {
     public void addNewAdmin(String username) {
             am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
         }
+
+    public String checkSystemTime(String selecteYear, String selectMonth, String selectDay) {
+        try{
+            int year = Integer.parseInt(selecteYear);
+            int month = Integer.parseInt(selectMonth);
+            int day = Integer.parseInt(selectDay);
+
+            boolean result = this.regularUserDateTimeChecker.isValidDay(year,month, day);
+
+            if (result){return "true";}
+            else{return "false";}
+
+        }catch (NumberFormatException e){
+            return "Unselected";
+        }
+
+
+    }
 }
