@@ -399,7 +399,8 @@ public class TradeManager implements Serializable {
     public void openTrade(int tradeId, managers.itemmanager.ItemManager im){
         for (managers.trademanager.Trade t : listTrade) {
             if (t.getIds().get(0) == tradeId) {
-                ArrayList<Integer> lst = new ArrayList<Integer>(t.getIds().get(3));
+                ArrayList<Integer> lst = new ArrayList<>();
+                lst.add(t.getIds().get(3));
                 if (!t.getIsOneWayTrade()) {
                     lst.add(t.getIds().get(4));
                 }
