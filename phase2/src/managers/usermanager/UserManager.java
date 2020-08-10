@@ -196,10 +196,9 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 person.setWishList(temp);
                 out = true;
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
+                person.updateFollowers("User " + person.getUsername() +
+                        " has removed the Item with the id " + itemID.toString() +
                         " to their wishlist.");
-                person.setUserFollowingLogs(temp2);
             }
         }
         return out;
@@ -220,10 +219,9 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 out = true;
                 person.setInventory(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
+                person.updateFollowers("User " + person.getUsername() +
+                        " has removed the Item with the id " + itemID.toString() +
                         " to their inventory.");
-                person.setUserFollowingLogs(temp2);
             }
         }
         return out;
@@ -244,10 +242,9 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setWishList(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
+                person.updateFollowers("User " + person.getUsername() +
+                        " has added the Item with the id " + itemID.toString() +
                         " to their wishlist.");
-                person.setUserFollowingLogs(temp2);
             }
         }
 
@@ -269,10 +266,9 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setInventory(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
+                person.updateFollowers("User " + person.getUsername() +
+                        " has added the Item with the id " + itemID.toString() +
                         " to their inventory.");
-                person.setUserFollowingLogs(temp2);
             }
         }
         return out;
@@ -830,6 +826,7 @@ public class UserManager implements Serializable {
         }
         person.followUser(toFollow);
         following.addFollowers(userID);
+        following.addPropertyChangeListener(person);
         return true;
     }
 
@@ -850,6 +847,7 @@ public class UserManager implements Serializable {
         }
         person.unfollowUser(toUnfollow);
         following.removeFollowers(userID);
+        following.removePropertyChangeListener(person);
         return true;
     }
 
