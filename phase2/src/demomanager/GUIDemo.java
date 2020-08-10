@@ -34,7 +34,15 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This is the GUIDemo, this class control all gui classes
+ *
+ * @author  Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1.1
+ */
+
 public class GUIDemo {
+
     // Managers
     private UserManager userManager;
     private MeetingManager meetingManager;
@@ -77,6 +85,21 @@ public class GUIDemo {
     // Gateway
     private FilesReaderWriter frw;
 
+    /**
+     * Constructor of GUIDemo class
+     * @param userManager user manager, need DemoManager pass in
+     * @param meetingManager meeting manager, need DemoManager pass in
+     * @param tradeManager trade manager, need DemoManager pass in
+     * @param itemManager item manager, need DemoManager pass in
+     * @param feedbackManager feedback manager, need DemoManager pass in
+     * @param messageManager message manager, need DemoManager pass in
+     * @param accountCreator account manager, need DemoManager pass in
+     * @param loginValidator login validator, need DemoManager pass in
+     * @param actionManager action manager, need DemoManager pass in
+     * @param partsOfUserAlert user alert, need DemoManager pass in
+     * @param partsOfAdminAlert admin user alert, need DemoManager pass in
+     * @param thresholdValues threshold values, need DemoManager pass in
+     */
     public GUIDemo(UserManager userManager, MeetingManager meetingManager, TradeManager tradeManager,
                    ItemManager itemManager, FeedbackManager feedbackManager, MessageManager messageManager,
                    AccountCreator accountCreator, LoginValidator loginValidator, ActionManager actionManager,
@@ -110,23 +133,32 @@ public class GUIDemo {
 
     }
 
-
+    /**
+     * This print the notification of invalid number
+     */
     public void printInvalidNumber() {
         printNotification(this.systemMessage.invalidNumber());
     }
 
+    /**
+     * This method run trading system init menu gui, which is the init part of whole system
+     */
     public void runTradingSystemInitMenuGUI(){
         TradingSystemInitMenuGUI tradingSystemInitMenuGUI = new TradingSystemInitMenuGUI(this);
         tradingSystemInitMenuGUI.run(this);
     }
 
+    /**
+     * This method run the login part gui of the system
+     */
     public void runLogin(){
         LoginGUI login = new LoginGUI(this.loginValidator, this);
         login.run(this.loginValidator,this);
     }
 
-
-
+    /**
+     * This method run the create account gui for regular user of the system
+     */
     public void runRegularUserCreateAccount() {
         RegularUserCreateAccountGUI regularUserCreateAccountGUI = new RegularUserCreateAccountGUI(this.accountCreator,
                 this, this.systemMessage, this.regularUserOtherInfoChecker);
@@ -135,6 +167,10 @@ public class GUIDemo {
 
 
     // Start of run admin menus
+
+    /**
+     * This method run admin user main menu gui and create all admin user controllers
+     */
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
@@ -154,6 +190,9 @@ public class GUIDemo {
         adminUserMainMenuGUI.run(this, this.partsOfAdminAlert);
     }
 
+    /**
+     * This method run admin user manage users submenu gui
+     */
     public void runAdminUserManageUsersSubMenu() {
 
         RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
@@ -167,6 +206,9 @@ public class GUIDemo {
                 this.systemMessage, regularUserIDChecker, this.adminUserOtherInfoChecker);
     }
 
+    /**
+     * This method run admin user edit thresholds submenu gui
+     */
     public void runAdminUserEditThresholdsSubMenu() {
 
         AdminUserEditThresholdsSubMenuGUI adminUserEditThresholdsSubMenuGUI = new AdminUserEditThresholdsSubMenuGUI(this,
@@ -176,6 +218,9 @@ public class GUIDemo {
 
     }
 
+    /**
+     * This method run admin user historical actions submenu gui
+     */
     public void runAdminUserHistoricalActionsSubMenu() {
 
 
@@ -184,11 +229,17 @@ public class GUIDemo {
         adminUserHistroicalActionsSubMenu.run(this, this.systemMessage, this.adminUserHistoricalActionController);
     }
 
+    /**
+     * This method run admin user other actions submenu gui
+     */
     public void runAdminUserOtherSubMenu() {
         AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this, this.adminUserOtherActionsController);
         adminUserOtherSubMenuGUI.run(this, this.adminUserOtherActionsController);
     }
 
+    /**
+     * This method run admin user create GUI
+     */
     public void runAdminUserCreateAccount() {
 
         AdminUserCreateAccountGUI adminUserCreateAccountGUI = new AdminUserCreateAccountGUI(this.accountCreator, this,
@@ -199,6 +250,11 @@ public class GUIDemo {
 
 
     //Regular User menu gui start
+
+    /**
+     * This method run regular user main menu gui and create all regular user controller
+     * @param guest this is guest login or not
+     */
     public void runRegularUserMainMenu(Boolean guest) {
         this.isGuest = guest;
 
@@ -228,16 +284,19 @@ public class GUIDemo {
                 this.systemMessage, this.regularUserThresholdController, this.regularUserOtherInfoChecker,
                 this.regularUserIDChecker);
 
-
-
         RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(this.isGuest, this.systemMessage, this,
                 regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
                 this.partsOfUserAlert, this.thresholdValues);
+
+        // run regular user main menu gui
         regularUserMainMenuGUI.run(this.isGuest, this.systemMessage, this,
                 regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
                 this.partsOfUserAlert, this.thresholdValues);
     }
 
+    /**
+     * This method run regular user account follow menu gui
+     */
     public void runRegularUserAccountFollowMenu(){
         RegularUserFollowMenuGUI regularUserFollowMenuGUI = new RegularUserFollowMenuGUI(this,
                 this.regularUserAccountMenuController, this.regularUserIDChecker, this.systemMessage);
@@ -245,6 +304,9 @@ public class GUIDemo {
                 this.regularUserAccountMenuController, this.regularUserIDChecker, this.systemMessage);
     }
 
+    /**
+     * This method run regular user account manage item menu gui
+     */
     public void runRegularUserAccountManageItemsMenu(){
         RegularUserManageItemsMenuGUI regularUserManageItemsMenuGUI = new RegularUserManageItemsMenuGUI(this.isGuest,
                 this.systemMessage,this, this.regularUserIDChecker,
@@ -253,6 +315,9 @@ public class GUIDemo {
                 this.regularUserIDChecker, this.regularUserAccountMenuController, this.regularUserOtherInfoChecker);
     }
 
+    /**
+     * This method run regular user account setting menu gui
+     */
     public void runRegularUserAccountSettingsMenu(){
         RegularUserAccountSettingsMenuGUI regularUserAccountSettingsMenuGUI = new RegularUserAccountSettingsMenuGUI(
                 this.regularUserAccountMenuController, this.systemMessage, this.regularUserIDChecker,
@@ -262,6 +327,9 @@ public class GUIDemo {
 
     }
 
+    /**
+     * This method run regular user account main Menu
+     */
     public void runRegularUserAccountMainMenuGUI(){
         RegularUserAccountMainMenuGUI regularUserAccountMainMenuGUI = new RegularUserAccountMainMenuGUI(this.isGuest,
                 this.systemMessage, this, this.regularUserAccountMenuController);
@@ -269,10 +337,13 @@ public class GUIDemo {
 
     }
 
+    /**
+     * This method run regular user trading menu gui
+     */
     public void runRegularUserTradingMenuGUI() {
 
-        int maxNumTransactionAWeek = thresholdValues.get(0);
-        int numLentBeforeBorrow =thresholdValues.get(2);
+        int maxNumTransactionAWeek = this.thresholdValues.get(0);
+        int numLentBeforeBorrow = this.thresholdValues.get(2);
 
         RegularUserTradingMenuGUI regularUserTradingMenuGUI = new RegularUserTradingMenuGUI(this,
                 this.regularUserTradingMenuController, this.systemMessage,maxNumTransactionAWeek, numLentBeforeBorrow,
@@ -281,6 +352,9 @@ public class GUIDemo {
                 maxNumTransactionAWeek, numLentBeforeBorrow, this.regularUserIDChecker, this.isGuest);
     }
 
+    /**
+     * This method run regular user community menu gui
+     */
     public void runRegularUserCommunityMenuGUI(){
         RegularUserCommunityMenuGUI regularUserCommunityMenuGUI = new RegularUserCommunityMenuGUI(this.isGuest, this,
                 this.regularUserCommunityMenuController, this.systemMessage,
@@ -289,6 +363,9 @@ public class GUIDemo {
                 this.systemMessage, this.regularUserIDChecker,this.regularUserOtherInfoChecker);
     }
 
+    /**
+     * This method run regular user meeting menu
+     */
     public void runRegularUserMeetingMenu(){
 
         int maxNumTPEdits = thresholdValues.get(3);
@@ -298,48 +375,70 @@ public class GUIDemo {
                 this.regularUserIDChecker,this.regularUserDateTimeChecker, this.isGuest);
     }
 
+    /**
+     * This method run regular user searching menu gui
+     */
     public void runRegularUserSearchingMenuGUI() {
         RegularUserSearchingMenuGUI regularUserSearchingMenuGUI = new RegularUserSearchingMenuGUI(this,  this.isGuest,
                 systemMessage);
         regularUserSearchingMenuGUI.run(this, this.isGuest, systemMessage);
     }
 
-
+    /**
+     * This method run regular user searching submenu gui
+     */
     public void runRegularUserSearchingItemsSubMenu(){
         RegularUserSearchingItemsSubMenuGUI regularUserSearchingItemsSubMenuGUI = new RegularUserSearchingItemsSubMenuGUI(
                 this.regularUserSearchingMenuController, this, this.systemMessage, this.regularUserIDChecker);
         regularUserSearchingItemsSubMenuGUI.run(this.regularUserSearchingMenuController, this,  this.systemMessage, this.regularUserIDChecker);
     }
 
+    /**
+     * This method run regular user searching meeting submenu gui
+     */
     public void runRegularUserSearchingMeetingsSubMenu(){
         RegularUserSearchingMeetingsSubMenuGUI regularUserSearchingMeetingsSubMenuGUI = new
                 RegularUserSearchingMeetingsSubMenuGUI(this.regularUserSearchingMenuController, this, this.systemMessage);
         regularUserSearchingMeetingsSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
     }
 
+    /**
+     * This method run regular user searching trades submenu gui
+     */
     public void runRegularUserSearchingTradesSubMenu(){
         RegularUserSearchingTradesSubMenuGUI regularUserSearchingTradesSubMenuGUI = new RegularUserSearchingTradesSubMenuGUI(
                 this.regularUserSearchingMenuController, this, this.systemMessage);
         regularUserSearchingTradesSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
     }
 
+    /**
+     * This method run regular user searching user submenu gui
+     */
     public void runRegularUserSearchingUsersSubMenu(){
         RegularUserSearchingUsersSubMenuGUI regularUserSearchingUsersSubMenuGUI = new RegularUserSearchingUsersSubMenuGUI(
                 this.regularUserSearchingMenuController, this, this.systemMessage);
         regularUserSearchingUsersSubMenuGUI.run(this.regularUserSearchingMenuController, this, this.systemMessage);
     }
+
+
     //Regular User menu gui end
 
+    /**
+     * This method set user name
+     * @param username name of user login account
+     */
+    public void setTempUsername(String username){ this.tempUsername = username; }
 
-    public void setTempUsername(String username){
-        this.tempUsername = username;
-    }
+    /**
+     * This method return the current user name
+     * @return current username
+     */
+    public String getTempUsername(){ return this.tempUsername; }
 
-    public String getTempUsername(){
-        return this.tempUsername;
-    }
-
-
+    /**
+     * This method print the notification of given string
+     * @param string need to print string
+     */
     public void printNotification(String string) {
         if (string == null){
             string = "ERROR: NO INPUT VALUE!";
@@ -355,15 +454,17 @@ public class GUIDemo {
         }
     }
 
-
+    /**
+     * This method close the input panel
+     * @param panel the name of panel want to close
+     */
     public void closeWindow(JPanel panel){
         Window window = SwingUtilities.getWindowAncestor(panel);
         window.dispose();
     }
 
     /**
-     * Update each related Managers
-     *
+     * This method update each related Managers
      */
     public void runSave()  {
         try {
@@ -387,23 +488,10 @@ public class GUIDemo {
             this.loginValidator = new LoginValidator(
                     frw.readUserInfoFromCSVFile("./configs/secureinfofiles/RegularUserUsernameAndPassword.csv"),
                     frw.readUserInfoFromCSVFile("./configs/secureinfofiles/AdminUserUsernameAndPassword.csv"));
-//            this.userManager = (UserManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedUserManager.ser");
-//            this.meetingManager = (MeetingManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedMeetingManager.ser");
-//            this.tradeManager = (TradeManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedTradeManager.ser");
-//            this.itemManager = (ItemManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedItemManager.ser");
-//            this.feedbackManager = (FeedbackManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedFeedbackManager.ser");
-//            this.actionManager = (ActionManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedActionManager.ser");
-//            this.messageManager = (MessageManager) frw.readManagerFromFile("./configs/serializedmanagersfiles/SerializedMessageManager.ser");
-//            this.thresholdValues = (ArrayList<Integer>) frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv");
         } catch (IOException e) {
-            this.printNotification("Sorry, because we cannot find the files to save your progress in, so your progress" +
-                    "is not saved.");
+            this.printNotification("Sorry, because we cannot find the files to save your progress, so your progress is not saved.");
         }
-
     }
-
-
-
 }
 
 

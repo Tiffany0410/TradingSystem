@@ -43,12 +43,6 @@ public class TradeManager implements Serializable {
         listTrade.add(t);
     }
 
-    /**
-     * Check a user history
-     *
-     * @param userId the user's id we want to check
-     * @return a list of that user's trade history
-     */
     public List<managers.trademanager.Trade> getTradeHistory(int userId) {
         List<managers.trademanager.Trade> list = new ArrayList<>();
         for (managers.trademanager.Trade t : listTrade) {
@@ -58,6 +52,7 @@ public class TradeManager implements Serializable {
         }
         return list;
     }
+
 
     /** Ccreate a trade
      * @param userId1 user1 id
@@ -185,15 +180,23 @@ public class TradeManager implements Serializable {
         Map<Integer, Integer> numTrade = new HashMap<>();
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         for (managers.trademanager.Trade t : list) {
-            if (numTrade.containsKey(t.getIds().get(2))) {
-                numTrade.put(t.getIds().get(2), numTrade.get(t.getIds().get(2)) + 1);
-            } else {
-                numTrade.put(t.getIds().get(2), 1);
+            if (t.getIds().get(1)== userId) {
+                if (numTrade.containsKey(t.getIds().get(2))) {
+                    numTrade.put(t.getIds().get(2), numTrade.get(t.getIds().get(2)) + 1);
+                } else {
+                    numTrade.put(t.getIds().get(2), 1);
+                }
+            }else{
+                if (numTrade.containsKey(t.getIds().get(1))) {
+                    numTrade.put(t.getIds().get(1), numTrade.get(t.getIds().get(2)) + 1);
+                } else {
+                    numTrade.put(t.getIds().get(1), 1);
+                }
             }
+
         }
-        Stream<Map.Entry<Integer,Integer>> sorted =
-                numTrade.entrySet().stream()
-                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+        numTrade.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
         Map<Integer,Integer> top =
                 numTrade.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -217,11 +220,20 @@ public class TradeManager implements Serializable {
         Map<Integer, Integer> numTrade = new HashMap<>();
         List<managers.trademanager.Trade> list = this.getTradeHistory(userId);
         for (managers.trademanager.Trade t : list) {
-            if (numTrade.containsKey(t.getIds().get(2))) {
-                numTrade.put(t.getIds().get(2), numTrade.get(t.getIds().get(2)) + 1);
-            } else {
-                numTrade.put(t.getIds().get(2), 1);
+            if (t.getIds().get(1)== userId) {
+                if (numTrade.containsKey(t.getIds().get(2))) {
+                    numTrade.put(t.getIds().get(2), numTrade.get(t.getIds().get(2)) + 1);
+                } else {
+                    numTrade.put(t.getIds().get(2), 1);
+                }
+            }else{
+                    if (numTrade.containsKey(t.getIds().get(1))) {
+                        numTrade.put(t.getIds().get(1), numTrade.get(t.getIds().get(2)) + 1);
+                    } else {
+                        numTrade.put(t.getIds().get(1), 1);
+                    }
             }
+
         }
         numTrade.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
