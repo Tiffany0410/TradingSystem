@@ -185,8 +185,8 @@ public class GUIDemo {
     }
 
     public void runAdminUserOtherSubMenu() {
-        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this);
-        adminUserOtherSubMenuGUI.run(this);
+        AdminUserOtherSubMenuGUI adminUserOtherSubMenuGUI = new AdminUserOtherSubMenuGUI(this, this.adminUserOtherActionsController);
+        adminUserOtherSubMenuGUI.run(this, this.adminUserOtherActionsController);
     }
 
     public void runAdminUserCreateAccount() {

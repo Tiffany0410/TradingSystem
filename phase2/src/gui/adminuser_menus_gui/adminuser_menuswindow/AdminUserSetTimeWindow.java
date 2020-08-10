@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class adminUserSetTimeWindow {
+public class AdminUserSetTimeWindow {
     private JPanel rootPanel;
     private javax.swing.JLabel JLabel;
     private JComboBox yearBox;
@@ -19,7 +19,7 @@ public class adminUserSetTimeWindow {
     private JButton cancelButton;
     private JButton confirmButton;
 
-    public adminUserSetTimeWindow(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
+    public AdminUserSetTimeWindow(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         cancelButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -29,6 +29,7 @@ public class adminUserSetTimeWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserOtherSubMenu();
             }
         });
         confirmButton.addActionListener(new ActionListener() {
@@ -57,13 +58,15 @@ public class adminUserSetTimeWindow {
                 }catch (NumberFormatException ex){
                     guiDemo.printNotification("Please select year, month and day");
                 }
+                guiDemo.closeWindow(rootPanel);
+                guiDemo.runAdminUserOtherSubMenu();
             }
         });
     }
 
     public void run(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         JFrame frame = new JFrame("adminUserSetTimeWindow");
-        frame.setContentPane(new adminUserSetTimeWindow(guiDemo, adminUserOtherActionsController).rootPanel);
+        frame.setContentPane(new AdminUserSetTimeWindow(guiDemo, adminUserOtherActionsController).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(400, 400));
         frame.pack();

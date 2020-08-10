@@ -39,7 +39,7 @@ public class AdminUserCreateAccountGUI {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
 
-                guiDemo.runAdminUserMainMenu();
+                guiDemo.runAdminUserOtherSubMenu();
 
             }
         });
