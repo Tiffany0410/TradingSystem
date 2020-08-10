@@ -2,13 +2,32 @@ package presenter;
 
 import managers.actionmanager.Action;
 
+/**
+ * Regular user action message
+ * @author Yangle Cheng, Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserActionMessage {
+    /**
+     * Constructor of regular user action message
+     */
     public RegularUserActionMessage(){}
 
+    /**
+     * Prefix of all regular user action
+     * @param action action
+     * @return the prefix of admin user actions
+     */
     private String helper_regular_action_prefix(Action action) {
         return "Action #" + action.getActionID() + ": RegularUser #" + action.getActionOwnerID() + " ";
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     public String regularUserAction(Action action) {
         String string = "";
 
@@ -46,6 +65,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserAccountAction(Action action, int subMenuOption, int subSubMenuOption) {
         String string = "";
         switch (subMenuOption) {
@@ -65,6 +89,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserManageItemsAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -110,6 +139,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserAccountSettingsAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -139,6 +173,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserFollowAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -163,6 +202,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserTradeAction(Action action, int subMenuOption) {
         String string = "";
         switch (subMenuOption) {
@@ -202,6 +246,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserMeetingAction(Action action, int subMenuOption) {
         String string = "";
         switch (subMenuOption) {
@@ -229,6 +278,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserSearchingAction(Action action, int subMenuOption, int subSubMenuOption) {
         String string = "";
 
@@ -253,6 +307,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserSearchingItemsAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -277,6 +336,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserSearchingUsersAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -297,6 +361,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserSearchingMeetingsAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -317,6 +386,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserSearchingTradesAction(Action action, int subSubMenuOption) {
         String string = "";
 
@@ -333,6 +407,11 @@ public class RegularUserActionMessage {
         return string;
     }
 
+    /**
+     * Give the string of regular user actions
+     * @param action action
+     * @return string of description this action
+     */
     private String regularUserCommunityAction(Action action, int subMenuOption) {
         String string = "";
 

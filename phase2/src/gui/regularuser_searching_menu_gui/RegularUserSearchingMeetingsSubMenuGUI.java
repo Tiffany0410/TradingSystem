@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used to show regular searching window
+ * @author Jiaqi Gong, Yangle Cheng
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserSearchingMeetingsSubMenuGUI {
     private JPanel rootPanel;
     private JButton sortByDateButton;
@@ -18,13 +24,19 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
     private JButton completeMeetingButton;
     private JButton backButton;
 
+    /**
+     * Constructor of regular user searching meeting submenu gui
+     * @param regularUserSearchingMenuController regular user searching menu controller
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     */
     public RegularUserSearchingMeetingsSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
                                                   GUIDemo guiDemo, SystemMessage systemMessage) {
         sortByDateButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations.
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,9 +51,9 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
         });
         incompleteMeetingButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations.
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,9 +71,9 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
         });
         completeMeetingButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations.
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,9 +87,9 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations.
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,6 +99,12 @@ public class RegularUserSearchingMeetingsSubMenuGUI {
         });
     }
 
+    /**
+     * Run regular user searching meeting submenu gui
+     * @param regularUserSearchingMenuController regular user searching menu controller
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     */
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
                     GUIDemo guiDemo, SystemMessage systemMessage) {
         JFrame frame = new JFrame("RegularUserSearchingMeetingsSubMenu");
