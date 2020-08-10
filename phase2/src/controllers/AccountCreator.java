@@ -19,16 +19,18 @@ public class AccountCreator {
     private String userInfoFilePath;
     private String regularUserFilePath;
     private String adminUserFilePath;
+    private String managerFilePath;
 
     /**
      * Constructs an AccountCreator with the given UserManager and DisplaySystem
      * @param um The initial UserManager
      */
-    public AccountCreator(UserManager um, String regularUserFilePath, String adminUserFilePath){
+    public AccountCreator(UserManager um, String regularUserFilePath, String adminUserFilePath, String managerFilePath){
         this.um = um;
         this.frw = new FilesReaderWriter();
         this.regularUserFilePath = regularUserFilePath;
         this.adminUserFilePath = adminUserFilePath;
+        this.managerFilePath = managerFilePath;
     }
 
     /**
@@ -52,10 +54,9 @@ public class AccountCreator {
                 um.addUser(username, password, email, home);
                 out = true;
 
-
-                    //Write the UserManger into ser file in order to save the data
-                    frw.saveManagerToFile(um, "./configs/serializedmanagersfiles/SerializedUserManager.ser");
-                    frw.saveUserInfoToCSVFile(this.userInfoFilePath, username, password, email);
+                //Write the UserManger into ser file in order to save the data
+                frw.saveManagerToFile(um, this.managerFilePath);
+                frw.saveUserInfoToCSVFile(this.userInfoFilePath, username, password, email);
 
                 }
             } catch (IOException e){
