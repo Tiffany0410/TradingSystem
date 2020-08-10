@@ -5,6 +5,7 @@ import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -126,7 +127,9 @@ public class RegularUserMeetingMenuController {
     public boolean editMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
             maxMeetingTimePlaceEdits){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
-        if (mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("")) {
+        Calendar time1 = Calendar.getInstance();
+        time1.set(time.get(0), time.get(1), time.get(2), time.get(3), time.get(4), 0);
+        if (mm.getEditOverThreshold(tm, meeting, maxMeetingTimePlaceEdits).equals("") && time1.before(mm.getSystemDate()) ) {
             boolean editSuccess= mm.editTimePlace(meeting, userId, time.get(0), time.get(1), time.get(2),
                         time.get(3), time.get(4), 0, place, maxMeetingTimePlaceEdits);
             if (editSuccess) {

@@ -45,6 +45,7 @@ public class TwoWayTradeWindow {
                 else{
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
+                guiD.runSave();
                 guiD.closeWindow(panel);
             }
         });

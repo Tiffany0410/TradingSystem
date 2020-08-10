@@ -43,6 +43,7 @@ public class OneWayTradeWindow {
                 else{
                     guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
         });

@@ -57,7 +57,7 @@ public class EditMeetingWindow {
                     int day = Integer.parseInt(dayS);
                     int hour = Integer.parseInt(hourS);
                     int min = Integer.parseInt(minuteS);
-                    if (dtc.isValidDay(year, month, day) && dtc.isValidTime(hour, min)) {
+                    if (dtc.isValidDayForMeetingTime(year, month, day) && dtc.isValidTime(hour, min)) {
                         ArrayList<Integer> time = new ArrayList<>();
                         Collections.addAll(time, year, month, day, hour, min);
                         if (mmc.editMeetingTandP(tradeId, meetingNum, time, placeS, maxEditsTP)) {

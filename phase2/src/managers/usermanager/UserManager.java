@@ -2,9 +2,6 @@ package managers.usermanager;
 
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -199,10 +196,10 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 person.setWishList(temp);
                 out = true;
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
-                        " to their wishlist.");
-                person.setUserFollowingLogs(temp2);
+                int id = usernameToID(username);
+                editFollowerLogs("User " + person.getUsername() + " has removed the Item with the id "
+                        + itemID.toString() +
+                        " to their wishlist.", id);
             }
         }
         return out;
@@ -223,10 +220,10 @@ public class UserManager implements Serializable {
                 temp.remove(itemID);
                 out = true;
                 person.setInventory(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has removed the Item with the id " + itemID.toString() +
-                        " to their inventory.");
-                person.setUserFollowingLogs(temp2);
+                int id = usernameToID(username);
+                editFollowerLogs("User " + person.getUsername() + " has removed the Item with the id " +
+                        itemID.toString() +
+                        " to their inventory.", id);
             }
         }
         return out;
@@ -247,10 +244,9 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setWishList(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
-                        " to their wishlist.");
-                person.setUserFollowingLogs(temp2);
+                int id = usernameToID(username);
+                editFollowerLogs("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
+                        " to their wishlist.", id);
             }
         }
 
@@ -272,10 +268,10 @@ public class UserManager implements Serializable {
                 temp.add(itemID);
                 out = true;
                 person.setInventory(temp);
-                ArrayList<String> temp2 = person.getUserFollowingLogs();
-                temp2.add("User " + person.getUsername() + " has added the Item with the id " + itemID.toString() +
-                        " to their inventory.");
-                person.setUserFollowingLogs(temp2);
+                int id = usernameToID(username);
+                editFollowerLogs("User " + person.getUsername() + " has added the Item with the id "
+                        + itemID.toString() +
+                        " to their inventory.", id);
             }
         }
         return out;
@@ -659,6 +655,10 @@ public class UserManager implements Serializable {
             if (!person1.getFriend().contains(user2)) {
                 person1.addToFriends(user2);
                 person2.addToFriends(user1);
+                editFollowerLogs("User " + person1.getUsername() + " is now friends with User "
+                        + person2.getUsername(), user1);
+                editFollowerLogs("User " + person2.getUsername() + " is now friends with User "
+                        + person1.getUsername(), user2);
                 out = true;
             }
         }
@@ -722,6 +722,7 @@ public class UserManager implements Serializable {
                 return false;
             } else {
                 person.setOnVacation(true);
+                editFollowerLogs("User " + person.getUsername() + "is now on vacation.", userID);
                 return true;
             }
         }
@@ -740,6 +741,7 @@ public class UserManager implements Serializable {
                 return false;
             } else {
                 person.setOnVacation(false);
+                editFollowerLogs("User " + person.getUsername() + "has come back from vacation.", userID);
                 return true;
             }
         }
@@ -833,6 +835,7 @@ public class UserManager implements Serializable {
         }
         person.followUser(toFollow);
         following.addFollowers(userID);
+        editFollowerLogs("User " + person.getUsername() + " followed User " + following.getUsername(), userID);
         return true;
     }
 
@@ -853,6 +856,7 @@ public class UserManager implements Serializable {
         }
         person.unfollowUser(toUnfollow);
         following.removeFollowers(userID);
+        editFollowerLogs("User " + person.getUsername() + " unfollowed User " + following.getUsername(), userID);
         return true;
     }
 
@@ -872,6 +876,8 @@ public class UserManager implements Serializable {
         }
         person.followItem(toFollow.getItemId());
         toFollow.addPropertyChangeListener(person);
+        editFollowerLogs("User " + person.getUsername() + " followed the Item with id "
+                + toFollow.getItemId(), userID);
         return true;
     }
 
@@ -892,6 +898,8 @@ public class UserManager implements Serializable {
         }
         person.unfollowItem(toUnfollow.getItemId());
         toUnfollow.removePropertyChangeListener(person);
+        editFollowerLogs("User " + person.getUsername() + " unfollowed the Item with id "
+                + toUnfollow.getItemId(), userID);
         return true;
     }
 
@@ -1022,30 +1030,17 @@ public class UserManager implements Serializable {
      * @param userID The ID of the User
      * @return A list of integers of the ID of Users that follow the User
      */
-    public ArrayList<Integer> usersFollowingUser (int userID){
-        ArrayList<Integer> out = new ArrayList<>();
+    public ArrayList<TradableUser> usersFollowingUser (int userID){
+        ArrayList<TradableUser> out = new ArrayList<>();
         if (!checkUser(userID)){
             return out;
         }
         for (TradableUser person: listTradableUser){
             if (person.getUserFollowed().contains(userID)){
-                out.add(person.getId());
+                out.add(person);
             }
         }
         return out;
-    }
-
-    /**
-     * Gets all the Users following a User
-     * @param username The username of the User
-     * @return A list of integers of the ID of Users that follow the User
-     */
-    public ArrayList<Integer> usersFollowingUser (String username){
-        if (!checkUser(username)){
-            return new ArrayList<>();
-        }
-        int id = usernameToID(username);
-        return usersFollowingUser(id);
     }
 
     /**
@@ -1086,5 +1081,14 @@ public class UserManager implements Serializable {
             }
         }
         return out;
+    }
+
+    public void editFollowerLogs(String toAdd, int userID){
+        ArrayList<TradableUser> users = usersFollowingUser(userID);
+        for (TradableUser person: users){
+            ArrayList<String> temp = person.getUserFollowingLogs();
+            temp.add(toAdd);
+            person.setUserFollowingLogs(temp);
+        }
     }
 }

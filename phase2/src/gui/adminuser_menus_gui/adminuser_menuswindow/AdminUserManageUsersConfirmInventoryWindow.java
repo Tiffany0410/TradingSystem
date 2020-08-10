@@ -21,17 +21,21 @@ public class AdminUserManageUsersConfirmInventoryWindow {
     private JButton cancelButton;
     private JButton confirmButton;
     private JPanel rootPanel;
+    private JScrollPane scrollPane;
+
 
     public AdminUserManageUsersConfirmInventoryWindow(String string, ArrayList<Item> itemsToAdd, AdminUserManagerUsersController muc,
                                                       GUIDemo guiDemo, SystemMessage sm, RegularUserIDChecker idc,
                                                       AdminUserOtherInfoChecker oic){
-        textPane1.setText(string);
-        textPane1.setEditable(false);
-        textPane1.setBackground(new Color(242,242,242));
-
         ButtonGroup group = new ButtonGroup();
         group.add(approvedRadioButton);
         group.add(notApprovedRadioButton);
+
+        textPane1.setText(string);
+        textPane1.setEditable(false);
+        textPane1.setBackground(new Color(242,242,242));
+        textPane1.setVisible(true);
+        scrollPane.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
             @Override

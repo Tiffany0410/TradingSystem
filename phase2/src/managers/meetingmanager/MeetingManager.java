@@ -12,11 +12,29 @@ import java.util.*;
  */
 public class MeetingManager implements java.io.Serializable{
     private List<Meeting> listMeeting;
+    private Calendar systemDate;
 
     /** set this listMeeting to an empty list of meeting.
      */
     public MeetingManager(){
         listMeeting = new ArrayList<>();
+        systemDate = Calendar.getInstance();
+    }
+
+    /**
+     * @return systemDate
+     */
+    public Calendar getSystemDate(){
+        return systemDate;
+    }
+
+    /** set the time for the systemDate
+     * @param year the year
+     * @param month the month
+     * @param day the day
+     */
+    public void setSystemTime(int year, int month, int day){
+        systemDate.set(year,month-1,day);
     }
 
     /** search the list of meetings by a given userId
@@ -167,7 +185,7 @@ public class MeetingManager implements java.io.Serializable{
      */
     public boolean setMeetingConfirm(TradeManager tradeManager, Meeting meeting, int userId,
                                      int maxMeetingTimePlaceEdits){
-        if (meeting.getTimePlaceConfirm() && meeting.getTime().before(new Date()) &&(userId == meeting.getUserId1()
+        if (meeting.getTimePlaceConfirm() && meeting.getTime().before(systemDate.getTime()) &&(userId == meeting.getUserId1()
                 ||userId == meeting.getUserId2())&&!meeting.getMeetingConfirm().get(userId) ){
             meeting.getMeetingConfirm().replace(userId, true);
             if (meeting.getMeetingConfirm().get(meeting.getUserId1()) &&meeting.getMeetingConfirm().get(meeting.
@@ -229,7 +247,7 @@ public class MeetingManager implements java.io.Serializable{
         time1.add(Calendar.DATE,1);
         Date time2 = time1.getTime();
         return !((meeting.getMeetingConfirm().get(meeting.getUserId1()))|| (meeting.getMeetingConfirm().
-                get(meeting.getUserId2()))) && meeting.getTimePlaceConfirm() && time2.before(new Date());
+                get(meeting.getUserId2()))) && meeting.getTimePlaceConfirm() && time2.before(systemDate.getTime());
     }
 
     /** get a list of meetings that go over one day for a given user id.

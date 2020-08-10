@@ -372,6 +372,12 @@ public class SystemMessage {
         return "Success!";
     }
 
+    public String msgForNoTradeSuggestion(){
+        return msgForNo(" recommended trade suggestion." +
+                " It might be because of 1) your wishlist is empty or 2) the items" +
+                " in your wishlist are not tradable and the items in the same category " +
+                "as the items in your wishlist are also not tradable.");
+    }
     public String msgForMeetingTookPlaceResult(boolean validator){
         if (!validator){
             return "Failed. It's probably because you have already confirmed it or the meeting time hasn't arrived.";

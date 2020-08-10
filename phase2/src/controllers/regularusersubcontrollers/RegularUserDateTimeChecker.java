@@ -3,10 +3,7 @@ package controllers.regularusersubcontrollers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * An instance of this class represents the datetime
@@ -101,6 +98,16 @@ public class RegularUserDateTimeChecker {
             }
             return 1 <= day && day <= 28;
         }
+    }
+
+    public boolean isValidDayForMeetingTime(int year, int month, int day){
+        int yearNow = Calendar.getInstance().get(Calendar.YEAR);
+        int monthNow = Calendar.getInstance().get(Calendar.MONTH);
+        int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        if (isValidDay(year, month, day)) {
+            return (yearNow <= year && year <= 2030) && (monthNow <= month) && (dayNow <= day);
+        }
+        return false;
     }
 
 

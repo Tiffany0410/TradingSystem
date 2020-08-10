@@ -200,7 +200,12 @@ public class AdminUserHistoricalActionsSubMenu {
         }
         else{
             String str = sm.printHistoricalAction(new ArrayList<>(actions));
-            guiDemo.printNotification(str);
+            if (str.equals("")){
+                guiDemo.printNotification("There is no actions.");
+            }
+            else{
+                guiDemo.printNotification(str);
+            }
         }
     }
 

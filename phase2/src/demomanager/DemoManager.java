@@ -18,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is the class that the main class of the whole system will initialize.
+ *
+ * @author  Jiaqi Gong, Chengle Yang
+ * @version IntelliJ IDEA 2020.1.1
+ */
+
 public class DemoManager {
-    /**
-     * This is the class that the main class of the whole system will initialize.
-     *
-     * @author  Jiaqi Gong, Chengle Yang
-     * @version IntelliJ IDEA 2020.1.1
-     */
+
 
     public DemoManager(){
 
@@ -87,7 +89,7 @@ public class DemoManager {
 
 
             //Create the new AccountCreator
-            AccountCreator ac = new AccountCreator(um, userAccountInfoFilePath, adminAccountInfoFilePath);
+            AccountCreator ac = new AccountCreator(um, userAccountInfoFilePath, adminAccountInfoFilePath, serializedUserManagerFilePath);
 
             // Load accounts data from CSV file to initial login validator
             Map<String, String> userLoginInfo = frw.readUserInfoFromCSVFile(userAccountInfoFilePath);

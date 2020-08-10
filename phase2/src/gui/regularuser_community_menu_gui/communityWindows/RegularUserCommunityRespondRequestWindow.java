@@ -16,12 +16,15 @@ public class RegularUserCommunityRespondRequestWindow {
     private JButton cancelButton;
     private JButton acceptButton;
     private JPanel rootPanel;
+    private JScrollPane scrollPane;
 
     public RegularUserCommunityRespondRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc,
                                                     RegularUserIDChecker idC){
         textPane1.setText(string);
         textPane1.setEditable(false);
         textPane1.setBackground(new Color(242,242,242));
+        textPane1.setVisible(true);
+        scrollPane.setVisible(true);
 
         acceptButton.addActionListener(new ActionListener() {
             @Override

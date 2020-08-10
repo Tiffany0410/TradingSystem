@@ -144,4 +144,58 @@ public class UserManagerTest2 {
         assertFalse(um.wantedItems(1, 2).contains(1));
     }
 
+    @Test(timeout = 50)
+    public void testGetHome() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
+
+        u1.setHome("Toronto");
+
+        assertEquals("Toronto", um.getHome(1));
+    }
+
+    @Test(timeout = 50)
+    public void testChangeHome() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
+
+        u1.setHome("Toronto");
+
+        assertEquals("Toronto", um.getHome(1));
+        um.changeHome(1, "Markham");
+        assertEquals("Markham", um.getHome(1));
+    }
+
+    @Test(timeout = 50)
+    public void testUserFollow() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
+
+        assertTrue(um.userFollow(1, 2));
+        assertFalse(um.userFollow(1, 2));
+        assertTrue(um.userFollow(2, 1));
+        assertTrue(u1.getFollowers().contains(2));
+        assertTrue(u2.getFollowers().contains(1));
+    }
+
+    @Test(timeout = 50)
+    public void testUserUnfollow() {
+        ArrayList<TradableUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        UserManager um = new UserManager(users, new ArrayList<>());
+
+        assertFalse(um.userUnfollow(1, 2));
+        um.userFollow(1, 2);
+        assertTrue(u2.getFollowers().contains(1));
+        assertTrue(um.userUnfollow(1, 2));
+        assertFalse(um.userUnfollow(2, 1));
+        assertFalse(u2.getFollowers().contains(1));
+    }
 }
