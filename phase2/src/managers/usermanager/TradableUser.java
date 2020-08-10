@@ -73,7 +73,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      */
     public void setWishList(ArrayList<Integer> newWishList) {
         wishList = newWishList;
-
     }
 
 
@@ -126,7 +125,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     /**
      * Increment the number of items lent by the user by one.
      */
-    public void addOneToNumLent() {
+    protected void addOneToNumLent() {
         numLent++;
     }
 
@@ -142,7 +141,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     /**
      * Increment the number of items borrowed by the user by one.
      */
-    public void addOneToNumBorrowed() {
+    protected void addOneToNumBorrowed() {
         numBorrowed++;
     }
 
@@ -160,7 +159,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param newStatus The new status to be assigned.
      */
-    public void setIfFrozen(boolean newStatus) {
+    protected void setIfFrozen(boolean newStatus) {
         isFrozen = newStatus;
     }
 
@@ -171,7 +170,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      * @return the number of transactions left for
      * this week.
      */
-    public int getNumTransactionLeftForTheWeek() {
+    protected int getNumTransactionLeftForTheWeek() {
         return transactionsLeftForTheWeek;
     }
 
@@ -182,7 +181,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      * @param newVal The new number of transactions
      *               left for the week.
      */
-    public void setTransactionLeftForTheWeek(int newVal) {
+    protected void setTransactionLeftForTheWeek(int newVal) {
         transactionsLeftForTheWeek = newVal;
     }
 
@@ -193,7 +192,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      * @return the number of times the user has
      * been frozen
      */
-    public int getNumFrozen() {
+    protected int getNumFrozen() {
         return numFrozen;
     }
 
@@ -201,7 +200,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      * Increments the number of times
      * the user has been frozen by one.
      */
-    public void addOneToNumFrozen() {
+    protected void addOneToNumFrozen() {
         numFrozen++;
     }
 
@@ -219,7 +218,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param onVacation the flag indicates whether the user is on vacation
      */
-    public void setOnVacation(boolean onVacation) {
+    protected void setOnVacation(boolean onVacation) {
         this.onVacation = onVacation;
     }
 
@@ -228,7 +227,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return homeCity.
      */
-    public String getHome() {
+    protected String getHome() {
         return homeCity;
     }
 
@@ -237,7 +236,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return OnVacation.
      */
-    public boolean getOnVacation() {
+    protected boolean getOnVacation() {
         return onVacation;
     }
 
@@ -246,7 +245,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return friend A list of this user's friends.
      */
-    public ArrayList<Integer> getFriend() {
+    protected ArrayList<Integer> getFriend() {
         return friend;
     }
 
@@ -255,7 +254,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param id the friend's id
      */
-    public void addToFriends(Integer id) {
+    protected void addToFriends(Integer id) {
         friend.add(id);
     }
 
@@ -264,7 +263,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param id the friend's id
      */
-    public void removeFromFriends(Integer id) {
+    protected void removeFromFriends(Integer id) {
         friend.remove(id);
     }
 
@@ -284,7 +283,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param userId the followers's id
      */
-    public void addFollowers(Integer userId) {
+    protected void addFollowers(Integer userId) {
         followers.add(userId);
     }
 
@@ -293,7 +292,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param userId the followers's id
      */
-    public void removeFollowers(Integer userId) {
+    protected void removeFollowers(Integer userId) {
         followers.remove(userId);
     }
 
@@ -312,7 +311,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param userId the Followings's id
      */
-    public void followUser(Integer userId) {
+    protected void followUser(Integer userId) {
         userFollowed.add(userId);
     }
 
@@ -321,7 +320,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param userId the item id that this user want to unfollow
      */
-    public void unfollowUser(Integer userId) {
+    protected void unfollowUser(Integer userId) {
         userFollowed.remove(userId);
     }
 
@@ -330,7 +329,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param itemId the Followings's id
      */
-    public void followItem(Integer itemId) {
+    protected void followItem(Integer itemId) {
         itemFollowed.add(itemId);
     }
 
@@ -339,7 +338,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @param itemId the item id that this user want to unfollow
      */
-    public void unfollowItem(Integer itemId) {
+    protected void unfollowItem(Integer itemId) {
         itemFollowed.remove(itemId);
     }
 
@@ -361,7 +360,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of item that this user followed
      */
-    public ArrayList<Integer> getItemFollowed() {
+    protected ArrayList<Integer> getItemFollowed() {
         return itemFollowed;
     }
     /**
@@ -369,7 +368,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records user following log
      */
-    public ArrayList<String> getUserFollowingLogs() {
+    protected ArrayList<String> getUserFollowingLogs() {
         return userFollowingLogs;
     }
     /**
@@ -377,7 +376,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records item following log
      */
-    public ArrayList<String> getItemFollowingLogs() {
+    protected ArrayList<String> getItemFollowingLogs() {
         return itemFollowingLogs;
     }
 

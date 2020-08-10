@@ -25,14 +25,14 @@ public class Report implements Serializable {
     /** get the receiver id
      * @return the receiver id
      */
-    public int getReceiverId(){
+    protected int getReceiverId(){
         return receiverId;
     }
 
     /** get the reporter id
      * @return the reporter id
      */
-    public int getReporterId(){
+    protected int getReporterId(){
         return reporterId;
     }
 

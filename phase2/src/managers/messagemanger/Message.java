@@ -33,7 +33,7 @@ public class Message implements Serializable{
      * @return receiver's id.
      */
 
-    public Integer getReceiverId() {
+    protected Integer getReceiverId() {
         return receiverId;
     }
 
@@ -42,7 +42,7 @@ public class Message implements Serializable{
      *
      * @return message.
      */
-    public String getMessage() {
+    protected String getMessage() {
         return message;
     }
 
