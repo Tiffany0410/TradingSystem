@@ -53,6 +53,7 @@ public class RequestTradeWindow {
                 else{
                     guiD.printNotification("Please select an option.");
                 }
+                guiD.runSave();
                 guiD.closeWindow(rootPanel);
             }
         });

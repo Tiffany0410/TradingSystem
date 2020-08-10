@@ -7,6 +7,8 @@ import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.usermanager.UserManager;
 
+import java.util.Calendar;
+
 
 /**
  * An instance of this class represents the communication system between the admin user,
@@ -46,14 +48,36 @@ public class AdminUserOtherActionsController {
      *
      */
     public void addNewAdmin(String username) {
-            am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
+        am.addActionToAllActionsList(userId, "adminUser", "4.1", 0, username);
         }
 
+
+    /**
+     * Check if the year,month and day are valid
+     *
+     * @param year Year
+     * @param month Month
+     * @param day Day
+     *
+     * @return true if the date are vlid
+     */
     public boolean checkSystemTime(int year, int month, int day) {
         return this.regularUserDateTimeChecker.isValidDay(year,month, day);
     }
 
+
+    /**
+     * Set the System time
+     * @param year Year
+     * @param month Month
+     * @param day Day
+     *
+     */
     public void setSystemTime(int year, int month, int day){
+        Calendar current = this.mm.getSystemDate();
+        String time = current.get(Calendar.YEAR) + "." + current.get(Calendar.MONTH) + "." +
+                current.get(Calendar.DAY_OF_MONTH) + ";" + year + "." + month + "." + day;
+        this.am.addActionToAllActionsList(userId, "adminUser", "4.2", 0, time);
         this.mm.setSystemTime(year, month, day);
     }
 }
