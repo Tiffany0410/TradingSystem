@@ -9,8 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * An instance of this class represents the communication system between the regular user,
- * the use cases, and the presenter, for the meeting menu part.
+ * An instance of this class represents the communication system between the regular user
+ * and the use cases, for the meeting menu part.
  *
  * @author Yu Xin Yan, Jianhong Guo
  * @version IntelliJ IDEA 2020.1
@@ -39,7 +39,7 @@ public class RegularUserMeetingMenuController {
 
 
     /**
-     * @return the list of meetings that unconfirmed it took place.
+     * @return The list of meetings that unconfirmed it took place.
      */
     public List<Meeting> getUnconfirmedMeeting(){
 //        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
@@ -47,7 +47,7 @@ public class RegularUserMeetingMenuController {
     }
 
     /**
-     * @return the list of meetings that are completed.
+     * @return The list of meetings that are completed.
      */
     public List<Meeting> getCompletedMeetings(){
         am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
@@ -56,7 +56,7 @@ public class RegularUserMeetingMenuController {
 
     /** check if the list of meeting is empty.
      * @param meetings the meeting of a trade
-     * @return true if the list of meeting is empty
+     * @return True if the list of meeting is empty.
      */
     public boolean isEmpty(List<Meeting> meetings){
         return meetings.isEmpty();
@@ -65,7 +65,7 @@ public class RegularUserMeetingMenuController {
     /** check if a meeting is in a meeting manager or not
      * @param tradeId the trade id
      * @param numMeeting the meeting number
-     * @return true if the meeting is in the meeting manager
+     * @return True if the meeting is in the meeting manager.
      */
     public boolean checkValidMeeting(int tradeId, int numMeeting){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
@@ -76,7 +76,7 @@ public class RegularUserMeetingMenuController {
      * @param tradeId the trade id
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits the max number for each user to edit time and place
-     * @return true if the the meeting is successfully confirmed took place
+     * @return True if the the meeting is successfully confirmed took place.
      */
     public boolean confirmMeetingTookPlace(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits)  {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
@@ -90,7 +90,7 @@ public class RegularUserMeetingMenuController {
 
 
     /**
-     * @return a list of meeting that the time and place is not confirmed
+     * @return A list of meeting that the time and place is not confirmed.
      */
     public List<Meeting> getUnConfirmTimePlace(){
 //        am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
@@ -102,7 +102,7 @@ public class RegularUserMeetingMenuController {
      * @param tradeId the trade id
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
-     * @return true if the confirmation successful
+     * @return True if the confirmation successful.
      */
     public boolean confirmMeetingTandP(int tradeId, int numMeeting, int maxMeetingTimePlaceEdits) {
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
@@ -122,7 +122,7 @@ public class RegularUserMeetingMenuController {
      * @param time a list of integers represents the time
      * @param place the place
      * @param maxMeetingTimePlaceEdits The maximum number of time and place edits allowed.
-     * @return true if the meeting time and place is edited successfully
+     * @return True if the meeting time and place is edited successfully.
      */
     public boolean editMeetingTandP(int tradeId, int numMeeting,  List<Integer> time, String place,int
             maxMeetingTimePlaceEdits){
@@ -146,22 +146,11 @@ public class RegularUserMeetingMenuController {
      * @param tradeId the trade id
      * @param numMeeting the meeting number
      * @param maxMeetingTimePlaceEdits the max number of times a user can edit the time and place
-     * @return a string to describe the edit is over time or not
+     * @return A string to describe the edit is over time or not.
      */
     public String checkOverEdit(int tradeId, int numMeeting,int maxMeetingTimePlaceEdits){
         Meeting meeting = mm.getMeetingByIdNum(tradeId, numMeeting);
         return mm.getEditOverThreshold(tm,meeting, maxMeetingTimePlaceEdits);
-    }
-
-    /**
-     * Gets the meeting based on some information given.
-     * @param tradeId The trade id.
-     * @param numMeeting The meeting number.
-     * @return The meeting that corresponds to the trade id and
-     * the meeting number.
-     */
-    public Meeting getMeeting(int tradeId, int numMeeting){
-        return mm.getMeetingByIdNum(tradeId, numMeeting);
     }
 }
 
