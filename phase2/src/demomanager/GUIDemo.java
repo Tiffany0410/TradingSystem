@@ -126,7 +126,7 @@ public class GUIDemo {
         this.systemMessage = new SystemMessage();
         this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
-        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker(this.userManager);
+        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker();
 
         // Create new FilesReaderWriter
         this.frw = new FilesReaderWriter();
@@ -271,18 +271,17 @@ public class GUIDemo {
         this.regularUserMeetingMenuController = new RegularUserMeetingMenuController(this.tradeManager,
                 this.meetingManager, this.actionManager, this.userManager.usernameToID(this.getTempUsername()));
 
-        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker(this.userManager);
+        this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker();
 
         this.regularUserSearchingMenuController = new RegularUserSearchingMenuController(this.tradeManager,
                 this.meetingManager, this.actionManager, this.userManager, this.itemManager, this.feedbackManager, this.getTempUsername());
 
         this.regularUserThresholdController = new RegularUserThresholdController(
-                this.tradeManager, this.meetingManager, this.userManager, this.getTempUsername());
+                this.meetingManager, this.userManager, this.getTempUsername());
 
         this.regularUserTradingMenuController = new RegularUserTradingMenuController(this.tradeManager,
                 this.meetingManager, this.userManager, this.itemManager, this.actionManager, this.getTempUsername(),
-                this.systemMessage, this.regularUserThresholdController, this.regularUserOtherInfoChecker,
-                this.regularUserIDChecker);
+                this.systemMessage, this.regularUserThresholdController);
 
         RegularUserMainMenuGUI regularUserMainMenuGUI = new RegularUserMainMenuGUI(this.isGuest, this.systemMessage, this,
                 regularUserAccountMenuController, regularUserThresholdController, this.getTempUsername(), this.userManager,
