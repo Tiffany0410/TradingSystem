@@ -549,7 +549,7 @@ public class SystemMessage {
      * @return A string representation for the rating and reviews
      */
     public String msgForRatingReview(double rating, ArrayList<Review> reviews){
-        return "Your rating is: " + rating + ".\n" + "Here are reviews for you: \n" + printListObject(new ArrayList<>(reviews));
+        return "Your rating is: " + rating + ".\n\n" + "Here are reviews for you: \n" + printListObject(new ArrayList<>(reviews));
     }
 
     /**
