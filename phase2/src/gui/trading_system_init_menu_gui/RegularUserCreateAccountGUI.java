@@ -36,7 +36,7 @@ public class RegularUserCreateAccountGUI {
                     if (infoChecker.checkEmail(email)) {
                         boolean result = accountCreator.createAccount("Regular", username, password, email, city);
                         if (result) {
-                            guiDemo.printNotification("Create Account " + systemMessage.printResult(true));
+                            guiDemo.printNotification("Create Account " + systemMessage.msgForResult(true));
                             guiDemo.closeWindow(rootPanel);
                             guiDemo.runTradingSystemInitMenuGUI();
                             guiDemo.runSave();
