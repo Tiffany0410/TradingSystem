@@ -58,6 +58,12 @@ public class RegularUserIDChecker {
 
     }
 
+    /**
+     * Checks if the item id is valid.
+     * @param items The list of items the id needs to be in.
+     * @param id The id of the item.
+     * @return Whether the item id is valid.
+     */
     public boolean checkItemID(ArrayList<Item> items, int id){
         ArrayList<Integer> ids = im.getItemsIDs(items);
         return ids.contains(id);

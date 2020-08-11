@@ -50,28 +50,37 @@ public class AdminUserSetTimeWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    int year = Integer.parseInt((String) yearBox.getSelectedItem());
-                    int month = Integer.parseInt((String) monthBox.getSelectedItem());
-                    int day = Integer.parseInt((String) dayBox.getSelectedItem());
-
-                    boolean result = adminUserOtherActionsController.checkSystemTime(year, month, day);
-
-                    if(result){
-                        adminUserOtherActionsController.setSystemTime(year, month, day);
-                        guiDemo.printNotification("System time set succeed");
-                        }
-                    else{
-                        guiDemo.printNotification("Please select a valid date");
-                        }
-
-                }catch (NumberFormatException ex){
-                    guiDemo.printNotification("Please select year, month and day");
-                }
-                guiDemo.closeWindow(rootPanel);
-                guiDemo.runAdminUserOtherSubMenu();
+                setSystemTimeExecute(adminUserOtherActionsController, guiDemo);
             }
         });
+    }
+
+    /**
+     * This method execute operation
+     * @param guiDemo GUIDemo
+     * @param adminUserOtherActionsController admin user other actions controller
+     */
+    private void setSystemTimeExecute(AdminUserOtherActionsController adminUserOtherActionsController, GUIDemo guiDemo) {
+        try{
+            int year = Integer.parseInt((String) yearBox.getSelectedItem());
+            int month = Integer.parseInt((String) monthBox.getSelectedItem());
+            int day = Integer.parseInt((String) dayBox.getSelectedItem());
+
+            boolean result = adminUserOtherActionsController.checkSystemTime(year, month, day);
+
+            if(result){
+                adminUserOtherActionsController.setSystemTime(year, month, day);
+                guiDemo.printNotification("System time set succeed");
+                }
+            else{
+                guiDemo.printNotification("Please select a valid date");
+                }
+
+        }catch (NumberFormatException ex){
+            guiDemo.printNotification("Please select year, month and day");
+        }
+        guiDemo.closeWindow(rootPanel);
+        guiDemo.runAdminUserOtherSubMenu();
     }
 
     /**

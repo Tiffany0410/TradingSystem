@@ -52,68 +52,7 @@ public class AdminUserHistoricalActionsWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (option == 3){
-                    String username = textField.getText();
-                    int userID = adminUserHistoricalActionController.getUserID(username);
-                    ArrayList<Action> allAction;
-
-                    if (adminUserHistoricalActionController.checkUser(username)) {
-                        allAction = adminUserHistoricalActionController.searchRevocableActionByUserID(userID);
-                        printObjects(allAction, systemMessage , guiDemo);
-                        guiDemo.runSave();
-                    }
-                    else {
-                        guiDemo.printNotification("Please enter correct username");
-                    }
-
-                }
-
-                if (option == 4){
-
-                    try {
-                        String userInput = textField.getText();
-                        int actionID = Integer.parseInt(userInput);
-
-                        boolean flag = false;
-                        Action targetAction = adminUserHistoricalActionController.findActionByID(actionID);
-
-                        // check if the action id in current revocable list
-                        if (adminUserHistoricalActionController.checkRevocable(targetAction)) {
-                            if (adminUserHistoricalActionController.cancelRevocableAction(targetAction)) {
-                                guiDemo.printNotification("Successfully delete target action");
-                                guiDemo.runSave();
-                            }
-                        } else {
-                            guiDemo.printNotification("Please enter correct actionID");
-                        }
-
-                    } catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
-
-                if (option == 5){
-                    //get the actionID enter by admin
-                    try {
-                        int actionID = Integer.parseInt(textField.getText());
-
-
-                        boolean flag = false;
-                        if (adminUserHistoricalActionController.checkUndoRequest(actionID)) {
-                            flag = adminUserHistoricalActionController.confirmRequestAndCancelAction(actionID);
-                        } else {
-                            guiDemo.printNotification("Please enter correct actionID");
-                        }
-
-                        if (flag) {
-                            guiDemo.runSave();
-                            guiDemo.printNotification("Successfully delete target action");
-                        }
-
-                    } catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
+                historicalActionExcute(option, adminUserHistoricalActionController, systemMessage, guiDemo);
 
                 guiDemo.closeWindow(rootPanel);
             }
@@ -129,6 +68,78 @@ public class AdminUserHistoricalActionsWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    /**
+     * This is a private method to execute the operation
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param adminUserHistoricalActionController admin user historical action controller
+     * @param systemMessage system message
+     */
+    private void historicalActionExcute(int option, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage, GUIDemo guiDemo) {
+        if (option == 3){
+            String username = textField.getText();
+            int userID = adminUserHistoricalActionController.getUserID(username);
+            ArrayList<Action> allAction;
+
+            if (adminUserHistoricalActionController.checkUser(username)) {
+                allAction = adminUserHistoricalActionController.searchRevocableActionByUserID(userID);
+                printObjects(allAction, systemMessage, guiDemo);
+                guiDemo.runSave();
+            }
+            else {
+                guiDemo.printNotification("Please enter correct username");
+            }
+
+        }
+
+        if (option == 4){
+
+            try {
+                String userInput = textField.getText();
+                int actionID = Integer.parseInt(userInput);
+
+                boolean flag = false;
+                Action targetAction = adminUserHistoricalActionController.findActionByID(actionID);
+
+                // check if the action id in current revocable list
+                if (adminUserHistoricalActionController.checkRevocable(targetAction)) {
+                    if (adminUserHistoricalActionController.cancelRevocableAction(targetAction)) {
+                        guiDemo.printNotification("Successfully delete target action");
+                        guiDemo.runSave();
+                    }
+                } else {
+                    guiDemo.printNotification("Please enter correct actionID");
+                }
+
+            } catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
+
+        if (option == 5){
+            //get the actionID enter by admin
+            try {
+                int actionID = Integer.parseInt(textField.getText());
+
+
+                boolean flag = false;
+                if (adminUserHistoricalActionController.checkUndoRequest(actionID)) {
+                    flag = adminUserHistoricalActionController.confirmRequestAndCancelAction(actionID);
+                } else {
+                    guiDemo.printNotification("Please enter correct actionID");
+                }
+
+                if (flag) {
+                    guiDemo.runSave();
+                    guiDemo.printNotification("Successfully delete target action");
+                }
+
+            } catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
     }
 
     /**

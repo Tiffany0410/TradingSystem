@@ -9,12 +9,26 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to confirm a meeting's time and place.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class ConfirmTradeCompleteWindow {
     private JTextField tradeId;
     private JButton checkButton;
     private JButton cancelButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructs a ConfirmTradeCompleteWindow.
+     * @param idC The id checker.
+     * @param atc The RegularUserTradingMenuController.
+     * @param guiD The GUI helper.
+     * @param sm The system message.
+     */
     public ConfirmTradeCompleteWindow(RegularUserIDChecker idC, RegularUserTradingMenuController atc,
                                       GUIDemo guiD, SystemMessage sm) {
         checkButton.addActionListener(new ActionListener() {
@@ -25,21 +39,7 @@ public class ConfirmTradeCompleteWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean result;
-                String input = tradeId.getText();
-                if (idC.checkInt(input)) {
-                    int tradeId1 = Integer.parseInt(input);
-                    if (idC.checkTradeID(tradeId1)) {
-                        result = atc.confirmTradeComplete(tradeId1);
-                        guiD.printNotification(sm.msgFortradeCompletedOrNot(result));
-                    } else {
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                } else {
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
-                guiD.runSave();
-                guiD.closeWindow(rootPanel);
+                checkTradeComplete(idC, atc, guiD, sm);
 
             }
 
@@ -57,6 +57,31 @@ public class ConfirmTradeCompleteWindow {
         });
     }
 
+    private void checkTradeComplete(RegularUserIDChecker idC, RegularUserTradingMenuController atc, GUIDemo guiD, SystemMessage sm) {
+        boolean result;
+        String input = tradeId.getText();
+        if (idC.checkInt(input)) {
+            int tradeId1 = Integer.parseInt(input);
+            if (idC.checkTradeID(tradeId1)) {
+                result = atc.confirmTradeComplete(tradeId1);
+                guiD.printNotification(sm.msgFortradeCompletedOrNot(result));
+            } else {
+                guiD.printNotification(sm.tryAgainMsgForWrongInput());
+            }
+        } else {
+            guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+        }
+        guiD.runSave();
+        guiD.closeWindow(rootPanel);
+    }
+
+    /**
+     * Responsible for getting this window running.
+     * @param idC The id checker.
+     * @param atc The RegularUserTradingMenuController.
+     * @param guiD The GUI helper.
+     * @param sm The system message.
+     */
     public void run(RegularUserIDChecker idC, RegularUserTradingMenuController atc,
                     GUIDemo guiD, SystemMessage sm) {
         JFrame frame = new JFrame("ConfirmTradeCompleteWindow");

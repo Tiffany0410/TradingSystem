@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to request unfreeze.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RequestToUnfreezeWindow {
     private JTextArea textArea;
     private JButton cancelButton;
@@ -17,8 +23,7 @@ public class RequestToUnfreezeWindow {
 
 
     /**
-     * Responsible for the view and getting input for user
-     * when user wants to request unfreeze.
+     * Constructs a RequestToUnfreezeWindow.
      * @param guiD The GUI helper.
      * @param sm The presenter.
      * @param atc The RegularUserAccountMenuController.

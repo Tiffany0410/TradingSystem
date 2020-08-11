@@ -1,6 +1,5 @@
 package controllers.regularusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
 import managers.usermanager.UserManager;
@@ -69,7 +68,6 @@ public class RegularUserThresholdController {
     protected boolean isFirstDayOfTheWeek(){
         // changed to the mock system date
         Calendar c = mm.getSystemDate();
-        int b = c.get(Calendar.DAY_OF_WEEK);
         return c.get(Calendar.DAY_OF_WEEK) == 2;
     }
 
@@ -107,9 +105,7 @@ public class RegularUserThresholdController {
         get the number of uncompleted transactions
          */
         for (Meeting meeting : overTimeMeetings){
-//          TODO: need a mm method to check if a meeting's trade id is 0 or not
-//          TODO: replace getTradeId()
-            int tradeID = meeting.getTradeId();
+            int tradeID = mm.meetingToTradeId(meeting);
             if (!uniqueTradeIDs.contains(tradeID)){
                 uniqueTradeIDs.add(tradeID);
             }

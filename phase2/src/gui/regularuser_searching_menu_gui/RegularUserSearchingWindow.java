@@ -45,37 +45,7 @@ public class RegularUserSearchingWindow {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (option == 2){
-                    ArrayList<Item> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
-
-                    if (c.size() == 0) {
-                        guiDemo.printNotification(systemMessage.msgForNothing());
-                    } else {
-                        guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(c)));
-                    }
-
-                }
-
-
-                if (option == 3) {
-                    try {
-                        String input = textField.getText();
-                        int id = Integer.parseInt(textField.getText());
-                        if (idC.checkItemID(id)){
-                            Item item = regularUserSearchingMenuController.getItemObjectById(id);
-                            ArrayList<Item> items = new ArrayList<>();
-                            items.add(item);
-                            guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
-                            guiDemo.runSave();
-                        }
-                        else{
-                            guiDemo.printNotification("This item id is invalid :(");
-                        }
-                    }
-                    catch (NumberFormatException ex) {
-                        guiDemo.printNotification("Please enter number!");
-                    }
-                }
+                searchingExecute(option, regularUserSearchingMenuController, guiDemo, systemMessage, idC);
                 guiDemo.closeWindow(rootPanel);
             }
         });
@@ -90,6 +60,47 @@ public class RegularUserSearchingWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    /**
+     * This method execute related operations
+     * @param option actions option
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param idC RegularUserIDChecker
+     */
+    private void searchingExecute(int option, RegularUserSearchingMenuController regularUserSearchingMenuController, GUIDemo guiDemo, SystemMessage systemMessage, RegularUserIDChecker idC) {
+        if (option == 2){
+            ArrayList<Item> c = regularUserSearchingMenuController.searchItemByName(textField.getText());
+
+            if (c.size() == 0) {
+                guiDemo.printNotification(systemMessage.msgForNothing());
+            } else {
+                guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(c)));
+            }
+
+        }
+
+
+        if (option == 3) {
+            try {
+                int id = Integer.parseInt(textField.getText());
+                if (idC.checkItemID(id)){
+                    Item item = regularUserSearchingMenuController.getItemObjectById(id);
+                    ArrayList<Item> items = new ArrayList<>();
+                    items.add(item);
+                    guiDemo.printNotification(systemMessage.printListObject(new ArrayList<>(items)));
+                    guiDemo.runSave();
+                }
+                else{
+                    guiDemo.printNotification("This item id is invalid :(");
+                }
+            }
+            catch (NumberFormatException ex) {
+                guiDemo.printNotification("Please enter number!");
+            }
+        }
     }
 
     /**

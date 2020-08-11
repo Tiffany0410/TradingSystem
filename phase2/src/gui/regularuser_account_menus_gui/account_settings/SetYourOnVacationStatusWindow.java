@@ -8,6 +8,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to set his/her vacation status.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class SetYourOnVacationStatusWindow {
     private JComboBox comboBox1;
     private JButton cancelButton;
@@ -15,8 +21,7 @@ public class SetYourOnVacationStatusWindow {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user wants to set his/her vacation status.
+     * Constructs a SetYourOnVacationStatusWindow.
      * @param atc The RegularUserAccountMenuController.
      * @param sm The presenter.
      * @param guiD The GUI helper.

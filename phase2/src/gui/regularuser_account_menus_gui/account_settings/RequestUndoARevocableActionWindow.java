@@ -10,6 +10,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to undo any revocable actions.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RequestUndoARevocableActionWindow {
     private JTextField textField1;
     private JButton cancelButton;
@@ -17,8 +23,7 @@ public class RequestUndoARevocableActionWindow {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user wants to undo any revocable actions.
+     * Constructs a RequestUndoARevocableActionWindow.
      * @param guiD The GUI helper.
      * @param idc The id checker.
      * @param auIDC The other info checker.
