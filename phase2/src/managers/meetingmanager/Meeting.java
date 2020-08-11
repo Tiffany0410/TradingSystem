@@ -142,10 +142,12 @@ public class Meeting implements java.io.Serializable{
     public String toString(){
         if (meetingConfirm.get(userId1) && meetingConfirm.get(userId2)){
             return "Trade id: " + tradeId + ", Meeting number: " + meetingNum + ", User1: " + userId1 +", " +
-                    "User2: " + userId2 + ", Place: " + place +", Time: "+ time + ".\n"+"The meeting is complete.";
+                    "User2: " + userId2 + ", Place: " + place +", Time: "+ time + ". List of users " +
+                    "edited the time and place: " + timePlaceEdit + ".\n"+"The meeting is complete.";
         }else{
             return "Trade id: " + tradeId + ", Meeting number: " + meetingNum + ", User1: " + userId1 +
-                    ", User2: " + userId2 + ", Place: " + place +", Time: "+ time + ".\n"+"The confirm status for the " +
+                    ", User2: " + userId2 + ", Place: " + place +", Time: "+ time + ". List of users " +
+                    "edited the time and place: " + timePlaceEdit + ".\n"+"The confirm status for the " +
                     "place and time is: " + timePlaceConfirm + ", " + "and the meeting is not complete.";
         }
     }

@@ -270,7 +270,7 @@ public class SystemMessage {
 
 
     public String lockMessageForTPLimit() {
-        return "You can't edit any more because the time and place edits limit is reached.";}
+        return "You can't edit any more because the time and place edits limit is reached. This trade has been cancelled.";}
 
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
