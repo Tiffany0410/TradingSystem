@@ -24,8 +24,8 @@ public class RegularUserIDChecker {
     private ItemManager im;
 
     /**
-     * Constructs a RegularUserIDGetter with a DisplaySystem, a TradeManager,
-     * a MeetingManager, a UserManager, and an ItemManager.
+     * Constructs a RegularUserIDGetter with a TradeManager,
+     * a UserManager, and an ItemManager.
      *
      * @param tm       The current state of the TradeManager.
      * @param um       The current state of the UserManager.
@@ -37,7 +37,6 @@ public class RegularUserIDChecker {
         this.um = um;
         this.im = im;
     }
-
 
     /**
      * Checks if user's input of the item id is valid.
