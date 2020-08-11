@@ -1,7 +1,7 @@
 package managers.messagemanger;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 /**
  * An instance of this class represents a message  in this system.
  *
