@@ -195,7 +195,7 @@ public class GUIDemo {
      */
     public void runAdminUserManageUsersSubMenu() {
 
-        RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+        RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager,
                 this.userManager, this.itemManager);
 
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
@@ -265,7 +265,7 @@ public class GUIDemo {
         this.regularUserCommunityMenuController = new RegularUserCommunityMenuController(this.userManager,
                 this.actionManager, this.feedbackManager, this.messageManager, this.getTempUsername());
 
-        this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+        this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager,
                 this.userManager, this.itemManager);
 
         this.regularUserMeetingMenuController = new RegularUserMeetingMenuController(this.tradeManager,
