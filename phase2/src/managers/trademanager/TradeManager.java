@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 /**
  * A TradeManager
- * @author Yuanze Bao
+ * @author Yuanze Bao .
  * @version IntelliJ IDEA 2020.1
  */
 public class TradeManager implements Serializable {
