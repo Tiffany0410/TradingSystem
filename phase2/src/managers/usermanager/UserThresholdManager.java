@@ -1,7 +1,8 @@
 package managers.usermanager;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserThresholdManager {
+public class UserThresholdManager implements Serializable {
     ArrayList<String[]> listUnfreezeRequest;
 
     public UserThresholdManager(){
