@@ -174,7 +174,7 @@ public class GUIDemo {
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
-                this.actionManager, this.systemMessage,this.getTempUsername());
+                this.actionManager,this.getTempUsername());
 
         this.adminUserEditThresholdsController = new AdminUserEditThresholdsController(
                 this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);

@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class AdminUserEditThresholdsController {
 
-    private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
     private ActionManager am;
     private Integer userId;
