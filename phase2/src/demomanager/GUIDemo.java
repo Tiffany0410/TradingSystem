@@ -124,7 +124,7 @@ public class GUIDemo {
 
         // create new object
         this.systemMessage = new SystemMessage();
-        this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
+        this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
         this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker();
 

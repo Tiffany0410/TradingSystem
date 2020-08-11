@@ -13,16 +13,13 @@ import managers.usermanager.UserManager;
 public class AdminUserOtherInfoChecker {
 
     private ActionManager am;
-    private UserManager um;
 
     /**
      * Constructs the AdminUserOtherInfoGetter with a DisplaySystem
      * @param am The current ActionManager which used to record all action
-     * @param um The current UserManager which used to record all AdminUser and RegularUser
      */
-    public AdminUserOtherInfoChecker(ActionManager am, UserManager um){
+    public AdminUserOtherInfoChecker(ActionManager am){
         this.am = am;
-        this.um = um;
 
     }
 
