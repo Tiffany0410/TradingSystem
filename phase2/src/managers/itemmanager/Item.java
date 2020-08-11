@@ -47,7 +47,7 @@ public class Item implements Serializable{
      *
      * @param tradable the flag indicates whether the item is tradable
      */
-    protected void setTradable(boolean tradable) {
+    public void setTradable(boolean tradable) {
         support.firePropertyChange("Tradable Status of the item with item id " + itemId, this.tradable, tradable);
         this.tradable = tradable;
     }
