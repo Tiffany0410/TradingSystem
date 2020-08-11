@@ -11,6 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to edit user historical actions
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserHistoricalActionsWindow {
     private JPanel rootPanel;
     private JTextField textField;
@@ -20,6 +26,15 @@ public class AdminUserHistoricalActionsWindow {
     private JScrollPane scrollPane;
     private JTextPane textPane1;
 
+    /**
+     * Constructor of admin user historical action window
+     * @param inputName name of info want user input
+     * @param info related message of this operation
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param adminUserHistoricalActionController admin user historical action controller
+     * @param systemMessage system message
+     */
     public AdminUserHistoricalActionsWindow(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JLabel.setText(inputName);
         textPane1.setText(info);
@@ -31,9 +46,9 @@ public class AdminUserHistoricalActionsWindow {
 
         confirmButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click confirm button and run related method in controller
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,19 +120,26 @@ public class AdminUserHistoricalActionsWindow {
         });
         cancelButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click cancel button and return to menu
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                //guiDemo.runAdminUserHistoricalActionsSubMenu();
-
             }
         });
     }
 
+    /**
+     * Run this window
+     * @param inputName name of info want user input
+     * @param info related message of this operation
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param adminUserHistoricalActionController admin user historical action controller
+     * @param systemMessage system message
+     */
     public void run(String inputName, String info, int option, GUIDemo guiDemo, AdminUserHistoricalActionController adminUserHistoricalActionController, SystemMessage systemMessage) {
         JFrame frame = new JFrame("AdminUserHistoricalActionsWindow");
         frame.setContentPane(new AdminUserHistoricalActionsWindow(inputName, info, option, guiDemo, adminUserHistoricalActionController, systemMessage).rootPanel);
@@ -128,6 +150,12 @@ public class AdminUserHistoricalActionsWindow {
         frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * A helper method to print related message
+     * @param actions users' actions
+     * @param sm system message
+     * @param guiDemo GUIDemo
+     */
     private void printObjects(ArrayList<Action> actions, SystemMessage sm, GUIDemo guiDemo){
         if (actions.isEmpty()){
             guiDemo.printNotification(sm.msgForNothing("here"));

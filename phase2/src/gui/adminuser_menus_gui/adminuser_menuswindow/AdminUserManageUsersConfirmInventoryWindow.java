@@ -12,6 +12,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+/**
+ * Used to edit user historical actions
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class AdminUserManageUsersConfirmInventoryWindow {
     private JTextPane textPane1;
@@ -23,7 +28,16 @@ public class AdminUserManageUsersConfirmInventoryWindow {
     private JPanel rootPanel;
     private JScrollPane scrollPane;
 
-
+    /**
+     * Constructor of admin user manage users confirm inventory window
+     * @param string info of related operation
+     * @param itemsToAdd list of items want to add
+     * @param muc admin user manager users controller
+     * @param guiDemo GUIDemo
+     * @param sm system message
+     * @param idc regular user id checker
+     * @param oic admin user other info checker
+     */
     public AdminUserManageUsersConfirmInventoryWindow(String string, ArrayList<Item> itemsToAdd, AdminUserManagerUsersController muc,
                                                       GUIDemo guiDemo, SystemMessage sm, RegularUserIDChecker idc,
                                                       AdminUserOtherInfoChecker oic){
@@ -38,6 +52,10 @@ public class AdminUserManageUsersConfirmInventoryWindow {
         scrollPane.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click confirm button and do related operation
+             * @param e click confirm button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
@@ -47,10 +65,12 @@ public class AdminUserManageUsersConfirmInventoryWindow {
                         if (approvedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, true);
                             guiDemo.printNotification(sm.msgForResult(true));
+                            guiDemo.closeWindow(rootPanel);
                         }
                         else if (notApprovedRadioButton.isSelected()){
                             muc.addItemOrNot(itemToAddNum, false);
                             guiDemo.printNotification(sm.msgForResult(true));
+                            guiDemo.closeWindow(rootPanel);
                         }
                         else{
                             guiDemo.printNotification("Please select approve or not.");
@@ -63,11 +83,14 @@ public class AdminUserManageUsersConfirmInventoryWindow {
                 else{
                     guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
                 }
-                guiDemo.closeWindow(rootPanel);
             }
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click cancel button and return to menu
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
@@ -75,6 +98,16 @@ public class AdminUserManageUsersConfirmInventoryWindow {
         });
     }
 
+    /**
+     * Run admin user manage users confirm inventory window
+     * @param string info of related operation
+     * @param itemsToAdd list of items want to add
+     * @param muc admin user manager users controller
+     * @param guiDemo GUIDemo
+     * @param sm system message
+     * @param idc regular user id checker
+     * @param oic admin user other info checker
+     */
     public void run(String string, ArrayList<Item> itemsToAdd, AdminUserManagerUsersController muc,
                     GUIDemo guiDemo, SystemMessage sm, RegularUserIDChecker idc,
                     AdminUserOtherInfoChecker oic){

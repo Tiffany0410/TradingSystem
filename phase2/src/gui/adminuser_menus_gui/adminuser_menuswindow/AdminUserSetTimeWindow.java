@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * Used to set system time
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class AdminUserSetTimeWindow {
     private JPanel rootPanel;
@@ -19,12 +24,17 @@ public class AdminUserSetTimeWindow {
     private JButton cancelButton;
     private JButton confirmButton;
 
+    /**
+     * Constructor of admin user set time window
+     * @param guiDemo GUIDemo
+     * @param adminUserOtherActionsController admin user other actions controller
+     */
     public AdminUserSetTimeWindow(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         cancelButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click cancel button and return to menu
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,9 +44,9 @@ public class AdminUserSetTimeWindow {
         });
         confirmButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when an click confirm button and do related methid
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,6 +74,11 @@ public class AdminUserSetTimeWindow {
         });
     }
 
+    /**
+     * Run admin user set time window
+     * @param guiDemo GUIDemo
+     * @param adminUserOtherActionsController admin user other actions controller
+     */
     public void run(GUIDemo guiDemo, AdminUserOtherActionsController adminUserOtherActionsController) {
         JFrame frame = new JFrame("adminUserSetTimeWindow");
         frame.setContentPane(new AdminUserSetTimeWindow(guiDemo, adminUserOtherActionsController).rootPanel);

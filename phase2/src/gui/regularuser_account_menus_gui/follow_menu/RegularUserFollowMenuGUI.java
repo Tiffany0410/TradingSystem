@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user browses the follow menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserFollowMenuGUI {
     private JButton followAnUserButton;
     private JButton followAnItemButton;
@@ -19,6 +25,13 @@ public class RegularUserFollowMenuGUI {
     private JButton backButton;
     private JPanel rootPanel;
 
+    /**
+     * Construct a RegularUserFollowMenuGUI.
+     * @param guiD The GUI helper.
+     * @param amc The RegularUserAccountMenuController
+     * @param idChecker The id checker.
+     * @param sm The presenter.
+     */
     public RegularUserFollowMenuGUI(GUIDemo guiD, RegularUserAccountMenuController amc,
                                     RegularUserIDChecker idChecker, SystemMessage sm) {
         followAnUserButton.addActionListener(new ActionListener() {
@@ -29,9 +42,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                FollowAnUserWindow followAnUserWindow = new FollowAnUserWindow(guiD, idChecker, sm, amc);
-                followAnUserWindow.run(guiD, idChecker, sm, amc);
-                guiD.runSave();
+                followAnUser(guiD, idChecker, sm, amc);
             }
         });
         followAnItemButton.addActionListener(new ActionListener() {
@@ -42,9 +53,7 @@ public class RegularUserFollowMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                FollowAnItemWindow followAnItemWindow = new FollowAnItemWindow(guiD, idChecker, sm, amc);
-                followAnItemWindow.run(guiD, idChecker, sm, amc);
-                guiD.runSave();
+                followAnItem(guiD, idChecker, sm, amc);
             }
         });
         seeRecentStatusOfUsersButton.addActionListener(new ActionListener() {
@@ -84,6 +93,18 @@ public class RegularUserFollowMenuGUI {
         });
     }
 
+    private void followAnItem(GUIDemo guiD, RegularUserIDChecker idChecker, SystemMessage sm, RegularUserAccountMenuController amc) {
+        FollowAnItemWindow followAnItemWindow = new FollowAnItemWindow(guiD, idChecker, sm, amc);
+        followAnItemWindow.run(guiD, idChecker, sm, amc);
+        guiD.runSave();
+    }
+
+    private void followAnUser(GUIDemo guiD, RegularUserIDChecker idChecker, SystemMessage sm, RegularUserAccountMenuController amc) {
+        FollowAnUserWindow followAnUserWindow = new FollowAnUserWindow(guiD, idChecker, sm, amc);
+        followAnUserWindow.run(guiD, idChecker, sm, amc);
+        guiD.runSave();
+    }
+
     private void viewUpdates (SystemMessage sm, List<String> updates, String type, GUIDemo guiDemo) {
         if (updates.size() != 0) {
             String str = sm.printListObject(new ArrayList<>(updates));
@@ -95,6 +116,13 @@ public class RegularUserFollowMenuGUI {
     }
 
 
+    /**
+     * Responsible for running this window.
+     * @param guiD The GUI helper.
+     * @param atc The RegularUserAccountMenuController
+     * @param idChecker The id checker.
+     * @param sm The presenter.
+     */
     public void run(GUIDemo guiD, RegularUserAccountMenuController atc,
                     RegularUserIDChecker idChecker, SystemMessage sm) {
         JFrame frame = new JFrame("regularUserFollowMenuGUI");

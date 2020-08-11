@@ -1,9 +1,7 @@
 package managers.usermanager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+
 
 /**
  * An instance of this class represents an admin user in this system.
@@ -47,7 +45,7 @@ public class User  implements  Serializable {
      *
      * @return user's id.
      */
-    public int getId() {
+    protected int getId() {
         return this.id;
     }
 
@@ -56,7 +54,7 @@ public class User  implements  Serializable {
      *
      * @return this user's password
      */
-    public String getPassword() {
+    protected String getPassword() {
         return password;
     }
 
@@ -65,7 +63,7 @@ public class User  implements  Serializable {
      *
      * @return this user's email
      */
-    public String getEmail(){return this.email;}
+    protected String getEmail(){return this.email;}
 
 
 

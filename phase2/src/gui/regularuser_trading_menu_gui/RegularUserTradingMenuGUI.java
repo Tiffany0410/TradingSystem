@@ -13,6 +13,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to browse the trading menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserTradingMenuGUI {
     private JPanel rootPanel;
     private JButton requestATradeButton;
@@ -25,6 +31,16 @@ public class RegularUserTradingMenuGUI {
     private JButton suggestionForTheMostButton;
     private JButton backButton;
 
+    /**
+     * Constructs a RegularUserTradingMenuGUI.
+     * @param guiD The GUI helper.
+     * @param atc The RegularUserTradingMenuController.
+     * @param sm The presenter.
+     * @param maxNumTransactionAWeek The maximum number of transactions allowed a week.
+     * @param numLentBeforeBorrow The number of items user must lend before the user can borrow.
+     * @param idC The id checker.
+     * @param guest Determines whether guest access is granted.
+     */
     public RegularUserTradingMenuGUI(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
                                      int numLentBeforeBorrow,  RegularUserIDChecker idC, boolean guest){
 
@@ -37,18 +53,10 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    RequestTradeWindow window = new RequestTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow);
-                    guiD.runSave();
-                }
+                requestATrade(atc, sm, maxNumTransactionAWeek, idC, numLentBeforeBorrow, guiD, guest);
+
             }
         });
-
-
 
         respondToTradeRequestsButton.addActionListener(new ActionListener() {
             /**
@@ -58,17 +66,10 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    respondToTradeRequest(atc, sm, maxNumTransactionAWeek, idC, guiD);
-                    guiD.runSave();
-                }
+                respondToTradeRequest(atc, sm, maxNumTransactionAWeek, idC, guiD, guest);
+
             }
         });
-
-
         viewOpenTradesButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -77,14 +78,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    viewTrades(sm, atc.viewOpenTrades(), "open", guiD);
-                    guiD.runSave();
-                }
-
+                viewTrades(sm, atc.viewOpenTrades(), "open", guiD, guest);
             }
         });
         viewClosedTradesButton.addActionListener(new ActionListener() {
@@ -95,17 +89,9 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    viewTrades(sm, atc.viewClosedTrades(), "closed", guiD);
-                    guiD.runSave();
-                }
+                viewTrades(sm, atc.viewClosedTrades(), "closed", guiD, guest);
             }
-
         });
-
         confirmThatATradeButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -114,14 +100,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    confirmATradeIsCompleted(atc, sm, idC, guiD);
-                    guiD.runSave();
-                }
-
+                confirmATradeIsCompleted(atc, sm, idC, guiD, guest);
             }
         });
         seeTopThreeMostButton.addActionListener(new ActionListener() {
@@ -132,13 +111,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    seeTopThreePartners(atc, sm, guiD);
-                    guiD.runSave();
-                }
+                seeTopThreePartners(atc, sm, guiD, guest);
             }
         });
         viewTransactionsThatHaveButton.addActionListener(new ActionListener() {
@@ -149,14 +122,8 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else {
-                    viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD);
-                    guiD.runSave();
-                }
-            }
+                viewTrades(sm, atc.viewCancelledTrades(), "cancelled", guiD, guest);
+           }
         });
         suggestionForTheMostButton.addActionListener(new ActionListener() {
             /**
@@ -166,18 +133,7 @@ public class RegularUserTradingMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (guest){
-                    guiD.printNotification(sm.msgForGuest());
-                }
-                else if (atc.hasTradeSuggestion()){
-                    Item item = atc.mostReasonableTradeSuggestions();
-                    String str = sm.printObject(item);
-                    guiD.printNotification("Trade suggestion for you:\n" + str);
-                }
-                else{
-                    guiD.printNotification(sm.msgForNo(" recommended trade suggestion."));
-                }
-                guiD.runSave();
+                suggestionForTheMostReasonableTrade(guest, guiD, sm, atc);
 
             }
         });
@@ -196,43 +152,72 @@ public class RegularUserTradingMenuGUI {
         });
     }
 
-    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm, GUIDemo guiD) {
-        if (atc.hasTopThree()){
+    private void suggestionForTheMostReasonableTrade(boolean guest, GUIDemo guiD, SystemMessage sm, RegularUserTradingMenuController atc) {
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (atc.hasTradeSuggestion()){
+            Item item = atc.mostReasonableTradeSuggestions();
+            String str = sm.printObject(item);
+            guiD.printNotification("Trade suggestion for you:\n" + str);
+        }
+        else{
+            guiD.printNotification(sm.msgForNoTradeSuggestion());
+        }
+        guiD.runSave();
+    }
+
+    private void seeTopThreePartners(RegularUserTradingMenuController atc, SystemMessage sm, GUIDemo guiD, boolean guest) {
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (atc.hasTopThree()){
             //has top three
             String str = sm.printListObject(new ArrayList<>(atc.seeTopThreePartners()));
             guiD.printNotification("Here's your list of top three partners: \n" + str);
         } else {
             guiD.printNotification(sm.msgForNothing("here."));
         }
+        guiD.runSave();
     }
 
     private void confirmATradeIsCompleted(RegularUserTradingMenuController atc, SystemMessage sm, RegularUserIDChecker idC,
-                                          GUIDemo guiD) {
+                                          GUIDemo guiD, boolean guest) {
         List<Trade> openTrades = atc.viewOpenTrades();
-        boolean result;
-        viewTrades(sm, openTrades, "open", guiD);
-        if (openTrades.size() == 0){
+        viewTrades(sm, openTrades, "open", guiD, guest);
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (openTrades.size() == 0){
             guiD.printNotification(sm.msgForNothing("that you can confirm whether it's completed for now"));
         }
         else{
             ConfirmTradeCompleteWindow confirmTradeCompleteWindow = new ConfirmTradeCompleteWindow(idC, atc, guiD, sm);
             confirmTradeCompleteWindow.run(idC, atc, guiD, sm);
         }
+        guiD.runSave();
     }
 
-    private void viewTrades(SystemMessage sm, List<Trade> trades, String type, GUIDemo guiD) {
-        if (trades.size() != 0) {
+    private void viewTrades(SystemMessage sm, List<Trade> trades, String type, GUIDemo guiD, boolean guest) {
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (trades.size() != 0) {
             String str = sm.printListObject(new ArrayList<>(trades));
             guiD.printNotification("Here's your list of " + type + " trades: \n" + str);
         } else {
             guiD.printNotification(sm.msgForNothing("here."));
         }
+        guiD.runSave();
     }
 
     private void respondToTradeRequest(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, RegularUserIDChecker idC,
-                                       GUIDemo guiD) {
+                                       GUIDemo guiD, boolean guest) {
         List<Trade> tradeRequests;
-        if (atc.lockThresholdOrNot()) {
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (atc.lockThresholdOrNot()) {
             guiD.printNotification(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
@@ -247,21 +232,35 @@ public class RegularUserTradingMenuGUI {
                 guiD.printNotification(sm.msgForNothing("that you need to respond to here"));
             }
         }
+        guiD.runSave();
     }
 
-    private void RequestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, RegularUserIDChecker idC,  int numLentBeforeBorrow, GUIDemo guiD) {
-        if (atc.lockThresholdOrNot()) {
+    private void requestATrade(RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek, RegularUserIDChecker idC,  int numLentBeforeBorrow, GUIDemo guiD, boolean guest) {
+        if (guest){
+            guiD.printNotification(sm.msgForGuest());
+        }
+        else if (atc.lockThresholdOrNot()) {
             guiD.printNotification(sm.lockMessageForThreshold(maxNumTransactionAWeek));
         }
         else{
-            RequestATradeWindow requestATradeWindow = new RequestATradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
-            requestATradeWindow.run(idC,guiD,atc,sm, numLentBeforeBorrow);
-
+            RequestTradeWindow window = new RequestTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow);
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow);
+            guiD.runSave();
         }
     }
 
 
 
+    /**
+     * Responsible for running this window.
+     * @param guiD The GUI helper.
+     * @param atc The RegularUserTradingMenuController.
+     * @param sm The presenter.
+     * @param maxNumTransactionAWeek The maximum number of transactions allowed a week.
+     * @param numLentBeforeBorrow The number of items user must lend before the user can borrow.
+     * @param idC The id checker.
+     * @param guest Determines whether guest access is granted.
+     */
     public void run(GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int maxNumTransactionAWeek,
                     int numLentBeforeBorrow, RegularUserIDChecker idC, boolean guest) {
         JFrame frame = new JFrame("regularUserTradingMenuGUI");

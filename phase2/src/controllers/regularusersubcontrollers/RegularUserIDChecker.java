@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 /**
  * An instance of this class represents the id
- * checker for the SubController classes for regular user.
+ * checker, which performs various id checks.
  *
  * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
@@ -64,14 +64,13 @@ public class RegularUserIDChecker {
     }
 
     /**
-     * Checks if user's input of the string can be converted to an int.
+     * Checks if user's input of the string can be converted to an int. Based
+     * on code by Stephen C from:
+     * @link https://stackoverflow.com/questions/47686381/input-validation-for-gui
      * @param str The input from user.
      * @return If user's input can be converted to an int.
      */
     public boolean checkInt(String str){
-        /* Based on code by Stephen C from:
-         https://stackoverflow.com/questions/47686381/input-validation-for-gui
-         */
         Pattern p = Pattern.compile("-?[0-9]+");
         Matcher m = p.matcher(str);
         return m.matches();

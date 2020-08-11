@@ -3,10 +3,7 @@ package controllers.regularusersubcontrollers;
 import gateway.FilesReaderWriter;
 import managers.meetingmanager.Meeting;
 import managers.meetingmanager.MeetingManager;
-import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
-
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -21,45 +18,35 @@ import java.util.List;
 
 public class RegularUserThresholdController {
 
-    private TradeManager tm;
     private MeetingManager mm;
     private UserManager um;
     private String username;
     private int userId;
-    // whether the max transactions per week threshold is reassessed
-    private boolean thresholdReassessed;
-    private FilesReaderWriter frw;
 
     /**
-     * Constructs a RegularUserThresholdController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, the regular user's username and userId.
+     * Constructs a RegularUserThresholdController with
+     * a MeetingManager, a UserManager, the regular user's username and userId.
      *
-     *  @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param username The username of the regular user.
      */
-    public RegularUserThresholdController(TradeManager tm, MeetingManager mm,
+    public RegularUserThresholdController(MeetingManager mm,
                                           UserManager um, String username) {
-        this.tm = tm;
         this.mm = mm;
         this.um = um;
         this.username = username;
         this.userId = um.usernameToID(this.username);
-        this.thresholdReassessed = false;
-        this.frw = new FilesReaderWriter();
     }
 
     /**
      * Re-assesses user's number of transactions left for the week.
+     * @param maxNumTransactionAllowedAWeek The maximum number of transactions allowed a week.
      */
     public void reassessNumTransactionsLeftForTheWeek(int maxNumTransactionAllowedAWeek) {
-        if (isFirstDayOfTheWeek() && !thresholdReassessed){
+        // set to full if it's the first day of the week
+        if (isFirstDayOfTheWeek()){
             um.setThreshold(userId, "TransactionLeftForTheWeek", maxNumTransactionAllowedAWeek);
-            thresholdReassessed = true;
-        }
-        else if (!isFirstDayOfTheWeek()){
-            thresholdReassessed = false;
         }
     }
 
@@ -68,9 +55,7 @@ public class RegularUserThresholdController {
      * for this user by one.
      */
     protected void changeNumTradesLeftForTheWeek(){
-        /*
-        Based on code by Kashif from https://stackoverflow.com/questions/18600257/how-to-get-the-weekday-of-a-date
-         */
+        //get user's num transactions left for a week
         int currentVal = um.getInfo(userId, "TransactionLeftForTheWeek");
         // deduct the number of transactions left by one
         um.setThreshold(userId, "TransactionLeftForTheWeek", currentVal-1);
@@ -78,12 +63,14 @@ public class RegularUserThresholdController {
 
 
     /**
-     * Finds out if now, or today, is the first day of the week.
-     * @return Whether now is the first day of the week.
+     * Finds out if, today, according to the system date, is the first day of the week.
+     * @return Whether the today, according to the system date, is the first day of the week.
      */
     protected boolean isFirstDayOfTheWeek(){
-        Calendar c = Calendar.getInstance();
-        return c.getFirstDayOfWeek() == c.get(Calendar.DAY_OF_WEEK);
+        // changed to the mock system date
+        Calendar c = mm.getSystemDate();
+        int b = c.get(Calendar.DAY_OF_WEEK);
+        return c.get(Calendar.DAY_OF_WEEK) == 2;
     }
 
     /**
@@ -99,7 +86,7 @@ public class RegularUserThresholdController {
         // if user went over the threshold
         // or if the user's been frozen for three times -- freeze the account every time = permanent freeze
         int threshold =  maxNumTransactionIncomplete + (numFrozen * maxNumTransactionIncomplete);
-        if (numUncompletedTransactions > threshold || numFrozen == 3) {
+        if (numUncompletedTransactions >= threshold || numFrozen == 3) {
             // freeze the user if the limit's passed and the user's been frozen 3 times
             um.freezeUser(username);
             // add one to the number of times the user's frozen
@@ -130,16 +117,5 @@ public class RegularUserThresholdController {
         return uniqueTradeIDs.size();
     }
 
-    public int getMaxNumTPEdits() throws FileNotFoundException {
-        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(3);
-    }
-
-    public int getMaxNumTransactionAWeek() throws FileNotFoundException {
-        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(0);
-    }
-
-    public int getNumLentBeforeBorrow() throws FileNotFoundException {
-        return frw.readThresholdValuesFromCSVFile("./configs/thresholdvaluesfile/ThresholdValues.csv").get(2);
-    }
 
 }

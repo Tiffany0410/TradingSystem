@@ -9,6 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user browses the meeting menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserSuggestMeetingWindow {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -17,6 +23,15 @@ public class RegularUserSuggestMeetingWindow {
     private JTextField meetingNum;
     private JTextField tradeId;
 
+    /**
+     * Constructs a RegularUserSuggestMeetingWindow.
+     * @param str The string representation of the meetings that need to be confirmed that they took place.
+     * @param mmc The RegularUserMeetingMenuController.
+     * @param sm The presenter.
+     * @param maxEditsTP The maximum number of time and place edits.
+     * @param guiD The GUI helper.
+     * @param idc The id checker.
+     */
     public RegularUserSuggestMeetingWindow(String str, RegularUserMeetingMenuController mmc, SystemMessage sm,
                                            int maxEditsTP, GUIDemo guiD, RegularUserIDChecker idc) {
         textArea1.setText(str);
@@ -37,12 +52,6 @@ public class RegularUserSuggestMeetingWindow {
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel(guiD);
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK(RegularUserMeetingMenuController mmc, SystemMessage sm, int maxEditsTP, GUIDemo guiD,
@@ -72,6 +81,15 @@ public class RegularUserSuggestMeetingWindow {
         guiD.closeWindow(contentPane);
     }
 
+    /**
+     * Responsible for running the window.
+     * @param str The string representation of the meetings that need to be confirmed that they took place.
+     * @param mmc The RegularUserMeetingMenuController.
+     * @param sm The presenter.
+     * @param maxEditsTP The maximum number of time and place edits.
+     * @param guiD The GUI helper.
+     * @param idc The id checker.
+     */
     public void run(String str, RegularUserMeetingMenuController mmc, SystemMessage sm,
                     int maxEditsTP, GUIDemo guiD, RegularUserIDChecker idc) {
         JFrame frame = new JFrame("regularUserConfirmMeetingTookPlaceWindowGUI");

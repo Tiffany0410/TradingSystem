@@ -11,6 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+/**
+ * Used to show regular searching submenu
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class RegularUserSearchingItemsSubMenuGUI {
     private JButton filterByCategoryButton;
     private JPanel rootPanel;
@@ -19,13 +26,20 @@ public class RegularUserSearchingItemsSubMenuGUI {
     private JButton sortByNumberOfButton;
     private JButton backButton;
 
+    /**
+     * Constructor of regular user searching item sub menu
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     * @param idC regularUserIDChecker
+     */
     public RegularUserSearchingItemsSubMenuGUI(RegularUserSearchingMenuController regularUserSearchingMenuController,
                                                GUIDemo guiDemo, SystemMessage systemMessage, RegularUserIDChecker idC) {
         filterByCategoryButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related actions
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,9 +50,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
         });
         searchItemByNameButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,24 +62,13 @@ public class RegularUserSearchingItemsSubMenuGUI {
                 RegularUserSearchingWindow regularUserSearchingWindow = new RegularUserSearchingWindow(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController, idC);
                 regularUserSearchingWindow.run(inputName, option, guiDemo, systemMessage,regularUserSearchingMenuController, idC);
 
-                //close this window
-                //guiDemo.closeWindow(rootPanel);
-
-//                UserInputGUI userInputGUI1 = new UserInputGUI(string, guiUserInputInfo);
-//                userInputGUI1.run(string, guiUserInputInfo);
-//
-//                String name = guiUserInputInfo.getTempUserInput();
-//                UserInputGUI userInputGUI2 = new UserInputGUI(name, guiUserInputInfo);
-//                userInputGUI2.run(name, guiUserInputInfo);
-
-
             }
         });
         searchItemByIdButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,9 +80,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
         });
         sortByNumberOfButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,9 +96,9 @@ public class RegularUserSearchingItemsSubMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do related operations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,6 +108,13 @@ public class RegularUserSearchingItemsSubMenuGUI {
         });
     }
 
+    /**
+     * Run regular user searching items sub menu gui
+     * @param regularUserSearchingMenuController regularUserSearchingMenuController
+     * @param guiDemo GUIDemo
+     * @param systemMessage systemMessage
+     * @param idC RegularUserIDChecker
+     */
     public void run(RegularUserSearchingMenuController regularUserSearchingMenuController,
                     GUIDemo guiDemo, SystemMessage systemMessage, RegularUserIDChecker idC) {
         JFrame frame = new JFrame("RegularUserSearchingItemsSubMenu");

@@ -29,7 +29,6 @@ public class SystemMessage {
 
     }
 
-
     /**
      * Prints the message for when there is nothing to be shown.
      */
@@ -47,11 +46,13 @@ public class SystemMessage {
     }
 
     public String invalidNumber(){
-       return "Invalid put in, please type a number.";
+        return "Invalid put in, please type a number.";
     }
 
     public String tryAgainMsgForWrongDatetime(){
-        return "Invalid input: the year must be between 2020 and 2030, inclusive.";
+        return "Invalid input: the year must be between 2020 and 2024, inclusive." +
+                " Also, you cannot set the date to be earlier than today or" +
+                " today.";
     }
 
     /**
@@ -131,7 +132,7 @@ public class SystemMessage {
      * @return messages as properly formatted strings.
      */
     public String regUserAlerts(UserManager um, RegularUserThresholdController tc, String username, String
-                                menuPartOfAlert, ArrayList<Integer> thresholdValues) {
+            menuPartOfAlert, ArrayList<Integer> thresholdValues) {
         StringBuilder notification;
         notification = new StringBuilder();
         notification.append(menuPartOfAlert).append("\n");
@@ -144,9 +145,10 @@ public class SystemMessage {
         if (!um.getFrozenStatus(username)) {
             // this check if for the uncompletedTransactions one
             if (tc.freezeUserOrNot(thresholdValues.get(1))){
-                notification.append("You are frozen because you have exceeded the maximum number of uncompleted transactions limit.").append("\n");
+                notification.append("NOTE: You are frozen because you have reached the maximum number of uncompleted transactions limit.".toUpperCase()).append("\n\n");
             }
         }
+        tc.reassessNumTransactionsLeftForTheWeek(thresholdValues.get(0));
         notification.append("Your username is ").append(username).append(".\n");
         notification.append("Your userId is ").append(userId).append(".\n");
         notification.append("The answer to you're frozen is ").append(um.getFrozenStatus(username)).append(".\n");
@@ -159,16 +161,11 @@ public class SystemMessage {
         notification.append("Max number of transactions that can be incomplete before the account is frozen = ").append(thresholdValues.get(1)).append(".\n");
         notification.append("Max number of books you must lend before you can borrow = ").append(thresholdValues.get(2)).append(".\n");
         notification.append("Max edits per user for meeting’s time + place = ").append(thresholdValues.get(3)).append(".\n");
+        notification.append("FOR YOU...").append("\n");
+        notification.append("YOU STILL HAVE " + um.getInfo(userId, "TransactionLeftForTheWeek") + " TRANSACTIONS LEFT FOR THE WEEK.");
+        notification.append("If you're wondering: the transactions left for the week will be set back to full every MONDAY.");
+
     }
-
-
-    /**
-     * Returns the message for a meeting that doesn't exist.
-     */
-    public String msgForMeetingDNE() {
-        return "This meeting doesn't exist in the system." + "\n";
-    }
-
 
     /**
      * Put together the message for when the option is locked for the user
@@ -177,7 +174,7 @@ public class SystemMessage {
      */
     public String lockMessageForThreshold(int maxNumTransactionAWeek) {
         return "This option is locked \n" +
-                "You have reached the" + maxNumTransactionAWeek + "transactions a week limit" +
+                "You have reached the " + maxNumTransactionAWeek + " transactions a week limit" +
                 "\n";
     }
 
@@ -272,7 +269,7 @@ public class SystemMessage {
 
 
     public String lockMessageForTPLimit() {
-        return "You can't edit any more because the time and place edits limit is reached.";}
+        return "You can't edit any more because the time and place edits limit is reached. This trade has been cancelled.";}
 
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
@@ -349,7 +346,7 @@ public class SystemMessage {
 
 
     public String tryAgainMsgForWrongInput(){
-       return "Please try again, one or more input(s) are invalid.";
+        return "Please try again, one or more input(s) are invalid.";
     }
 
     public String tryAgainMsgForWrongFormatInput(){
@@ -372,6 +369,12 @@ public class SystemMessage {
         return "Success!";
     }
 
+    public String msgForNoTradeSuggestion(){
+        return msgForNo(" recommended trade suggestion." +
+                " It might be because of 1) your wishlist is empty or 2) the items" +
+                " in your wishlist are not tradable and the items in the same category " +
+                "as the items in your wishlist are also not tradable.");
+    }
     public String msgForMeetingTookPlaceResult(boolean validator){
         if (!validator){
             return "Failed. It's probably because you have already confirmed it or the meeting time hasn't arrived.";
@@ -410,10 +413,6 @@ public class SystemMessage {
     }
 
 
-    public String getNumKindOfResponse(String option1, String option2){
-        return "Please enter an integer (1 - " + option1 + ", 2 - " + option2 + " + : ";
-    }
-
     public String msgForSetTradable(boolean validator, boolean status){
         String tradable_status;
         if (status){
@@ -448,8 +447,24 @@ public class SystemMessage {
         return string.toString();
     }
 
+    /**
+     * 
+     * @param object
+     * @return
+     */
     public String printObject(Object object){
         return object.toString();
+    }
+
+    /**
+     * Puts together a message explaining why the trade request fails.
+     * @return A message explaining why the trade request fails.
+     */
+    public String msgTradeRequestFail(){
+        return "Trade request failed, please check the following conditions:\n\nFor one-way-trade:\n" +
+                "1. The item is tradable. \n2. You have added the item to your wishlist.\n3. You have completed a two-way-trade before.\n\n" +
+                "For two-way-trade:\n" + "1. The items are tradable.\n2. Both users have added the items to " +
+                "their wishlist.\n3. The number of borrow did not exceed the number of lend.";
     }
 
 

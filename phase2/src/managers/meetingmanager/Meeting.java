@@ -55,13 +55,13 @@ public class Meeting implements java.io.Serializable{
      * @param min the minute for the meeting
      * @param sec the second for the meeting
      */
-    public void setTime(int year, int month, int date, int hour, int min, int sec){
+    protected void setTime(int year, int month, int date, int hour, int min, int sec){
         Calendar time1 = Calendar.getInstance();
         time1.set(year, month-1, date, hour, min, sec);
         time = time1.getTime();
     }
 
-    /** get the place for the meeting
+    /** Get the place for the meeting
      * @return the place for the meeting
      */
     public String getPlace(){
@@ -71,7 +71,7 @@ public class Meeting implements java.io.Serializable{
     /** set the place of the meeting with place
      * @param place the place for the meeting
      */
-    public void setPlace(String place){
+    protected void setPlace(String place){
         this.place = place;
     }
 
@@ -85,14 +85,14 @@ public class Meeting implements java.io.Serializable{
     /** get the id of the first user of the meeting
      * @return the first user's id for this meeting
      */
-    public int getUserId1(){
+    protected int getUserId1(){
         return userId1;
     }
 
     /** get the id of the second user of the meeting
      * @return the second user's id for the meeting
      */
-    public int getUserId2(){
+    protected int getUserId2(){
         return userId2;
     }
 
@@ -106,13 +106,13 @@ public class Meeting implements java.io.Serializable{
     /** get whether or not the time and the place of the meeting is confirmed.
      * @return true if the meeting time and place is confirmed
      */
-    public boolean getTimePlaceConfirm(){
+    protected boolean getTimePlaceConfirm(){
         return timePlaceConfirm;
     }
 
     /** confirm the time and place for a meeting
      */
-    public void setTimePlaceConfirm(boolean timePlaceConfirm){ this.timePlaceConfirm = timePlaceConfirm; }
+    protected void setTimePlaceConfirm(boolean timePlaceConfirm){ this.timePlaceConfirm = timePlaceConfirm; }
 
     /** get whether or not the completeness of the meeting is confirmed by two users
      * @return true iff the completeness of the meeting is confirmed by
@@ -125,14 +125,14 @@ public class Meeting implements java.io.Serializable{
     /** get the list of users id that edit the time and place of the meeting
      * @return the list of user id edit the meeting time and place
      */
-    public List<Integer> getTimePlaceEdit(){
+    protected List<Integer> getTimePlaceEdit(){
         return timePlaceEdit;
     }
 
     /** set the timPlaceEdit with the listId.
      * @param listId the list of user id that change the time and place
      */
-    public void setTimePlaceEdit(List<Integer> listId){
+    protected void setTimePlaceEdit(List<Integer> listId){
         timePlaceEdit = listId;
     }
 
@@ -142,10 +142,12 @@ public class Meeting implements java.io.Serializable{
     public String toString(){
         if (meetingConfirm.get(userId1) && meetingConfirm.get(userId2)){
             return "Trade id: " + tradeId + ", Meeting number: " + meetingNum + ", User1: " + userId1 +", " +
-                    "User2: " + userId2 + ", Place: " + place +", Time: "+ time + ".\n"+"The meeting is complete.";
+                    "User2: " + userId2 + ", Place: " + place +", Time: "+ time + ". List of users " +
+                    "edited the time and place: " + timePlaceEdit + ".\n"+"The meeting is complete.";
         }else{
             return "Trade id: " + tradeId + ", Meeting number: " + meetingNum + ", User1: " + userId1 +
-                    ", User2: " + userId2 + ", Place: " + place +", Time: "+ time + ".\n"+"The confirm status for the " +
+                    ", User2: " + userId2 + ", Place: " + place +", Time: "+ time + ". List of users " +
+                    "edited the time and place: " + timePlaceEdit + ".\n"+"The confirm status for the " +
                     "place and time is: " + timePlaceConfirm + ", " + "and the meeting is not complete.";
         }
     }
@@ -155,7 +157,7 @@ public class Meeting implements java.io.Serializable{
      * @return true if this tradeId, userId1, userId2 and meetingNum equals to the meeting's tradeId,
      * userId1, userId2 and meetingNum.
      */
-    public boolean equals(managers.meetingmanager.Meeting meeting){
+    protected boolean equals(managers.meetingmanager.Meeting meeting){
         return this.getTradeId() == meeting.getTradeId() && this.getMeetingNum() == meeting.getMeetingNum()
                 && this.getUserId1() == meeting.getUserId1() && this.getUserId2() == meeting.getUserId2();
     }

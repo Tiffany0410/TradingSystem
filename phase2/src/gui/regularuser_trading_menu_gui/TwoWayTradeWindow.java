@@ -10,6 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ /**
+ * Used to show regular user two-way-trade request
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class TwoWayTradeWindow {
     private JTextField userid1;
     private JTextField userid2;
@@ -19,9 +26,22 @@ public class TwoWayTradeWindow {
     private JButton requestButton;
     private JPanel panel;
 
+    /**
+     * Constructor of regular user request for tnw-way-trade window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     * @param tradeType Trade type ("Permanent" or "Temporary")
+     */
     public TwoWayTradeWindow(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                              SystemMessage sm, int numLentBeforeBorrow, String tradeType){
         requestButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, request for two-way-trade
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 String user1 = userid1.getText();
@@ -51,6 +71,9 @@ public class TwoWayTradeWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /** Invoke when click button and close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiD.closeWindow(panel);
@@ -58,6 +81,15 @@ public class TwoWayTradeWindow {
         });
     }
 
+    /**
+     * Run two-way-trade request window
+     * @param idC RegularUserIDChecker
+     * @param guiD GUIDemo
+     * @param atc RegularUserTradingMenuController
+     * @param sm SystemMessage
+     * @param numLentBeforeBorrow Number lent before borrow
+     * @param tradeType Trade type ("Permanent" or "Temporary")
+     */
     public void run(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc,
                     SystemMessage sm, int numLentBeforeBorrow, String tradeType){
         JFrame frame = new JFrame("Two-way-trade request");

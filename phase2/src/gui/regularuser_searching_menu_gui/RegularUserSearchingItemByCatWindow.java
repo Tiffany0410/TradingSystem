@@ -11,6 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+/**
+ * Used to show regular searching window
+ * @author Jiaqi Gong, Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 
 public class RegularUserSearchingItemByCatWindow {
     private JComboBox comboBox1;
@@ -18,8 +23,19 @@ public class RegularUserSearchingItemByCatWindow {
     private JButton searchButton;
     private JPanel rootPanel;
 
+    /**
+     * Constructor of regular user searching item by category window
+     * @param smc regularUserSearchingMenuController
+     * @param systemMessage systemMessage
+     * @param guiDemo GUIDemo
+     */
     public RegularUserSearchingItemByCatWindow(RegularUserSearchingMenuController smc, SystemMessage systemMessage, GUIDemo guiDemo){
         searchButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation
+             * @param e click button
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selected = (String) comboBox1.getSelectedItem();
@@ -36,12 +52,23 @@ public class RegularUserSearchingItemByCatWindow {
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and return to menu
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
             }
         });
     }
+
+    /**
+     * Run regular user searching item by category window
+     * @param smc regularUserSearchingMenuController
+     * @param systemMessage systemMessage
+     * @param guiDemo GUIDemo
+     */
 
     public void run(RegularUserSearchingMenuController smc, SystemMessage systemMessage, GUIDemo guiDemo){
         JFrame frame = new JFrame("Searching Items by Category");

@@ -10,6 +10,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to show regular user respond friend requests window
+ * @author Shi Tang
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserCommunityRespondRequestWindow {
     private JTextPane textPane1;
     private JTextField id;
@@ -18,6 +23,14 @@ public class RegularUserCommunityRespondRequestWindow {
     private JPanel rootPanel;
     private JScrollPane scrollPane;
 
+    /**
+     * Constructor for Regular User Community Respond Request Window
+     * @param string String representation of the list of friend requests that this user received
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public RegularUserCommunityRespondRequestWindow(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc,
                                                     RegularUserIDChecker idC){
         textPane1.setText(string);
@@ -27,32 +40,53 @@ public class RegularUserCommunityRespondRequestWindow {
         scrollPane.setVisible(true);
 
         acceptButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, accept the friend request
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String user_id = id.getText();
-                if (idC.checkInt(user_id)) {
-                    int userToID = Integer.parseInt(user_id);
-                    if (cmc.checkIdInRequest(userToID)){
-                        guidemo.printNotification(sm.msgForResult(cmc.addFriend(userToID)));
-                    }
-                    else {
-                        guidemo.printNotification("Please enter a valid user id in the list");
-                    }
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid information.");
-                }
-                guidemo.closeWindow(rootPanel);
+                respondFriendRequest(idC, cmc, guidemo, sm);
             }
         });
 
         cancelButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, close this window
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guidemo.closeWindow(rootPanel);
             }
         });
     }
+
+    private void respondFriendRequest(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
+        String user_id = id.getText();
+        if (idC.checkInt(user_id)) {
+            int userToID = Integer.parseInt(user_id);
+            if (cmc.checkIdInRequest(userToID)){
+                guidemo.printNotification(sm.msgForResult(cmc.addFriend(userToID)));
+            }
+            else {
+                guidemo.printNotification("Please enter a valid user id in the list");
+            }
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guidemo.closeWindow(rootPanel);
+    }
+
+    /**
+     * Run Regular User Community Respond Request Window
+     * @param string String representation of the list of friend requests that this user received
+     * @param guidemo GUIDemo
+     * @param sm SystemMessage
+     * @param cmc RegularUserCommunityMenuController
+     * @param idC RegularUserIDChecker
+     */
     public void run(String string, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
         JFrame frame = new JFrame("Respond to friend request");
         frame.setContentPane(new RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC).rootPanel);

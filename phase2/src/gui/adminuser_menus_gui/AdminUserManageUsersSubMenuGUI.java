@@ -14,6 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Used to show admin user manage user sub menu gui
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserManageUsersSubMenuGUI {
     private JPanel rootPanel;
     private JButton freezeUsersButton;
@@ -21,13 +27,21 @@ public class AdminUserManageUsersSubMenuGUI {
     private JButton confirmAndAddItemButton;
     private JButton backButton;
 
+    /**
+     * Constructor of admin user manage users sub menu gui
+     * @param muc admin user manager users controller
+     * @param guiDemo GUIDemo
+     * @param sm system manager
+     * @param idc regular use id checker
+     * @param oic admin user other info checker
+     */
     public AdminUserManageUsersSubMenuGUI(AdminUserManagerUsersController muc, GUIDemo guiDemo, SystemMessage sm,
                                           RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
         freezeUsersButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,9 +63,9 @@ public class AdminUserManageUsersSubMenuGUI {
         });
         unfreezeUsersButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click the button and do related operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,9 +86,9 @@ public class AdminUserManageUsersSubMenuGUI {
         });
         confirmAndAddItemButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do realted operation
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,9 +112,9 @@ public class AdminUserManageUsersSubMenuGUI {
         });
         backButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click button and do realted opeations
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,12 +122,18 @@ public class AdminUserManageUsersSubMenuGUI {
                 //close this window
                 guiDemo.closeWindow(rootPanel);
                 guiDemo.runAdminUserMainMenu();
-
-
             }
         });
     }
 
+    /**
+     * Run admin user manager users sub menus gui
+     * @param adminUserManagerUsersController adminUserManagerUsersController
+     * @param guiDemo GUIDemo
+     * @param sm sysytem message
+     * @param idc Regular user ID checker
+     * @param oic admin user other info checker
+     */
     public void run(AdminUserManagerUsersController adminUserManagerUsersController, GUIDemo guiDemo,
                     SystemMessage sm, RegularUserIDChecker idc, AdminUserOtherInfoChecker oic) {
         JFrame frame = new JFrame("adminUserManageUsersSubMenuGUI");

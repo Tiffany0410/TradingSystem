@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to manage users
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class AdminUserManagerUsersWindow {
     private JPanel rootPanel;
     private JTextField textField;
@@ -17,6 +23,14 @@ public class AdminUserManagerUsersWindow {
     private JTextPane textPane1;
     private JScrollPane scrollPane;
 
+    /**
+     * Run AdminManagerUserWindow
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param inputName name of things want user input
+     * @param info related description
+     * @param muc admin user manager users controller
+     */
     public void run(int option, GUIDemo guiDemo, String inputName,String info, AdminUserManagerUsersController muc) {
         JFrame frame = new JFrame("AdminUserManagerUsersWindow");
         frame.setContentPane(new AdminUserManagerUsersWindow(option, guiDemo, inputName, info, muc).rootPanel);
@@ -27,8 +41,14 @@ public class AdminUserManagerUsersWindow {
         frame.setLocationRelativeTo(null);
     }
 
-
-
+    /**
+     * Run AdminManagerUserWindow
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param putinName name of things want user input
+     * @param info related description
+     * @param muc admin user manager users controller
+     */
     public AdminUserManagerUsersWindow(int option, GUIDemo guiDemo, String putinName,String info, AdminUserManagerUsersController muc) {
         textPane1.setText(info);
         textPane1.setEditable(false);
@@ -43,22 +63,20 @@ public class AdminUserManagerUsersWindow {
 
         cancelButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click cancel button and return to menu
              *
-             * @param e
+             * @param e click button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiDemo.closeWindow(rootPanel);
-                //guiDemo.runAdminUserManageUsersSubMenu();
-
             }
         });
         confirmButton.addActionListener(new ActionListener() {
             /**
-             * Invoked when an action occurs.
+             * Invoked when click confirm button and do related actions
              *
-             * @param e
+             * @param e click confirm button
              */
             @Override
             public void actionPerformed(ActionEvent e) {
