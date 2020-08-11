@@ -243,7 +243,7 @@ public class RegularUserAccountMenuController {
      * Receives the request to unfreeze from the user
      * and let the user manager handle it.
      */
-    public boolean RequestToUnfreeze(String msg) {
+    public boolean requestToUnfreeze(String msg) {
         //calling this method means user is not a guest
         am.addActionToAllActionsList(userId, "regularUser", "1.2.1", 0, "");
         return um.requestUnfreeze(username, msg);

@@ -58,7 +58,7 @@ public class RequestToUnfreezeWindow {
     }
 
     private void requestUnfreezeOk(GUIDemo guiD, SystemMessage sm, RegularUserAccountMenuController atc) {
-        guiD.printNotification(sm.msgForRequestProcess(atc.RequestToUnfreeze(textArea.getText())));
+        guiD.printNotification(sm.msgForRequestProcess(atc.requestToUnfreeze(textArea.getText())));
         guiD.runSave();
         guiD.closeWindow(rootPanel);
     }
