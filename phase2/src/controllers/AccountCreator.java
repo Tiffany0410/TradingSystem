@@ -51,8 +51,13 @@ public class AccountCreator {
 
         try {
             if (!userInfo.containsKey(username) && !adminInfo.containsKey(username)) {
-                um.addUser(username, password, email, home);
+                if (type.equalsIgnoreCase("Regular")) {
+                    um.addUser(username, password, email, home);
+                }else{
+                   um.addAdmin(username, password, email);
+                }
                 out = true;
+
 
                 //Write the UserManger into ser file in order to save the data
                 frw.saveManagerToFile(um, this.managerFilePath);

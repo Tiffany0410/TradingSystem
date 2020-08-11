@@ -1,9 +1,10 @@
 package managers.usermanager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UserInfoManager {
+public class UserInfoManager implements Serializable {
     /**
      * Checks if the User exists
      * @param username The username of the User being searched for

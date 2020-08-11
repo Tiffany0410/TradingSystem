@@ -1,9 +1,10 @@
 package managers.usermanager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class UserItemManager {
+public class UserItemManager implements Serializable {
     /**
      * Removes an Item from a User's wishlist
      * @param itemID The ID of the Item to be removed
