@@ -55,20 +55,6 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Gets the list of AdminUser username
-     * @return List of AdminUser username
-     */
-    public ArrayList<String> getListAdminUserName() {
-        ArrayList<String> usernameList = new ArrayList<>();
-        for (User adminUser: listAdmin) {
-            usernameList.add(adminUser.getUsername());
-        }
-        return usernameList;
-    }
-
-
-
-    /**
      * Get the list of usernames and messages of User that request to be unfrozen
      * @return The list of usernames and messages
      */
@@ -84,7 +70,7 @@ public class UserManager implements Serializable {
      */
     public boolean freezeUser(String username){
         TradableUser person = findUser(username);
-        return uThresholdM.freezeUser(username, person);
+        return uThresholdM.freezeUser(person);
     }
 
     /**
@@ -129,6 +115,20 @@ public class UserManager implements Serializable {
         TradableUser toAdd = new TradableUser(username, password, email, userID);
         toAdd.setHome(home);
         this.listTradableUser.add(toAdd);
+    }
+
+    /**
+     * Creates a new AdminUser
+     * @param username Username of the new AdminUser
+     * @param password Password of the new AdminUser
+     * @param email Email of the new AdminUser
+     */
+    public void addAdmin(String username, String password, String email){
+        int adminID;
+        if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
+        else {adminID = 1;}
+        User toAdd = new User(username, password, email, adminID);
+        this.listAdmin.add(toAdd);
     }
 
 
@@ -300,7 +300,7 @@ public class UserManager implements Serializable {
      */
     public void setThreshold (int userID, String threshold, int change){
         TradableUser person = findUser(userID);
-        uThresholdM.setThreshold(userID, threshold, change, person);
+        uThresholdM.setThreshold(threshold, change, person);
     }
 
     /**
@@ -311,7 +311,7 @@ public class UserManager implements Serializable {
      */
     public int getInfo(int userID, String threshold){
         TradableUser person = findUser(userID);
-        return uThresholdM.getInfo(userID, threshold, person);
+        return uThresholdM.getInfo(threshold, person);
     }
 
     /**
@@ -428,7 +428,7 @@ public class UserManager implements Serializable {
      */
     public ArrayList<TradableUser> sameCity (int userID){
         TradableUser homosapien = findUser(userID);
-        return uCommunityM.sameCity(userID, homosapien, listTradableUser);
+        return uCommunityM.sameCity(homosapien, listTradableUser);
     }
 
     /**
@@ -523,7 +523,7 @@ public class UserManager implements Serializable {
      */
     public ArrayList<String[]> friendsRequesting(int userID){
         String username = idToUsername(userID);
-        return uCommunityM.friendsRequesting(userID, username);
+        return uCommunityM.friendsRequesting(username);
     }
 
     /**

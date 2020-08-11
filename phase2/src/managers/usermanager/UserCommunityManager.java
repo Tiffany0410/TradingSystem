@@ -2,10 +2,12 @@ package managers.usermanager;
 
 import managers.feedbackmanager.FeedbackManager;
 import managers.itemmanager.Item;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UserCommunityManager {
+public class UserCommunityManager implements Serializable {
 
     private ArrayList<String[]> listFriendRequest;
 
@@ -15,9 +17,11 @@ public class UserCommunityManager {
     /**
      * Gets all the Users following a User
      * @param userID The ID of the User
+     * @param listTradableUser List of all Users
+     * @param person The User to get the info of
      * @return A list of integers of the ID of Users that follow the User
      */
-    public ArrayList<TradableUser> usersFollowingUser (int userID, TradableUser person, ArrayList<TradableUser> listTradableUser){
+    protected ArrayList<TradableUser> usersFollowingUser (int userID, TradableUser person, ArrayList<TradableUser> listTradableUser){
         ArrayList<TradableUser> out = new ArrayList<>();
         if (person == null){
             return out;
@@ -34,6 +38,8 @@ public class UserCommunityManager {
      * Adds an entry to all the logs of the Users that are following the specified User
      * @param toAdd The entry to add
      * @param userID The User to check for followers
+     * @param listTradableUser List of all Users
+     * @param person The User to check followers of
      */
      void editFollowerLogs(String toAdd, int userID, TradableUser person, ArrayList<TradableUser> listTradableUser){
         ArrayList<TradableUser> users = usersFollowingUser(userID, person, listTradableUser);
@@ -48,9 +54,12 @@ public class UserCommunityManager {
      * Lets a User follow another User
      * @param userID The ID of the User
      * @param toFollow The ID of the User to follow
+     * @param person The User trying to follow
+     * @param listTradableUser List of all Users
+     * @param following The User to follow
      * @return true if the User was successfully followed, false otherwise
      */
-    public boolean userFollow(int userID, int toFollow, TradableUser person, TradableUser following,
+    protected boolean userFollow(int userID, int toFollow, TradableUser person, TradableUser following,
                               ArrayList<TradableUser> listTradableUser){
         if (userID == toFollow){
             return false;
@@ -72,9 +81,12 @@ public class UserCommunityManager {
      * Lets a User unfollow another User
      * @param userID The ID of the User
      * @param toUnfollow The ID of the User to unfollow
+     * @param listTradableUser List of all Users
+     * @param following The User to unfollow
+     * @param person The User trying to unfollow
      * @return true if the User was successfully unfollowed, false otherwise
      */
-    public boolean userUnfollow(int userID, int toUnfollow, TradableUser person, TradableUser following,
+    protected boolean userUnfollow(int userID, int toUnfollow, TradableUser person, TradableUser following,
                                 ArrayList<TradableUser> listTradableUser){
         if (person == null || following == null){
             return false;
@@ -93,9 +105,11 @@ public class UserCommunityManager {
      * Lets a User follow an Item
      * @param userID The ID of the User
      * @param toFollow The ID of the Item to follow
+     * @param listTradableUser List of all Users
+     * @param person The User trying to follow
      * @return true if the Item was followed successfully, false otherwise
      */
-    public boolean itemFollow(int userID, Item toFollow, TradableUser person, ArrayList<TradableUser> listTradableUser){
+    protected boolean itemFollow(int userID, Item toFollow, TradableUser person, ArrayList<TradableUser> listTradableUser){
         if (person == null){
             return false;
         }
@@ -111,9 +125,10 @@ public class UserCommunityManager {
 
     /**
      * Gives the UserFollowingLogs of the User
+     * @param person The User to get the info of
      * @return The UserFollowingLogs of the User
      */
-    public ArrayList<String> getUserFollowingLogs (TradableUser person){
+    protected ArrayList<String> getUserFollowingLogs (TradableUser person){
         ArrayList<String> out = new ArrayList<>();
         if (person == null){
             return out;
@@ -124,9 +139,10 @@ public class UserCommunityManager {
 
     /**
      * Gives the ItemFollowingLogs the User
+     * @param person The User to get the info of
      * @return The ItemFollowingLogs of the User
      */
-    public ArrayList<String> getItemFollowingLogs (TradableUser person){
+    protected ArrayList<String> getItemFollowingLogs (TradableUser person){
         ArrayList<String> out = new ArrayList<>();
         if (person == null){
             return out;
@@ -137,9 +153,10 @@ public class UserCommunityManager {
 
     /**
      * Gives all the Users and the Items they follow
+     * @param listTradableUser List of all Users
      * @return A map of User IDs as keys and a list of the Item IDs they follow as values
      */
-    public HashMap<Integer, ArrayList<Integer>> itemsFollowed(ArrayList<TradableUser> listTradableUser){
+    protected HashMap<Integer, ArrayList<Integer>> itemsFollowed(ArrayList<TradableUser> listTradableUser){
         HashMap<Integer, ArrayList<Integer>> out = new HashMap<>();
         for (TradableUser person: listTradableUser){
             out.put(person.getId(), person.getItemFollowed());
@@ -148,9 +165,12 @@ public class UserCommunityManager {
     }
     /**
      * Gives the list of friends the User is friends with
+     * @param person The User to get the info of
+     * @param listTradableUser List of all Users
+     * @param uim A UserInfoManager
      * @return A list of Users who are in the User's friend list
      */
-    public ArrayList<TradableUser> getFriends(TradableUser person, UserInfoManager uim,
+    protected ArrayList<TradableUser> getFriends(TradableUser person, UserInfoManager uim,
                                               ArrayList<TradableUser> listTradableUser){
         ArrayList<TradableUser> out = new ArrayList<>();
         if (person != null){
@@ -173,7 +193,7 @@ public class UserCommunityManager {
      * @param userFrom The username of the sender
      * @return true if the request was successful, false otherwise
      */
-    public boolean requestFriend(String message, String userTo, String userFrom){
+    protected boolean requestFriend(String message, String userTo, String userFrom){
         for (String[] request: listFriendRequest){
             if (request[0].equals(userTo) && request[1].equals(userFrom)){
                 return false;
@@ -188,9 +208,14 @@ public class UserCommunityManager {
      * Adds the Users to each others' friend lists
      * @param user1 The ID of one of the Users
      * @param user2 The ID of the other User
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
+     * @param person1 The User to befriend
+     * @param person2 The other User to befriend
+     * @param uim A UserInfoManager
      * @return true if they were successfully added, false otherwise
      */
-    public boolean addFriend(int user1, int user2, TradableUser person1, TradableUser person2,
+    protected boolean addFriend(int user1, int user2, TradableUser person1, TradableUser person2,
                              ArrayList<TradableUser> listTradableUser, UserInfoManager uim, ArrayList<User> listAdmin){
         boolean out = false;
         if (person1 != null && person2 != null){
@@ -222,9 +247,11 @@ public class UserCommunityManager {
      * Removes the Users from each others friend list
      * @param user1 The ID of one of the Users
      * @param user2 The ID of the other User
+     * @param person1 The User to unfriend
+     * @param person2 The other user to unfriend
      * @return true if they were successfully added, false otherwise
      */
-    public boolean removeFriend(int user1, int user2, TradableUser person1, TradableUser person2){
+    protected boolean removeFriend(int user1, int user2, TradableUser person1, TradableUser person2){
         if (person1 != null && person2 != null){
             if (person1.getFriend().contains(user2)) {
                 person1.removeFromFriends(user2);
@@ -237,10 +264,10 @@ public class UserCommunityManager {
 
     /**
      * Gives the requests of all the Users requesting to be friends
-     * @param userID The ID of the User
+     * @param username The username of the User
      * @return A list of all the friend requests requested of the User
      */
-    public ArrayList<String[]> friendsRequesting(int userID, String username){
+    protected ArrayList<String[]> friendsRequesting(String username){
         ArrayList<String[]> out = new ArrayList<>();
         for (String[] request: listFriendRequest){
             if (request[0].equals(username)){
@@ -251,15 +278,20 @@ public class UserCommunityManager {
     }
 
     /**
+     * Returns the Users who are not friends with the specified User
      * @param userID The user's ID
+     * @param username The username of the User
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
+     * @param uim A UserInfoManager
      * @return a list of users which are not friend with this user and not in this user's friend requests
      */
-    public ArrayList<TradableUser> getUsersNotFriends(int userID, UserInfoManager uim, String username,
+    protected ArrayList<TradableUser> getUsersNotFriends(int userID, UserInfoManager uim, String username,
                                                       ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         ArrayList<TradableUser> out = new ArrayList<>();
         if (uim.findUser(userID, listTradableUser) != null){
             ArrayList<Integer> friends = uim.findUser(userID, listTradableUser).getFriend();
-            for (String[] request: friendsRequesting(userID, username)){
+            for (String[] request: friendsRequesting(username)){
                 if (request[0].equals(uim.idToUsername(userID, listTradableUser, listAdmin))){
                     friends.add(uim.usernameToID(request[1], listTradableUser, listAdmin));
                 }
@@ -275,10 +307,11 @@ public class UserCommunityManager {
 
     /**
      * Gives a list of Users that are in the same city as the given User
-     * @param userID The ID of the User
+     * @param listTradableUser List of all Users
+     * @param homosapien The User to check for
      * @return Returns a list of Users who have the same home city as the given User
      */
-    public ArrayList<TradableUser> sameCity (int userID, TradableUser homosapien, ArrayList<TradableUser> listTradableUser){
+    protected ArrayList<TradableUser> sameCity (TradableUser homosapien, ArrayList<TradableUser> listTradableUser){
         ArrayList<TradableUser> out = new ArrayList<>();
         if (homosapien == null){
             return out;
@@ -332,9 +365,11 @@ public class UserCommunityManager {
 
     /**
      * Sorts the Users by rating
+     * @param listTradableUser List of all Users
+     * @param fm A FeedbackManager
      * @return A list of Users sorted by rating in descending order
      */
-    public ArrayList<TradableUser> sortRating (FeedbackManager fm, ArrayList<TradableUser> listTradableUser){
+    protected ArrayList<TradableUser> sortRating (FeedbackManager fm, ArrayList<TradableUser> listTradableUser){
         ArrayList<TradableUser> listCopy = new ArrayList<>(listTradableUser);
         return mergeSort(listCopy, fm);
     }
