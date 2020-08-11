@@ -1,12 +1,10 @@
 package controllers.adminusersubcontrollers;
 
-import gateway.FilesReaderWriter;
 import managers.actionmanager.ActionManager;
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
-import presenter.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +28,9 @@ public class AdminUserManagerUsersController {
      * @param um user manager
      * @param im item manager
      * @param am action manager
-     * @param sm system message
      * @param username user name of this account
      */
-    public AdminUserManagerUsersController( UserManager um, ItemManager im, ActionManager am, SystemMessage sm,
+    public AdminUserManagerUsersController( UserManager um, ItemManager im, ActionManager am,
             String username) {
         this.um = um;
         this.im = im;

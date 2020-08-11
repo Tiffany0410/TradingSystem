@@ -4,7 +4,6 @@ import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -16,7 +15,6 @@ import java.util.List;
  */
 public class AdminUserEditThresholdsController {
 
-    private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
     private ActionManager am;
     private Integer userId;
