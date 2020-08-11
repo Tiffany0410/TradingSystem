@@ -80,23 +80,33 @@ public class AdminUserManagerUsersWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String regularUserName = textField.getText();
-                if (option == 1){
-                    if (regularUserName != null) {
-                        String result = muc.freezeUser(regularUserName);
-                        guiDemo.printNotification(result);
-                        guiDemo.runSave();}
-                }
-
-                if (option == 2){
-                    if (regularUserName != null) {
-                        String result = muc.unfreezeUser(regularUserName);
-                        guiDemo.printNotification(result);
-                        guiDemo.runSave();}
-                }
+                manageUserExecute(option, muc, guiDemo);
                 guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    /**
+     * This method execute manager user operation
+     * @param option operation number
+     * @param guiDemo GUIDemo
+     * @param muc admin user manager users controller
+     */
+    private void manageUserExecute(int option, AdminUserManagerUsersController muc, GUIDemo guiDemo) {
+        String regularUserName = textField.getText();
+        if (option == 1){
+            if (regularUserName != null) {
+                String result = muc.freezeUser(regularUserName);
+                guiDemo.printNotification(result);
+                guiDemo.runSave();}
+        }
+
+        if (option == 2){
+            if (regularUserName != null) {
+                String result = muc.unfreezeUser(regularUserName);
+                guiDemo.printNotification(result);
+                guiDemo.runSave();}
+        }
     }
 }
