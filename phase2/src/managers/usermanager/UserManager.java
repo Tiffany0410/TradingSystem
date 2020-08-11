@@ -131,19 +131,6 @@ public class UserManager implements Serializable {
         this.listTradableUser.add(toAdd);
     }
 
-    /**
-     * Creates a new AdminUser
-     * @param username Username of the new AdminUser
-     * @param password Password of the new AdminUser
-     * @param email Email of the new AdminUser
-     */
-    public void addAdmin(String username, String password, String email){
-        int adminID;
-        if (listAdmin.size() != 0) {adminID = listAdmin.size() + 1;}
-        else {adminID = 1;}
-        User toAdd = new User(username, password, email, adminID);
-        this.listAdmin.add(toAdd);
-    }
 
     /**
      * Removes an Item from a User's wishlist
@@ -576,13 +563,4 @@ public class UserManager implements Serializable {
         return uCommunityM.getUsersNotFriends(userID, uInfoM , username, listTradableUser, listAdmin);
     }
 
-    /**
-     * Adds an entry to all the logs of the Users that are following the specified User
-     * @param toAdd The entry to add
-     * @param userID The User to check for followers
-     */
-    public void editFollowerLogs(String toAdd, int userID){
-        TradableUser person = findUser(userID);
-        uCommunityM.editFollowerLogs(toAdd, userID, person, listTradableUser);
-    }
 }

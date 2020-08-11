@@ -109,27 +109,6 @@ public class UserCommunityManager {
         return true;
     }
 
-
-    /**
-     * Lets a User unfollow an Item
-     * @param userID The ID of the User
-     * @param toUnfollow The ID of the Item to unfollow
-     * @return true if the Item was unfollowed successfully, false otherwise
-     */
-    public boolean itemUnfollow(int userID, Item toUnfollow, TradableUser person, ArrayList<TradableUser> listTradableUser){
-        if (person == null){
-            return false;
-        }
-        if (!person.getItemFollowed().contains(toUnfollow.getItemId())){
-            return false;
-        }
-        person.unfollowItem(toUnfollow.getItemId());
-        toUnfollow.removePropertyChangeListener(person);
-        editFollowerLogs("User " + person.getUsername() + " unfollowed the Item with id "
-                + toUnfollow.getItemId(), userID, person, listTradableUser);
-        return true;
-    }
-
     /**
      * Gives the UserFollowingLogs of the User
      * @return The UserFollowingLogs of the User

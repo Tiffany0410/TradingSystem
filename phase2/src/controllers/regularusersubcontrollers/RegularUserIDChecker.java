@@ -2,7 +2,6 @@ package controllers.regularusersubcontrollers;
 
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
-import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 
@@ -21,7 +20,6 @@ import java.util.regex.Pattern;
 public class RegularUserIDChecker {
 
     private TradeManager tm;
-    private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
 
@@ -30,14 +28,12 @@ public class RegularUserIDChecker {
      * a MeetingManager, a UserManager, and an ItemManager.
      *
      * @param tm       The current state of the TradeManager.
-     * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      */
-    public RegularUserIDChecker(TradeManager tm, MeetingManager mm,
+    public RegularUserIDChecker(TradeManager tm,
                                 UserManager um, ItemManager im) {
         this.tm = tm;
-        this.mm = mm;
         this.um = um;
         this.im = im;
     }

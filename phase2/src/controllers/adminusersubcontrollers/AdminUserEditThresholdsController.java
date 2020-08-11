@@ -4,7 +4,6 @@ import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**

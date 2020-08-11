@@ -37,22 +37,6 @@ public class Message implements Serializable{
         return receiverId;
     }
 
-    /** get the sender's id
-     * @return the sender id
-     */
-    protected int getSenderId(){
-        return senderId;
-    }
-
-    /**
-     * Get the message.
-     *
-     * @return message.
-     */
-    protected String getMessage() {
-        return message;
-    }
-
     /**
      * Override the to string to describe the item
      * @return A string representation for message

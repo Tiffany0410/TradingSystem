@@ -26,7 +26,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     private int transactionsLeftForTheWeek = 3;
     //friends related
     private ArrayList<Integer> friend;
-    private ArrayList<String[]> friendRequests;
     //Vacation related
     private String homeCity;
     private boolean onVacation;
@@ -53,7 +52,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
         isFrozen = false;
         onVacation = false;
         friend = new ArrayList<>();
-        friendRequests = new ArrayList<>();
         followers = new ArrayList<>();
         userFollowed = new ArrayList<>();
         itemFollowed = new ArrayList<>();

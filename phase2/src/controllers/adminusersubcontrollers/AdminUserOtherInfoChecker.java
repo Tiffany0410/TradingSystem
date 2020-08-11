@@ -2,9 +2,6 @@ package controllers.adminusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
-import presenter.SystemMessage;
-
-import java.util.Scanner;
 
 /**
  * An instance of this class represents the other
@@ -46,35 +43,6 @@ public class AdminUserOtherInfoChecker {
      */
     public boolean checkActionId(int actionID){
         return am.getAllActionID(am.getListOfCurrentRevocableActions()).contains(actionID);
-    }
-
-    /**
-     * Checks if the id of the regular user is valid.
-     * @param regularUserId The id of a regularUser to be checked.
-     * @return result of the id is valid or not.
-     */
-    public boolean checkRegularUserID(int regularUserId){
-        return um.getListTradableUser().contains(regularUserId);
-    }
-
-
-    /**
-     * Checks if the username for the new admin is valid.
-     * @param newAdminUserName The username of the new admin to be checked.
-     * @return If the username is valid.
-     */
-    public boolean checkNewAdminUserName(int newAdminUserName){
-        return !um.getListAdminUserName().contains(newAdminUserName);
-    }
-
-    /**
-     * Checks if the password for the new admin is valid.
-     * @param newAdminPassword The password for the new admin to be checked.
-     * @return If the password is valid.
-     */
-    public boolean checkNewAdminPassword(String newAdminPassword){
-        //Possible regex thing here (ex. A-Za-z0-9...etc)
-        return newAdminPassword != null;
     }
 
 }
