@@ -42,7 +42,7 @@ public class AdminUserCreateAccountGUI {
                 boolean result = accountCreator.createAccount("Admin", username,
                         new String(passwordField1.getPassword()), "None", "None");
 
-                guiDemo.printNotification( "Create account " + systemMessage.printResult(result));
+                guiDemo.printNotification( "Create account " + systemMessage.msgForResult(result));
 
                 if (result){adminUserOtherActionsController.addNewAdmin(username);}
                 guiDemo.runSave();

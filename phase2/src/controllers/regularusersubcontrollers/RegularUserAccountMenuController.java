@@ -280,7 +280,7 @@ public class RegularUserAccountMenuController {
         um.changeHome(userId, newHC);
 
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 
     /**
