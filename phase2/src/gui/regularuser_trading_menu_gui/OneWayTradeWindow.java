@@ -42,27 +42,7 @@ public class OneWayTradeWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String borrower = thisUser.getText();
-                String lender = otherUser.getText();
-                String item_input = item.getText();
-
-                if (idC.checkInt(borrower) && idC.checkInt(lender) && idC.checkInt(item_input)){
-                    int userId1 = Integer.parseInt(borrower);
-                    int userId2 = Integer.parseInt(lender);
-                    int itemid1 = Integer.parseInt(item_input);
-                    if (idC.checkUserID(userId1) && idC.checkUserID(userId2) && idC.checkItemID(itemid1)) {
-                        guiD.printNotification(atc.requestTrade(1, userId1, userId2, itemid1,-1, numLentBeforeBorrow, tradeType));
-                        guiD.runSave();
-                    }
-                    else{
-                        guiD.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                }
-                else{
-                    guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
-                guiD.runSave();
-                guiD.closeWindow(rootPanel);
+                requestOneWayTrade(idC, guiD, atc, numLentBeforeBorrow, tradeType, sm);
             }
         });
 
@@ -75,6 +55,30 @@ public class OneWayTradeWindow {
                 guiD.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void requestOneWayTrade(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc, int numLentBeforeBorrow, String tradeType, SystemMessage sm) {
+        String borrower = thisUser.getText();
+        String lender = otherUser.getText();
+        String item_input = item.getText();
+
+        if (idC.checkInt(borrower) && idC.checkInt(lender) && idC.checkInt(item_input)){
+            int userId1 = Integer.parseInt(borrower);
+            int userId2 = Integer.parseInt(lender);
+            int itemid1 = Integer.parseInt(item_input);
+            if (idC.checkUserID(userId1) && idC.checkUserID(userId2) && idC.checkItemID(itemid1)) {
+                guiD.printNotification(atc.requestTrade(1, userId1, userId2, itemid1,-1, numLentBeforeBorrow, tradeType));
+                guiD.runSave();
+            }
+            else{
+                guiD.printNotification(sm.tryAgainMsgForWrongInput());
+            }
+        }
+        else{
+            guiD.printNotification(sm.tryAgainMsgForWrongFormatInput());
+        }
+        guiD.runSave();
+        guiD.closeWindow(rootPanel);
     }
 
     /**
