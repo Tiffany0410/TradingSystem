@@ -39,32 +39,7 @@ public class RegularUserManageItemsSuggestionWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = userInput.getText();
-                if (idChecker.checkInt(input)){
-                    int lendToUserId = Integer.parseInt(input);
-                    if (lendToUserId == amc.getUserId()){
-                        guiDemo.printNotification("Can't get suggestion to lend to yourself :)");
-                    }
-                    else if (idChecker.checkUserID(lendToUserId)){
-                        ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
-                        if (suggest.isEmpty()){
-                            guiDemo.printNotification("No good suggestions available...\n" +
-                                    "Here's a randomly generated one:\n" +
-                                    sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
-                        }
-                        else{
-                            guiDemo.printNotification("Below are suggestions of items you can lend to that user:\n"
-                                    + sm.printListObject(new ArrayList<>(suggest)));
-                        }
-                    }
-                    else{
-                        guiDemo.printNotification("Please enter a valid user id.");
-                    }
-                }
-                else{
-                    guiDemo.printNotification("Please enter a valid input.");
-                }
-                guiDemo.closeWindow(rootPanel);
+                getSuggestion(idChecker, amc, guiDemo, sm);
             }
         });
 
@@ -78,6 +53,35 @@ public class RegularUserManageItemsSuggestionWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void getSuggestion(RegularUserIDChecker idChecker, RegularUserAccountMenuController amc, GUIDemo guiDemo, SystemMessage sm) {
+        String input = userInput.getText();
+        if (idChecker.checkInt(input)){
+            int lendToUserId = Integer.parseInt(input);
+            if (lendToUserId == amc.getUserId()){
+                guiDemo.printNotification("Can't get suggestion to lend to yourself :)");
+            }
+            else if (idChecker.checkUserID(lendToUserId)){
+                ArrayList<Item> suggest = amc.getSuggestItemToLend(lendToUserId);
+                if (suggest.isEmpty()){
+                    guiDemo.printNotification("No good suggestions available...\n" +
+                            "Here's a randomly generated one:\n" +
+                            sm.printListObject(new ArrayList<>(amc.getRandomSuggestion(lendToUserId))));
+                }
+                else{
+                    guiDemo.printNotification("Below are suggestions of items you can lend to that user:\n"
+                            + sm.printListObject(new ArrayList<>(suggest)));
+                }
+            }
+            else{
+                guiDemo.printNotification("Please enter a valid user id.");
+            }
+        }
+        else{
+            guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guiDemo.closeWindow(rootPanel);
     }
 
     /**

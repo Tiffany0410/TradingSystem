@@ -28,21 +28,21 @@ public class Review implements Serializable {
     /** get the receiver id
      * @return the receiver id
      */
-    public int getReceiverId(){
+    protected int getReceiverId(){
         return receiverId;
     }
 
     /** get the reviewer id
      * @return the reviewer id
      */
-    public int getReviewerId(){
+    protected int getReviewerId(){
         return reviewerId;
     }
 
     /** get the point
      * @return the point of the review
      */
-    public int getPoint(){
+    protected int getPoint(){
         return point;
     }
 

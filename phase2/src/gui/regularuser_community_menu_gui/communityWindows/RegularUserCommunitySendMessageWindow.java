@@ -50,21 +50,7 @@ public class RegularUserCommunitySendMessageWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String userId = id.getText();
-                String message = msg.getText();
-                if (idC.checkInt(userId)) {
-                    int user_id = Integer.parseInt(userId);
-                    if (!cmc.checkIsFriend(user_id)) {
-                        guidemo.printNotification("Please enter an id of your friend!");
-                    }
-                    else {
-                        guidemo.printNotification(sm.msgForResult(cmc.sendMessage(user_id, message)));
-                    }
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid information.");
-                }
-                guidemo.closeWindow(rootPanel);
+                sendMessage(idC, cmc, guidemo, sm);
             }
         });
 
@@ -78,6 +64,24 @@ public class RegularUserCommunitySendMessageWindow {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void sendMessage(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
+        String userId = id.getText();
+        String message = msg.getText();
+        if (idC.checkInt(userId)) {
+            int user_id = Integer.parseInt(userId);
+            if (!cmc.checkIsFriend(user_id)) {
+                guidemo.printNotification("Please enter an id of your friend!");
+            }
+            else {
+                guidemo.printNotification(sm.msgForResult(cmc.sendMessage(user_id, message)));
+            }
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guidemo.closeWindow(rootPanel);
     }
 
     /**

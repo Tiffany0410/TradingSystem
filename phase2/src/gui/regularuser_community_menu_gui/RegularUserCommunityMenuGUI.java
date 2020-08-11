@@ -70,14 +70,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, cmc, sm);
-                    window.run(guidemo, idC, cmc, sm);
-                }
-                guidemo.runSave();
+                writeAReview(isGuest, guidemo, sm, idC, cmc);
             }
         });
 
@@ -88,14 +81,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    RegularUserCommunityReportAUser report = new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo);
-                    report.run(sm, idC, cmc, guidemo);
-                }
-                guidemo.runSave();
+                reportAUser(isGuest, guidemo, sm, idC, cmc);
             }
         });
 
@@ -106,13 +92,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
-                    window.run(guidemo, cmc, idC);
-                    }
+                findTheRatingForUser(isGuest, guidemo, sm, cmc, idC);
             }
         });
 
@@ -123,20 +103,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    String string;
-                    ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
-                    if (users.isEmpty()) {
-                        string = "There is no users in your home city, please check later :)";
-                    }
-                    else {
-                        string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
-                    }
-                    guidemo.printNotification(string);
-                }
+                seeUsersInHomeCity(isGuest, guidemo, sm, cmc);
             }
         });
 
@@ -147,19 +114,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    String string;
-                    if (cmc.getFriends().isEmpty()) {
-                        string = sm.msgForNothing("your list of friends");
-                    }
-                    else {
-                        string = sm.printListUser(cmc.getFriends());
-                    }
-                    guidemo.printNotification(string);
-                }
+                viewFriends(isGuest, guidemo, sm, cmc);
             }
         });
 
@@ -170,23 +125,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    ArrayList<TradableUser> notFriends = cmc.getNotFriends();
-                    if (!notFriends.isEmpty()) {
-                        String string = "Here's a list of users you can send request to:\n" + sm.printListUser(notFriends)
-                                + "\nPlease enter user's id to send friend request.\n";
-                        RegularUserCommunitySendFriendRequestWindow window = new
-                                RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC);
-                        window.run(string, guidemo, sm, cmc, idC);
-                    }
-                    else{
-                        guidemo.printNotification(sm.msgForNo("tradable users can be added"));
-                    }
-                }
-                guidemo.runSave();
+                sendFriendRequest(isGuest, guidemo, sm, cmc, idC);
             }
         });
 
@@ -197,22 +136,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest){
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    HashMap<TradableUser, String> requests = cmc.getFriendRequest();
-                    if (!requests.isEmpty()){
-                        String string = sm.printFriendRequest(requests) + "\nPlease enter user's id to accept friend request.\n" ;
-                        RegularUserCommunityRespondRequestWindow window = new
-                                RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC);
-                        window.run(string, guidemo, sm, cmc, idC);
-                    }
-                    else{
-                        guidemo.printNotification(sm.msgForNo("requests to be responded"));
-                    }
-                }
-                guidemo.runSave();
+                respondToFriendRequests(isGuest, guidemo, sm, cmc, idC);
             }
         });
 
@@ -223,23 +147,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    ArrayList<TradableUser> friends = cmc.getFriends();
-                    if (!friends.isEmpty()){
-                        String string = "Here is a list of friends:\n" + sm.printListUser(friends) +
-                                "\nPlease enter user's id to unfriend.\n";
-                        RegularUserCommunityUnfriendWindow window = new RegularUserCommunityUnfriendWindow(string, guidemo, sm, cmc, idC);
-                        window.run(string, guidemo, sm, cmc, idC);
-
-                    }
-                    else{
-                        guidemo.printNotification(sm.msgForNo("tradable users to be unfriended"));
-                    }
-                    guidemo.runSave();
-                }
+                unfriendAUser(isGuest, guidemo, sm, cmc, idC);
             }
         });
 
@@ -250,23 +158,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest){
-                    guidemo.printNotification(sm.msgForGuest());
-                }
-                else {
-                    ArrayList<TradableUser> friends = cmc.getFriends();
-                    if (!friends.isEmpty()){
-                        String string = "Here is your list of friends:\n" + sm.printListUser(friends) +
-                                "\nPlease enter user's id to send a message.\n";
-                        RegularUserCommunitySendMessageWindow window =
-                                new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC);
-                        window.run(string, guidemo, sm, cmc, idC);
-                    }
-                    else{
-                        guidemo.printNotification(sm.msgForNo("friends, please add friends first"));
-                    }
-                    guidemo.runSave();
-                }
+                sendAMessageToFriend(isGuest, guidemo, sm, cmc, idC);
             }
         });
 
@@ -277,19 +169,7 @@ public class RegularUserCommunityMenuGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isGuest) {
-                    guidemo.printNotification(sm.msgForGuest());
-                } else {
-                    ArrayList<Message> messages = cmc.getAllMessages();
-                    String string;
-                    if (messages.isEmpty()) {
-                        string = "There is no messages.";
-                    }
-                    else {
-                        string = "Here is a list of messages: \n" + sm.printAllMessages(messages);
-                    }
-                    guidemo.printNotification(string);
-                }
+                viewMessages(isGuest, guidemo, sm, cmc);
             }
         });
 
@@ -304,5 +184,165 @@ public class RegularUserCommunityMenuGUI {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void viewMessages(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        } else {
+            ArrayList<Message> messages = cmc.getAllMessages();
+            String string;
+            if (messages.isEmpty()) {
+                string = "There is no messages.";
+            }
+            else {
+                string = "Here is a list of messages: \n" + sm.printAllMessages(messages);
+            }
+            guidemo.printNotification(string);
+        }
+    }
+
+    private void sendAMessageToFriend(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC) {
+        if (isGuest){
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            ArrayList<TradableUser> friends = cmc.getFriends();
+            if (!friends.isEmpty()){
+                String string = "Here is your list of friends:\n" + sm.printListUser(friends) +
+                        "\nPlease enter user's id to send a message.\n";
+                RegularUserCommunitySendMessageWindow window =
+                        new RegularUserCommunitySendMessageWindow(string, guidemo, sm, cmc, idC);
+                window.run(string, guidemo, sm, cmc, idC);
+            }
+            else{
+                guidemo.printNotification(sm.msgForNo("friends, please add friends first"));
+            }
+            guidemo.runSave();
+        }
+    }
+
+    private void unfriendAUser(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            ArrayList<TradableUser> friends = cmc.getFriends();
+            if (!friends.isEmpty()){
+                String string = "Here is a list of friends:\n" + sm.printListUser(friends) +
+                        "\nPlease enter user's id to unfriend.\n";
+                RegularUserCommunityUnfriendWindow window = new RegularUserCommunityUnfriendWindow(string, guidemo, sm, cmc, idC);
+                window.run(string, guidemo, sm, cmc, idC);
+
+            }
+            else{
+                guidemo.printNotification(sm.msgForNo("tradable users to be unfriended"));
+            }
+            guidemo.runSave();
+        }
+    }
+
+    private void respondToFriendRequests(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC) {
+        if (isGuest){
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            HashMap<TradableUser, String> requests = cmc.getFriendRequest();
+            if (!requests.isEmpty()){
+                String string = sm.printFriendRequest(requests) + "\nPlease enter user's id to accept friend request.\n" ;
+                RegularUserCommunityRespondRequestWindow window = new
+                        RegularUserCommunityRespondRequestWindow(string, guidemo, sm, cmc, idC);
+                window.run(string, guidemo, sm, cmc, idC);
+            }
+            else{
+                guidemo.printNotification(sm.msgForNo("requests to be responded"));
+            }
+        }
+        guidemo.runSave();
+    }
+
+    private void sendFriendRequest(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            ArrayList<TradableUser> notFriends = cmc.getNotFriends();
+            if (!notFriends.isEmpty()) {
+                String string = "Here's a list of users you can send request to:\n" + sm.printListUser(notFriends)
+                        + "\nPlease enter user's id to send friend request.\n";
+                RegularUserCommunitySendFriendRequestWindow window = new
+                        RegularUserCommunitySendFriendRequestWindow(string, guidemo, sm, cmc, idC);
+                window.run(string, guidemo, sm, cmc, idC);
+            }
+            else{
+                guidemo.printNotification(sm.msgForNo("tradable users can be added"));
+            }
+        }
+        guidemo.runSave();
+    }
+
+    private void viewFriends(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            String string;
+            if (cmc.getFriends().isEmpty()) {
+                string = sm.msgForNothing("your list of friends");
+            }
+            else {
+                string = sm.printListUser(cmc.getFriends());
+            }
+            guidemo.printNotification(string);
+        }
+    }
+
+    private void seeUsersInHomeCity(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            String string;
+            ArrayList<TradableUser> users = cmc.seeUsersInSameHC();
+            if (users.isEmpty()) {
+                string = "There is no users in your home city, please check later :)";
+            }
+            else {
+                string = "Here is a list of users in the same city as you: \n" + sm.printListUser(users);
+            }
+            guidemo.printNotification(string);
+        }
+    }
+
+    private void findTheRatingForUser(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
+            window.run(guidemo, cmc, idC);
+            }
+    }
+
+    private void reportAUser(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            RegularUserCommunityReportAUser report = new RegularUserCommunityReportAUser(sm, idC, cmc, guidemo);
+            report.run(sm, idC, cmc, guidemo);
+        }
+        guidemo.runSave();
+    }
+
+    private void writeAReview(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserIDChecker idC, RegularUserCommunityMenuController cmc) {
+        if (isGuest) {
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else {
+            RegularUserCommunityWriteAReviewWindow window = new RegularUserCommunityWriteAReviewWindow(guidemo, idC, cmc, sm);
+            window.run(guidemo, idC, cmc, sm);
+        }
+        guidemo.runSave();
     }
 }

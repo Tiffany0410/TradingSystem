@@ -50,22 +50,7 @@ public class RegularUserCommunitySendFriendRequestWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id_input = userId.getText();
-                String msg = message.getText();
-                if (idC.checkInt(id_input)) {
-                    int userToID = Integer.parseInt(id_input);
-                    if (userToID != cmc.getUserId()) {
-                        guidemo.printNotification(sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg), userToID));
-
-                    } else {
-                        guidemo.printNotification("You can't send friend request to yourself :)");
-                    }
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid information.");
-                }
-                guidemo.closeWindow(rootPanel);
-
+                sendFriendRequest(idC, cmc, guidemo, sm);
             }
         });
 
@@ -79,6 +64,24 @@ public class RegularUserCommunitySendFriendRequestWindow {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void sendFriendRequest(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
+        String id_input = userId.getText();
+        String msg = message.getText();
+        if (idC.checkInt(id_input)) {
+            int userToID = Integer.parseInt(id_input);
+            if (userToID != cmc.getUserId()) {
+                guidemo.printNotification(sm.msgForFriendRequest(cmc.sendFriendRequest(userToID, msg), userToID));
+
+            } else {
+                guidemo.printNotification("You can't send friend request to yourself :)");
+            }
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guidemo.closeWindow(rootPanel);
     }
 
     /**

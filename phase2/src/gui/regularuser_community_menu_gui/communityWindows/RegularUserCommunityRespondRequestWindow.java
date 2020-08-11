@@ -46,20 +46,7 @@ public class RegularUserCommunityRespondRequestWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String user_id = id.getText();
-                if (idC.checkInt(user_id)) {
-                    int userToID = Integer.parseInt(user_id);
-                    if (cmc.checkIdInRequest(userToID)){
-                        guidemo.printNotification(sm.msgForResult(cmc.addFriend(userToID)));
-                    }
-                    else {
-                        guidemo.printNotification("Please enter a valid user id in the list");
-                    }
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid information.");
-                }
-                guidemo.closeWindow(rootPanel);
+                respondFriendRequest(idC, cmc, guidemo, sm);
             }
         });
 
@@ -73,6 +60,23 @@ public class RegularUserCommunityRespondRequestWindow {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void respondFriendRequest(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
+        String user_id = id.getText();
+        if (idC.checkInt(user_id)) {
+            int userToID = Integer.parseInt(user_id);
+            if (cmc.checkIdInRequest(userToID)){
+                guidemo.printNotification(sm.msgForResult(cmc.addFriend(userToID)));
+            }
+            else {
+                guidemo.printNotification("Please enter a valid user id in the list");
+            }
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guidemo.closeWindow(rootPanel);
     }
 
     /**

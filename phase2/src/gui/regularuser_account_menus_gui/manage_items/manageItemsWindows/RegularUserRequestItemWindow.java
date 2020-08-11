@@ -31,26 +31,13 @@ public class RegularUserRequestItemWindow {
      */
     public RegularUserRequestItemWindow(GUIDemo guiDemo, RegularUserAccountMenuController amc, RegularUserOtherInfoChecker otherInfoChecker){
         addButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, request add item to inventory
+             * @param e click button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                /**
-                 * Invoke when click button and do related operation, request add item to inventory
-                 * @param e click button
-                 */
-                String itemName = name.getText();
-                String itemDescription = description.getText();
-                String itemCategory = (String) category.getSelectedItem();
-                if (otherInfoChecker.checkItemType(itemCategory)){
-                    Category item_category = Category.valueOf(itemCategory);
-                    amc.requestAddItem(itemName, itemDescription, item_category);
-                    guiDemo.runSave();
-                    guiDemo.printNotification("Item requested, please wait for an administrative user to confirm.");
-                }
-                else {
-                    guiDemo.printNotification("Please select the category of the item correctly.");
-                }
-                guiDemo.closeWindow(rootPanel);
-
+                requestItem(otherInfoChecker, amc, guiDemo);
             }
         });
 
@@ -64,6 +51,22 @@ public class RegularUserRequestItemWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void requestItem(RegularUserOtherInfoChecker otherInfoChecker, RegularUserAccountMenuController amc, GUIDemo guiDemo) {
+        String itemName = name.getText();
+        String itemDescription = description.getText();
+        String itemCategory = (String) category.getSelectedItem();
+        if (otherInfoChecker.checkItemType(itemCategory)){
+            Category item_category = Category.valueOf(itemCategory);
+            amc.requestAddItem(itemName, itemDescription, item_category);
+            guiDemo.runSave();
+            guiDemo.printNotification("Item requested, please wait for an administrative user to confirm.");
+        }
+        else {
+            guiDemo.printNotification("Please select the category of the item correctly.");
+        }
+        guiDemo.closeWindow(rootPanel);
     }
 
     /**
