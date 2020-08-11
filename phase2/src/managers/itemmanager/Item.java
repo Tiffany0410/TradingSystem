@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Shi Tang
  * @version IntelliJ IDEA 2020.1.1
  */
-public class Item implements Serializable {
+public class Item implements Serializable{
     private String name;
     private String description;
     private int itemId;
