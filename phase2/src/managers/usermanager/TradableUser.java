@@ -1,13 +1,10 @@
 package managers.usermanager;
 
-import java.awt.image.ImageObserver;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * An instance of this class represents a regular user in our system.

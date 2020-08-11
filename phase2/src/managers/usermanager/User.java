@@ -1,9 +1,7 @@
 package managers.usermanager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+
 
 /**
  * An instance of this class represents an admin user in this system.
