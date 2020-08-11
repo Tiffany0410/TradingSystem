@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user browses the follow menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserFollowMenuGUI {
     private JButton followAnUserButton;
     private JButton followAnItemButton;
@@ -20,8 +26,7 @@ public class RegularUserFollowMenuGUI {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user is browsing the follow menu.
+     * Construct a RegularUserFollowMenuGUI.
      * @param guiD The GUI helper.
      * @param amc The RegularUserAccountMenuController
      * @param idChecker The id checker.

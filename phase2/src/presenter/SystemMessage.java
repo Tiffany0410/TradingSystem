@@ -29,7 +29,6 @@ public class SystemMessage {
 
     }
 
-
     /**
      * Prints the message for when there is nothing to be shown.
      */
@@ -448,10 +447,19 @@ public class SystemMessage {
         return string.toString();
     }
 
+    /**
+     * 
+     * @param object
+     * @return
+     */
     public String printObject(Object object){
         return object.toString();
     }
 
+    /**
+     * Puts together a message explaining why the trade request fails.
+     * @return A message explaining why the trade request fails.
+     */
     public String msgTradeRequestFail(){
         return "Trade request failed, please check the following conditions:\n\nFor one-way-trade:\n" +
                 "1. The item is tradable. \n2. You have added the item to your wishlist.\n3. You have completed a two-way-trade before.\n\n" +

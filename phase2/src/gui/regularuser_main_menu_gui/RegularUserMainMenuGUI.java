@@ -11,6 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user browses the user main menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserMainMenuGUI {
     private JPanel rootPanel;
     private JButton accountInformationButton;
@@ -22,8 +28,7 @@ public class RegularUserMainMenuGUI {
     private JButton communityInformationButton;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user is browsing the account main menu.
+     * Constructs a RegularUserMainMenuGUI.
      * @param guest Whether or not guest access should be granted.
      * @param sm The presenter.
      * @param guiD The GUI helper.
