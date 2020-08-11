@@ -50,7 +50,7 @@ public class Review implements Serializable {
      * @return a string for a review
      */
     public String toString(){
-        return "User " + receiverId + " has been reviewed by user " + reviewerId + " with point: "+ point +
+        return "User id " + receiverId + " has been reviewed by user id " + reviewerId + " with point: "+ point +
                 ".\nReview message: "+ reason;
     }
 }

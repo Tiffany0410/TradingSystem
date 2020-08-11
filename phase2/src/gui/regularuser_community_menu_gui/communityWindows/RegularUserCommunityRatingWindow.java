@@ -60,7 +60,7 @@ public class RegularUserCommunityRatingWindow {
             if (rate == -1.0) {
                 guidemo.printNotification("This user does not have any reviews.");
             } else {
-                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id)) + "\n";
+                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id)) + ".\n\n";
                 String reviews = sm.msgForReview(cmc.getAllReviews(id));
                 guidemo.printNotification(msg+reviews);
             }
