@@ -3,6 +3,7 @@ package gui.regularuser_community_menu_gui.communityWindows;
 import controllers.regularusersubcontrollers.RegularUserCommunityMenuController;
 import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import demomanager.GUIDemo;
+import presenter.SystemMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +28,7 @@ public class RegularUserCommunityRatingWindow {
      * @param cmc RegularUserCommunityMenuController
      * @param idC RegularUserIDChecker
      */
-    public RegularUserCommunityRatingWindow(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
+    public RegularUserCommunityRatingWindow(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC, SystemMessage sm){
         okButton.addActionListener(new ActionListener() {
             /**
              * Invoke when click button and do related operation, find rating for this user
@@ -35,7 +36,7 @@ public class RegularUserCommunityRatingWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                findRating(idC, cmc, guidemo);
+                findRating(idC, cmc, guidemo, sm);
             }
         });
 
@@ -51,7 +52,7 @@ public class RegularUserCommunityRatingWindow {
         });
     }
 
-    private void findRating(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo) {
+    private void findRating(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
         String str = textField1.getText();
         if (idC.checkInt(str) && cmc.checkUserId(Integer.parseInt(str))) {
             int id = Integer.parseInt(str);
@@ -59,12 +60,13 @@ public class RegularUserCommunityRatingWindow {
             if (rate == -1.0) {
                 guidemo.printNotification("This user does not have any reviews.");
             } else {
-                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id));
-                guidemo.printNotification(msg);
+                String msg = "The rating of this user is " + Math.round(cmc.findRatingForUser(id)) + "\n";
+                String reviews = sm.msgForReview(cmc.getAllReviews(id));
+                guidemo.printNotification(msg+reviews);
             }
         }
         else {
-            guidemo.printNotification("Please enter a valid user id.");
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
         }
         guidemo.closeWindow(rootPanel);
     }
@@ -75,9 +77,9 @@ public class RegularUserCommunityRatingWindow {
      * @param cmc RegularUserCommunityMenuController
      * @param idC RegularUserIDChecker
      */
-    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC){
+    public void run(GUIDemo guidemo, RegularUserCommunityMenuController cmc, RegularUserIDChecker idC, SystemMessage sm){
         JFrame frame = new JFrame("Find rating");
-        frame.setContentPane(new RegularUserCommunityRatingWindow(guidemo, cmc, idC).rootPanel);
+        frame.setContentPane(new RegularUserCommunityRatingWindow(guidemo, cmc, idC, sm).rootPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(300, 300));
         frame.pack();
