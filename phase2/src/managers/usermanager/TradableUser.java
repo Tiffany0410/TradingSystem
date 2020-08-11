@@ -357,7 +357,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of item that this user followed
      */
-    protected ArrayList<Integer> getItemFollowed() {
+    public ArrayList<Integer> getItemFollowed() {
         return itemFollowed;
     }
     /**
@@ -365,7 +365,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records user following log
      */
-    protected ArrayList<String> getUserFollowingLogs() {
+    public ArrayList<String> getUserFollowingLogs() {
         return userFollowingLogs;
     }
     /**
@@ -373,7 +373,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records item following log
      */
-    protected ArrayList<String> getItemFollowingLogs() {
+    public ArrayList<String> getItemFollowingLogs() {
         return itemFollowingLogs;
     }
 
