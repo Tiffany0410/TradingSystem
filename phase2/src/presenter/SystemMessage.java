@@ -8,7 +8,6 @@ import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import managers.usermanager.UserManager;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,7 +16,7 @@ import java.util.HashMap;
  * communication bridge from the system
  * to the user.
  *
- * @author Yu Xin Yan, Jiaqi Gong
+ * @author Yu Xin Yan
  * @version IntelliJ IDEA 2020.1
  */
 public class SystemMessage {
@@ -27,6 +26,7 @@ public class SystemMessage {
     private TradeSystemMessage tsm;
     private MeetingSystemMessage msm;
     private ThresholdSystemMessage thsm;
+    private GeneralSystemMessage gsm;
 
     /**
      * Constructs a SystemMessage instance.
@@ -38,6 +38,7 @@ public class SystemMessage {
         tsm = new TradeSystemMessage();
         msm = new MeetingSystemMessage();
         thsm = new ThresholdSystemMessage();
+        gsm = new GeneralSystemMessage();
     }
 
     /**
@@ -45,7 +46,7 @@ public class SystemMessage {
      * @return The message for when there is nothing to be shown.
      */
     public String msgForNothing(){
-        return "There's nothing here.";
+        return gsm.msgForNothing();
     }
 
     /**
@@ -53,7 +54,7 @@ public class SystemMessage {
      * @return The message for invalid input.
      */
     public String invalidInput() {
-        return "Invalid put in, please type again.";
+        return gsm.invalidInput();
     }
 
     /**
@@ -61,7 +62,7 @@ public class SystemMessage {
      * @return The message for invalid number input.
      */
     public String invalidNumber(){
-        return "Invalid put in, please type a number.";
+        return gsm.invalidNumber();
     }
 
     /**
@@ -128,7 +129,7 @@ public class SystemMessage {
      * Prints the message for the guest that tries to access options
      * that are meant for users.
      */
-    public String msgForGuest(){return "Please login, guest account can't do this."; }
+    public String msgForGuest(){return gsm.msgForGuest(); }
 
     /**
      * Prints the message for the user that tries to
@@ -136,7 +137,7 @@ public class SystemMessage {
      * frozen status.
      */
     public String lockMessageForFrozen(){
-        return "This menu is locked because you're frozen.";
+        return gsm.lockMessageForFrozen();
     }
 
 
@@ -147,8 +148,7 @@ public class SystemMessage {
      * @return The message described above.
      */
     public String lockMessageForVacation() {
-        return"Because you're on vacation, you can't be involved in trade/meeting. \n " +
-                "If you're back from vacation, please change your on-vacation status in the Account Menu.";
+        return gsm.lockMessageForVacation();
     }
 
     /**
@@ -157,12 +157,7 @@ public class SystemMessage {
      * @return The message that indicates the result.
      */
     public String msgForResult(boolean validator){
-        if (validator){
-            return "Success";
-        }
-        else {
-            return "Fail";
-        }
+        return gsm.msgForResult(validator);
     }
 
     /**
@@ -171,12 +166,7 @@ public class SystemMessage {
      * @return The message that indicates whether the user set the status successfully or not.
      */
     public String msgForStatusChangeResult(boolean validator){
-        if (validator){
-            return "Success";
-        }
-        else {
-            return "Fail because you are already in the status that you're trying to set.";
-        }
+        return gsm.msgForStatusChangeResult(validator);
     }
 
     /**
@@ -185,12 +175,7 @@ public class SystemMessage {
      * @return A message indicating if user's response to request is send successfully.
      */
     public String msgForRequestProcess(boolean validator){
-        if (validator) {
-            return "Your response to request is sent successfully";
-        }
-        else{
-            return "Your response to request is sent unsuccessfully";
-        }
+        return gsm.msgForRequestProcess(validator);
     }
 
     /**
@@ -199,19 +184,14 @@ public class SystemMessage {
      * @return The result of the request, in string.
      */
     public String msgForRequestResult(boolean validator){
-        if (validator) {
-            return "Your request is successful.";
-        }
-        else{
-            return "Your request is unsuccessful.";
-        }
+        return gsm.msgForRequestResult(validator);
     }
     /**
      * Puts together a message telling the user he/she is frozen because of a threshold.
      * @return A message telling the user to try again because of a wrong input.
      */
     public String failMessageForFrozen(){
-        return "You're frozen because you borrowed more than you lend";
+        return gsm.failMessageForFrozen();
     }
 
     /**
@@ -220,6 +200,24 @@ public class SystemMessage {
      */
     public String lockMessageForTPLimit() {
         return thsm.lockMessageForTPLimit();
+    }
+
+
+    /**
+     * Puts together a message telling the user to try again because of a wrong input.
+     * @return A message telling the user to try again because of a wrong input.
+     */
+    public String tryAgainMsgForWrongInput(){
+        return gsm.tryAgainMsgForWrongInput();
+    }
+
+
+    /**
+     * Puts together a message telling the user why the time and place cannot be confirmed.
+     * @return A message telling the user why the time and place cannot be confirmed.
+     */
+    public String tryAgainMsgForWrongFormatInput(){
+        return gsm.tryAgainMsgForWrongFormatInput();
     }
 
     /**
@@ -237,7 +235,7 @@ public class SystemMessage {
      * @return A string to describe there's nothing inside something.
      */
     public String msgForNothing(String string){
-        return "There is nothing in " + string + " .";
+        return gsm.msgForNothing(string);
     }
 
     /**
@@ -281,24 +279,6 @@ public class SystemMessage {
         return pom.printListNumberedObject(objects);
     }
 
-
-    /**
-     * Puts together a message telling the user to try again because of a wrong input.
-     * @return A message telling the user to try again because of a wrong input.
-     */
-    public String tryAgainMsgForWrongInput(){
-        return "Please try again, one or more input(s) are invalid.";
-    }
-
-
-    /**
-     * Puts together a message telling the user why the time and place cannot be confirmed.
-     * @return A message telling the user why the time and place cannot be confirmed.
-     */
-    public String tryAgainMsgForWrongFormatInput(){
-        return "Please try again. One or more of your input(s) were in the incorrect format (ex. we ask for int and you entered a word)." +
-                "Also, don't add 0 before a number (ex. we accept 5 but don't accept 05). ";
-    }
 
     /**
      * Puts together a message telling the user why the time and place cannot be confirmed.
@@ -348,7 +328,7 @@ public class SystemMessage {
      * @return The message made up of "there is no" part and the input string.
      */
     public String msgForNo(String string){
-        return "There is no " + string + " .";
+        return gsm.msgForNo(string);
     }
 
 
