@@ -9,6 +9,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to follow an item.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class FollowAnItemWindow {
     private JTextField textField1;
     private JButton OKButton;
@@ -16,8 +24,7 @@ public class FollowAnItemWindow {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user wants to follow an item.
+     * Constructs a FollowAnItemWindow.
      * @param guiD The GUI helper.
      * @param idChecker The id checker.
      * @param sm The presenter.

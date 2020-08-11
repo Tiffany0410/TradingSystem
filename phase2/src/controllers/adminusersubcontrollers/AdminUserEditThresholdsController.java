@@ -4,7 +4,6 @@ import managers.actionmanager.ActionManager;
 import managers.usermanager.UserManager;
 import presenter.SystemMessage;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -16,7 +15,6 @@ import java.util.List;
  */
 public class AdminUserEditThresholdsController {
 
-    private AdminUserOtherInfoChecker otherInfoGetter;
     private SystemMessage sm;
     private ActionManager am;
     private Integer userId;
@@ -60,7 +58,7 @@ public class AdminUserEditThresholdsController {
         this.thresholdValues.set(0, futureValue);
 
         am.addActionToAllActionsList(this.userId, "adminUser", "2.1", this.currentValue, String.valueOf(futureValue));
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 
     /**
@@ -80,7 +78,7 @@ public class AdminUserEditThresholdsController {
     public String editMaxNumberIncompleteTransactions(int futureValue){
         this.thresholdValues.set(1, futureValue);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.2", this.currentValue, String.valueOf(futureValue));
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 
     /**
@@ -100,7 +98,7 @@ public class AdminUserEditThresholdsController {
     public String editMustLendNumber(int futureValue){
         this.thresholdValues.set(2, futureValue);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.3", this.currentValue, String.valueOf(futureValue));
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 
     /**
@@ -120,6 +118,6 @@ public class AdminUserEditThresholdsController {
     public String editMaxEdits(int futureValue){
         this.thresholdValues.set(3, futureValue);
         am.addActionToAllActionsList(this.userId, "adminUser", "2.4", currentValue, String.valueOf(futureValue));
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 }

@@ -47,15 +47,7 @@ public class RegularUserCommunityUnfriendWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String user_id = id.getText();
-                if (idC.checkInt(user_id)){
-                    int id = Integer.parseInt(user_id);
-                    guidemo.printNotification(sm.msgForResult(cmc.unfriendUser(id)));
-                }
-                else {
-                    guidemo.printNotification("Please enter a valid information.");
-                }
-                guidemo.closeWindow(rootPanel);
+                unfriend(idC, guidemo, sm, cmc);
             }
         });
 
@@ -69,6 +61,18 @@ public class RegularUserCommunityUnfriendWindow {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void unfriend(RegularUserIDChecker idC, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
+        String user_id = id.getText();
+        if (idC.checkInt(user_id)){
+            int id = Integer.parseInt(user_id);
+            guidemo.printNotification(sm.msgForResult(cmc.unfriendUser(id)));
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+        guidemo.closeWindow(rootPanel);
     }
 
     /**

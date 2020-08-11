@@ -42,22 +42,7 @@ public class RegularUserCommunityReportAUser {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String userId = idField.getText();
-                String reason = reasonArea.getText();
-                if (idC.checkInt(userId)) {
-                    boolean sOrF = cmc.reportUser(Integer.parseInt(userId),reason);
-                    if(cmc.getUserId()==Integer.parseInt(userId)){
-                        guidemo.printNotification("Fail. Please do not report yourself.");}
-                    else if(sOrF){
-                        guidemo.printNotification(sm.msgForResult(true));}
-                    else if(idC.checkUserID(Integer.parseInt(userId)))
-                    {guidemo.printNotification("Fail. You have reported this user.");}
-                    else{guidemo.printNotification("Fail. This user does not exist.");}
-                    guidemo.closeWindow(rootPanel);
-                }
-                else {
-                    guidemo.printNotification("Please enter valid information.");
-                }
+                reportUser(idC, cmc, guidemo, sm);
             }
         });
 
@@ -72,6 +57,26 @@ public class RegularUserCommunityReportAUser {
             }
         });
     }
+
+    private void reportUser(RegularUserIDChecker idC, RegularUserCommunityMenuController cmc, GUIDemo guidemo, SystemMessage sm) {
+        String userId = idField.getText();
+        String reason = reasonArea.getText();
+        if (idC.checkInt(userId)) {
+            boolean sOrF = cmc.reportUser(Integer.parseInt(userId),reason);
+            if(cmc.getUserId()==Integer.parseInt(userId)){
+                guidemo.printNotification("Fail. Please do not report yourself.");}
+            else if(sOrF){
+                guidemo.printNotification(sm.msgForResult(true));}
+            else if(idC.checkUserID(Integer.parseInt(userId)))
+            {guidemo.printNotification("Fail. You have reported this user.");}
+            else{guidemo.printNotification("Fail. This user does not exist.");}
+            guidemo.closeWindow(rootPanel);
+        }
+        else {
+            guidemo.printNotification(sm.tryAgainMsgForWrongInput());
+        }
+    }
+
     /**
      * run Regular user community report window
      * @param sm SystemMessage

@@ -1,12 +1,5 @@
 package gateway;
 
-import managers.meetingmanager.MeetingManager;
-import managers.trademanager.TradeManager;
-import managers.usermanager.UserManager;
-import managers.feedbackmanager.*;
-import managers.itemmanager.ItemManager;
-
-
 import java.io.*;
 import java.util.*;
 
@@ -233,37 +226,6 @@ public class FilesReaderWriter implements Serializable {
         // serialize the object
         output.writeObject(manager);
         output.close();
-    }
-
-
-    /**
-     * Return the largest menu number of the menu file at filePath.
-     *
-     * @param filePath the file to write the records to
-     * @throws FileNotFoundException if filePath is not a valid path
-     */
-    public int MenuLength(String filePath) throws FileNotFoundException {
-        File file = new File(filePath);
-        if (file.exists()) {
-            // FileInputStream can be used for reading raw bytes, like an image.
-            Scanner scanner = new Scanner(new FileInputStream(filePath));
-            String[] record;
-            int MenuNumber = 0;
-
-            while (scanner.hasNextLine()) {
-                record = scanner.nextLine().split("\\.");
-                int TempNumber = Integer.parseInt(record[0]);
-                if (TempNumber >= MenuNumber) {
-                    MenuNumber = TempNumber;
-                }
-            }
-            scanner.close();
-            return MenuNumber;
-        }
-
-        else {
-            throw new FileNotFoundException();
-        }
     }
 
     /**

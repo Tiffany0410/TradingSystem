@@ -1,13 +1,10 @@
 package managers.usermanager;
 
-import java.awt.image.ImageObserver;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * An instance of this class represents a regular user in our system.
@@ -29,7 +26,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
     private int transactionsLeftForTheWeek = 3;
     //friends related
     private ArrayList<Integer> friend;
-    private ArrayList<String[]> friendRequests;
     //Vacation related
     private String homeCity;
     private boolean onVacation;
@@ -56,7 +52,6 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
         isFrozen = false;
         onVacation = false;
         friend = new ArrayList<>();
-        friendRequests = new ArrayList<>();
         followers = new ArrayList<>();
         userFollowed = new ArrayList<>();
         itemFollowed = new ArrayList<>();
@@ -360,7 +355,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of item that this user followed
      */
-    protected ArrayList<Integer> getItemFollowed() {
+    public ArrayList<Integer> getItemFollowed() {
         return itemFollowed;
     }
     /**
@@ -368,7 +363,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records user following log
      */
-    protected ArrayList<String> getUserFollowingLogs() {
+    public ArrayList<String> getUserFollowingLogs() {
         return userFollowingLogs;
     }
     /**
@@ -376,7 +371,7 @@ public class TradableUser extends User implements Serializable, PropertyChangeLi
      *
      * @return A list of string records item following log
      */
-    protected ArrayList<String> getItemFollowingLogs() {
+    public ArrayList<String> getItemFollowingLogs() {
         return itemFollowingLogs;
     }
 

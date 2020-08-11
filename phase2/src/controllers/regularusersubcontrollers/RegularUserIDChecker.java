@@ -2,7 +2,6 @@ package controllers.regularusersubcontrollers;
 
 import managers.itemmanager.Item;
 import managers.itemmanager.ItemManager;
-import managers.meetingmanager.MeetingManager;
 import managers.trademanager.TradeManager;
 import managers.usermanager.UserManager;
 
@@ -21,27 +20,23 @@ import java.util.regex.Pattern;
 public class RegularUserIDChecker {
 
     private TradeManager tm;
-    private MeetingManager mm;
     private UserManager um;
     private ItemManager im;
 
     /**
-     * Constructs a RegularUserIDGetter with a DisplaySystem, a TradeManager,
-     * a MeetingManager, a UserManager, and an ItemManager.
+     * Constructs a RegularUserIDGetter with a TradeManager,
+     * a UserManager, and an ItemManager.
      *
      * @param tm       The current state of the TradeManager.
-     * @param mm       The current state of the MeetingManager.
      * @param um       The current state of the UserManager.
      * @param im       The current state of the ItemManager.
      */
-    public RegularUserIDChecker(TradeManager tm, MeetingManager mm,
+    public RegularUserIDChecker(TradeManager tm,
                                 UserManager um, ItemManager im) {
         this.tm = tm;
-        this.mm = mm;
         this.um = um;
         this.im = im;
     }
-
 
     /**
      * Checks if user's input of the item id is valid.
@@ -58,6 +53,12 @@ public class RegularUserIDChecker {
 
     }
 
+    /**
+     * Checks if the item id is valid.
+     * @param items The list of items the id needs to be in.
+     * @param id The id of the item.
+     * @return Whether the item id is valid.
+     */
     public boolean checkItemID(ArrayList<Item> items, int id){
         ArrayList<Integer> ids = im.getItemsIDs(items);
         return ids.contains(id);

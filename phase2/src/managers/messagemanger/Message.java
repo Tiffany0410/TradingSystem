@@ -1,7 +1,7 @@
 package managers.messagemanger;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 /**
  * An instance of this class represents a message  in this system.
  *
@@ -35,15 +35,6 @@ public class Message implements Serializable{
 
     protected Integer getReceiverId() {
         return receiverId;
-    }
-
-    /**
-     * Get the message.
-     *
-     * @return message.
-     */
-    protected String getMessage() {
-        return message;
     }
 
     /**

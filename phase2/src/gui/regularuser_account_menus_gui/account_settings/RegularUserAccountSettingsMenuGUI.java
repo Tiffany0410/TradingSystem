@@ -12,6 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user browses the account settings menu.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class RegularUserAccountSettingsMenuGUI {
     private JButton requestToUnfreezeAccountButton;
     private JButton setYourOnVacationButton;
@@ -22,8 +28,7 @@ public class RegularUserAccountSettingsMenuGUI {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user is browsing the account settings menu.
+     * Constructs the RegularUserAccountSettingsMenuGUI.
      * @param atc The RegularUserAccountMenuController.
      * @param sm The presenter.
      * @param idc The id checker.

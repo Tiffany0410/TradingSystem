@@ -327,4 +327,13 @@ public class MeetingManager implements java.io.Serializable{
             string1.append("\n");
         }return string1.toString();
     }
+
+    /**
+     * Gets the trade id for the meeting.
+     * @param m A meeting.
+     * @return The trade id of the meeting.
+     */
+    public int meetingToTradeId(Meeting m){
+        return m.getTradeId();
+    }
 }

@@ -51,27 +51,7 @@ public class RequestTradeWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (oneWayTradeRadioButton.isSelected() && permanentRadioButton.isSelected()){
-                    OneWayTradeWindow window = new OneWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
-                }
-                else if(oneWayTradeRadioButton.isSelected() && temporaryRadioButton.isSelected()){
-                    OneWayTradeWindow window = new OneWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
-                }
-                else if (twoWayTradeRadioButton.isSelected() && permanentRadioButton.isSelected()){
-                    TwoWayTradeWindow window = new TwoWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
-                }
-                else if (twoWayTradeRadioButton.isSelected() && temporaryRadioButton.isSelected()){
-                    TwoWayTradeWindow window = new TwoWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
-                    window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
-                }
-                else{
-                    guiD.printNotification("Please select an option.");
-                }
-                guiD.runSave();
-                guiD.closeWindow(rootPanel);
+                requestATrade(idC, guiD, atc, sm, numLentBeforeBorrow);
             }
         });
 
@@ -84,6 +64,30 @@ public class RequestTradeWindow {
                 guiD.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void requestATrade(RegularUserIDChecker idC, GUIDemo guiD, RegularUserTradingMenuController atc, SystemMessage sm, int numLentBeforeBorrow) {
+        if (oneWayTradeRadioButton.isSelected() && permanentRadioButton.isSelected()){
+            OneWayTradeWindow window = new OneWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
+        }
+        else if(oneWayTradeRadioButton.isSelected() && temporaryRadioButton.isSelected()){
+            OneWayTradeWindow window = new OneWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
+        }
+        else if (twoWayTradeRadioButton.isSelected() && permanentRadioButton.isSelected()){
+            TwoWayTradeWindow window = new TwoWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Permanent");
+        }
+        else if (twoWayTradeRadioButton.isSelected() && temporaryRadioButton.isSelected()){
+            TwoWayTradeWindow window = new TwoWayTradeWindow(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
+            window.run(idC, guiD, atc, sm, numLentBeforeBorrow, "Temporary");
+        }
+        else{
+            guiD.printNotification("Please select an option.");
+        }
+        guiD.runSave();
+        guiD.closeWindow(rootPanel);
     }
 
     /**

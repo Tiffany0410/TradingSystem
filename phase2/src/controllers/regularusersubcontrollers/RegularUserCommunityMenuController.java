@@ -2,6 +2,7 @@ package controllers.regularusersubcontrollers;
 
 import managers.actionmanager.ActionManager;
 import managers.feedbackmanager.FeedbackManager;
+import managers.feedbackmanager.Review;
 import managers.messagemanger.Message;
 import managers.messagemanger.MessageManager;
 import managers.usermanager.TradableUser;
@@ -87,6 +88,15 @@ public class RegularUserCommunityMenuController {
     public double findRatingForUser(int id) {
         am.addActionToAllActionsList(userId, "regularUser", "5.3", id, "");
         return fm.calculateRate(id);
+    }
+   
+    /**
+     * @param userId the user id
+     * @return a list of reviews for the id
+     */
+    public ArrayList<Review> getAllReviews(int userId){
+        am.addActionToAllActionsList(userId, "regularUser", "5.11", 0, "");
+        return fm.getReviewById(userId);
     }
 
     /**

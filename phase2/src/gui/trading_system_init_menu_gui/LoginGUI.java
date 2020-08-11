@@ -8,6 +8,12 @@ import controllers.LoginValidator;
 import demomanager.GUIDemo;
 import gui.NotificationGUI;
 
+/**
+ * Used to show user login window
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
+
 public class LoginGUI {
     private JPanel rootPanel;
     private JLabel usernameLabel;
@@ -17,6 +23,11 @@ public class LoginGUI {
     private JButton cancelButton;
     private JButton loginButton1;
 
+    /**
+     * This method run the window of login
+     * @param loginValidator login validator
+     * @param guiDemo GUIDemo
+     */
     public void run(LoginValidator loginValidator, GUIDemo guiDemo) {
         JFrame frame = new JFrame("loginGUI");
         frame.setContentPane(new LoginGUI(loginValidator, guiDemo).rootPanel);
@@ -28,6 +39,11 @@ public class LoginGUI {
 
     }
 
+    /**
+     * This is constructor of LoginGUI
+     * @param loginValidator login validator
+     * @param guiDemo GUIDemo
+     */
     public LoginGUI(LoginValidator loginValidator, GUIDemo guiDemo) {
         loginButton1.addActionListener(new ActionListener() {
             /**
@@ -37,35 +53,7 @@ public class LoginGUI {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (loginValidator.checkUsername(usernameText.getText())){
-                    String type;
-
-                    type = loginValidator.checkPassword(new String(passwordText.getPassword()));
-
-
-                    switch (type) {
-                        case "False":
-                            String string = "Wrong password, please check again";
-                            NotificationGUI notificationGUI = new NotificationGUI(string);
-                            notificationGUI.run(string);
-                            break;
-                        case "Admin":
-                            guiDemo.setTempUsername(usernameText.getText());
-                            guiDemo.runAdminUserMainMenu();
-                            guiDemo.closeWindow(rootPanel);
-                            break;
-                        case "User":
-                            guiDemo.setTempUsername(usernameText.getText());
-                            guiDemo.runRegularUserMainMenu(false);
-                            guiDemo.closeWindow(rootPanel);
-                            break;
-                    }
-
-                } else{
-                    String string = "Username does not exist, please check again";
-                    NotificationGUI notificationGUI = new NotificationGUI(string);
-                    notificationGUI.run(string);
-                }
+                loginExecute(loginValidator, guiDemo);
             }
         });
         cancelButton.addActionListener(new ActionListener() {
@@ -80,5 +68,42 @@ public class LoginGUI {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    /**
+     * This method do related operation
+     * @param loginValidator login validator
+     * @param guiDemo GUIDemo
+     */
+    private void loginExecute(LoginValidator loginValidator, GUIDemo guiDemo) {
+        if (loginValidator.checkUsername(usernameText.getText())){
+            String type;
+
+            type = loginValidator.checkPassword(new String(passwordText.getPassword()));
+
+
+            switch (type) {
+                case "False":
+                    String string = "Wrong password, please check again";
+                    NotificationGUI notificationGUI = new NotificationGUI(string);
+                    notificationGUI.run(string);
+                    break;
+                case "Admin":
+                    guiDemo.setTempUsername(usernameText.getText());
+                    guiDemo.runAdminUserMainMenu();
+                    guiDemo.closeWindow(rootPanel);
+                    break;
+                case "User":
+                    guiDemo.setTempUsername(usernameText.getText());
+                    guiDemo.runRegularUserMainMenu(false);
+                    guiDemo.closeWindow(rootPanel);
+                    break;
+            }
+
+        } else{
+            String string = "Username does not exist, please check again";
+            NotificationGUI notificationGUI = new NotificationGUI(string);
+            notificationGUI.run(string);
+        }
     }
 }

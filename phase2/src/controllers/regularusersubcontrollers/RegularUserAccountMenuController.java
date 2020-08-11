@@ -31,9 +31,9 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Constructs a RegularUserAccountMenuController with a DisplaySystem,
+     * Constructs a RegularUserAccountMenuController with
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
-     * an ActionManager, a FeedbackManager, the regular user's username and userId.
+     * an ActionManager, and the regular user's username.
      *
      * @param sm       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.
@@ -243,7 +243,7 @@ public class RegularUserAccountMenuController {
      * Receives the request to unfreeze from the user
      * and let the user manager handle it.
      */
-    public boolean RequestToUnfreeze(String msg) {
+    public boolean requestToUnfreeze(String msg) {
         //calling this method means user is not a guest
         am.addActionToAllActionsList(userId, "regularUser", "1.2.1", 0, "");
         return um.requestUnfreeze(username, msg);
@@ -280,7 +280,7 @@ public class RegularUserAccountMenuController {
         um.changeHome(userId, newHC);
 
         am.addActionToAllActionsList(userId, "regularUser", "1.2.3", 0, newHC);
-        return sm.printResult(true);
+        return sm.msgForResult(true);
     }
 
     /**

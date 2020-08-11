@@ -8,6 +8,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that is responsible for the view and getting input for user
+ * when user wants to change his/her home city.
+ * @author Yu Xin Yan
+ * @version IntelliJ IDEA 2020.1
+ */
 public class ChangeYourHCWindow {
     private JComboBox comboBox1;
     private JButton cancelButton;
@@ -15,8 +21,7 @@ public class ChangeYourHCWindow {
     private JPanel rootPanel;
 
     /**
-     * Responsible for the view and getting input for user
-     * when user wants to change his/her home city.
+     * Constructs a ChangeYourHCWindow.
      * @param atc The RegularUserAccountMenuController.
      * @param guiDemo The GUI helper.
      * @param sm The presenter.

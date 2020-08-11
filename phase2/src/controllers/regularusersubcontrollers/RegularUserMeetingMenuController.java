@@ -22,8 +22,8 @@ public class RegularUserMeetingMenuController {
     private int userId;
 
     /**
-     * Constructs a RegularUserMeetingMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
+     * Constructs a RegularUserMeetingMenuController with
+     * a TradeManager, a MeetingManager, an actionManager, and the regular user's userId.
      *
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.
@@ -42,7 +42,6 @@ public class RegularUserMeetingMenuController {
      * @return The list of meetings that unconfirmed it took place.
      */
     public List<Meeting> getUnconfirmedMeeting(){
-//        am.addActionToAllActionsList(userId, "regularUser", "3.3", 0, "");
         return mm.getUnConfirmMeeting(userId);
     }
 
@@ -93,7 +92,6 @@ public class RegularUserMeetingMenuController {
      * @return A list of meeting that the time and place is not confirmed.
      */
     public List<Meeting> getUnConfirmTimePlace(){
-//        am.addActionToAllActionsList(userId, "regularUser", "3.5", 0, "");
         return mm.getUnConfirmTimePlace(userId,tm);
     }
 

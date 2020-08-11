@@ -136,17 +136,6 @@ public class RegularUserSearchingMenuController {
         return im.getItemsByIds(ids);
     }
 
-
-    /** Get an item's description by id
-     * @param itemId item id
-     * @return item's description
-     */
-    public String getItemById(int itemId){
-        Item c = im.getItembyId(itemId);
-        am.addActionToAllActionsList(userId, "regularUser", "4.1.3", itemId, "");
-        return c.getDescription();
-    }
-
     /** Get an item by id
      * @param itemId item id
      * @return an Item by giving item id

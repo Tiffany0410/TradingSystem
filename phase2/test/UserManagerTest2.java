@@ -198,4 +198,5 @@ public class UserManagerTest2 {
         assertFalse(um.userUnfollow(2, 1));
         assertFalse(u2.getFollowers().contains(1));
     }
+
 }

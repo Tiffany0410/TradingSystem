@@ -30,10 +30,9 @@ public class AdminUserManagerUsersController {
      * @param um user manager
      * @param im item manager
      * @param am action manager
-     * @param sm system message
      * @param username user name of this account
      */
-    public AdminUserManagerUsersController( UserManager um, ItemManager im, ActionManager am, SystemMessage sm,
+    public AdminUserManagerUsersController(UserManager um, ItemManager im, ActionManager am,
             String username) {
         this.um = um;
         this.im = im;

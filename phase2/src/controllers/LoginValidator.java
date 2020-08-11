@@ -67,24 +67,4 @@ public class LoginValidator implements Serializable {
         return "False";
     }
 
-
-    /** Verify user's login with username and password
-     * @param username The user's username
-     * @param password The user's password
-     * @return string "User" if and only if user is user with correct username and password; return string "Admin" if
-     * and only if user is administrative user with correct username and password; otherwise, return "False".
-     */
-    public String verifyLogin(String username, String password){
-        if (userLoginInfo.containsKey(username)){
-            if (userLoginInfo.get(username).equals(password)) {
-                return "User";
-            }
-        }
-        if (adminUserLoginInfo.containsKey(username)) {
-            if (adminUserLoginInfo.get(username).equals(password)){
-                return "Admin";
-            }
-        }
-        return "False";
-    }
 }

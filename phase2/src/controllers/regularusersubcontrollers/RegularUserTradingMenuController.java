@@ -33,8 +33,8 @@ public class RegularUserTradingMenuController {
     private int userId;
 
     /**
-     * Constructs a RegularUserTradingMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, an UserManager, the regular user's username,
+     * Constructs a RegularUserTradingMenuController with
+     * a TradeManager, a MeetingManager, an UserManager, an ActionManager, the regular user's username,
      * the presenter, and the threshold controller.
      *
      * @param tm       The current state of the TradeManager.

@@ -124,7 +124,7 @@ public class GUIDemo {
 
         // create new object
         this.systemMessage = new SystemMessage();
-        this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager, this.userManager);
+        this.adminUserOtherInfoChecker = new AdminUserOtherInfoChecker(this.actionManager);
         this.regularUserDateTimeChecker = new RegularUserDateTimeChecker();
         this.regularUserOtherInfoChecker = new RegularUserOtherInfoChecker();
 
@@ -174,7 +174,7 @@ public class GUIDemo {
     public void runAdminUserMainMenu() {
         // Create all admin user controller
         this.adminUserManagerUsersController = new AdminUserManagerUsersController(this.userManager, this.itemManager,
-                this.actionManager, this.systemMessage,this.getTempUsername());
+                this.actionManager,this.getTempUsername());
 
         this.adminUserEditThresholdsController = new AdminUserEditThresholdsController(
                 this.actionManager, this.userManager, this.systemMessage, this.getTempUsername(), this.thresholdValues);
@@ -195,7 +195,7 @@ public class GUIDemo {
      */
     public void runAdminUserManageUsersSubMenu() {
 
-        RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+        RegularUserIDChecker regularUserIDChecker = new RegularUserIDChecker(this.tradeManager,
                 this.userManager, this.itemManager);
 
         AdminUserManageUsersSubMenuGUI adminUserManageUsersSubMenuGUI = new AdminUserManageUsersSubMenuGUI(
@@ -265,7 +265,7 @@ public class GUIDemo {
         this.regularUserCommunityMenuController = new RegularUserCommunityMenuController(this.userManager,
                 this.actionManager, this.feedbackManager, this.messageManager, this.getTempUsername());
 
-        this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager, this.meetingManager,
+        this.regularUserIDChecker = new RegularUserIDChecker(this.tradeManager,
                 this.userManager, this.itemManager);
 
         this.regularUserMeetingMenuController = new RegularUserMeetingMenuController(this.tradeManager,

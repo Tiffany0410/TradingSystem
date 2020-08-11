@@ -7,7 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Used to run init window
+ * @author Jiaqi Gong
+ * @version IntelliJ IDEA 2020.1
+ */
 public class TradingSystemInitMenuGUI {
     private JButton a1LoginButton;
     private JPanel panel1;
@@ -15,9 +19,10 @@ public class TradingSystemInitMenuGUI {
     private JButton a3CreateAccountButton;
     private JButton exitButton;
 
-
-
-
+    /**
+     * This method run
+     * @param guiDemo
+     */
     public void run(GUIDemo guiDemo) {
         JFrame frame = new JFrame("Trading System");
         frame.setContentPane(new TradingSystemInitMenuGUI(guiDemo).panel1);
