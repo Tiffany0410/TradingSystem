@@ -124,7 +124,7 @@ public class AdminUserHistoricalActionsSubMenu {
 
                 int option = 5;
 
-                String inputName = "Please enter the Action Number that you wan to undo: ";
+                String inputName = "Please enter the Action Number that you want to undo: ";
 
                 AdminUserHistoricalActionsWindow adminUserHistoricalActionsWindow = new AdminUserHistoricalActionsWindow(
                         inputName, info.toString(), option, guiDemo, hac, sm);

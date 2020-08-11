@@ -133,10 +133,6 @@ public class AdminUserHistoricalActionController {
     public boolean confirmRequestAndCancelAction(int actionID) {
         Action targetAction = am.findActionByID(actionID);
         boolean flag = cancelRevocableAction(targetAction);
-        am.deleteUndoRequest(actionID);
-
-        // delete action from current Revocable Action List in ActionManager
-        am.deleteAction(actionID);
         // add action into deleted Revocable Action List in ActionManager
         am.addActionToDeletedRevocableList(targetAction);
         // add action into All Historical Action List in ActionManager
@@ -189,6 +185,9 @@ public class AdminUserHistoricalActionController {
     public boolean cancelRevocableAction(Action targetAction) {
 
         int actionID = targetAction.getActionID();
+        // delete action from current Revocable Action List in ActionManager (if admin chooses to undo the
+        // action in option 4) without going through option 5
+        am.deleteUndoRequest(actionID);
         // delete action from current Revocable Action List in ActionManager
         am.deleteAction(actionID);
         // add action into deleted Revocable Action List in ActionManager
