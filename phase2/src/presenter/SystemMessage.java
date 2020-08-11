@@ -2,6 +2,7 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import managers.actionmanager.Action;
+import managers.feedbackmanager.Review;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
@@ -282,7 +283,7 @@ public class SystemMessage {
      * Puts together a message that indicates whether or not the friend requests are sent successfully.
       * @param validator Whether or not the friend requests are sent successfully.
      * @param userToID The user id of the person the user is trying to send the request to.
-     * @return
+     * @return a messgae for friend requests
      */
     public String msgForFriendRequest(boolean validator, int userToID){
         if (validator){
@@ -539,6 +540,25 @@ public class SystemMessage {
                 "1. The item is tradable. \n2. You have added the item to your wishlist.\n3. You have completed a two-way-trade before.\n\n" +
                 "For two-way-trade:\n" + "1. The items are tradable.\n2. Both users have added the items to " +
                 "their wishlist.\n3. The number of borrow did not exceed the number of lend.";
+    }
+
+    /**
+     * Puts together a message that shows the rating and reviews that the user received
+     * @param rating The rating of the user
+     * @param reviews The reviews that this user received
+     * @return A string representation for the rating and reviews
+     */
+    public String msgForRatingReview(double rating, ArrayList<Review> reviews){
+        return "Your rating is: " + rating + ".\n" + "Here are reviews for you: \n" + printListObject(new ArrayList<>(reviews));
+    }
+
+    /**
+     * Puts together a message that shows the reviews that the user received
+     * @param reviews A list of reviews for an user
+     * @return A string representation for the reviews
+     */
+    public String msgForReview(ArrayList<Review> reviews){
+        return "Here are reviews for this user: \n" + printListObject(new ArrayList<>(reviews)) + "\n";
     }
 
 

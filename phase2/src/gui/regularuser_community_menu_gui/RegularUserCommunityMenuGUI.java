@@ -5,6 +5,7 @@ import controllers.regularusersubcontrollers.RegularUserIDChecker;
 import controllers.regularusersubcontrollers.RegularUserOtherInfoChecker;
 import demomanager.GUIDemo;
 import gui.regularuser_community_menu_gui.communityWindows.*;
+import managers.feedbackmanager.Review;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
 import presenter.SystemMessage;
@@ -34,6 +35,7 @@ public class RegularUserCommunityMenuGUI {
     private JButton sendMessageToFriendsButton;
     private JButton viewAllMessageButton;
     private JButton backButton;
+    private JButton viewYourRatingAndButton;
 
     /**
      * Run Regular User Community Menu GUI
@@ -173,6 +175,17 @@ public class RegularUserCommunityMenuGUI {
             }
         });
 
+        viewYourRatingAndButton.addActionListener(new ActionListener() {
+            /**
+             * Invoke when click button and do related operation, view user's rating and review
+             * @param e click button
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewReviews(isGuest, guidemo, sm, cmc);
+            }
+        });
+
         backButton.addActionListener(new ActionListener() {
             /**
              * Invoke when click button and do related operation, back to upper level menu
@@ -184,6 +197,22 @@ public class RegularUserCommunityMenuGUI {
                 guidemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    private void viewReviews(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
+        if (isGuest){
+            guidemo.printNotification(sm.msgForGuest());
+        }
+        else{
+            ArrayList<Review> reviews = cmc.getAllReviews(cmc.getUserId());
+            double rating = cmc.findRatingForUser(cmc.getUserId());
+            if (reviews.isEmpty()){
+                guidemo.printNotification(sm.msgForNothing());
+            }
+            else{
+                guidemo.printNotification(sm.msgForRatingReview(rating, reviews));
+            }
+        }
     }
 
     private void viewMessages(boolean isGuest, GUIDemo guidemo, SystemMessage sm, RegularUserCommunityMenuController cmc) {
@@ -319,8 +348,8 @@ public class RegularUserCommunityMenuGUI {
             guidemo.printNotification(sm.msgForGuest());
         }
         else {
-            RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC);
-            window.run(guidemo, cmc, idC);
+            RegularUserCommunityRatingWindow window = new RegularUserCommunityRatingWindow(guidemo, cmc, idC, sm);
+            window.run(guidemo, cmc, idC, sm);
             }
     }
 

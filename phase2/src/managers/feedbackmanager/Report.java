@@ -40,6 +40,6 @@ public class Report implements Serializable {
      * @return a string for a report
      */
     public String toString(){
-        return "User has been reported: " + receiverId +", reporter: "+ reporterId + ", reason: "+ reason;
+        return "User " + receiverId + " has been reported by user " + reporterId + ".\nReason: "+ reason;
     }
 }
