@@ -41,41 +41,7 @@ public class AdminUserEditUserThresholdsWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (option == 1){
-                    try {
-                        int futureValue = Integer.parseInt(textField.getText());
-                        guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
-                    }catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
-
-                if (option == 2){
-                    try {
-                        int futureValue = Integer.parseInt(textField.getText());
-                        guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
-                    }catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
-
-                if (option == 3){
-                    try {
-                        int futureValue = Integer.parseInt(textField.getText());
-                        guiDemo.printNotification(adminUserEditThresholdsController.editMustLendNumber(futureValue));
-                    }catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
-
-                if (option == 4){
-                    try {
-                        int futureValue = Integer.parseInt(textField.getText());
-                        guiDemo.printNotification(adminUserEditThresholdsController.editMaxEdits(futureValue));
-                    }catch (NumberFormatException ex){
-                        guiDemo.printInvalidNumber();
-                    }
-                }
+                editUserExcute(option, guiDemo, adminUserEditThresholdsController);
                 guiDemo.runSave();
                 guiDemo.closeWindow(rootPanel);
 
@@ -92,6 +58,50 @@ public class AdminUserEditUserThresholdsWindow {
 
             }
         });
+    }
+
+    /**
+     * This is a private function help to excute the operation
+     * @param option option number
+     * @param guiDemo GUIDemo
+     * @param adminUserEditThresholdsController adminUserEditThresholdsController
+     */
+    private void editUserExcute(int option, GUIDemo guiDemo, AdminUserEditThresholdsController adminUserEditThresholdsController) {
+        if (option == 1){
+            try {
+                int futureValue = Integer.parseInt(textField.getText());
+                guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberTransactions(futureValue));
+            }catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
+
+        if (option == 2){
+            try {
+                int futureValue = Integer.parseInt(textField.getText());
+                guiDemo.printNotification(adminUserEditThresholdsController.editMaxNumberIncompleteTransactions(futureValue));
+            }catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
+
+        if (option == 3){
+            try {
+                int futureValue = Integer.parseInt(textField.getText());
+                guiDemo.printNotification(adminUserEditThresholdsController.editMustLendNumber(futureValue));
+            }catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
+
+        if (option == 4){
+            try {
+                int futureValue = Integer.parseInt(textField.getText());
+                guiDemo.printNotification(adminUserEditThresholdsController.editMaxEdits(futureValue));
+            }catch (NumberFormatException ex){
+                guiDemo.printInvalidNumber();
+            }
+        }
     }
 
     /**

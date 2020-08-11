@@ -58,31 +58,7 @@ public class AdminUserManageUsersConfirmInventoryWindow {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = userInput.getText();
-                if (idc.checkInt(input)){
-                    int itemToAddNum = Integer.parseInt(input);
-                    if (oic.checkItemToAddNum(itemsToAdd.size(), itemToAddNum)){
-                        if (approvedRadioButton.isSelected()){
-                            muc.addItemOrNot(itemToAddNum, true);
-                            guiDemo.printNotification(sm.msgForResult(true));
-                            guiDemo.closeWindow(rootPanel);
-                        }
-                        else if (notApprovedRadioButton.isSelected()){
-                            muc.addItemOrNot(itemToAddNum, false);
-                            guiDemo.printNotification(sm.msgForResult(true));
-                            guiDemo.closeWindow(rootPanel);
-                        }
-                        else{
-                            guiDemo.printNotification("Please select approve or not.");
-                        }
-                    }
-                    else{
-                        guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
-                    }
-                }
-                else{
-                    guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
-                }
+                confirmInventoryExecute(idc, oic, itemsToAdd, muc, guiDemo, sm);
             }
         });
 
@@ -96,6 +72,44 @@ public class AdminUserManageUsersConfirmInventoryWindow {
                 guiDemo.closeWindow(rootPanel);
             }
         });
+    }
+
+    /**
+     * This method execute operation
+     * @param itemsToAdd list of items want to add
+     * @param muc admin user manager users controller
+     * @param guiDemo GUIDemo
+     * @param sm system message
+     * @param idc regular user id checker
+     * @param oic admin user other info checker
+     */
+
+    private void confirmInventoryExecute(RegularUserIDChecker idc, AdminUserOtherInfoChecker oic, ArrayList<Item> itemsToAdd, AdminUserManagerUsersController muc, GUIDemo guiDemo, SystemMessage sm) {
+        String input = userInput.getText();
+        if (idc.checkInt(input)){
+            int itemToAddNum = Integer.parseInt(input);
+            if (oic.checkItemToAddNum(itemsToAdd.size(), itemToAddNum)){
+                if (approvedRadioButton.isSelected()){
+                    muc.addItemOrNot(itemToAddNum, true);
+                    guiDemo.printNotification(sm.msgForResult(true));
+                    guiDemo.closeWindow(rootPanel);
+                }
+                else if (notApprovedRadioButton.isSelected()){
+                    muc.addItemOrNot(itemToAddNum, false);
+                    guiDemo.printNotification(sm.msgForResult(true));
+                    guiDemo.closeWindow(rootPanel);
+                }
+                else{
+                    guiDemo.printNotification("Please select approve or not.");
+                }
+            }
+            else{
+                guiDemo.printNotification(sm.tryAgainMsgForWrongInput());
+            }
+        }
+        else{
+            guiDemo.printNotification(sm.tryAgainMsgForWrongFormatInput());
+        }
     }
 
     /**
