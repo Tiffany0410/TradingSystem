@@ -7,7 +7,7 @@ import managers.usermanager.UserManager;
  * An instance of this class represents the other
  * information getter for the AdminUserController class.
  *
- * @author Yu Xin Yan
+ * @author Yu Xin Yan, Chengle Yang
  * @version IntelliJ IDEA 2020.1
  */
 public class AdminUserOtherInfoChecker {
