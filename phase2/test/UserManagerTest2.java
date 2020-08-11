@@ -199,24 +199,4 @@ public class UserManagerTest2 {
         assertFalse(u2.getFollowers().contains(1));
     }
 
-    @Test(timeout = 50)
-    public void testTest(){
-        Item i = new Item("a", "a", 0, 1, Category.ELECTRONICS);
-        UserManager um = new UserManager();
-        um.addUser("a", "a", "a", "a");
-        um.addUser("b", "b", "b", "b");
-        um.itemFollow(1, i);
-        i.setTradable(false);
-        TradableUser u = um.findUser(1);
-        TradableUser u2 = um.findUser(2);
-        System.out.println(u.getItemFollowed());
-        System.out.println(u.getItemFollowingLogs());
-        um.userFollow(1, 2);
-        um.userFollow(2, 1);
-        System.out.println(u2.getFollowers());
-        System.out.println(u.getUserFollowed());
-        System.out.println(u.getUserFollowingLogs());
-        String s = "User";
-        System.out.println(s.charAt(0));
-    }
 }

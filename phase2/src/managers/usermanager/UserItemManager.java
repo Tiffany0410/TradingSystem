@@ -8,9 +8,14 @@ public class UserItemManager {
      * Removes an Item from a User's wishlist
      * @param itemID The ID of the Item to be removed
      * @param username The username of the User to remove the item from their wishlist
+     * @param listTradableUser List of all Users
+     * @param person The User to remove from
+     * @param listAdmin The list of all Admins
+     * @param ucm A UserCommunityManager
+     * @param uim A UserInfoManager
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemWishlist(Integer itemID, String username, TradableUser person, UserInfoManager uim,
+    protected boolean removeItemWishlist(Integer itemID, String username, TradableUser person, UserInfoManager uim,
                                       UserCommunityManager ucm, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         boolean out = false;
         if (person != null){
@@ -32,9 +37,14 @@ public class UserItemManager {
      * Removes an Item from a User's inventory
      * @param itemID The ID of the Item to be removed
      * @param username The username of the User to remove the item from their inventory
+     * @param uim A UserInfoManager
+     * @param ucm A UserCommunityManager
+     * @param listAdmin List of all Admins
+     * @param person User to remove from
+     * @param listTradableUser List of all Users
      * @return true if the item was removed successfully, false otherwise
      */
-    public boolean removeItemInventory(Integer itemID, String username, TradableUser person, UserInfoManager uim,
+    protected boolean removeItemInventory(Integer itemID, String username, TradableUser person, UserInfoManager uim,
                                        UserCommunityManager ucm, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         boolean out = false;
         if (person != null){
@@ -56,9 +66,14 @@ public class UserItemManager {
      * Adds an Item to a User's wishlist
      * @param itemID The ID of the Item that is being added
      * @param username The username of the User to add the item into their wishlist
+     * @param person User to add to
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
+     * @param ucm A UserCommunityManager
+     * @param uim A UserInformationManager
      * @return true if the item was added successfully, false otherwise
      */
-    public boolean addItemWishlist(Integer itemID, String username, TradableUser person, UserInfoManager uim,
+    protected boolean addItemWishlist(Integer itemID, String username, TradableUser person, UserInfoManager uim,
                                    UserCommunityManager ucm, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         boolean out = false;
         if (person != null){
@@ -80,9 +95,14 @@ public class UserItemManager {
      * Adds an Item to a User's inventory
      * @param itemID The ID of the item that is being added
      * @param username The username of the User to add the item into their inventory
+     * @param person User to add to
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
+     * @param ucm A UserCommunityManager
+     * @param uim A UserInformationManager
      * @return true if the item was added successfully, false otherwise
      */
-    public boolean addItemInventory(Integer itemID, String username, TradableUser person, UserInfoManager uim,
+    protected boolean addItemInventory(Integer itemID, String username, TradableUser person, UserInfoManager uim,
                                     UserCommunityManager ucm, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         boolean out = false;
         if (person != null){
@@ -104,8 +124,14 @@ public class UserItemManager {
      * Remove item with itemId from the user with userId1 and
      * the user with userId2 appropriately.
      * @param itemId The id of the item to be removed.
+     * @param uim A UserInfoManager
+     * @param ucm A UserCommunityManager
+     * @param listAdmin List of all Admins
+     * @param listTradableUser List of all Users
+     * @param user1 User to remove from
+     * @param user2 User to remove from
      */
-    public void removeItemFromUsers(int itemId, TradableUser user1, TradableUser user2, UserInfoManager uim,
+    protected void removeItemFromUsers(int itemId, TradableUser user1, TradableUser user2, UserInfoManager uim,
                                     UserCommunityManager ucm, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin) {
         if (user1.getWishList().contains(itemId)) {
             //user1 = borrower
@@ -131,9 +157,10 @@ public class UserItemManager {
 
     /**
      * Gives the inventory of the User
+     * @param person User to get info of
      * @return Returns a list of integers of the Id of Items in the User's inventory
      */
-    public ArrayList<Integer> getUserInventory(TradableUser person){
+    protected ArrayList<Integer> getUserInventory(TradableUser person){
         if (person != null){
             return person.getInventory();
         }
@@ -142,9 +169,10 @@ public class UserItemManager {
 
     /**
      * Gives the wishlist of the User
+     * @param person User to get info of
      * @return Returns a list of integers of the ID of Items in the User's wishlist
      */
-    public ArrayList<Integer> getUserWishlist(TradableUser person){
+    protected ArrayList<Integer> getUserWishlist(TradableUser person){
         if (person != null){
             return person.getWishList();
         }
@@ -153,9 +181,11 @@ public class UserItemManager {
 
     /**
      * Checks to see if the User has anything the other User wants
+     * @param person1 User that wants
+     * @param person2 User that has
      * @return A list of integers of Item IDs that the User wants and the other has
      */
-    public ArrayList<Integer> wantedItems (TradableUser person1, TradableUser person2){
+    protected ArrayList<Integer> wantedItems (TradableUser person1, TradableUser person2){
         ArrayList<Integer> out = new ArrayList<>();
         if (person1 == null || person2 == null){
             return out;

@@ -7,9 +7,10 @@ public class UserInfoManager {
     /**
      * Checks if the User exists
      * @param username The username of the User being searched for
+     * @param listTradableUser List of all Users
      * @return true if the user exists, false otherwise
      */
-    public boolean checkUser(String username, ArrayList<TradableUser> listTradableUser){
+    protected boolean checkUser(String username, ArrayList<TradableUser> listTradableUser){
         for (TradableUser person: listTradableUser){
             if (person.getUsername().equals(username)){
                 return true;
@@ -21,9 +22,10 @@ public class UserInfoManager {
     /**
      * Checks if the User exists
      * @param userID The ID of the User being searched for
+     * @param listTradableUser List of all Users
      * @return true if the user exists, false otherwise
      */
-    public boolean checkUser(int userID, ArrayList<TradableUser> listTradableUser){
+    protected boolean checkUser(int userID, ArrayList<TradableUser> listTradableUser){
         for (TradableUser person: listTradableUser){
             if (person.getId() == (userID)){
                 return true;
@@ -34,9 +36,10 @@ public class UserInfoManager {
 
     /**
      * Gives all the usernames and passwords of all User
+     * @param listTradableUser List of all Users
      * @return A map of usernames to passwords for all User
      */
-    public HashMap<String, String> userPasswords(ArrayList<TradableUser> listTradableUser){
+    protected HashMap<String, String> userPasswords(ArrayList<TradableUser> listTradableUser){
         HashMap<String, String> out = new HashMap<>();
         for (TradableUser person: listTradableUser){
             String name = person.getUsername();
@@ -48,9 +51,10 @@ public class UserInfoManager {
 
     /**
      * Gives all the usernames and passwords of all AdminUser
+     * @param listAdmin List of all Admins
      * @return A map of usernames to passwords for all AdminUser
      */
-    public HashMap<String, String> adminPasswords(ArrayList<User> listAdmin){
+    protected HashMap<String, String> adminPasswords(ArrayList<User> listAdmin){
         HashMap<String, String> out = new HashMap<>();
         for (User person: listAdmin){
             String name = person.getUsername();
@@ -63,9 +67,10 @@ public class UserInfoManager {
     /**
      * Searches for a User
      * @param username The username of the User being searched for
+     * @param listTradableUser List of all Users
      * @return The User that is being searched for
      */
-    public TradableUser findUser(String username, ArrayList<TradableUser> listTradableUser){
+    protected TradableUser findUser(String username, ArrayList<TradableUser> listTradableUser){
         TradableUser out = null;
         for (TradableUser person : listTradableUser) {
             if (person.getUsername().equalsIgnoreCase(username)) {
@@ -78,9 +83,10 @@ public class UserInfoManager {
     /**
      * Searches for a User
      * @param ID The ID of the User being searched for
+     * @param listTradableUser List of all Users
      * @return The User that is being searched for
      */
-    public TradableUser findUser(int ID, ArrayList<TradableUser> listTradableUser){
+    protected TradableUser findUser(int ID, ArrayList<TradableUser> listTradableUser){
         TradableUser out = null;
         for (TradableUser person : listTradableUser) {
             if (person.getId() == ID) {
@@ -93,9 +99,11 @@ public class UserInfoManager {
     /**
      * Gives the username for the User with the given ID
      * @param ID The ID of the User
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
      * @return The username of the User
      */
-    public String idToUsername(int ID, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin) {
+    protected String idToUsername(int ID, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin) {
         String out = null;
         for (TradableUser person : listTradableUser) {
             if (person.getId() == ID) {
@@ -113,9 +121,11 @@ public class UserInfoManager {
     /**
      * Gives the ID for the User with the given username
      * @param username The username of the User
+     * @param listTradableUser List of all Users
+     * @param listAdmin List of all Admins
      * @return The ID of the User
      */
-    public int usernameToID(String username, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
+    protected int usernameToID(String username, ArrayList<TradableUser> listTradableUser, ArrayList<User> listAdmin){
         int out = 0;
         for (TradableUser person: listTradableUser){
             if (person.getUsername().equals(username)){
@@ -133,9 +143,10 @@ public class UserInfoManager {
     /**
      * Gives the home city of the User
      * @param userID The ID of the User
+     * @param listTradableUser List of all Users
      * @return The home city of the User
      */
-    public String getHome(int userID, ArrayList<TradableUser> listTradableUser){
+    protected String getHome(int userID, ArrayList<TradableUser> listTradableUser){
         TradableUser person = findUser(userID, listTradableUser);
         if(person != null){
             return person.getHome();
@@ -147,8 +158,9 @@ public class UserInfoManager {
      * Changes the home city of a User
      * @param userID The ID of the User
      * @param newHome The new city to change to
+     * @param listTradableUser List of all U
      */
-    public void changeHome(int userID, String newHome, ArrayList<TradableUser> listTradableUser){
+    protected void changeHome(int userID, String newHome, ArrayList<TradableUser> listTradableUser){
         TradableUser person = findUser(userID, listTradableUser);
         if(person != null){
             person.setHome(newHome);
