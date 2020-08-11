@@ -70,17 +70,6 @@ public class FeedbackManager implements Serializable {
             return true;
         }
     }
-    /** get a list of reports that report the given user
-     * @param userId the id of user who has been reported
-     * @return the list of reports that receiverId is userId
-     */
-    public ArrayList<Report> getReportById(int userId){
-        ArrayList<Report> reports = new ArrayList<>();
-        for(Report report: listReport){
-        if (report.getReceiverId() == userId){
-            reports.add(report);
-        }
-    }return reports;}
 
     /** get a list of reviews that review the given user
      * @param userId the id of user who has been reviewed
