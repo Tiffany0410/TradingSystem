@@ -133,8 +133,6 @@ public class AdminUserHistoricalActionController {
     public boolean confirmRequestAndCancelAction(int actionID) {
         Action targetAction = am.findActionByID(actionID);
         boolean flag = cancelRevocableAction(targetAction);
-        // add action into deleted Revocable Action List in ActionManager
-        am.addActionToDeletedRevocableList(targetAction);
         // add action into All Historical Action List in ActionManager
         am.addActionToAllActionsList(userId, "adminUser", "3.5", actionID, "");
         return flag;
