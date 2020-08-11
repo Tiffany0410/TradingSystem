@@ -31,9 +31,9 @@ public class RegularUserAccountMenuController {
 
 
     /**
-     * Constructs a RegularUserAccountMenuController with a DisplaySystem,
+     * Constructs a RegularUserAccountMenuController with
      * a TradeManager, a MeetingManager, an UserManager, an ItemManager,
-     * an ActionManager, a FeedbackManager, the regular user's username and userId.
+     * an ActionManager, and the regular user's username.
      *
      * @param sm       The presenter class used to print to screen.
      * @param tm       The current state of the TradeManager.

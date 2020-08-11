@@ -1,10 +1,5 @@
 package managers.usermanager;
-
-import managers.feedbackmanager.FeedbackManager;
-import managers.itemmanager.Item;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class UserThresholdManager {
     ArrayList<String[]> listUnfreezeRequest;

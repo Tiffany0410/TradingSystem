@@ -22,8 +22,8 @@ public class RegularUserMeetingMenuController {
     private int userId;
 
     /**
-     * Constructs a RegularUserMeetingMenuController with a DisplaySystem,
-     * a TradeManager, a MeetingManager, a UserManager, an ItemManager, the regular user's username and userId.
+     * Constructs a RegularUserMeetingMenuController with
+     * a TradeManager, a MeetingManager, an actionManager, and the regular user's userId.
      *
      * @param tm       The current state of the TradeManager.
      * @param mm       The current state of the MeetingManager.

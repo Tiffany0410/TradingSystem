@@ -2,7 +2,6 @@ package presenter;
 
 import controllers.regularusersubcontrollers.RegularUserThresholdController;
 import managers.actionmanager.Action;
-import managers.itemmanager.Category;
 import managers.itemmanager.Item;
 import managers.messagemanger.Message;
 import managers.usermanager.TradableUser;
