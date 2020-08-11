@@ -95,6 +95,7 @@ public class RegularUserCommunityMenuController {
      * @return a list of reviews for the id
      */
     public ArrayList<Review> getAllReviews(int userId){
+        am.addActionToAllActionsList(userId, "regularUser", "5.11", 0, "");
         return fm.getReviewById(userId);
     }
 

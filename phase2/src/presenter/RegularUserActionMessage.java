@@ -456,6 +456,10 @@ public class RegularUserActionMessage {
             case 10:
                 string = string + helper_regular_action_prefix(action) + "view all message" + "\n";
                 break;
+            // 5.11: View your rating and review
+            case 11:
+                string = string + helper_regular_action_prefix(action) + "view own rating and review" + "\n";
+                break;
         }
         return string;
     }
